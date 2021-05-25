@@ -1,0 +1,268 @@
+/*----------------------------*/
+/* GLOBAL STYLES */
+/*----------------------------*/
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Open+Sans:wght@400;700&display=swap');
+
+:root {
+	--main-font-color: black;
+	--main-bg-color: white;
+	--main-special-color-1: black;
+	--main-special-color-2: white;
+
+	--theme-light-1-bg-color-1: #fff;
+	--theme-light-1-font-color-1: #000;
+	--theme-light-1-special-color-1: #c6541f;
+	--theme-light-1-special-color-2: #090b97;
+
+	--theme-dark-1-bg-color-1: #000;
+	--theme-dark-1-font-color-1: #fff;
+	--theme-dark-1-special-color-1: #970928;
+	--theme-dark-1-special-color-2: #521c03;
+}
+::selection {
+	color: var(--main-bg-color);
+	background: var(--main-font-color);
+}
+
+// ::-webkit-scrollbar {
+// 	// width: calc(1.5rem + 0.2vw);
+// }
+// ::-webkit-scrollbar-track {
+// 	background: var(--main-font-color);
+// }
+// ::-webkit-scrollbar-thumb {
+// 	background: var(--main-bg-color);
+// 	border-radius: 1rem;
+// }
+// ::-webkit-scrollbar-button {
+// 	background: var(--main-bg-color);
+// }
+
+:root {
+	font-size: 62.5%;
+	scroll-behavior: smooth;
+
+	--size-1: 0.4rem;
+	--size-2: 0.8rem;
+	--size-3: 1.2rem;
+	--size-4: 1.6rem;
+	--size-5: 2rem;
+	--size-6: 2.4rem;
+	--size-8: 3.2rem;
+	--size-9: 3.6rem;
+	--size-10: 4rem;
+	--size-11: 4.4rem;
+	--size-12: 4.8rem;
+	--size-13: 5.2rem;
+	--size-14: 5.6rem;
+	--size-15: 6rem;
+	--size-16: 6.4rem;
+	--size-20: 8rem;
+	--size-40: 16rem;
+
+	--header1: var(--size-12);
+	--header2: var(--size-8); // 3.2rem;
+	--header3: var(--size-6); // 2.6rem;
+	--header4: var(--size-5); // 2.4rem;
+	--header5: var(--size-4); // 2rem;
+	--header6: var(--size-3); // 1.6rem;
+
+	--color-1-100: hsl(300, 100%, 100%); // #ffffff	rgb(255, 255, 255)
+	--color-1-95: hsl(300, 100%, 95%); // #ffe6ff	rgb(255, 230, 255)
+	--color-1-90: hsl(300, 100%, 90%); // #ffccff	rgb(255, 204, 255)
+	--color-1-85: hsl(300, 100%, 85%); // #ffb3ff	rgb(255, 179, 255)
+	--color-1-80: hsl(300, 100%, 80%); // #ff99ff	rgb(255, 153, 255)
+	--color-1-75: hsl(300, 100%, 75%); // #ff80ff	rgb(255, 128, 255)
+	--color-1-70: hsl(300, 100%, 70%); // #ff66ff	rgb(255, 102, 255)
+	--color-1-65: hsl(300, 100%, 65%); // #ff4dff	rgb(255, 77, 255)
+	--color-1-60: hsl(300, 100%, 60%); // #ff33ff	rgb(255, 51, 255)
+	--color-1-55: hsl(300, 100%, 55%); // #ff1aff	rgb(255, 26, 255)
+	--color-1-50: hsl(300, 100%, 50%); // #ff00ff	rgb(255, 0, 255)
+	--color-1-45: hsl(300, 100%, 45%); // #e600e6	rgb(230, 0, 230)
+	--color-1-40: hsl(300, 100%, 40%); // #cc00cc	rgb(204, 0, 204)
+	--color-1-35: hsl(300, 100%, 35%); // #b300b3	rgb(179, 0, 179)
+	--color-1-30: hsl(300, 100%, 30%); // #990099	rgb(153, 0, 153)
+	--color-1-25: hsl(300, 100%, 25%); // #800080	rgb(128, 0, 128)
+	--color-1-20: hsl(300, 100%, 20%); // #660066	rgb(102, 0, 102)
+	--color-1-15: hsl(300, 100%, 15%); // #4d004d	rgb(77, 0, 77)
+	--color-1-10: hsl(300, 100%, 10%); // #330033	rgb(51, 0, 51)
+	--color-1-5: hsl(300, 100%, 5%); // #1a001a	rgb(26, 0, 26)
+	--color-1-0: hsl(300, 100%, 0%); // #000000	rgb(0, 0, 0)
+
+	--color-2-100: hsl(0, 0%, 100%); // 	#ffffff	rgb(255, 255, 255)
+	--color-2-95: hsl(0, 0%, 95%); // 	#f2f2f2	rgb(242, 242, 242)
+	--color-2-90: hsl(0, 0%, 90%); // 	#e6e6e6	rgb(230, 230, 230)
+	--color-2-85: hsl(0, 0%, 85%); // 	#d9d9d9	rgb(217, 217, 217)
+	--color-2-80: hsl(0, 0%, 80%); // 	#cccccc	rgb(204, 204, 204)
+	--color-2-75: hsl(0, 0%, 75%); // 	#bfbfbf	rgb(191, 191, 191)
+	--color-2-70: hsl(0, 0%, 70%); // 	#b3b3b3	rgb(179, 179, 179)
+	--color-2-65: hsl(0, 0%, 65%); // 	#a6a6a6	rgb(166, 166, 166)
+	--color-2-60: hsl(0, 0%, 60%); // 	#999999	rgb(153, 153, 153)
+	--color-2-55: hsl(0, 0%, 55%); // 	#8c8c8c	rgb(140, 140, 140)
+	--color-2-50: hsl(0, 0%, 50%); // 	#808080	rgb(128, 128, 128)
+	--color-2-45: hsl(0, 0%, 45%); // 	#737373	rgb(115, 115, 115)
+	--color-2-40: hsl(0, 0%, 40%); // 	#666666	rgb(102, 102, 102)
+	--color-2-35: hsl(0, 0%, 35%); // 	#595959	rgb(89, 89, 89)
+	--color-2-30: hsl(0, 0%, 30%); // 	#4d4d4d	rgb(77, 77, 77)
+	--color-2-25: hsl(0, 0%, 25%); // 	#404040	rgb(64, 64, 64)
+	--color-2-20: hsl(0, 0%, 20%); // 	#333333	rgb(51, 51, 51)
+	--color-2-15: hsl(0, 0%, 15%); // 	#262626	rgb(38, 38, 38)
+	--color-2-10: hsl(0, 0%, 10%); // 	#1a1a1a	rgb(26, 26, 26)
+	--color-2-5: hsl(0, 0%, 5%); // 	#0d0d0d	rgb(13, 13, 13)
+	--color-2-0: hsl(0, 0%, 0%); // 	#000000	rgb(0, 0, 0)
+
+	--main-font-1_1-color: var(--color-2-15);
+	--main-font-1_2-color: var(--color-2-25);
+	--main-font-1_3-color: var(--color-2-60);
+	--main-font-1_4-color: var(--color-2-95);
+
+	--main-bg-1_1-color: var(--color-1-10);
+	--main-bg-1_2-color: var(--color-1-35);
+	--main-bg-1_3-color: var(--color-1-55);
+	--main-bg-1_4-color: var(--color-1-95);
+}
+
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+* {
+	font-size: var(--size-4);
+}
+
+.theme-light-1 {
+	--main-special-color-1: var(--theme-light-1-special-color-1);
+	--main-special-color-2: var(--theme-light-1-special-color-2);
+	--main-bg-color: var(--theme-light-1-bg-color-1);
+	--main-font-color: var(--theme-light-1-font-color-1);
+}
+
+.theme-dark-1 {
+	--main-special-color-1: var(--theme-dark-1-special-color-1);
+	--main-special-color-2: var(--theme-dark-1-special-color-2);
+	--main-bg-color: var(--theme-dark-1-bg-color-1);
+	--main-font-color: var(--theme-dark-1-font-color-1);
+}
+
+.theme-light-1,
+.theme-dark-1 {
+	&:not(.no-theme),
+	*:not(.no-theme) {
+		.current-theme {
+			&:not(.no-font-theme) {
+				color: var(--main-font-color);
+			}
+			&:not(.no-font-theme) {
+				background: var(--main-bg-color);
+			}
+		}
+
+		.reverse-theme {
+			&:not(.no-font-color-theme) {
+				color: var(--main-bg-color);
+			}
+			&:not(.no-bg-color-theme) {
+				background: var(--main-font-color);
+			}
+		}
+	}
+}
+
+.no-theme {
+	color: unset;
+	background-color: unset;
+}
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+}
+body {
+}
+
+#__next {
+	min-width: 100%;
+	min-height: 100vh;
+	color: var(--main-font-1_1-color);
+	background: var(--color-1_1-100);
+	overflow-x: hidden;
+	max-width: 200rem;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+h1 {
+	font-size: var(--header1);
+}
+h2 {
+	font-size: var(--header2);
+}
+h3 {
+	font-size: var(--header3);
+}
+h4 {
+	font-size: var(--header4);
+}
+h5 {
+	font-size: var(--header5);
+}
+h6 {
+	font-size: var(--header6);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	* {
+		font-size: inherit;
+	}
+}
+
+span {
+	font-size: inherit;
+}
+
+ul {
+	list-style: none;
+}
+
+a {
+	// color: var(--main-font-color);
+	color: inherit;
+	text-decoration: none;
+
+	&:hover,
+	&:active,
+	&:focus,
+	&:visited {
+		color: inherit;
+	}
+}
+
+ul,
+ol,
+dl,
+li {
+	text-decoration: none;
+	list-style: none;
+}
+
+button,
+a {
+	cursor: pointer;
+}
+
+.font-size-inherit {
+	font-size: inherit !important;
+}
