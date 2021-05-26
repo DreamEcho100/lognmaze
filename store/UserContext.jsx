@@ -40,9 +40,28 @@ export const UserContextProvider = ({ children }) => {
 		const cookie = getCookie('mazecode_user');
 		if (typeof cookie === 'object' || cookie.length !== 0) {
 			const user = JSON.parse(cookie);
-			setUser(user);
+			if (false) {
+			} else {
+				setUser(user);
+			}
 		}
 		setIsLoading(false);
+		new Promise((resolve, reject) => {
+			resolve(getCookie('mazecode_user'));
+		})
+			.then((cookie) => {
+				if (cookie.length !== 0) {
+					return JSON.parse(cookie);
+				} else {
+					throw new Error('No user stored in cookie!');
+				}
+			})
+			.then((user) => setUser(user))
+			.catch((error) => {
+				console.error(error.message);
+				return error.message;
+			})
+			.finally(() => setIsLoading(false));
 	}, []);
 
 	const handleUser = async (path, data) => {
@@ -71,15 +90,24 @@ export const UserContextProvider = ({ children }) => {
 		}
 	};
 
-	const handleSignUp = async (data) => handleUser('api/auth/signup', data);
+	const handleSignUp = async (data) => handleUser('api/v1/auth/signup', data);
 
-	const handleSignIn = async (data) => handleUser('api/auth/signin', data);
+	const handleSignIn = async (data) => handleUser('api/v1/auth/signin', data);
 
 	const handleLogOut = () => {
-		deleteCookie('mazecode_user', process.env.FRONT_END_ROOT_URL);
-		setUser({});
-		// window.location.href = '/';
-		router.replace('/');
+		new Promise((resolve, reject) => {
+			deleteCookie('mazecode_user', process.env.FRONT_END_ROOT_URL);
+			resolve();
+		})
+			.then(() => {
+				setUser({});
+				// console.log(getCookie('mazecode_user'));
+				return;
+			})
+			.then(() => {
+				router.replace('/');
+				return;
+			});
 	};
 
 	const context = {

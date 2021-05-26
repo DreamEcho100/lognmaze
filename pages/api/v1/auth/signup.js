@@ -1,5 +1,5 @@
-import { hashPassword, jwtGenerator } from '../../../lib/auth';
-import { pool } from '../../../lib/pg';
+import { hashPassword, jwtGenerator } from '../../../../lib/auth';
+import { pool } from '../../../../lib/pg';
 
 export default async (req, res) => {
 	// const data = req.body;
@@ -12,7 +12,8 @@ export default async (req, res) => {
 		// const users = await selectAllFrom('users');
 
 		try {
-			const { firstName, lastName, email, password } = req.body;
+			const { firstName, lastName, userName, email, password, gender } =
+				req.body;
 
 			const user = await pool.query('SELECT * FROM users WHERE email = $1', [
 				email,
@@ -27,13 +28,16 @@ export default async (req, res) => {
 			const hashedPassword = await hashPassword(password);
 
 			const newUser = await pool.query(
-				"INSERT INTO users (first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, 'user') RETURNING *",
-				[firstName, lastName, email, hashedPassword]
+				"INSERT INTO users ( first_name, last_name, user_name, email, password, gender, role) VALUES ($1, $2, $3, $4, $5, $6, 'user') RETURNING *",
+				[firstName, lastName, userName, email, hashedPassword, gender]
 			);
 
 			delete newUser.rows[0].password;
 
-			const jwt = jwtGenerator(newUser.rows[0].id);
+			const jwt = jwtGenerator({
+				user_name: newUser.rows[0].user_name,
+				email: user.rows[0].email,
+			});
 
 			res.status(201).json({
 				status: 'success',

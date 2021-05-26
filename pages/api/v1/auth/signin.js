@@ -1,5 +1,5 @@
-import { verifyPassword, jwtGenerator } from '../../../lib/auth';
-import { pool } from '../../../lib/pg';
+import { verifyPassword, jwtGenerator } from '../../../../lib/auth';
+import { pool } from '../../../../lib/pg';
 
 export default async (req, res) => {
 	// const data = req.body;
@@ -42,16 +42,17 @@ export default async (req, res) => {
 
 			delete user.rows[0].password;
 
-			const jwt = jwtGenerator(user.rows[0].id);
+			const jwt = jwtGenerator({
+				user_name: user.rows[0].user_name,
+				email: user.rows[0].email,
+			});
 
-			res
-				.status(201)
-				.json({
-					status: 'success',
-					message: 'Created user!',
-					user: user.rows[0],
-					jwt,
-				});
+			res.status(201).json({
+				status: 'success',
+				message: 'Created user!',
+				user: user.rows[0],
+				jwt,
+			});
 		} catch (error) {
 			res.status(500).json({ status: 'error', message: error.message });
 		}

@@ -33,7 +33,7 @@ const MainNavigation = () => {
 					</li>
 					{doesSessionExist && user.id && (
 						<li>
-							<Link href='/profile'>Profile</Link>
+							<Link href={`/profile/${user.user_name}`}>Profile</Link>
 						</li>
 					)}
 					{!doesSessionExist && !isLoading && !user.id && (

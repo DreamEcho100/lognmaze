@@ -11,21 +11,25 @@ import SignUp from './SignUp/SignUp';
 const Auth = () => {
 	const router = useRouter();
 
-	const { user, isLoading } = useContext(UserContext);
+	const { user, ...UserCxt } = useContext(UserContext);
+
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		if (user.id) {
+		if (!UserCxt.isLoading && user.id) {
 			router.replace('/');
+		} else {
+			setIsLoading(false);
 		}
 	}, [user]);
 
-	if (isLoading || user.id) {
+	if (UserCxt.isLoading || isLoading /*user.id*/) {
 		return <p className={`${classes.auth} ${classes.loading}`}>Loading...</p>;
 	}
 
 	return (
 		<section className={classes.auth}>
-			<SignUp />
+			<SignIn />
 		</section>
 	);
 };
