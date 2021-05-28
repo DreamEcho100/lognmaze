@@ -1,57 +1,49 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useState } from 'react';
 
 import classes from './SignUp.module.css';
+import BoxShadowClasses from '../../UI/V1/BoxShadow.module.css';
 
 import UserContext from '../../../store/UserContext';
+
+import Form from '../../UI/V1/Form/Form';
+import FormControl from '../../UI/V1/FormControl/FormControl';
+import FormControls from '../../UI/V1/FormControls/FormControls';
+import FormLabel from '../../UI/V1/FormLabel/FormLabel';
+import FormInput from '../../UI/V1/FormInput/FormInput';
+import Button from '../../UI/V1/Button/Button';
 
 const SignUp = () => {
 	const { handleSignUp } = useContext(UserContext);
 
-	const [userName, setUserName] = useState('');
-	const [choosedGender, setChoosedGender] = useState('');
-
-	const firstNameInputRef = useRef();
-	const lastNameInputRef = useRef();
-	const emailInputRef = useRef();
-	const passwordInputRef = useRef();
+	const [firstName, setFirstName] = useState('');
+	const [lastName, setLastName] = useState('');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [gender, setChoosedGender] = useState('');
 
 	const [afterFormSubmitMessage, setAfterFormSubmitMessage] = useState(true);
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
 
-	const handleUserName = (name) => {
-		let userName;
-		if (!name || !name.length) {
-			const enteredFirstName = firstNameInputRef.current.value;
-			const enteredLastName = lastNameInputRef.current.value;
-			userName = `${enteredFirstName}-${enteredLastName}`;
-		}
-
-		userName = userName.replace(/[^\w-\_]/gi, '').toLowerCase();
-
-		setUserName(userName);
+	const handleUserName = () => {
+		return `${firstName}-${lastName}`.replace(/[^\w-\_]/gi, '').toLowerCase();
 	};
 
 	const submitHandler = async (event) => {
 		event.preventDefault();
 
-		const enteredFirstName = firstNameInputRef.current.value;
-		const enteredLastName = lastNameInputRef.current.value;
-		const enteredEmail = emailInputRef.current.value;
-		const enteredPassword = passwordInputRef.current.value;
-		const enteredGender = choosedGender;
-		const enteredUserName = userName;
+		const userName = handleUserName();
 
 		// optional: Add validation
 
 		setAfterFormSubmitMessage('');
 		setBtnsDisabled(true);
 		const { status, message } = await handleSignUp({
-			firstName: enteredFirstName,
-			lastName: enteredLastName,
-			userName: enteredUserName,
-			email: enteredEmail,
-			password: enteredPassword,
-			gender: enteredGender,
+			firstName,
+			lastName,
+			userName,
+			email,
+			password,
+			gender,
 		});
 
 		if (status === 'error') {
@@ -63,49 +55,55 @@ const SignUp = () => {
 	};
 
 	return (
-		<form onSubmit={submitHandler}>
-			<div className={classes.control}>
-				<label htmlFor='firstName'>Your First Name</label>
-				<input
-					type='text'
-					id='firstName'
+		<Form
+			extraClasses={`${BoxShadowClasses['box-shadow']}`}
+			onSubmit={submitHandler}
+		>
+			<FormControls>
+				<FormControl>
+					<FormLabel htmlFor='firstName'>Your First Name</FormLabel>
+					<FormInput
+						type='text'
+						id='firstName'
+						required
+						onChange={(event) => setFirstName(event.target.value)}
+						value={firstName}
+					/>
+				</FormControl>
+				<FormControl>
+					<FormLabel htmlFor='lastName'>Your last Name</FormLabel>
+					<FormInput
+						type='text'
+						id='lastName'
+						required
+						onChange={(event) => setLastName(event.target.value)}
+						value={lastName}
+					/>
+				</FormControl>
+			</FormControls>
+			<FormControl>
+				<FormLabel htmlFor='email'>Your Email</FormLabel>
+				<FormInput
+					type='email'
+					id='email'
 					required
-					ref={firstNameInputRef}
-					onChange={() => handleUserName()}
+					onChange={(event) => setEmail(event.target.value)}
+					value={email}
 				/>
-			</div>
-			<div className={classes.control}>
-				<label htmlFor='lastName'>Your last Name</label>
-				<input
-					type='text'
-					id='lastName'
+			</FormControl>
+			<FormControl>
+				<FormLabel htmlFor='password'>Your Password</FormLabel>
+				<FormInput
+					type='password'
+					id='password'
 					required
-					ref={lastNameInputRef}
-					onChange={() => handleUserName()}
+					onChange={(event) => setPassword(event.target.value)}
+					value={password}
 				/>
-			</div>
-			<div className={classes.control}>
-				<label htmlFor='userName'>Your User Name</label>
-				<input
-					type='text'
-					id='userName'
-					value={userName}
-					required
-					onChange={(event) => handleUserName(event.target.value)}
-				/>
-			</div>
-			<div className={classes.control}>
-				<label htmlFor='email'>Your Email</label>
-				<input type='email' id='email' required ref={emailInputRef} />
-			</div>
-			<div className={classes.control}>
-				<label htmlFor='password'>Your Password</label>
-				<input type='password' id='password' required ref={passwordInputRef} />
-			</div>
-			{/* <label htmlFor='gender'>Your gender</label>
-				<input type='gender' id='gender' required ref={genderInputRef} /> */}
-			<div className={classes.control}>
-				<input
+			</FormControl>
+			<FormControl>
+				<FormInput
+					defaultClasses='form-input-radio'
 					type='radio'
 					name='gender'
 					value='male'
@@ -114,10 +112,11 @@ const SignUp = () => {
 						setChoosedGender(event.target.value);
 					}}
 				/>
-				<label htmlFor='male'>Male</label>
-			</div>
-			<div className={classes.control}>
-				<input
+				<FormLabel htmlFor='male'>Male</FormLabel>
+			</FormControl>
+			<FormControl>
+				<FormInput
+					defaultClasses='form-input-radio'
 					type='radio'
 					name='gender'
 					value='female'
@@ -126,31 +125,23 @@ const SignUp = () => {
 						setChoosedGender(event.target.value);
 					}}
 				/>
-				<label htmlFor='female'>Female</label>
-			</div>
+				<FormLabel htmlFor='female'>Female</FormLabel>
+			</FormControl>
 			{afterFormSubmitMessage.length !== 0 && (
 				<div className={classes.warning}>
 					<p>{afterFormSubmitMessage}</p>
 				</div>
 			)}
 			<div className={classes.actions}>
-				<button
+				<Button
 					disabled={btnsDisabled}
 					type='submit'
 					className={classes.submitBtn}
 				>
 					Create Account
-				</button>
-				{/* <button
-					disabled={btnsDisabled}
-					type='button'
-					className={classes.toggleBtn}
-					onClick={switchAuthModeHandler}
-				>
-					Or login with an existing account
-				</button> */}
+				</Button>
 			</div>
-		</form>
+		</Form>
 	);
 };
 

@@ -1,0 +1,17 @@
+.button {
+	padding: 0.5em 0.75rem;
+	border-radius: 0.4rem;
+	color: var(--main-bg-color-95);
+	font-weight: bold;
+	background-color: var(--main-bg-color-20);
+	border-color: transparent;
+	transition: all 0.3s ease;
+}
+
+.button:hover {
+	background-color: var(--main-bg-color-25);
+}
+
+.button:focus {
+	background-color: var(--main-bg-color-15);
+}

@@ -1,0 +1,72 @@
+.accordion {
+}
+
+.accordion-container {
+	border-bottom: 0.5rem solid var(--main-bg-color-15);
+	padding-bottom: 0.25em;
+	margin: 0.25em auto;
+}
+
+.accordion-header {
+	position: relative;
+}
+
+.toggle-accordion-body {
+	background-color: var(--main-bg-color-100);
+	outline-color: var(--main-bg-color-100);
+	border-color: transparent;
+	width: 3rem;
+	height: 3rem;
+	border-radius: 50%;
+	overflow: hidden;
+	position: absolute;
+	right: 0;
+	top: 0;
+	transition: all 0.6s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+.toggle-accordion-body.toggle {
+	transform: rotate(180deg);
+}
+
+.arrow-container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.arrow-container::before,
+.arrow-container::after {
+	content: '';
+	width: 100%;
+	padding: 0.15em;
+	background-color: var(--main-bg-color-25);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+
+.arrow-container::before {
+	transform: translate(-80%, 15%) rotate(-45deg);
+}
+
+.arrow-container::after {
+	transform: translate(-20%, 15%) rotate(45deg);
+}
+
+.accordion-body {
+	overflow: hidden;
+	height: 0;
+	transition: all 0.6s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+	max-height: 0;
+	min-height: 0;
+}
+
+.accordion-body.toggle {
+	height: auto;
+	max-height: fit-content;
+	min-height: fit-content;
+}
+
+.accordion-footer {
+}

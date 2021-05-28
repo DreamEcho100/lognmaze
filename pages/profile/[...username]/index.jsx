@@ -29,7 +29,7 @@ const ProfilePage = () => {
 				user.token.length !== 0 &&
 				username === user.user_name
 			) {
-				const response = await fetch(`/api/v1/profile/get-profile`, {
+				const response = await fetch(`/api/v1/user/get-profile`, {
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',

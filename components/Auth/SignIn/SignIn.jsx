@@ -1,16 +1,24 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useState } from 'react';
 
 import classes from './SignIn.module.css';
+import BoxShadowClasses from '../../UI/V1/BoxShadow.module.css';
 
 import UserContext from '../../../store/UserContext';
+
+import Form from '../../UI/V1/Form/Form';
+import FormControl from '../../UI/V1/FormControl/FormControl';
+// import FormControls from '../../UI/V1/FormControls/FormControls';
+import FormLabel from '../../UI/V1/FormLabel/FormLabel';
+import FormInput from '../../UI/V1/FormInput/FormInput';
+import Button from '../../UI/V1/Button/Button';
 
 const SignIn = () => {
 	const UserCxt = useContext(UserContext);
 
-	const { handleSignIn } = UserCxt;
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 
-	const emailInputRef = useRef();
-	const passwordInputRef = useRef();
+	const { handleSignIn } = UserCxt;
 
 	const [afterFormSubmitMessage, setAfterFormSubmitMessage] = useState(true);
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
@@ -18,16 +26,13 @@ const SignIn = () => {
 	const submitHandler = async (event) => {
 		event.preventDefault();
 
-		const enteredEmail = emailInputRef.current.value;
-		const enteredPassword = passwordInputRef.current.value;
-
 		// optional: Add validation
 
 		setAfterFormSubmitMessage('');
 		setBtnsDisabled(true);
 		const { status, message } = await handleSignIn({
-			email: enteredEmail,
-			password: enteredPassword,
+			email,
+			password,
 		});
 
 		if (status === 'error') {
@@ -39,30 +44,43 @@ const SignIn = () => {
 	};
 
 	return (
-		<form onSubmit={submitHandler}>
-			<div className={classes.control}>
-				<label htmlFor='email'>Your Email</label>
-				<input type='email' id='email' required ref={emailInputRef} />
-			</div>
-			<div className={classes.control}>
-				<label htmlFor='password'>Your Password</label>
-				<input type='password' id='password' required ref={passwordInputRef} />
-			</div>
+		<Form
+			extraClasses={`${BoxShadowClasses['box-shadow']}`}
+			onSubmit={submitHandler}
+		>
+			<FormControl className={classes.control}>
+				<FormLabel htmlFor='email'>Your Email</FormLabel>
+				<FormInput
+					type='email'
+					id='email'
+					required
+					onChange={(event) => setEmail(event.target.value)}
+				/>
+			</FormControl>
+			<FormControl className={classes.control}>
+				<FormLabel htmlFor='password'>Your Password</FormLabel>
+				<FormInput
+					type='password'
+					id='password'
+					required
+					onChange={(event) => setPassword(event.target.value)}
+				/>
+			</FormControl>
 			{afterFormSubmitMessage.length !== 0 && (
 				<div className={classes.warning}>
 					<p>{afterFormSubmitMessage}</p>
 				</div>
 			)}
-			<div className={classes.actions}>
-				<button
+			<FormControl className={classes.actions}>
+				<Button
 					disabled={btnsDisabled}
 					type='submit'
 					className={classes.submitBtn}
 				>
 					Sign In
-				</button>
-			</div>
-		</form>
+				</Button>
+			</FormControl>
+		</Form>
 	);
 };
 

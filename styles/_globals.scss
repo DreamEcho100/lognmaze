@@ -111,15 +111,61 @@
 	--color-2-5: hsl(0, 0%, 5%); // 	#0d0d0d	rgb(13, 13, 13)
 	--color-2-0: hsl(0, 0%, 0%); // 	#000000	rgb(0, 0, 0)
 
-	--main-font-1_1-color: var(--color-2-15);
-	--main-font-1_2-color: var(--color-2-25);
-	--main-font-1_3-color: var(--color-2-60);
-	--main-font-1_4-color: var(--color-2-95);
+	// --main-font-color-1_1: var(--color-2-15);
+	// --main-font-color-1_2: var(--color-2-25);
+	// --main-font-color-1_3: var(--color-2-60);
+	// --main-font-color-1_4: var(--color-2-95);
 
-	--main-bg-1_1-color: var(--color-1-10);
-	--main-bg-1_2-color: var(--color-1-35);
-	--main-bg-1_3-color: var(--color-1-55);
-	--main-bg-1_4-color: var(--color-1-95);
+	--main-font-color-100: var(--color-2-100);
+	--main-font-color-95: var(--color-2-95);
+	--main-font-color-90: var(--color-2-90);
+	--main-font-color-85: var(--color-2-85);
+	--main-font-color-80: var(--color-2-80);
+	--main-font-color-75: var(--color-2-75);
+	--main-font-color-70: var(--color-2-70);
+	--main-font-color-65: var(--color-2-65);
+	--main-font-color-60: var(--color-2-60);
+	--main-font-color-55: var(--color-2-55);
+	--main-font-color-50: var(--color-2-50);
+	--main-font-color-45: var(--color-2-45);
+	--main-font-color-40: var(--color-2-40);
+	--main-font-color-35: var(--color-2-35);
+	--main-font-color-30: var(--color-2-30);
+	--main-font-color-25: var(--color-2-25);
+	--main-font-color-20: var(--color-2-20);
+	--main-font-color-15: var(--color-2-15);
+	--main-font-color-10: var(--color-2-10);
+	--main-font-color-5: var(--color-2-5);
+	--main-font-color-0: var(--color-2-0);
+
+	// --main-bg-color-1_1: var(--color-1-10);
+	// --main-bg-color-1_2: var(--color-1-35);
+	// --main-bg-color-1_3: var(--color-1-55);
+	// --main-bg-color-1_4: var(--color-1-95);
+
+	--main-bg-color-100: var(--color-1-100);
+	--main-bg-color-95: var(--color-1-95);
+	--main-bg-color-90: var(--color-1-90);
+	--main-bg-color-85: var(--color-1-85);
+	--main-bg-color-80: var(--color-1-80);
+	--main-bg-color-75: var(--color-1-75);
+	--main-bg-color-70: var(--color-1-70);
+	--main-bg-color-65: var(--color-1-65);
+	--main-bg-color-60: var(--color-1-60);
+	--main-bg-color-55: var(--color-1-55);
+	--main-bg-color-50: var(--color-1-50);
+	--main-bg-color-45: var(--color-1-45);
+	--main-bg-color-40: var(--color-1-40);
+	--main-bg-color-35: var(--color-1-35);
+	--main-bg-color-30: var(--color-1-30);
+	--main-bg-color-25: var(--color-1-25);
+	--main-bg-color-20: var(--color-1-20);
+	--main-bg-color-15: var(--color-1-15);
+	--main-bg-color-10: var(--color-1-10);
+	--main-bg-color-5: var(--color-1-5);
+	--main-bg-color-0: var(--color-1-0);
+
+	--current-font-size: var(--size-4);
 }
 
 *,
@@ -131,51 +177,51 @@
 }
 
 * {
-	font-size: var(--size-4);
+	font-size: var(--current-font-size);
 }
 
-.theme-light-1 {
-	--main-special-color-1: var(--theme-light-1-special-color-1);
-	--main-special-color-2: var(--theme-light-1-special-color-2);
-	--main-bg-color: var(--theme-light-1-bg-color-1);
-	--main-font-color: var(--theme-light-1-font-color-1);
-}
+// .theme-light-1 {
+// 	--main-special-color-1: var(--theme-light-1-special-color-1);
+// 	--main-special-color-2: var(--theme-light-1-special-color-2);
+// 	--main-bg-color: var(--theme-light-1-bg-color-1);
+// 	--main-font-color: var(--theme-light-1-font-color-1);
+// }
 
-.theme-dark-1 {
-	--main-special-color-1: var(--theme-dark-1-special-color-1);
-	--main-special-color-2: var(--theme-dark-1-special-color-2);
-	--main-bg-color: var(--theme-dark-1-bg-color-1);
-	--main-font-color: var(--theme-dark-1-font-color-1);
-}
+// .theme-dark-1 {
+// 	--main-special-color-1: var(--theme-dark-1-special-color-1);
+// 	--main-special-color-2: var(--theme-dark-1-special-color-2);
+// 	--main-bg-color: var(--theme-dark-1-bg-color-1);
+// 	--main-font-color: var(--theme-dark-1-font-color-1);
+// }
 
-.theme-light-1,
-.theme-dark-1 {
-	&:not(.no-theme),
-	*:not(.no-theme) {
-		.current-theme {
-			&:not(.no-font-theme) {
-				color: var(--main-font-color);
-			}
-			&:not(.no-font-theme) {
-				background: var(--main-bg-color);
-			}
-		}
+// .theme-light-1,
+// .theme-dark-1 {
+// 	&:not(.no-theme),
+// 	*:not(.no-theme) {
+// 		.current-theme {
+// 			&:not(.no-font-theme) {
+// 				color: var(--main-font-color);
+// 			}
+// 			&:not(.no-font-theme) {
+// 				background: var(--main-bg-color);
+// 			}
+// 		}
 
-		.reverse-theme {
-			&:not(.no-font-color-theme) {
-				color: var(--main-bg-color);
-			}
-			&:not(.no-bg-color-theme) {
-				background: var(--main-font-color);
-			}
-		}
-	}
-}
+// 		.reverse-theme {
+// 			&:not(.no-font-color-theme) {
+// 				color: var(--main-bg-color);
+// 			}
+// 			&:not(.no-bg-color-theme) {
+// 				background: var(--main-font-color);
+// 			}
+// 		}
+// 	}
+// }
 
-.no-theme {
-	color: unset;
-	background-color: unset;
-}
+// .no-theme {
+// 	color: unset;
+// 	background-color: unset;
+// }
 
 html,
 body {
@@ -188,8 +234,8 @@ body {
 #__next {
 	min-width: 100%;
 	min-height: 100vh;
-	color: var(--main-font-1_1-color);
-	background: var(--color-1_1-100);
+	color: var(--main-font-color-15);
+	background: var(--main-bg-color-100);
 	overflow-x: hidden;
 	max-width: 200rem;
 	margin: auto;

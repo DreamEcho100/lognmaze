@@ -1,0 +1,9 @@
+.form-controls-2 {
+	width: 100%;
+	margin: 0.25em;
+	margin-left: 0;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	transition: all ease-in 0.6s;
+}
