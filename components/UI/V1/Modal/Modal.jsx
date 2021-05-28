@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import classes from './Modal.module.css';
 
 const Modal = ({ children, click, className, CloseButtonElement }) => {
@@ -9,9 +10,17 @@ const Modal = ({ children, click, className, CloseButtonElement }) => {
 		event.stopPropagation();
 
 		if (event.target.classList.contains('modal-close')) {
-			return click();
+			click();
+			return new Promise((resolve, reject) => {
+				click();
+				resolve();
+			}).then(() => (document.body.style.overflowY = 'auto'));
 		}
 	};
+
+	useEffect(() => {
+		document.body.style.overflow = 'hidden';
+	}, []);
 
 	return (
 		<div

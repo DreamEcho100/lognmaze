@@ -7,6 +7,8 @@ const Accordion = ({
 	BoxShadow,
 	children,
 	className = '',
+	toggltButtonSize,
+	accordionContainerBorderBottomSize,
 	...props
 }) => {
 	const [hideAccordion, useHideAccordion] = useState(false);
@@ -38,7 +40,18 @@ const Accordion = ({
 	return (
 		<div
 			{...props}
-			className={`${classes['accordion-container']} ${allClasses} accordion-container`}
+			style={{
+				'--toggltButtonSize': toggltButtonSize ? toggltButtonSize : '1',
+				'--accordionContainerBorderBottomSize':
+					accordionContainerBorderBottomSize
+						? accordionContainerBorderBottomSize
+						: '1',
+			}}
+			className={`${
+				classes['accordion-container']
+			} ${allClasses} accordion-container ${
+				hideAccordion ? classes['toggle'] : ''
+			}`}
 		>
 			<div className={`${classes['accordion-header']} accordion-header`}>
 				{findByKey('header')}

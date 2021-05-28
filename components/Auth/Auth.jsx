@@ -14,6 +14,8 @@ const Auth = () => {
 	const { user, ...UserCxt } = useContext(UserContext);
 
 	const [isLoading, setIsLoading] = useState(true);
+	const [signInComponent, setSignInComponent] = useState(true);
+	const [signUpComponent, setSignUpComponent] = useState(false);
 
 	useEffect(() => {
 		if (!UserCxt.isLoading && user.id) {
@@ -29,7 +31,30 @@ const Auth = () => {
 
 	return (
 		<section className={classes.auth}>
-			<SignIn />
+			<header>
+				<nav>
+					<ul>
+						<li
+							onClick={() => {
+								setSignInComponent(true);
+								setSignUpComponent(false);
+							}}
+						>
+							<button>Sign In</button>
+						</li>
+						<li
+							onClick={() => {
+								setSignUpComponent(true);
+								setSignInComponent(false);
+							}}
+						>
+							<button>Sign Up</button>
+						</li>
+					</ul>
+				</nav>
+			</header>
+			{signInComponent && <SignIn />}
+			{signUpComponent && <SignUp />}
 		</section>
 	);
 };

@@ -1,10 +1,23 @@
 .accordion {
+	--toggltButtonSize: 1;
+	--accordionContainerBorderBottomSize: 1;
 }
 
 .accordion-container {
-	border-bottom: 0.5rem solid var(--main-bg-color-15);
+	border-bottom: calc(0.5rem * var(--accordionContainerBorderBottomSize)) solid
+		var(--main-special-color-dark);
 	padding-bottom: 0.25em;
 	margin: 0.25em auto;
+	padding: 0.25em;
+}
+
+.accordion-container.toggle {
+	border: calc(0.5rem * var(--accordionContainerBorderBottomSize) * 0.95) solid
+		var(--main-special-color);
+	border-bottom: calc(0.5rem * var(--accordionContainerBorderBottomSize)) solid
+		var(--main-special-color-dark);
+	border-top-left-radius: 0.5rem;
+	border-top-right-radius: 0.5rem;
 }
 
 .accordion-header {
@@ -12,11 +25,11 @@
 }
 
 .toggle-accordion-body {
-	background-color: var(--main-bg-color-100);
-	outline-color: var(--main-bg-color-100);
+	background-color: var(--main-bg-color);
+	outline-color: var(--main-bg-color);
 	border-color: transparent;
-	width: 3rem;
-	height: 3rem;
+	width: calc(3.5rem * var(--toggltButtonSize));
+	height: calc(3.5rem * var(--toggltButtonSize));
 	border-radius: 50%;
 	overflow: hidden;
 	position: absolute;
@@ -39,8 +52,8 @@
 .arrow-container::after {
 	content: '';
 	width: 100%;
-	padding: 0.15em;
-	background-color: var(--main-bg-color-25);
+	height: 20%;
+	background-color: var(--main-special-color-dark);
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -63,6 +76,7 @@
 }
 
 .accordion-body.toggle {
+	overflow-y: auto;
 	height: auto;
 	max-height: fit-content;
 	min-height: fit-content;

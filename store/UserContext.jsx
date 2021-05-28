@@ -40,7 +40,8 @@ export const UserContextProvider = ({ children }) => {
 		const cookie = getCookie('mazecode_user');
 		if (typeof cookie === 'object' || cookie.length !== 0) {
 			const user = JSON.parse(cookie);
-			if (false) {
+			if (!user) {
+				handleLogOut();
 			} else {
 				setUser(user);
 			}
@@ -96,16 +97,18 @@ export const UserContextProvider = ({ children }) => {
 
 	const handleLogOut = () => {
 		new Promise((resolve, reject) => {
+			setIsLoading(true);
 			deleteCookie('mazecode_user', process.env.FRONT_END_ROOT_URL);
+			setUser({});
 			resolve();
 		})
 			.then(() => {
-				setUser({});
+				router.replace('/');
 				// console.log(getCookie('mazecode_user'));
 				return;
 			})
 			.then(() => {
-				router.replace('/');
+				setIsLoading(false);
 				return;
 			});
 	};

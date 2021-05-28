@@ -1,7 +1,7 @@
 .default-form {
 	max-width: fit-content;
 	width: 99%;
-	border: 0.5rem solid var(--main-bg-color-15);
+	border: 0.5rem solid var(--main-special-color-dark);
 	border-radius: 0.5rem;
 	padding: 0.5em;
 	margin: auto;

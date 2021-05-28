@@ -17,18 +17,18 @@
 }
 
 .modal-wrapper {
-	margin: 1rem auto;
+	margin: 0.5em auto;
+	padding: 0.5em;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
-	height: 100%;
+	width: 80%;
+	max-width: 60rem;
 }
 
 .modal-container {
-	max-width: fit-content;
-	/* width: 40rem; */
-	/* width: calc(18rem + 25vw); */
+	width: 100%;
 	margin: auto;
 	border-radius: 0.2rem;
 	box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.33);

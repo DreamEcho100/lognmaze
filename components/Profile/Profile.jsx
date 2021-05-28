@@ -15,7 +15,7 @@ const Profile = ({ profileData, visitorIdentity }) => {
 	console.log(profileData, visitorIdentity);
 
 	return (
-		<section className={classes.profile}>
+		<section className={`${classes.profile}`}>
 			<h1>Profile</h1>
 			<div className='profile'>
 				<img src={profileData.cover_photo} alt='' />

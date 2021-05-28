@@ -1,7 +1,7 @@
 .header {
 	width: 100%;
 	min-height: 6rem;
-	background-color: var(--main-bg-color-15);
+	background-color: var(--main-special-color-dark);
 	box-shadow: 1rem 0.5rem 1.5rem rgb(0 0 0 / 50%),
 		-2rem 0.5rem 2rem rgb(0 0 0 / 50%);
 	display: flex;
@@ -23,7 +23,7 @@
 
 .header,
 .header button {
-	color: var(--main-font-color-95);
+	color: var(--main-font-color-light);
 }
 
 .logo {
@@ -53,29 +53,19 @@
 .header nav li button {
 	background-color: transparent;
 	padding: 0.5em 0.75em;
-	border: 0.1rem solid var(--main-bg-color-95);
+	border: 0.1rem solid var(--main-special-color-light);
 }
 
 .header nav li a:hover,
 .header button:hover {
-	color: var(--main-font-color-65);
+	color: var(--main-font-color);
 }
 
 .header nav li a:hover {
-	border: 0.1rem solid var(--main-bg-color-25);
+	border: 0.1rem solid var(--main-special-color);
 }
 
 .header button:hover {
-	background-color: var(--main-bg-color-15);
-	border: 0.1rem solid var(--main-bg-color-25);
+	background-color: var(--main-special-color-dark);
+	border: 0.1rem solid var(--main-special-color);
 }
-/*
-.header button {
-	cursor: pointer;
-}
-
-.header a:hover,
-.header button:hover {
-	background-color: var(--main-bg-color-25);
-	color: var(--main-font-color-25);
-} */

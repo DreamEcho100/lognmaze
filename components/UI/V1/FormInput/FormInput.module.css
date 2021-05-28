@@ -3,8 +3,8 @@
 	min-height: fit-content;
 	padding: 0.25em;
 	border: 0.15rem solid transparent;
-	border-bottom: 0.1rem solid var(--main-bg-color-50);
-	outline: var(--main-bg-color-1_4);
+	border-bottom: 0.1rem solid var(--main-special-color);
+	outline: var(--main-special-color-light);
 	background-color: transparent;
 	transition: all 0.3s ease-in;
 }
@@ -14,8 +14,8 @@
 	font-size: calc(var(--current-font-size) + 0.2rem);
 	padding: 0.5em;
 	padding-bottom: 0.25em;
-	border-bottom: 0.35rem solid var(--main-bg-color-30);
-	background-color: var(--main-bg-color-95);
+	border-bottom: 0.35rem solid var(--main-color-3-30);
+	background-color: var(--main-special-color-light);
 }
 
 .form-input-radio {
