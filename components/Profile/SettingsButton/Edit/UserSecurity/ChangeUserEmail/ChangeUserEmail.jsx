@@ -23,7 +23,7 @@ const ChangeUserEmail = () => {
 	return (
 		<Accordion toggltButtonSize={0.9} accordionContainerBorderBottomSize={0.9}>
 			<Fragment key='header'>
-				<h3>Change User Email</h3>
+				<h3>Change Your Email</h3>
 			</Fragment>
 			<Fragment key='body'>
 				<Form>
@@ -38,10 +38,12 @@ const ChangeUserEmail = () => {
 						/>
 					</FormControl>
 					<FormControl>
-						<FormLabel htmlFor='password'>Enter Your Password</FormLabel>
+						<FormLabel htmlFor='password-to-change-email-in-settings'>
+							Enter Your Password
+						</FormLabel>
 						<FormInput
 							type='password'
-							id='password'
+							id='password-to-change-email-in-settings'
 							required
 							onChange={(event) => setPassword(event.target.value)}
 							value={password}
@@ -57,7 +59,7 @@ const ChangeUserEmail = () => {
 						type='submit'
 						className={classes.submitBtn}
 					>
-						Update Account
+						Update Your Email
 					</Button>
 				</Form>
 			</Fragment>

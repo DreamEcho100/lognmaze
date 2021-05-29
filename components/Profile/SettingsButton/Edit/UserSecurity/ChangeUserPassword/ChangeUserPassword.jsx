@@ -20,7 +20,7 @@ const ChangeUserPassword = () => {
 	return (
 		<Accordion toggltButtonSize={0.9} accordionContainerBorderBottomSize={0.9}>
 			<Fragment key='header'>
-				<h3>Change User Password</h3>
+				<h3>Change Your Password</h3>
 			</Fragment>
 			<Fragment key='body'>
 				<Form>
@@ -70,7 +70,7 @@ const ChangeUserPassword = () => {
 						type='submit'
 						className={classes.submitBtn}
 					>
-						Update Account
+						Update Your Password
 					</Button>
 				</Form>
 			</Fragment>

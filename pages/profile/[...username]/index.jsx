@@ -47,7 +47,7 @@ const ProfilePage = () => {
 			}
 
 			if (!UserCxt.isLoading && (!user.id || username !== user.user_name)) {
-				const response = await fetch(`/api/v1/profile/get-profile`, {
+				const response = await fetch(`/api/v1/user/get-profile`, {
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',

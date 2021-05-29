@@ -72,7 +72,7 @@ const Accordion = ({
 				{findByKey('body')}
 			</div>
 			<div className={`${classes['accordion-footer']} accordion-footer`}>
-				{findByKey('footer')}
+				{!hideAccordion && findByKey('footer')}
 			</div>
 		</div>
 	);

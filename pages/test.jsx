@@ -1,7 +1,7 @@
 import Test from '../components/Test/Test';
 
-const Test = () => {
+const TestPage = () => {
 	return <Test />;
 };
 
-export default Test;
+export default TestPage;

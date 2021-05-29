@@ -15,9 +15,9 @@ export default async (req, res) => {
 		};
 		let visitorIdentity = GUEST;
 		try {
-			const { token } = req.headers;
-
 			username = req.headers.username;
+
+			const { token } = req.headers;
 
 			if (token && token.length !== 0) {
 				isVerified = await verifyJwtToken(token);
