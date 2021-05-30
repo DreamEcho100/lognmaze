@@ -1,8 +1,10 @@
+import { useRouter } from 'next/router';
+
 import classes from './Profile.module.css';
 
-import SettingsButton from './SettingsButton/SettingsButton';
-
 const Profile = ({ profileData, visitorIdentity }) => {
+	const router = useRouter();
+
 	if (!profileData) {
 		return (
 			<div className=''>
@@ -11,8 +13,6 @@ const Profile = ({ profileData, visitorIdentity }) => {
 		);
 	}
 	const OWNER = 'OWNER';
-
-	console.log(profileData, visitorIdentity);
 
 	return (
 		<section className={`${classes.profile}`}>
@@ -29,7 +29,11 @@ const Profile = ({ profileData, visitorIdentity }) => {
 				<p className='created_at'>{profileData.created_at}</p>
 				<p className='cv'>{profileData.cv}</p>
 			</div>
-			{visitorIdentity === OWNER && <SettingsButton />}
+			{visitorIdentity === OWNER && (
+				<button onClick={() => router.replace(`${router.asPath}/settings`)}>
+					Settings
+				</button>
+			)}
 		</section>
 	);
 };

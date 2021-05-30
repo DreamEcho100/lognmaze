@@ -7,6 +7,7 @@ import Profile from '../../../components/Profile/Profile';
 
 const ProfilePage = () => {
 	const GUEST = 'GUEST';
+	const OWNER = 'OWNER';
 
 	const router = useRouter();
 
@@ -16,13 +17,11 @@ const ProfilePage = () => {
 
 	const { user, ...UserCxt } = useContext(UserContext);
 
-	// console.log(user);
-
 	useEffect(async () => {
 		let username = router.query.username;
 
-		if (Array.isArray(username)) {
-			username = username[0];
+		if (username /* || Array.isArray(username)*/) {
+			username = username; // typeof username === 'string' ? username : username[0];
 
 			if (
 				user.token &&
@@ -46,7 +45,7 @@ const ProfilePage = () => {
 				setIsLoading(false);
 			}
 
-			if (!UserCxt.isLoading && (!user.id || username !== user.user_name)) {
+			if (!UserCxt.isLoading && (!user || username !== user.user_name)) {
 				const response = await fetch(`/api/v1/user/get-profile`, {
 					method: 'GET',
 					headers: {
@@ -63,13 +62,15 @@ const ProfilePage = () => {
 				setIsLoading(false);
 			}
 		}
-	}, [user.id, router.query.username]);
+
+		if (visitorIdentity === 'OWNER' && (!user || user.id)) {
+			setVisitorIdentity('GUEST');
+		}
+	}, [user, user.user_name, router.query.username]);
 
 	if (isLoading || UserCxt.isLoading) {
 		return <p>Loading...</p>;
 	}
-
-	console.log(profileData, visitorIdentity);
 
 	return (
 		<>
@@ -77,16 +78,5 @@ const ProfilePage = () => {
 		</>
 	);
 };
-
-// export const getInitialProps = async (context) => {
-// 	const routers = useRouter();
-
-// 	return {
-// 		props: {
-// 			username,
-// 			routers,
-// 		},
-// 	};
-// };
 
 export default ProfilePage;

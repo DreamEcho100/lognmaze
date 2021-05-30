@@ -1,13 +1,13 @@
 import { Fragment, useContext, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 
-import classes from './ProfilePicture.module.css';
+import classes from './ChangeProfilePictureModal.module.css';
 
 import BoxShadowClasses from '../../../../../UI/V1/BoxShadow.module.css';
 
 import UserContext from '../../../../../../store/UserContext';
 
-import Accordion from '../../../../../UI/V1/Accordion/Accordion';
+import Modal from '../../../../../UI/V1/Modal/Modal';
 import Form from '../../../../../UI/V1/Form/Form';
 import FormControl from '../../../../../UI/V1/FormControl/FormControl';
 import FormControls from '../../../../../UI/V1/FormControls/FormControls';
@@ -19,7 +19,7 @@ import InputFileReactDropzone from '../../../../../UI/V1/InputFileReactDropzone/
 import LinearProgressBar from '../../../../../UI/V1/LinearProgressBar/LinearProgressBar';
 import { uploadFileToCloudinary } from '../../../../../../lib/fetch';
 
-const ProfilePicture = () => {
+const ChangeProfilePictureModal = ({ closeModal }) => {
 	const router = useRouter();
 	const { user, handUpdateProfilePictureURL } = useContext(UserContext);
 
@@ -68,17 +68,27 @@ const ProfilePicture = () => {
 			);
 			resolve(secureUrl);
 		})
-			.then((url) => handUpdateProfilePictureURL(user.id, url))
+			.then((url) => {
+				handUpdateProfilePictureURL(user.id, url);
+			})
+			.then(() => closeModal())
 			.catch((error) => setErrorMessage(error.message))
-			.finally(() => setBtnsDisabled(false));
+			.finally(() => {
+				setBtnsDisabled(false);
+			});
 	};
 
-	console.log(progress);
-
 	return (
-		<Accordion>
+		<Modal
+			click={closeModal}
+			CloseButtonElement={(props) => (
+				<Button type='button' {...props}>
+					Close
+				</Button>
+			)}
+		>
 			<Fragment key='header'>
-				<h2>Change Profile Picture</h2>
+				<h1>Change Your Profile Picture</h1>
 			</Fragment>
 			<Fragment key='body'>
 				<Form
@@ -112,8 +122,8 @@ const ProfilePicture = () => {
 					</Button>
 				</Form>
 			</Fragment>
-		</Accordion>
+		</Modal>
 	);
 };
 
-export default ProfilePicture;
+export default ChangeProfilePictureModal;

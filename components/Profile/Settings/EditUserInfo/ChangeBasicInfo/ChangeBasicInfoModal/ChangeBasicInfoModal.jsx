@@ -1,12 +1,12 @@
 import { Fragment, useContext, useState } from 'react';
 
-import classes from './BasicInfo.module.css';
+import classes from './ChangeBasicInfoModal.module.css';
 
 import BoxShadowClasses from '../../../../../UI/V1/BoxShadow.module.css';
 
 import UserContext from '../../../../../../store/UserContext';
 
-import Accordion from '../../../../../UI/V1/Accordion/Accordion';
+import Modal from '../../../../../UI/V1/Modal/Modal';
 import Form from '../../../../../UI/V1/Form/Form';
 import FormControl from '../../../../../UI/V1/FormControl/FormControl';
 import FormControls from '../../../../../UI/V1/FormControls/FormControls';
@@ -14,7 +14,7 @@ import FormLabel from '../../../../../UI/V1/FormLabel/FormLabel';
 import FormInput from '../../../../../UI/V1/FormInput/FormInput';
 import Button from '../../../../../UI/V1/Button/Button';
 
-const BasicInfo = () => {
+const ChangeBasicInfoModal = ({ closeModal }) => {
 	const { user } = useContext(UserContext);
 
 	const [firstName, setFirstName] = useState(user.first_name);
@@ -36,9 +36,16 @@ const BasicInfo = () => {
 	};
 
 	return (
-		<Accordion>
+		<Modal 
+			click={closeModal}
+			CloseButtonElement={(props) => (
+				<Button type='button' {...props}>
+					Close
+				</Button>
+			)}
+		>
 			<Fragment key='header'>
-				<h2>Change Your Basic Info</h2>
+				<h1>Change Your Basic Info</h1>
 			</Fragment>
 			<Fragment key='body'>
 				<Form
@@ -121,8 +128,8 @@ const BasicInfo = () => {
 					</Button>
 				</Form>
 			</Fragment>
-		</Accordion>
+		</Modal>
 	);
 };
 
-export default BasicInfo;
+export default ChangeBasicInfoModal;

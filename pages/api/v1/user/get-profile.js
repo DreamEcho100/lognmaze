@@ -19,6 +19,8 @@ export default async (req, res) => {
 
 			const { token } = req.headers;
 
+			console.log(username, token);
+
 			if (token && token.length !== 0) {
 				isVerified = await verifyJwtToken(token);
 			}
@@ -36,7 +38,7 @@ export default async (req, res) => {
 			if (username) {
 				profileData = await getUserByUserName(username);
 			}
-			res.status(201).json({
+			res.status(401).json({
 				status: 'error',
 				message: 'Not Authorized!',
 				isVerified: false,

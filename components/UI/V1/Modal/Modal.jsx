@@ -14,13 +14,14 @@ const Modal = ({ children, click, className, CloseButtonElement }) => {
 			return new Promise((resolve, reject) => {
 				click();
 				resolve();
-			}).then(() => (document.body.style.overflowY = 'auto'));
+			});
+			// .then(() => (document.body.style.overflowY = 'auto'));
 		}
 	};
 
-	useEffect(() => {
-		document.body.style.overflow = 'hidden';
-	}, []);
+	// useEffect(() => {
+	// 	document.body.style.overflow = 'hidden';
+	// }, []);
 
 	return (
 		<div

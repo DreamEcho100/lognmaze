@@ -6,9 +6,12 @@ import classes from './MainNavigation.module.css';
 import UserContext from '../../../store/UserContext';
 
 const MainNavigation = () => {
-	const { user, isLoading, handleLogOut } = useContext(UserContext);
+	const { verfyUserTokenFromCookie, user, isLoading, handleLogOut } =
+		useContext(UserContext);
 
 	const [doesSessionExist, setDoesSessionExist] = useState(false);
+
+	useEffect(() => verfyUserTokenFromCookie(), []);
 
 	useEffect(() => {
 		// deleteCookie('mazecode_user', process.env.FRONT_END_ROOT_URL);
