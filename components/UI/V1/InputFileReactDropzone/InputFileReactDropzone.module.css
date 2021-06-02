@@ -1,0 +1,20 @@
+.input-file-container {
+	width: calc(20rem + 24vw);
+	max-width: 38rem;
+	cursor: pointer;
+	user-select: none;
+	border: 0.5rem dotted var(--main-special-color-dark);
+	padding: 0.5em 0.25em;
+	margin-bottom: 0.25em;
+	transition: all 0.3s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+.input-file-container:hover {
+	border: 0.5rem dashed var(--main-special-color-dark);
+	/* box-shadow: 0.25rem 0.25rem 0.25rem var(--main-special-color),
+		-0.25rem -0.25rem 0.25rem var(--main-special-color); */
+}
+
+.drag-landing {
+	border: 0.5rem dashed var(--main-special-color);
+}

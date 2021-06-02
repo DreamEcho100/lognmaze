@@ -24,16 +24,18 @@ export default async (req, res) => {
 			}
 
 			const updateProfilePicture = await pool.query(
-				'UPDATE users SET profile_picture=($1) WHERE id=($2) RETURNING *',
+				'UPDATE users SET cover_photo=($1) WHERE id=($2) RETURNING *',
 				[url, id]
 			);
 
 			// delete updateProfilePicture.rows[0].password;
 
+			console.log(updateProfilePicture);
+
 			return res.status(201).json({
 				status: 'success',
 				message: 'Updated Successefully!',
-				data: { profile_picture: updateProfilePicture.rows[0].profile_picture },
+				data: { cover_photo: updateProfilePicture.rows[0].cover_photo },
 				isVerified: true,
 			});
 		} catch (error) {

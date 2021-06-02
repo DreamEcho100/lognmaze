@@ -1,6 +1,8 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useContext, useState } from 'react';
 
 import classes from './ChangeUserPasswordModal.module.css';
+
+import UserContext from '../../../../../../store/UserContext';
 
 import Modal from '../../../../../UI/V1/Modal/Modal';
 import Form from '../../../../../UI/V1/Form/Form';
@@ -10,12 +12,58 @@ import FormInput from '../../../../../UI/V1/FormInput/FormInput';
 import Button from '../../../../../UI/V1/Button/Button';
 
 const ChangeUserPasswordModal = ({ closeModal }) => {
+	const { handleUpdatePassword } = useContext(UserContext);
+
 	const [oldPassword, setOldPassword] = useState('');
-	const [oldPasswordAgain, setOldPasswordAgain] = useState('');
+	const [newPasswordAgain, setNewPasswordAgain] = useState('');
 	const [newPassword, setNewPassword] = useState('');
 
 	const [afterFormSubmitMessage, setAfterFormSubmitMessage] = useState(true);
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
+
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+
+		if (oldPassword === newPassword) {
+			return setAfterFormSubmitMessage('Old password and new password match?');
+		}
+
+		if (newPasswordAgain !== newPassword) {
+			return setAfterFormSubmitMessage("New password doesn't match!");
+		}
+
+		if (
+			oldPassword.length !== 0 ||
+			newPasswordAgain.length !== 0 ||
+			newPassword.length !== 0
+		) {
+			return setAfterFormSubmitMessage('Empty field/s!');
+		}
+
+		try {
+			setBtnsDisabled(true);
+			const { status, message } = await handleUpdatePassword(
+				oldPassword,
+				newPassword
+			);
+
+			console.log({ status, message });
+
+			if (status === 'error') {
+				setBtnsDisabled(false);
+				// throw new Error(message);
+				setAfterFormSubmitMessage(message);
+				return;
+			}
+
+			closeModal();
+		} catch (error) {
+			setBtnsDisabled(false);
+			console.error(error);
+			setAfterFormSubmitMessage(error.message);
+			return { status: 'error', message: error.message };
+		}
+	};
 
 	return (
 		<Modal
@@ -30,7 +78,7 @@ const ChangeUserPasswordModal = ({ closeModal }) => {
 				<h1>Change Your Password</h1>
 			</Fragment>
 			<Fragment key='body'>
-				<Form>
+				<Form onSubmit={handleSubmit}>
 					<FormControl>
 						<FormLabel htmlFor='old-password'>
 							Enter Your Old Password
@@ -44,18 +92,6 @@ const ChangeUserPasswordModal = ({ closeModal }) => {
 						/>
 					</FormControl>
 					<FormControl>
-						<FormLabel htmlFor='old-password-again'>
-							Enter Your Old Password Again
-						</FormLabel>
-						<FormInput
-							type='password'
-							id='old-password-again'
-							required
-							onChange={(event) => setOldPasswordAgain(event.target.value)}
-							value={oldPasswordAgain}
-						/>
-					</FormControl>
-					<FormControl>
 						<FormLabel htmlFor='new-password'>
 							Enter Your New Password
 						</FormLabel>
@@ -65,6 +101,18 @@ const ChangeUserPasswordModal = ({ closeModal }) => {
 							required
 							onChange={(event) => setNewPassword(event.target.value)}
 							value={newPassword}
+						/>
+					</FormControl>
+					<FormControl>
+						<FormLabel htmlFor='new-password-again'>
+							Enter Your New Password Again
+						</FormLabel>
+						<FormInput
+							type='password'
+							id='new-password-again'
+							required
+							onChange={(event) => setNewPasswordAgain(event.target.value)}
+							value={newPasswordAgain}
 						/>
 					</FormControl>
 					{afterFormSubmitMessage.length !== 0 && (

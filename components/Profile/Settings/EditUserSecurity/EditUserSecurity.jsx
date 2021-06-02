@@ -10,14 +10,14 @@ const EditUserSecurity = () => {
 	return (
 		<Accordion>
 			<Fragment key='header'>
-				<h2>Edit User Security</h2>
+				<h2>Edit Your Security</h2>
 			</Fragment>
 			<Fragment key='body'>
 				<ul>
-					<li>
+					<li className={classes['item-list']}>
 						<ChangeUserEmail />
 					</li>
-					<li>
+					<li className={classes['item-list']}>
 						<ChangeUserPassword />
 					</li>
 				</ul>

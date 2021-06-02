@@ -20,3 +20,9 @@
 	outline-color: var(--main-special-color);
 	color: var(--main-font-color-light);
 }
+
+.button:disabled {
+	background-color: var(--main-font-color-light);
+	color: var(--main-font-color-dark);
+	cursor: not-allowed;
+}

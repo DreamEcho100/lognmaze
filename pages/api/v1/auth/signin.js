@@ -43,7 +43,7 @@ export default async (req, res) => {
 			delete user.rows[0].password;
 
 			const jwt = jwtGenerator({
-				user_name: user.rows[0].user_name,
+				id: user.rows[0].id,
 				email: user.rows[0].email,
 			});
 

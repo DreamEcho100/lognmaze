@@ -1,11 +1,13 @@
 .box-shadow {
 	box-shadow: 0.2rem 0.2rem 0.2rem var(--main-special-color-light),
 		-0.2rem -0.2rem 0.2rem var(--main-special-color-light);
+	/* outline-color: var(--main-special-color-dark); */
 }
 
 .box-shadow:hover {
 	box-shadow: 0.3rem 0.3rem 0.3rem var(--main-special-color),
 		-0.3rem -0.3rem 0.3rem var(--main-special-color);
+	/* outline-color: var(--main-special-color-dark); */
 }
 
 .box-shadow:focus,
@@ -13,4 +15,5 @@
 .box-shadow:focus-within {
 	box-shadow: 0.4rem 0.4rem 0.4rem var(--main-special-color-dark),
 		-0.4rem -0.4rem 0.4rem var(--main-special-color-dark);
+	/* outline-color: var(--main-special-color-dark); */
 }

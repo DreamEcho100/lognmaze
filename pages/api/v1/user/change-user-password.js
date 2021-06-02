@@ -1,4 +1,8 @@
-import { verifyPassword, jwtGenerator } from '../../../../lib/auth';
+import {
+	verifyJwtToken,
+	verifyPassword,
+	hashPassword,
+} from '../../../../lib/auth';
 import { pool } from '../../../../lib/pg';
 
 export default async (req, res) => {
@@ -7,63 +11,63 @@ export default async (req, res) => {
 	}
 
 	if (req.method === 'PATCH') {
-		const { oldPassword, newPassword } = req.body;
+		try {
+			const { token } = req.headers;
+			let isVerified;
 
-		client.close();
-		res.status(200).json({ status: 'success', message: 'Password updated!' });
+			if (token && token.length !== 0) {
+				isVerified = await verifyJwtToken(token);
+			}
+
+			if (!isVerified.email) {
+				res.status(401).json({
+					status: 'error',
+					message: 'Not Authorized!',
+					isVerified: false,
+				});
+
+				return;
+			}
+
+			const { oldPassword, newPassword } = req.body;
+
+			const user = await pool.query('SELECT * FROM users WHERE email = $1', [
+				isVerified.email,
+			]);
+
+			const validPassword = await verifyPassword(
+				oldPassword,
+				user.rows[0].password
+			);
+
+			if (!validPassword) {
+				res.status(200).json({
+					status: 'error',
+					message: 'Invalid password!',
+					isVerified: true,
+				});
+				return;
+			}
+
+			const hashedPassword = await hashPassword(newPassword);
+
+			const updateProfilePicture = await pool.query(
+				'UPDATE users SET password=($1) WHERE email=($2)', //  RETURNING *
+				[hashedPassword, isVerified.email]
+			);
+
+			res.status(201).json({
+				status: 'success',
+				message: 'Password updated!',
+				isVerified: true,
+			});
+		} catch (error) {
+			// console.error(error);
+			res.status(500).json({
+				status: 'error',
+				message: error.message || 'Something went wrong!',
+				isVerified: false,
+			});
+		}
 	}
 };
-
-/*
-
-		const session = await getSession({ req: req });
-
-		if (!session) {
-			res.status(401).json({ message: 'Not authenticated!' });
-			return;
-		}
-
-		const userEmail = session.user.email;
-		const oldPassword = req.body.oldPassword;
-		const newPassword = req.body.newPassword;
-
-		const client = await connectDatabase({
-			username: process.env.MONGODB_USERNAME,
-			password: process.env.MONGODB_PASSWORD,
-			clustername: process.env.MONGODB_CLUSTERNAME,
-			database: process.env.MONGODB_MAZENEXTBLOG_DATABASE,
-		});
-
-		const usersCollection = client.db().collection('users');
-
-		const user = await usersCollection.findOne({ email: userEmail });
-
-		if (!user) {
-			res.status(404).json({ status: 'error', message: 'User not found!' });
-			client.close();
-			return;
-		}
-
-		const currentPassword = user.password;
-
-		const passwordsAreEqual = await verifyPassword(
-			oldPassword,
-			currentPassword
-		);
-
-		if (!passwordsAreEqual) {
-			res.status(403).json({ status: 'error', message: 'Invalid password!' });
-			client.close();
-			return;
-		}
-
-		const hashedPassword = await hashPassword(newPassword);
-
-		const result = await usersCollection.updateOne(
-			{ email: userEmail },
-			{ $set: { password: hashedPassword } }
-		);
-
-		client.close();
-		res.status(200).json({ status: 'success', message: 'Password updated!' });
-*/

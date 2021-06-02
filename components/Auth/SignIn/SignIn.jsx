@@ -33,13 +33,16 @@ const SignIn = () => {
 		const { status, message } = await handleSignIn({
 			email,
 			password,
+		}).then((response) => {
+			btnsDisabled && setBtnsDisabled(false);
+			return response;
 		});
 
 		if (status === 'error') {
 			console.error(message);
+			setBtnsDisabled(false);
 			setAfterFormSubmitMessage(message);
 		}
-		setBtnsDisabled(false);
 		// clearInputsForm();
 	};
 

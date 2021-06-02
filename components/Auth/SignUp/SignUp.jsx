@@ -44,14 +44,16 @@ const SignUp = () => {
 			email,
 			password,
 			gender,
+		}).then((response) => {
+			btnsDisabled && setBtnsDisabled(false);
+			return response;
 		});
 
 		if (status === 'error') {
 			console.error(message);
 			setAfterFormSubmitMessage(message);
 		}
-
-		setBtnsDisabled(false);
+		// clearInputsForm();
 	};
 
 	return (

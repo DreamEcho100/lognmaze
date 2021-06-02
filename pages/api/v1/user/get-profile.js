@@ -19,18 +19,16 @@ export default async (req, res) => {
 
 			const { token } = req.headers;
 
-			console.log(username, token);
-
 			if (token && token.length !== 0) {
 				isVerified = await verifyJwtToken(token);
 			}
 
-			if (isVerified) {
+			if (isVerified.email) {
 				visitorIdentity = OWNER;
 				return res.status(201).json({
 					status: 'success',
 					message: 'Authorized!',
-					isVerified,
+					isVerified: true,
 					visitorIdentity,
 				});
 			}

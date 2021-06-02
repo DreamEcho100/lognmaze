@@ -1,6 +1,6 @@
 import { Fragment, useContext, useState, useCallback } from 'react';
 
-import classes from './ChangeProfilePictureModal.module.css';
+import classes from './ChangeCoverPhotoModal.module.css';
 
 import BoxShadowClasses from '../../../../../UI/V1/BoxShadow.module.css';
 
@@ -17,12 +17,10 @@ import InputFileReactDropzone from '../../../../../UI/V1/InputFileReactDropzone/
 import LinearProgressBar from '../../../../../UI/V1/LinearProgressBar/LinearProgressBar';
 import { uploadFileToCloudinary } from '../../../../../../lib/fetch';
 
-const ChangeProfilePictureModal = ({ closeModal }) => {
-	const { user, handUpdateProfilePictureURL } = useContext(UserContext);
+const ChangeCoverPhotoModal = ({ closeModal }) => {
+	const { user, handUpdateCoverPhotoURL } = useContext(UserContext);
 
-	const [profilePictureURL, setProfilePictureURL] = useState(
-		user.profile_picture
-	);
+	const [CoverPhotoURL, setCoverPhotoURL] = useState(user.cover_photo);
 	const [progress, setProgress] = useState(0);
 	const [file, setFile] = useState({});
 	// const [coverPhoto, setCoverPhoto] = useState(user.profile_picture);
@@ -70,16 +68,12 @@ const ChangeProfilePictureModal = ({ closeModal }) => {
 		if (
 			dropErrorMessage.length !== 0 ||
 			(Object.keys(file).length === 0 && urlInput.length === 0)
-		) {
-			setErrorMessage('Empty field/s!');
+		)
 			return;
-		}
 
 		new Promise(async (resolve, reject) => {
 			setBtnsDisabled(true);
 			setProgress(0);
-			console.log(Object.keys(file).length);
-			console.log(urlInput);
 			if (Object.keys(file).length !== 0) {
 				const secureUrl = await uploadFileToCloudinary(
 					`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`,
@@ -96,10 +90,7 @@ const ChangeProfilePictureModal = ({ closeModal }) => {
 			}
 		})
 			.then(async (url) => {
-				const { status, message } = await handUpdateProfilePictureURL(
-					user.id,
-					url
-				);
+				const { status, message } = await handUpdateCoverPhotoURL(user.id, url);
 
 				if (status === 'error') {
 					setBtnsDisabled(false);
@@ -114,6 +105,7 @@ const ChangeProfilePictureModal = ({ closeModal }) => {
 			.catch((error) => {
 				setErrorMessage(error.message);
 				setBtnsDisabled(false);
+				setErrorMessage(message);
 				return { status: 'error', message: error.message };
 			});
 	};
@@ -128,7 +120,7 @@ const ChangeProfilePictureModal = ({ closeModal }) => {
 			)}
 		>
 			<Fragment key='header'>
-				<h1>Change Your Profile Picture</h1>
+				<h1>Change Your Cover Photo</h1>
 			</Fragment>
 			<Fragment key='body'>
 				<Form
@@ -180,7 +172,7 @@ const ChangeProfilePictureModal = ({ closeModal }) => {
 						type='submit'
 						className={classes.submitBtn}
 					>
-						Update Your Profile Picture
+						Update Your Cover Photo
 					</Button>
 				</Form>
 			</Fragment>
@@ -188,4 +180,4 @@ const ChangeProfilePictureModal = ({ closeModal }) => {
 	);
 };
 
-export default ChangeProfilePictureModal;
+export default ChangeCoverPhotoModal;
