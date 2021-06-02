@@ -19,7 +19,7 @@ export default async (req, res) => {
 				isVerified = await verifyJwtToken(token);
 			}
 
-			if (!isVerified.email) {
+			if (!isVerified.id) {
 				res.status(401).json({
 					status: 'error',
 					message: 'Not Authorized!',
@@ -31,9 +31,18 @@ export default async (req, res) => {
 
 			const { oldPassword, newPassword } = req.body;
 
-			const user = await pool.query('SELECT * FROM users WHERE email = $1', [
-				isVerified.email,
+			const user = await pool.query('SELECT * FROM users WHERE id = $1', [
+				isVerified.id,
 			]);
+
+			if (user.rows.length === 0) {
+				res.status(404).json({
+					status: 'error',
+					message: 'User id not found!',
+					isVerified: false,
+				});
+				return;
+			}
 
 			const validPassword = await verifyPassword(
 				oldPassword,
@@ -41,7 +50,7 @@ export default async (req, res) => {
 			);
 
 			if (!validPassword) {
-				res.status(200).json({
+				res.status(403).json({
 					status: 'error',
 					message: 'Invalid password!',
 					isVerified: true,
@@ -52,8 +61,8 @@ export default async (req, res) => {
 			const hashedPassword = await hashPassword(newPassword);
 
 			const updateProfilePicture = await pool.query(
-				'UPDATE users SET password=($1) WHERE email=($2)', //  RETURNING *
-				[hashedPassword, isVerified.email]
+				'UPDATE users SET password=($1) WHERE id=($2)', //  RETURNING *
+				[hashedPassword, isVerified.id]
 			);
 
 			res.status(201).json({

@@ -1,5 +1,5 @@
 import { verifyJwtToken } from '../../../../lib/auth';
-import { getUserByUserName } from '../../../../lib/pg';
+import { pool } from '../../../../lib/pg';
 
 export default async (req, res) => {
 	if (req.method === 'GET') {
@@ -8,11 +8,6 @@ export default async (req, res) => {
 
 		let isVerified = false;
 		let username;
-		let profileData = {
-			status: 'error',
-			message: 'No User Found',
-			data: false,
-		};
 		let visitorIdentity = GUEST;
 		try {
 			username = req.headers.username;
@@ -23,36 +18,48 @@ export default async (req, res) => {
 				isVerified = await verifyJwtToken(token);
 			}
 
-			if (isVerified.email) {
+			if (isVerified.id) {
 				visitorIdentity = OWNER;
 				return res.status(201).json({
 					status: 'success',
 					message: 'Authorized!',
+					data: {},
 					isVerified: true,
 					visitorIdentity,
 				});
 			}
 
-			if (username) {
-				profileData = await getUserByUserName(username);
+			const user = await pool.query(
+				'SELECT * FROM users WHERE user_name = $1',
+				[username]
+			);
+
+			if (user.rows.length === 0) {
+				return res.status(401).json({
+					status: 'error',
+					message: "User doesn't exist!",
+					data: {},
+					isVerified: false,
+					visitorIdentity,
+				});
 			}
-			res.status(401).json({
+
+			delete user.rows[0].password;
+
+			return res.status(401).json({
 				status: 'error',
-				message: 'Not Authorized!',
+				message: 'User exist!',
+				data: user.rows[0],
 				isVerified: false,
-				profileData,
 				visitorIdentity,
 			});
 		} catch (error) {
-			if (username) {
-				profileData = await getUserByUserName(username);
-			}
-
-			res.status(500).json({
+			visitorIdentity = GUEST;
+			return res.status(401).json({
 				status: 'error',
 				message: error.message,
+				data: {},
 				isVerified: false,
-				profileData,
 				visitorIdentity,
 			});
 		}

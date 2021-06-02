@@ -13,13 +13,20 @@ const AuthPage = () => {
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
+		if (!UserCxt.isLoading && user && user.id) {
+			router.replace('/');
+		} else {
+			setIsLoading(false);
+		}
+	}, [user]);
+
+	useEffect(() => {
 		if (user && user.id) {
 			router.replace('/');
 		}
-		setIsLoading(false);
-	}, [user]);
+	}, []);
 
-	if (isLoading || (user && user.id)) {
+	if (UserCxt.isLoading || isLoading /*user.id*/) {
 		return <p>Loading...</p>;
 	}
 

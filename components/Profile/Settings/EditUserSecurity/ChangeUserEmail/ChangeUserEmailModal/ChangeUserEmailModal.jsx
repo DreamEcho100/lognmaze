@@ -12,13 +12,36 @@ import FormInput from '../../../../../UI/V1/FormInput/FormInput';
 import Button from '../../../../../UI/V1/Button/Button';
 
 const ChangeUserEmailModal = ({ closeModal }) => {
-	const { user } = useContext(UserContext);
+	const { handleUpdateEmail, user } = useContext(UserContext);
 
 	const [email, setEmail] = useState(user.email);
 	const [password, setPassword] = useState('');
 
 	const [afterFormSubmitMessage, setAfterFormSubmitMessage] = useState(true);
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
+
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+
+		try {
+			setBtnsDisabled(true);
+			const { status, message } = await handleUpdateEmail(email, password);
+
+			if (status === 'error') {
+				setBtnsDisabled(false);
+				// throw new Error(message);
+				setAfterFormSubmitMessage(message);
+				return;
+			}
+
+			closeModal();
+		} catch (error) {
+			setBtnsDisabled(false);
+			console.error(error);
+			setAfterFormSubmitMessage(error.message);
+			return { status: 'error', message: error.message };
+		}
+	};
 
 	return (
 		<Modal
@@ -33,7 +56,7 @@ const ChangeUserEmailModal = ({ closeModal }) => {
 				<h1>Change Your Email</h1>
 			</Fragment>
 			<Fragment key='body'>
-				<Form>
+				<Form onSubmit={handleSubmit}>
 					<FormControl>
 						<FormLabel htmlFor='email'>Your Email</FormLabel>
 						<FormInput

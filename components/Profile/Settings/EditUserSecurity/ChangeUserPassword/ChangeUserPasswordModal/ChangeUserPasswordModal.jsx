@@ -33,9 +33,9 @@ const ChangeUserPasswordModal = ({ closeModal }) => {
 		}
 
 		if (
-			oldPassword.length !== 0 ||
-			newPasswordAgain.length !== 0 ||
-			newPassword.length !== 0
+			oldPassword.length === 0 ||
+			newPasswordAgain.length === 0 ||
+			newPassword.length === 0
 		) {
 			return setAfterFormSubmitMessage('Empty field/s!');
 		}

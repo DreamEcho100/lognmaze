@@ -12,7 +12,7 @@ const ProfilePage = () => {
 	const router = useRouter();
 
 	const [isLoading, setIsLoading] = useState(true);
-	const [profileData, setProfileData] = useState({});
+	const [userData, setUserData] = useState({});
 	const [visitorIdentity, setVisitorIdentity] = useState(GUEST);
 
 	const { user, ...UserCxt } = useContext(UserContext);
@@ -24,12 +24,11 @@ const ProfilePage = () => {
 	useEffect(async () => {
 		let username = router.query.username;
 
-		if (username && (!UserCxt.isLoading || isLoading)) {
-			username = username;
-
+		if (username && !UserCxt.isLoading) {
 			if (
-				user.token &&
-				user.token.length !== 0 &&
+				Object.keys(user).length !== 0 &&
+				// user.username &&
+				// user.username.length !== 0 &&
 				username === user.user_name
 			) {
 				const response = await fetch(`/api/v1/user/get-profile`, {
@@ -41,13 +40,14 @@ const ProfilePage = () => {
 					},
 				});
 
-				const data = await response.json();
+				const { status, message, data, isVerified, visitorIdentity } =
+					await response.json();
 
-				setProfileData(user);
-				setVisitorIdentity(data.visitorIdentity);
+				setUserData(user);
+				setVisitorIdentity(visitorIdentity);
 			}
 
-			if (!user || username !== user.user_name) {
+			if (username !== user.user_name) {
 				const response = await fetch(`/api/v1/user/get-profile`, {
 					method: 'GET',
 					headers: {
@@ -56,18 +56,18 @@ const ProfilePage = () => {
 					},
 				});
 
-				const data = await response.json();
+				const { status, message, data, isVerified, visitorIdentity } =
+					await response.json();
 
-				setProfileData(data.profileData.data);
-				setVisitorIdentity(data.visitorIdentity);
+				setUserData(data);
+				setVisitorIdentity(visitorIdentity);
 			}
 
-			if (visitorIdentity === 'OWNER' && (!user || user.id)) {
-				setVisitorIdentity('GUEST');
+			if (visitorIdentity === OWNER && (!user || user.id)) {
+				setVisitorIdentity(GUEST);
 			}
 
 			setIsLoading(false);
-			// console.log(visitorIdentity, user);
 		}
 	}, [user.user_name, UserCxt.isLoading, router.query.username]);
 
@@ -77,7 +77,7 @@ const ProfilePage = () => {
 
 	return (
 		<>
-			<Profile profileData={profileData} visitorIdentity={visitorIdentity} />
+			<Profile userData={userData} visitorIdentity={visitorIdentity} />
 		</>
 	);
 };

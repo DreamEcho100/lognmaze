@@ -2,10 +2,10 @@ import { useRouter } from 'next/router';
 
 import classes from './Profile.module.css';
 
-const Profile = ({ profileData, visitorIdentity }) => {
+const Profile = ({ userData = {}, visitorIdentity }) => {
 	const router = useRouter();
 
-	if (!profileData) {
+	if (!userData.id) {
 		return (
 			<div className=''>
 				<p>No User found!</p>
@@ -18,16 +18,16 @@ const Profile = ({ profileData, visitorIdentity }) => {
 		<section className={`${classes.profile}`}>
 			<h1>Profile</h1>
 			<div className='profile'>
-				<img src={profileData.cover_photo} alt='' />
-				<img src={profileData.profile_picture} alt='' />
+				<img src={userData.cover_photo} alt='' />
+				<img src={userData.profile_picture} alt='' />
 				<p className='full_name'>
-					{profileData.first_name} {profileData.last_name}
+					{userData.first_name} {userData.last_name}
 				</p>
-				<p className='user_name'>{profileData.user_name}</p>
-				<p className='email'>{profileData.email}</p>
-				<p className='gender'>{profileData.gender}</p>
-				<p className='created_at'>{profileData.created_at}</p>
-				<p className='cv'>{profileData.cv}</p>
+				<p className='user_name'>{userData.user_name}</p>
+				<p className='email'>{userData.email}</p>
+				<p className='gender'>{userData.gender}</p>
+				<p className='created_at'>{userData.created_at}</p>
+				<p className='cv'>{userData.cv}</p>
 			</div>
 			{visitorIdentity === OWNER && (
 				<button onClick={() => router.replace(`${router.asPath}/settings`)}>

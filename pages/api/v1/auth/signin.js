@@ -44,13 +44,12 @@ export default async (req, res) => {
 
 			const jwt = jwtGenerator({
 				id: user.rows[0].id,
-				email: user.rows[0].email,
 			});
 
 			res.status(201).json({
 				status: 'success',
 				message: 'Created user!',
-				user: user.rows[0],
+				data: user.rows[0],
 				jwt,
 			});
 		} catch (error) {

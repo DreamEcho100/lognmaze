@@ -9,18 +9,19 @@ const MainNavigation = () => {
 	const { verifyUserTokenFromCookie, user, isLoading, handleLogOut } =
 		useContext(UserContext);
 
-	const [doesSessionExist, setDoesSessionExist] = useState(false);
+	// const [doesSessionExist, setDoesSessionExist] = useState(false);
 
 	useEffect(() => verifyUserTokenFromCookie(), []);
 
-	useEffect(() => {
-		// deleteCookie('mazecode_user', process.env.FRONT_END_ROOT_URL);
-		if (user.id) {
-			setDoesSessionExist(true);
-		} else {
-			setDoesSessionExist(false);
-		}
-	}, [user]);
+	// useEffect(() => {
+	// 	// deleteCookie('mazecode_user', process.env.FRONT_END_ROOT_URL);
+	// 	if (user.id) {
+	// 		!doesSessionExist && setDoesSessionExist(true);
+	// 	} else {
+	// 		doesSessionExist && setDoesSessionExist(false);
+	// 	}
+	// 	console.log(doesSessionExist);
+	// }, [user, user.id]);
 
 	return (
 		<header className={classes.header}>
@@ -34,17 +35,17 @@ const MainNavigation = () => {
 					<li>
 						<Link href='/blog'>Blog</Link>
 					</li>
-					{doesSessionExist && user.id && (
+					{!isLoading && user.id && (
 						<li>
 							<Link href={`/profile/${user.user_name}`}>Profile</Link>
 						</li>
 					)}
-					{!doesSessionExist && !isLoading && !user.id && (
+					{!isLoading && !user.id && (
 						<li>
 							<Link href='/auth'>Sign In/Up</Link>
 						</li>
 					)}
-					{doesSessionExist && !isLoading && user.id && (
+					{!isLoading && user.id && (
 						<li>
 							<button onClick={handleLogOut}>Logout</button>
 						</li>

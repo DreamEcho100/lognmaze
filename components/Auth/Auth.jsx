@@ -13,34 +13,8 @@ const Auth = () => {
 
 	const { user, ...UserCxt } = useContext(UserContext);
 
-	const [isLoading, setIsLoading] = useState(true);
 	const [signInComponent, setSignInComponent] = useState(true);
 	const [signUpComponent, setSignUpComponent] = useState(false);
-
-	useEffect(() => {
-		console.log(!UserCxt.isLoading);
-		console.log(user);
-		console.log(user.id);
-		console.log(!UserCxt.isLoading && user && user.id);
-		if (!UserCxt.isLoading && user && user.id) {
-			router.replace('/');
-		} else {
-			setIsLoading(false);
-		}
-	}, [user]);
-
-	useEffect(() => {
-		console.log(!UserCxt.isLoading);
-		console.log(user);
-		console.log(user.id);
-		if (user && user.id) {
-			router.replace('/');
-		}
-	}, []);
-
-	if (UserCxt.isLoading || isLoading /*user.id*/) {
-		return <p className={`${classes.auth} ${classes.loading}`}>Loading...</p>;
-	}
 
 	return (
 		<section className={classes.auth}>

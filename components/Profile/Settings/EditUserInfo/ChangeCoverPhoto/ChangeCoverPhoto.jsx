@@ -12,7 +12,7 @@ const ChangeCoverPhoto = () => {
 	return (
 		<>
 			<Button onClick={() => setShowChangeCoverPhotoModal(true)}>
-				Change Your Profile Picture
+				Change Your Cover Photo
 			</Button>
 			{showChangeCoverPhotoModal && (
 				<ChangeCoverPhotoModal

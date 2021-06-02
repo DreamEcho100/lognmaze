@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import { setCookie, getCookie, deleteCookie } from '../lib/cookie';
+import { setCookie, getCookie, deleteCookie, checkCookie } from '../lib/cookie';
 
 const UserContext = createContext({
 	user: {},
@@ -12,6 +12,7 @@ const UserContext = createContext({
 	handleLogOut: () => {},
 	handUpdateProfilePictureURL: () => {},
 	handUpdateCoverPhotoURL: () => {},
+	handleUpdateEmail: () => {},
 	handleUpdatePassword: () => {},
 });
 
@@ -23,14 +24,14 @@ export const UserContextProvider = ({ children }) => {
 
 	const verifyUserTokenFromCookie = async () => {
 		new Promise((resolve, reject) => {
-			setIsLoading(true);
+			!isLoading && setIsLoading(true);
 			const tokenCookie = getCookie('mazecode_user_token');
 			return resolve(tokenCookie);
 		})
-			.then(async (cookie) => {
-				if (cookie.length !== 0) {
-					// return JSON.parse(cookie);
-					const token = cookie;
+			.then(async (tokenCookie) => {
+				if (tokenCookie.length !== 0) {
+					// return JSON.parse(tokenCookie);
+					const token = tokenCookie;
 					const response = await fetch(
 						`${process.env.BACK_END_ROOT_URL}/api/v1/auth/verify-token`,
 						{
@@ -56,20 +57,26 @@ export const UserContextProvider = ({ children }) => {
 					if (status === 'error' /* || !data.isVerified*/) {
 						handleLogOut();
 					}
+					setIsLoading(false);
 				} else {
 					handleLogOut();
+					setIsLoading(false);
 					throw new Error('No user stored in cookie!');
 				}
 			})
 			.catch((error) => {
 				console.error(error.message);
 				handleLogOut();
+				setIsLoading(false);
 				return error.message;
-			})
-			.finally(() => setIsLoading(false));
+			});
+		// .finally(() => setIsLoading(false));
+
+		setTimeout(() => {}, 4000);
 	};
 
 	const handleUserSign = async (path, bodyObj) => {
+		setTimeout(() => {}, 5000);
 		return new Promise(async (resolve, reject) => {
 			const response = await fetch(path, {
 				method: 'POST',
@@ -79,9 +86,7 @@ export const UserContextProvider = ({ children }) => {
 				},
 			});
 
-			const { status, message, user, jwt } = await response.json();
-
-			console.log(status, message, user, jwt);
+			const { status, message, data, jwt } = await response.json();
 
 			if (status === 'error') {
 				return reject({ status, message });
@@ -89,7 +94,7 @@ export const UserContextProvider = ({ children }) => {
 
 			setCookie(
 				'mazecode_user_data',
-				JSON.stringify(user),
+				JSON.stringify(data),
 				'none', // jwt.expiriesAfter,
 				process.env.FRONT_END_ROOT_URL
 			);
@@ -101,13 +106,14 @@ export const UserContextProvider = ({ children }) => {
 				process.env.FRONT_END_ROOT_URL
 			);
 
-			resolve({ status, message, user, jwt });
+			resolve({ status, message, data, jwt });
 		})
-			.then(({ status, message, user, jwt }) => {
+			.then(({ status, message, data, jwt }) => {
 				setUser({
-					...user,
+					...data,
 					token: jwt.token,
 				});
+
 				return { status, message };
 			})
 			.catch(({ status, message }) => {
@@ -117,20 +123,33 @@ export const UserContextProvider = ({ children }) => {
 	};
 
 	const handleSignUp = async (data) =>
-		handleUserSign('api/v1/auth/signup', data);
+		await handleUserSign('api/v1/auth/signup', data);
 
 	const handleSignIn = async (data) =>
-		handleUserSign('api/v1/auth/signin', data);
+		await handleUserSign('api/v1/auth/signin', data);
 
 	const handleLogOut = () => {
-		new Promise((resolve, reject) => {
-			// setIsLoading(true);
-			deleteCookie('mazecode_user_data', process.env.FRONT_END_ROOT_URL);
-			deleteCookie('mazecode_user_token', process.env.FRONT_END_ROOT_URL);
-			setUser({});
+		setIsLoading(true);
+
+		// setCookie(
+		// 	'mazecode_user_data',
+		// 	'',
+		// 	-30, // jwt.expiriesAfter,
+		// 	process.env.FRONT_END_ROOT_URL
+		// );
+		// setCookie('mazecode_user_token', '', -30, process.env.FRONT_END_ROOT_URL);
+
+		deleteCookie('mazecode_user_data', process.env.FRONT_END_ROOT_URL);
+		deleteCookie('mazecode_user_token', process.env.FRONT_END_ROOT_URL);
+
+		console.log(getCookie('mazecode_user_data'));
+		new Promise(async (resolve, reject) => {
+			// setUser({});
+
 			resolve();
 		}).then(() => {
 			// router.replace('/');
+			setIsLoading(false);
 			return;
 		});
 		// .then(() => {
@@ -143,7 +162,7 @@ export const UserContextProvider = ({ children }) => {
 		return (
 			new Promise(async (resolve, reject) => {
 				const response = await fetch(
-					`${process.env.BACK_END_ROOT_URL}/api/v1/user/update-profile-picture/${id}`,
+					`${process.env.BACK_END_ROOT_URL}/api/v1/user/update-profile-picture`,
 					{
 						method: 'PATCH',
 						body: JSON.stringify({ url }),
@@ -180,7 +199,6 @@ export const UserContextProvider = ({ children }) => {
 				})
 				// .then(() => router.replace(`/profile/${user.user_name}`))
 				.catch(({ status, message }) => {
-					console.log(status, message);
 					return { status, message };
 				})
 		);
@@ -190,7 +208,7 @@ export const UserContextProvider = ({ children }) => {
 		return (
 			new Promise(async (resolve, reject) => {
 				const response = await fetch(
-					`${process.env.BACK_END_ROOT_URL}/api/v1/user/update-cover-photo/${id}`,
+					`${process.env.BACK_END_ROOT_URL}/api/v1/user/update-cover-photo`,
 					{
 						method: 'PATCH',
 						body: JSON.stringify({ url }),
@@ -227,17 +245,61 @@ export const UserContextProvider = ({ children }) => {
 				})
 				// .then(() => router.replace(`/profile/${user.user_name}`))
 				.catch(({ status, message }) => {
-					console.log(status, message);
 					return { status, message };
 				})
 		);
 	};
 
-	const handleUpdatePassword = async (oldPassword, newPassword) => {
-		console.log(oldPassword, newPassword, user.token);
+	const handleUpdateEmail = async (email, password) => {
 		return new Promise(async (resolve, reject) => {
 			const response = await fetch(
-				`${process.env.BACK_END_ROOT_URL}/api/v1/user/change-user-password`,
+				`${process.env.BACK_END_ROOT_URL}/api/v1/user/change-email`,
+				{
+					method: 'PATCH',
+					body: JSON.stringify({
+						email,
+						password,
+					}),
+					headers: {
+						'Content-Type': 'application/json',
+						token: user.token,
+					},
+				}
+			);
+
+			if (!response.ok) {
+				reject({
+					status: 'error',
+					message: response.message || 'Something went wrong!',
+				});
+			}
+
+			resolve(response);
+		})
+			.then((response) => response.json())
+			.then(({ data, status, message, isVerified }) => {
+				if (isVerified) {
+					const updatedUser = {
+						...user,
+						email: data.email,
+					};
+					setUser(updatedUser);
+					setCookie('mazecode_user_data', JSON.stringify(updatedUser));
+					return { status, message };
+				} else {
+					handleLogOut();
+					throw new Error({ status: 'error', message });
+				}
+			})
+			.catch(({ status, message }) => {
+				return { status, message };
+			});
+	};
+
+	const handleUpdatePassword = async (oldPassword, newPassword) => {
+		return new Promise(async (resolve, reject) => {
+			const response = await fetch(
+				`${process.env.BACK_END_ROOT_URL}/api/v1/user/change-password`,
 				{
 					method: 'PATCH',
 					body: JSON.stringify({
@@ -262,7 +324,6 @@ export const UserContextProvider = ({ children }) => {
 		})
 			.then((response) => response.json())
 			.then(({ status, message, isVerified }) => {
-				console.log(status, message, isVerified);
 				if (isVerified) {
 					return { status, message };
 				} else {
@@ -271,7 +332,6 @@ export const UserContextProvider = ({ children }) => {
 				}
 			})
 			.catch(({ status, message }) => {
-				console.log(status, message);
 				return { status, message };
 			});
 	};
@@ -285,6 +345,7 @@ export const UserContextProvider = ({ children }) => {
 		handleLogOut,
 		handUpdateProfilePictureURL,
 		handUpdateCoverPhotoURL,
+		handleUpdateEmail,
 		handleUpdatePassword,
 	};
 
