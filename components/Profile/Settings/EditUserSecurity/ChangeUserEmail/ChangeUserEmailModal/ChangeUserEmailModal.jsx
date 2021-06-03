@@ -25,7 +25,7 @@ const ChangeUserEmailModal = ({ closeModal }) => {
 
 		try {
 			setBtnsDisabled(true);
-			const { status, message } = await handleUpdateEmail(email, password);
+			const { status, message } = await handleUpdateEmail({ email, password });
 
 			if (status === 'error') {
 				setBtnsDisabled(false);

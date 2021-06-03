@@ -24,7 +24,7 @@ const ProfilePage = () => {
 	useEffect(async () => {
 		let username = router.query.username;
 
-		if (username && !UserCxt.isLoading) {
+		if (typeof username === 'string' && !UserCxt.isLoading) {
 			if (
 				Object.keys(user).length !== 0 &&
 				// user.username &&

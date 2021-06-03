@@ -1,4 +1,5 @@
 import { Fragment, useContext, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import classes from './ChangeBasicInfoModal.module.css';
 
@@ -15,7 +16,9 @@ import FormInput from '../../../../../UI/V1/FormInput/FormInput';
 import Button from '../../../../../UI/V1/Button/Button';
 
 const ChangeBasicInfoModal = ({ closeModal }) => {
-	const { user } = useContext(UserContext);
+	const router = useRouter();
+
+	const { user, handleUpdateBasicInfo } = useContext(UserContext);
 
 	const [firstName, setFirstName] = useState(user.first_name);
 	const [lastName, setLastName] = useState(user.last_name);
@@ -26,17 +29,53 @@ const ChangeBasicInfoModal = ({ closeModal }) => {
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
 
 	const handleUserName = () => {
-		return `${firstName}-${lastName}`.replace(/[^\w-\_]/gi, '').toLowerCase();
+		return `${firstName}-${lastName}`
+			.replace(/[^\w-\_]/gi, '-')
+			.replace(/(-{2,})/gi, '-')
+			.replace(/^-/, '')
+			.toLowerCase();
 	};
 
 	const submitHandler = async (event) => {
 		event.preventDefault();
 
 		const userName = handleUserName();
+
+		setBtnsDisabled(true);
+		/*const { status, message } =*/ await handleUpdateBasicInfo({
+			firstName,
+			lastName,
+			userName,
+			gender,
+			password,
+		})
+			.then(({ status, message }) => {
+				if (status === 'error') {
+					setBtnsDisabled(false);
+					// throw new Error(message);
+					setAfterFormSubmitMessage(message);
+					return { status, message };
+				}
+
+				closeModal();
+				return { status, message };
+			})
+			.then(({ status, message }) => {
+				if (status === 'success') {
+					router.replace('/');
+				}
+				return { status, message };
+			})
+			.catch((error) => {
+				setBtnsDisabled(false);
+				console.error(error);
+				setAfterFormSubmitMessage(error.message);
+				return { status: 'error', message: error.message };
+			});
 	};
 
 	return (
-		<Modal 
+		<Modal
 			click={closeModal}
 			CloseButtonElement={(props) => (
 				<Button type='button' {...props}>

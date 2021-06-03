@@ -90,7 +90,7 @@ const ChangeCoverPhotoModal = ({ closeModal }) => {
 			}
 		})
 			.then(async (url) => {
-				const { status, message } = await handUpdateCoverPhotoURL(user.id, url);
+				const { status, message } = await handUpdateCoverPhotoURL({ url });
 
 				if (status === 'error') {
 					setBtnsDisabled(false);

@@ -1,54 +1,52 @@
-import { verifyJwtToken } from '../../../../lib/auth';
-import { pool } from '../../../../lib/pg';
+import { verifyJwtToken } from '../../../../../lib/auth';
+import { pool } from '../../../../../lib/pg';
 
 export default async (req, res) => {
 	if (req.method === 'PATCH') {
-		let isVerified = false;
+		let isAuthorized = false;
 
 		try {
 			const url = req.body.url;
-			const token = req.headers.token;
+			const token = req.headers.authorization.split(' ')[1];
 
 			if (token && token.length !== 0) {
-				isVerified = await verifyJwtToken(token);
+				isAuthorized = await verifyJwtToken(token);
 			}
 
-			if (!token || !isVerified.id) {
+			if (!token || !isAuthorized.id) {
 				return res.status(401).json({
 					status: 'error',
 					message: 'Not Authorized!',
 					data: {},
-					isVerified: false,
+					isAuthorized: false,
 				});
 			}
 
 			// const user = await pool.query('SELECT * FROM users WHERE id = $1', [
-			// 	isVerified.id,
+			// 	isAuthorized.id,
 			// ]);
 
 			// if (user.rows.length === 0) {
 			// 	res.status(404).json({
 			// 		status: 'error',
 			// 		message: 'User id not found!',
-			// 		isVerified: false,
+			// 		isAuthorized: false,
 			// 	});
 			// 	return;
 			// }
 
 			const updateProfilePicture = await pool.query(
-				'UPDATE users SET cover_photo=($1) WHERE id=($2) RETURNING *',
-				[url, isVerified.id]
+				'UPDATE users SET profile_picture=($1) WHERE id=($2) RETURNING *',
+				[url, isAuthorized.id]
 			);
 
 			// delete updateProfilePicture.rows[0].password;
 
-			console.log(updateProfilePicture);
-
 			return res.status(201).json({
 				status: 'success',
 				message: 'Updated Successefully!',
-				data: { cover_photo: updateProfilePicture.rows[0].cover_photo },
-				isVerified: true,
+				data: { profile_picture: updateProfilePicture.rows[0].profile_picture },
+				isAuthorized: true,
 			});
 		} catch (error) {
 			console.error(`Error, ${error}`);
@@ -56,7 +54,7 @@ export default async (req, res) => {
 				status: 'error',
 				message: error.message || 'Something went wrong!',
 				data: {},
-				isVerified: false,
+				isAuthorized: false,
 			});
 		}
 	}

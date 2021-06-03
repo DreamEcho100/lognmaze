@@ -1,5 +1,5 @@
-import { verifyJwtToken, verifyPassword } from '../../../../lib/auth';
-import { pool } from '../../../../lib/pg';
+import { verifyJwtToken, verifyPassword } from '../../../../../lib/auth';
+import { pool } from '../../../../../lib/pg';
 
 export default async (req, res) => {
 	if (req.method !== 'PATCH') {
@@ -8,34 +8,34 @@ export default async (req, res) => {
 
 	if (req.method === 'PATCH') {
 		try {
-			const { token } = req.headers;
-			let isVerified;
+			const token = req.headers.authorization.split(' ')[1];
+			let isAuthorized;
 
 			if (token && token.length !== 0) {
-				isVerified = await verifyJwtToken(token);
+				isAuthorized = await verifyJwtToken(token);
 			}
 
-			if (!isVerified.id) {
+			if (!isAuthorized.id) {
 				res.status(401).json({
 					status: 'error',
 					message: 'Not Authorized!',
-					isVerified: false,
+					isAuthorized: false,
 				});
 
 				return;
 			}
 
-			const { email, password } = req.body;
+			const { firstName, lastName, userName, gender, password } = req.body;
 
 			const user = await pool.query('SELECT * FROM users WHERE id = $1', [
-				isVerified.id,
+				isAuthorized.id,
 			]);
 
 			if (user.rows.length === 0) {
 				res.status(404).json({
 					status: 'error',
 					message: 'User id not found!',
-					isVerified: false,
+					isAuthorized: false,
 				});
 				return;
 			}
@@ -49,28 +49,33 @@ export default async (req, res) => {
 				res.status(403).json({
 					status: 'error',
 					message: 'Invalid password!',
-					isVerified: true,
+					isAuthorized: true,
 				});
 				return;
 			}
 
 			const updateProfilePicture = await pool.query(
-				'UPDATE users SET email=($1) WHERE id=($2) RETURNING *', //  RETURNING *
-				[email, isVerified.id]
+				'UPDATE users SET first_name=($1), last_name=($2), user_name=($3), gender=($4) WHERE id=($5) RETURNING *', //  RETURNING *
+				[firstName, lastName, userName, gender, isAuthorized.id]
 			);
 
 			res.status(201).json({
 				status: 'success',
 				message: 'Password updated!',
-				isVerified: true,
-				data: { email },
+				isAuthorized: true,
+				data: {
+					first_name: updateProfilePicture.rows[0].first_name,
+					last_name: updateProfilePicture.rows[0].last_name,
+					user_name: updateProfilePicture.rows[0].user_name,
+					gender: updateProfilePicture.rows[0].gender,
+				},
 			});
 		} catch (error) {
 			// console.error(error);
 			res.status(500).json({
 				status: 'error',
 				message: error.message || 'Something went wrong!',
-				isVerified: false,
+				isAuthorized: false,
 			});
 		}
 	}

@@ -10,6 +10,7 @@ const UserContext = createContext({
 	handleSignUp: () => {},
 	handleSignIn: () => {},
 	handleLogOut: () => {},
+	handleUpdateBasicInfo: () => {},
 	handUpdateProfilePictureURL: () => {},
 	handUpdateCoverPhotoURL: () => {},
 	handleUpdateEmail: () => {},
@@ -26,57 +27,53 @@ export const UserContextProvider = ({ children }) => {
 		new Promise((resolve, reject) => {
 			!isLoading && setIsLoading(true);
 			const tokenCookie = getCookie('mazecode_user_token');
-			return resolve(tokenCookie);
+			if (tokenCookie.length !== 0) {
+				resolve(tokenCookie);
+			}
+			reject({ status: 'error', message: 'No user stored in cookie!' });
 		})
 			.then(async (tokenCookie) => {
-				if (tokenCookie.length !== 0) {
-					// return JSON.parse(tokenCookie);
-					const token = tokenCookie;
-					const response = await fetch(
-						`${process.env.BACK_END_ROOT_URL}/api/v1/auth/verify-token`,
-						{
-							method: 'POST',
-							headers: {
-								'Content-Type': 'application/json',
-								token,
-							},
-						}
-					);
-
-					const { status, message, data } = await response.json();
-
-					if (status === 'success' /* || data.isVerified*/) {
-						const userCookie = getCookie('mazecode_user_data');
-						const user = JSON.parse(userCookie);
-						setUser({
-							...user,
-							token,
-						});
+				// return JSON.parse(tokenCookie);
+				const token = tokenCookie;
+				const response = await fetch(
+					`${process.env.BACK_END_ROOT_URL}/api/v1/auth/verify-token`,
+					{
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							authorization: `Bearer ${token}`,
+						},
 					}
+				);
 
-					if (status === 'error' /* || !data.isVerified*/) {
-						handleLogOut();
-					}
-					setIsLoading(false);
-				} else {
-					handleLogOut();
-					setIsLoading(false);
-					throw new Error('No user stored in cookie!');
+				const { status, message, data } = await response.json();
+
+				if (status === 'success' /* || data.isAuthorized*/) {
+					const userCookie = getCookie('mazecode_user_data');
+					const user = JSON.parse(userCookie);
+					setUser({
+						...user,
+						token,
+					});
 				}
+
+				if (status === 'error' /* || !data.isAuthorized*/) {
+					handleLogOut();
+				}
+				setIsLoading(false);
 			})
 			.catch((error) => {
 				console.error(error.message);
-				handleLogOut();
+				if (/*user.id || user.user_name || */ Object.keys(user).length !== 0) {
+					handleLogOut();
+				}
 				setIsLoading(false);
 				return error.message;
 			});
 		// .finally(() => setIsLoading(false));
-
-		setTimeout(() => {}, 4000);
 	};
 
 	const handleUserSign = async (path, bodyObj) => {
-		setTimeout(() => {}, 5000);
 		return new Promise(async (resolve, reject) => {
 			const response = await fetch(path, {
 				method: 'POST',
@@ -92,19 +89,22 @@ export const UserContextProvider = ({ children }) => {
 				return reject({ status, message });
 			}
 
-			setCookie(
-				'mazecode_user_data',
-				JSON.stringify(data),
-				'none', // jwt.expiriesAfter,
-				process.env.FRONT_END_ROOT_URL
-			);
+			setCookie({
+				cookieName: 'mazecode_user_data',
+				cookieValue: JSON.stringify(data),
+				domain: process.env.FRONT_END_DOMAIN,
+				path: '/',
+			});
 
-			setCookie(
-				'mazecode_user_token',
-				jwt.token,
-				jwt.expiriesAfter,
-				process.env.FRONT_END_ROOT_URL
-			);
+			setCookie({
+				cookieName: 'mazecode_user_token',
+				cookieValue: jwt.token,
+				expiresDate: new Date(
+					new Date().getTime() + jwt.expiriesAfter
+				).toUTCString(),
+				domain: process.env.FRONT_END_DOMAIN,
+				path: '/',
+			});
 
 			resolve({ status, message, data, jwt });
 		})
@@ -122,6 +122,47 @@ export const UserContextProvider = ({ children }) => {
 			});
 	};
 
+	const handleUserUpdate = ({ path, bodyObj }) => {
+		return new Promise(async (resolve, reject) => {
+			const response = await fetch(`${process.env.BACK_END_ROOT_URL}/${path}`, {
+				method: 'PATCH',
+				body: JSON.stringify(bodyObj),
+				headers: {
+					'Content-Type': 'application/json',
+					authorization: `Bearer ${user.token}`,
+				},
+			});
+
+			resolve(response);
+		})
+			.then((response) => response.json())
+			.then(({ data, status, message, isAuthorized }) => {
+				if (isAuthorized) {
+					if (status !== 'error' && Object.keys(data).length !== 0) {
+						const updatedUser = {
+							...user,
+							...data,
+						};
+						setUser(updatedUser);
+
+						setCookie({
+							cookieName: 'mazecode_user_data',
+							cookieValue: JSON.stringify(updatedUser),
+							domain: process.env.FRONT_END_DOMAIN,
+							path: '/',
+						});
+					}
+					return { status, message };
+				} else {
+					handleLogOut();
+					return { status: 'error', message };
+				}
+			})
+			.catch((error) => {
+				return { status: 'error', message: error.message };
+			});
+	};
+
 	const handleSignUp = async (data) =>
 		await handleUserSign('api/v1/auth/signup', data);
 
@@ -131,170 +172,84 @@ export const UserContextProvider = ({ children }) => {
 	const handleLogOut = () => {
 		setIsLoading(true);
 
-		// setCookie(
-		// 	'mazecode_user_data',
-		// 	'',
-		// 	-30, // jwt.expiriesAfter,
-		// 	process.env.FRONT_END_ROOT_URL
-		// );
-		// setCookie('mazecode_user_token', '', -30, process.env.FRONT_END_ROOT_URL);
+		deleteCookie(
+			{
+				cookieName: 'mazecode_user_data',
+				domain: process.env.FRONT_END_DOMAIN,
+				path: '/',
+			},
+			process.env.FRONT_END_ROOT_URL
+		);
+		deleteCookie(
+			{
+				cookieName: 'mazecode_user_token',
+				domain: process.env.FRONT_END_DOMAIN,
+				path: '/',
+			},
+			process.env.FRONT_END_ROOT_URL
+		);
 
-		deleteCookie('mazecode_user_data', process.env.FRONT_END_ROOT_URL);
-		deleteCookie('mazecode_user_token', process.env.FRONT_END_ROOT_URL);
-
-		console.log(getCookie('mazecode_user_data'));
 		new Promise(async (resolve, reject) => {
-			// setUser({});
+			setUser({});
+
+			console.log(router);
 
 			resolve();
-		}).then(() => {
-			// router.replace('/');
-			setIsLoading(false);
-			return;
-		});
-		// .then(() => {
-		// 	// setIsLoading(false);
-		// 	return;
-		// });
-	};
-
-	const handUpdateProfilePictureURL = async (id, url) => {
-		return (
-			new Promise(async (resolve, reject) => {
-				const response = await fetch(
-					`${process.env.BACK_END_ROOT_URL}/api/v1/user/update-profile-picture`,
-					{
-						method: 'PATCH',
-						body: JSON.stringify({ url }),
-						headers: {
-							'Content-Type': 'application/json',
-							token: user.token,
-						},
-					}
-				);
-
-				if (!response.ok) {
-					reject({
-						status: 'error',
-						message: response.message || 'Something went wrong!',
-					});
-				}
-
-				resolve(response);
-			})
-				.then((response) => response.json())
-				.then(({ status, data, isVerified, message }) => {
-					if (isVerified) {
-						const updatedUser = {
-							...user,
-							profile_picture: data.profile_picture,
-						};
-						setUser(updatedUser);
-						setCookie('mazecode_user_data', JSON.stringify(updatedUser));
-						return { status, message };
-					} else {
-						handleLogOut();
-						throw new Error({ status: 'error', message });
-					}
-				})
-				// .then(() => router.replace(`/profile/${user.user_name}`))
-				.catch(({ status, message }) => {
-					return { status, message };
-				})
-		);
-	};
-
-	const handUpdateCoverPhotoURL = async (id, url) => {
-		return (
-			new Promise(async (resolve, reject) => {
-				const response = await fetch(
-					`${process.env.BACK_END_ROOT_URL}/api/v1/user/update-cover-photo`,
-					{
-						method: 'PATCH',
-						body: JSON.stringify({ url }),
-						headers: {
-							'Content-Type': 'application/json',
-							token: user.token,
-						},
-					}
-				);
-
-				if (!response.ok) {
-					reject({
-						status: 'error',
-						message: response.message || 'Something went wrong!',
-					});
-				}
-
-				resolve(response);
-			})
-				.then((response) => response.json())
-				.then(({ status, data, isVerified, message }) => {
-					if (isVerified) {
-						const updatedUser = {
-							...user,
-							cover_photo: data.cover_photo,
-						};
-						setUser(updatedUser);
-						setCookie('mazecode_user_data', JSON.stringify(updatedUser));
-						return { status, message };
-					} else {
-						handleLogOut();
-						throw new Error({ status: 'error', message });
-					}
-				})
-				// .then(() => router.replace(`/profile/${user.user_name}`))
-				.catch(({ status, message }) => {
-					return { status, message };
-				})
-		);
-	};
-
-	const handleUpdateEmail = async (email, password) => {
-		return new Promise(async (resolve, reject) => {
-			const response = await fetch(
-				`${process.env.BACK_END_ROOT_URL}/api/v1/user/change-email`,
-				{
-					method: 'PATCH',
-					body: JSON.stringify({
-						email,
-						password,
-					}),
-					headers: {
-						'Content-Type': 'application/json',
-						token: user.token,
-					},
-				}
-			);
-
-			if (!response.ok) {
-				reject({
-					status: 'error',
-					message: response.message || 'Something went wrong!',
-				});
-			}
-
-			resolve(response);
 		})
-			.then((response) => response.json())
-			.then(({ data, status, message, isVerified }) => {
-				if (isVerified) {
-					const updatedUser = {
-						...user,
-						email: data.email,
-					};
-					setUser(updatedUser);
-					setCookie('mazecode_user_data', JSON.stringify(updatedUser));
-					return { status, message };
-				} else {
-					handleLogOut();
-					throw new Error({ status: 'error', message });
-				}
+			.then(() => {
+				// router.replace('/');
+				router.replace(router.asPath);
+				return;
 			})
-			.catch(({ status, message }) => {
-				return { status, message };
+			.then(() => {
+				// setIsLoading(false);
+				setIsLoading(false);
+				return;
 			});
 	};
+
+	const handleUpdateBasicInfo = ({
+		firstName,
+		lastName,
+		userName,
+		gender,
+		password,
+	}) =>
+		handleUserUpdate({
+			path: 'api/v1/user/update/basic-info',
+			bodyObj: {
+				firstName,
+				lastName,
+				userName,
+				gender,
+				password,
+			},
+		});
+
+	const handUpdateProfilePictureURL = ({ url }) =>
+		handleUserUpdate({
+			path: 'api/v1/user/update/profile-picture',
+			bodyObj: {
+				url,
+			},
+		});
+
+	const handUpdateCoverPhotoURL = ({ url }) =>
+		handleUserUpdate({
+			path: 'api/v1/user/update/cover-photo',
+			bodyObj: {
+				url,
+			},
+		});
+
+	const handleUpdateEmail = ({ email, password }) =>
+		handleUserUpdate({
+			path: 'api/v1/user/update/email',
+			bodyObj: {
+				email,
+				password,
+			},
+		});
 
 	const handleUpdatePassword = async (oldPassword, newPassword) => {
 		return new Promise(async (resolve, reject) => {
@@ -308,31 +263,24 @@ export const UserContextProvider = ({ children }) => {
 					}),
 					headers: {
 						'Content-Type': 'application/json',
-						token: user.token,
+						authorization: `Bearer ${user.token}`,
 					},
 				}
 			);
 
-			if (!response.ok) {
-				reject({
-					status: 'error',
-					message: response.message || 'Something went wrong!',
-				});
-			}
-
 			resolve(response);
 		})
 			.then((response) => response.json())
-			.then(({ status, message, isVerified }) => {
-				if (isVerified) {
+			.then(({ status, message, isAuthorized }) => {
+				if (isAuthorized) {
 					return { status, message };
 				} else {
 					handleLogOut();
-					throw new Error({ status: 'error', message });
+					return { status: 'error', message };
 				}
 			})
-			.catch(({ status, message }) => {
-				return { status, message };
+			.catch((error) => {
+				return { status: 'error', message: error.message };
 			});
 	};
 
@@ -343,6 +291,7 @@ export const UserContextProvider = ({ children }) => {
 		handleSignUp,
 		handleSignIn,
 		handleLogOut,
+		handleUpdateBasicInfo,
 		handUpdateProfilePictureURL,
 		handUpdateCoverPhotoURL,
 		handleUpdateEmail,

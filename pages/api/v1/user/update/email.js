@@ -1,9 +1,5 @@
-import {
-	verifyJwtToken,
-	verifyPassword,
-	hashPassword,
-} from '../../../../lib/auth';
-import { pool } from '../../../../lib/pg';
+import { verifyJwtToken, verifyPassword } from '../../../../../lib/auth';
+import { pool } from '../../../../../lib/pg';
 
 export default async (req, res) => {
 	if (req.method !== 'PATCH') {
@@ -29,7 +25,7 @@ export default async (req, res) => {
 				return;
 			}
 
-			const { oldPassword, newPassword } = req.body;
+			const { email, password } = req.body;
 
 			const user = await pool.query('SELECT * FROM users WHERE id = $1', [
 				isAuthorized.id,
@@ -45,7 +41,7 @@ export default async (req, res) => {
 			}
 
 			const validPassword = await verifyPassword(
-				oldPassword,
+				password,
 				user.rows[0].password
 			);
 
@@ -58,18 +54,16 @@ export default async (req, res) => {
 				return;
 			}
 
-			const hashedPassword = await hashPassword(newPassword);
-
 			const updateProfilePicture = await pool.query(
-				'UPDATE users SET password=($1) WHERE id=($2)', //  RETURNING *
-				[hashedPassword, isAuthorized.id]
+				'UPDATE users SET email=($1) WHERE id=($2) RETURNING *', //  RETURNING *
+				[email, isAuthorized.id]
 			);
 
 			res.status(201).json({
 				status: 'success',
 				message: 'Password updated!',
 				isAuthorized: true,
-				data: {},
+				data: { email },
 			});
 		} catch (error) {
 			// console.error(error);

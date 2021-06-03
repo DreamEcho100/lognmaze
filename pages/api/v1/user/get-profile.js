@@ -6,7 +6,7 @@ export default async (req, res) => {
 		const GUEST = 'GUEST';
 		const OWNER = 'OWNER';
 
-		let isVerified = false;
+		let isAuthorized = false;
 		let username;
 		let visitorIdentity = GUEST;
 		try {
@@ -15,16 +15,16 @@ export default async (req, res) => {
 			const { token } = req.headers;
 
 			if (token && token.length !== 0) {
-				isVerified = await verifyJwtToken(token);
+				isAuthorized = await verifyJwtToken(token);
 			}
 
-			if (isVerified.id) {
+			if (isAuthorized.id) {
 				visitorIdentity = OWNER;
 				return res.status(201).json({
 					status: 'success',
 					message: 'Authorized!',
 					data: {},
-					isVerified: true,
+					isAuthorized: true,
 					visitorIdentity,
 				});
 			}
@@ -39,7 +39,7 @@ export default async (req, res) => {
 					status: 'error',
 					message: "User doesn't exist!",
 					data: {},
-					isVerified: false,
+					isAuthorized: false,
 					visitorIdentity,
 				});
 			}
@@ -50,7 +50,7 @@ export default async (req, res) => {
 				status: 'error',
 				message: 'User exist!',
 				data: user.rows[0],
-				isVerified: false,
+				isAuthorized: false,
 				visitorIdentity,
 			});
 		} catch (error) {
@@ -59,7 +59,7 @@ export default async (req, res) => {
 				status: 'error',
 				message: error.message,
 				data: {},
-				isVerified: false,
+				isAuthorized: false,
 				visitorIdentity,
 			});
 		}

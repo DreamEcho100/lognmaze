@@ -3,16 +3,16 @@ import { verifyJwtToken } from '../../../../lib/auth';
 export default async (req, res) => {
 	if (req.method === 'POST') {
 		try {
-			const { token } = req.headers;
+			const token = req.headers.authorization.split(' ')[1];
 
-			const isVerified = await verifyJwtToken(token);
+			const isAuthorized = await verifyJwtToken(token);
 
-			if (isVerified) {
+			if (isAuthorized) {
 				return res.status(200).json({
 					status: 'success',
 					message: 'Authorized!',
 					data: {
-						isVerified: true,
+						isAuthorized: true,
 					},
 				});
 			}
@@ -21,7 +21,7 @@ export default async (req, res) => {
 				status: 'error',
 				message: 'Unauthorized!',
 				data: {
-					isVerified: false,
+					isAuthorized: false,
 				},
 			});
 		} catch (error) {
@@ -30,7 +30,7 @@ export default async (req, res) => {
 				status: 'error',
 				message: error.maessage || 'Unauthorized!',
 				data: {
-					isVerified: false,
+					isAuthorized: false,
 				},
 			});
 		}

@@ -96,10 +96,9 @@ const ChangeProfilePictureModal = ({ closeModal }) => {
 			}
 		})
 			.then(async (url) => {
-				const { status, message } = await handUpdateProfilePictureURL(
-					user.id,
-					url
-				);
+				const { status, message } = await handUpdateProfilePictureURL({
+					url,
+				});
 
 				if (status === 'error') {
 					setBtnsDisabled(false);
