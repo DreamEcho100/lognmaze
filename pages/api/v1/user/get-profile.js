@@ -2,6 +2,10 @@ import { handleIsAuthorized } from '../../../../lib/v1/auth';
 import { pool } from '../../../../lib/v1/pg';
 
 export default async (req, res) => {
+	if (req.method !== 'GET') {
+		return;
+	}
+
 	if (req.method === 'GET') {
 		const GUEST = 'GUEST';
 		const OWNER = 'OWNER';

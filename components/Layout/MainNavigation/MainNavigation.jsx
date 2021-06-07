@@ -33,7 +33,7 @@ const MainNavigation = () => {
 			<nav>
 				<ul>
 					<li>
-						<Link href='/blog'>Blog</Link>
+						<Link href='/all-posts'>All Posts</Link>
 					</li>
 					{!isLoading && user.id && (
 						<li>

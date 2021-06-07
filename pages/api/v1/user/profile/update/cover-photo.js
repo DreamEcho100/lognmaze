@@ -4,9 +4,12 @@ import {
 import { pool, handleFindingUserById } from '../../../../../../lib/v1/pg';
 
 export default async (req, res) => {
-	if (req.method === 'PATCH') {
-		let isAuthorized = false;
+	if (req.method !== 'PATCH') {
+		return;
+	}
 
+		
+	if (req.method === 'PATCH') {
 		try {
 			const isAuthorized = await handleIsAuthorized(
 				res,

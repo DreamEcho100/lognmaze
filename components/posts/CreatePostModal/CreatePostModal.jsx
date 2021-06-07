@@ -18,22 +18,68 @@ const CreatePostModal = ({ closeModal }) => {
 	// author_id
 	const [formatType, setFormatType] = useState('normal');
 	const [title, setTitle] = useState('');
+	const [metaTitle, setMetaTitle] = useState('');
 	const [slug, setSlug] = useState('');
+	const [tags, setTags] = useState([]);
+	const [image, setImage] = useState('');
 	const [metaDescription, setMetaDescription] = useState('');
 	const [excerpt, setExcerpt] = useState('');
 	const [content, setContent] = useState('');
 
-	const handleSubmit = (event) => {
+	const [afterFormSubmitMessage, setAfterFormSubmitMessage] = useState(true);
+	const [btnsDisabled, setBtnsDisabled] = useState(false);
+
+	const handleSubmit = async (event) => {
+		setAfterFormSubmitMessage('');
+		setBtnsDisabled(true);
+
 		event.preventDefault();
-		const dataObj = {
-			author_id: user.id,
-			format_type: formatType,
+		const bodyObj = {
+			authorId: user.id,
+			formatType,
 			title,
+			metaTitle,
 			slug,
-			meta_description: metaDescription,
+			image,
+			tags,
+			metaDescription,
 			excerpt,
 			content,
 		};
+
+		try {
+			await fetch('/api/v1/user/posts/add', {
+				method: 'POST',
+				body: JSON.stringify(bodyObj),
+				headers: {
+					'Content-Type': 'application/json',
+					authorization: `Bearer ${user.token}`,
+				},
+			})
+				.then((response) => response.json())
+				.then(({ status, message }) => {
+					console.log({ status, message });
+					if (status === 'error') {
+						console.error(message);
+						setBtnsDisabled(false);
+						setAfterFormSubmitMessage(message);
+						return;
+					}
+					setBtnsDisabled(false);
+					// setFormatType('normal');
+					setTitle('');
+					setMetaTitle('');
+					setSlug('');
+					setTags([]);
+					setImage('');
+					setMetaDescription('');
+					setExcerpt('');
+					setContent('');
+				});
+		} catch (error) {
+			console.error(error);
+			setAfterFormSubmitMessage(error.message);
+		}
 	};
 
 	return (
@@ -64,30 +110,56 @@ const CreatePostModal = ({ closeModal }) => {
 					</FormControl>
 
 					<FormControl className={classes['form-control']}>
-						<FormLabel htmlFor='post-name'>Title: </FormLabel>
+						<FormLabel htmlFor='post-title'>Title: </FormLabel>
 						<FormInput
 							className={classes['form-input']}
 							type='text'
-							id='post-name'
+							id='post-title'
 							minLength={10}
 							maxLength={255}
 							required
 							value={title}
-							onChange={(event) => setTitle(event.target.value)}
+							onChange={(event) => {
+								setTitle(event.target.value);
+								setSlug(
+									`${event.target.value}`
+										.replace(/[^\w-\_]/gi, '-')
+										.toLowerCase()
+								);
+							}}
+						/>
+					</FormControl>
+
+					<FormControl className={classes['form-control']}>
+						<FormLabel htmlFor='post-meta-title'>Meta Title: </FormLabel>
+						<FormInput
+							className={classes['form-input']}
+							type='text'
+							id='post-meta-title'
+							minLength={10}
+							maxLength={255}
+							paceholder='If not used it will use the title'
+							value={metaTitle}
+							onChange={(event) => setMetaTitle(event.target.value)}
 						/>
 					</FormControl>
 
 					<FormControl className={classes['form-control']}>
 						<FormLabel htmlFor='post-slug'>Slug: </FormLabel>
+						<p id='post-slug'>{slug}</p>
+					</FormControl>
+
+					<FormControl className={classes['form-control']}>
+						<FormLabel htmlFor='post-image'>Image: </FormLabel>
 						<FormInput
 							className={classes['form-input']}
 							type='text'
-							id='post-slug'
-							minLength={10}
-							maxLength={255}
-							required
-							value={slug}
-							onChange={(event) => setSlug(event.target.value)}
+							id='post-image'
+							// minLength={10}
+							// maxLength={255}
+							// required
+							value={image}
+							onChange={(event) => setImage(event.target.value)}
 						/>
 					</FormControl>
 
@@ -115,7 +187,7 @@ const CreatePostModal = ({ closeModal }) => {
 							id='post-excerpt'
 							minLength={50}
 							maxLength={255}
-							required
+							paceholder='If not used it will use the Meta Description'
 							value={excerpt}
 							onChange={(event) => setExcerpt(event.target.value)}
 						/>
@@ -124,7 +196,7 @@ const CreatePostModal = ({ closeModal }) => {
 					<FormControl className={classes['form-control']}>
 						<FormLabel htmlFor='post-content'>Content: </FormLabel>
 						<textarea
-							className={classes['form-text-area']}
+							className={`${classes['form-text-area']} ${classes.content}`}
 							id='post-content'
 							required
 							value={content}
@@ -132,8 +204,15 @@ const CreatePostModal = ({ closeModal }) => {
 							onChange={(event) => setContent(event.target.value)}
 						/>
 					</FormControl>
+					{afterFormSubmitMessage.length !== 0 && (
+						<div className={classes.warning}>
+							<p>{afterFormSubmitMessage}</p>
+						</div>
+					)}
 					<FormControl className={classes['form-control']}>
-						<Button type='submit'>Post</Button>
+						<Button disabled={btnsDisabled} type='submit'>
+							Post
+						</Button>
 					</FormControl>
 				</Form>
 			</Fragment>
