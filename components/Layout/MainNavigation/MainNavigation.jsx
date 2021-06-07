@@ -6,7 +6,7 @@ import classes from './MainNavigation.module.css';
 import UserContext from '../../../store/UserContext';
 
 const MainNavigation = () => {
-	const { verifyUserTokenFromCookie, user, isLoading, handleLogOut } =
+	const { verifyUserTokenFromCookie, user, isLoading, handleSignOut } =
 		useContext(UserContext);
 
 	// const [doesSessionExist, setDoesSessionExist] = useState(false);
@@ -37,7 +37,7 @@ const MainNavigation = () => {
 					</li>
 					{!isLoading && user.id && (
 						<li>
-							<Link href={`/profile/${user.user_name}`}>Profile</Link>
+							<Link href={`/profile/${user.user_name_id}`}>Profile</Link>
 						</li>
 					)}
 					{!isLoading && !user.id && (
@@ -47,7 +47,7 @@ const MainNavigation = () => {
 					)}
 					{!isLoading && user.id && (
 						<li>
-							<button onClick={handleLogOut}>Logout</button>
+							<button onClick={handleSignOut}>Sign Out</button>
 						</li>
 					)}
 				</ul>

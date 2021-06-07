@@ -30,6 +30,7 @@ export default async (req, res) => {
 			}
 
 			const validPassword = await verifyPassword(
+				undefined,
 				password,
 				user.rows[0].password
 			);

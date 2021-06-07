@@ -11,32 +11,31 @@ const ProfilePage = () => {
 
 	const router = useRouter();
 
+	const { user, ...UserCxt } = useContext(UserContext);
+
 	const [isLoading, setIsLoading] = useState(true);
 	const [userData, setUserData] = useState({});
 	const [visitorIdentity, setVisitorIdentity] = useState(GUEST);
-
-	const { user, ...UserCxt } = useContext(UserContext);
 
 	// useEffect(() => setIsLoading(true), []);
 
 	// setIsLoading(true);
 
 	useEffect(async () => {
-		let username = router.query.username;
+		let user_name_id = router.query.user_name_id;
 
-		if (typeof username === 'string' && !UserCxt.isLoading) {
+		if (typeof user_name_id === 'string' && !UserCxt.isLoading) {
 			if (
 				Object.keys(user).length !== 0 &&
-				// user.username &&
-				// user.username.length !== 0 &&
-				username === user.user_name
+				// user.user_name_id &&
+				// user.user_name_id.length !== 0 &&
+				user_name_id === user.user_name_id
 			) {
 				const response = await fetch(`/api/v1/user/get-profile`, {
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
-						token: user.token,
-						username,
+						authorization: `Bearer ${user.token}`,
 					},
 				});
 
@@ -47,12 +46,21 @@ const ProfilePage = () => {
 				setVisitorIdentity(visitorIdentity);
 			}
 
-			if (username !== user.user_name) {
+			if (user_name_id !== user.user_name_id) {
+				const headersObj = user.token
+					? {
+							authorization: `Bearer ${user.token}`,
+							user_name_id,
+					  }
+					: {
+							user_name_id,
+					  };
+
 				const response = await fetch(`/api/v1/user/get-profile`, {
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
-						username,
+						...headersObj,
 					},
 				});
 
@@ -69,7 +77,7 @@ const ProfilePage = () => {
 
 			setIsLoading(false);
 		}
-	}, [user.user_name, UserCxt.isLoading, router.query.username]);
+	}, [user.user_name_id, UserCxt.isLoading, router.query.user_name_id]);
 
 	if (isLoading || UserCxt.isLoading) {
 		return <p>Loading...</p>;

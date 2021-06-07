@@ -1,47 +1,51 @@
-import { verifyJwtToken } from '../../../../lib/auth';
-import { pool } from '../../../../lib/pg';
+import { handleIsAuthorized } from '../../../../lib/v1/auth';
+import { pool } from '../../../../lib/v1/pg';
 
 export default async (req, res) => {
 	if (req.method === 'GET') {
 		const GUEST = 'GUEST';
 		const OWNER = 'OWNER';
 
-		let isAuthorized = false;
-		let username;
+		let user_name_id;
 		let visitorIdentity = GUEST;
 		try {
-			username = req.headers.username;
+			user_name_id = req.headers.user_name_id;
 
-			const { token } = req.headers;
+			if (!user_name_id) {
+				const isAuthorized = await handleIsAuthorized(
+					undefined,
+					req.headers.authorization
+				);
 
-			if (token && token.length !== 0) {
-				isAuthorized = await verifyJwtToken(token);
-			}
+				if (isAuthorized.id) {
+					visitorIdentity = OWNER;
+					res.status(201).json({
+						status: 'success',
+						message: 'Authorized!',
+						data: {},
+						isAuthorized: true,
+						visitorIdentity,
+					});
 
-			if (isAuthorized.id) {
-				visitorIdentity = OWNER;
-				return res.status(201).json({
-					status: 'success',
-					message: 'Authorized!',
-					data: {},
-					isAuthorized: true,
-					visitorIdentity,
-				});
+					return;
+				}
 			}
 
 			const user = await pool.query(
-				'SELECT * FROM users WHERE user_name = $1',
-				[username]
+				'SELECT * FROM users WHERE user_name_id = $1',
+				[user_name_id]
 			);
 
 			if (user.rows.length === 0) {
-				return res.status(401).json({
+				res.status(401).json({
 					status: 'error',
 					message: "User doesn't exist!",
 					data: {},
 					isAuthorized: false,
 					visitorIdentity,
 				});
+
+				return;
 			}
 
 			delete user.rows[0].password;

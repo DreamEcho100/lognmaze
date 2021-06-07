@@ -40,7 +40,7 @@ const SignIn = () => {
 
 		if (status === 'error') {
 			console.error(message);
-			setBtnsDisabled(false);
+			btnsDisabled && setBtnsDisabled(false);
 			setAfterFormSubmitMessage(message);
 		}
 		// clearInputsForm();

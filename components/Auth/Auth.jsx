@@ -8,7 +8,7 @@ import UserContext from '../../store/UserContext';
 import SignIn from './SignIn/SignIn';
 import SignUp from './SignUp/SignUp';
 
-const Auth = () => {
+const Auth = ({ UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN }) => {
 	const router = useRouter();
 
 	const { user, ...UserCxt } = useContext(UserContext);
@@ -41,7 +41,13 @@ const Auth = () => {
 				</nav>
 			</header>
 			{signInComponent && <SignIn />}
-			{signUpComponent && <SignUp />}
+			{signUpComponent && (
+				<SignUp
+					UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
+						UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN
+					}
+				/>
+			)}
 		</section>
 	);
 };

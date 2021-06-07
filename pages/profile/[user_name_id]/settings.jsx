@@ -13,19 +13,19 @@ const SettingsPage = () => {
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		if (!UserCxt.isLoading && router.query.username) {
+		if (!UserCxt.isLoading && router.query.user_name_id) {
 			if (
 				Object.keys(user).length === 0 ||
 				!user.id ||
 				user.id.length === 0 ||
-				router.query.username !== user.user_name
+				router.query.user_name_id !== user.user_name_id
 			) {
 				router.replace('/');
 			} else {
 				setIsLoading(false);
 			}
 		}
-	}, [user, user.id, UserCxt.isLoading, router.query.username]);
+	}, [user, user.id, UserCxt.isLoading, router.query.user_name_id]);
 
 	// useEffect(() => {
 	// 	if (!UserCxt.isLoading) {

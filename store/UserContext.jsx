@@ -9,7 +9,7 @@ const UserContext = createContext({
 	verifyUserTokenFromCookie: () => {},
 	handleSignUp: () => {},
 	handleSignIn: () => {},
-	handleLogOut: () => {},
+	handleSignOut: () => {},
 	handleUpdateBasicInfo: () => {},
 	handUpdateProfilePictureURL: () => {},
 	handUpdateCoverPhotoURL: () => {},
@@ -58,14 +58,14 @@ export const UserContextProvider = ({ children }) => {
 				}
 
 				if (status === 'error' /* || !data.isAuthorized*/) {
-					handleLogOut();
+					handleSignOut();
 				}
 				setIsLoading(false);
 			})
 			.catch((error) => {
 				console.error(error.message);
 				if (/*user.id || user.user_name || */ Object.keys(user).length !== 0) {
-					handleLogOut();
+					handleSignOut();
 				}
 				setIsLoading(false);
 				return error.message;
@@ -124,14 +124,17 @@ export const UserContextProvider = ({ children }) => {
 
 	const handleUserUpdate = ({ path, bodyObj }) => {
 		return new Promise(async (resolve, reject) => {
-			const response = await fetch(`${process.env.BACK_END_ROOT_URL}/${path}`, {
-				method: 'PATCH',
-				body: JSON.stringify(bodyObj),
-				headers: {
-					'Content-Type': 'application/json',
-					authorization: `Bearer ${user.token}`,
-				},
-			});
+			const response = await fetch(
+				`${process.env.BACK_END_ROOT_URL}/api/v1/user/profile/update/${path}`,
+				{
+					method: 'PATCH',
+					body: JSON.stringify(bodyObj),
+					headers: {
+						'Content-Type': 'application/json',
+						authorization: `Bearer ${user.token}`,
+					},
+				}
+			);
 
 			resolve(response);
 		})
@@ -154,7 +157,7 @@ export const UserContextProvider = ({ children }) => {
 					}
 					return { status, message };
 				} else {
-					handleLogOut();
+					handleSignOut();
 					return { status: 'error', message };
 				}
 			})
@@ -169,7 +172,7 @@ export const UserContextProvider = ({ children }) => {
 	const handleSignIn = async (data) =>
 		await handleUserSign('api/v1/auth/signin', data);
 
-	const handleLogOut = () => {
+	const handleSignOut = () => {
 		setIsLoading(true);
 
 		deleteCookie(
@@ -192,13 +195,13 @@ export const UserContextProvider = ({ children }) => {
 		new Promise(async (resolve, reject) => {
 			setUser({});
 
-			console.log(router);
-
 			resolve();
 		})
-			.then(() => {
+			.then(async () => {
 				// router.replace('/');
 				router.replace(router.asPath);
+				// await setTimeout(() => console.log('Signed Out!'), 0);
+				console.log('Signed Out!');
 				return;
 			})
 			.then(() => {
@@ -216,7 +219,7 @@ export const UserContextProvider = ({ children }) => {
 		password,
 	}) =>
 		handleUserUpdate({
-			path: 'api/v1/user/update/basic-info',
+			path: 'basic-info',
 			bodyObj: {
 				firstName,
 				lastName,
@@ -228,7 +231,7 @@ export const UserContextProvider = ({ children }) => {
 
 	const handUpdateProfilePictureURL = ({ url }) =>
 		handleUserUpdate({
-			path: 'api/v1/user/update/profile-picture',
+			path: 'profile-picture',
 			bodyObj: {
 				url,
 			},
@@ -236,7 +239,7 @@ export const UserContextProvider = ({ children }) => {
 
 	const handUpdateCoverPhotoURL = ({ url }) =>
 		handleUserUpdate({
-			path: 'api/v1/user/update/cover-photo',
+			path: 'cover-photo',
 			bodyObj: {
 				url,
 			},
@@ -244,7 +247,7 @@ export const UserContextProvider = ({ children }) => {
 
 	const handleUpdateEmail = ({ email, password }) =>
 		handleUserUpdate({
-			path: 'api/v1/user/update/email',
+			path: 'email',
 			bodyObj: {
 				email,
 				password,
@@ -275,7 +278,7 @@ export const UserContextProvider = ({ children }) => {
 				if (isAuthorized) {
 					return { status, message };
 				} else {
-					handleLogOut();
+					handleSignOut();
 					return { status: 'error', message };
 				}
 			})
@@ -290,7 +293,7 @@ export const UserContextProvider = ({ children }) => {
 		verifyUserTokenFromCookie,
 		handleSignUp,
 		handleSignIn,
-		handleLogOut,
+		handleSignOut,
 		handleUpdateBasicInfo,
 		handUpdateProfilePictureURL,
 		handUpdateCoverPhotoURL,

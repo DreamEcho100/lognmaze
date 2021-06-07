@@ -12,8 +12,20 @@ export default async (req, res) => {
 		// const users = await selectAllFrom('users');
 
 		try {
-			const { firstName, lastName, userName, email, password, gender } =
-				req.body;
+			const {
+				firstName,
+				lastName,
+				userNameId,
+				email,
+				password,
+				dateOfBirth,
+				country,
+				state,
+				city,
+				countryPhoneCode,
+				phoneNumber,
+				gender,
+			} = req.body;
 
 			const user = await pool.query('SELECT * FROM users WHERE email = $1', [
 				email,
@@ -28,14 +40,29 @@ export default async (req, res) => {
 			const hashedPassword = await hashPassword(password);
 
 			const newUser = await pool.query(
-				"INSERT INTO users ( first_name, last_name, user_name, email, password, gender, role) VALUES ($1, $2, $3, $4, $5, $6, 'user') RETURNING *",
-				[firstName, lastName, userName, email, hashedPassword, gender]
+				'INSERT INTO users ( first_name, last_name, user_name_id, email, password, date_of_birth, country, state, city, country_phone_code, phone_number, gender) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
+				[
+					firstName,
+					lastName,
+					userNameId,
+					email,
+					hashedPassword,
+					dateOfBirth,
+					country,
+					state,
+					city,
+					countryPhoneCode,
+					phoneNumber,
+					gender,
+				]
 			);
 
 			delete newUser.rows[0].password;
 
+			console.log(newUser);
+
 			const jwt = jwtGenerator({
-				id: user.rows[0].id,
+				id: newUser.rows[0].id,
 			});
 
 			res.status(201).json({
