@@ -37,9 +37,12 @@ module.exports = (phase) => {
 			// MONGODB_PASSWORD: process.env.MONGODB_PRODUCTION_PASSWORD,
 			// MONGODB_CLUSTERNAME: process.env.MONGODB_PRODUCTION_CLUSTERNAME,
 			// MONGODB_MAZENEXTBLOG_DATABASE: process.env.MONGODB_PRODUCTION_DATABASE,
-			FRONT_END_ROOT_URL: 'https://brodevlog-9vzdeku3t-dreamecho100.vercel.app', // baseUrl, // process.env.PRODUCTION_FRONT_END_ROOT_URL,
-			BACK_END_ROOT_URL: 'https://brodevlog-9vzdeku3t-dreamecho100.vercel.app', // baseUrl, // process.env.PRODUCTION_BACK_END_ROOT_URL,
-			FRONT_END_DOMAIN: 'https://brodevlog-9vzdeku3t-dreamecho100.vercel.app', // baseUrl, // process.env.PRODUCTION_FRONT_END_DOMAIN,
+			FRONT_END_ROOT_URL:
+				'https://mazecode-using-postgresql-as-a-database.vercel.app', // baseUrl, // process.env.PRODUCTION_FRONT_END_ROOT_URL,
+			BACK_END_ROOT_URL:
+				'https://mazecode-using-postgresql-as-a-database.vercel.app', // baseUrl, // process.env.PRODUCTION_BACK_END_ROOT_URL,
+			FRONT_END_DOMAIN:
+				'https://mazecode-using-postgresql-as-a-database.vercel.app', // baseUrl, // process.env.PRODUCTION_FRONT_END_DOMAIN,
 			PG_CONNECTION_STRING: process.env.PRODUCTION_PG_CONNECTION_STRING,
 		};
 	}
