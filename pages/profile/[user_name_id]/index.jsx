@@ -69,13 +69,14 @@ const ProfilePage = ({
 	);
 };
 
-export async function getServerSideProps({ req, res, query, ...context }) {
-	const fetcher = async (tokenCookieString, userCookieString, user_name_id) => {
+export async function getServerSideProps({ req, res, query }) {
+	/*
 		const baseUrl = `${
 			process.env.NODE_ENV !== 'production' ? 'http' : 'https'
-		}://${req.headers.host}`;
-		const input = `${baseUrl}/api/v1/users/profile/${user_name_id}`; // `${process.env.BACK_END_ROOT_URL}/api/v1/users/profile/${user_name_id}`;
-		console.log(input);
+		}://${ctx.req.headers.host}`;
+	*/
+	const fetcher = async (tokenCookieString, userCookieString, user_name_id) => {
+		const input = `${process.env.BACK_END_ROOT_URL}/api/v1/users/profile/${user_name_id}`;
 		const init = {
 			method: 'GET',
 			headers: {

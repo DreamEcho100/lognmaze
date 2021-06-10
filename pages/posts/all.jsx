@@ -1,6 +1,5 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-// import path from 'path';
 
 import AllPosts from '../../components/Posts/AllPosts/AllPosts';
 
@@ -16,22 +15,9 @@ const AllPostsPage = ({ data }) => {
 	);
 };
 
-export const getServerSideProps = async (context) => {
-	// const filePath = path.join(
-	// 	// __dirname,
-	// 	process.cwd(),
-	// 	'pages/api/v1/user/posts',
-	// 	'get-all-posts.js'
-	// );
-	const baseUrl = `${
-		process.env.NODE_ENV !== 'production' ? 'http' : 'https'
-	}://${context.req.headers.host}`;
-
-	console.log(baseUrl);
+export const getServerSideProps = async (ctx) => {
 	const data = await fetch(
-		// `${process.env.BACK_END_ROOT_URL}/api/v1/user/posts/get-all-posts`
-		// filePath
-		`${baseUrl}/api/v1/user/posts/get-all-posts`
+		`${process.env.BACK_END_ROOT_URL}/api/v1/user/posts/get-all-posts`
 	)
 		.then((response) => response.json())
 		.then(({ status, message, data }) => {
