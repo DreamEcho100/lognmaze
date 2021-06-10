@@ -52,7 +52,12 @@ module.exports = (phase) => {
 
 	return {
 		images: {
-			domains: ['external-content.duckduckgo.com', '*', '*.com'],
+			domains: [
+				'external-content.duckduckgo.com',
+				'miro.medium.com',
+				'*',
+				'*.com',
+			],
 		},
 		sassOptions: {
 			includePaths: [path.join(__dirname, 'styles')],
