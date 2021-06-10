@@ -4,10 +4,10 @@ const PostPage = ({ data }) => {
 	return <Post data={data} />;
 };
 
-export const getStaticPaths = async (context) => {
+export const getStaticPaths = async (ctx) => {
 	const baseUrl = `${
 		process.env.NODE_ENV !== 'production' ? 'http' : 'https'
-	}://${context.req.headers.host}`;
+	}://${ctx.req.headers.host}`;
 
 	const response = await fetch(`${baseUrl}/api/v1/user/posts/get-all-posts`);
 	const { status, message, data } = await response.json();
@@ -21,14 +21,14 @@ export const getStaticPaths = async (context) => {
 	return { paths, fallback: false };
 };
 
-export const getStaticProps = async (context) => {
+export const getStaticProps = async (ctx) => {
 	const {
 		params: { slug },
-	} = context;
+	} = ctx;
 
 	const baseUrl = `${
 		process.env.NODE_ENV !== 'production' ? 'http' : 'https'
-	}://${context.req.headers.host}`;
+	}://${ctx.req.headers.host}`;
 
 	const response = await fetch(`${baseUrl}/api/v1/users/posts/${slug}`);
 
