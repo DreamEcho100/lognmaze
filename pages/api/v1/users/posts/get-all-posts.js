@@ -50,6 +50,7 @@ export default async (req, res) => {
 			return res.status(500).json({
 				status: 'error',
 				message: error.message || 'Something went wrong!',
+				data: []
 			});
 		}
 	}
