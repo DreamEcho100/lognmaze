@@ -7,7 +7,7 @@ const PostPage = ({ data }) => {
 export const getStaticPaths = async (context) => {
 	const baseUrl = `${
 		process.env.NODE_ENV !== 'production' ? 'http' : 'https'
-	}://${ctx.req.headers.host}`;
+	}://${context.req.headers.host}`;
 
 	const response = await fetch(`${baseUrl}/api/v1/user/posts/get-all-posts`);
 	const { status, message, data } = await response.json();
