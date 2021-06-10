@@ -16,7 +16,7 @@ const AllPostsPage = ({ data }) => {
 	);
 };
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps = async (context) => {
 	// const filePath = path.join(
 	// 	// __dirname,
 	// 	process.cwd(),
@@ -25,7 +25,7 @@ export const getServerSideProps = async (ctx) => {
 	// );
 	const baseUrl = `${
 		process.env.NODE_ENV !== 'production' ? 'http' : 'https'
-	}://${ctx.req.headers.host}`;
+	}://${context.req.headers.host}`;
 
 	console.log(baseUrl);
 	const data = await fetch(

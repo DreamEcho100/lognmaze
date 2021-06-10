@@ -4,7 +4,7 @@ const PostPage = ({ data }) => {
 	return <Post data={data} />;
 };
 
-export const getStaticPaths = async () => {
+export const getStaticPaths = async (context) => {
 	const baseUrl = `${
 		process.env.NODE_ENV !== 'production' ? 'http' : 'https'
 	}://${ctx.req.headers.host}`;
@@ -28,7 +28,7 @@ export const getStaticProps = async (context) => {
 
 	const baseUrl = `${
 		process.env.NODE_ENV !== 'production' ? 'http' : 'https'
-	}://${ctx.req.headers.host}`;
+	}://${context.req.headers.host}`;
 
 	const response = await fetch(`${baseUrl}/api/v1/users/posts/${slug}`);
 
