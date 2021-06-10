@@ -10,54 +10,31 @@ import Profile from '../../../components/Profile/Profile';
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
-const ProfilePage = ({
-	status,
-	message,
-	data,
-	isAuthorized,
-	visitorIdentity,
-}) => {
+const ProfilePage = ({ user, posts }) => {
 	const router = useRouter();
 
-	const { user, ...UserCxt } = useContext(UserContext);
+	const UserCxt = useContext(UserContext);
 
-	const [handleIsAuthorized, setHandleIsAuthorized] = useState(isAuthorized);
-	const [identity, setIdentity] = useState(visitorIdentity);
-	const [userData, setUserData] = useState(data);
+	const [handleIsAuthorized, setHandleIsAuthorized] = useState(
+		user.isAuthorized
+	);
+	const [identity, setIdentity] = useState(user.visitorIdentity);
+	const [userData, setUserData] = useState(user.data);
 
 	const [isLoading, setIsLoading] = useState(true);
-
-	// useEffect(() => {
-	// 	if (!UserCxt.isLoading) {
-	// 		if (Object.keys(user).length === 0 && !userData.id) {
-	// 			if (isAuthorized) {
-	// 				router.query.user_name_id === user.user_name_id && setIdentity(OWNER);
-	// 				!handleIsAuthorized && setHandleIsAuthorized(true);
-	// 			}
-	// 			setUserData(user);
-	// 		}
-	// 		setIsLoading(false);
-	// 	}
-	// }, []);
 
 	useEffect(() => {
 		// console.log(router.query.user_name_id);
 		if (!UserCxt.isLoading) {
-			if (!user.id && userData.id) {
+			if (!UserCxt.user.id && userData.id) {
 				identity === OWNER && setIdentity(GUEST);
 				handleIsAuthorized && setHandleIsAuthorized(false);
-			} else if (user.id && !userData.id) {
-				setUserData(user);
+			} else if (UserCxt.user.id && !userData.id) {
+				setUserData(UserCxt.user);
 			}
 			setIsLoading(false);
 		}
-	}, [user.id, UserCxt.isLoading]);
-
-	// 	data,
-	// 	Object.keys(userData).length === 0,
-	// 	handleIsAuthorized,
-	// 	!userData.id
-	// );
+	}, [UserCxt.user.id, UserCxt.isLoading]);
 
 	if (UserCxt.isLoading || isLoading) {
 		return <p>Loading...</p>;
@@ -77,7 +54,7 @@ const ProfilePage = ({
 
 	return (
 		<>
-			<Profile userData={userData} visitorIdentity={identity} />
+			<Profile userData={userData} visitorIdentity={identity} posts={posts} />
 		</>
 	);
 };
@@ -104,7 +81,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 			}
 		}
 
-		return await fetch(input, init)
+		const user = await fetch(input, init)
 			.then((response) => response.json())
 			.catch((error) => {
 				console.error(error);
@@ -116,6 +93,31 @@ export const getServerSideProps = async ({ req, res, query }) => {
 					visitorIdentity: 'GUEST',
 				};
 			});
+
+		if (user.status === 'error') {
+			return { user, posts: {} };
+		}
+
+		const posts = await fetch(
+			`${process.env.BACK_END_ROOT_URL}/api/v1/users/posts/get/by-user-name-id/${user_name_id}`,
+			{
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			}
+		)
+			.then((response) => response.json())
+			.catch((error) => {
+				console.error(error);
+				return {
+					status: 'error',
+					message: error.message || 'Something went wrong!',
+					data: [],
+				};
+			});
+
+		return { user, posts };
 	};
 
 	let tokenCookieString = '';
@@ -125,16 +127,16 @@ export const getServerSideProps = async ({ req, res, query }) => {
 		userCookieString = getCookie('mazecode_user_data', req.headers.cookie);
 	}
 
-	const { status, message, data, isAuthorized, visitorIdentity } =
-		await fetcher(tokenCookieString, userCookieString, query.user_name_id);
+	const data = await fetcher(
+		tokenCookieString,
+		userCookieString,
+		query.user_name_id
+	);
 
 	return {
 		props: {
-			status,
-			message,
-			data,
-			isAuthorized,
-			visitorIdentity,
+			user: data.user ? data.user : {},
+			posts: data.posts ? data.posts : {},
 		}, // will be passed to the page component as props
 	};
 };

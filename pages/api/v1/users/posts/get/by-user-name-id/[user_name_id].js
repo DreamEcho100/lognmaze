@@ -9,7 +9,7 @@ export default async (req, res) => {
 		try {
 			const { user_name_id } = req.query;
 
-			const result = await pool
+			const results = await pool
 				.query(
 					`
 					SELECT
@@ -37,16 +37,16 @@ export default async (req, res) => {
 						posts
 					JOIN users 
 						ON posts.author_id = users.id
-					WHERE users.author_user_name_id = $1;
+					WHERE posts.author_user_name_id = $1;
 				`,
 					[user_name_id]
 				)
-				.then((response) => response.rows[0]);
+				.then((response) => response.rows);
 
-			if (!result.id) {
+			if (!results || results.length === 0) {
 				res.status(404).json({
 					status: 'error',
-					message: 'No Post Found :(',
+					message: 'No Posts Found :(',
 					data: {},
 				});
 				return;
@@ -54,33 +54,8 @@ export default async (req, res) => {
 
 			res.status(200).json({
 				status: 'success',
-				message: 'The newest Posts Arrived Successefully!, Enjoy ;)',
-				data: {
-					post: {
-						id: result.id,
-						author_id: result.author_id,
-						author_user_name_id: result.author_user_name_id,
-						format_type: result.format_type,
-						title: result.title,
-						meta_title: result.meta_title,
-						slug: result.slug,
-						image: result.image,
-						tags: result.tags,
-						meta_description: result.meta_description,
-						excerpt: result.excerpt,
-						content: result.content,
-						like_user_id: result.like_user_id,
-						likes: result.likes,
-						created_at: result.created_at,
-						updated_on: result.updated_on,
-					},
-					author: {
-						user_name_id: result.user_name_id,
-						first_name: result.first_name,
-						last_name: result.last_name,
-						profile_picture: result.profile_picture,
-					},
-				},
+				message: 'The Posts Arrived Successefully!, Enjoy ;)',
+				data: results,
 			});
 			return;
 		} catch (error) {

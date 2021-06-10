@@ -8,9 +8,61 @@ const AllPostsPage = ({ data }) => {
 		return <p>No Posts Found Here :(</p>;
 	}
 
+	const formattedData = data.map(
+		({
+			id,
+			author_id,
+			author_user_name_id,
+			format_type,
+			title,
+			meta_title,
+			slug,
+			image,
+			tags,
+			meta_description,
+			excerpt,
+			content,
+			like_user_id,
+			likes,
+			created_at,
+			updated_on,
+			user_name_id,
+			first_name,
+			last_name,
+			profile_picture,
+		}) => {
+			const author = {
+				user_name_id,
+				first_name,
+				last_name,
+				profile_picture,
+			};
+			const post = {
+				id,
+				author_id,
+				author_user_name_id,
+				format_type,
+				title,
+				meta_title,
+				slug,
+				image,
+				tags,
+				meta_description,
+				excerpt,
+				content,
+				like_user_id,
+				likes,
+				created_at,
+				updated_on,
+			};
+
+			return { author, post };
+		}
+	);
+
 	return (
 		<>
-			<AllPosts data={data} />
+			<AllPosts data={formattedData} />
 		</>
 	);
 };
@@ -27,59 +79,8 @@ export const getServerSideProps = async (ctx) => {
 					console.error(message);
 					return [];
 				}
-				const formattedData = data.map(
-					({
-						id,
-						author_id,
-						author_user_name_id,
-						format_type,
-						title,
-						meta_title,
-						slug,
-						image,
-						tags,
-						meta_description,
-						excerpt,
-						content,
-						like_user_id,
-						likes,
-						created_at,
-						updated_on,
-						user_name_id,
-						first_name,
-						last_name,
-						profile_picture,
-					}) => {
-						const author = {
-							user_name_id,
-							first_name,
-							last_name,
-							profile_picture,
-						};
-						const post = {
-							id,
-							author_id,
-							author_user_name_id,
-							format_type,
-							title,
-							meta_title,
-							slug,
-							image,
-							tags,
-							meta_description,
-							excerpt,
-							content,
-							like_user_id,
-							likes,
-							created_at,
-							updated_on,
-						};
 
-						return { author, post };
-					}
-				);
-
-				return formattedData;
+				return data;
 			})
 			.catch((error) => {
 				console.error(error);

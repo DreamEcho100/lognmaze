@@ -9,7 +9,7 @@ import SettingsButton from './SettingsButton/SettingsButton';
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
-const Profile = ({ userData = {}, visitorIdentity = GUEST }) => {
+const Profile = ({ userData = {}, visitorIdentity = GUEST, posts }) => {
 	const router = useRouter();
 
 	if (!userData.id) {
@@ -19,6 +19,60 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST }) => {
 			</div>
 		);
 	}
+
+	const formattedData = posts.data.map(
+		({
+			id,
+			author_id,
+			author_user_name_id,
+			format_type,
+			title,
+			meta_title,
+			slug,
+			image,
+			tags,
+			meta_description,
+			excerpt,
+			content,
+			like_user_id,
+			likes,
+			created_at,
+			updated_on,
+			user_name_id,
+			first_name,
+			last_name,
+			profile_picture,
+		}) => {
+			const author = {
+				user_name_id,
+				first_name,
+				last_name,
+				profile_picture,
+			};
+			const post = {
+				id,
+				author_id,
+				author_user_name_id,
+				format_type,
+				title,
+				meta_title,
+				slug,
+				image,
+				tags,
+				meta_description,
+				excerpt,
+				content,
+				like_user_id,
+				likes,
+				created_at,
+				updated_on,
+			};
+
+			return { author, post };
+		}
+	);
+
+	console.log('formattedData', formattedData);
 
 	return (
 		<section className={`${classes.profile}`}>
