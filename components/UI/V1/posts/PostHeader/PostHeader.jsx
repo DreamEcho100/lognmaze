@@ -53,7 +53,9 @@ const PostHeader = ({ author, post }) => {
 					height={30}
 					layout='responsive'
 				/>
-				<p>Tags: {post.tags.join(', ')}</p>
+				<p>
+					<strong>Tags:</strong> {post.tags.join(', ')}
+				</p>
 			</div>
 		</header>
 	);

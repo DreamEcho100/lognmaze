@@ -2,6 +2,18 @@ const path = require('path');
 // const Dotenv = require('dotenv-webpack');
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 
+// const withPlugins = require("next-compose-plugins");
+// const withTypescript = require('@zeit/next-typescript');
+// const withSass = require('@zeit/next-sass');
+
+// module.exports = withPlugins(
+//    [
+//       withTypescript,
+//       withSass
+//    ],
+//    { /* nextConfig options here */ }
+// );
+
 module.exports = (phase) => {
 	let env = {};
 	// const baseUrl = `${
@@ -58,6 +70,7 @@ module.exports = (phase) => {
 				'*',
 				'*.com',
 			],
+			deviceSizes: [400, 800, 1200, 1600, 2000], // [640, 750, 828, 1080, 1200, 1920, 2048, 3840]
 		},
 		sassOptions: {
 			includePaths: [path.join(__dirname, 'styles')],
@@ -74,22 +87,10 @@ module.exports = (phase) => {
 			return config;
 		},
 		env,
-		// presets: [
-		// 	[
-		// 		'next/babel',
-		// 		{
-		// 			'preset-react': {
-		// 				runtime: 'automatic',
-		// 				importSource: '@emotion/core',
-		// 			},
-		// 		},
-		// 	],
-		// ],
 		// plugins: ['babel-plugin-emotion'],
 		// exportPathMap: async function() {
 		// 	const paths = {
 		// 		'/': { page: '/' }
-		// 		'/auth': { page: '/auth' }
 		// 	};
 		// 	return paths;
 		// }
