@@ -25,30 +25,43 @@ const ProfilePage = ({
 	const [identity, setIdentity] = useState(visitorIdentity);
 	const [userData, setUserData] = useState(data);
 
-	useEffect(() => {
-		if (Object.keys(user).length === 0 && !userData.id) {
-			if (isAuthorized) {
-				router.query.user_name_id === user.user_name_id && setIdentity(OWNER);
-				!handleIsAuthorized && setHandleIsAuthorized(true);
-			}
-			setUserData(user);
-		}
-	}, []);
+	const [isLoading, setIsLoading] = useState(true);
+
+	// useEffect(() => {
+	// 	if (!UserCxt.isLoading) {
+	// 		if (Object.keys(user).length === 0 && !userData.id) {
+	// 			if (isAuthorized) {
+	// 				router.query.user_name_id === user.user_name_id && setIdentity(OWNER);
+	// 				!handleIsAuthorized && setHandleIsAuthorized(true);
+	// 			}
+	// 			setUserData(user);
+	// 		}
+	// 		setIsLoading(false);
+	// 	}
+	// }, []);
 
 	useEffect(() => {
-		if (!user.id && userData.id) {
-			identity === OWNER && setIdentity(GUEST);
-			handleIsAuthorized && setHandleIsAuthorized(false);
-		} else if (user.id && !userData.id) {
-			setUserData(user);
+		// console.log(router.query.user_name_id);
+		if (!UserCxt.isLoading) {
+			if (!user.id && userData.id) {
+				identity === OWNER && setIdentity(GUEST);
+				handleIsAuthorized && setHandleIsAuthorized(false);
+			} else if (user.id && !userData.id) {
+				setUserData(user);
+			}
+			setIsLoading(false);
 		}
-	}, [user.id]);
+	}, [user.id, UserCxt.isLoading]);
 
 	// 	data,
 	// 	Object.keys(userData).length === 0,
 	// 	handleIsAuthorized,
 	// 	!userData.id
 	// );
+
+	if (UserCxt.isLoading || isLoading) {
+		return <p>Loading...</p>;
+	}
 
 	if (
 		Object.keys(userData).length === 0 &&
@@ -69,14 +82,14 @@ const ProfilePage = ({
 	);
 };
 
-export async function getServerSideProps({ req, res, query }) {
+export const getServerSideProps = async ({ req, res, query }) => {
 	/*
 		const baseUrl = `${
 			process.env.NODE_ENV !== 'production' ? 'http' : 'https'
 		}://${ctx.req.headers.host}`;
 	*/
 	const fetcher = async (tokenCookieString, userCookieString, user_name_id) => {
-		const input = `${process.env.BACK_END_ROOT_URL}/api/v1/users/profile/${user_name_id}`;
+		const input = `${process.env.BACK_END_ROOT_URL}/api/v1/users/profile/get/${user_name_id}`;
 		const init = {
 			method: 'GET',
 			headers: {
@@ -124,7 +137,7 @@ export async function getServerSideProps({ req, res, query }) {
 			visitorIdentity,
 		}, // will be passed to the page component as props
 	};
-}
+};
 
 export default ProfilePage;
 

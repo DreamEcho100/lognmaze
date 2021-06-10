@@ -6,11 +6,9 @@ const PostPage = ({ data }) => {
 
 export const getStaticPaths = async () => {
 	const response = await fetch(
-		`${process.env.BACK_END_ROOT_URL}/api/v1/user/posts/get-all-posts`
+		`${process.env.BACK_END_ROOT_URL}/api/v1/users/posts/get/all`
 	);
 	const { status, message, data } = await response.json();
-
-	console.log(data);
 
 	const paths = data.map((post) => ({
 		params: { slug: post.slug },
@@ -25,7 +23,7 @@ export const getStaticProps = async (context) => {
 	} = context;
 
 	const response = await fetch(
-		`${process.env.BACK_END_ROOT_URL}/api/v1/users/posts/${slug}`
+		`${process.env.BACK_END_ROOT_URL}/api/v1/users/posts/get/${slug}`
 	);
 
 	const { status, message, data } = await response.json();

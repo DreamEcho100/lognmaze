@@ -1,4 +1,4 @@
-import { pool } from '../../../../../lib/v1/pg';
+import { pool } from '@/lib/v1/pg';
 
 export default async (req, res) => {
 	if (req.method !== 'GET') {
@@ -14,6 +14,7 @@ export default async (req, res) => {
 					SELECT
 						posts.id,
 						posts.author_id,
+						posts.author_user_name_id,
 						posts.format_type,
 						posts.title,
 						posts.meta_title,
@@ -50,6 +51,7 @@ export default async (req, res) => {
 			return res.status(500).json({
 				status: 'error',
 				message: error.message || 'Something went wrong!',
+				data: [],
 			});
 		}
 	}

@@ -1,5 +1,5 @@
-import { handleIsAuthorized } from '../../../../../lib/v1/auth';
-import { pool } from '../../../../../lib/v1/pg';
+import { handleIsAuthorized } from '@/lib/v1/auth';
+import { pool } from '@/lib/v1/pg';
 
 export default async (req, res) => {
 	if (req.method !== 'POST') {
@@ -8,18 +8,17 @@ export default async (req, res) => {
 
 	if (req.method === 'POST') {
 		try {
-			console.log(req.headers.authorization);
+			console.log(req.body);
 			const isAuthorized = await handleIsAuthorized(
 				res,
 				req.headers.authorization
 			);
 
-			console.log(isAuthorized);
-
 			if (!isAuthorized.id) return;
 
 			const {
 				authorId,
+				authorUserNameId,
 				formatType,
 				title,
 				metaTitle,
@@ -32,9 +31,16 @@ export default async (req, res) => {
 			} = req.body;
 
 			const newPost = await pool.query(
-				'INSERT INTO posts ( author_id, format_type, title, meta_title, slug, image, tags, meta_description, excerpt, content) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *',
+				`
+          INSERT INTO posts
+            ( author_id, author_user_name_id, format_type, title, meta_title, slug, image, tags, meta_description, excerpt, content)
+          VALUES
+            ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+          RETURNING *
+        `,
 				[
 					authorId,
+					authorUserNameId,
 					formatType,
 					title,
 					metaTitle,

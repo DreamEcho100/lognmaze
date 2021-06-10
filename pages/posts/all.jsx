@@ -19,7 +19,7 @@ export const getServerSideProps = async (ctx) => {
 	let data = [];
 	try {
 		data = await fetch(
-			`${process.env.BACK_END_ROOT_URL}/api/v1/users/posts/get-all-posts`
+			`${process.env.BACK_END_ROOT_URL}/api/v1/users/posts/get/all`
 		)
 			.then((response) => response.json())
 			.then(({ status, message, data }) => {
@@ -31,6 +31,7 @@ export const getServerSideProps = async (ctx) => {
 					({
 						id,
 						author_id,
+						author_user_name_id,
 						format_type,
 						title,
 						meta_title,
@@ -58,6 +59,7 @@ export const getServerSideProps = async (ctx) => {
 						const post = {
 							id,
 							author_id,
+							author_user_name_id,
 							format_type,
 							title,
 							meta_title,

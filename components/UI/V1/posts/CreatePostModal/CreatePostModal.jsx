@@ -36,6 +36,7 @@ const CreatePostModal = ({ closeModal }) => {
 		event.preventDefault();
 		const bodyObj = {
 			authorId: user.id,
+			authorUserNameId: user.user_name_id,
 			formatType,
 			title,
 			metaTitle,
@@ -48,7 +49,7 @@ const CreatePostModal = ({ closeModal }) => {
 		};
 
 		try {
-			await fetch('/api/v1/user/posts/add', {
+			await fetch('/api/v1/users/posts/add', {
 				method: 'POST',
 				body: JSON.stringify(bodyObj),
 				headers: {

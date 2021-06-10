@@ -1,4 +1,4 @@
-import { pool } from '../../../../../lib/v1/pg';
+import { pool } from '@/lib/v1/pg';
 
 export default async (req, res) => {
 	if (req.method !== 'GET') {
@@ -7,7 +7,7 @@ export default async (req, res) => {
 
 	if (req.method === 'GET') {
 		try {
-			const { slug } = req.query;
+			const { user_name_id } = req.query;
 
 			const result = await pool
 				.query(
@@ -15,6 +15,7 @@ export default async (req, res) => {
 					SELECT
 						posts.id,
 						posts.author_id,
+						posts.author_user_name_id,
 						posts.format_type,
 						posts.title,
 						posts.meta_title,
@@ -36,23 +37,33 @@ export default async (req, res) => {
 						posts
 					JOIN users 
 						ON posts.author_id = users.id
-					WHERE posts.slug = $1;
+					WHERE users.author_user_name_id = $1;
 				`,
-					[slug]
+					[user_name_id]
 				)
 				.then((response) => response.rows[0]);
 
-			return res.status(200).json({
+			if (!result.id) {
+				res.status(404).json({
+					status: 'error',
+					message: 'No Post Found :(',
+					data: {},
+				});
+				return;
+			}
+
+			res.status(200).json({
 				status: 'success',
 				message: 'The newest Posts Arrived Successefully!, Enjoy ;)',
 				data: {
 					post: {
 						id: result.id,
 						author_id: result.author_id,
+						author_user_name_id: result.author_user_name_id,
 						format_type: result.format_type,
 						title: result.title,
 						meta_title: result.meta_title,
-						post_slug: result.slug,
+						slug: result.slug,
 						image: result.image,
 						tags: result.tags,
 						meta_description: result.meta_description,
@@ -71,11 +82,13 @@ export default async (req, res) => {
 					},
 				},
 			});
+			return;
 		} catch (error) {
 			console.error(`Error, ${error}`);
 			return res.status(500).json({
 				status: 'error',
 				message: error.message || 'Something went wrong!',
+				data: [],
 			});
 		}
 	}

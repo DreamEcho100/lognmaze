@@ -18,6 +18,7 @@ CREATE TABLE users (
   city VARCHAR(64) DEFAULT '',
   country_phone_code VARCHAR(10) NOT NULL,
   phone_number TEXT NOT NULL UNIQUE,
+  phone_verified BOOLEAN,
   gender VARCHAR(10) NOT NULL CONSTRAINT check_gender CHECK ( gender = 'male' OR gender = 'female' ),
   role VARCHAR(25) DEFAULT 'user' CHECK ( role = 'user' OR role = 'admin' ), -- NOT NULL
   profile_picture VARCHAR(255) DEFAULT '',
@@ -62,7 +63,8 @@ SELECT * FROM users;
 
 CREATE TABLE posts (
   id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  author_id uuid REFERENCES users (id),
+  author_id uuid REFERENCES users (id) NOT NULL,
+  author_user_name_id VARCHAR REFERENCES users (user_name_id) NOT NULL,
   format_type VARCHAR(50) DEFAULT 'normal' CHECK ( format_type = 'normal' OR format_type = 'md' ),
   title VARCHAR(255) NOT NULL UNIQUE,
   meta_title VARCHAR(255),

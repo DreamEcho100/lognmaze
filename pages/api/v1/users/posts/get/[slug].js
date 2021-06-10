@@ -1,4 +1,4 @@
-import { pool } from '../../../../../lib/v1/pg';
+import { pool } from '@/lib/v1/pg';
 
 export default async (req, res) => {
 	if (req.method !== 'GET') {
@@ -15,6 +15,7 @@ export default async (req, res) => {
 					SELECT
 						posts.id,
 						posts.author_id,
+						posts.author_user_name_id,
 						posts.format_type,
 						posts.title,
 						posts.meta_title,
@@ -58,6 +59,7 @@ export default async (req, res) => {
 					post: {
 						id: result.id,
 						author_id: result.author_id,
+						author_user_name_id: result.author_user_name_id,
 						format_type: result.format_type,
 						title: result.title,
 						meta_title: result.meta_title,

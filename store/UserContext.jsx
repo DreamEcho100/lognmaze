@@ -1,7 +1,12 @@
 import { createContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import { setCookie, getCookie, deleteCookie, checkCookie } from '../lib/v1/cookie';
+import {
+	setCookie,
+	getCookie,
+	deleteCookie,
+	checkCookie,
+} from '../lib/v1/cookie';
 
 const UserContext = createContext({
 	user: {},
@@ -125,7 +130,7 @@ export const UserContextProvider = ({ children }) => {
 	const handleUserUpdate = ({ path, bodyObj }) => {
 		return new Promise(async (resolve, reject) => {
 			const response = await fetch(
-				`${process.env.BACK_END_ROOT_URL}/api/v1/user/profile/update/${path}`,
+				`${process.env.BACK_END_ROOT_URL}/api/v1/users/profile/update/${path}`,
 				{
 					method: 'PATCH',
 					body: JSON.stringify(bodyObj),
@@ -257,7 +262,7 @@ export const UserContextProvider = ({ children }) => {
 	const handleUpdatePassword = async (oldPassword, newPassword) => {
 		return new Promise(async (resolve, reject) => {
 			const response = await fetch(
-				`${process.env.BACK_END_ROOT_URL}/api/v1/user/change-password`,
+				`${process.env.BACK_END_ROOT_URL}/api/v1/users/change-password`,
 				{
 					method: 'PATCH',
 					body: JSON.stringify({
