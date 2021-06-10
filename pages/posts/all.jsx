@@ -16,44 +16,19 @@ const AllPostsPage = ({ data }) => {
 };
 
 export const getServerSideProps = async (ctx) => {
-	const data = await fetch(
-		`${process.env.BACK_END_ROOT_URL}/api/v1/user/posts/get-all-posts`
-	)
-		.then((response) => response.json())
-		.then(({ status, message, data }) => {
-			if (status === 'error') {
-				console.error(message);
-				return [];
-			}
-			const formattedData = data.map(
-				({
-					id,
-					author_id,
-					format_type,
-					title,
-					meta_title,
-					slug,
-					image,
-					tags,
-					meta_description,
-					excerpt,
-					content,
-					like_user_id,
-					likes,
-					created_at,
-					updated_on,
-					user_name_id,
-					first_name,
-					last_name,
-					profile_picture,
-				}) => {
-					const author = {
-						user_name_id,
-						first_name,
-						last_name,
-						profile_picture,
-					};
-					const post = {
+	let data = [];
+	try {
+		data = await fetch(
+			`${process.env.BACK_END_ROOT_URL}/api/v1/user/posts/get-all-posts`
+		)
+			.then((response) => response.json())
+			.then(({ status, message, data }) => {
+				if (status === 'error') {
+					console.error(message);
+					return [];
+				}
+				const formattedData = data.map(
+					({
 						id,
 						author_id,
 						format_type,
@@ -69,18 +44,49 @@ export const getServerSideProps = async (ctx) => {
 						likes,
 						created_at,
 						updated_on,
-					};
+						user_name_id,
+						first_name,
+						last_name,
+						profile_picture,
+					}) => {
+						const author = {
+							user_name_id,
+							first_name,
+							last_name,
+							profile_picture,
+						};
+						const post = {
+							id,
+							author_id,
+							format_type,
+							title,
+							meta_title,
+							slug,
+							image,
+							tags,
+							meta_description,
+							excerpt,
+							content,
+							like_user_id,
+							likes,
+							created_at,
+							updated_on,
+						};
 
-					return { author, post };
-				}
-			);
+						return { author, post };
+					}
+				);
 
-			return formattedData;
-		})
-		.catch((error) => {
-			console.error(error);
-			return [];
-		});
+				return formattedData;
+			})
+			.catch((error) => {
+				console.error(error);
+				return [];
+			});
+	} catch (error) {
+		console.error(error);
+		data = [];
+	}
 
 	return {
 		props: {
