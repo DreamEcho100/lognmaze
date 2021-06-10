@@ -55,7 +55,7 @@ export default async (req, res) => {
 			delete user.rows[0].password;
 
 			return res.status(401).json({
-				status: 'error',
+				status: 'success',
 				message: 'User exist!',
 				data: user.rows[0],
 				isAuthorized: false,

@@ -1,10 +1,15 @@
+import React from 'react';
 import { useRouter } from 'next/router';
 
 import classes from './Profile.module.css';
 
 import CreatePostButton from './CreatePostButton/CreatePostButton';
+import SettingsButton from './SettingsButton/SettingsButton';
 
-const Profile = ({ userData = {}, visitorIdentity }) => {
+const GUEST = 'GUEST';
+const OWNER = 'OWNER';
+
+const Profile = ({ userData = {}, visitorIdentity = GUEST }) => {
 	const router = useRouter();
 
 	if (!userData.id) {
@@ -14,7 +19,6 @@ const Profile = ({ userData = {}, visitorIdentity }) => {
 			</div>
 		);
 	}
-	const OWNER = 'OWNER';
 
 	return (
 		<section className={`${classes.profile}`}>
@@ -44,17 +48,11 @@ const Profile = ({ userData = {}, visitorIdentity }) => {
 				<p>{userData.role}</p>
 				<p>{userData.state}</p>
 				<p>{userData.user_name_id}</p>
-				{/* <p className='user_name'>{userData.user_name}</p>
-				<p className='email'>{userData.email}</p>
-				<p className='gender'>{userData.gender}</p>
-				<p className='created_at'>{userData.created_at}</p>
-				<p className='cv'>{userData.cv}</p> */}
 			</div>
-			{visitorIdentity === OWNER && (
-				<button onClick={() => router.replace(`${router.asPath}/settings`)}>
+			{/* <button onClick={() => router.replace(`${router.asPath}/settings`)}>
 					Settings
-				</button>
-			)}
+				</button> */}
+			{visitorIdentity === OWNER && <SettingsButton />}
 			{visitorIdentity === OWNER && <CreatePostButton />}
 		</section>
 	);

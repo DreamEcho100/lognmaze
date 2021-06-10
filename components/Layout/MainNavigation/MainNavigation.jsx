@@ -1,3 +1,4 @@
+import React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 
@@ -33,7 +34,7 @@ const MainNavigation = () => {
 			<nav>
 				<ul>
 					<li>
-						<Link href='/all-posts'>All Posts</Link>
+						<Link href='/posts/all'>All Posts</Link>
 					</li>
 					{!isLoading && user.id && (
 						<li>

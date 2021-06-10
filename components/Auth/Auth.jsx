@@ -1,5 +1,5 @@
+import React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 
 import classes from './auth.module.css';
 
@@ -9,8 +9,6 @@ import SignIn from './SignIn/SignIn';
 import SignUp from './SignUp/SignUp';
 
 const Auth = ({ UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN }) => {
-	const router = useRouter();
-
 	const { user, ...UserCxt } = useContext(UserContext);
 
 	const [signInComponent, setSignInComponent] = useState(true);

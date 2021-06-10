@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import { setCookie, getCookie, deleteCookie, checkCookie } from '../lib/cookie';
+import { setCookie, getCookie, deleteCookie, checkCookie } from '../lib/v1/cookie';
 
 const UserContext = createContext({
 	user: {},
@@ -26,7 +26,7 @@ export const UserContextProvider = ({ children }) => {
 	const verifyUserTokenFromCookie = async () => {
 		new Promise((resolve, reject) => {
 			!isLoading && setIsLoading(true);
-			const tokenCookie = getCookie('mazecode_user_token');
+			const tokenCookie = getCookie('mazecode_user_token', document.cookie);
 			if (tokenCookie.length !== 0) {
 				resolve(tokenCookie);
 			}
@@ -49,7 +49,7 @@ export const UserContextProvider = ({ children }) => {
 				const { status, message, data } = await response.json();
 
 				if (status === 'success' /* || data.isAuthorized*/) {
-					const userCookie = getCookie('mazecode_user_data');
+					const userCookie = getCookie('mazecode_user_data', document.cookie);
 					const user = JSON.parse(userCookie);
 					setUser({
 						...user,

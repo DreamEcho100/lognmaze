@@ -44,6 +44,9 @@ module.exports = (phase) => {
 	};
 
 	return {
+		images: {
+			domains: ['external-content.duckduckgo.com', '*', '*.com'],
+		},
 		sassOptions: {
 			includePaths: [path.join(__dirname, 'styles')],
 		},
@@ -59,5 +62,24 @@ module.exports = (phase) => {
 			return config;
 		},
 		env,
+		// presets: [
+		// 	[
+		// 		'next/babel',
+		// 		{
+		// 			'preset-react': {
+		// 				runtime: 'automatic',
+		// 				importSource: '@emotion/core',
+		// 			},
+		// 		},
+		// 	],
+		// ],
+		// plugins: ['babel-plugin-emotion'],
+		// exportPathMap: async function() {
+		// 	const paths = {
+		// 		'/': { page: '/' }
+		// 		'/auth': { page: '/auth' }
+		// 	};
+		// 	return paths;
+		// }
 	};
 };

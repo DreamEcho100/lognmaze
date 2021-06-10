@@ -1,3 +1,4 @@
+import React from 'react';
 import classes from './LinearProgressBar.module.css';
 
 const LinearProgressBar = ({ length = 0, color = 'darkblue' }) => {

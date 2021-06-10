@@ -1,5 +1,6 @@
+import React from 'react';
 import { useState } from 'react';
-import CreatePostModal from '../../posts/CreatePostModal/CreatePostModal';
+import CreatePostModal from '../../UI/V1/posts/CreatePostModal/CreatePostModal';
 
 import Button from '../../UI/V1/Button/Button';
 

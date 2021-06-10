@@ -1,3 +1,4 @@
+import React from 'react';
 import { useContext } from 'react';
 
 import classes from './Layout.module.css';
