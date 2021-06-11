@@ -40,6 +40,7 @@ export const UserContextProvider = ({ children }) => {
 			.then(async (tokenCookie) => {
 				// return JSON.parse(tokenCookie);
 				const token = tokenCookie;
+				console.log(process.env.BACK_END_ROOT_URL);
 				const response = await fetch(
 					`${process.env.BACK_END_ROOT_URL}/api/v1/auth/verify-token`,
 					{
