@@ -47,7 +47,7 @@ export default async (req, res) => {
 				res.status(404).json({
 					status: 'error',
 					message: 'No Posts Found :(',
-					data: {},
+					data: [],
 				});
 				return;
 			}

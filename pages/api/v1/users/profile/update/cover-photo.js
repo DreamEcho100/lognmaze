@@ -8,7 +8,6 @@ export default async (req, res) => {
 		return;
 	}
 
-		
 	if (req.method === 'PATCH') {
 		try {
 			const isAuthorized = await handleIsAuthorized(

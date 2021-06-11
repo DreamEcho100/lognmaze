@@ -13,7 +13,7 @@ const AuthPage = ({
 }) => {
 	const router = useRouter();
 
-	const { user, ...UserCxt } = useContext(UserContext);
+	const { user, handleSignOut, ...UserCxt } = useContext(UserContext);
 
 	const [isLoading, setIsLoading] = useState(true);
 	const [isSigned, setIsSigned] = useState(false);
@@ -52,7 +52,7 @@ const AuthPage = ({
 				<Button onClick={() => router.replace('/')}>
 					Return To Home Page
 				</Button>{' '}
-				or <Button onClick={() => user.handleSignOut()}>Sign Out</Button>
+				or <Button onClick={() => handleSignOut()}>Sign Out</Button>
 			</>
 		);
 	}
