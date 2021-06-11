@@ -69,27 +69,23 @@ const AllPostsPage = ({ data }) => {
 
 export const getServerSideProps = async (ctx) => {
 	let data = [];
-	try {
-		data = await fetch(
-			`${process.env.BACK_END_ROOT_URL}/api/v1/users/posts/get/all`
-		)
-			.then((response) => response.json())
-			.then(({ status, message, data }) => {
-				if (status === 'error') {
-					console.error(message);
-					return [];
-				}
-
-				return data;
-			})
-			.catch((error) => {
-				console.error(error);
+	data = await fetch(
+		`${process.env.BACK_END_ROOT_URL}/api/v1/users/posts/get/all`
+	)
+		.then((response) => response.json())
+		.then(({ status, message, data }) => {
+			if (status === 'error') {
+				console.error(message);
 				return [];
-			});
-	} catch (error) {
-		console.error(error);
-		data = [];
-	}
+			}
+
+			return data;
+		})
+		.catch((error) => {
+			console.warn('Oh Come On -_-');
+			console.error(error);
+			return [];
+		});
 
 	return {
 		props: {
