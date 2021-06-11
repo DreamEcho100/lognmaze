@@ -12,7 +12,7 @@ const MainNavigation = () => {
 
 	// const [doesSessionExist, setDoesSessionExist] = useState(false);
 
-	// useEffect(() => verifyUserTokenFromCookie(), []);
+	useEffect(() => verifyUserTokenFromCookie(), []);
 
 	// useEffect(() => {
 	// 	// deleteCookie('mazecode_user', process.env.FRONT_END_ROOT_URL);
