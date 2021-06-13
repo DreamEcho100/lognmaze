@@ -41,8 +41,6 @@ export default async (req, res) => {
 				)
 				.then((response) => response.rows);
 
-			console.log(result);
-
 			return res.status(200).json({
 				status: 'success',
 				message: 'The newest Posts Arrived Successefully!, Enjoy ;)',
