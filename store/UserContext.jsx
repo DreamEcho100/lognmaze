@@ -147,7 +147,6 @@ export const UserContextProvider = ({ children }) => {
 		})
 			.then((response) => response.json())
 			.then(({ data, status, message, isAuthorized }) => {
-				console.log(status, message);
 				if (isAuthorized) {
 					if (status !== 'error' && Object.keys(data).length !== 0) {
 						const updatedUser = {

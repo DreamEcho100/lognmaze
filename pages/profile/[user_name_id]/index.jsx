@@ -54,8 +54,6 @@ const ProfilePage = ({ user, posts }) => {
 		);
 	}
 
-	console.log(userData.profile_picture);
-
 	return (
 		<>
 			<Profile userData={userData} visitorIdentity={identity} posts={posts} />

@@ -81,8 +81,6 @@ const ChangeProfilePictureModal = ({ closeModal }) => {
 		new Promise(async (resolve, reject) => {
 			setBtnsDisabled(true);
 			setProgress(0);
-			console.log(Object.keys(file).length);
-			console.log(urlInput);
 			if (Object.keys(file).length !== 0) {
 				const secureUrl = await uploadFileToCloudinary(
 					`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`,
@@ -109,8 +107,6 @@ const ChangeProfilePictureModal = ({ closeModal }) => {
 					setErrorMessage(message);
 					return { status, message };
 				}
-
-				console.log('data', data);
 
 				closeModal();
 				return { status, message };

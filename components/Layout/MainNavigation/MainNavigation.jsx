@@ -14,16 +14,6 @@ const MainNavigation = () => {
 
 	useEffect(() => verifyUserTokenFromCookie(), []);
 
-	// useEffect(() => {
-	// 	// deleteCookie('mazecode_user', process.env.FRONT_END_ROOT_URL);
-	// 	if (user.id) {
-	// 		!doesSessionExist && setDoesSessionExist(true);
-	// 	} else {
-	// 		doesSessionExist && setDoesSessionExist(false);
-	// 	}
-	// 	console.log(doesSessionExist);
-	// }, [user, user.id]);
-
 	return (
 		<header className={classes.header}>
 			<div className={classes.logo}>

@@ -75,8 +75,6 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, posts }) => {
 		}
 	);
 
-	console.log('formattedData', formattedData);
-
 	return (
 		<>
 			<section className={`${classes.profile}`}>

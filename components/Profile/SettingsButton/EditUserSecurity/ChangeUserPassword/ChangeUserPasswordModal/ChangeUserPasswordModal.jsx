@@ -48,8 +48,6 @@ const ChangeUserPasswordModal = ({ closeModal }) => {
 				newPassword
 			);
 
-			console.log({ status, message });
-
 			if (status === 'error') {
 				setBtnsDisabled(false);
 				// throw new Error(message);
