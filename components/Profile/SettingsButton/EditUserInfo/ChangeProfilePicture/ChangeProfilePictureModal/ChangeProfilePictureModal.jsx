@@ -68,6 +68,8 @@ const ChangeProfilePictureModal = ({ closeModal }) => {
 	const submitHandler = async (event) => {
 		event.preventDefault();
 
+		setErrorMessage('');
+
 		if (
 			dropErrorMessage.length !== 0 ||
 			(Object.keys(file).length === 0 && urlInput.length === 0)
@@ -97,7 +99,7 @@ const ChangeProfilePictureModal = ({ closeModal }) => {
 			}
 		})
 			.then(async (url) => {
-				const { status, message } = await handUpdateProfilePictureURL({
+				const { status, message, data } = await handUpdateProfilePictureURL({
 					url,
 				});
 
@@ -107,6 +109,8 @@ const ChangeProfilePictureModal = ({ closeModal }) => {
 					setErrorMessage(message);
 					return { status, message };
 				}
+
+				console.log('data', data);
 
 				closeModal();
 				return { status, message };

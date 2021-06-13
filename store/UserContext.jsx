@@ -11,6 +11,7 @@ import {
 const UserContext = createContext({
 	user: {},
 	isLoading: true,
+	isUpdatingProfile: false,
 	verifyUserTokenFromCookie: () => {},
 	handleSignUp: () => {},
 	handleSignIn: () => {},
@@ -27,6 +28,7 @@ export const UserContextProvider = ({ children }) => {
 
 	const [user, setUser] = useState({});
 	const [isLoading, setIsLoading] = useState(true);
+	const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
 
 	const verifyUserTokenFromCookie = async () => {
 		new Promise((resolve, reject) => {
@@ -40,7 +42,6 @@ export const UserContextProvider = ({ children }) => {
 			.then(async (tokenCookie) => {
 				// return JSON.parse(tokenCookie);
 				const token = tokenCookie;
-				console.log(process.env.BACK_END_ROOT_URL);
 				const response = await fetch(
 					`${process.env.BACK_END_ROOT_URL}/api/v1/auth/verify-token`,
 					{
@@ -146,12 +147,14 @@ export const UserContextProvider = ({ children }) => {
 		})
 			.then((response) => response.json())
 			.then(({ data, status, message, isAuthorized }) => {
+				console.log(status, message);
 				if (isAuthorized) {
 					if (status !== 'error' && Object.keys(data).length !== 0) {
 						const updatedUser = {
 							...user,
 							...data,
 						};
+
 						setUser(updatedUser);
 
 						setCookie({
@@ -161,7 +164,7 @@ export const UserContextProvider = ({ children }) => {
 							path: '/',
 						});
 					}
-					return { status, message };
+					return { status, message, data };
 				} else {
 					handleSignOut();
 					return { status: 'error', message };
@@ -206,8 +209,6 @@ export const UserContextProvider = ({ children }) => {
 			.then(async () => {
 				// router.replace('/');
 				router.replace(router.asPath);
-				// await setTimeout(() => console.log('Signed Out!'), 0);
-				console.log('Signed Out!');
 				return;
 			})
 			.then(() => {
@@ -296,6 +297,8 @@ export const UserContextProvider = ({ children }) => {
 	const context = {
 		user,
 		isLoading,
+		isUpdatingProfile,
+		setIsUpdatingProfile,
 		verifyUserTokenFromCookie,
 		handleSignUp,
 		handleSignIn,

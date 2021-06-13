@@ -2,23 +2,23 @@
 	padding: 0.5em 0.75rem;
 	border-radius: 0.4rem;
 	font-weight: bold;
-	background-color: var(--main-special-color-dark);
-	outline-color: var(--main-special-color-dark);
-	color: var(--main-font-color-light);
+	background-color: var(--main-special-bg-color-5);
+	outline-color: var(--main-special-bg-color-5);
+	color: var(--main-special-font-color-5);
 	border-color: transparent;
 	transition: all 0.3s ease;
 }
 
 .button:hover {
-	background-color: var(--main-special-color-light);
-	outline-color: var(--main-special-color-light);
-	color: var(--main-font-color-dark);
+	background-color: var(--main-special-bg-color-2);
+	outline-color: var(--main-special-bg-color-2);
+	color: var(--main-special-font-color-2);
 }
 
 .button:focus {
-	background-color: var(--main-special-color);
-	outline-color: var(--main-special-color);
-	color: var(--main-font-color-light);
+	background-color: var(--main-special-bg-color-4);
+	outline-color: var(--main-special-bg-color-4);
+	color: var(--main-special-font-color-4);
 }
 
 .button:disabled {
