@@ -88,13 +88,14 @@ export const getStaticProps = async (ctx) => {
 		.then((data) => data.auth_token)
 		.catch((error) => {
 			console.error(error);
-			return '';
+			return [''];
 		});
 
 	return {
 		props: {
 			UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN,
 		},
+		revalidate: 86400
 	};
 };
 
