@@ -64,7 +64,9 @@ const PostDetails = ({ post }) => {
 
 			return (
 				<Link href={href}>
-					<a>{children}</a>
+					<a target='_blank' rel='noopener noreferrer'>
+						{children}
+					</a>
 				</Link>
 			);
 		},
