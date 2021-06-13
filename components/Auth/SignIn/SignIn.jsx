@@ -34,13 +34,13 @@ const SignIn = () => {
 			email,
 			password,
 		}).then((response) => {
-			btnsDisabled && setBtnsDisabled(false);
+			setBtnsDisabled(false);
 			return response;
 		});
 
 		if (status === 'error') {
 			console.error(message);
-			btnsDisabled && setBtnsDisabled(false);
+			setBtnsDisabled(false);
 			setAfterFormSubmitMessage(message);
 		}
 		// clearInputsForm();
