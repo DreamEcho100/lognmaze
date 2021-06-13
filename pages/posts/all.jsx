@@ -83,7 +83,7 @@ export const getServerSideProps = async (ctx) => {
 		})
 		.catch((error) => {
 			console.warn('Oh Come On -_-');
-			console.error(error);
+			console.error(error.message);
 			return [];
 		});
 
