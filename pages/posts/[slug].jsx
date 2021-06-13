@@ -28,7 +28,7 @@ export const getStaticProps = async (context) => {
 
 	const { status, message, data } = await response.json();
 
-	return { props: { data }, revalidate: 60 };
+	return { props: { data }, revalidate: 3600 };
 };
 
 export default PostPage;
