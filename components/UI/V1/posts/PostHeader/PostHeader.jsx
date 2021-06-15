@@ -1,32 +1,51 @@
-import React /*, { useEffect, useState }*/ from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+
+import UserContext from '@/store/UserContext';
+
+import Settings from './Settings/Settings';
 
 // import classes from './PostHeader.module.css';
 
 const PostHeader = ({ author, post }) => {
 	const router = useRouter();
 
+	const { user, ...UserCxt } = useContext(UserContext);
+
+	const [isPostOwner, setIsPostOwner] = useState(false);
+
+	useEffect(() => {
+		if (user && user.user_name_id === author.user_name_id) {
+			setIsPostOwner(true);
+		} else if (isPostOwner) {
+			setIsPostOwner(false);
+		}
+	}, [user]);
+
 	return (
 		<header>
 			<div className=''>
-				<Image
-					src={
-						author.profile_picture
-							? author.profile_picture
-							: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2Fa3%2F28%2F00%2Fa3280086331589746635e698769c48a2.gif&f=1&nofb=1'
-					}
-					alt=''
-					width={60}
-					height={60}
-					// layout='responsive'
-				/>
-				<Link href={`/profile/${author.user_name_id}`}>
-					<a target='_blank' target='_blank' rel='noopener noreferrer'>
-						{author.first_name} {author.last_name}
-					</a>
-				</Link>
+				<div className=''>
+					<Link href={`/profile/${author.user_name_id}`}>
+						<a target='_blank' target='_blank' rel='noopener noreferrer'>
+							<Image
+								src={
+									author.profile_picture
+										? author.profile_picture
+										: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2Fa3%2F28%2F00%2Fa3280086331589746635e698769c48a2.gif&f=1&nofb=1'
+								}
+								alt=''
+								width={60}
+								height={60}
+								// layout='responsive'
+							/>
+							{author.first_name} {author.last_name}
+						</a>
+					</Link>
+					<Settings isPostOwner={isPostOwner} postContent={post} />
+				</div>
 				<p>Created At: {post.created_at}</p>
 				{post.updated_on !== post.created_at ? (
 					<p>Updated On: {post.updated_on}</p>

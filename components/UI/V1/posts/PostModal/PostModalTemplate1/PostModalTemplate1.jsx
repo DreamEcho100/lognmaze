@@ -1,62 +1,110 @@
 import { Fragment, useContext, useState } from 'react';
 
-import classes from './CreatePostModal.module.css';
-import BoxShadowClasses from '../../BoxShadow.module.css';
+import classes from './PostModalTemplate1.module.css';
+import BoxShadowClasses from '../../../BoxShadow.module.css';
 
-import UserContext from '../../../../../store/UserContext';
+import UserContext from '../../../../../../store/UserContext';
 
-import Modal from '../../Modal/Modal';
-import Form from '../../Form/Form';
-import FormControl from '../../FormControl/FormControl';
-import FormLabel from '../../FormLabel/FormLabel';
-import FormInput from '../../FormInput/FormInput';
-import Button from '../../Button/Button';
+import Modal from '../../../Modal/Modal';
+import Form from '../../../Form/Form';
+import FormControl from '../../../FormControl/FormControl';
+import FormLabel from '../../../FormLabel/FormLabel';
+import FormInput from '../../../FormInput/FormInput';
+import Button from '../../../Button/Button';
 
-const CreatePostModal = ({ closeModal }) => {
+const PostModalTemplate1 = ({
+	closeModal,
+	fetcher,
+	postContent,
+	templateType,
+}) => {
 	const { user, ...UserCxt } = useContext(UserContext);
 
-	// author_id
-	const [formatType, setFormatType] = useState('normal');
-	const [title, setTitle] = useState('');
-	const [metaTitle, setMetaTitle] = useState('');
-	const [slug, setSlug] = useState('');
-	const [tags, setTags] = useState('');
-	const [image, setImage] = useState('');
-	const [metaDescription, setMetaDescription] = useState('');
-	const [excerpt, setExcerpt] = useState('');
-	const [content, setContent] = useState('');
+	const [formatType, setFormatType] = useState(
+		postContent && postContent.format_type ? postContent.format_type : 'normal'
+	);
+	const [title, setTitle] = useState(
+		postContent && postContent.title ? postContent.title : ''
+	);
+	const [metaTitle, setMetaTitle] = useState(
+		postContent && postContent.metaTitle ? postContent.metaTitle : ''
+	);
+	const [slug, setSlug] = useState(
+		postContent && postContent.slug ? postContent.slug : ''
+	);
+	const [tags, setTags] = useState(
+		postContent && postContent.tags && postContent.tags.length
+			? postContent.tags.join(', ')
+			: ''
+	);
+	const [image, setImage] = useState(
+		postContent && postContent.image ? postContent.image : ''
+	);
+	const [metaDescription, setMetaDescription] = useState(
+		postContent && postContent.meta_description
+			? postContent.meta_description
+			: ''
+	);
+	const [excerpt, setExcerpt] = useState(
+		postContent && postContent.excerpt ? postContent.excerpt : ''
+	);
+	const [content, setContent] = useState(
+		postContent && postContent.content ? postContent.content : ''
+	);
 
 	const [afterFormSubmitMessage, setAfterFormSubmitMessage] = useState(true);
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
+
+	const resetInputs = () => {
+		setFormatType('normal');
+		setTitle('');
+		setMetaTitle('');
+		setSlug('');
+		setTags('');
+		setImage('');
+		setMetaDescription('');
+		setExcerpt('');
+		setContent('');
+	};
 
 	const handleSubmit = async (event) => {
 		setAfterFormSubmitMessage('');
 		setBtnsDisabled(true);
 
 		event.preventDefault();
-		const bodyObj = {
-			authorId: user.id,
-			authorUserNameId: user.user_name_id,
-			formatType,
-			title,
-			metaTitle,
-			slug,
-			image,
-			tags: tags.toLowerCase().trim().split(/\s+/),
-			metaDescription,
-			excerpt,
-			content,
-		};
+		let bodyObj = {};
+
+		if (templateType === 'create') {
+			bodyObj = {
+				authorId: user.id,
+				authorUserNameId: user.user_name_id,
+				formatType,
+				title,
+				metaTitle,
+				slug,
+				image,
+				tags: tags.toLowerCase().trim().split(/\s+/),
+				metaDescription,
+				excerpt,
+				content,
+			};
+		} else if (templateType === 'update') {
+			bodyObj = {
+				id: postContent.id,
+				formatType,
+				title,
+				metaTitle,
+				slug,
+				image,
+				tags: tags.toLowerCase().trim().split(/\s+/),
+				metaDescription,
+				excerpt,
+				content,
+			};
+		}
 
 		try {
-			await fetch('/api/v1/users/posts/add', {
-				method: 'POST',
-				body: JSON.stringify(bodyObj),
-				headers: {
-					'Content-Type': 'application/json',
-					authorization: `Bearer ${user.token}`,
-				},
-			})
+			await fetcher({ bodyObj, token: user.token })
 				.then((response) => response.json())
 				.then(({ status, message }) => {
 					if (status === 'error') {
@@ -66,15 +114,11 @@ const CreatePostModal = ({ closeModal }) => {
 						return;
 					}
 					setBtnsDisabled(false);
-					// setFormatType('normal');
-					setTitle('');
-					setMetaTitle('');
-					setSlug('');
-					setTags('');
-					setImage('');
-					setMetaDescription('');
-					setExcerpt('');
-					setContent('');
+					if (templateType === 'create') {
+						resetInputs();
+					} else if (templateType === 'update') {
+						closeModal();
+					}
 				});
 		} catch (error) {
 			console.error(error);
@@ -236,4 +280,4 @@ const CreatePostModal = ({ closeModal }) => {
 	);
 };
 
-export default CreatePostModal;
+export default PostModalTemplate1;

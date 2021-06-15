@@ -37,7 +37,8 @@ export default async (req, res) => {
 						posts
 					JOIN users 
 						ON posts.author_id = users.id
-					WHERE posts.author_user_name_id = $1;
+					WHERE posts.author_user_name_id = $1
+					ORDER BY posts.created_at DESC
 				`,
 					[user_name_id]
 				)
