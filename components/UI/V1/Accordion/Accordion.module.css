@@ -24,6 +24,10 @@
 	position: relative;
 }
 
+.accordion-header .container {
+	margin-right: 2em;
+}
+
 .toggle-accordion-body {
 	background-color: var(--main-special-bg-color-1);
 	outline-color: var(--main-special-bg-color-1);
