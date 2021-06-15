@@ -39,7 +39,9 @@ const Modal = ({ children, click, className, CloseButtonElement }) => {
 						{findByKey('header')}
 					</div>
 					<div className={`${classes['modal-body']} modal-body`}>
-						<div className={classes.container}>{findByKey('body')}</div>
+						<div className={classes['modal-header-container']}>
+							{findByKey('body')}
+						</div>
 					</div>
 					<div className={`${classes['modal-footer']} modal-footer`}>
 						{CloseButtonElement && (
