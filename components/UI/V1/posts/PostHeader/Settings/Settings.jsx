@@ -4,7 +4,7 @@ import classes from './Settings.module.css';
 
 import Update from '../../PostModal/Update/Update';
 
-const Settings = ({ isPostOwner, postContent }) => {
+const Settings = ({ isPostOwner, postContent, setPostContent }) => {
 	const [showUpdatePostModal, setShowUpdatePostModal] = useState(false);
 
 	return (
@@ -18,6 +18,7 @@ const Settings = ({ isPostOwner, postContent }) => {
 						<Update
 							closeModal={() => setShowUpdatePostModal(false)}
 							postContent={postContent}
+							setPostContent={setPostContent}
 						/>
 					)}
 				</li>

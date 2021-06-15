@@ -9,7 +9,7 @@ import Settings from './Settings/Settings';
 
 // import classes from './PostHeader.module.css';
 
-const PostHeader = ({ author, post }) => {
+const PostHeader = ({ author, post, setPost }) => {
 	const router = useRouter();
 
 	const { user, ...UserCxt } = useContext(UserContext);
@@ -44,7 +44,11 @@ const PostHeader = ({ author, post }) => {
 							{author.first_name} {author.last_name}
 						</a>
 					</Link>
-					<Settings isPostOwner={isPostOwner} postContent={post} />
+					<Settings
+						isPostOwner={isPostOwner}
+						postContent={post}
+						setPostContent={setPost}
+					/>
 				</div>
 				<p>Created At: {post.created_at}</p>
 				{post.updated_on !== post.created_at ? (
@@ -63,8 +67,8 @@ const PostHeader = ({ author, post }) => {
 				)}
 				<Image
 					src={
-						author.image
-							? author.image
+						post.image
+							? post.image
 							: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2Fa3%2F28%2F00%2Fa3280086331589746635e698769c48a2.gif&f=1&nofb=1'
 					}
 					alt=''

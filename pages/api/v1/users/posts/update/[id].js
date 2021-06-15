@@ -29,31 +29,34 @@ export default async (req, res) => {
 				content,
 			} = req.body;
 
-			const newPost = await pool.query(
-				`
-          UPDATE posts SET
-            format_type=$1, title=$2, meta_title=$3, slug=$4, image=$5, tags=$6, meta_description=$7, excerpt=$8, content=$9, updated_on=NOW()
-          WHERE id=$10
-          RETURNING *
-        `,
-				[
-					formatType,
-					title,
-					metaTitle,
-					slug,
-					image,
-					tags,
-					metaDescription,
-					excerpt,
-					content,
-					id,
-				]
-			);
+			const result = await pool
+				.query(
+					`
+						UPDATE posts SET
+							format_type=$1, title=$2, meta_title=$3, slug=$4, image=$5, tags=$6, meta_description=$7, excerpt=$8, content=$9, updated_on=NOW()
+						WHERE id=$10 AND author_id=$11
+						RETURNING *
+        	`,
+					[
+						formatType,
+						title,
+						metaTitle,
+						slug,
+						image,
+						tags,
+						metaDescription,
+						excerpt,
+						content,
+						id,
+						isAuthorized.id,
+					]
+				)
+				.then((response) => response.rows[0]);
 
 			return res.status(200).json({
 				status: 'success',
 				message: 'Posted Successefully!',
-				data: {},
+				data: result,
 				isAuthorized: true,
 			});
 		} catch (error) {

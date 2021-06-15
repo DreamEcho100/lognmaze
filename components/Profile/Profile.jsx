@@ -6,8 +6,7 @@ import classes from './Profile.module.css';
 import CreatePostButton from './CreatePostButton/CreatePostButton';
 import SettingsButton from './SettingsButton/SettingsButton';
 
-import PostHeader from '@/components/UI/V1/posts/PostHeader/PostHeader';
-import PostDetails from '@/components/UI/V1/posts/PostDetails/PostDetails';
+import PostContainer from '@/components/UI/V1/posts/PostContainer/PostContainer';
 
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
@@ -109,11 +108,8 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, posts }) => {
 				{visitorIdentity === OWNER && <CreatePostButton />}
 			</section>
 			<>
-				{formattedData.map(({ author, post }, index) => (
-					<article key={index}>
-						<PostHeader author={{ ...author }} post={post} />
-						<PostDetails post={post} />
-					</article>
+				{formattedData.map((item, index) => (
+					<PostContainer data={item} />
 				))}
 			</>
 		</>

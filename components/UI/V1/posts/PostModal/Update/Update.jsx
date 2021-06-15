@@ -1,6 +1,6 @@
 import PostModalTemplate1 from '../PostModalTemplate1/PostModalTemplate1';
 
-const Update = ({ closeModal, postContent }) => {
+const Update = ({ closeModal, postContent, setPostContent }) => {
 	const fetcher = async ({ bodyObj, token }) =>
 		await fetch(`/api/v1/users/posts/update/${postContent.id}`, {
 			method: 'PATCH',
@@ -16,6 +16,7 @@ const Update = ({ closeModal, postContent }) => {
 			closeModal={closeModal}
 			fetcher={fetcher}
 			postContent={postContent}
+			setPostContent={setPostContent}
 			templateType='update'
 		/>
 	);

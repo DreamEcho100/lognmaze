@@ -17,6 +17,7 @@ const PostModalTemplate1 = ({
 	fetcher,
 	postContent,
 	templateType,
+	setPostContent,
 }) => {
 	const { user, ...UserCxt } = useContext(UserContext);
 
@@ -34,7 +35,7 @@ const PostModalTemplate1 = ({
 	);
 	const [tags, setTags] = useState(
 		postContent && postContent.tags && postContent.tags.length
-			? postContent.tags.join(', ')
+			? postContent.tags.join(' ')
 			: ''
 	);
 	const [image, setImage] = useState(
@@ -106,7 +107,7 @@ const PostModalTemplate1 = ({
 		try {
 			await fetcher({ bodyObj, token: user.token })
 				.then((response) => response.json())
-				.then(({ status, message }) => {
+				.then(({ status, message, data }) => {
 					if (status === 'error') {
 						console.error(message);
 						setBtnsDisabled(false);
@@ -118,6 +119,7 @@ const PostModalTemplate1 = ({
 						resetInputs();
 					} else if (templateType === 'update') {
 						closeModal();
+						setPostContent(data);
 					}
 				});
 		} catch (error) {
@@ -168,6 +170,8 @@ const PostModalTemplate1 = ({
 								setSlug(
 									`${event.target.value}`
 										.replace(/[^\w-\_]/gi, '-')
+										// .replace(/[/\\\'\"&\`]/gi, '-')
+										.replace(/(-{1,})/gi, '-')
 										.toLowerCase()
 								);
 							}}

@@ -1,8 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 
-import PostHeader from '@/components/UI/V1/posts/PostHeader/PostHeader';
-import PostDetails from '@/components/UI/V1/posts/PostDetails/PostDetails';
+import PostContainer from '@/components/UI/V1/posts/PostContainer/PostContainer';
 
 const Post = ({ data }) => {
 	if (Object.keys(data).length === 0) {
@@ -33,8 +32,7 @@ const Post = ({ data }) => {
 				/>
 				<title>{post.metaTitle ? post.metaTitle : post.title}</title>
 			</Head>
-			<PostHeader author={author} post={post} />
-			<PostDetails post={post} />
+			<PostContainer data={data} />
 		</article>
 	);
 };
