@@ -25,7 +25,7 @@
 }
 
 .accordion-header .container {
-	margin-right: 2em;
+	margin-right: calc(2em + 1rem);
 }
 
 .toggle-accordion-body {
