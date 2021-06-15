@@ -158,6 +158,7 @@ const PostModalTemplate1 = ({
 					<FormControl className={classes['form-control']}>
 						<FormLabel htmlFor='post-title'>Title: </FormLabel>
 						<FormInput
+							extraClasses={classes.input}
 							className={classes['form-input']}
 							type='text'
 							id='post-title'
@@ -183,6 +184,7 @@ const PostModalTemplate1 = ({
 							Tags: {tags.toLowerCase().trim().split(/\s+/).join(', ')}
 						</FormLabel>
 						<FormInput
+							extraClasses={classes.input}
 							className={classes['form-input']}
 							type='text'
 							id='post-meta-tags'
@@ -197,6 +199,7 @@ const PostModalTemplate1 = ({
 					<FormControl className={classes['form-control']}>
 						<FormLabel htmlFor='post-meta-title'>Meta Title: </FormLabel>
 						<FormInput
+							extraClasses={classes.input}
 							className={classes['form-input']}
 							type='text'
 							id='post-meta-title'
@@ -216,6 +219,7 @@ const PostModalTemplate1 = ({
 					<FormControl className={classes['form-control']}>
 						<FormLabel htmlFor='post-image'>Image: </FormLabel>
 						<FormInput
+							extraClasses={classes.input}
 							className={classes['form-input']}
 							type='text'
 							id='post-image'
@@ -228,7 +232,10 @@ const PostModalTemplate1 = ({
 					</FormControl>
 
 					<FormControl className={classes['form-control']}>
-						<FormLabel htmlFor='post-meta-discription'>
+						<FormLabel
+							extraClasses={classes.input}
+							htmlFor='post-meta-discription'
+						>
 							Meta Discription:{' '}
 						</FormLabel>
 						<textarea
