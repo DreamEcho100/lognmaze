@@ -109,7 +109,7 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, posts }) => {
 			</section>
 			<>
 				{formattedData.map((item, index) => (
-					<PostContainer data={item} />
+					<PostContainer data={item} key={index} />
 				))}
 			</>
 		</>

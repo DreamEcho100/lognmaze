@@ -33,7 +33,10 @@ export const UserContextProvider = ({ children }) => {
 	const verifyUserTokenFromCookie = async () => {
 		new Promise((resolve, reject) => {
 			!isLoading && setIsLoading(true);
-			const tokenCookie = getCookie('mazecode_user_token', document.cookie);
+			const tokenCookie = getCookie({
+				cookieName: 'mazecode_user_token',
+				cookieString: document.cookie,
+			});
 			if (tokenCookie.length !== 0) {
 				resolve(tokenCookie);
 			}
@@ -42,7 +45,8 @@ export const UserContextProvider = ({ children }) => {
 			.then(async (tokenCookie) => {
 				// return JSON.parse(tokenCookie);
 				const token = tokenCookie;
-				const response = await fetch(
+
+				const { status, message, data } = await fetch(
 					`${process.env.BACK_END_ROOT_URL}/api/v1/auth/verify-token`,
 					{
 						method: 'POST',
@@ -51,12 +55,13 @@ export const UserContextProvider = ({ children }) => {
 							authorization: `Bearer ${token}`,
 						},
 					}
-				);
+				).then((response) => response.json());
 
-				const { status, message, data } = await response.json();
-
-				if (status === 'success' /* || data.isAuthorized*/) {
-					const userCookie = getCookie('mazecode_user_data', document.cookie);
+				if (status === 'success' && data.isAuthorized) {
+					const userCookie = getCookie({
+						cookieName: 'mazecode_user_data',
+						cookieString: document.cookie,
+					});
 					const user = JSON.parse(userCookie);
 					setUser({
 						...user,
@@ -64,20 +69,21 @@ export const UserContextProvider = ({ children }) => {
 					});
 				}
 
-				if (status === 'error' /* || !data.isAuthorized*/) {
+				if (status === 'error' || !data.isAuthorized) {
 					handleSignOut();
 				}
 				setIsLoading(false);
+
+				return { status, message, data };
 			})
 			.catch((error) => {
 				console.error(error.message);
-				if (/*user.id || user.user_name || */ Object.keys(user).length !== 0) {
+				if (Object.keys(user).length !== 0 && !user.id && !user.user_name) {
 					handleSignOut();
 				}
 				setIsLoading(false);
-				return error.message;
+				return { status: 'succuss', message: error.message, data: {} };
 			});
-		// .finally(() => setIsLoading(false));
 	};
 
 	const handleUserSign = async (path, bodyObj) => {
@@ -182,29 +188,68 @@ export const UserContextProvider = ({ children }) => {
 
 	const handleSignOut = () => {
 		setIsLoading(true);
+		const handleDeleteCookie = async () => {
+			new Promise((resolve, reject) => {
+				if (
+					checkCookie({
+						cookieName: 'mazecode_user_data',
+						cookieString: document.cookie,
+					}) ||
+					checkCookie({
+						cookieName: 'mazecode_user_token',
+						cookieString: document.cookie,
+					})
+				) {
+					deleteCookie(
+						{
+							cookieName: 'mazecode_user_data',
+							domain: process.env.FRONT_END_DOMAIN,
+							path: '/',
+						},
+						process.env.FRONT_END_ROOT_URL
+					);
 
-		deleteCookie(
-			{
-				cookieName: 'mazecode_user_data',
-				domain: process.env.FRONT_END_DOMAIN,
-				path: '/',
-			},
-			process.env.FRONT_END_ROOT_URL
-		);
-		deleteCookie(
-			{
-				cookieName: 'mazecode_user_token',
-				domain: process.env.FRONT_END_DOMAIN,
-				path: '/',
-			},
-			process.env.FRONT_END_ROOT_URL
-		);
+					deleteCookie(
+						{
+							cookieName: 'mazecode_user_token',
+							domain: process.env.FRONT_END_DOMAIN,
+							path: '/',
+						},
+						process.env.FRONT_END_ROOT_URL
+					);
 
-		new Promise(async (resolve, reject) => {
-			setUser({});
+					new Promise((resolve, reject) => {
+						setTimeout(() => {
+							resolve();
+						}, 0);
+					});
+				}
 
-			resolve();
-		})
+				if (
+					checkCookie({
+						cookieName: 'mazecode_user_data',
+						cookieString: document.cookie,
+					}) ||
+					checkCookie({
+						cookieName: 'mazecode_user_token',
+						cookieString: document.cookie,
+					})
+				) {
+					setTimeout(() => {
+						handleDeleteCookie();
+						resolve();
+					}, 2000);
+				} else {
+					resolve();
+				}
+			});
+		};
+
+		return handleDeleteCookie()
+			.then(async () => {
+				setUser({});
+				return;
+			})
 			.then(async () => {
 				// router.replace('/');
 				router.replace(router.asPath);

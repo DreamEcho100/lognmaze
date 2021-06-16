@@ -9,7 +9,7 @@ const AllPosts = ({ data }) => {
 	return (
 		<>
 			{data.map((item, index) => (
-				<PostContainer data={item} />
+				<PostContainer data={item} key={index} />
 			))}
 		</>
 	);
