@@ -15,16 +15,16 @@
 	font-size: var(--size-8);
 }
 
-/* .nav,
+.nav,
 .nav * {
-	color: var(--main-special-font-color-5);
-} */
+	color: var(--main-special-2-font-color-1);
+}
 
 .nav li button {
 	background-color: transparent;
 	padding: 0.5em 0.75em;
-	border: 0.1rem solid var(--main-special-font-color-5);
-	outline-color: var(--main-special-font-color-5);
+	border: 0.1rem solid var(--main-special-2-font-color-1);
+	outline-color: var(--main-special-2-font-color-1);
 	margin-left: auto;
 }
 
@@ -56,16 +56,27 @@
 	max-width: 25rem;
 	height: 100vh;
 	top: 0;
-	right: 0;
-	background-color: #fff;
-	color: black;
-	transform: translateX(100%);
-	transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+	left: 0;
+	background-color: var(--main-special-2-bg-color-2);
+	color: var(--main-special-2-font-color-2);
+	padding: 0.5em;
+	transform: translateX(-100%);
+	transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0.27s;
 }
 
-.main-left-side-menu,
-.main-left-side-menu * {
-	color: black;
+.main-list li {
+	padding: 1em 0.5em;
+	font-weight: 700;
+}
+
+.main-list li:hover {
+	background-color: var(--main-special-2-bg-color-1);
+	color: var(--main-special-2-font-color-1);
+}
+
+.main-list li:focus {
+	background-color: var(--main-special-2-bg-color-3);
+	background-color: var(--main-special-2-font-color-3);
 }
 
 .main-left-side-menu.show-nav {

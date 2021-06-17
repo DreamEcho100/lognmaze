@@ -23,7 +23,7 @@
 }
 
 .header,
-.header button {
+.header .button {
 	color: var(--main-special-font-color-5);
 }
 
@@ -40,7 +40,7 @@
 }
 
 .li a,
-.li button {
+.li .button {
 	font-weight: bold;
 	border-radius: 0.5rem;
 	transition: all ease-in-out 0.3s;
@@ -51,7 +51,7 @@
 	border: 0.1rem solid transparent;
 }
 
-.li button {
+.li .button {
 	background-color: transparent;
 	padding: 0.5em 0.75em;
 	border: 0.1rem solid var(--main-special-font-color-5);
@@ -59,15 +59,15 @@
 }
 
 .li a:hover,
-.header button:hover {
+.header .button:hover {
 	color: var(--main-special-bg-color-3);
 }
 
-.header button:hover,
+.header .button:hover,
 .li a:hover {
 	border: 0.1rem solid var(--main-special-bg-color-2);
 }
 
-.header button:hover {
+.header .button:hover {
 	outline-color: var(--main-special-bg-color-2);
 }

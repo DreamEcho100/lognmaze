@@ -1,7 +1,4 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-
-import AllPosts from '../../components/Posts/AllPosts/AllPosts';
+import AllPosts from '@/components/Posts/AllPosts/AllPosts';
 
 const AllPostsPage = ({ data }) => {
 	if (data.length === 0) {
