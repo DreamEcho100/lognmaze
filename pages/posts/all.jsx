@@ -1,6 +1,6 @@
 import AllPosts from '@/components/Posts/AllPosts/AllPosts';
 
-const AllPostsPage = ({ data }) => {
+const AllPostsPage = ({ data = [] }) => {
 	if (data.length === 0) {
 		return <p>No Posts Found Here :(</p>;
 	}

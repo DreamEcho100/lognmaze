@@ -10,7 +10,8 @@ import Profile from '../../../components/Profile/Profile';
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
-const ProfilePage = ({ user, posts }) => {
+const ProfilePage = ({ user = {}, posts = [] }) => {
+	console.log(posts);
 	const router = useRouter();
 
 	const UserCxt = useContext(UserContext);
@@ -96,8 +97,17 @@ export const getServerSideProps = async ({ req, res, query }) => {
 				};
 			});
 
+		console.log('user', user);
+
 		if (user.status === 'error') {
-			return { user, posts: {} };
+			return {
+				user,
+				posts: {
+					status: 'error',
+					message: "Can't get the posts!",
+					data: [],
+				},
+			};
 		}
 
 		const posts = await fetch(
@@ -118,6 +128,8 @@ export const getServerSideProps = async ({ req, res, query }) => {
 					data: [],
 				};
 			});
+
+		console.log(posts);
 
 		return { user, posts };
 	};
