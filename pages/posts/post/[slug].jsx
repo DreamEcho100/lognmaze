@@ -1,6 +1,7 @@
 import Post from '@/components/Posts/Post/Post';
 
 const PostPage = ({ data }) => {
+	console.log('data', data);
 	return <Post data={data} />;
 };
 
@@ -22,11 +23,18 @@ export const getStaticProps = async (context) => {
 		params: { slug },
 	} = context;
 
+	console.log('slug', slug);
+	console.log('BACK_END_ROOT_URL', process.env.BACK_END_ROOT_URL);
+
 	const response = await fetch(
 		`${process.env.BACK_END_ROOT_URL}/api/v1/users/posts/get/${slug}`
 	);
 
 	const { status, message, data } = await response.json();
+
+	if (status === 'error' || !data) {
+		return { props: { data: {} } };
+	}
 
 	return { props: { data }, revalidate: 3600 };
 };

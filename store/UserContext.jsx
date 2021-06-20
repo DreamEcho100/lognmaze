@@ -190,6 +190,13 @@ export const UserContextProvider = ({ children }) => {
 		setIsLoading(true);
 		const handleDeleteCookie = async () => {
 			new Promise((resolve, reject) => {
+				console.log(
+					'1',
+					checkCookie({
+						cookieName: 'mazecode_user_token',
+						cookieString: document.cookie,
+					})
+				);
 				if (
 					checkCookie({
 						cookieName: 'mazecode_user_data',
@@ -221,7 +228,7 @@ export const UserContextProvider = ({ children }) => {
 					new Promise((resolve, reject) => {
 						setTimeout(() => {
 							resolve();
-						}, 0);
+						}, 250);
 					});
 				}
 

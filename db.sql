@@ -1,103 +1,798 @@
-CREATE DATABASE mazecode;
+/************************************************/
+/**/
+/************************************************/
 
-\c mazecode;
-
-create extension if not exists "uuid-ossp";
-
-CREATE TABLE users (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  first_name VARCHAR(32) NOT NULL,
-  last_name VARCHAR(32) NOT NULL,
-  user_name_id VARCHAR(100) NOT NULL UNIQUE,
-  email VARCHAR(100) NOT NULL UNIQUE,
-  email_verified BOOLEAN,
-  password VARCHAR(64) NOT NULL,
-  date_of_birth DATE NOT NULL,
-  country VARCHAR(64) DEFAULT '',
-  state VARCHAR(64) DEFAULT '',
-  city VARCHAR(64) DEFAULT '',
-  country_phone_code VARCHAR(10) NOT NULL,
-  phone_number TEXT NOT NULL UNIQUE,
-  phone_verified BOOLEAN,
-  gender VARCHAR(10) NOT NULL CONSTRAINT check_gender CHECK ( gender = 'male' OR gender = 'female' ),
-  role VARCHAR(25) DEFAULT 'user' CHECK ( role = 'user' OR role = 'admin' ), -- NOT NULL
-  profile_picture VARCHAR(255) DEFAULT '',
-  cover_photo VARCHAR(255) DEFAULT '',
-  about TEXT,
-  cv TEXT,
-  -- experience TEXT,
-  -- education TEXT,
-  -- `intro` TINYTEXT NULL DEFAULT NULL,
-  -- `profile` TEXT NULL DEFAULT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  last_sign_in DATE
-);
+/*************************/
+/**/
+/*************************/
+/*
+INSERT INTO users
+  ( user_name_id, email, password, country_phone_code, phone_number )
+VALUES
+  ( $1, $2, $3, $4, $5 )
+RETURNING *;
+*/
+INSERT INTO
+  users ( user_name_id, email, password, country_phone_code, phone_number )
+VALUES ( 'henry_cavel', 'henry_cavel@gmail.com', 'henry_cavel123', '1', '1111111' )
+RETURNING *;
 
 SELECT * FROM users;
 
--- INSERT INTO users 
--- ( first_name, last_name, email, password, gender, role, profile_picture, cover_photo, cv)
---  VALUES 
--- ('Henry', 'Cavel', 'henryly321@gmail.com', 'kthl8822', 'male', 'user', '', '', '');
+/*
+WITH add_new_user_profile as (
+  INSERT INTO users_profile
+    ( user_id, first_name, last_name, date_of_birth, country, state, city, gender )
+  VALUES
+    ( $1, $2, $3, $4, $5, $6, $7, $8 )
+  RETURNING *
+),
+add_new_user_experience as (
+  INSERT INTO users_experience
+    ( user_id )
+  VALUES
+    ( $1 )
+  RETURNING id
+)
+
+SELECT * FROM add_new_user_profile, add_new_user_experience;
+*/
+
+INSERT INTO users_profile
+  ( user_id, first_name, last_name, date_of_birth, country, state, gender )
+VALUES
+  ( '6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb', 'Henry', 'Cavel', 'Thu Jun 22 2000 00:00:00+03', 'Egypt', 'Cairo', 'male' )
+RETURNING *;
+
+INSERT INTO users_experience 
+  ( user_id, cv, experience, education, licenses_and_certifications, skills_and_endorsements )
+VALUES
+  ( '6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb', '', '', '', '', '' )
+RETURNING *;
 
 
-INSERT INTO users 
-( first_name, last_name, user_name, email, password, gender, role)
- VALUES 
-('Henry', 'Cavel', 'henry-cavel', 'henryly321@gmail.com', 'kthl8822', 'male', 'user');
+/*************************/
+/**/
+/*************************/
+
+/*
+SELECT
+  users.*,
+
+  users_profile.*,
+
+  users_experience.*
+
+FROM
+  users
+JOIN users_profile
+  ON users_profile.user_id = users.id
+JOIN users_experience
+  ON users_experience.user_id = users.id
+WHERE users.email = 'test@testing.com';
+*/
+
+/*
+SELECT
+  users.*,
+
+  users_profile.*,
+
+  users_experience.*
+
+FROM
+  users
+JOIN users_profile
+  ON users_profile.user_id = users.id
+JOIN users_experience
+  ON users_experience.user_id = users.id
+WHERE users.user_name_id = 'mr-tester';
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/************************************************/
+/**/
+/************************************************/
+INSERT INTO posts
+  ( author_id, format_type, title, slug, image, meta_description, content )
+VALUES
+ ('e75c463b-ca12-40eb-b8cf-8bc49f27f299',
+ 'md',
+ 'Getting Started with NextJS',
+ 'getting-started-with-nextjs',
+ 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fscene360.com%2Fwp-content%2Fuploads%2F2016%2F03%2Fcool-animated-gif-28.gif&f=1&nofb=1',
+ 'NextJS is the React framework for production - it makes building full-stack React apps and sites a breeze and ships with built-in SSR.',
+ 'NextJS is a **framework for ReactJS**.\n Wait a second ... a "framework" for React? Is not React itself already a framework for JavaScript?\n Well ... first of all, React is a "library" for JavaScript. That seems to be important for some people.\n Not for me, but still, there is a valid point: React already is a framework/library for JavaScript. So it is already an extra layer on top of JS.\n ## Why would we then need NextJS?\n Because NextJS makes building React apps easier - especially React apps that should have server-side rendering (though it does way more than just take care of that).\n - File-based Routing\n - Built-in Page Pre-rendering\n - Rich Data Fetching Capabilities\n - Image Optimization\n - Much More\n ## File-based Routing\n ![Create routes via your file + folder structure](https://miro.medium.com/max/1000/1*htbUdWgFQ3a94PMEvBr_hQ.png)\n ... More content ...\n To see my profile click [here](/profile/mazen-mohamed)\n'
+ )
+RETURNING *;
+
+
+						UPDATE posts SET
+							format_type='md',
+              title='Getting Started with NextJS',
+              meta_title=null,
+              slug='getting-started-with-nextjs',
+              image='https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fscene360.com%2Fwp-content%2Fuploads%2F2016%2F03%2Fcool-animated-gif-28.gif&f=1&nofb=1',
+              meta_description='NextJS is the React framework for production - it makes building full-stack React apps and sites a breeze and ships with built-in SSR.',
+              excerpt=null,
+              content='NextJS is a **framework for ReactJS**.\n Wait a second ... a "framework" for React? Is not React itself already a framework for JavaScript?\n Well ... first of all, React is a "library" for JavaScript. That seems to be important for some people.\n Not for me, but still, there is a valid point: React already is a framework/library for JavaScript. So it is already an extra layer on top of JS.\n ## Why would we then need NextJS?\n Because NextJS makes building React apps easier - especially React apps that should have server-side rendering (though it does way more than just take care of that).\n - File-based Routing\n - Built-in Page Pre-rendering\n - Rich Data Fetching Capabilities\n - Image Optimization\n - Much More\n ## File-based Routing\n ![Create routes via your file + folder structure](https://miro.medium.com/max/1000/1*htbUdWgFQ3a94PMEvBr_hQ.png)\n ... More content ...\n To see my profile click [here](/profile/mazen-mohamed)\n',
+              updated_on=NOW()
+						WHERE id='f1faa642-3fbc-4f4a-924c-921d1060b526' AND author_id='e75c463b-ca12-40eb-b8cf-8bc49f27f299'
+						RETURNING *;
+
+INSERT INTO posts
+  (author_id, format_type, title, slug, image, meta_description, content )
+VALUES
+ ('6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb', 'md', 'Getting Started with NextJS Now', 'getting-started-with-nextjs-now', 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fscene360.com%2Fwp-content%2Fuploads%2F2016%2F03%2Fcool-animated-gif-28.gif&f=1&nofb=1', 'NextJS is the React framework for production - it makes building full-stack React apps and sites a breeze and ships with built-in SSR.', 
+ 'NextJS is a **framework for ReactJS**.\n Wait a second ... a "framework" for React? Is not React itself already a framework for JavaScript?\n Well ... first of all, React is a "library" for JavaScript. That seems to be important for some people.\n Not for me, but still, there is a valid point: React already is a framework/library for JavaScript. So it is already an extra layer on top of JS.\n ## Why would we then need NextJS?\n Because NextJS makes building React apps easier - especially React apps that should have server-side rendering (though it does way more than just take care of that).\n - File-based Routing\n - Built-in Page Pre-rendering\n - Rich Data Fetching Capabilities\n - Image Optimization\n - Much More\n ## File-based Routing\n ![Create routes via your file + folder structure](https://miro.medium.com/max/1000/1*htbUdWgFQ3a94PMEvBr_hQ.png)\n ... More content ...\n To see my profile click [here](/profile/mazen-mohamed)\n')
+RETURNING *;
+
+SELECT * FROM posts;
+
+-- DELETE FROM post_tags;
+
+BEGIN;
+
+  INSERT INTO post_tags (post_id, name) VALUES ('f1faa642-3fbc-4f4a-924c-921d1060b526', 'javascript') RETURNING *;
+
+  INSERT INTO post_tags (post_id, name) VALUES ('f1faa642-3fbc-4f4a-924c-921d1060b526', 'js') RETURNING *;
+
+  INSERT INTO post_tags (post_id, name) VALUES ('f1faa642-3fbc-4f4a-924c-921d1060b526', 'next.js') RETURNING *;
+
+COMMIT;
+
+BEGIN;
+
+  INSERT INTO post_tags (post_id, name) VALUES ('15217296-710d-48c2-9b85-60ff24d0335f', 'javascript') RETURNING *;
+
+  INSERT INTO post_tags (post_id, name) VALUES ('15217296-710d-48c2-9b85-60ff24d0335f', 'js') RETURNING *;
+
+  INSERT INTO post_tags (post_id, name) VALUES ('15217296-710d-48c2-9b85-60ff24d0335f', 'next.js') RETURNING *;
+
+END;
+
+
+
+
 
 SELECT * FROM users;
 
--- DELETE FROM users WHERE email='henryly321@gmail.com';
+SELECT * FROM users_profile;
 
--- Expanded display is off. 
-\x on;
-
-SELECT * FROM users;
-
-\x off;
-
--- DROP TABLE users;
-
--- posts TABLE
-
-CREATE TABLE posts (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  author_id uuid REFERENCES users (id) NOT NULL,
-  author_user_name_id VARCHAR REFERENCES users (user_name_id) NOT NULL,
-  format_type VARCHAR(50) DEFAULT 'normal' CHECK ( format_type = 'normal' OR format_type = 'md' ),
-  title VARCHAR(255) NOT NULL UNIQUE,
-  meta_title VARCHAR(255),
-  slug VARCHAR(255) NOT NULL UNIQUE,
-  image VARCHAR(255) DEFAULT '',
-  tags VARCHAR[] DEFAULT ARRAY[]::VARCHAR[],
-  meta_description VARCHAR(255) NOT NULL,
-  excerpt VARCHAR(255),
-  content TEXT NOT NULL,
-  like_user_id uuid[] DEFAULT ARRAY[]::uuid[],
-  likes INT DEFAULT 0,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  updated_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-
--- comments TABLE
-
-CREATE TABLE comments (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  comment TEXT,
-  author_id uuid REFERENCES users (id),
-  post_id uuid REFERENCES posts (id),
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  updated_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
+SELECT * FROM users_experience;
 
 
 
--- CREATE TABLE comments (
---   cid SERIAL PRIMARY KEY,
---   comment VARCHAR(255),
---   author VARCHAR REFERENCES users(username),
---   user_id INT REFERENCES users(uid),
---   post_id INT REFERENCES posts(pid),
---   date_created TIMESTAMP
+
+
+
+SELECT
+  users.user_name_id,
+  
+  users_profile.first_name,
+  users_profile.last_name,
+  users_profile.profile_picture,
+  users_profile.cover_photo,
+
+  posts.id,
+  posts.author_id,
+  posts.format_type,
+  posts.title,
+  posts.meta_title,
+  posts.slug,
+  posts.image,
+  posts.meta_description,
+  posts.excerpt,
+  posts.content,
+  posts.likes_users_id,
+  posts.likes,
+  posts.created_at,
+  posts.updated_on,
+
+  post_tags.tags
+
+FROM
+  users
+JOIN users_profile
+  ON users_profile.user_id = users.id
+JOIN posts 
+  ON posts.author_id = users.id
+JOIN LATERAL(
+  SELECT ARRAY (
+    -- SELECT array_agg(post_tags.name) AS tags
+    SELECT post_tags.name AS tags
+    FROM post_tags
+    -- JOIN posts
+    -- ON post_tags.post_id = posts.id
+    WHERE post_tags.post_id = posts.id
+  ) AS tags
+) post_tags ON TRUE
+WHERE users.user_name_id = 'henry_cavel' ORDER BY posts.created_at DESC;
+
+
+-- SELECT 
+--   posts.author_id,
+--   posts.format_type,
+--   posts.title,
+--   posts.slug,
+--   posts.image,
+--   posts.meta_description,
+--   posts.content,
+--   post_tags.tags
+-- FROM   posts,
+--   LATERAL  (
+--     SELECT ARRAY (
+--       SELECT 
+--         post_tags.name
+--       FROM
+--         post_tags
+--       JOIN posts
+--       ON posts.id = post_tags.post_id
+--       WHERE post_tags.post_id = posts.id
+--     ) AS tags
+--   ) post_tags;
+
+-- SELECT ARRAY(SELECT name FROM post_tags);
+
+SELECT
+  posts.id,
+  posts.author_id,
+  posts.format_type,
+  posts.title,
+  posts.meta_title,
+  posts.slug,
+  posts.image,
+  posts.meta_description,
+  posts.excerpt,
+  posts.content,
+  posts.likes_users_id,
+  posts.likes,
+  posts.created_at,
+  posts.updated_on,
+
+  post_tags.tags
+FROM   posts,
+  LATERAL  (
+    SELECT ARRAY (
+      SELECT 
+        post_tags.name
+      FROM
+        post_tags
+      WHERE post_tags.post_id = posts.id
+    ) AS tags
+  ) post_tags
+WHERE posts.author_id = '6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb' AND posts.slug = 'getting-started-with-nextjs';
+
+
+
+
+
+SELECT
+  posts.id,
+  posts.author_id,
+  posts.format_type,
+  posts.title,
+  posts.meta_title,
+  posts.slug,
+  posts.image,
+  posts.meta_description,
+  posts.excerpt,
+  posts.content,
+  posts.likes_users_id,
+  posts.likes,
+  posts.created_at,
+  posts.updated_on,
+
+  post_tags.tags
+  
+FROM   posts,
+  LATERAL  (
+      SELECT 
+        json_agg (post_tags.name) AS tags
+      FROM
+        post_tags
+      WHERE post_tags.post_id = posts.id
+  ) post_tags
+WHERE posts.author_id = '6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb' ORDER BY posts.updated_on DESC; -- AND posts.slug = 'getting-started-with-nextjs';
+
+
+
+
+
+
+
+
+
+
+SELECT
+  posts.id,
+  posts.author_id,
+  posts.format_type,
+  posts.title,
+  posts.meta_title,
+  posts.slug,
+  posts.image,
+  posts.meta_description,
+  posts.excerpt,
+  posts.content,
+  posts.likes_users_id,
+  posts.likes,
+  posts.created_at,
+  posts.updated_on,
+
+  post_tags.tags
+  
+FROM   posts,
+  LATERAL  (
+      SELECT 
+        json_agg (post_tags.name) AS tags
+      FROM
+        post_tags
+      WHERE post_tags.post_id = posts.id
+  ) post_tags
+WHERE posts.author_id = '6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb' ORDER BY posts.updated_on DESC; -- AND posts.slug = 'getting-started-with-nextjs';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SELECT
+
+  posts.id,
+  posts.author_id,
+  posts.format_type,
+  posts.title,
+  posts.meta_title,
+  posts.slug,
+  posts.image,
+  posts.meta_description,
+  posts.excerpt,
+  posts.content,
+  posts.likes_users_id,
+  posts.likes,
+  posts.created_at,
+  posts.updated_on,
+
+  users.user_name_id,
+  users_profile.first_name,
+  users_profile.last_name,
+  users_profile.profile_picture
+FROM
+  posts
+JOIN users 
+  ON posts.author_id = users.id
+JOIN post_tags 
+  ON post_tags.post_id = posts.id
+JOIN users_profile 
+  ON users_profile.user_id = users.id
+WHERE posts.author_id = '6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb'
+ORDER BY posts.created_at DESC;
+
+
+
+
+
+
+
+
+
+
+
+SELECT
+
+  posts.id,
+  posts.author_id,
+  posts.format_type,
+  posts.title,
+  posts.meta_title,
+  posts.slug,
+  posts.image,
+  posts.meta_description,
+  posts.excerpt,
+  posts.content,
+  posts.likes_users_id,
+  posts.likes,
+  posts.created_at,
+  posts.updated_on,
+
+  users.user_name_id,
+  users_profile.first_name,
+  users_profile.last_name,
+  users_profile.profile_picture
+FROM
+  posts
+JOIN users 
+  ON posts.author_id = users.id -- AND users.user_name_id = "henry_cavel"
+JOIN users_profile 
+  ON users_profile.user_id = users.id
+WHERE posts.author_id = '6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb'
+ORDER BY posts.created_at DESC;
+
+
+
+
+
+
+
+-- SELECT *
+-- FROM posts
+-- JOIN LATERAL(
+--   -- SELECT ARRAY (
+--     SELECT array_agg(post_tags.name) AS tags
+--     FROM post_tags
+--     JOIN posts
+--     ON post_tags.post_id = posts.id
+--   -- ) AS tags
+-- ) posts_array ON TRUE; posts_array.post_id = posts.id;
+-- LEFT OUTER JOIN bar ON (foo_bars ->> 'id') :: BIGINT = bar.ID;
+
+-- FROM
+--   posts
+-- JOIN users 
+--   ON posts.author_id = users.id -- AND users.user_name_id = "henry_cavel"
+-- JOIN users_profile 
+--   ON users_profile.user_id = users.id
+-- WHERE posts.author_id = '6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb'
+-- ORDER BY posts.created_at DESC;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SELECT
+users.*
+posts_array
+
+FROM   users,
+  LATERAL  (
+    SELECT ARRAY (
+SELECT
+
+      SELECT ROW (
+  posts.id,
+  posts.author_id,
+  posts.format_type,
+  posts.title,
+  posts.meta_title,
+  posts.slug,
+  posts.image,
+  posts.meta_description,
+  posts.excerpt,
+  posts.content,
+  posts.likes_users_id,
+  posts.likes,
+  posts.created_at,
+  posts.updated_on,
+
+  post_tags.tags
+      )
+FROM   posts,
+  LATERAL  (
+    SELECT ARRAY (
+      SELECT 
+        post_tags.name
+      FROM
+        post_tags
+      WHERE post_tags.post_id = posts.id
+    ) AS tags
+  ) post_tags
+WHERE posts.author_id = users.id -- '6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb'
+  )
+  ) posts_array WHERE users.id = '6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+SELECT
+  posts.author_id,
+  posts.format_type,
+  posts.title,
+  posts.slug,
+  posts.image,
+  posts.meta_description,
+  posts.content,
+
+  array_agg(post_tags.name) AS tags
+FROM
+  posts
+JOIN post_tags
+  ON post_tags.post_id = posts.id
+  GROUP BY posts.id;
+-- WHERE users.id = '6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb'
+  -- HAVING users.id = '6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb'
+;
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Failed Update
+UPDATE
+  users
+SET
+  email=('henry_cavel123@gmail.com')
+WHERE
+  id='fa116147-930d-4be3-afe8-7140dbc8196n'
+RETURNING *;
+-- ERROR:  invalid input syntax for type uuid: "fa116147-930d-4be3-afe8-7140dbc8196n"
+-- LINE 6:   id='fa116147-930d-4be3-afe8-7140dbc8196n'
+
+-- Successful Update
+UPDATE
+  users
+SET
+  email=('henry_cavel123@gmail.com')
+WHERE
+  id='6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb'
+RETURNING *;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- CREATE TABLE contacts (
+-- 	id serial PRIMARY KEY,
+-- 	name VARCHAR (100),
+-- 	phones TEXT []
 -- );
+
+-- Search in PostgreSQL Array
+-- Suppose, we want to know who has the phone number (408)-589-5555 regardless of position of the phone number in the phones array, we use ANY() function as follows:
+
+-- SELECT
+-- 	name,
+-- 	phones
+-- FROM
+-- 	contacts
+-- WHERE
+-- 	'(408)-589-5555' = ANY (phones);
+
+-- Expand Arrays
+-- PostgreSQL provides the unnest() function to expand an array to a list of rows. For example,  the following query expands all phone numbers of the phones array.
+
+-- SELECT
+-- 	name,
+-- 	unnest(phones)
+-- FROM
+-- 	contacts;
+
+-- This answer is the simplest I think: https://stackoverflow.com/a/6535089/673187
+
+-- SELECT array(SELECT unnest(:array1) EXCEPT SELECT unnest(:array2));
+-- so you can easily use it in an UPDATE command, when you need to remove some elements from an array column:
+
+-- UPDATE table1 SET array1_column=(SELECT array(SELECT unnest(array1_column) EXCEPT SELECT unnest('{2, 3}'::int[])));
+
+
+
+
+
+
+
+
+-- Postgres: JOIN on an array field
+-- Say we create two tables (users and groups), where users are in groups:
+
+-- create table users (
+--   id int unique,
+--   name varchar unique
+-- );
+
+-- create table groups (
+--   id int unique,
+--   name varchar unique,
+--   member_users int[],
+--   member_groups int[]
+-- );
+-- The groups own the user memberships, rather than having an intermediate table with the relation.
+
+-- Now, we want to join them, so we can simply do this:
+
+-- select *
+-- from groups join users
+--   on users.id = ANY (groups.member_users)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

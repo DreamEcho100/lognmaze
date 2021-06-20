@@ -13,31 +13,47 @@ export default async (req, res) => {
 				.query(
 					`
 					SELECT
+						users.user_name_id,
+						
+						users_profile.first_name,
+						users_profile.last_name,
+						users_profile.profile_picture,
+						users_profile.cover_photo,
+
 						posts.id,
 						posts.author_id,
-						posts.author_user_name_id,
 						posts.format_type,
 						posts.title,
 						posts.meta_title,
 						posts.slug,
 						posts.image,
-						posts.tags,
 						posts.meta_description,
 						posts.excerpt,
 						posts.content,
-						posts.like_user_id,
+						posts.likes_users_id,
 						posts.likes,
 						posts.created_at,
 						posts.updated_on,
-						users.user_name_id,
-						users.first_name,
-						users.last_name,
-						users.profile_picture
+
+						post_tags.tags
+
 					FROM
-						posts
-					JOIN users 
+						users
+					JOIN users_profile
+						ON users_profile.user_id = users.id
+					JOIN posts 
 						ON posts.author_id = users.id
-					WHERE posts.author_user_name_id = $1
+					JOIN LATERAL(
+						SELECT ARRAY (
+							-- SELECT array_agg(post_tags.name) AS tags
+							SELECT post_tags.name AS tags
+							FROM post_tags
+							-- JOIN posts
+							-- ON post_tags.post_id = posts.id
+							WHERE post_tags.post_id = posts.id
+						) AS tags
+					) post_tags ON TRUE
+					WHERE users.user_name_id =  $1
 					ORDER BY posts.created_at DESC
 				`,
 					[user_name_id]

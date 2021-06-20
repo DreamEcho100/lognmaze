@@ -26,6 +26,20 @@ export default async (req, res) => {
 				phoneNumber,
 				gender,
 			} = req.body;
+			console.table({
+				firstName,
+				lastName,
+				userNameId,
+				email,
+				password,
+				dateOfBirth,
+				country,
+				state,
+				city,
+				countryPhoneCode,
+				phoneNumber,
+				gender,
+			});
 
 			const user = await pool.query('SELECT * FROM users WHERE email = $1', [
 				email,
@@ -39,36 +53,67 @@ export default async (req, res) => {
 
 			const hashedPassword = await hashPassword(password);
 
-			const newUser = await pool.query(
-				'INSERT INTO users ( first_name, last_name, user_name_id, email, password, date_of_birth, country, state, city, country_phone_code, phone_number, gender) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
-				[
-					firstName,
-					lastName,
-					userNameId,
-					email,
-					hashedPassword,
-					dateOfBirth,
-					country,
-					state,
-					city,
-					countryPhoneCode,
-					phoneNumber,
-					gender,
-				]
-			);
+			const newUser = await pool
+				.query(
+					`
+					INSERT INTO users
+					 ( user_name_id, email, password, country_phone_code, phone_number )
+					VALUES
+						( $1, $2, $3, $4, $5 )
+					RETURNING *;
+				`,
+					[userNameId, email, hashedPassword, countryPhoneCode, phoneNumber]
+				)
+				.then(async (response) => {
+					delete response.rows[0].password;
 
-			delete newUser.rows[0].password;
+					const response2 = await pool.query(
+						`
+							WITH add_new_user_profile as (
+								INSERT INTO users_profile
+									( user_id, first_name, last_name, date_of_birth, country, state, city, gender )
+								VALUES
+									( $1, $2, $3, $4, $5, $6, $7, $8 )
+								RETURNING *
+							),
+							add_new_user_experience as (
+								INSERT INTO users_experience
+									( user_id )
+								VALUES
+									( $1 )
+								RETURNING id
+							)
+							
+							SELECT * FROM add_new_user_profile, add_new_user_experience;
+						`,
+						[
+							response.rows[0].id,
+							firstName,
+							lastName,
+							dateOfBirth,
+							country,
+							state,
+							city,
+							gender,
+						]
+					);
+
+					return {
+						...response.rows[0],
+						...response2.rows[0],
+					};
+				});
 
 			console.log(newUser);
 
 			const jwt = jwtGenerator({
-				id: newUser.rows[0].id,
+				id: newUser.id,
 			});
 
 			res.status(201).json({
 				status: 'success',
 				message: 'Created user!',
-				data: newUser.rows[0],
+				data: newUser,
 				jwt,
 			});
 		} catch (error) {

@@ -11,7 +11,6 @@ const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
 const ProfilePage = ({ user = {}, posts = [] }) => {
-	console.log(posts);
 	const router = useRouter();
 
 	const UserCxt = useContext(UserContext);
@@ -93,11 +92,9 @@ export const getServerSideProps = async ({ req, res, query }) => {
 					message: error.message,
 					data: {},
 					isAuthorized: false,
-					visitorIdentity: 'GUEST',
+					visitorIdentity: GUEST,
 				};
 			});
-
-		console.log('user', user);
 
 		if (user.status === 'error') {
 			return {
@@ -129,16 +126,20 @@ export const getServerSideProps = async ({ req, res, query }) => {
 				};
 			});
 
-		console.log(posts);
-
 		return { user, posts };
 	};
 
 	let tokenCookieString = '';
 	let userCookieString = '';
 	if (req.headers.cookie) {
-		tokenCookieString = getCookie('mazecode_user_token', req.headers.cookie);
-		userCookieString = getCookie('mazecode_user_data', req.headers.cookie);
+		tokenCookieString = getCookie({
+			cookieName: 'mazecode_user_token',
+			cookieString: req.headers.cookie,
+		});
+		userCookieString = getCookie({
+			cookieName: 'mazecode_user_data',
+			cookieString: req.headers.cookie,
+		});
 	}
 
 	const data = await fetcher(

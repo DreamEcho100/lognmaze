@@ -36,7 +36,23 @@ export default async (req, res) => {
 			}
 
 			const user = await pool.query(
-				'SELECT * FROM users WHERE user_name_id = $1',
+				// 'SELECT * FROM users WHERE user_name_id = $1',
+				`
+					SELECT
+						users.*,
+					
+						users_profile.*,
+					
+						users_experience.*
+					
+					FROM
+						users
+					JOIN users_profile
+						ON users_profile.user_id = users.id
+					JOIN users_experience
+						ON users_experience.user_id = users.id
+					WHERE users.user_name_id = $1;
+				`,
 				[user_name_id]
 			);
 

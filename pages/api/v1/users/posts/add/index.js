@@ -18,7 +18,6 @@ export default async (req, res) => {
 
 			const {
 				authorId,
-				authorUserNameId,
 				formatType,
 				title,
 				metaTitle,
@@ -30,28 +29,34 @@ export default async (req, res) => {
 				content,
 			} = req.body;
 
-			const newPost = await pool.query(
-				`
+			const newPost = await pool
+				.query(
+					`
           INSERT INTO posts
-            ( author_id, author_user_name_id, format_type, title, meta_title, slug, image, tags, meta_description, excerpt, content)
+            ( author_id, format_type, title, meta_title, slug, image, tags, meta_description, excerpt, content)
           VALUES
-            ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+            ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
           RETURNING *
         `,
-				[
-					authorId,
-					authorUserNameId,
-					formatType,
-					title,
-					metaTitle,
-					slug,
-					image,
-					tags,
-					metaDescription,
-					excerpt,
-					content,
-				]
-			);
+					[
+						authorId,
+						formatType,
+						title,
+						metaTitle,
+						slug,
+						image,
+						tags,
+						metaDescription,
+						excerpt,
+						content,
+					]
+				)
+				.then((response) => {
+					/*
+					`WITH ${tags.map((tag, index) => `add_post_tag_${index} (INSERT INTO post_tags (post_id, name) VALUES (${response.rows[0].id}, ${tag}))`).join(',')}
+					SELECT * FROM ${tags.map((tag, index) => `add_post_tag_${index}`).join(',')}`;*/
+					return response;
+				});
 
 			return res.status(200).json({
 				status: 'success',

@@ -29,7 +29,7 @@ export default async (req, res) => {
 			if (!validPassword) return;
 
 			const updatedUser = await pool.query(
-				'UPDATE users SET email=($1) WHERE id=($2) RETURNING *', //  RETURNING *
+				'UPDATE users SET email=($1) WHERE id=($2) RETURNING *',
 				[email, isAuthorized.id]
 			);
 

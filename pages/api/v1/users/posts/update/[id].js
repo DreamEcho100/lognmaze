@@ -8,7 +8,6 @@ export default async (req, res) => {
 
 	if (req.method === 'PATCH') {
 		try {
-			console.log(req.body);
 			const isAuthorized = await handleIsAuthorized(
 				res,
 				req.headers.authorization
@@ -23,40 +22,47 @@ export default async (req, res) => {
 				metaTitle,
 				slug,
 				image,
-				tags,
 				metaDescription,
 				excerpt,
 				content,
+				tags,
+				removedTags,
+				tagsUpdated,
 			} = req.body;
 
 			const result = await pool
 				.query(
 					`
 						UPDATE posts SET
-							format_type=$1, title=$2, meta_title=$3, slug=$4, image=$5, tags=$6, meta_description=$7, excerpt=$8, content=$9, updated_on=NOW()
+							format_type=$1, title=$2, meta_title=$3, slug=$4, image=$5, meta_description=$6, excerpt=$7, content=$8, updated_on=$9
 						WHERE id=$10 AND author_id=$11
 						RETURNING *
         	`,
 					[
 						formatType,
 						title,
-						metaTitle,
+						metaTitle && metaTitle.length > 10 ? metaTitle : null,
 						slug,
 						image,
-						tags,
 						metaDescription,
-						excerpt,
+						excerpt && excerpt.length > 10 ? excerpt : null,
 						content,
+						new Date().toLocaleString(),
 						id,
 						isAuthorized.id,
 					]
 				)
 				.then((response) => response.rows[0]);
 
+			console.log('result', result);
+
 			return res.status(200).json({
 				status: 'success',
 				message: 'Posted Successefully!',
-				data: result,
+				data: {
+					...result,
+					tags,
+				},
 				isAuthorized: true,
 			});
 		} catch (error) {

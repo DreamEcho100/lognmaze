@@ -81,12 +81,12 @@ const PostModalTemplate1 = ({
 				authorUserNameId: user.user_name_id,
 				formatType,
 				title,
-				metaTitle,
+				metaTitle: metaTitle && metaTitle.length > 10 ? metaTitle : null,
 				slug,
 				image,
 				tags: tags.toLowerCase().trim().split(/\s+/),
 				metaDescription,
-				excerpt,
+				excerpt: excerpt && excerpt.length > 10 ? excerpt : null,
 				content,
 			};
 		} else if (templateType === 'update') {
@@ -119,6 +119,7 @@ const PostModalTemplate1 = ({
 						resetInputs();
 					} else if (templateType === 'update') {
 						closeModal();
+						console.log('data + 1', data);
 						setPostContent(data);
 					}
 				});
