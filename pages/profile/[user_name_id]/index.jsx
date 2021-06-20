@@ -25,18 +25,51 @@ const ProfilePage = ({ user = {}, posts = [] }) => {
 
 	useEffect(() => {
 		if (!UserCxt.isLoading) {
-			if (!UserCxt.user.id && userData.id) {
-				identity === OWNER && setIdentity(GUEST);
-				handleIsAuthorized && setHandleIsAuthorized(false);
-			} else if (
-				UserCxt.user.id &&
-				JSON.stringify(UserCxt.user) !== JSON.stringify(userData)
-			) {
-				setUserData(UserCxt.user);
+			if (!UserCxt.user && !UserCxt.user.id) {
+				if (userData.id) {
+					if (handleIsAuthorized) setHandleIsAuthorized(false);
+					if (identity === OWNER) setIdentity(GUEST);
+				}
+			} else {
+				if (
+					JSON.stringify(UserCxt.user) !== JSON.stringify(userData) &&
+					UserCxt.user.id
+				)
+					setUserData(UserCxt.user);
+
+				if (
+					router.query.user_name_id === UserCxt.user.user_name_id &&
+					identity === GUEST
+				) {
+					setIdentity(OWNER);
+					if (!handleIsAuthorized) setHandleIsAuthorized(true);
+				} else if (
+					router.query.user_name_id !== UserCxt.user.user_name_id &&
+					identity === OWNER
+				) {
+					setIdentity(GUEST);
+					if (handleIsAuthorized) setHandleIsAuthorized(false);
+				}
 			}
 			setIsLoading(false);
 		}
-	}, [UserCxt.user, UserCxt.isLoading]);
+	}, [UserCxt.user, UserCxt.isLoading, router.query.user_name_id]);
+
+	// useEffect(() => {
+	// 	if (!UserCxt.isLoading) {
+	// 		if (
+	// 			router.query.user_name_id === UserCxt.user.user_name_id &&
+	// 			identity === GUEST
+	// 		) {
+	// 			setIdentity(OWNER);
+	// 		} else if (
+	// 			router.query.user_name_id !== UserCxt.user.user_name_id &&
+	// 			identity === OWNER
+	// 		) {
+	// 			setIdentity(GUEST);
+	// 		}
+	// 	}
+	// }, [router.query.user_name_id]);
 
 	if (UserCxt.isLoading || isLoading) {
 		return <p>Loading...</p>;

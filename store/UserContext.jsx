@@ -190,13 +190,6 @@ export const UserContextProvider = ({ children }) => {
 		setIsLoading(true);
 		const handleDeleteCookie = async () => {
 			new Promise((resolve, reject) => {
-				console.log(
-					'1',
-					checkCookie({
-						cookieName: 'user_token',
-						cookieString: document.cookie,
-					})
-				);
 				if (
 					checkCookie({
 						cookieName: 'user_data',

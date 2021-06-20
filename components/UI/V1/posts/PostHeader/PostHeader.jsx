@@ -24,11 +24,6 @@ const PostHeader = ({ author, post, setPost }) => {
 		}
 	}, [user]);
 
-	console.log('user', user);
-	console.log('user.user_name_id', user.user_name_id);
-	console.log('author.user_name_id', author.user_name_id);
-	console.log('isPostOwner', isPostOwner);
-
 	return (
 		<header>
 			<div className=''>
