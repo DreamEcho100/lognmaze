@@ -32,10 +32,17 @@ const ProfilePage = ({ user = {}, posts = [] }) => {
 				}
 			} else {
 				if (
-					JSON.stringify(UserCxt.user) !== JSON.stringify(userData) &&
-					UserCxt.user.id
+					(JSON.stringify(UserCxt.user) !== JSON.stringify(userData) ||
+						Object.keys(userData).length === 0) &&
+					UserCxt.user.user_name_id === router.query.user_name_id
 				)
 					setUserData(UserCxt.user);
+				console.log(
+					JSON.stringify(UserCxt.user) !== JSON.stringify(userData) ||
+						Object.keys(userData).length === 0
+				);
+				console.log(UserCxt.user.user_name_id === router.query.user_name_id);
+				console.log('user', user);
 
 				if (
 					router.query.user_name_id === UserCxt.user.user_name_id &&

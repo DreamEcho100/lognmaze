@@ -1,35 +1,33 @@
 import React from 'react';
-import { Fragment } from 'react';
 
 import classes from './EditUserInfo.module.css';
 
-import Accordion from '../../../UI/V1/Accordion/Accordion';
-import ChangeBasicInfo from './ChangeBasicInfo/ChangeBasicInfo';
-import ChangeProfilePicture from './ChangeProfilePicture/ChangeProfilePicture';
-import ChangeCoverPhoto from './ChangeCoverPhoto/ChangeCoverPhoto';
+import AccordionSettingsDisplayer from '../UI/AccordionSettingsDisplayer/AccordionSettingsDisplayer';
+import ButtonModuleDisplayer from '../UI/ButtonModuleDisplayer/ButtonModuleDisplayer';
+
+import ChangeBasicInfoModal from './ChangeBasicInfoModal/ChangeBasicInfoModal';
+import ChangeProfilePictureModal from './ChangeProfilePictureModal/ChangeProfilePictureModal';
+import ChangeCoverPhotoModal from './ChangeCoverPhotoModal/ChangeCoverPhotoModal';
 
 const EditUserInfo = () => {
 	return (
-		<div>
-			<Accordion>
-				<Fragment key='header'>
-					<h2>Edit Your Info</h2>
-				</Fragment>
-				<Fragment key='body'>
-					<ul>
-						<li className={classes['item-list']}>
-							<ChangeBasicInfo />
-						</li>
-						<li className={classes['item-list']}>
-							<ChangeProfilePicture />
-						</li>
-						<li className={classes['item-list']}>
-							<ChangeCoverPhoto />
-						</li>
-					</ul>
-				</Fragment>
-			</Accordion>
-		</div>
+		<AccordionSettingsDisplayer
+			headerText='Edit Your Security'
+			bodyItems={[
+				<ButtonModuleDisplayer
+					buttonText='Change Your Basic Info'
+					ModalElement={ChangeBasicInfoModal}
+				/>,
+				<ButtonModuleDisplayer
+					buttonText='Change Your Profile Picture'
+					ModalElement={ChangeProfilePictureModal}
+				/>,
+				<ButtonModuleDisplayer
+					buttonText='Change Your Cover Photo'
+					ModalElement={ChangeCoverPhotoModal}
+				/>,
+			]}
+		/>
 	);
 };
 

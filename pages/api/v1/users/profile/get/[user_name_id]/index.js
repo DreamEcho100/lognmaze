@@ -39,11 +39,11 @@ export default async (req, res) => {
 				// 'SELECT * FROM users WHERE user_name_id = $1',
 				`
 					SELECT
-						users.*,
-					
 						users_profile.*,
 					
-						users_experience.*
+						users_experience.*,
+						
+						users.*
 					
 					FROM
 						users
@@ -55,6 +55,8 @@ export default async (req, res) => {
 				`,
 				[user_name_id]
 			);
+
+			console.log('user', user.rows[0]);
 
 			if (user.rows.length === 0) {
 				res.status(401).json({

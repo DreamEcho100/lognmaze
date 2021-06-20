@@ -12,11 +12,11 @@ export default async (req, res) => {
 					// 'SELECT * FROM users'
 					`
 						SELECT
-							users.*,
-
 							users_profile.*,
 
-							users_experience.*
+							users_experience.*,
+
+							users.*
 
 						FROM
 							users

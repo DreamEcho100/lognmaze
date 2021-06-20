@@ -19,7 +19,7 @@ export default async (req, res) => {
 							users_profile.profile_picture,
 							users_profile.cover_photo,
 						
-							posts.id,
+							posts.id AS post_id,
 							posts.author_id,
 							posts.format_type,
 							posts.title,

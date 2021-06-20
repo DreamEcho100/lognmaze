@@ -29,9 +29,11 @@ export default async (req, res) => {
 			if (!validPassword) return;
 
 			const updatedUser = await pool.query(
-				'UPDATE users SET email=($1) WHERE id=($2) RETURNING *',
+				'UPDATE users SET email=($1), email_verified=FALSE WHERE id=($2) RETURNING *',
 				[email, isAuthorized.id]
 			);
+
+			console.log(email, isAuthorized.id, updatedUser.rows[0]);
 
 			res.status(201).json({
 				status: 'success',

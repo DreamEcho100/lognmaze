@@ -20,7 +20,7 @@ export default async (req, res) => {
 						users_profile.profile_picture,
 						users_profile.cover_photo,
 
-						posts.id,
+						posts.id AS post_id,
 						posts.author_id,
 						posts.format_type,
 						posts.title,
@@ -58,7 +58,7 @@ export default async (req, res) => {
 				)
 				.then((response) => response.rows[0]);
 
-			if (!result.id) {
+			if (!result.post_id) {
 				res.status(404).json({
 					status: 'error',
 					message: 'No Post Found :(',
@@ -72,7 +72,7 @@ export default async (req, res) => {
 				message: 'The newest Posts Arrived Successefully!, Enjoy ;)',
 				data: {
 					post: {
-						id: result.id,
+						id: result.post_id,
 						author_id: result.author_id,
 						author_user_name_id: result.user_name_id,
 						format_type: result.format_type,

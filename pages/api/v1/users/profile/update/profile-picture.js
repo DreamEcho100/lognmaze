@@ -1,7 +1,5 @@
-import {
-	handleIsAuthorized /*, verifyPassword*/,
-} from '../../../../../../lib/v1/auth';
-import { pool, handleFindingUserById } from '../../../../../../lib/v1/pg';
+import { handleIsAuthorized /*, verifyPassword*/ } from '@/lib/v1/auth';
+import { pool, handleFindingUserById } from '@/lib/v1/pg';
 
 export default async (req, res) => {
 	if (req.method === 'PATCH') {
@@ -20,11 +18,14 @@ export default async (req, res) => {
 			const { url } = req.body;
 
 			const updatedUser = await pool.query(
-				'UPDATE users SET profile_picture=($1) WHERE id=($2)', // RETURNING *
+				'UPDATE users_profile SET profile_picture=($1) WHERE user_id=($2) RETURNING *',
 				[url, isAuthorized.id]
 			);
 
 			// delete updatedUser.rows[0].password;
+
+			console.log(url, isAuthorized.id);
+			console.log('updatedUser.rows[0]', updatedUser.rows[0]);
 
 			return res.status(201).json({
 				status: 'success',

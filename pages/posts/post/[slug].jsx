@@ -23,9 +23,6 @@ export const getStaticProps = async (context) => {
 		params: { slug },
 	} = context;
 
-	console.log('slug', slug);
-	console.log('BACK_END_ROOT_URL', process.env.BACK_END_ROOT_URL);
-
 	const response = await fetch(
 		`${process.env.BACK_END_ROOT_URL}/api/v1/users/posts/get/${slug}`
 	);

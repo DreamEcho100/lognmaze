@@ -12,6 +12,8 @@ import Settings from './Settings/Settings';
 const PostHeader = ({ author, post, setPost }) => {
 	const router = useRouter();
 
+	console.log('author', author);
+
 	const { user, ...UserCxt } = useContext(UserContext);
 
 	const [isPostOwner, setIsPostOwner] = useState(false);

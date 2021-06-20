@@ -3,20 +3,20 @@ import { Fragment, useContext, useState, useCallback } from 'react';
 
 import classes from './ChangeCoverPhotoModal.module.css';
 
-import BoxShadowClasses from '../../../../../UI/V1/BoxShadow.module.css';
+import BoxShadowClasses from '@/components/UI/V1/BoxShadow.module.css';
 
-import UserContext from '../../../../../../store/UserContext';
+import UserContext from '@/store/UserContext';
 
-import Modal from '../../../../../UI/V1/Modal/Modal';
-import Form from '../../../../../UI/V1/Form/Form';
-import FormLabel from '../../../../../UI/V1/FormLabel/FormLabel';
-import FormInput from '../../../../../UI/V1/FormInput/FormInput';
-import FormControl from '../../../../../UI/V1/FormControl/FormControl';
-import Button from '../../../../../UI/V1/Button/Button';
+import Modal from '@/components/UI/V1/Modal/Modal';
+import Form from '@/components/UI/V1/Form/Form';
+import FormLabel from '@/components/UI/V1/FormLabel/FormLabel';
+import FormInput from '@/components/UI/V1/FormInput/FormInput';
+import FormControl from '@/components/UI/V1/FormControl/FormControl';
+import Button from '@/components/UI/V1/Button/Button';
 
-import InputFileReactDropzone from '../../../../../UI/V1/InputFileReactDropzone/InputFileReactDropzone';
-import LinearProgressBar from '../../../../../UI/V1/LinearProgressBar/LinearProgressBar';
-import { uploadFileToCloudinary } from '../../../../../../lib/fetch';
+import InputFileReactDropzone from '@/components/UI/V1/InputFileReactDropzone/InputFileReactDropzone';
+import LinearProgressBar from '@/components/UI/V1/LinearProgressBar/LinearProgressBar';
+import { uploadFileToCloudinary } from '@/components/../lib/fetch';
 
 const ChangeCoverPhotoModal = ({ closeModal }) => {
 	const { user, handUpdateCoverPhotoURL } = useContext(UserContext);
