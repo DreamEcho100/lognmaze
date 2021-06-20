@@ -8,7 +8,6 @@ export default async (req, res) => {
 
 	if (req.method === 'POST') {
 		try {
-			console.log(req.body);
 			const isAuthorized = await handleIsAuthorized(
 				res,
 				req.headers.authorization
@@ -33,9 +32,9 @@ export default async (req, res) => {
 				.query(
 					`
           INSERT INTO posts
-            ( author_id, format_type, title, meta_title, slug, image, tags, meta_description, excerpt, content)
+            ( author_id, format_type, title, meta_title, slug, image, meta_description, excerpt, content)
           VALUES
-            ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+            ($1, $2, $3, $4, $5, $6, $7, $8, $9)
           RETURNING *
         `,
 					[
@@ -45,16 +44,21 @@ export default async (req, res) => {
 						metaTitle,
 						slug,
 						image,
-						tags,
 						metaDescription,
 						excerpt,
 						content,
 					]
 				)
-				.then((response) => {
-					/*
-					`WITH ${tags.map((tag, index) => `add_post_tag_${index} (INSERT INTO post_tags (post_id, name) VALUES (${response.rows[0].id}, ${tag}))`).join(',')}
-					SELECT * FROM ${tags.map((tag, index) => `add_post_tag_${index}`).join(',')}`;*/
+				.then(async (response) => {
+					const sqlQuery = `WITH${tags
+						.map(
+							(tag, index) => ` add_post_tag_${index} AS (
+								INSERT INTO post_tags (post_id, name) VALUES ('${response.rows[0].id}', '${tag}') RETURNING *
+							)`
+						)
+						.join(',')} 
+							SELECT * FROM${tags.map((tag, index) => ` add_post_tag_${index}`).join(',')};`;
+					const response2 = await pool.query(sqlQuery);
 					return response;
 				});
 

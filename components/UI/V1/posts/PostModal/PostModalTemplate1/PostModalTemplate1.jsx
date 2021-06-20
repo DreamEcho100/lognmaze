@@ -74,6 +74,7 @@ const PostModalTemplate1 = ({
 
 		event.preventDefault();
 		let bodyObj = {};
+		const tags_array = [];
 
 		if (templateType === 'create') {
 			bodyObj = {
@@ -90,6 +91,38 @@ const PostModalTemplate1 = ({
 				content,
 			};
 		} else if (templateType === 'update') {
+			const oldTags = postContent.tags;
+			const newTags = tags.toLowerCase().trim().split(/\s+/);
+
+			const removedTags = [];
+			const addedTags = [];
+
+			oldTags.forEach((item) => {
+				if (!newTags.includes(item)) {
+					removedTags.push(item);
+				} else {
+					tags_array.push(item);
+				}
+			});
+
+			newTags.forEach((item) => {
+				if (!oldTags.includes(item)) {
+					addedTags.push(item);
+					tags_array.push(item);
+				}
+			});
+
+			// tags_array = tags
+			// 	.toLowerCase()
+			// 	.trim()
+			// 	.split(/\s+/)
+			// 	.filter((item) => removedTags.includes(item));
+			// tags_array = [...tags_array, ...addedTags];
+
+			console.log('oldTags', oldTags);
+			console.log('newTags', newTags);
+			console.log('tags_array', tags_array);
+
 			bodyObj = {
 				id: postContent.id,
 				formatType,
@@ -97,7 +130,8 @@ const PostModalTemplate1 = ({
 				metaTitle,
 				slug,
 				image,
-				tags: tags.toLowerCase().trim().split(/\s+/),
+				removedTags,
+				addedTags,
 				metaDescription,
 				excerpt,
 				content,
@@ -120,12 +154,16 @@ const PostModalTemplate1 = ({
 					} else if (templateType === 'update') {
 						closeModal();
 						console.log('data + 1', data);
-						setPostContent(data);
+						setPostContent({
+							...data,
+							tags: tags_array,
+						});
 					}
 				});
 		} catch (error) {
 			console.error(error);
 			setAfterFormSubmitMessage(error.message);
+			setBtnsDisabled(false);
 		}
 	};
 

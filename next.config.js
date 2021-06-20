@@ -28,7 +28,7 @@ module.exports = (phase) => {
 			// MONGODB_MAZENEXTBLOG_DATABASE: process.env.MONGODB_DEVELOPMENT_DATABASE, // 'my-site-dev',
 			FRONT_END_ROOT_URL: 'http://localhost:3000', // baseUrl, // process.env.DEVELOPMENT_FRONT_END_ROOT_URL,
 			BACK_END_ROOT_URL: 'http://localhost:3000', // baseUrl, // process.env.DEVELOPMENT_BACK_END_ROOT_URL,
-			FRONT_END_DOMAIN: 'http://localhost:3000', // baseUrl, // process.env.DEVELOPMENT_FRONT_END_DOMAIN,
+			FRONT_END_DOMAIN: 'localhost:3000', // baseUrl, // process.env.DEVELOPMENT_FRONT_END_DOMAIN,
 			PG_CONNECTION_STRING:
 				process.env.DEVELOPMENT_PG_SUPABASE_CONNECTION_STRING,
 		};
@@ -40,7 +40,7 @@ module.exports = (phase) => {
 			// MONGODB_MAZENEXTBLOG_DATABASE: process.env.MONGODB_PRODUCTION_DATABASE,
 			FRONT_END_ROOT_URL: 'https://brodevlog.vercel.app', // baseUrl, // process.env.PRODUCTION_FRONT_END_ROOT_URL,
 			BACK_END_ROOT_URL: 'https://brodevlog.vercel.app', // baseUrl, // process.env.PRODUCTION_BACK_END_ROOT_URL,
-			FRONT_END_DOMAIN: 'https://brodevlog.vercel.app', // baseUrl, // process.env.PRODUCTION_FRONT_END_DOMAIN,
+			FRONT_END_DOMAIN: 'brodevlog.vercel.app', // baseUrl, // process.env.PRODUCTION_FRONT_END_DOMAIN,
 			PG_CONNECTION_STRING:
 				process.env.PRODUCTION_PG_SUPABASE_CONNECTION_STRING,
 		};

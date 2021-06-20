@@ -25,11 +25,13 @@ export default async (req, res) => {
 				metaDescription,
 				excerpt,
 				content,
-				tags,
 				removedTags,
-				tagsUpdated,
+				addedTags,
 			} = req.body;
 
+			console.log('s removedTags', removedTags);
+
+			console.log('s addedTags', addedTags);
 			const result = await pool
 				.query(
 					`
@@ -52,7 +54,35 @@ export default async (req, res) => {
 						isAuthorized.id,
 					]
 				)
-				.then((response) => response.rows[0]);
+				.then(async (response) => {
+					const sqlQuery = `WITH${addedTags
+						.map(
+							(tag, index) => ` add_post_tag_${index} AS (
+								INSERT INTO post_tags (post_id, name) VALUES ('${response.rows[0].id}', '${tag}') RETURNING *
+						)`
+						)
+						.join(',')} 
+						${removedTags.length !== 0 && addedTags.length !== 0 ? ', ' : ''}${removedTags
+						.map(
+							(tag, index) => ` remove_post_tag_${index} AS (
+								DELETE FROM post_tags WHERE post_id = '${response.rows[0].id}' AND name='${tag}' RETURNING ''
+						)`
+						)
+						.join(',')}
+						SELECT * FROM${addedTags
+							.map((tag, index) => ` add_post_tag_${index}`)
+							.join(',')}${
+						removedTags.length !== 0 && addedTags.length !== 0 ? ', ' : ''
+					}${removedTags
+						.map((tag, index) => ` remove_post_tag_${index}`)
+						.join(',')}`;
+
+					const response2 = await pool.query(sqlQuery);
+
+					console.log('response2.rows[0]', response2.rows[0]);
+
+					response.rows[0];
+				});
 
 			console.log('result', result);
 
@@ -61,7 +91,7 @@ export default async (req, res) => {
 				message: 'Posted Successefully!',
 				data: {
 					...result,
-					tags,
+					// tags,
 				},
 				isAuthorized: true,
 			});

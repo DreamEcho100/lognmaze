@@ -24,12 +24,21 @@ const PostHeader = ({ author, post, setPost }) => {
 		}
 	}, [user]);
 
+	console.log('user', user);
+	console.log('user.user_name_id', user.user_name_id);
+	console.log('author.user_name_id', author.user_name_id);
+	console.log('isPostOwner', isPostOwner);
+
 	return (
 		<header>
 			<div className=''>
 				<div className=''>
 					<Link href={`/profile/${author.user_name_id}`}>
-						<a target='_blank' target='_blank' rel='noopener noreferrer'>
+						<a
+							target='_blank'
+							target='_blank'
+							// rel='noopener noreferrer'
+						>
 							<Image
 								src={
 									author.profile_picture
@@ -57,7 +66,7 @@ const PostHeader = ({ author, post, setPost }) => {
 			</div>
 			<div className=''>
 				{!router.query.slug ? (
-					<Link href={`/posts/${post.slug}`}>
+					<Link href={`/posts/post/${post.slug}`}>
 						<a target='_blank' rel='noopener noreferrer'>
 							<h1>{post.title}</h1>
 						</a>
