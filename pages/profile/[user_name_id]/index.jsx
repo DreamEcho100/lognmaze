@@ -133,11 +133,11 @@ export const getServerSideProps = async ({ req, res, query }) => {
 	let userCookieString = '';
 	if (req.headers.cookie) {
 		tokenCookieString = getCookie({
-			cookieName: 'mazecode_user_token',
+			cookieName: 'user_token',
 			cookieString: req.headers.cookie,
 		});
 		userCookieString = getCookie({
-			cookieName: 'mazecode_user_data',
+			cookieName: 'user_data',
 			cookieString: req.headers.cookie,
 		});
 	}

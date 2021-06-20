@@ -34,11 +34,7 @@ const PostHeader = ({ author, post, setPost }) => {
 			<div className=''>
 				<div className=''>
 					<Link href={`/profile/${author.user_name_id}`}>
-						<a
-							target='_blank'
-							target='_blank'
-							// rel='noopener noreferrer'
-						>
+						<a target='_blank' target='_blank' rel='noopener noreferrer'>
 							<Image
 								src={
 									author.profile_picture

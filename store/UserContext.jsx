@@ -34,7 +34,7 @@ export const UserContextProvider = ({ children }) => {
 		new Promise((resolve, reject) => {
 			!isLoading && setIsLoading(true);
 			const tokenCookie = getCookie({
-				cookieName: 'mazecode_user_token',
+				cookieName: 'user_token',
 				cookieString: document.cookie,
 			});
 			if (tokenCookie.length !== 0) {
@@ -59,7 +59,7 @@ export const UserContextProvider = ({ children }) => {
 
 				if (status === 'success' && data.isAuthorized) {
 					const userCookie = getCookie({
-						cookieName: 'mazecode_user_data',
+						cookieName: 'user_data',
 						cookieString: document.cookie,
 					});
 					const user = JSON.parse(userCookie);
@@ -103,14 +103,14 @@ export const UserContextProvider = ({ children }) => {
 			}
 
 			setCookie({
-				cookieName: 'mazecode_user_data',
+				cookieName: 'user_data',
 				cookieValue: JSON.stringify(data),
 				domain: process.env.FRONT_END_DOMAIN,
 				path: '/',
 			});
 
 			setCookie({
-				cookieName: 'mazecode_user_token',
+				cookieName: 'user_token',
 				cookieValue: jwt.token,
 				expiresDate: new Date(
 					new Date().getTime() + jwt.expiriesAfter
@@ -163,7 +163,7 @@ export const UserContextProvider = ({ children }) => {
 						setUser(updatedUser);
 
 						setCookie({
-							cookieName: 'mazecode_user_data',
+							cookieName: 'user_data',
 							cookieValue: JSON.stringify(updatedUser),
 							domain: process.env.FRONT_END_DOMAIN,
 							path: '/',
@@ -193,23 +193,23 @@ export const UserContextProvider = ({ children }) => {
 				console.log(
 					'1',
 					checkCookie({
-						cookieName: 'mazecode_user_token',
+						cookieName: 'user_token',
 						cookieString: document.cookie,
 					})
 				);
 				if (
 					checkCookie({
-						cookieName: 'mazecode_user_data',
+						cookieName: 'user_data',
 						cookieString: document.cookie,
 					}) ||
 					checkCookie({
-						cookieName: 'mazecode_user_token',
+						cookieName: 'user_token',
 						cookieString: document.cookie,
 					})
 				) {
 					deleteCookie(
 						{
-							cookieName: 'mazecode_user_data',
+							cookieName: 'user_data',
 							domain: process.env.FRONT_END_DOMAIN,
 							path: '/',
 						},
@@ -218,7 +218,7 @@ export const UserContextProvider = ({ children }) => {
 
 					deleteCookie(
 						{
-							cookieName: 'mazecode_user_token',
+							cookieName: 'user_token',
 							domain: process.env.FRONT_END_DOMAIN,
 							path: '/',
 						},
@@ -234,11 +234,11 @@ export const UserContextProvider = ({ children }) => {
 
 				if (
 					checkCookie({
-						cookieName: 'mazecode_user_data',
+						cookieName: 'user_data',
 						cookieString: document.cookie,
 					}) ||
 					checkCookie({
-						cookieName: 'mazecode_user_token',
+						cookieName: 'user_token',
 						cookieString: document.cookie,
 					})
 				) {
