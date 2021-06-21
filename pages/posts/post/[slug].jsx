@@ -1,7 +1,6 @@
 import Post from '@/components/Posts/Post/Post';
 
 const PostPage = ({ data }) => {
-	console.log('data', data);
 	return <Post data={data} />;
 };
 

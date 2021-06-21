@@ -56,7 +56,6 @@ export default async (req, res) => {
 				[user_name_id]
 			);
 
-			console.log('user', user.rows[0]);
 
 			if (user.rows.length === 0) {
 				res.status(401).json({

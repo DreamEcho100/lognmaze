@@ -79,8 +79,19 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, posts }) => {
 			<section className={`${classes.profile}`}>
 				<h1>Profile</h1>
 				<div className='profile'>
-					<img src={userData.cover_photo} alt='' />
-					<img src={userData.profile_picture} alt='' />
+					<img
+							src={userData.cover_photo}
+							alt=''
+							style={{ width: '100%', maxHeight: '30rem' }}
+							loading='lazy'
+						/>
+						
+						<img
+							src={userData.profile_picture}
+							alt=''
+							style={{ width: '100%', maxWidth: '20rem', maxHeight: '20rem' }}
+							loading='lazy'
+						/>
 					<p className='full_name'>
 						{userData.first_name} {userData.last_name}
 					</p>

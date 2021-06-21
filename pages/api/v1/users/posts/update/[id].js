@@ -29,9 +29,7 @@ export default async (req, res) => {
 				addedTags,
 			} = req.body;
 
-			console.log('s removedTags', removedTags);
 
-			console.log('s addedTags', addedTags);
 			const result = await pool
 				.query(
 					`
@@ -79,12 +77,10 @@ export default async (req, res) => {
 
 					const response2 = await pool.query(sqlQuery);
 
-					console.log('response2.rows[0]', response2.rows[0]);
 
 					response.rows[0];
 				});
 
-			console.log('result', result);
 
 			return res.status(200).json({
 				status: 'success',

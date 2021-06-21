@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import Link from 'next/link';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
@@ -24,25 +24,31 @@ const PostDetails = ({ post }) => {
 		p({ children, node }) {
 			if (node.children[0].tagName === 'img') {
 				const image = node.children[0];
-				let imgSrc;
+				// let imgSrc;
 
-				if (
-					/^https:\/\//.test(image.properties.src) ||
-					/^http:\/\//.test(image.properties.src)
-				) {
-					imgSrc = image.properties.src;
-				} else {
-					imgSrc = `/images/posts/${post.slug}/${image.properties.src}`;
-				}
+				// if (
+				// 	/^https:\/\//.test(image.properties.src) ||
+				// 	/^http:\/\//.test(image.properties.src)
+				// ) {
+				// 	imgSrc = image.properties.src;
+				// } else {
+				// 	imgSrc = `/images/posts/${post.slug}/${image.properties.src}`;
+				// }
 
 				return (
 					<div className={classes.image}>
-						<Image
-							src={imgSrc}
-							alt={image.alt}
-							width={600}
-							height={300}
-							layout='responsive'
+						{/* <Image
+						src={imgSrc}
+						alt={image.alt}
+						width={600}
+						height={300}
+						layout='responsive'
+					/> */}
+						<img
+							src={image.properties.src}
+							alt=''
+							style={{ width: '100%', maxWidth: '50rem', maxHeight: '30rem' }}
+							loading='lazy'
 						/>
 					</div>
 				);

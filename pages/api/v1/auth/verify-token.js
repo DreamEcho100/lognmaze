@@ -1,4 +1,4 @@
-import { verifyJwtToken } from '../../../../lib/v1/auth';
+import { verifyJwtToken } from '@/lib/v1/auth';
 
 export default async (req, res) => {
 	if (req.method === 'POST') {

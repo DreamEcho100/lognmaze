@@ -16,10 +16,10 @@ import Button from '@/components/UI/V1/Button/Button';
 
 import InputFileReactDropzone from '@/components/UI/V1/InputFileReactDropzone/InputFileReactDropzone';
 import LinearProgressBar from '@/components/UI/V1/LinearProgressBar/LinearProgressBar';
-import { uploadFileToCloudinary } from '@/components/../lib/fetch';
+import { uploadFileToCloudinary } from '@/lib/v1/fetch';
 
 const ChangeCoverPhotoModal = ({ closeModal }) => {
-	const { user, handUpdateCoverPhotoURL } = useContext(UserContext);
+	const { user, handleChangeCoverPhotoURL } = useContext(UserContext);
 
 	const [CoverPhotoURL, setCoverPhotoURL] = useState(user.cover_photo);
 	const [progress, setProgress] = useState(0);
@@ -91,7 +91,7 @@ const ChangeCoverPhotoModal = ({ closeModal }) => {
 			}
 		})
 			.then(async (url) => {
-				const { status, message } = await handUpdateCoverPhotoURL({ url });
+				const { status, message } = await handleChangeCoverPhotoURL({ url });
 
 				if (status === 'error') {
 					setBtnsDisabled(false);
@@ -173,7 +173,7 @@ const ChangeCoverPhotoModal = ({ closeModal }) => {
 						type='submit'
 						className={classes.submitBtn}
 					>
-						Update Your Cover Photo
+						Submit
 					</Button>
 				</Form>
 			</Fragment>

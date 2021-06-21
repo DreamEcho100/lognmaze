@@ -13,7 +13,7 @@ import FormInput from '@/components/UI/V1/FormInput/FormInput';
 import Button from '@/components/UI/V1/Button/Button';
 
 const ChangeUserEmailModal = ({ closeModal }) => {
-	const { handleUpdateEmail, user } = useContext(UserContext);
+	const { handleChangeEmail, user } = useContext(UserContext);
 
 	const [email, setEmail] = useState(user.email);
 	const [password, setPassword] = useState('');
@@ -26,7 +26,7 @@ const ChangeUserEmailModal = ({ closeModal }) => {
 
 		try {
 			setBtnsDisabled(true);
-			const { status, message } = await handleUpdateEmail({ email, password });
+			const { status, message } = await handleChangeEmail({ email, password });
 
 			if (status === 'error') {
 				setBtnsDisabled(false);
@@ -90,7 +90,7 @@ const ChangeUserEmailModal = ({ closeModal }) => {
 						type='submit'
 						className={classes.submitBtn}
 					>
-						Update Your Email
+						Submit
 					</Button>
 				</Form>
 			</Fragment>

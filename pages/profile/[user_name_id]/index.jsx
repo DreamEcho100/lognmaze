@@ -1,11 +1,11 @@
 import React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getCookie } from '../../../lib/v1/cookie';
+import { getCookie } from '@/lib/v1/cookie';
 
-import UserContext from '../../../store/UserContext';
+import UserContext from '@/store/UserContext';
 
-import Profile from '../../../components/Profile/Profile';
+import Profile from '@/components/Profile/Profile';
 
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
@@ -37,12 +37,6 @@ const ProfilePage = ({ user = {}, posts = [] }) => {
 					UserCxt.user.user_name_id === router.query.user_name_id
 				)
 					setUserData(UserCxt.user);
-				console.log(
-					JSON.stringify(UserCxt.user) !== JSON.stringify(userData) ||
-						Object.keys(userData).length === 0
-				);
-				console.log(UserCxt.user.user_name_id === router.query.user_name_id);
-				console.log('user', user);
 
 				if (
 					router.query.user_name_id === UserCxt.user.user_name_id &&

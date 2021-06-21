@@ -1,5 +1,5 @@
-import { hashPassword, jwtGenerator } from '../../../../lib/v1/auth';
-import { pool } from '../../../../lib/v1/pg';
+import { hashPassword, jwtGenerator } from '@/lib/v1/auth';
+import { pool } from '@/lib/v1/pg';
 
 export default async (req, res) => {
 	// const data = req.body;
@@ -104,7 +104,6 @@ export default async (req, res) => {
 					};
 				});
 
-			console.log(newUser);
 
 			const jwt = jwtGenerator({
 				id: newUser.id,

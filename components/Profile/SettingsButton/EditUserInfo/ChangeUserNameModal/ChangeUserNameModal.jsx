@@ -2,7 +2,7 @@ import React from 'react';
 import { Fragment, useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import classes from './ChangeBasicInfoModal.module.css';
+import classes from './ChangeUserNameModal.module.css';
 
 import BoxShadowClasses from '@/components/UI/V1/BoxShadow.module.css';
 
@@ -16,38 +16,36 @@ import FormLabel from '@/components/UI/V1/FormLabel/FormLabel';
 import FormInput from '@/components/UI/V1/FormInput/FormInput';
 import Button from '@/components/UI/V1/Button/Button';
 
-const ChangeBasicInfoModal = ({ closeModal }) => {
+const ChangeUserNameModal = ({ closeModal }) => {
 	const router = useRouter();
 
-	const { user, handleUpdateBasicInfo } = useContext(UserContext);
+	const { user, handleChangeUserName } = useContext(UserContext);
 
 	const [firstName, setFirstName] = useState(user.first_name);
 	const [lastName, setLastName] = useState(user.last_name);
-	const [gender, setChoosedGender] = useState(user.gender);
+	// const [gender, setChoosedGender] = useState(user.gender);
 	const [password, setPassword] = useState('');
 
 	const [afterFormSubmitMessage, setAfterFormSubmitMessage] = useState(true);
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
 
-	const handleUserName = () => {
-		return `${firstName}-${lastName}`
-			.replace(/[^\w-\_]/gi, '-')
-			.replace(/(-{2,})/gi, '-')
-			.replace(/^-/, '')
-			.toLowerCase();
-	};
+	// const handleUserName = () => {
+	// 	return `${firstName}-${lastName}`
+	// 		.replace(/[^\w-\_]/gi, '-')
+	// 		.replace(/(-{2,})/gi, '-')
+	// 		.replace(/^-/, '')
+	// 		.toLowerCase();
+	// };
 
 	const submitHandler = async (event) => {
 		event.preventDefault();
 
-		const userName = handleUserName();
+		// const userName = handleUserName();
 
 		setBtnsDisabled(true);
-		/*const { status, message } =*/ await handleUpdateBasicInfo({
+		/*const { status, message } =*/ await handleChangeUserName({
 			firstName,
 			lastName,
-			userName,
-			gender,
 			password,
 		})
 			.then(({ status, message }) => {
@@ -63,7 +61,7 @@ const ChangeBasicInfoModal = ({ closeModal }) => {
 			})
 			.then(({ status, message }) => {
 				if (status === 'success') {
-					router.replace('/');
+					// router.replace('/');
 				}
 				return { status, message };
 			})
@@ -73,6 +71,8 @@ const ChangeBasicInfoModal = ({ closeModal }) => {
 				setAfterFormSubmitMessage(error.message);
 				return { status: 'error', message: error.message };
 			});
+
+		if (btnsDisabled) setBtnsDisabled(false);
 	};
 
 	return (
@@ -114,7 +114,7 @@ const ChangeBasicInfoModal = ({ closeModal }) => {
 							/>
 						</FormControl>
 					</FormControls>
-					<FormControl>
+					{/* <FormControl>
 						<FormInput
 							defaultClasses='form-input-radio'
 							type='radio'
@@ -127,8 +127,8 @@ const ChangeBasicInfoModal = ({ closeModal }) => {
 							}}
 						/>
 						<FormLabel htmlFor='male'>Male</FormLabel>
-					</FormControl>
-					<FormControl>
+					</FormControl> */}
+					{/* <FormControl>
 						<FormInput
 							defaultClasses='form-input-radio'
 							type='radio'
@@ -141,18 +141,18 @@ const ChangeBasicInfoModal = ({ closeModal }) => {
 							}}
 						/>
 						<FormLabel htmlFor='female'>Female</FormLabel>
-						<FormControl>
-							<FormLabel htmlFor='password-to-change-basic-info-in-settings'>
-								Enter Your Password
-							</FormLabel>
-							<FormInput
-								type='password'
-								id='password-to-change-basic-info-in-settings'
-								required
-								onChange={(event) => setPassword(event.target.value)}
-								value={password}
-							/>
-						</FormControl>
+					</FormControl> */}
+					<FormControl>
+						<FormLabel htmlFor='password-to-change-basic-info-in-settings'>
+							Enter Your Password
+						</FormLabel>
+						<FormInput
+							type='password'
+							id='password-to-change-basic-info-in-settings'
+							required
+							onChange={(event) => setPassword(event.target.value)}
+							value={password}
+						/>
 					</FormControl>
 					{afterFormSubmitMessage.length !== 0 && (
 						<div className={classes.warning}>
@@ -164,7 +164,7 @@ const ChangeBasicInfoModal = ({ closeModal }) => {
 						type='submit'
 						className={classes.submitBtn}
 					>
-						Update Your Basic Info
+						Submit
 					</Button>
 				</Form>
 			</Fragment>
@@ -172,4 +172,4 @@ const ChangeBasicInfoModal = ({ closeModal }) => {
 	);
 };
 
-export default ChangeBasicInfoModal;
+export default ChangeUserNameModal;

@@ -6,7 +6,7 @@ import {
 	getCookie,
 	deleteCookie,
 	checkCookie,
-} from '../lib/v1/cookie';
+} from '@/lib/v1/cookie';
 
 const UserContext = createContext({
 	user: {},
@@ -16,11 +16,12 @@ const UserContext = createContext({
 	handleSignUp: () => {},
 	handleSignIn: () => {},
 	handleSignOut: () => {},
-	handleUpdateBasicInfo: () => {},
-	handUpdateProfilePictureURL: () => {},
-	handUpdateCoverPhotoURL: () => {},
-	handleUpdateEmail: () => {},
-	handleUpdatePassword: () => {},
+	handleChangeUserName: () => {},
+	handleChangeUserGender: () => {},
+	handleChangeProfilePictureURL: () => {},
+	handleChangeCoverPhotoURL: () => {},
+	handleChangeEmail: () => {},
+	handleChangePassword: () => {},
 });
 
 export const UserContextProvider = ({ children }) => {
@@ -136,7 +137,6 @@ export const UserContextProvider = ({ children }) => {
 	};
 
 	const handleUserUpdate = ({ path, bodyObj }) => {
-		console.log('path, bodyObj', path, bodyObj);
 		return new Promise(async (resolve, reject) => {
 			const response = await fetch(
 				`${process.env.BACK_END_ROOT_URL}/api/v1/users/profile/update/${path}`,
@@ -154,22 +154,18 @@ export const UserContextProvider = ({ children }) => {
 		})
 			.then((response) => response.json())
 			.then(({ data, status, message, isAuthorized }) => {
-				console.log('data', data);
-				console.log('status', status);
-				console.log('message', message);
-				console.log('isAuthorized', isAuthorized);
 				if (isAuthorized) {
 					if (status !== 'error' && Object.keys(data).length !== 0) {
-						const updatedUser = {
+						const ChangedUser = {
 							...user,
 							...data,
 						};
 
-						setUser(updatedUser);
+						setUser(ChangedUser);
 
 						setCookie({
 							cookieName: 'user_data',
-							cookieValue: JSON.stringify(updatedUser),
+							cookieValue: JSON.stringify(ChangedUser),
 							domain: process.env.FRONT_END_DOMAIN,
 							path: '/',
 						});
@@ -267,25 +263,26 @@ export const UserContextProvider = ({ children }) => {
 			});
 	};
 
-	const handleUpdateBasicInfo = ({
-		firstName,
-		lastName,
-		userName,
-		gender,
-		password,
-	}) =>
+	const handleChangeUserName = ({ firstName, lastName, password }) =>
 		handleUserUpdate({
-			path: 'basic-info',
+			path: 'user-name',
 			bodyObj: {
 				firstName,
 				lastName,
-				userName,
+				password,
+			},
+		});
+
+	const handleChangeUserGender = ({ gender, password }) =>
+		handleUserUpdate({
+			path: 'gender',
+			bodyObj: {
 				gender,
 				password,
 			},
 		});
 
-	const handUpdateProfilePictureURL = ({ url }) =>
+	const handleChangeProfilePictureURL = ({ url }) =>
 		handleUserUpdate({
 			path: 'profile-picture',
 			bodyObj: {
@@ -293,7 +290,7 @@ export const UserContextProvider = ({ children }) => {
 			},
 		});
 
-	const handUpdateCoverPhotoURL = ({ url }) =>
+	const handleChangeCoverPhotoURL = ({ url }) =>
 		handleUserUpdate({
 			path: 'cover-photo',
 			bodyObj: {
@@ -301,7 +298,7 @@ export const UserContextProvider = ({ children }) => {
 			},
 		});
 
-	const handleUpdateEmail = ({ email, password }) =>
+	const handleChangeEmail = ({ email, password }) =>
 		handleUserUpdate({
 			path: 'email',
 			bodyObj: {
@@ -310,7 +307,16 @@ export const UserContextProvider = ({ children }) => {
 			},
 		});
 
-	const handleUpdatePassword = async (oldPassword, newPassword) => {
+	const handleChangePassword = async (oldPassword, newPassword) =>
+		handleUserUpdate({
+			path: 'password',
+			bodyObj: {
+				oldPassword,
+				newPassword,
+			},
+		});
+	/*
+	{
 		return new Promise(async (resolve, reject) => {
 			const response = await fetch(
 				`${process.env.BACK_END_ROOT_URL}/api/v1/users/change-password`,
@@ -342,6 +348,7 @@ export const UserContextProvider = ({ children }) => {
 				return { status: 'error', message: error.message };
 			});
 	};
+	*/
 
 	const context = {
 		user,
@@ -352,11 +359,12 @@ export const UserContextProvider = ({ children }) => {
 		handleSignUp,
 		handleSignIn,
 		handleSignOut,
-		handleUpdateBasicInfo,
-		handUpdateProfilePictureURL,
-		handUpdateCoverPhotoURL,
-		handleUpdateEmail,
-		handleUpdatePassword,
+		handleChangeUserName,
+		handleChangeUserGender,
+		handleChangeProfilePictureURL,
+		handleChangeCoverPhotoURL,
+		handleChangeEmail,
+		handleChangePassword,
 	};
 
 	return (

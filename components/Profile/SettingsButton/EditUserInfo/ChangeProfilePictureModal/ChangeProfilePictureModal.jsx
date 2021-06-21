@@ -16,10 +16,10 @@ import Button from '@/components/UI/V1/Button/Button';
 
 import InputFileReactDropzone from '@/components/UI/V1/InputFileReactDropzone/InputFileReactDropzone';
 import LinearProgressBar from '@/components/UI/V1/LinearProgressBar/LinearProgressBar';
-import { uploadFileToCloudinary } from '@/components/../lib/fetch';
+import { uploadFileToCloudinary } from '@/lib/v1/fetch';
 
 const ChangeProfilePictureModal = ({ closeModal }) => {
-	const { user, handUpdateProfilePictureURL } = useContext(UserContext);
+	const { user, handleChangeProfilePictureURL } = useContext(UserContext);
 
 	const [profilePictureURL, setProfilePictureURL] = useState(
 		user.profile_picture
@@ -97,7 +97,7 @@ const ChangeProfilePictureModal = ({ closeModal }) => {
 			}
 		})
 			.then(async (url) => {
-				const { status, message, data } = await handUpdateProfilePictureURL({
+				const { status, message, data } = await handleChangeProfilePictureURL({
 					url,
 				});
 
@@ -180,7 +180,7 @@ const ChangeProfilePictureModal = ({ closeModal }) => {
 						type='submit'
 						className={classes.submitBtn}
 					>
-						Update Your Profile Picture
+						Submit
 					</Button>
 				</Form>
 			</Fragment>

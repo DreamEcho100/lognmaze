@@ -119,9 +119,6 @@ const PostModalTemplate1 = ({
 			// 	.filter((item) => removedTags.includes(item));
 			// tags_array = [...tags_array, ...addedTags];
 
-			console.log('oldTags', oldTags);
-			console.log('newTags', newTags);
-			console.log('tags_array', tags_array);
 
 			bodyObj = {
 				id: postContent.id,
@@ -153,7 +150,6 @@ const PostModalTemplate1 = ({
 						resetInputs();
 					} else if (templateType === 'update') {
 						closeModal();
-						console.log('data + 1', data);
 						setPostContent({
 							...data,
 							tags: tags_array,

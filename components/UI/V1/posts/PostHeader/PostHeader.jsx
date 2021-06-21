@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import UserContext from '@/store/UserContext';
@@ -11,8 +11,6 @@ import Settings from './Settings/Settings';
 
 const PostHeader = ({ author, post, setPost }) => {
 	const router = useRouter();
-
-	console.log('author', author);
 
 	const { user, ...UserCxt } = useContext(UserContext);
 
@@ -32,7 +30,7 @@ const PostHeader = ({ author, post, setPost }) => {
 				<div className=''>
 					<Link href={`/profile/${author.user_name_id}`}>
 						<a target='_blank' target='_blank' rel='noopener noreferrer'>
-							<Image
+							{/* <Image
 								src={
 									author.profile_picture
 										? author.profile_picture
@@ -42,6 +40,12 @@ const PostHeader = ({ author, post, setPost }) => {
 								width={60}
 								height={60}
 								// layout='responsive'
+							/> */}
+							<img
+								src={author.profile_picture}
+								alt=''
+								style={{ width: '6rem', height: '6rem' }}
+								loading='lazy'
 							/>
 							{author.first_name} {author.last_name}
 						</a>
@@ -67,7 +71,7 @@ const PostHeader = ({ author, post, setPost }) => {
 				) : (
 					<h1>{post.title}</h1>
 				)}
-				<Image
+				{/* <Image
 					src={
 						post.image
 							? post.image
@@ -77,7 +81,8 @@ const PostHeader = ({ author, post, setPost }) => {
 					width={60}
 					height={30}
 					layout='responsive'
-				/>
+				/> */}
+				<img src={post.image} alt='' style={{ width: '100%' }} loading='lazy' />
 				<p>
 					<strong>Tags:</strong> {post.tags.join(', ')}
 				</p>

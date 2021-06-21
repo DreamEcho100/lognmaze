@@ -203,8 +203,14 @@ BEGIN;
 END;
 
 
-
-
+WITH add_post_tag_0 AS (
+INSERT INTO post_tags (post_id, name) VALUES ('f1faa642-3fbc-4f4a-924c-921d1060b526', 'javascript') RETURNING *
+), add_post_tag_1 AS (
+INSERT INTO post_tags (post_id, name) VALUES ('f1faa642-3fbc-4f4a-924c-921d1060b526', 'js') RETURNING *
+), add_post_tag_2 AS (
+INSERT INTO post_tags (post_id, name) VALUES ('f1faa642-3fbc-4f4a-924c-921d1060b526', 'next') RETURNING *
+)
+SELECT * FROM add_post_tag_0, add_post_tag_1, add_post_tag_2;
 
 SELECT * FROM users;
 

@@ -24,8 +24,6 @@ export default async (req, res) => {
 
 			// delete updatedUser.rows[0].password;
 
-			console.log(url, isAuthorized.id);
-			console.log('updatedUser.rows[0]', updatedUser.rows[0]);
 
 			return res.status(201).json({
 				status: 'success',

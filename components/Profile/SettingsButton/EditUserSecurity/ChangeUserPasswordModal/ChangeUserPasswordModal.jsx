@@ -13,7 +13,7 @@ import FormInput from '@/components/UI/V1/FormInput/FormInput';
 import Button from '@/components/UI/V1/Button/Button';
 
 const ChangeUserPasswordModal = ({ closeModal }) => {
-	const { handleUpdatePassword } = useContext(UserContext);
+	const { handleChangePassword } = useContext(UserContext);
 
 	const [oldPassword, setOldPassword] = useState('');
 	const [newPasswordAgain, setNewPasswordAgain] = useState('');
@@ -43,7 +43,7 @@ const ChangeUserPasswordModal = ({ closeModal }) => {
 
 		try {
 			setBtnsDisabled(true);
-			const { status, message } = await handleUpdatePassword(
+			const { status, message } = await handleChangePassword(
 				oldPassword,
 				newPassword
 			);
@@ -124,7 +124,7 @@ const ChangeUserPasswordModal = ({ closeModal }) => {
 						type='submit'
 						className={classes.submitBtn}
 					>
-						Update Your Password
+						Submit
 					</Button>
 				</Form>
 			</Fragment>
