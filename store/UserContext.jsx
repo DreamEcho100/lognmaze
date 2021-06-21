@@ -33,7 +33,7 @@ export const UserContextProvider = ({ children }) => {
 
 	const verifyUserTokenFromCookie = async () => {
 		new Promise((resolve, reject) => {
-			!isLoading && setIsLoading(true);
+			if (!isLoading) setIsLoading(true);
 			const tokenCookie = getCookie({
 				cookieName: 'user_token',
 				cookieString: document.cookie,

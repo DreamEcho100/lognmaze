@@ -10,7 +10,7 @@ const MainNavigation = () => {
 	const { verifyUserTokenFromCookie, user, isLoading, handleSignOut } =
 		useContext(UserContext);
 
-	useEffect(() => verifyUserTokenFromCookie(), []);
+	useEffect(() => setTimeout(() => verifyUserTokenFromCookie(), 250), []);
 
 	return (
 		<header className={MainNavigationClasses.header}>
