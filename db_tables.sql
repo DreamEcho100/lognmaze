@@ -47,7 +47,7 @@ CREATE TABLE users (
   show_email BOOLEAN DEFAULT FALSE,
   password TEXT NOT NULL CONSTRAINT check_password_min_length CHECK (LENGTH(password) >= 10 ) CONSTRAINT check_password_max_length CHECK (LENGTH(password) <= 150),
   country_phone_code TEXT NOT NULL,
-  phone_number TEXT NOT NULL UNIQUE,
+  phone_number TEXT UNIQUE,
   phone_verified BOOLEAN DEFAULT FALSE,
   show_phone_number BOOLEAN DEFAULT FALSE,
   role TEXT DEFAULT 'user' CONSTRAINT check_role CHECK ( role = 'user' OR role = 'admin' ),
