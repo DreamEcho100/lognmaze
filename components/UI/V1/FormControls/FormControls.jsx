@@ -1,33 +1,20 @@
-import React from 'react';
 import classes from './FormControls.module.css';
 
+import { handleAllClasses } from '../utils/index';
+
 const FormControls = ({
-	defaultClasses = classes['form-controls-2'],
+	defaultClasses = 'form-controls-2',
 	extraClasses = '',
-	BoxShadow,
-	children,
 	className = '',
+	children,
 	...props
 }) => {
-	const handleAllClasses = () => {
-		let allClasses = '';
-		if (defaultClasses !== classes['form-controls-2']) {
-			allClasses = defaultClasses
-				.split(' ')
-				.map((className) => classes[className])
-				.join(' ');
-		} else {
-			allClasses = defaultClasses;
-		}
-
-		if (extraClasses.length !== 0) allClasses += ` ${extraClasses}`;
-
-		allClasses += ` ${className}`;
-
-		return allClasses.trim();
-	};
-
-	const allClasses = handleAllClasses();
+	const allClasses = handleAllClasses({
+		classes,
+		defaultClasses,
+		extraClasses,
+		className,
+	});
 
 	return (
 		<div {...props} className={allClasses}>

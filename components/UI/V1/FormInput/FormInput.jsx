@@ -1,33 +1,20 @@
-import React from 'react';
 import classes from './FormInput.module.css';
 
+import { handleAllClasses } from '../utils/index';
+
 const FormInput = ({
-	defaultClasses = classes['form-input'],
+	defaultClasses = 'form-input',
 	extraClasses = '',
-	BoxShadow,
-	children,
 	className = '',
+	children,
 	...props
 }) => {
-	const handleAllClasses = () => {
-		let allClasses = '';
-		if (defaultClasses !== classes['form-input']) {
-			allClasses = defaultClasses
-				.split(' ')
-				.map((className) => classes[className])
-				.join(' ');
-		} else {
-			allClasses = defaultClasses;
-		}
-
-		if (extraClasses.length !== 0) allClasses += ` ${extraClasses}`;
-
-		allClasses += ` ${className}`;
-
-		return allClasses.trim();
-	};
-
-	const allClasses = handleAllClasses();
+	const allClasses = handleAllClasses({
+		classes,
+		defaultClasses,
+		extraClasses,
+		className,
+	});
 
 	return (
 		<input {...props} className={allClasses}>

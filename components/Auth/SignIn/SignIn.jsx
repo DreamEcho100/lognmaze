@@ -74,7 +74,7 @@ const SignIn = () => {
 					<p>{afterFormSubmitMessage}</p>
 				</div>
 			)}
-			<FormControl className={classes.actions}>
+			<FormControl extraClasses='align-center' className={classes.actions}>
 				<Button
 					disabled={btnsDisabled}
 					type='submit'

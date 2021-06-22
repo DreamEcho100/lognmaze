@@ -1,11 +1,15 @@
-import React from 'react';
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import classes from './InputFileReactDropzone.module.css';
 import BoxShadowClasses from '../BoxShadow.module.css';
 
+import { handleAllClasses } from '../utils/index';
+
 const InputFileReactDropzone = ({
+	defaultClasses = 'input-file-container',
+	extraClasses = '',
+	className = '',
 	acceptedFormats = ['image/*' /*, 'video/*', '.pdf'*/],
 	maxSize = 300 * 1024, // 300KB
 	setFiles,
@@ -33,11 +37,18 @@ const InputFileReactDropzone = ({
 		maxSize,
 	});
 
+	const allClasses = handleAllClasses({
+		classes,
+		defaultClasses,
+		extraClasses,
+		className,
+	});
+
 	return (
 		<div
-			className={`${classes['input-file-container']} ${
-				BoxShadowClasses['box-shadow']
-			} ${isDragActive ? classes['drag-landing'] : ''}`}
+			className={`${allClasses} ${BoxShadowClasses['box-shadow']} ${
+				isDragActive ? classes['drag-landing'] : ''
+			}`}
 			{...getRootProps()}
 		>
 			<input {...getInputProps()} />

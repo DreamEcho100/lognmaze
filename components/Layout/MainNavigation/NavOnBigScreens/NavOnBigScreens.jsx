@@ -7,14 +7,14 @@ const NavOnBigScreens = ({ user, isLoading, handleSignOut }) => {
 	return (
 		<nav className={NavOnBigScreensClasses['nav-on-big-screens']}>
 			<div className={MainNavigationClasses.logo}>
-				<Link href='/'>
+				<Link href={!isLoading && user.id ? '/posts/all' : '/'}>
 					<a className={MainNavigationClasses.logo_anchor}>MazeCode</a>
 				</Link>
 			</div>
 			<ul className={MainNavigationClasses.ul}>
-				<li className={MainNavigationClasses.li}>
+				{/* <li className={MainNavigationClasses.li}>
 					<Link href='/posts/all'>All Posts</Link>
-				</li>
+				</li> */}
 				{!isLoading && user.id && (
 					<li className={MainNavigationClasses.li}>
 						<Link href={`/profile/${user.user_name_id}`}>Profile</Link>

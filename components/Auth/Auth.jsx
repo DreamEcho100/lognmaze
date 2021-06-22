@@ -7,39 +7,47 @@ import UserContext from '../../store/UserContext';
 
 import SignIn from './SignIn/SignIn';
 import SignUp from './SignUp/SignUp';
+import Button from '@/components/UI/V1/Button/Button';
 
-const Auth = ({ UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN }) => {
+const Auth = ({
+	UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN,
+	signType,
+}) => {
 	const { user, ...UserCxt } = useContext(UserContext);
 
 	const [signInComponent, setSignInComponent] = useState(true);
-	const [signUpComponent, setSignUpComponent] = useState(false);
+
+	useEffect(() => {
+		if (signType === 'up') {
+			setSignInComponent(false);
+		}
+	}, []);
 
 	return (
 		<section className={classes.auth}>
-			<header>
+			<header className={classes.header}>
 				<nav>
 					<ul>
 						<li
 							onClick={() => {
 								setSignInComponent(true);
-								setSignUpComponent(false);
 							}}
 						>
-							<button>Sign In</button>
+							<Button>Sign In</Button>
 						</li>
 						<li
 							onClick={() => {
-								setSignUpComponent(true);
 								setSignInComponent(false);
 							}}
 						>
-							<button>Sign Up</button>
+							<Button>Sign Up</Button>
 						</li>
 					</ul>
 				</nav>
 			</header>
-			{signInComponent && <SignIn />}
-			{signUpComponent && (
+			{signInComponent ? (
+				<SignIn />
+			) : (
 				<SignUp
 					UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
 						UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN

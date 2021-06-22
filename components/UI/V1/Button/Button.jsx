@@ -1,33 +1,20 @@
-import React from 'react';
 import classes from './Button.module.css';
 
+import { handleAllClasses } from '../utils/index';
+
 const Button = ({
-	defaultClasses = classes['button'],
+	defaultClasses = 'button',
 	extraClasses = '',
-	BoxShadow,
-	children,
 	className = '',
+	children,
 	...props
 }) => {
-	const handleAllClasses = () => {
-		let allClasses = '';
-		if (defaultClasses !== classes['button']) {
-			allClasses = defaultClasses
-				.split(' ')
-				.map((className) => classes[className])
-				.join(' ');
-		} else {
-			allClasses = defaultClasses;
-		}
-
-		if (extraClasses.length !== 0) allClasses += ` ${extraClasses}`;
-
-		allClasses += ` ${className}`;
-
-		return allClasses.trim();
-	};
-
-	const allClasses = handleAllClasses();
+	const allClasses = handleAllClasses({
+		classes,
+		defaultClasses,
+		extraClasses,
+		className,
+	});
 
 	return (
 		<button {...props} className={allClasses}>

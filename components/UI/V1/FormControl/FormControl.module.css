@@ -9,6 +9,12 @@
 	transition: all ease-in 0.6s;
 }
 
+.align-center {
+	margin: 0.5em auto;
+	justify-content: center;
+	align-items: center;
+}
+
 @media screen and (max-width: 700px) {
 	.form-control {
 		align-items: center;

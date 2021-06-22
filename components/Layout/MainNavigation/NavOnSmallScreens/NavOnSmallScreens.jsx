@@ -12,7 +12,7 @@ const NavOnSmallScreens = ({ user, isLoading, handleSignOut }) => {
 		<>
 			<nav className={NavOnSmallScreensClasses['nav']}>
 				<div className={MainNavigationClasses['logo']}>
-					<Link href='/'>
+					<Link href={!isLoading && user.id ? '/posts/all' : '/'}>
 						<a className={MainNavigationClasses.logo_anchor}>MazeCode</a>
 					</Link>
 				</div>
@@ -45,11 +45,11 @@ const NavOnSmallScreens = ({ user, isLoading, handleSignOut }) => {
 				}`}
 			>
 				<ul className={`${NavOnSmallScreensClasses['main-list']}`}>
-					<li>
+					{/* <li>
 						<span onClick={() => setShowNavOnSmallScreens(false)}>
 							<Link href='/posts/all'>All Posts</Link>
 						</span>
-					</li>
+					</li> */}
 					{!isLoading && user.id && (
 						<li>
 							<span onClick={() => setShowNavOnSmallScreens(false)}>

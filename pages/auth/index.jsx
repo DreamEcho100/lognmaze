@@ -18,12 +18,18 @@ const AuthPage = ({
 	const [isLoading, setIsLoading] = useState(true);
 	const [isSigned, setIsSigned] = useState(false);
 
+	const [signType, setSignType] = useState('in');
+
 	useEffect(() => {
 		if (!UserCxt.isLoading) {
 			if (user && user.id) {
-				setIsSigned(true);
+				if (!isSigned) {
+					router.replace('/posts/all');
+				} else {
+					setIsSigned(true);
+				}
 			} else {
-				isSigned && setIsSigned(false);
+				if (isSigned) setIsSigned(false);
 			}
 		}
 		setIsLoading(false);
@@ -37,9 +43,14 @@ const AuthPage = ({
 		}
 	}, []);
 
-	// useEffect(() => {
-
-	// }, [isSigned]);
+	useEffect(() => {
+		const params = new URLSearchParams(window.location.search);
+		const signType = params.get('sign-type');
+		console.log('signType', signType);
+		if (signType === 'up') {
+			setSignType(signType);
+		}
+	}, []);
 
 	if (isLoading || UserCxt.isLoading) {
 		return <p>Loading...</p>;
@@ -60,6 +71,7 @@ const AuthPage = ({
 	return (
 		<>
 			<Auth
+				signType={signType}
 				UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
 					UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN
 				}
@@ -95,7 +107,7 @@ export const getStaticProps = async (ctx) => {
 		props: {
 			UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN,
 		},
-		revalidate: 86400
+		revalidate: 86400,
 	};
 };
 

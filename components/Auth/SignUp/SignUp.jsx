@@ -184,7 +184,7 @@ const SignUp = ({
 			onSubmit={submitHandler}
 		>
 			<FormControls>
-				<FormControl>
+				<FormControl extraClasses='align-center'>
 					<FormLabel htmlFor='firstName'>Your First Name</FormLabel>
 					<FormInput
 						type='text'
@@ -194,7 +194,7 @@ const SignUp = ({
 						value={firstName}
 					/>
 				</FormControl>
-				<FormControl>
+				<FormControl extraClasses='align-center'>
 					<FormLabel htmlFor='lastName'>Your last Name</FormLabel>
 					<FormInput
 						type='text'
@@ -205,7 +205,7 @@ const SignUp = ({
 					/>
 				</FormControl>
 			</FormControls>
-			<FormControl>
+			<FormControl extraClasses='align-center'>
 				<FormLabel htmlFor='email'>Your Email</FormLabel>
 				<FormInput
 					type='email'
@@ -215,7 +215,7 @@ const SignUp = ({
 					value={email}
 				/>
 			</FormControl>
-			<FormControl>
+			<FormControl extraClasses='align-center'>
 				<FormLabel htmlFor='password'>Your Password</FormLabel>
 				<FormInput
 					type='password'
@@ -225,7 +225,7 @@ const SignUp = ({
 					value={password}
 				/>
 			</FormControl>
-			<FormControl>
+			<FormControl extraClasses='align-center'>
 				<input
 					onChange={(event) => setDateOfBirth(event.target.value)}
 					value={dateOfBirth}
@@ -236,7 +236,7 @@ const SignUp = ({
 				/>
 			</FormControl>
 
-			<FormControl>
+			<FormControl extraClasses='align-center'>
 				<FormLabel htmlFor='countries'>Choose Your Country</FormLabel>
 				<select
 					name='countries'
@@ -271,7 +271,7 @@ const SignUp = ({
 			</FormControl>
 
 			{Boolean(states && states.length) && (
-				<FormControl>
+				<FormControl extraClasses='align-center'>
 					<FormLabel htmlFor='states'>Choose Your State</FormLabel>
 					<select
 						name='states'
@@ -300,7 +300,7 @@ const SignUp = ({
 			)}
 
 			{Boolean(cities && cities.length) && (
-				<FormControl>
+				<FormControl extraClasses='align-center'>
 					<FormLabel htmlFor='cities'>Choose Your City</FormLabel>
 					<select
 						name='cities'
@@ -326,7 +326,7 @@ const SignUp = ({
 				</FormControl>
 			)}
 
-			<FormControl>
+			<FormControl extraClasses='align-center'>
 				<FormLabel htmlFor='phone-number'>Enter Your Phone Number</FormLabel>
 				<div>
 					<span>+{countryPhoneCode}</span>
@@ -341,7 +341,7 @@ const SignUp = ({
 				</div>
 			</FormControl>
 
-			<FormControl>
+			<FormControl extraClasses='align-center'>
 				<FormInput
 					defaultClasses='form-input-radio'
 					type='radio'
@@ -354,7 +354,7 @@ const SignUp = ({
 				/>
 				<FormLabel htmlFor='male'>Male</FormLabel>
 			</FormControl>
-			<FormControl>
+			<FormControl extraClasses='align-center'>
 				<FormInput
 					defaultClasses='form-input-radio'
 					type='radio'
@@ -372,7 +372,7 @@ const SignUp = ({
 					<p>{afterFormSubmitMessage}</p>
 				</div>
 			)}
-			<div className={classes.actions}>
+			<FormControl extraClasses='align-center' className={classes.actions}>
 				<Button
 					disabled={btnsDisabled}
 					type='submit'
@@ -380,7 +380,7 @@ const SignUp = ({
 				>
 					Create Account
 				</Button>
-			</div>
+			</FormControl>
 		</Form>
 	);
 };

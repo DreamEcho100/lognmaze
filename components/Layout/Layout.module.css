@@ -4,5 +4,6 @@
 	min-height: 100vh;
 	border-radius: 0.2rem;
 	margin: 1em auto;
+	padding: 1em;
 	background-color: var(--main-bg-color-0);
 }

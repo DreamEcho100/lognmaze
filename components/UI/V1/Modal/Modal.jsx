@@ -1,8 +1,16 @@
-import React from 'react';
 import { useEffect } from 'react';
 import classes from './Modal.module.css';
 
-const Modal = ({ children, click, className, CloseButtonElement }) => {
+import { handleAllClasses } from '../utils/index';
+
+const Modal = ({
+	defaultClasses = `modal-mask modal-close`,
+	extraClasses = '',
+	className = '',
+	children,
+	click,
+	CloseButtonElement,
+}) => {
 	const findByKey = (name) => {
 		return children.filter((child) => child.key === name);
 	};
@@ -20,17 +28,16 @@ const Modal = ({ children, click, className, CloseButtonElement }) => {
 		}
 	};
 
-	// useEffect(() => {
-	// 	document.body.style.overflow = 'hidden';
-	// }, []);
+	const allClasses = handleAllClasses({
+		classes,
+		defaultClasses,
+		extraClasses,
+		className,
+	});
 
 	return (
 		<div
-			className={
-				className
-					? `${className} ${classes['modal-mask']} ${classes['modal-close']} modal-mask modal-close`
-					: `${classes['modal-mask']} ${classes['modal-close']} modal-mask modal-close`
-			}
+			className={`${allClasses} modal-mask modal-close`}
 			onClick={closeModal}
 		>
 			<div className={`${classes['modal-wrapper']} modal-wrapper`}>

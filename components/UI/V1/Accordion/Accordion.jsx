@@ -1,38 +1,26 @@
-import React from 'react';
 import { useState } from 'react';
+
 import classes from './Accordion.module.css';
 
+import { handleAllClasses } from '../utils/index';
+
 const Accordion = ({
-	defaultClasses = classes['accordion'],
+	defaultClasses = 'accordion',
 	extraClasses = '',
-	BoxShadow,
-	children,
 	className = '',
+	children,
 	toggltButtonSize,
 	accordionContainerBorderBottomSize,
 	...props
 }) => {
 	const [hideAccordion, useHideAccordion] = useState(false);
 
-	const handleAllClasses = () => {
-		let allClasses = '';
-		if (defaultClasses !== classes['accordion']) {
-			allClasses = defaultClasses
-				.split(' ')
-				.map((className) => classes[className])
-				.join(' ');
-		} else {
-			allClasses = defaultClasses;
-		}
-
-		if (extraClasses.length !== 0) allClasses += ` ${extraClasses}`;
-
-		allClasses += ` ${className}`;
-
-		return allClasses.trim();
-	};
-
-	const allClasses = handleAllClasses();
+	const allClasses = handleAllClasses({
+		classes,
+		defaultClasses,
+		extraClasses,
+		className,
+	});
 
 	const findByKey = (name) => {
 		return children.filter((child) => child.key === name);

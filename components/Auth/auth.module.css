@@ -2,3 +2,21 @@
 	margin: 1em auto;
 	max-width: fit-content;
 }
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.header,
+.header nav,
+.header nav ul {
+	width: 100%;
+}
+
+.header nav ul {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
