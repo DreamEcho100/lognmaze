@@ -1,200 +1,207 @@
 CREATE extension IF NOT EXISTS "uuid-ossp";
 
--- Users TABLE
+-- user TABLE
 
-CREATE TABLE Users (
-  Id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  UserNameId TEXT NOT NULL UNIQUE,
-  Email TEXT NOT NULL UNIQUE,
-  EmailVerified BOOLEAN DEFAULT FALSE,
-  ShowEmail BOOLEAN DEFAULT FALSE,
-  UserPassword TEXT NOT NULL,
-  CountryPhoneCode TEXT NOT NULL,
-  PhoneNumber TEXT UNIQUE,
-  PhoneVerified BOOLEAN DEFAULT FALSE,
-  ShowPhoneNumber BOOLEAN DEFAULT FALSE,
-  UserRole TEXT DEFAULT 'user',
-  CreatedAt date NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  LastSignIn date NOT NULL DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE users (
+  user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_name_id TEXT NOT NULL UNIQUE,
+  email TEXT NOT NULL UNIQUE,
+  emailVerified BOOLEAN DEFAULT FALSE,
+  show_email BOOLEAN DEFAULT FALSE,
+  password TEXT NOT NULL,
+  country_phone_code TEXT NOT NULL,
+  phone_number TEXT UNIQUE,
+  phone_verified BOOLEAN DEFAULT FALSE,
+  show_phoneNumber BOOLEAN DEFAULT FALSE,
+  role TEXT DEFAULT 'user',
+  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  last_sign_in date NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  CONSTRAINT check_email_min_length CHECK (LENGTH(Email) >= 10 ),
-  CONSTRAINT check_email_max_length CHECK (LENGTH(Email) <= 150),
-  CONSTRAINT check_password_min_length CHECK (LENGTH(UserPassword) >= 10 ),
-  CONSTRAINT check_password_max_length CHECK (LENGTH(UserPassword) <= 150)
-
-);
-
--- UsersProfile TABLE
-
-CREATE TABLE UsersProfile (
-  Id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  UserId uuid REFERENCES Users (Id) ON DELETE CASCADE NOT NULL,
-  FirstName VARCHAR(50) NOT NULL,
-  LastName VARCHAR(50) NOT NULL,
-  DateOfBirth DATE NOT NULL,
-  ShowDateOfBirth BOOLEAN DEFAULT TRUE,
-
-  CountryOfBirth TEXT NOT NULL,
-  StateOfBirth TEXT,
-  CityOfBirth TEXT,
-  ShowAddressOfBirth BOOLEAN DEFAULT FALSE,
-
-  CountryOfResident TEXT,
-  StateOfResident TEXT,
-  CityOfResident TEXT,
-  AddressOfResident TEXT,
-  ShowAddressOfResident BOOLEAN DEFAULT FALSE,
-
-  Gender TEXT NOT NULL,
-  ProfilePicture TEXT,
-  CoverPhoto TEXT,
-
-  CONSTRAINT check_first_name_min_length CHECK (LENGTH(FirstName) >= 3 ),
-  CONSTRAINT check_last_name_min_length CHECK (LENGTH(LastName) >= 3 )
-);
-
--- Users_education TABLE
-
-CREATE TABLE UsersExperience (
-  Id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  UserId uuid REFERENCES Users (Id) ON DELETE CASCADE NOT NULL,
-
-  Bio TEXT,
-  BioFormatType TEXT DEFAULT '',
-  ShowBio BOOLEAN DEFAULT TRUE,
-
-  Experience TEXT,
-  ShowExperience BOOLEAN DEFAULT TRUE,
-
-  Education TEXT,
-  ShowEducation BOOLEAN DEFAULT TRUE,
-
-  LicensesAndCertifications TEXT,
-  ShowLicensesAndCertifications BOOLEAN DEFAULT TRUE,
-
-  SkillsAndEndorsements TEXT,
-  ShowSkillsAndEndorsements BOOLEAN DEFAULT TRUE
+  CONSTRAINT check_email_min_length CHECK (LENGTH(email) >= 10 ),
+  CONSTRAINT check_email_max_length CHECK (LENGTH(email) <= 150),
+  CONSTRAINT check_password_min_length CHECK (LENGTH(password) >= 10 ),
+  CONSTRAINT check_password_max_length CHECK (LENGTH(password) <= 150)
 
 );
 
--- Posts TABLE
+-- user_profile TABLE
 
-CREATE TABLE Posts (
-  Id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  AuthorId uuid REFERENCES Users (Id) ON DELETE CASCADE NOT NULL,
+CREATE TABLE user_profile (
+  -- user_profile_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id uuid PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE NOT NULL,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  date_of_birth DATE NOT NULL,
+  show_date_of_birth BOOLEAN DEFAULT TRUE,
 
-  Content TEXT NOT NULL,
+  country_of_birth TEXT NOT NULL,
+  state_of_birth TEXT,
+  city_of_birth TEXT,
+  show_address_of_birth BOOLEAN DEFAULT FALSE,
 
-  -- postImages INT DEFAULT 0,
-  -- postVideos INT DEFAULT 0,
+  country_of_resident TEXT,
+  state_of_resident TEXT,
+  city_of_resident TEXT,
+  address_of_resident TEXT,
+  show_address_of_resident BOOLEAN DEFAULT FALSE,
 
-  CreatedAt date NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  UpdatedOn date NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  gender TEXT NOT NULL,
+  profile_picture TEXT,
+  cover_photo TEXT,
 
-  CONSTRAINT check_content_min_length CHECK (LENGTH(Content) > 2)
+  bio TEXT,
+  bioformat_type TEXT DEFAULT '',
+  show_bio BOOLEAN DEFAULT TRUE,
+
+  CONSTRAINT check_first_name_min_length CHECK (LENGTH(first_name) >= 3 ),
+  CONSTRAINT check_last_name_min_length CHECK (LENGTH(last_name) >= 3 )
+);
+
+-- user_education TABLE
+
+CREATE TABLE user_experience (
+  -- user_experience_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id uuid PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE NOT NULL,
+
+  experience TEXT,
+  show_experience BOOLEAN DEFAULT TRUE,
+
+  education TEXT,
+  show_education BOOLEAN DEFAULT TRUE,
+
+  licenses_and_certifications TEXT,
+  show_licenses_and_certifications BOOLEAN DEFAULT TRUE,
+
+  skills_and_endorsements TEXT,
+  show_skills_and_endorsements BOOLEAN DEFAULT TRUE
+
+);
+
+-- tag TABLE
+
+CREATE TABLE tag (
+  tag_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  parent_type TEXT NOT NULL,
+  name TEXT
+);
+
+-- activity table
+
+CREATE TABLE activity (
+  activity_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+
+  parent_id uuid NOT NULL,
+  parent_type TEXT NOT NULL,
+
+  activity_type TEXT NOT NULL,
+  activity_size INT DEFAULT 0
+);
+
+-- post TABLE
+
+CREATE TABLE post (
+  post_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id uuid REFERENCES users (user_id) ON DELETE CASCADE NOT NULL,
+
+  content TEXT NOT NULL,
+
+  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_on date NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  CONSTRAINT check_content_min_length CHECK (LENGTH(content) > 2)
 );
 
 -- Article TABLE
 
-CREATE TABLE Articles (
-  Id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  AuthorId uuid REFERENCES Users (Id) ON DELETE CASCADE NOT NULL,
+CREATE TABLE article (
+  article_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id uuid REFERENCES users (user_id) ON DELETE CASCADE NOT NULL,
 
-  FormatType TEXT NOT NULL,
+  format_type TEXT NOT NULL,
 
-  Title TEXT NOT NULL,
-  Slug TEXT UNIQUE NOT NULL,
-  PostImage TEXT NOT NULL,
-  PostDescription TEXT NOT NULL,
+  title TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  post_image TEXT NOT NULL,
+  post_description TEXT NOT NULL,
 
-  Content TEXT NOT NULL,
+  content TEXT NOT NULL,
 
-  CreatedAt date NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  UpdatedOn date NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_on date NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  CONSTRAINT check_content_min_length CHECK (LENGTH(Content) > 2)
+  CONSTRAINT check_content_min_length CHECK (LENGTH(content) > 2)
 );
 
--- ArticleTags TABLE
+/*
+-- article_tags TABLE
 
-CREATE TABLE ArticleTags (
-  Id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  ArticleId uuid REFERENCES Articles (Id) ON DELETE CASCADE NOT NULL,
-  TagName TEXT
+CREATE TABLE tags (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  ArticleId uuid REFERENCES article (Id) ON DELETE CASCADE NOT NULL,
+  name TEXT
+);
+*/
+
+-- post comment TABLE
+
+CREATE TABLE comment (
+
+  comment_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+
+  user_id uuid REFERENCES users (user_id) ON DELETE CASCADE NOT NULL,
+  parent_id uuid NOT NULL, -- REFERENCES post (Id), -- ON DELETE CASCADE,
+  parent_type TEXT NOT NULL,
+
+  content TEXT NOT NULL,
+
+  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_on date NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  CONSTRAINT check_content_min_length CHECK (LENGTH(content) > 2)
 );
 
--- Posts comments TABLE
+-- post sub comment TABLE
 
-CREATE TABLE comments (
+CREATE TABLE comment_reply (
+  comment_reply_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
 
-  Id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id uuid REFERENCES users (user_id) ON DELETE CASCADE NOT NULL,
+  parent_id uuid, -- REFERENCES Postcomment (Id) ON DELETE CASCADE NOT NULL,
+  ReplyTo uuid REFERENCES comment_reply (Id),
 
-  UserId uuid REFERENCES Users (Id) ON DELETE CASCADE NOT NULL,
-  parentId uuid NOT NULL, -- REFERENCES Posts (Id), -- ON DELETE CASCADE,
-  ParentType TEXT NOT NULL,
+  content TEXT NOT NULL,
 
-  Content TEXT NOT NULL,
+  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_on date NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  CreatedAt date NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  UpdatedOn date NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-  CONSTRAINT check_content_min_length CHECK (LENGTH(Content) > 2)
-);
-
--- Posts sub comments TABLE
-
-CREATE TABLE CommentReplies (
-  Id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-
-  UserId uuid REFERENCES Users (Id) ON DELETE CASCADE NOT NULL,
-  parentId uuid REFERENCES PostComments (Id) ON DELETE CASCADE NOT NULL,
-  ReplyTo uuid REFERENCES CommentReplies (Id),
-
-  Content TEXT NOT NULL,
-
-  CreatedAt date NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  UpdatedOn date NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-  CONSTRAINT check_content_min_length CHECK (LENGTH(Content) > 2)
-);
-
--- Activity table
-
-CREATE TABLE Activity (
-  Id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-
-  parentId uuid NOT NULL,
-  parentType TEXT NOT NULL,
-
-  ActivityType TEXT NOT NULL,
-  ActivitySize INT DEFAULT 0
+  CONSTRAINT check_content_min_length CHECK (LENGTH(content) > 2)
 );
 
 
--- Likes table
+-- likes table
 
-CREATE TABLE Likes (
-  Id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+CREATE TABLE likes (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
 
-  UserId uuid REFERENCES Users (Id) NOT NULL, -- ON DELETE CASCADE,
-  UserDeleted BOOLEAN DEFAULT FALSE,
+  user_id uuid REFERENCES users (user_id) NOT NULL,
+  -- user_deleted BOOLEAN DEFAULT FALSE,
 
-  ParentId uuid NOT NULL, -- REFERENCES Users (Id) ON DELETE CASCADE
-  ParentType TEXT NOT NULL,
+  parent_id uuid NOT NULL,
+  parent_type TEXT NOT NULL,
 
-  CreatedAt date NOT NULL DEFAULT CURRENT_TIMESTAMP
+  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Dislikes table
 
 CREATE TABLE Dislikes (
-  Id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
 
-  UserId uuid REFERENCES Users (Id) NOT NULL, -- ON DELETE CASCADE,
-  UserDeleted BOOLEAN DEFAULT FALSE,
-  
-  ParentId uuid NOT NULL, -- REFERENCES Users (Id) ON DELETE CASCADE
-  ParentType TEXT NOT NULL,
+  user_id uuid REFERENCES users (user_id) NOT NULL,
+  -- user_deleted BOOLEAN DEFAULT FALSE,
 
-  CreatedAt date NOT NULL DEFAULT CURRENT_TIMESTAMP
+  parent_id uuid NOT NULL,
+  parent_type TEXT NOT NULL,
+
+  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
