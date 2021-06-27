@@ -81,20 +81,10 @@ CREATE TABLE user_experience (
 
 CREATE TABLE tag (
   tag_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  parent_type TEXT NOT NULL,
-  name TEXT
-);
-
--- activity table
-
-CREATE TABLE activity (
-  activity_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-
+  user_id uuid PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE NOT NULL,
   parent_id uuid NOT NULL,
   parent_type TEXT NOT NULL,
-
-  activity_type TEXT NOT NULL,
-  activity_size INT DEFAULT 0
+  name TEXT
 );
 
 -- post TABLE
@@ -132,24 +122,13 @@ CREATE TABLE article (
   CONSTRAINT check_content_min_length CHECK (LENGTH(content) > 2)
 );
 
-/*
--- article_tags TABLE
-
-CREATE TABLE tags (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  ArticleId uuid REFERENCES article (Id) ON DELETE CASCADE NOT NULL,
-  name TEXT
-);
-*/
-
 -- post comment TABLE
 
 CREATE TABLE comment (
-
   comment_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
 
   user_id uuid REFERENCES users (user_id) ON DELETE CASCADE NOT NULL,
-  parent_id uuid NOT NULL, -- REFERENCES post (Id), -- ON DELETE CASCADE,
+  parent_id uuid NOT NULL,
   parent_type TEXT NOT NULL,
 
   content TEXT NOT NULL,
@@ -166,7 +145,7 @@ CREATE TABLE comment_reply (
   comment_reply_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
 
   user_id uuid REFERENCES users (user_id) ON DELETE CASCADE NOT NULL,
-  parent_id uuid, -- REFERENCES Postcomment (Id) ON DELETE CASCADE NOT NULL,
+  parent_id uuid,
   ReplyTo uuid REFERENCES comment_reply (Id),
 
   content TEXT NOT NULL,
@@ -177,31 +156,20 @@ CREATE TABLE comment_reply (
   CONSTRAINT check_content_min_length CHECK (LENGTH(content) > 2)
 );
 
-
--- likes table
-
-CREATE TABLE likes (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-
-  user_id uuid REFERENCES users (user_id) NOT NULL,
-  -- user_deleted BOOLEAN DEFAULT FALSE,
-
-  parent_id uuid NOT NULL,
-  parent_type TEXT NOT NULL,
-
-  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE vote_properities (
+  vote_properities_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  voted_for_id uuid NOT NULL,
+  type TEXT NOT NULL,
+  count INT DEFAULT 0
 );
 
--- Dislikes table
-
-CREATE TABLE Dislikes (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-
+CREATE TABLE voter (
+  -- voter_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  vote_properities_id uuid REFERENCES vote_properities (vote_properities_id) ON DELETE CASCADE NOT NULL,
+  voted_for_id uuid REFERENCES vote_properities (voted_for_id) NOT NULL,
   user_id uuid REFERENCES users (user_id) NOT NULL,
-  -- user_deleted BOOLEAN DEFAULT FALSE,
 
-  parent_id uuid NOT NULL,
-  parent_type TEXT NOT NULL,
+  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP
+  CONSTRAINT voter_id PRIMARY KEY (vote_properities_id, voted_for_id, user_id)
 );
