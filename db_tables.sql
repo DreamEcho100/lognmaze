@@ -1,12 +1,11 @@
 CREATE extension IF NOT EXISTS "uuid-ossp";
 
--- user TABLE
-
+-- user Table
 CREATE TABLE users (
-  user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id uuid DEFAULT uuid_generate_v4(),
   user_name_id TEXT NOT NULL UNIQUE,
   email TEXT NOT NULL UNIQUE,
-  emailVerified BOOLEAN DEFAULT FALSE,
+  email_verified BOOLEAN DEFAULT FALSE,
   show_email BOOLEAN DEFAULT FALSE,
   password TEXT NOT NULL,
   country_phone_code TEXT NOT NULL,
@@ -17,18 +16,13 @@ CREATE TABLE users (
   created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
   last_sign_in date NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  CONSTRAINT check_email_min_length CHECK (LENGTH(email) >= 10 ),
-  CONSTRAINT check_email_max_length CHECK (LENGTH(email) <= 150),
-  CONSTRAINT check_password_min_length CHECK (LENGTH(password) >= 10 ),
-  CONSTRAINT check_password_max_length CHECK (LENGTH(password) <= 150)
-
+  PRIMARY KEY (user_id)
 );
 
--- user_profile TABLE
-
+-- user_profile Table
 CREATE TABLE user_profile (
-  -- user_profile_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_id uuid PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE NOT NULL,
+  user_id uuid NOT NULL,
+
   first_name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50) NOT NULL,
   date_of_birth DATE NOT NULL,
@@ -53,15 +47,13 @@ CREATE TABLE user_profile (
   bioformat_type TEXT DEFAULT '',
   show_bio BOOLEAN DEFAULT TRUE,
 
-  CONSTRAINT check_first_name_min_length CHECK (LENGTH(first_name) >= 3 ),
-  CONSTRAINT check_last_name_min_length CHECK (LENGTH(last_name) >= 3 )
+  PRIMARY KEY (user_id),
+  FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
--- user_education TABLE
-
+-- user_education Table
 CREATE TABLE user_experience (
-  -- user_experience_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_id uuid PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE NOT NULL,
+  user_id uuid NOT NULL,
 
   experience TEXT,
   show_experience BOOLEAN DEFAULT TRUE,
@@ -73,103 +65,216 @@ CREATE TABLE user_experience (
   show_licenses_and_certifications BOOLEAN DEFAULT TRUE,
 
   skills_and_endorsements TEXT,
-  show_skills_and_endorsements BOOLEAN DEFAULT TRUE
+  show_skills_and_endorsements BOOLEAN DEFAULT TRUE,
 
+  PRIMARY KEY (user_id),
+  FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
--- tag TABLE
+-- news Table
+CREATE TABLE news (
+  news_id uuid DEFAULT uuid_generate_v4(),
+  author_id uuid NOT NULL,
 
-CREATE TABLE tag (
-  tag_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_id uuid PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE NOT NULL,
-  parent_id uuid NOT NULL,
-  parent_type TEXT NOT NULL,
-  name TEXT
-);
-
--- post TABLE
-
-CREATE TABLE post (
-  post_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_id uuid REFERENCES users (user_id) ON DELETE CASCADE NOT NULL,
-
-  content TEXT NOT NULL,
+  type TEXT NOT NULL,
 
   created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_on date NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  CONSTRAINT check_content_min_length CHECK (LENGTH(content) > 2)
+  PRIMARY KEY (news_id),
+  FOREIGN KEY (author_id) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
--- Article TABLE
+-- tag Table
+CREATE TABLE tag (
+  tag_id uuid DEFAULT uuid_generate_v4(),
+  news_id uuid NOT NULL,
+  name TEXT,
 
+  PRIMARY KEY (tag_id),
+  FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE
+  -- user_id uuid PRIMARY KEY REFERENCES users (user_id) ON DELETE CASCADE NOT NULL,
+  -- parent_id uuid NOT NULL,
+  -- parent_type TEXT NOT NULL,
+);
+
+-- post Table
+CREATE TABLE post (
+  post_id uuid NOT NULL,
+
+  content TEXT NOT NULL,
+
+  PRIMARY KEY (post_id),
+  FOREIGN KEY (post_id) REFERENCES news (news_id) ON DELETE CASCADE
+);
+
+-- article Table
 CREATE TABLE article (
-  article_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_id uuid REFERENCES users (user_id) ON DELETE CASCADE NOT NULL,
+  article_id uuid NOT NULL,
 
   format_type TEXT NOT NULL,
 
   title TEXT NOT NULL,
   slug TEXT UNIQUE NOT NULL,
-  post_image TEXT NOT NULL,
-  post_description TEXT NOT NULL,
+  image TEXT NOT NULL,
+  description TEXT NOT NULL,
 
   content TEXT NOT NULL,
 
-  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_on date NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-  CONSTRAINT check_content_min_length CHECK (LENGTH(content) > 2)
+  PRIMARY KEY (article_id),
+  FOREIGN KEY (article_id) REFERENCES news (news_id) ON DELETE CASCADE
 );
 
--- post comment TABLE
+-- news_vote Table
+CREATE TABLE news_vote (
+  news_vote_id uuid DEFAULT uuid_generate_v4(),
+  news_id uuid NOT NULL,
+  type TEXT NOT NULL,
+  count INT DEFAULT 0,
+
+  PRIMARY KEY (news_vote_id),
+  FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE,
+
+  CONSTRAINT news_vote_type CHECK (type='like' || type='dislike')
+);
+
+-- news_voter Table
+CREATE TABLE news_voter (
+  news_id uuid NOT NULL,
+  user_id uuid NOT NULL,
+
+  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  CONSTRAINT news_voter_id PRIMARY KEY (news_id, user_id),
+
+  FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- comment TABLE
 
 CREATE TABLE comment (
-  comment_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  comment_id uuid DEFAULT uuid_generate_v4(),
 
-  user_id uuid REFERENCES users (user_id) ON DELETE CASCADE NOT NULL,
-  parent_id uuid NOT NULL,
-  parent_type TEXT NOT NULL,
+  user_id uuid NOT NULL,
+  news_id uuid NOT NULL,
+
+  replies_count INT DEFAULT 0,
 
   content TEXT NOT NULL,
 
   created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_on date NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  CONSTRAINT check_content_min_length CHECK (LENGTH(content) > 2)
+  PRIMARY KEY (comment_id),
+  FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
+  FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE
 );
 
--- post sub comment TABLE
+-- comment TABLE
 
 CREATE TABLE comment_reply (
-  comment_reply_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  comment_reply_id uuid DEFAULT uuid_generate_v4(),
 
-  user_id uuid REFERENCES users (user_id) ON DELETE CASCADE NOT NULL,
-  parent_id uuid,
-  ReplyTo uuid REFERENCES comment_reply (Id),
+  user_id uuid NOT NULL,
+  news_id uuid NOT NULL,
+
+  ReplyTo uuid,
 
   content TEXT NOT NULL,
 
   created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_on date NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  CONSTRAINT check_content_min_length CHECK (LENGTH(content) > 2)
+  PRIMARY KEY (comment_reply_id),
+  FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
+  FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE
 );
 
-CREATE TABLE vote_properities (
-  vote_properities_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  voted_for_id uuid NOT NULL,
-  type TEXT NOT NULL,
-  count INT DEFAULT 0
-);
 
-CREATE TABLE voter (
-  -- voter_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  vote_properities_id uuid REFERENCES vote_properities (vote_properities_id) ON DELETE CASCADE NOT NULL,
-  voted_for_id uuid REFERENCES vote_properities (voted_for_id) NOT NULL,
-  user_id uuid REFERENCES users (user_id) NOT NULL,
 
-  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  CONSTRAINT voter_id PRIMARY KEY (vote_properities_id, voted_for_id, user_id)
-);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+DROP TABLE 
+IF EXISTS
+comment_reply,
+comment,
+news_voter,
+news_vote,
+article,
+post,
+tag,
+news,
+user_experience,
+user_profile,
+users
+;
+*/
