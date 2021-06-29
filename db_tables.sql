@@ -135,7 +135,7 @@ CREATE TABLE news_vote (
   PRIMARY KEY (news_vote_id),
   FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE,
 
-  CONSTRAINT news_vote_type CHECK (type='like' || type='dislike')
+  CONSTRAINT news_vote_type CHECK (type='like' OR type='dislike')
 );
 
 -- news_voter Table
@@ -265,16 +265,16 @@ CREATE TABLE comment_reply (
 /*
 DROP TABLE 
 IF EXISTS
-comment_reply,
-comment,
-news_voter,
-news_vote,
-article,
-post,
-tag,
-news,
-user_experience,
+users,
 user_profile,
-users
+user_experience,
+news,
+tag,
+post,
+article,
+news_vote,
+news_voter,
+comment,
+comment_reply
 ;
 */
