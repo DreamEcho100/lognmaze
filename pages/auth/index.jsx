@@ -22,21 +22,18 @@ const AuthPage = ({
 
 	useEffect(() => {
 		if (!UserCxt.isLoading) {
-			if (user && user.id) {
-				if (!isSigned) {
-					router.replace('/posts/all');
-				} else {
-					setIsSigned(true);
-				}
+			if (user && Object.keys(user).length !== 0) {
+				if (!isSigned) setIsSigned(true);
+				setTimeout(() => router.replace('/posts/all'), 0);
 			} else {
 				if (isSigned) setIsSigned(false);
 			}
 		}
 		setIsLoading(false);
-	}, [user, user.id, UserCxt.isLoading]);
+	}, [user, UserCxt.isLoading]);
 
 	useEffect(() => {
-		if (user && user.id) {
+		if (user && Object.keys(user).length !== 0) {
 			setIsSigned(true);
 		} else {
 			isSigned && setIsSigned(false);
@@ -46,7 +43,6 @@ const AuthPage = ({
 	useEffect(() => {
 		const params = new URLSearchParams(window.location.search);
 		const signType = params.get('sign-type');
-		console.log('signType', signType);
 		if (signType === 'up') {
 			setSignType(signType);
 		}

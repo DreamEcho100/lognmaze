@@ -222,7 +222,7 @@ export const UserContextProvider = ({ children }) => {
 					new Promise((resolve, reject) => {
 						setTimeout(() => {
 							resolve();
-						}, 250);
+						}, 1000);
 					});
 				}
 

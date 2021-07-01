@@ -9,8 +9,6 @@ export default async (req, res) => {
 	}
 
 	if (req.method === 'POST') {
-		// const users = await selectAllFrom('users');
-
 		try {
 			const {
 				firstName,
@@ -26,24 +24,11 @@ export default async (req, res) => {
 				phoneNumber,
 				gender,
 			} = req.body;
-			console.table({
-				firstName,
-				lastName,
-				userNameId,
-				email,
-				password,
-				dateOfBirth,
-				country,
-				state,
-				city,
-				countryPhoneCode,
-				phoneNumber,
-				gender,
-			});
 
-			const user = await pool.query('SELECT * FROM users WHERE email = $1', [
-				email,
-			]);
+			const user = await pool.query(
+				'SELECT email FROM user_account WHERE email = $1',
+				[email]
+			);
 
 			if (user.rows.length !== 0) {
 				return res
@@ -56,11 +41,24 @@ export default async (req, res) => {
 			const newUser = await pool
 				.query(
 					`
-					INSERT INTO users
+					INSERT INTO user_account
 					 ( user_name_id, email, password, country_phone_code, phone_number )
 					VALUES
 						( $1, $2, $3, $4, $5 )
-					RETURNING *;
+					RETURNING
+						user_account_id AS id,
+						user_name_id,
+						email,
+						email_verified,
+						show_email,
+						country_phone_code,
+						phone_number,
+						phone_verified,
+						show_phone_number,
+						role,
+						created_at,
+						last_sign_in
+					;
 				`,
 					[userNameId, email, hashedPassword, countryPhoneCode, phoneNumber]
 				)
@@ -70,40 +68,69 @@ export default async (req, res) => {
 					const response2 = await pool.query(
 						`
 							WITH add_new_user_profile as (
-								INSERT INTO users_profile
-									( user_id, first_name, last_name, date_of_birth, country, state, city, gender )
+								INSERT INTO user_profile
+									(
+										user_profile_id,
+										first_name,
+										last_name,
+										date_of_birth,
+										gender
+									)
 								VALUES
-									( $1, $2, $3, $4, $5, $6, $7, $8 )
-								RETURNING *
+									( $1, $2, $3, $4, $5 )
+								RETURNING 
+									first_name,
+									last_name,
+									date_of_birth,
+									show_date_of_birth,
+									gender,
+									profile_picture,
+									cover_photo,
+									bio,
+									bio_format_type,
+									show_bio
 							),
-							add_new_user_experience as (
-								INSERT INTO users_experience
-									( user_id )
+							add_new_user_address as (
+								INSERT INTO user_address
+									(
+										user_address_id,
+										country_of_resident,
+										state_of_resident,
+										city_of_resident
+									)
 								VALUES
-									( $1 )
-								RETURNING id
+									( $1, $6, $7, $8 )
+								RETURNING
+									country_of_birth,
+									state_of_birth,
+									city_of_birth,
+									show_address_of_birth,
+									country_of_resident,
+									state_of_resident,
+									city_of_resident,
+									address_of_resident,
+									show_address_of_resident
 							)
 							
-							SELECT * FROM add_new_user_profile, add_new_user_experience;
+							SELECT * FROM add_new_user_profile, add_new_user_address;
 						`,
 						[
 							response.rows[0].id,
 							firstName,
 							lastName,
 							dateOfBirth,
+							gender,
 							country,
 							state,
 							city,
-							gender,
 						]
 					);
 
 					return {
-						...response.rows[0],
 						...response2.rows[0],
+						...response.rows[0],
 					};
 				});
-
 
 			const jwt = jwtGenerator({
 				id: newUser.id,
