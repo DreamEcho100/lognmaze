@@ -1,5 +1,5 @@
 import { handleIsAuthorized, verifyPassword } from '@/lib/v1/auth';
-import { pool, handleFindingUserById } from '@/lib/v1/pg';
+import { pool, checkUserExistAndReturnPasswordById } from '@/lib/v1/pg';
 
 export default async (req, res) => {
 	if (req.method !== 'PATCH') {
@@ -15,22 +15,33 @@ export default async (req, res) => {
 
 			if (!isAuthorized.id) return;
 
-			const user = await handleFindingUserById(res, isAuthorized.id);
+			const user = await checkUserExistAndReturnPasswordById(
+				res,
+				isAuthorized.id
+			);
 
 			if (!user.id) return;
 
 			const { firstName, lastName, password } = req.body;
 
-			const validPassword = await verifyPassword(res, password, user.password);
+			const validPassword = await verifyPassword({
+				res,
+				password,
+				hashedPassword: user.password,
+			});
 
 			if (!validPassword) return;
 
 			const updatedUser = await pool.query(
-				'UPDATE users_profile SET first_name=($1), last_name=($2) WHERE user_id=($3)', //  RETURNING *
+				`
+					UPDATE user_profile
+					SET
+						first_name=($1),
+						last_name=($2)
+					WHERE user_profile_id=($3)
+				`,
 				[firstName, lastName, isAuthorized.id]
 			);
-
-			// const { first_name, last_name, user_name, gender } = updatedUser.rows[0];
 
 			res.status(201).json({
 				status: 'success',

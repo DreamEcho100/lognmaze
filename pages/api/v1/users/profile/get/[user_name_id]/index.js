@@ -1,5 +1,5 @@
 import { handleIsAuthorized } from '@/lib/v1/auth';
-import { pool } from '@/lib/v1/pg';
+import { getUserData } from '@/lib/v1/pg';
 
 export default async (req, res) => {
 	if (req.method !== 'GET') {
@@ -35,27 +35,10 @@ export default async (req, res) => {
 				}
 			}
 
-			const user = await pool.query(
-				// 'SELECT * FROM users WHERE user_name_id = $1',
-				`
-					SELECT
-						users_profile.*,
-					
-						users_experience.*,
-						
-						users.*
-					
-					FROM
-						users
-					JOIN users_profile
-						ON users_profile.user_id = users.id
-					JOIN users_experience
-						ON users_experience.user_id = users.id
-					WHERE users.user_name_id = $1;
-				`,
-				[user_name_id]
-			);
-
+			const user = await getUserData({
+				filterBy: { key: 'user_name_id', value: user_name_id },
+				withPassword: false,
+			});
 
 			if (user.rows.length === 0) {
 				res.status(401).json({
@@ -69,7 +52,7 @@ export default async (req, res) => {
 				return;
 			}
 
-			delete user.rows[0].password;
+			// delete user.rows[0].password;
 
 			return res.status(401).json({
 				status: 'success',

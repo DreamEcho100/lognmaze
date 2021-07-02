@@ -1,5 +1,5 @@
 import { handleIsAuthorized, verifyPassword } from '@/lib/v1/auth';
-import { pool, handleFindingUserById } from '@/lib/v1/pg';
+import { pool, checkUserExistAndReturnPasswordById } from '@/lib/v1/pg';
 
 export default async (req, res) => {
 	if (req.method !== 'PATCH') {
@@ -15,18 +15,29 @@ export default async (req, res) => {
 
 			if (!isAuthorized.id) return;
 
-			const user = await handleFindingUserById(res, isAuthorized.id);
+			const user = await checkUserExistAndReturnPasswordById(
+				res,
+				isAuthorized.id
+			);
 
 			if (!user.id) return;
 
 			const { email, password } = req.body;
 
-			const validPassword = await verifyPassword(res, password, user.password);
+			const validPassword = await verifyPassword({
+				res,
+				password,
+				hashedPassword: user.password,
+			});
 
 			if (!validPassword) return;
 
 			const updatedUser = await pool.query(
-				'UPDATE users SET email=($1), email_verified=FALSE WHERE id=($2) RETURNING *',
+				`
+					UPDATE user_account
+					SET email=($1), email_verified=FALSE
+					WHERE user_account_id=($2)
+				`,
 				[email, isAuthorized.id]
 			);
 
@@ -34,7 +45,7 @@ export default async (req, res) => {
 				status: 'success',
 				message: 'Email Updated Successfully!',
 				isAuthorized: true,
-				data: { email },
+				data: { email, email_verified: false },
 			});
 		} catch (error) {
 			// console.error(error);

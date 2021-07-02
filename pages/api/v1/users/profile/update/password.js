@@ -3,7 +3,7 @@ import {
 	verifyPassword,
 	hashPassword,
 } from '@/lib/v1/auth';
-import { pool, handleFindingUserById } from '@/lib/v1/pg';
+import { pool, checkUserExistAndReturnPasswordById } from '@/lib/v1/pg';
 
 export default async (req, res) => {
 	if (req.method !== 'PATCH') {
@@ -19,24 +19,31 @@ export default async (req, res) => {
 
 			if (!isAuthorized.id) return;
 
-			const user = await handleFindingUserById(res, isAuthorized.id);
+			const user = await checkUserExistAndReturnPasswordById(
+				res,
+				isAuthorized.id
+			);
 
 			if (!user.id) return;
 
 			const { oldPassword, newPassword } = req.body;
 
-			const validPassword = await verifyPassword(
+			const validPassword = await verifyPassword({
 				res,
-				oldPassword,
-				user.password
-			);
+				password: oldPassword,
+				hashedPassword: user.password,
+			});
 
 			if (!validPassword) return;
 
 			const hashedPassword = await hashPassword(newPassword);
 
 			const updatedUser = await pool.query(
-				'UPDATE users SET password=($1) WHERE id=($2)', //  RETURNING *
+				`
+					UPDATE user_account
+					SET password=($1)
+					WHERE user_account_id=($2)
+				`,
 				[hashedPassword, isAuthorized.id]
 			);
 

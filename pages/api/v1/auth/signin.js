@@ -1,5 +1,5 @@
 import { verifyPassword, jwtGenerator } from '@/lib/v1/auth';
-import { getUserDataByEmail } from '@/lib/v1/pg';
+import { getUserData } from '@/lib/v1/pg';
 
 export default async (req, res) => {
 	// const data = req.body;
@@ -12,7 +12,10 @@ export default async (req, res) => {
 		try {
 			const { email, password } = req.body;
 
-			const user = await getUserDataByEmail({ email, withPassword: true });
+			const user = await getUserData({
+				filterBy: { key: 'email', value: email },
+				withPassword: true,
+			});
 
 			if (!user.id) {
 				return res

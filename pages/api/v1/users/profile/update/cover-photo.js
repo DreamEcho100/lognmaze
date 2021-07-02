@@ -1,5 +1,5 @@
 import { handleIsAuthorized /*, verifyPassword*/ } from '@/lib/v1/auth';
-import { pool, handleFindingUserById } from '@/lib/v1/pg';
+import { pool, checkUserExistAndReturnPasswordById } from '@/lib/v1/pg';
 
 export default async (req, res) => {
 	if (req.method !== 'PATCH') {
@@ -15,7 +15,10 @@ export default async (req, res) => {
 
 			if (!isAuthorized.id) return;
 
-			const user = await handleFindingUserById(res, isAuthorized.id);
+			const user = await checkUserExistAndReturnPasswordById(
+				res,
+				isAuthorized.id
+			);
 
 			if (!user.id) {
 				return;
@@ -24,14 +27,18 @@ export default async (req, res) => {
 			const { url } = req.body;
 
 			const updatedUser = await pool.query(
-				'UPDATE users_profile SET cover_photo=($1) WHERE user_id=($2)', // RETURNING *
+				`
+					UPDATE user_profile
+					SET cover_photo=($1)
+					WHERE user_profile_id=($2)
+				`,
 				[url, isAuthorized.id]
 			);
 
 			return res.status(201).json({
 				status: 'success',
 				message: 'Cover Photo Updated Successefully!',
-				data: { cover_photo: url /*updatedUser.rows[0].cover_photo*/ },
+				data: { cover_photo: url },
 				isAuthorized: true,
 			});
 		} catch (error) {

@@ -56,22 +56,6 @@ const ProfilePage = ({ user = {}, posts = [] }) => {
 		}
 	}, [UserCxt.user, UserCxt.isLoading, router.query.user_name_id]);
 
-	// useEffect(() => {
-	// 	if (!UserCxt.isLoading) {
-	// 		if (
-	// 			router.query.user_name_id === UserCxt.user.user_name_id &&
-	// 			identity === GUEST
-	// 		) {
-	// 			setIdentity(OWNER);
-	// 		} else if (
-	// 			router.query.user_name_id !== UserCxt.user.user_name_id &&
-	// 			identity === OWNER
-	// 		) {
-	// 			setIdentity(GUEST);
-	// 		}
-	// 	}
-	// }, [router.query.user_name_id]);
-
 	if (UserCxt.isLoading || isLoading) {
 		return <p>Loading...</p>;
 	}
