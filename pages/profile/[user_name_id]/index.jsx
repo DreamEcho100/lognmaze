@@ -144,7 +144,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 				};
 			});*/
 
-		return { user, posts };
+		return { user, posts = [] };
 	};
 
 	let tokenCookieString = '';
