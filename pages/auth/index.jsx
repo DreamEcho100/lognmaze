@@ -81,6 +81,7 @@ export const getStaticProps = async (ctx) => {
 		'https://www.universal-tutorial.com/api/getaccesstoken',
 		{
 			method: 'GET',
+			Accept: 'application/json',
 			headers: {
 				'Content-Type': 'application/json',
 				'api-token':
@@ -92,11 +93,14 @@ export const getStaticProps = async (ctx) => {
 			},
 		}
 	)
+		.then((response) => {
+			return response;
+		})
 		.then((response) => response.json())
 		.then((data) => data.auth_token)
 		.catch((error) => {
 			console.error(error);
-			return [''];
+			return null;
 		});
 
 	return {
@@ -108,3 +112,114 @@ export const getStaticProps = async (ctx) => {
 };
 
 export default AuthPage;
+
+
+/*
+let countriesData = [];
+
+new Promise(async (resolve, reject) => {
+new Promise(async (resolve, reject) => {
+  await fetch(
+    'https://www.universal-tutorial.com/api/getaccesstoken',
+    {
+      method: 'GET',
+      Accept: 'application/json',
+      headers: {
+        'Content-Type': 'application/json',
+				'api-token':
+					process.env
+						.UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_API_TOKEN,
+				'user-email':
+					process.env
+						.UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_USER_EMAIL,
+      },
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(error => {
+      console.error(error);
+      resolve('');
+    })
+})
+.then(async ({auth_token}) => {
+  console.log('auth_token', auth_token);
+  if (!auth_token && auth_token.length === 0) return [];
+  let countries = [];
+  // let states = {};
+  // let cities = {};
+
+  countries = await fetch(
+    'https://www.universal-tutorial.com/api/countries/',
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    }
+  ).then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+      countriesData = [];
+    });
+  
+    countries.forEach(async (country) => {
+      country.states = [];
+      new Promise(async(resolve, reject) => {
+        await fetch(
+        `https://www.universal-tutorial.com/api/states/${country.country_name}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${auth_token}`,
+          },
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          resolve(data);
+        })
+        .catch((error) => {
+          console.error(error);
+          reject(data);
+        });
+      })
+      .then( data => {
+        country.states = data;
+        country.states.forEach((state, stateIndex) => {
+          country.states[stateIndex].cities = [];
+          new Promise(async (resolve, reject) => {
+            await fetch(
+                `https://www.universal-tutorial.com/api/states/${country.country_name}`,
+                {
+                  method: 'GET',
+                  headers: {
+                    Authorization: `Bearer ${auth_token}`,
+                  },
+                }
+              )
+                .then((response) => response.json())
+                .then((data) => {
+                  resolve(data);
+                })
+                .catch((error) => {
+                  console.error(error);
+                  reject(data);
+                });
+          })
+          .then(data => {
+            country.states[stateIndex].cities = data;
+          });
+
+        });
+      });
+
+    });
+
+  countriesData = countries;
+
+})
+.then(() => resolve());
+
+});
+*/

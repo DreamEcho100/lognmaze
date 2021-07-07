@@ -9,14 +9,15 @@ CREATE TABLE user_account (
   show_email BOOLEAN DEFAULT FALSE,
   password TEXT NOT NULL,
   country_phone_code TEXT NOT NULL,
-  phone_number TEXT UNIQUE,
+  phone_number TEXT,
   phone_verified BOOLEAN DEFAULT FALSE,
   show_phone_number BOOLEAN DEFAULT FALSE,
   role TEXT DEFAULT 'user',
   created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
   last_sign_in date NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  PRIMARY KEY (user_account_id)
+  PRIMARY KEY (user_account_id),
+  CONSTRAINT user_phone_number UNIQUE (country_phone_code, phone_number)
 );
 
 -- user_profile Table
