@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import CreateArticleModal from '@/components/UI/V1/News/NewsModal/Article/Create/Create';
+import CreateArticleModal from '../../UI/V1/News/NewsModal/Article/Create/Create';
 
 import Button from '../../UI/V1/Button/Button';
 

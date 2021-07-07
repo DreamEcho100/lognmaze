@@ -6,7 +6,7 @@ import classes from './Profile.module.css';
 import CreateNewsButton from './CreateNewsButton/CreateNewsButton';
 import SettingsButton from './SettingsButton/SettingsButton';
 
-// import NewsContainer from '@/components/UI/V1/News/NewsContainer/NewsContainer';
+import NewsContainer from '../UI/V1/News/NewsContainer/NewsContainer';
 
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
@@ -132,9 +132,9 @@ const Profile = ({
 				{visitorIdentity === OWNER && <CreateNewsButton />}
 			</section>
 			<>
-				{/* {formattedData.map((item, index) => (
+				{formattedData.map((item, index) => (
 					<NewsContainer data={item} key={index} />
-				))} */}
+				))}
 			</>
 		</>
 	);
