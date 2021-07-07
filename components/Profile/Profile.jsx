@@ -25,57 +25,60 @@ const Profile = ({
 		);
 	}
 
-	const formattedData = news.data.map(
-		({
-			id,
-			author_id,
-			author_user_name_id,
-			format_type,
-			title,
-			meta_title,
-			slug,
-			image,
-			tags,
-			meta_description,
-			excerpt,
-			content,
-			like_user_id,
-			likes,
-			created_at,
-			updated_on,
-			user_name_id,
-			first_name,
-			last_name,
-			profile_picture,
-		}) => {
-			const author = {
-				user_name_id,
-				first_name,
-				last_name,
-				profile_picture,
-			};
-			const news = {
-				id,
-				author_id,
-				author_user_name_id,
-				format_type,
-				title,
-				meta_title,
-				slug,
-				image,
-				tags,
-				meta_description,
-				excerpt,
-				content,
-				like_user_id,
-				likes,
-				created_at,
-				updated_on,
-			};
+	const formattedData =
+		news.data.length !== 0
+			? news.data.map(
+					({
+						id,
+						author_id,
+						author_user_name_id,
+						format_type,
+						title,
+						meta_title,
+						slug,
+						image,
+						tags,
+						meta_description,
+						excerpt,
+						content,
+						like_user_id,
+						likes,
+						created_at,
+						updated_on,
+						user_name_id,
+						first_name,
+						last_name,
+						profile_picture,
+					}) => {
+						const author = {
+							user_name_id,
+							first_name,
+							last_name,
+							profile_picture,
+						};
+						const news = {
+							id,
+							author_id,
+							author_user_name_id,
+							format_type,
+							title,
+							meta_title,
+							slug,
+							image,
+							tags,
+							meta_description,
+							excerpt,
+							content,
+							like_user_id,
+							likes,
+							created_at,
+							updated_on,
+						};
 
-			return { author, news };
-		}
-	);
+						return { author, news };
+					}
+			  )
+			: [];
 
 	return (
 		<>
@@ -131,9 +134,10 @@ const Profile = ({
 				{visitorIdentity === OWNER && <CreateNewsButton />}
 			</section>
 			<>
-				{formattedData.map((item, index) => (
-					<NewsContainer data={item} key={index} />
-				))}
+				{formattedData.length !== 0 &&
+					formattedData.map((item, index) => (
+						<NewsContainer data={item} key={index} />
+					))}
 			</>
 		</>
 	);
