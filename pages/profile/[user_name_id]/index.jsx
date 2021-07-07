@@ -5,7 +5,7 @@ import { getCookie } from '@/lib/v1/cookie';
 
 import UserContext from '@/store/UserContext';
 
-import Profile from '@/components/Profile/Profile';
+// import Profile from '@/components/Profile/Profile';
 
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
@@ -74,7 +74,7 @@ const ProfilePage = ({ user = {}, posts = [] }) => {
 
 	return (
 		<>
-			<Profile userData={userData} visitorIdentity={identity} posts={posts} />
+			{/* <Profile userData={userData} visitorIdentity={identity} posts={posts} /> */}
 		</>
 	);
 };
