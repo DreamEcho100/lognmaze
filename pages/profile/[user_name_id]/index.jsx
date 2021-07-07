@@ -125,7 +125,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 			};
 		}
 
-		const posts = await fetch(
+		/*const posts = await fetch(
 			`${process.env.BACK_END_ROOT_URL}/api/v1/users/posts/get/by-user-name-id/${user_name_id}`,
 			{
 				method: 'GET',
@@ -142,7 +142,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 					message: error.message || 'Something went wrong!',
 					data: [],
 				};
-			});
+			});*/
 
 		return { user, posts };
 	};
@@ -169,7 +169,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 	return {
 		props: {
 			user: data.user ? data.user : {},
-			posts: data.posts ? data.posts : {},
+			posts: data.posts ? data.posts : [],
 		}, // will be passed to the page component as props
 	};
 };
