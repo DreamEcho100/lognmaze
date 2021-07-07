@@ -16,11 +16,6 @@ import Button from '../../UI/V1/Button/Button';
 const SignUp = ({
 	UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN,
 }) => {
-	if(!UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN || UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN.length === 0) {
-		return (
-			<p>Server Error :(</p>
-		);
-	}
 	const { handleSignUp } = useContext(UserContext);
 
 	const [firstName, setFirstName] = useState('');
@@ -107,6 +102,18 @@ const SignUp = ({
 	};
 
 	const handleGetCountries = async () => {
+		console.log(
+			'UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN',
+			UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN
+		);
+		if (
+			!UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN ||
+			UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN.length === 0
+		) {
+			setCountries([]);
+			return;
+		}
+
 		setCountry('');
 		setState('');
 		setCity('');
