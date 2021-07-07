@@ -3,15 +3,19 @@ import { useRouter } from 'next/router';
 
 import classes from './Profile.module.css';
 
-import CreatePostButton from './CreatePostButton/CreatePostButton';
+import CreateNewsButton from './CreateNewsButton/CreateNewsButton';
 import SettingsButton from './SettingsButton/SettingsButton';
 
-import PostContainer from '@/components/UI/V1/posts/PostContainer/PostContainer';
+import NewsContainer from '@/components/UI/V1/News/NewsContainer/NewsContainer';
 
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
-const Profile = ({ userData = {}, visitorIdentity = GUEST, posts }) => {
+const Profile = ({
+	userData = {},
+	visitorIdentity = GUEST,
+	news = { data: [] },
+}) => {
 	const router = useRouter();
 
 	if (!userData.id) {
@@ -22,7 +26,7 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, posts }) => {
 		);
 	}
 
-	const formattedData = posts.data.map(
+	const formattedData = news.data.map(
 		({
 			id,
 			author_id,
@@ -51,7 +55,7 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, posts }) => {
 				last_name,
 				profile_picture,
 			};
-			const post = {
+			const news = {
 				id,
 				author_id,
 				author_user_name_id,
@@ -70,7 +74,7 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, posts }) => {
 				updated_on,
 			};
 
-			return { author, post };
+			return { author, news };
 		}
 	);
 
@@ -125,11 +129,11 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, posts }) => {
 					<p>{userData.user_name_id}</p>
 				</div>
 				{visitorIdentity === OWNER && <SettingsButton />}
-				{visitorIdentity === OWNER && <CreatePostButton />}
+				{visitorIdentity === OWNER && <CreateNewsButton />}
 			</section>
 			<>
 				{formattedData.map((item, index) => (
-					<PostContainer data={item} key={index} />
+					<NewsContainer data={item} key={index} />
 				))}
 			</>
 		</>

@@ -1,3 +1,72 @@
+SELECT
+  news.news_id,
+  news.author_id,
+  news.type,
+  news.content,
+  news.comments_count,
+  news.created_at,
+  news.updated_on,
+
+  user_profile.user_profile_id AS author_user_name_id,
+  user_profile.first_name,
+  user_profile.last_name,
+  user_profile.profile_picture
+
+FROM user_profile
+JOIN news ON news.author_id = user_profile.user_profile_id
+ORDER BY news.created_at DESC;
+
+SELECT
+  post.content
+from post WHERE post_id IN ();
+
+SELECT
+  article.format_type
+  article.title
+  article.slug
+  article.image
+  article.description
+  article.content
+from article WHERE article_id IN ();
+
+INSERT INTO news
+  (
+    author_id,
+    type
+  )
+VALUES
+  ($1, $2)
+RETURNING news_id;
+
+
+-- JOIN posts 
+-- ON posts.author_id = users.id
+-- JOIN LATERAL(
+-- SELECT ARRAY (
+--   -- SELECT array_agg(post_tags.name) AS tags
+--   SELECT post_tags.name AS tags
+--   FROM post_tags
+--   -- JOIN posts
+--   -- ON post_tags.post_id = posts.id
+--   WHERE post_tags.post_id = posts.id
+-- ) AS tags
+-- ) post_tags ON TRUE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /************************************************/
 /**/
 /************************************************/
@@ -21,7 +90,7 @@ SELECT * FROM users;
 
 /*
 WITH add_new_user_profile as (
-  INSERT INTO users_profile
+  INSERT INTO user_profile
     ( user_id, first_name, last_name, date_of_birth, country, state, city, gender )
   VALUES
     ( $1, $2, $3, $4, $5, $6, $7, $8 )
@@ -38,7 +107,7 @@ add_new_user_experience as (
 SELECT * FROM add_new_user_profile, add_new_user_experience;
 */
 
-INSERT INTO users_profile
+INSERT INTO user_profile
   ( user_id, first_name, last_name, date_of_birth, country, state, gender )
 VALUES
   ( '6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb', 'Henry', 'Cavel', 'Thu Jun 22 2000 00:00:00+03', 'Egypt', 'Cairo', 'male' )
@@ -59,14 +128,14 @@ RETURNING *;
 SELECT
   users.*,
 
-  users_profile.*,
+  user_profile.*,
 
   users_experience.*
 
 FROM
   users
-JOIN users_profile
-  ON users_profile.user_id = users.id
+JOIN user_profile
+  ON user_profile.user_id = users.id
 JOIN users_experience
   ON users_experience.user_id = users.id
 WHERE users.email = 'test@testing.com';
@@ -76,14 +145,14 @@ WHERE users.email = 'test@testing.com';
 SELECT
   users.*,
 
-  users_profile.*,
+  user_profile.*,
 
   users_experience.*
 
 FROM
   users
-JOIN users_profile
-  ON users_profile.user_id = users.id
+JOIN user_profile
+  ON user_profile.user_id = users.id
 JOIN users_experience
   ON users_experience.user_id = users.id
 WHERE users.user_name_id = 'mr-tester';
@@ -214,7 +283,7 @@ SELECT * FROM add_post_tag_0, add_post_tag_1, add_post_tag_2;
 
 SELECT * FROM users;
 
-SELECT * FROM users_profile;
+SELECT * FROM user_profile;
 
 SELECT * FROM users_experience;
 
@@ -226,10 +295,10 @@ SELECT * FROM users_experience;
 SELECT
   users.user_name_id,
   
-  users_profile.first_name,
-  users_profile.last_name,
-  users_profile.profile_picture,
-  users_profile.cover_photo,
+  user_profile.first_name,
+  user_profile.last_name,
+  user_profile.profile_picture,
+  user_profile.cover_photo,
 
   posts.id,
   posts.author_id,
@@ -250,8 +319,8 @@ SELECT
 
 FROM
   users
-JOIN users_profile
-  ON users_profile.user_id = users.id
+JOIN user_profile
+  ON user_profile.user_id = users.id
 JOIN posts 
   ON posts.author_id = users.id
 JOIN LATERAL(
@@ -425,17 +494,17 @@ SELECT
   posts.updated_on,
 
   users.user_name_id,
-  users_profile.first_name,
-  users_profile.last_name,
-  users_profile.profile_picture
+  user_profile.first_name,
+  user_profile.last_name,
+  user_profile.profile_picture
 FROM
   posts
 JOIN users 
   ON posts.author_id = users.id
 JOIN post_tags 
   ON post_tags.post_id = posts.id
-JOIN users_profile 
-  ON users_profile.user_id = users.id
+JOIN user_profile 
+  ON user_profile.user_id = users.id
 WHERE posts.author_id = '6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb'
 ORDER BY posts.created_at DESC;
 
@@ -467,15 +536,15 @@ SELECT
   posts.updated_on,
 
   users.user_name_id,
-  users_profile.first_name,
-  users_profile.last_name,
-  users_profile.profile_picture
+  user_profile.first_name,
+  user_profile.last_name,
+  user_profile.profile_picture
 FROM
   posts
 JOIN users 
   ON posts.author_id = users.id -- AND users.user_name_id = "henry_cavel"
-JOIN users_profile 
-  ON users_profile.user_id = users.id
+JOIN user_profile 
+  ON user_profile.user_id = users.id
 WHERE posts.author_id = '6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb'
 ORDER BY posts.created_at DESC;
 
@@ -501,8 +570,8 @@ ORDER BY posts.created_at DESC;
 --   posts
 -- JOIN users 
 --   ON posts.author_id = users.id -- AND users.user_name_id = "henry_cavel"
--- JOIN users_profile 
---   ON users_profile.user_id = users.id
+-- JOIN user_profile 
+--   ON user_profile.user_id = users.id
 -- WHERE posts.author_id = '6212a5c1-7831-4af8-8c5d-8b3afb2ea3fb'
 -- ORDER BY posts.created_at DESC;
 

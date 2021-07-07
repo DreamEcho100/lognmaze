@@ -101,7 +101,7 @@ CREATE TABLE news (
 
   content TEXT NOT NULL,
 
-  comments_count INT DEFAULT 0,
+  -- comments_count INT DEFAULT 0,
 
   created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_on date NOT NULL DEFAULT CURRENT_TIMESTAMP,

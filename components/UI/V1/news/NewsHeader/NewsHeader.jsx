@@ -7,20 +7,20 @@ import UserContext from '@/store/UserContext';
 
 import Settings from './Settings/Settings';
 
-// import classes from './PostHeader.module.css';
+// import classes from './NewsHeader.module.css';
 
-const PostHeader = ({ author, post, setPost }) => {
+const NewsHeader = ({ author, news, setNews }) => {
 	const router = useRouter();
 
 	const { user, ...UserCxt } = useContext(UserContext);
 
-	const [isPostOwner, setIsPostOwner] = useState(false);
+	const [isNewsOwner, setIsNewsOwner] = useState(false);
 
 	useEffect(() => {
 		if (user && user.user_name_id === author.user_name_id) {
-			setIsPostOwner(true);
-		} else if (isPostOwner) {
-			setIsPostOwner(false);
+			setIsNewsOwner(true);
+		} else if (isNewsOwner) {
+			setIsNewsOwner(false);
 		}
 	}, [user]);
 
@@ -51,30 +51,30 @@ const PostHeader = ({ author, post, setPost }) => {
 						</a>
 					</Link>
 					<Settings
-						isPostOwner={isPostOwner}
-						postContent={post}
-						setPostContent={setPost}
+						isNewsOwner={isNewsOwner}
+						newsContent={news}
+						setNewsContent={setNews}
 					/>
 				</div>
-				<p>Created At: {post.created_at}</p>
-				{post.updated_on !== post.created_at ? (
-					<p>Updated On: {post.updated_on}</p>
+				<p>Created At: {news.created_at}</p>
+				{news.updated_on !== news.created_at ? (
+					<p>Updated On: {news.updated_on}</p>
 				) : null}
 			</div>
 			<div className=''>
 				{!router.query.slug ? (
-					<Link href={`/posts/post/${post.slug}`}>
+					<Link href={`/Newss/News/${news.slug}`}>
 						<a target='_blank' rel='noopener noreferrer'>
-							<h1>{post.title}</h1>
+							<h1>{news.title}</h1>
 						</a>
 					</Link>
 				) : (
-					<h1>{post.title}</h1>
+					<h1>{news.title}</h1>
 				)}
 				{/* <Image
 					src={
-						post.image
-							? post.image
+						News.image
+							? News.image
 							: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2Fa3%2F28%2F00%2Fa3280086331589746635e698769c48a2.gif&f=1&nofb=1'
 					}
 					alt=''
@@ -82,13 +82,13 @@ const PostHeader = ({ author, post, setPost }) => {
 					height={30}
 					layout='responsive'
 				/> */}
-				<img src={post.image} alt='' style={{ width: '100%' }} loading='lazy' />
+				<img src={news.image} alt='' style={{ width: '100%' }} loading='lazy' />
 				<p>
-					<strong>Tags:</strong> {post.tags.join(', ')}
+					<strong>Tags:</strong> {news.tags.join(', ')}
 				</p>
 			</div>
 		</header>
 	);
 };
 
-export default PostHeader;
+export default NewsHeader;

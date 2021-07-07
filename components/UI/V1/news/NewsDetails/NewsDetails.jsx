@@ -5,16 +5,16 @@ import Link from 'next/link';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
-import classes from './PostDetails.module.css';
+import classes from './NewsDetails.module.css';
 
-const PostDetails = ({ post }) => {
-	const { content } = post;
+const NewsDetails = ({ news }) => {
+	const { content } = news;
 
 	const customRenderers = {
 		// img(image) {
 		//   return (
 		//     <Image
-		//       src={`/images/posts/${post.slug}/${image.src}`}
+		//       src={`/images/news/${news.slug}/${image.src}`}
 		//       alt={image.alt}
 		//       width={600}
 		//       height={300}
@@ -32,7 +32,7 @@ const PostDetails = ({ post }) => {
 				// ) {
 				// 	imgSrc = image.properties.src;
 				// } else {
-				// 	imgSrc = `/images/posts/${post.slug}/${image.properties.src}`;
+				// 	imgSrc = `/images/news/${news.slug}/${image.properties.src}`;
 				// }
 
 				return (
@@ -101,4 +101,4 @@ const PostDetails = ({ post }) => {
 	);
 };
 
-export default PostDetails;
+export default NewsDetails;
