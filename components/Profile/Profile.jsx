@@ -5,7 +5,7 @@ import classes from './Profile.module.css';
 import CreateNewsButton from './CreateNewsButton/CreateNewsButton';
 import SettingsButton from './SettingsButton/SettingsButton';
 
-import NewsContainer from '../UI/V1/News/NewsContainer/NewsContainer';
+import NewsContainer from '@/components/UI/V1/News/NewsContainer/NewsContainer';
 
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';

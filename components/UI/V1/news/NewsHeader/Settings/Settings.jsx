@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import classes from './Settings.module.css';
 
-import Update from '../../NewsModal/Update/Update';
+import Update from '../../NewsModal/Article/Update/Update';
 
 const Settings = ({ isNewsOwner, newsContent, setNewsContent }) => {
 	const [showUpdateNewsModal, setShowUpdateNewsModal] = useState(false);
