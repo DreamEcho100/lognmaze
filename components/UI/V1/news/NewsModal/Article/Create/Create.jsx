@@ -1,6 +1,6 @@
 import ArticleModalTemplate1 from '../ArticleModalTemplate1/ArticleModalTemplate1';
 
-const Update = ({ closeModal }) => {
+const Create = ({ closeModal }) => {
 	const fetcher = async ({ bodyObj, token }) =>
 		await fetch('/api/v1/users/news/add', {
 			method: 'POST',
@@ -20,4 +20,4 @@ const Update = ({ closeModal }) => {
 	);
 };
 
-export default Update;
+export default Create;
