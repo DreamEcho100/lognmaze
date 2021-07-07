@@ -14,7 +14,7 @@ const NewsDetails = ({ news }) => {
 		// img(image) {
 		//   return (
 		//     <Image
-		//       src={`/images/news/${news.slug}/${image.src}`}
+		//       src={`/images/News/${news.slug}/${image.src}`}
 		//       alt={image.alt}
 		//       width={600}
 		//       height={300}
@@ -32,7 +32,7 @@ const NewsDetails = ({ news }) => {
 				// ) {
 				// 	imgSrc = image.properties.src;
 				// } else {
-				// 	imgSrc = `/images/news/${news.slug}/${image.properties.src}`;
+				// 	imgSrc = `/images/News/${news.slug}/${image.properties.src}`;
 				// }
 
 				return (
