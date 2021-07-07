@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import NewsHeader from '../Header/Header';
-import Details from '../Details/Container';
+import Details from '../Details/Details';
 
 const Container = ({ data }) => {
 	const [author, setAuthor] = useState(data.author);
