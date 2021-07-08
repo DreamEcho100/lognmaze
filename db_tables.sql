@@ -99,9 +99,7 @@ CREATE TABLE news (
 
   type TEXT NOT NULL,
 
-  content TEXT NOT NULL,
-
-  -- comments_count INT DEFAULT 0,
+  comments_count INT DEFAULT 0,
 
   created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_on date NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -110,29 +108,30 @@ CREATE TABLE news (
   FOREIGN KEY (author_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE
 );
 
+
 -- tag Table
-CREATE TABLE tag (
-  tag_id uuid DEFAULT uuid_generate_v4(),
+CREATE TABLE news_tag (
+  news_tag_id uuid DEFAULT uuid_generate_v4(),
   news_id uuid NOT NULL,
   name TEXT,
 
-  PRIMARY KEY (tag_id),
+  PRIMARY KEY (news_tag_id),
   FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE
 );
 
 -- post Table
-CREATE TABLE post (
-  post_id uuid NOT NULL,
+CREATE TABLE news_post (
+  news_post_id uuid NOT NULL,
 
   content TEXT NOT NULL,
 
-  PRIMARY KEY (post_id),
-  FOREIGN KEY (post_id) REFERENCES news (news_id) ON DELETE CASCADE
+  PRIMARY KEY (news_post_id),
+  FOREIGN KEY (news_post_id) REFERENCES news (news_id) ON DELETE CASCADE
 );
 
 -- article Table
-CREATE TABLE article (
-  article_id uuid NOT NULL,
+CREATE TABLE news_article (
+  news_article_id uuid NOT NULL,
 
   format_type TEXT NOT NULL,
 
@@ -143,8 +142,8 @@ CREATE TABLE article (
 
   content TEXT NOT NULL,
 
-  PRIMARY KEY (article_id),
-  FOREIGN KEY (article_id) REFERENCES news (news_id) ON DELETE CASCADE
+  PRIMARY KEY (news_article_id),
+  FOREIGN KEY (news_article_id) REFERENCES news (news_id) ON DELETE CASCADE
 );
 
 -- news_vote Table
@@ -253,14 +252,14 @@ news_comment_reply,
 news_comment,
 news_voter,
 news_vote,
-article,
-post,
-tag,
+news_article,
+news_post,
+news_tag,
 news,
-user_address,
 user_experience,
-user_profile,
 user_activity,
-user_account
+user_address,
+user_profile,
+user_account,
 ;
 */

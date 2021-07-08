@@ -38,6 +38,46 @@ VALUES
   ($1, $2)
 RETURNING news_id;
 
+SELECT
+  news_post.content
+
+  news.type,
+  news.comments_count,
+  news.created_at,
+  news.updated_on
+FROM news
+Join news_post
+ON news.news_id = news_post.news_post_id;
+
+SELECT
+  news_tags.tags,
+  
+  news_article.format_type,
+  news_article.title,
+  news_article.slug,
+  news_article.image,
+  news_article.description,
+  news_article.content,
+
+  news.type,
+  news.comments_count,
+  news.created_at,
+  news.updated_on
+
+FROM news
+Join news_article
+ON news.news_id = news_article.news_article_id
+JOIN LATERAL(
+  SELECT ARRAY (
+    -- SELECT array_agg(post_tags.name) AS tags
+    SELECT news_tag.name AS tag
+    FROM news_tag
+    -- JOIN posts
+    -- ON news_tag.post_id = posts.id
+    WHERE news_tag.news_id = news.news_id
+  ) AS tags
+) news_tags ON TRUE
+;
 
 -- JOIN posts 
 -- ON posts.author_id = users.id

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import CreateArticleModal from '../../UI/V1/News/Modal/Article/Create/Create';
+import CreateAction from '../../UI/V1/News/Action/Action';
 
 import Button from '../../UI/V1/Button/Button';
 
@@ -14,8 +14,10 @@ const CreateNewsButton = () => {
 				Create A News
 			</Button>
 			{showCreateNewsButtonModal && (
-				<CreateArticleModal
+				<CreateAction
 					closeModal={() => setShowCreateNewsButtonModal(false)}
+					news={{ type: 'article', action: 'create', route: 'add' }}
+					actionType='create'
 				/>
 			)}
 		</>

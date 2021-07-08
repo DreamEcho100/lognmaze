@@ -105,6 +105,5 @@ const sqlQuery = `
 `;
 
 
-console.log('sqlQuery', sqlQuery);
 })()
 */

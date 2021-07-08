@@ -15,7 +15,7 @@ export default async (req, res) => {
 
 			if (!isAuthorized.id) return;
 
-			const { authorId, type, ...newsData } = req.body;
+			const { type, ...newsData } = req.body;
 
 			const newPost = await pool
 				.query(
@@ -29,7 +29,7 @@ export default async (req, res) => {
 							($1, $2)
 						RETURNING news_id;				
 					`,
-					[authorId, type]
+					[isAuthorized.id, type]
 				)
 				.then(async (response) => {
 					if (type === 'article') {
@@ -37,7 +37,7 @@ export default async (req, res) => {
 							WITH add_news_article AS (
 								INSERT INTO news_article
 									(
-										article_id,
+										news_article_id,
 										format_type,
 										title,
 										slug,
@@ -78,20 +78,16 @@ export default async (req, res) => {
 							newsData.content,
 						]);
 					} else if (type === 'post') {
-						/*
-						const sqlQuery = `
-							INSERT INTO news_article
+						const response2 = await pool.query(
+							`
+							INSERT INTO news_post
 								(
-									article_id,
+									news_post_id,
 									content
 								)
-							VALUES ($1, $2)`;
-								
-						const response2 = await pool.query(sqlQuery, [
-							response.rows[0].news_id,
-							newsData.content,
-						]);
-						*/
+							VALUES ($1, $2)`,
+							[response.rows[0].news_id, newsData.content]
+						);
 					}
 				});
 

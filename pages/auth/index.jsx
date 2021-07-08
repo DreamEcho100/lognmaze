@@ -113,7 +113,6 @@ export const getStaticProps = async (ctx) => {
 
 export default AuthPage;
 
-
 /*
 let countriesData = [];
 
@@ -143,7 +142,6 @@ new Promise(async (resolve, reject) => {
     })
 })
 .then(async ({auth_token}) => {
-  console.log('auth_token', auth_token);
   if (!auth_token && auth_token.length === 0) return [];
   let countries = [];
   // let states = {};
