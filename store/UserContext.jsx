@@ -53,7 +53,7 @@ export const UserContextProvider = ({ children }) => {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json',
-							authorization: `Bearer ${token}`,
+							Authorization `Bearer ${token}`,
 						},
 					}
 				).then((response) => response.json());
@@ -145,7 +145,7 @@ export const UserContextProvider = ({ children }) => {
 					body: JSON.stringify(bodyObj),
 					headers: {
 						'Content-Type': 'application/json',
-						authorization: `Bearer ${user.token}`,
+						Authorization `Bearer ${user.token}`,
 					},
 				}
 			);
@@ -328,7 +328,7 @@ export const UserContextProvider = ({ children }) => {
 					}),
 					headers: {
 						'Content-Type': 'application/json',
-						authorization: `Bearer ${user.token}`,
+						Authorization `Bearer ${user.token}`,
 					},
 				}
 			);

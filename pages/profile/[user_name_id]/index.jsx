@@ -97,7 +97,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 		if (tokenCookieString.length !== 0 && userCookieString.length !== 0) {
 			const user = JSON.parse(userCookieString);
 			if (user_name_id === user.user_name_id) {
-				init.headers.authorization = `Bearer ${tokenCookieString}`;
+				init.headers.Authorization = `Bearer ${tokenCookieString}`;
 			}
 		}
 

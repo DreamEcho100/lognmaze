@@ -15,10 +15,10 @@ export default async (req, res) => {
 		try {
 			user_name_id = req.query.user_name_id;
 
-			if (req.headers.authorization) {
+			if (req.headers.Authorization) {
 				const isAuthorized = await handleIsAuthorized(
 					undefined,
-					req.headers.authorization
+					req.headers.Authorization
 				);
 
 				if (isAuthorized.id) {

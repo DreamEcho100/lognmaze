@@ -3,7 +3,7 @@ import { verifyJwtToken } from '@/lib/v1/auth';
 export default async (req, res) => {
 	if (req.method === 'POST') {
 		try {
-			const token = req.headers.authorization.split(' ')[1];
+			const token = req.headers.Authorization.split(' ')[1];
 
 			const isAuthorized = await verifyJwtToken(token);
 

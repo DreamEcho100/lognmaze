@@ -18,7 +18,7 @@ const Action = ({ closeModal, news }) => {
 			body: JSON.stringify(bodyObj),
 			headers: {
 				'Content-Type': 'application/json',
-				authorization: `Bearer ${token}`,
+				Authorization `Bearer ${token}`,
 			},
 		});
 
