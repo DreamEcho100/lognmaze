@@ -13,8 +13,8 @@ CREATE TABLE user_account (
   phone_verified BOOLEAN DEFAULT FALSE,
   show_phone_number BOOLEAN DEFAULT FALSE,
   role TEXT DEFAULT 'user',
-  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  last_sign_in date NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  last_sign_in TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
   PRIMARY KEY (user_account_id),
   CONSTRAINT user_phone_number UNIQUE (country_phone_code, phone_number)
@@ -101,8 +101,8 @@ CREATE TABLE news (
 
   comments_count INT DEFAULT 0,
 
-  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_on date NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updated_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
   PRIMARY KEY (news_id),
   FOREIGN KEY (author_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE
@@ -167,7 +167,7 @@ CREATE TABLE news_voter (
 
   news_vote_id uuid NOT NULL,
 
-  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
   CONSTRAINT news_voter_id PRIMARY KEY (news_id, user_account_id),
 
@@ -190,8 +190,8 @@ CREATE TABLE news_comment (
 
   content TEXT NOT NULL,
 
-  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_on date NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updated_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
   PRIMARY KEY (news_comment_id),
   FOREIGN KEY (user_account_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
@@ -209,8 +209,8 @@ CREATE TABLE news_comment_reply (
 
   content TEXT NOT NULL,
 
-  created_at date NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_on date NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updated_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
   PRIMARY KEY (news_comment_reply_id),
   FOREIGN KEY (user_account_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
@@ -260,6 +260,6 @@ user_experience,
 user_activity,
 user_address,
 user_profile,
-user_account,
+user_account
 ;
 */

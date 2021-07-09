@@ -18,16 +18,64 @@ ORDER BY news.created_at DESC;
 
 SELECT
   post.content
-from post WHERE post_id IN ();
+from post WHERE post_id IN ("ed37d98c-ad99-4281-9652-cb31a67c0454");
 
 SELECT
-  article.format_type
-  article.title
-  article.slug
-  article.image
-  article.description
-  article.content
-from article WHERE article_id IN ();
+  news_tags.tags,
+  
+  news_article.format_type,
+  news_article.title,
+  news_article.slug,
+  news_article.image,
+  news_article.description,
+  news_article.content
+
+FROM news_article
+JOIN LATERAL(
+  SELECT ARRAY (
+    -- SELECT array_agg(post_tags.name) AS tags
+    SELECT news_tag.name AS tag
+    FROM news_tag
+    -- JOIN posts
+    -- ON news_tag.post_id = posts.id
+    WHERE news_tag.news_id = news_article.news_article_id
+  ) AS tags
+) news_tags ON TRUE
+WHERE news_article.news_article_id IN ('c74ac384-aa3b-46e6-91b2-b847310ce535', 'bf54c8c7-473b-4323-bebf-aeb808e1ca5f');
+;
+
+WITH get_posts AS (
+  SELECT
+    news_post.content
+  from news_post WHERE news_post_id IN ('ed37d98c-ad99-4281-9652-cb31a67c0454')
+),
+get_articles AS (
+  SELECT
+    news_tags.tags,
+    
+    news_article.format_type,
+    news_article.title,
+    news_article.slug,
+    news_article.image,
+    news_article.description,
+    news_article.content
+
+  FROM news_article
+  JOIN LATERAL(
+    SELECT ARRAY (
+      -- SELECT array_agg(post_tags.name) AS tags
+      SELECT news_tag.name AS tag
+      FROM news_tag
+      -- JOIN posts
+      -- ON news_tag.post_id = posts.id
+      WHERE news_tag.news_id = news_article.news_article_id
+    ) AS tags
+  ) news_tags ON TRUE
+  WHERE news_article.news_article_id IN ('c74ac384-aa3b-46e6-91b2-b847310ce535', 'bf54c8c7-473b-4323-bebf-aeb808e1ca5f')
+)
+
+SELECT * FROM get_posts, get_articles;
+
 
 INSERT INTO news
   (
@@ -38,14 +86,15 @@ VALUES
   ($1, $2)
 RETURNING news_id;
 
+
 SELECT
   news_post.content
+FROM news_post
+WHERE news_post_id IN ('ed37d98c-ad99-4281-9652-cb31a67c0454');
 
-  news.type,
-  news.comments_count,
-  news.created_at,
-  news.updated_on
-FROM news
+SELECT
+  news_post.content
+FROM news_post
 Join news_post
 ON news.news_id = news_post.news_post_id;
 
