@@ -50,7 +50,7 @@ const SignUp = ({
 				{
 					method: 'GET',
 					headers: {
-						Authorization `Bearer ${UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN}`,
+						authorization: `Bearer ${UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN}`,
 					},
 				}
 			)
@@ -80,7 +80,7 @@ const SignUp = ({
 				{
 					method: 'GET',
 					headers: {
-						Authorization `Bearer ${UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN}`,
+						authorization: `Bearer ${UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN}`,
 					},
 				}
 			)
@@ -119,7 +119,7 @@ const SignUp = ({
 				{
 					method: 'GET',
 					headers: {
-						Authorization `Bearer ${UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN}`,
+						authorization: `Bearer ${UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN}`,
 					},
 				}
 			)

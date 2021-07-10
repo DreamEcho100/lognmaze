@@ -13,12 +13,13 @@ const Action = ({ closeModal, news }) => {
 	}, []);
 
 	const fetcher = async ({ bodyObj, token }) =>
-		await fetch(`/api/v1/users/news/${news.route}`, {
+		await fetch(`/api/v1/news`, {
+			// /${news.route}
 			method: 'POST',
 			body: JSON.stringify(bodyObj),
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization `Bearer ${token}`,
+				authorization: `Bearer ${token}`,
 			},
 		});
 

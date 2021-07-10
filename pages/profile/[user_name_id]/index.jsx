@@ -86,7 +86,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 		}://${ctx.req.headers.host}`;
 	*/
 	const fetcher = async (tokenCookieString, userCookieString, user_name_id) => {
-		const input = `${process.env.BACK_END_ROOT_URL}/api/v1/users/profile/get/${user_name_id}`;
+		const input = `${process.env.BACK_END_ROOT_URL}/api/v1/users/profiles/profile/${user_name_id}`;
 		const init = {
 			method: 'GET',
 			headers: {
@@ -97,7 +97,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 		if (tokenCookieString.length !== 0 && userCookieString.length !== 0) {
 			const user = JSON.parse(userCookieString);
 			if (user_name_id === user.user_name_id) {
-				init.headers.Authorization = `Bearer ${tokenCookieString}`;
+				init.headers.authorization = `Bearer ${tokenCookieString}`;
 			}
 		}
 

@@ -53,7 +53,7 @@ export const UserContextProvider = ({ children }) => {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json',
-							Authorization `Bearer ${token}`,
+							authorization: `Bearer ${token}`,
 						},
 					}
 				).then((response) => response.json());
@@ -139,13 +139,13 @@ export const UserContextProvider = ({ children }) => {
 	const handleUserUpdate = ({ path, bodyObj }) => {
 		return new Promise(async (resolve, reject) => {
 			const response = await fetch(
-				`${process.env.BACK_END_ROOT_URL}/api/v1/users/profile/update/${path}`,
+				`${process.env.BACK_END_ROOT_URL}/api/v1/users/profiles/profile/update/${path}`,
 				{
 					method: 'PATCH',
 					body: JSON.stringify(bodyObj),
 					headers: {
 						'Content-Type': 'application/json',
-						Authorization `Bearer ${user.token}`,
+						authorization: `Bearer ${user.token}`,
 					},
 				}
 			);
@@ -328,7 +328,7 @@ export const UserContextProvider = ({ children }) => {
 					}),
 					headers: {
 						'Content-Type': 'application/json',
-						Authorization `Bearer ${user.token}`,
+						'authorization': `Bearer ${user.token}`,
 					},
 				}
 			);

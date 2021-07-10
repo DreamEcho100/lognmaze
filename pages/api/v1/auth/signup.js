@@ -42,12 +42,11 @@ export default async (req, res) => {
 				.query(
 					`
 					INSERT INTO user_account
-					 ( user_name_id, email, password, country_phone_code, phone_number )
+					 ( email, password, country_phone_code, phone_number )
 					VALUES
-						( $1, $2, $3, $4, $5 )
+						( $1, $2, $3, $4 )
 					RETURNING
 						user_account_id AS id,
-						user_name_id,
 						email,
 						email_verified,
 						show_email,
@@ -60,7 +59,7 @@ export default async (req, res) => {
 						last_sign_in
 					;
 				`,
-					[userNameId, email, hashedPassword, countryPhoneCode, phoneNumber]
+					[email, hashedPassword, countryPhoneCode, phoneNumber]
 				)
 				.then(async (response) => {
 					delete response.rows[0].password;
@@ -71,13 +70,14 @@ export default async (req, res) => {
 								INSERT INTO user_profile
 									(
 										user_profile_id,
+										user_name_id,
 										first_name,
 										last_name,
 										date_of_birth,
 										gender
 									)
 								VALUES
-									( $1, $2, $3, $4, $5 )
+									( $1, $2, $3, $4, $5, $6 )
 								RETURNING 
 									first_name,
 									last_name,
@@ -99,7 +99,7 @@ export default async (req, res) => {
 										city_of_resident
 									)
 								VALUES
-									( $1, $6, $7, $8 )
+									( $1, $7, $8, $9 )
 								RETURNING
 									country_of_birth,
 									state_of_birth,
@@ -116,6 +116,7 @@ export default async (req, res) => {
 						`,
 						[
 							response.rows[0].id,
+							userNameId,
 							firstName,
 							lastName,
 							dateOfBirth,

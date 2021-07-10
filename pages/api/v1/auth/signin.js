@@ -13,7 +13,7 @@ export default async (req, res) => {
 			const { email, password } = req.body;
 
 			const user = await getUserData({
-				filterBy: { key: 'email', value: email },
+				filterBy: { key: 'user_account.email', value: email },
 				withPassword: true,
 			});
 

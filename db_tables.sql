@@ -3,7 +3,6 @@ CREATE extension IF NOT EXISTS "uuid-ossp";
 -- user Table
 CREATE TABLE user_account (
   user_account_id uuid DEFAULT uuid_generate_v4(),
-  user_name_id TEXT NOT NULL UNIQUE,
   email TEXT NOT NULL UNIQUE,
   email_verified BOOLEAN DEFAULT FALSE,
   show_email BOOLEAN DEFAULT FALSE,
@@ -23,6 +22,7 @@ CREATE TABLE user_account (
 -- user_profile Table
 CREATE TABLE user_profile (
   user_profile_id uuid NOT NULL,
+  user_name_id TEXT NOT NULL,
 
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
@@ -38,7 +38,8 @@ CREATE TABLE user_profile (
   show_bio BOOLEAN DEFAULT TRUE,
 
   PRIMARY KEY (user_profile_id),
-  FOREIGN KEY (user_profile_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE
+  FOREIGN KEY (user_profile_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
+  UNIQUE(user_name_id)
 );
 
 CREATE TABLE user_address (

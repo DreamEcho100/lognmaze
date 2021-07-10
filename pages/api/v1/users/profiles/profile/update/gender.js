@@ -1,4 +1,4 @@
-import { handleIsAuthorized /*, verifyPassword*/ } from '@/lib/v1/auth';
+import { handleIsAuthorized, verifyPassword } from '@/lib/v1/auth';
 import { pool, checkUserExistAndReturnPasswordById } from '@/lib/v1/pg';
 
 export default async (req, res) => {
@@ -10,7 +10,7 @@ export default async (req, res) => {
 		try {
 			const isAuthorized = await handleIsAuthorized(
 				res,
-				req.headers.Authorization
+				req.headers.authorization
 			);
 
 			if (!isAuthorized.id) return;
@@ -20,33 +20,41 @@ export default async (req, res) => {
 				isAuthorized.id
 			);
 
-			if (!user.id) {
-				return;
-			}
+			if (!user.id) return;
 
-			const { url } = req.body;
+			const { gender, password } = req.body;
+
+			const validPassword = await verifyPassword({
+				res,
+				password,
+				hashedPassword: user.password,
+			});
+
+			if (!validPassword) return;
 
 			const updatedUser = await pool.query(
 				`
 					UPDATE user_profile
-					SET cover_photo=($1)
+					SET gender=($1)
 					WHERE user_profile_id=($2)
 				`,
-				[url, isAuthorized.id]
+				[gender, isAuthorized.id]
 			);
 
-			return res.status(201).json({
+			// const { first_name, last_name, user_name, gender } = updatedUser.rows[0];
+
+			res.status(201).json({
 				status: 'success',
-				message: 'Cover Photo Updated Successefully!',
-				data: { cover_photo: url },
+				message: 'Your Gender Updated Successfully!',
 				isAuthorized: true,
+				data: {
+					gender,
+				},
 			});
 		} catch (error) {
-			console.error(`Error, ${error}`);
-			return res.status(500).json({
+			res.status(500).json({
 				status: 'error',
 				message: error.message || 'Something went wrong!',
-				data: {},
 				isAuthorized: false,
 			});
 		}

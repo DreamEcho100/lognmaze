@@ -152,7 +152,7 @@ new Promise(async (resolve, reject) => {
     {
       method: 'GET',
       headers: {
-        Authorization `Bearer ${auth_token}`,
+        'authorization': `Bearer ${auth_token}`,
       },
     }
   ).then((response) => response.json())
@@ -169,7 +169,7 @@ new Promise(async (resolve, reject) => {
         {
           method: 'GET',
           headers: {
-            Authorization `Bearer ${auth_token}`,
+            'authorization': `Bearer ${auth_token}`,
           },
         }
       )
@@ -192,7 +192,7 @@ new Promise(async (resolve, reject) => {
                 {
                   method: 'GET',
                   headers: {
-                    Authorization `Bearer ${auth_token}`,
+                    'authorization': `Bearer ${auth_token}`,
                   },
                 }
               )

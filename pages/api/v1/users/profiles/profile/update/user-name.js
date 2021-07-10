@@ -10,7 +10,7 @@ export default async (req, res) => {
 		try {
 			const isAuthorized = await handleIsAuthorized(
 				res,
-				req.headers.Authorization
+				req.headers.authorization
 			);
 
 			if (!isAuthorized.id) return;

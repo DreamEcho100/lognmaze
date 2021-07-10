@@ -15,10 +15,10 @@ export default async (req, res) => {
 		try {
 			user_name_id = req.query.user_name_id;
 
-			if (req.headers.Authorization) {
+			if (req.headers.authorization) {
 				const isAuthorized = await handleIsAuthorized(
 					undefined,
-					req.headers.Authorization
+					req.headers.authorization
 				);
 
 				if (isAuthorized.id) {
@@ -36,11 +36,11 @@ export default async (req, res) => {
 			}
 
 			const user = await getUserData({
-				filterBy: { key: 'user_name_id', value: user_name_id },
+				filterBy: { key: 'user_profile.user_name_id', value: user_name_id },
 				withPassword: false,
 			});
 
-			if (user.rows.length === 0) {
+			if (user.id.length === 0) {
 				res.status(401).json({
 					status: 'error',
 					message: "User doesn't exist!",
@@ -57,7 +57,7 @@ export default async (req, res) => {
 			return res.status(401).json({
 				status: 'success',
 				message: 'User exist!',
-				data: user.rows[0],
+				data: user,
 				isAuthorized: false,
 				visitorIdentity,
 			});
