@@ -1,7 +1,10 @@
 import { handleIsAuthorized } from '@/lib/v1/auth';
-import { pool } from '@/lib/v1/pg';
+import { pool, arrayToWtc } from '@/lib/v1/pg';
 
 export default async (req, res) => {
+	if (!(req.method === 'GET' || req.method === 'POST')) {
+		return;
+	}
 	if (req.method === 'GET') {
 		try {
 			// const { index } = req.header;
@@ -113,9 +116,7 @@ export default async (req, res) => {
 				data: [],
 			});
 		}
-	}
-
-	if (req.method === 'POST') {
+	} else if (req.method === 'POST') {
 		try {
 			const isAuthorized = await handleIsAuthorized(
 				res,
@@ -142,41 +143,49 @@ export default async (req, res) => {
 				)
 				.then(async (response) => {
 					if (type === 'article') {
-						const sqlQuery = `
-							WITH add_news_article AS (
-								INSERT INTO news_article
-									(
-										news_article_id,
-										format_type,
-										title,
-										slug,
-										image,
-										description,
-										content
-									)
-								VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *
-							)${
-								newsData.tags.length !== 0
-									? `, 
-								${newsData.tags
-									.map(
-										(tag, index) => ` add_news_tag_${index} AS (
-										INSERT INTO news_tag (news_id, name) VALUES ('${response.rows[0].news_id}', '${tag}') RETURNING *
-									)`
-									)
-									.join(',')}`
-									: ''
-							}
-								
-							SELECT * FROM add_news_article${
-								newsData.tags.length !== 0
-									? ' ,' +
-									  newsData.tags
-											.map((tag, index) => ` add_news_tag_${index}`)
-											.join(',')
-									: ''
-							};
-						`;
+						const { wtcFuncs, wtcFuncsNames } = arrayToWtc([
+							{
+								table: 'news_article',
+								type: 'insert',
+								sharedkeys: ['news_article_id'],
+								sharedValues: ['$1'],
+								distencKeysAndValues: {
+									keys: [
+										'format_type',
+										'title',
+										'slug',
+										'image',
+										'description',
+										'content',
+									],
+									values: [['$2', '$3', '$4', '$5', '$6', '$7']],
+									returning: [
+										'format_type',
+										'title',
+										'slug',
+										'image',
+										'description',
+										'content',
+									],
+								},
+							},
+							{
+								table: 'news_tag',
+								type: 'insert',
+								sharedkeys: ['news_id'],
+								sharedValues: ['$1'],
+								distencKeysAndValues: {
+									keys: ['name'],
+									values: newsData.tags.map((tag) => [`'${tag}'`]),
+								},
+							},
+						]);
+
+						const sqlQuery = `WITH ${wtcFuncs.join(',')}
+
+						SELECT * FROM ${wtcFuncsNames.join(',')}
+					`;
+
 						const response2 = await pool.query(sqlQuery, [
 							response.rows[0].news_id,
 							newsData.formatType,
