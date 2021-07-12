@@ -1,5 +1,5 @@
 import { handleIsAuthorized } from '@/lib/v1/auth';
-import { pool, arrayToWtc } from '@/lib/v1/pg';
+import { pool, arrayToCTE } from '@/lib/v1/pg';
 
 export default async (req, res) => {
 	if (!(req.method === 'GET' || req.method === 'POST')) {
@@ -143,7 +143,7 @@ export default async (req, res) => {
 				)
 				.then(async (response) => {
 					if (type === 'article') {
-						const { wtcFuncs, wtcFuncsNames } = arrayToWtc([
+						const { CTEFuncs, CTEFuncsNames } = arrayToCTE([
 							{
 								table: 'news_article',
 								type: 'insert',
@@ -181,9 +181,9 @@ export default async (req, res) => {
 							},
 						]);
 
-						const sqlQuery = `WITH ${wtcFuncs.join(',')}
+						const sqlQuery = `WITH ${CTEFuncs.join(',')}
 
-						SELECT * FROM ${wtcFuncsNames.join(',')}
+						SELECT * FROM ${CTEFuncsNames.join(',')}
 					`;
 
 						const response2 = await pool.query(sqlQuery, [
