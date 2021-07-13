@@ -326,21 +326,16 @@ export default async (req, res) => {
 				});
 			}
 
-			const sqlQuery = (array) => {
-				const { CTEFuncs, CTEFuncsNames } = arrayToCTE(array);
+			const { CTEFuncs, CTEFuncsNames } = arrayToCTE(array);
+			const result = await pool
+				.query(
+					`
+				WITH ${CTEFuncs.join(',')}
 
-				return `
-					WITH ${CTEFuncs.join(',')}
-
-					SELECT * FROM ${CTEFuncsNames.join(',')}
-				`;
-			};
-
-			const s = sqlQuery(array);
-			console.log('s', s);
-			const result = await pool.query(s).then((response) => response.rows);
-
-			console.log('result', result);
+				SELECT * FROM ${CTEFuncsNames.join(',')}
+			`
+				)
+				.then((response) => response.rows);
 
 			return res.status(200).json({
 				status: 'success',
