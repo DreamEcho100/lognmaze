@@ -20,7 +20,7 @@ const Post = ({ data }) => {
 	return (
 		<article>
 			<Head>
-				<meta name='description' content={post.meta_description} />
+				<meta name='description' content={post.description} />
 				<meta name='keywords' content={post.tags.join(',')} />
 				<meta
 					name='copyright'

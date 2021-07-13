@@ -2,7 +2,9 @@ import { handleIsAuthorized } from '@/lib/v1/auth';
 import { pool, arrayToCTE } from '@/lib/v1/pg';
 
 export default async (req, res) => {
-	if (!(req.method === 'GET' || req.method === 'POST')) {
+	if (
+		!(req.method === 'GET' || req.method === 'POST' || req.method === 'PATCH')
+	) {
 		return;
 	}
 	if (req.method === 'GET') {
@@ -188,7 +190,7 @@ export default async (req, res) => {
 
 						const response2 = await pool.query(sqlQuery, [
 							response.rows[0].news_id,
-							newsData.formatType,
+							newsData.format_type,
 							newsData.title,
 							newsData.slug,
 							newsData.image,
@@ -208,6 +210,137 @@ export default async (req, res) => {
 						);
 					}
 				});
+
+			return res.status(200).json({
+				status: 'success',
+				message: 'Posted Successefully!',
+				data: {},
+				isAuthorized: true,
+			});
+		} catch (error) {
+			console.error(`Error, ${error}`);
+			return res.status(500).json({
+				status: 'error',
+				message: error.message || 'Something went wrong!',
+				data: {},
+				isAuthorized: false,
+			});
+		}
+	} else if (req.method === 'PATCH') {
+		try {
+			// const isAuthorized = await handleIsAuthorized(
+			// 	res,
+			// 	req.headers.authorization
+			// );
+
+			// if (!isAuthorized.id) return;
+
+			const isAuthorized = { id: '67f568d3-5eda-4c98-be57-60e81bd63882' };
+
+			const { type, ...data } = req.body;
+			const array = [];
+
+			array.push({
+				table: 'news',
+				type: 'update',
+				keysAndValues: {
+					updated_on: `'${new Date().toLocaleString()}'`,
+				},
+				$where: {
+					news_id: `'${req.body.news_id}'`,
+				},
+			});
+
+			if (type === 'article') {
+				const { tags } = req.body;
+				let startIndex = 0;
+				const removedTags = [];
+
+				array.push({
+					table: 'news_article',
+					type: 'update',
+					keysAndValues: {
+						...req.body.data,
+					},
+					$where: {
+						news_article_id: `'${req.body.news_id}'`,
+					},
+				});
+
+				tags.removed.forEach((tag, index) => {
+					if (index < tags.added.length) {
+						array.push({
+							table: 'news_tag',
+							type: 'update',
+							keysAndValues: {
+								name: `'${tags.added[0]}'`,
+							},
+							$where: {
+								news_id: `'${req.body.news_id}'`,
+								$and: {
+									name: `'${tag}'`,
+								},
+							},
+						});
+						startIndex = index + 1;
+					} else {
+						removedTags.push(`'${tag}'`);
+					}
+				});
+
+				if (removedTags.length !== 0) {
+					array.push({
+						table: 'news_tag',
+						type: 'delete',
+						$where: {
+							news_id: `'${req.body.news_id}'`,
+							$and: {
+								$in: { name: removedTags },
+							},
+						},
+					});
+				}
+
+				if (startIndex < tags.added.length) {
+					array.push({
+						table: 'news_tag',
+						type: 'insert',
+						sharedkeys: ['news_id'],
+						sharedValues: [`'${req.body.news_id}'`],
+						distencKeysAndValues: {
+							keys: ['name'],
+							values: tags.added.slice(startIndex).map((tag) => [`'${tag}'`]),
+						},
+					});
+				}
+			} else if (type === post) {
+				array.push({
+					table: 'news_post',
+					type: 'update',
+					keysAndValues: {
+						...req.body.data,
+					},
+					$where: {
+						news_id: `'${req.body.news_id}'`,
+					},
+				});
+			}
+
+			const sqlQuery = (array) => {
+				const { CTEFuncs, CTEFuncsNames } = arrayToCTE(array);
+
+				return `
+					WITH ${CTEFuncs.join(',')}
+
+					SELECT * FROM ${CTEFuncsNames.join(',')}
+				`;
+			};
+
+			const s = sqlQuery(array);
+			console.log('s', s);
+			const result = await pool.query(s).then((response) => response.rows);
+
+			console.log('result', result);
 
 			return res.status(200).json({
 				status: 'success',

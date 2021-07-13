@@ -15,7 +15,7 @@ import Button from '@/components/UI/V1/Button/Button';
 const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 	const { user, ...UserCxt } = useContext(UserContext);
 
-	const [formatType, setFormatType] = useState(
+	const [format_type, setFormatType] = useState(
 		data && data.format_type ? data.format_type : 'normal'
 	);
 	const [title, setTitle] = useState(data && data.title ? data.title : '');
@@ -25,10 +25,7 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 	);
 	const [image, setImage] = useState(data && data.image ? data.image : '');
 	const [description, setDescription] = useState(
-		data && data.meta_description ? data.meta_description : ''
-	);
-	const [excerpt, setExcerpt] = useState(
-		data && data.excerpt ? data.excerpt : ''
+		data && data.description ? data.description : ''
 	);
 	const [content, setContent] = useState(
 		data && data.content ? data.content : ''
@@ -44,7 +41,6 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 		setTags('');
 		setImage('');
 		setDescription('');
-		setExcerpt('');
 		setContent('');
 	};
 
@@ -59,8 +55,8 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 		if (actionType === 'create') {
 			bodyObj = {
 				type: 'article',
-				authorUserNameId: user.user_name_id,
-				formatType,
+				author_user_name_id: user.user_name_id,
+				format_type,
 				title,
 				slug,
 				image,
@@ -98,17 +94,46 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 			// tags_array = [...tags_array, ...addedTags];
 
 			bodyObj = {
-				newsArticleId: data.id,
+				/*
+				news_article_id: data.id,
 				type: 'article',
-				formatType,
+				format_type,
 				title,
 				slug,
 				image,
 				removedTags,
 				addedTags,
 				description,
-				excerpt,
 				content,
+				*/
+				type: 'article',
+				news_id: data.id,
+				data: {
+					format_type,
+					title,
+					slug,
+					image,
+					description,
+					content,
+				},
+				tags: {
+					removed: removedTags,
+					added: addedTags,
+				},
+				/*
+{
+  "type": "article",
+      "news_id": "5ca95b28-1343-4471-ac07-e675e0445209",
+  "data": {
+      "title": "'Test Title (update succefully)'",
+      "slug": "'test-title (update succefully)'"
+  },
+  "tags": {
+      "removed": ["T", "Test"],
+      "added": ["Testing (update succefully)"]
+  }
+}
+*/
 			};
 		}
 
@@ -152,7 +177,7 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 				<select
 					name='article-format-type'
 					id='article-format-type'
-					value={formatType}
+					value={format_type}
 					onChange={(event) => setFormatType(event.target.value)}
 				>
 					<option value='normal'>normal</option>

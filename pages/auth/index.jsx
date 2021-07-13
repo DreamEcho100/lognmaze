@@ -24,7 +24,7 @@ const AuthPage = ({
 		if (!UserCxt.isLoading) {
 			if (user && Object.keys(user).length !== 0) {
 				if (!isSigned) setIsSigned(true);
-				setTimeout(() => router.replace('/posts/all'), 0);
+				setTimeout(() => router.replace('/'), 0);
 			} else {
 				if (isSigned) setIsSigned(false);
 			}
