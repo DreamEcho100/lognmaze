@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
 				<meta httpEquiv='X-UA-Compatible' content='IE=edge' />
 				<meta name='robots' content='index,follow' />
 				<meta name='viewport' content='width=device-width, initial-scale=1.0' />
-				<title>MazeCode</title>
+				<title>LogNMaze</title>
 			</Head>
 			<Layout>
 				<Component {...pageProps} />
