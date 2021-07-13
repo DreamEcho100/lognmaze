@@ -228,14 +228,12 @@ export default async (req, res) => {
 		}
 	} else if (req.method === 'PATCH') {
 		try {
-			// const isAuthorized = await handleIsAuthorized(
-			// 	res,
-			// 	req.headers.authorization
-			// );
+			const isAuthorized = await handleIsAuthorized(
+				res,
+				req.headers.authorization
+			);
 
-			// if (!isAuthorized.id) return;
-
-			const isAuthorized = { id: '67f568d3-5eda-4c98-be57-60e81bd63882' };
+			if (!isAuthorized.id) return;
 
 			const { type, ...data } = req.body;
 			const array = [];
