@@ -10,18 +10,12 @@ export default async (req, res) => {
 			const { id } = req.query;
 
 			const result = await pool
-				.query(
-					`
-						SELECT
-							news_article.content,
-						FROM news_article
-            WHERE id=$1
-				  `,
-					[id]
-				)
+				.query('SELECT content FROM news_article WHERE news_article_id=$1', [
+					id,
+				])
 				.then((response) => response.rows[0]);
 
-			if (!result.news_id) {
+			if (!result.content) {
 				res.status(404).json({
 					status: 'error',
 					message: 'Content Not Found :(',
@@ -32,7 +26,7 @@ export default async (req, res) => {
 
 			res.status(200).json({
 				status: 'success',
-				message: 'The Article Arrived Successefully!, Enjoy ;)',
+				message: 'The Article Content Arrived Successefully!, Enjoy ;)',
 				data: result,
 			});
 			return;
