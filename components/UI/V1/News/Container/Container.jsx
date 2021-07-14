@@ -4,15 +4,10 @@ import NewsHeader from '../Header/Header';
 import Details from '../Details/Details';
 
 const Container = ({ data }) => {
-	const [author, setAuthor] = useState(data.author);
-	const [news, setNews] = useState(data.news);
-
-	// useEffect(() => { }, [data.author]);
-
 	return (
 		<article>
-			<NewsHeader author={author} news={news} setNews={setNews} />
-			<Details news={news} />
+			<NewsHeader data={data} />
+			<Details data={data} />
 		</article>
 	);
 };

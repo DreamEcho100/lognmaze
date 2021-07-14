@@ -30,7 +30,7 @@ export default async (req, res) => {
 							news_article.content,
 
 							user_profile.user_profile_id AS author_id,
-							user_profile.user_name_id AS author_name_id,
+							user_profile.user_name_id AS author_user_name_id,
 							user_profile.first_name AS author_first_name,
 							user_profile.last_name AS author_last_name,
 							user_profile.profile_picture AS author_profile_picture

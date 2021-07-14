@@ -1,4 +1,3 @@
-import React from 'react';
 import { Fragment, useContext, useState } from 'react';
 
 import classes from './ChangeUserPasswordModal.module.css';

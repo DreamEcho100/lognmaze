@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState } from 'react';
 import CreateAction from '../../UI/V1/News/Action/Action';
 

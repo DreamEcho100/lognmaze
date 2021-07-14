@@ -1,4 +1,3 @@
-import React from 'react';
 import { Fragment, useState } from 'react';
 
 import classes from './SettingsButton.module.css';

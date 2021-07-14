@@ -1,4 +1,3 @@
-import React from 'react';
 import { Fragment, useContext, useState, useCallback } from 'react';
 
 import classes from './ChangeProfilePictureModal.module.css';

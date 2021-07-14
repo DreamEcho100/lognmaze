@@ -1,4 +1,3 @@
-import React from 'react';
 import { Fragment, useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 

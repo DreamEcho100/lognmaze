@@ -4,12 +4,12 @@ import classes from './Settings.module.css';
 
 // import Update from '../../Modal/Article/Update/Update';
 
-const Settings = ({ isNewsOwner, newsContent, setNewsContent }) => {
+const Settings = ({ isDataOwner, data, setData }) => {
 	const [showUpdateNewsModal, setShowUpdateNewsModal] = useState(false);
 
 	return (
 		<ul>
-			{isNewsOwner && (
+			{isDataOwner && (
 				<li>
 					<button onClick={() => setShowUpdateNewsModal(true)}>
 						Edit News
@@ -18,8 +18,8 @@ const Settings = ({ isNewsOwner, newsContent, setNewsContent }) => {
 						{
 							/* <Update
 							closeModal={() => setShowUpdateNewsModal(false)}
-							NewsContent={newsContent}
-							setNewsContent={setNewsContent}
+							data={data}
+							setData={setData}
 						/> */
 						}}
 				</li>

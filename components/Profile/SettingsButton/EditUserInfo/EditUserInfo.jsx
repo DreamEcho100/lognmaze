@@ -1,5 +1,3 @@
-import React from 'react';
-
 import classes from './EditUserInfo.module.css';
 
 import AccordionSettingsDisplayer from '../UI/AccordionSettingsDisplayer/AccordionSettingsDisplayer';

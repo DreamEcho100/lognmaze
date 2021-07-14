@@ -9,7 +9,7 @@ export default async (req, res) => {
 	}
 	if (req.method === 'GET') {
 		try {
-			// const { index } = req.header;
+			const { with_news_article_content } = req.headers;
 			const result = await pool
 				.query(
 					`
@@ -21,7 +21,7 @@ export default async (req, res) => {
 							news.updated_on,
 						
 							user_profile.user_profile_id AS author_id,
-							user_profile.user_name_id AS author_name_id,
+							user_profile.user_name_id AS author_user_name_id,
 							user_profile.first_name AS author_first_name,
 							user_profile.last_name AS author_last_name,
 							user_profile.profile_picture AS author_profile_picture
@@ -73,8 +73,8 @@ export default async (req, res) => {
 								news_article.title,
 								news_article.slug,
 								news_article.image,
-								news_article.description,
-								news_article.content
+								news_article.description
+								${with_news_article_content ? ',news_article.content' : ''}
 
 							FROM news_article
 							JOIN LATERAL(

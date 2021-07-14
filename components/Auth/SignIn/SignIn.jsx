@@ -1,4 +1,3 @@
-import React from 'react';
 import { useContext, useState } from 'react';
 
 import classes from './SignIn.module.css';
