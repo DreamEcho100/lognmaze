@@ -4,13 +4,12 @@ import { useRouter } from 'next/router';
 
 import classes from './Article.module.css';
 
-const Article = ({ data, Settings }) => {
+const Article = ({ data, setCloseModal, Settings }) => {
 	const router = useRouter();
 
 	return (
 		<header>
 			<nav>
-				{/*<p>{data.author_id}</p>*/}
 				<Link href={`/profile/${data.author_user_name_id}`}>
 					<a target='_blank' target='_blank' rel='noopener noreferrer'>
 						<img
@@ -24,7 +23,11 @@ const Article = ({ data, Settings }) => {
 				</Link>
 				<Settings />
 			</nav>
-			<section>
+			<section
+				onClick={() => {
+					if (setCloseModal) setCloseModal(false);
+				}}
+			>
 				<div className=''>
 					<p>Created At: {data.created_at}</p>
 					{data.updated_on !== data.created_at ? (

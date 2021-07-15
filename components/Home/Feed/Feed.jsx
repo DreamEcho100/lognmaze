@@ -8,7 +8,12 @@ const Feed = ({ news = [] }) => {
 	return (
 		<section>
 			{news.map((item) => (
-				<Container key={item.news_id} data={item} />
+				<Container
+					key={item.news_id}
+					data={item}
+					detailsType='description'
+					ModalOnClick={true}
+				/>
 			))}
 		</section>
 	);

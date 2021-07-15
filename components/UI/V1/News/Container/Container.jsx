@@ -1,13 +1,73 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import NewsHeader from '../Header/Header';
 import Details from '../Details/Details';
+import NewsModal from '../Modal/Modal';
 
-const Container = ({ data }) => {
+import Modal from '@/components/UI/V1/Modal/Modal';
+import Button from '@/components/UI/V1/Button/Button';
+import Container2 from '@/components/UI/V1/News/Container/Container';
+
+const Container = (props) => {
+	const [data, setData] = useState(props.data);
+	const [closeModal, setCloseModal] = useState(true);
+
+	useEffect(() => setData(data), [props.data]);
+
+	const handleLoadindArticleContent = async (id) => {
+		await fetch(`/api/v1/news/articles/article/content/${id}`)
+			.then((response) => response.json())
+			.then(({ message, status, ...result }) => {
+				setData({
+					...data,
+					...result.data,
+				});
+			})
+			.catch((error) => console.error(error));
+	};
+
+	useEffect(async () => {
+		if (data.type === 'article' && !data.content) {
+			if (props.ModalOnClick) await handleLoadindArticleContent(data.news_id);
+		}
+	}, [data]);
+
 	return (
 		<article>
-			<NewsHeader data={data} />
-			<Details data={data} />
+			<NewsHeader data={data} setData={setData} setCloseModal={setCloseModal} />
+			<Details
+				data={data}
+				setData={setData}
+				detailsType={props.detailsType}
+				setCloseModal={setCloseModal}
+			/>
+
+			{props.ModalOnClick && !closeModal && (
+				<Modal
+					click={() => setCloseModal(true)}
+					CloseButtonElement={(props) => (
+						<Button type='button' {...props}>
+							Close
+						</Button>
+					)}
+				>
+					<Fragment key='header'>
+						{/* <Header data={data} setData={setData} /> */}
+					</Fragment>
+					<Fragment key='body'>
+						<Container2 data={data} detailsType='content' />
+					</Fragment>
+				</Modal>
+			)}
+
+			{/* {props.ModalOnClick && !closeModal && (
+				<NewsModal
+					setCloseModal={setCloseModal}
+					data={data}
+					detailsType='content'
+					setData={setData}
+				/>
+			)} */}
 		</article>
 	);
 };

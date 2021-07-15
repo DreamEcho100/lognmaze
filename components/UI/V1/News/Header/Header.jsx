@@ -9,11 +9,10 @@ import Settings from './Settings/Settings';
 import Article from './type/Article/Article';
 import Post from './type/Post/Post';
 
-const Header = (porps) => {
+const Header = ({ data, setData, setCloseModal }) => {
 	const { user, ...UserCxt } = useContext(UserContext);
 
 	const [isDataOwner, setIsDataOwner] = useState(false);
-	const [data, setData] = useState(porps.data);
 
 	useEffect(() => {
 		if (user && user.user_name_id === data.author_user_name_id) {
@@ -28,6 +27,7 @@ const Header = (porps) => {
 			<Article
 				user={user}
 				data={data}
+				setCloseModal={setCloseModal}
 				Settings={() => (
 					<Settings isDataOwner={isDataOwner} data={data} setData={setData} />
 				)}
@@ -39,6 +39,7 @@ const Header = (porps) => {
 			<Post
 				user={user}
 				data={data}
+				setCloseModal={setCloseModal}
 				Settings={() => (
 					<Settings isDataOwner={isDataOwner} data={data} setData={setData} />
 				)}
