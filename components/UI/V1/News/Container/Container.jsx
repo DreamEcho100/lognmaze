@@ -35,11 +35,16 @@ const Container = (props) => {
 		}
 	}, [data]);
 
+	const articleProps = {
+		className: `${classes.container} ${BoxShadowClasses['box-shadow']}`,
+	};
+
+	if (data.type === 'article')
+		articleProps.lang = `${data.iso_language}-${data.iso_country}`;
+
 	return (
 		<>
-			<article
-				className={`${classes.container} ${BoxShadowClasses['box-shadow']}`}
-			>
+			<article {...articleProps}>
 				<NewsHeader
 					data={data}
 					setData={setData}

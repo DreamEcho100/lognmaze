@@ -10,7 +10,6 @@ export default async (req, res) => {
 
 	if (req.method === 'POST') {
 		try {
-			console.log('req.body', req.body);
 			const {
 				email,
 				password,
@@ -127,9 +126,6 @@ export default async (req, res) => {
 							city,
 						]
 					);
-
-					console.log('response2.rows[0]', response2.rows[0]);
-					console.log('response.rows[0]', response.rows[0]);
 
 					return {
 						...response2.rows[0],

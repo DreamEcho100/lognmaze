@@ -31,10 +31,6 @@ const SignUp = ({
 		gender: '',
 	});
 
-	console.log('first_name', values.first_name);
-	console.log('last_name', values.last_name);
-	console.log('user_name_id', values.user_name_id);
-
 	const [countryShortName, setCountryShortName] = useState('');
 	const [dateOfBirth, setDateOfBirth] = useState('');
 	const [countryPhoneCode, setCountryPhoneCode] = useState('');
@@ -214,11 +210,17 @@ const SignUp = ({
 							if (true || !values.user_name_id) {
 								return setValues((prev) => ({
 									...prev,
-									user_name_id:
-										`${event.target.value}-${values.last_name}`.replace(
-											/[^\w-\_]/gi,
-											''
-										),
+									user_name_id: `${event.target.value}-${values.last_name}`
+										// .replace(/[[^\w\s-\_]/gi, '')
+										// .replace(/(-{2,})/gi, '-')
+										// .replace(/-$/, ''),
+										.toLowerCase()
+										.replace(/[^\w\s-\_]/gi, '')
+										.split(/[\s-]+/)
+										.join('-')
+										.replace(/(\_{2,})/gi, '_')
+										.replace(/^[^\w]/gi, '')
+										.replace(/-$/, ''),
 									[event.target.name]: event.target.value,
 								}));
 							}
@@ -240,11 +242,18 @@ const SignUp = ({
 							if (true || !values.user_name_id) {
 								return setValues((prev) => ({
 									...prev,
-									user_name_id:
-										`${values.first_name}-${event.target.value}`.replace(
-											/[^\w-\_]/gi,
-											''
-										),
+									user_name_id: `${values.first_name}-${event.target.value}`
+
+										// .replace(/[[^\w\s-\_]/gi, '')
+										// .replace(/(-{2,})/gi, '-')
+										// .replace(/-$/, ''),
+										.toLowerCase()
+										.replace(/[^\w\s-\_]/gi, '')
+										.split(/[\s-]+/)
+										.join('-')
+										.replace(/(\_{2,})/gi, '_')
+										.replace(/^[^\w]/gi, '')
+										.replace(/-$/, ''),
 									[event.target.name]: event.target.value,
 								}));
 							}
@@ -263,7 +272,14 @@ const SignUp = ({
 					name='user_name_id'
 					id='user_name_id'
 					required
-					value={values.user_name_id.replace(/[^\w-\_]/gi, '')}
+					value={values.user_name_id
+						// .replace(/[[^\w\s-\_]/gi, '')
+						.toLowerCase()
+						.replace(/(\s)/gi, '')
+						.replace(/(-{2,})/gi, '-')
+						.replace(/(_{2,})/gi, '_')
+						.replace(/^-/, '')
+						.replace(/[^\w-\_]/gi, '')}
 					setValues={setValues}
 				/>
 			</FormControl>

@@ -129,7 +129,7 @@ export default async (req, res) => {
 
 			if (!isAuthorized.id) return;
 
-			const { type, ...newsData } = req.body;
+			const { type, ...news_data } = req.body;
 
 			const newPost = await pool
 				.query(
@@ -158,6 +158,8 @@ export default async (req, res) => {
 										'format_type',
 										'title',
 										'slug',
+										'iso_language',
+										'iso_country',
 										'image',
 										'description',
 										'content',
@@ -182,7 +184,7 @@ export default async (req, res) => {
 								sharedValues: ['$1'],
 								distencKeysAndValues: {
 									keys: ['name'],
-									values: newsData.tags.map((tag) => [`'${tag}'`]),
+									values: news_data.tags.map((tag) => [`'${tag}'`]),
 								},
 							},
 						]);
@@ -194,14 +196,14 @@ export default async (req, res) => {
 
 						const response2 = await pool.query(sqlQuery, [
 							response.rows[0].news_id,
-							newsData.format_type,
-							newsData.title,
-							newsData.slug,
-							newsData.iso_language || 'en',
-							newsData.iso_country || 'Us',
-							newsData.image,
-							newsData.description,
-							newsData.content,
+							news_data.format_type,
+							news_data.title,
+							news_data.slug,
+							news_data.iso_language,
+							news_data.iso_country,
+							news_data.image,
+							news_data.description,
+							news_data.content,
 						]);
 					} else if (type === 'post') {
 						const response2 = await pool.query(
@@ -212,7 +214,7 @@ export default async (req, res) => {
 									content
 								)
 							VALUES ($1, $2)`,
-							[response.rows[0].news_id, newsData.content]
+							[response.rows[0].news_id, news_data.content]
 						);
 					}
 				});
@@ -241,7 +243,7 @@ export default async (req, res) => {
 
 			if (!isAuthorized.id) return;
 
-			const { type, ...data } = req.body;
+			const { type /*, ...news_data*/ } = req.body;
 			const array = [];
 
 			array.push({
@@ -264,7 +266,7 @@ export default async (req, res) => {
 					table: 'news_article',
 					type: 'update',
 					keysAndValues: {
-						...req.body.data,
+						...req.body.news_data,
 					},
 					$where: {
 						news_article_id: `'${req.body.news_id}'`,
@@ -322,7 +324,7 @@ export default async (req, res) => {
 					table: 'news_post',
 					type: 'update',
 					keysAndValues: {
-						...req.body.data,
+						...req.body.news_data,
 					},
 					$where: {
 						news_id: `'${req.body.news_id}'`,
