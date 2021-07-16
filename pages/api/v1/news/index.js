@@ -72,6 +72,8 @@ export default async (req, res) => {
 								news_article.format_type,
 								news_article.title,
 								news_article.slug,
+								news_article.iso_language,
+								news_article.iso_country,
 								news_article.image,
 								news_article.description
 								${with_news_article_content ? ',news_article.content' : ''}
@@ -160,11 +162,13 @@ export default async (req, res) => {
 										'description',
 										'content',
 									],
-									values: [['$2', '$3', '$4', '$5', '$6', '$7']],
+									values: [['$2', '$3', '$4', '$5', '$6', '$7', '$8', '$9']],
 									returning: [
 										'format_type',
 										'title',
 										'slug',
+										'iso_language',
+										'iso_country',
 										'image',
 										'description',
 										'content',
@@ -193,6 +197,8 @@ export default async (req, res) => {
 							newsData.format_type,
 							newsData.title,
 							newsData.slug,
+							newsData.iso_language || 'en',
+							newsData.iso_country || 'Us',
 							newsData.image,
 							newsData.description,
 							newsData.content,

@@ -112,8 +112,7 @@ const Profile = ({
 					) : null}
 					{userData.show_phone_number ? (
 						<>
-							<p>{userData.country_phone_code}</p>
-							<p>{userData.phone_number}</p>
+							<p>+{userData.phone_number}</p>
 							<p>{userData.phone_verified}</p>
 						</>
 					) : null}

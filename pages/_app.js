@@ -1,9 +1,9 @@
 import Head from 'next/head';
 
-import '../styles/_globals.scss';
-import Layout from '../components/Layout/Layout';
+import '@/styles/_globals.scss';
+import Layout from '@/components/Layout/Layout';
 
-function MyApp({ Component, pageProps }) {
+const MyApp = ({ Component, pageProps }) => {
 	return (
 		<>
 			<Head>
@@ -18,6 +18,6 @@ function MyApp({ Component, pageProps }) {
 			</Layout>
 		</>
 	);
-}
+};
 
 export default MyApp;

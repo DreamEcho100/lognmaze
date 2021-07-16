@@ -6,24 +6,6 @@ import Md from '../Format/Md/Md';
 import classes from './Details.module.css';
 
 const Details = ({ detailsType, setCloseModal, data }) => {
-	// if (data.type === 'article')
-	// 	return (
-	// 		<Article
-	// 			data={data}
-	// 			setData={setData}
-	// 			detailsType={detailsType}
-	// 			setCloseModal={setCloseModal}
-	// 		/>
-	// 	);
-
-	// if (data.type === 'post')
-	// 	return (
-	// 		<Post
-	// 			data={data}
-	// 			detailsType={detailsType}
-	// 			setCloseModal={setCloseModal}
-	// 		/>
-	// 	);
 
 	const [loading, setLoading] = useState(true);
 

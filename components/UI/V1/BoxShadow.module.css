@@ -1,18 +1,19 @@
 .box-shadow {
 	box-shadow: 0.2rem 0.2rem 0.2rem var(--main-special-bg-color-2),
 		-0.2rem -0.2rem 0.2rem var(--main-special-bg-color-2);
-	/* outline-color: var(--main-special-bg-color-4); */
+	transform: translateZ(0.2rem);
 }
 
 .box-shadow:hover {
-	box-shadow: 0.3rem 0.3rem 0.3rem var(--main-special-bg-color-3),
-		-0.3rem -0.3rem 0.3rem var(--main-special-bg-color-3);
-	/* outline-color: var(--main-special-bg-color-4); */
+	box-shadow: 0.3rem 0.3rem 0.6rem var(--main-special-bg-color-3),
+		-0.3rem -0.3rem 0.6rem var(--main-special-bg-color-3);
+	transform: translateZ(0.3rem);
 }
 
 .box-shadow:focus,
 .box-shadow:focus-visible,
 .box-shadow:focus-within {
-	box-shadow: 0.4rem 0.4rem 0.4rem var(--main-special-bg-color-5),
-		-0.4rem -0.4rem 0.4rem var(--main-special-bg-color-5);
+	box-shadow: 0.4rem 0.4rem 0.8rem var(--main-special-bg-color-5),
+		-0.4rem -0.4rem 0.8rem var(--main-special-bg-color-5);
+	transform: translateZ(0.4rem);
 }

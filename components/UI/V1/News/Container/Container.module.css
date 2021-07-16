@@ -1,0 +1,14 @@
+.container {
+	padding: 0.5em;
+	margin: 1em auto;
+	transition: all 0.3s ease-in;
+}
+
+.modal-wrapper {
+	width: 90%;
+	max-width: none;
+}
+
+.modal-container {
+	background: rgba(255, 255, 255); /* var(); */
+}

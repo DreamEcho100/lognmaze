@@ -10,19 +10,20 @@ export default async (req, res) => {
 
 	if (req.method === 'POST') {
 		try {
+			console.log('req.body', req.body);
 			const {
-				firstName,
-				lastName,
-				userNameId,
 				email,
 				password,
-				dateOfBirth,
+				phone_number,
+
+				user_name_id,
+				first_name,
+				last_name,
+				date_of_birth,
+				gender,
 				country,
 				state,
 				city,
-				countryPhoneCode,
-				phoneNumber,
-				gender,
 			} = req.body;
 
 			const user = await pool.query(
@@ -42,15 +43,14 @@ export default async (req, res) => {
 				.query(
 					`
 					INSERT INTO user_account
-					 ( email, password, country_phone_code, phone_number )
+					 ( email, password, phone_number )
 					VALUES
-						( $1, $2, $3, $4 )
+						( $1, $2, $3 )
 					RETURNING
 						user_account_id AS id,
 						email,
 						email_verified,
 						show_email,
-						country_phone_code,
 						phone_number,
 						phone_verified,
 						show_phone_number,
@@ -59,7 +59,7 @@ export default async (req, res) => {
 						last_sign_in
 					;
 				`,
-					[email, hashedPassword, countryPhoneCode, phoneNumber]
+					[email, hashedPassword, phone_number]
 				)
 				.then(async (response) => {
 					delete response.rows[0].password;
@@ -81,6 +81,7 @@ export default async (req, res) => {
 								RETURNING 
 									first_name,
 									last_name,
+									user_name_id,
 									date_of_birth,
 									show_date_of_birth,
 									gender,
@@ -116,16 +117,19 @@ export default async (req, res) => {
 						`,
 						[
 							response.rows[0].id,
-							userNameId,
-							firstName,
-							lastName,
-							dateOfBirth,
+							user_name_id,
+							first_name,
+							last_name,
+							date_of_birth,
 							gender,
 							country,
 							state,
 							city,
 						]
 					);
+
+					console.log('response2.rows[0]', response2.rows[0]);
+					console.log('response.rows[0]', response.rows[0]);
 
 					return {
 						...response2.rows[0],
@@ -141,6 +145,21 @@ export default async (req, res) => {
 				status: 'success',
 				message: 'Created user!',
 				data: newUser,
+				// {
+				// 	...newUser,
+
+				// 	email,
+				// 	phone_number,
+
+				// 	user_name_id,
+				// 	first_name,
+				// 	last_name,
+				// 	date_of_birth,
+				// 	gender,
+				// 	country,
+				// 	state,
+				// 	city,
+				// },
 				jwt,
 			});
 		} catch (error) {

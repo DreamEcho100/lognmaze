@@ -24,6 +24,8 @@ export default async (req, res) => {
 							news_article.format_type,
 							news_article.title,
 							news_article.slug,
+							news_article.iso_language,
+							news_article.iso_country,
 							news_article.image,
 							news_article.description,
 							${with_news_article_content ? 'news_article.content,' : ''}

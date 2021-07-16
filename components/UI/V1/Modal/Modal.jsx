@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
+
 import classes from './Modal.module.css';
 
 import { handleAllClasses } from '../utils/index';
@@ -7,6 +9,7 @@ const Modal = ({
 	defaultClasses = `modal-mask modal-close`,
 	extraClasses = '',
 	className = '',
+	modelClasses = {},
 	children,
 	click,
 	CloseButtonElement,
@@ -35,20 +38,36 @@ const Modal = ({
 		className,
 	});
 
-	return (
+	return createPortal(
 		<div
-			className={`${allClasses} modal-mask modal-close`}
+			className={`${allClasses} modal-close`}
+			style={modelClasses['modal-mask']}
 			onClick={closeModal}
 		>
-			<div className={`${classes['modal-wrapper']} modal-wrapper`}>
-				<div className={`${classes['modal-container']} modal-container`}>
-					<div className={`${classes['modal-header']} modal-header`}>
+			<div
+				className={`${classes['modal-wrapper']}`}
+				style={modelClasses['modal-wrapper']}
+			>
+				<div
+					className={`${classes['modal-container']}`}
+					style={modelClasses['modal-container']}
+				>
+					<div
+						className={`${classes['modal-header']}`}
+						style={modelClasses['modal-header']}
+					>
 						{findByKey('header')}
 					</div>
-					<div className={`${classes['modal-body']} modal-body`}>
+					<div
+						className={`${classes['modal-body']}`}
+						style={modelClasses['modal-body']}
+					>
 						{findByKey('body')}
 					</div>
-					<div className={`${classes['modal-footer']} modal-footer`}>
+					<div
+						className={`${classes['modal-footer']}`}
+						style={modelClasses['modal-footer']}
+					>
 						{CloseButtonElement && (
 							<CloseButtonElement
 								className='modal-close'
@@ -59,7 +78,9 @@ const Modal = ({
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>,
+		document.getElementsByTagName('body')[0]
+		// document.getElementById('modal-holder')
 	);
 };
 

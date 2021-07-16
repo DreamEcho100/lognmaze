@@ -6,26 +6,34 @@ import classes from './Settings.module.css';
 
 const Settings = ({ isDataOwner, data, setData }) => {
 	const [showUpdateNewsModal, setShowUpdateNewsModal] = useState(false);
+	const [showSettingsMenu, setShowSettingsMenu] = useState(false);
 
 	return (
-		<ul>
-			{isDataOwner && (
-				<li>
-					<button onClick={() => setShowUpdateNewsModal(true)}>
-						Edit News
-					</button>
-					{showUpdateNewsModal &&
-						{
-							/* <Update
+		<>
+			<strong onClick={() => setShowSettingsMenu((prev) => !prev)}>
+				<i>|</i>
+			</strong>
+			{showSettingsMenu && (
+				<ul>
+					{isDataOwner && (
+						<li>
+							<button onClick={() => setShowUpdateNewsModal(true)}>
+								Edit News
+							</button>
+							{showUpdateNewsModal &&
+								{
+									/* <Update
 							closeModal={() => setShowUpdateNewsModal(false)}
 							data={data}
 							setData={setData}
 						/> */
-						}}
-				</li>
+								}}
+						</li>
+					)}
+					<li>Share News</li>
+				</ul>
 			)}
-			<li>Share News</li>
-		</ul>
+		</>
 	);
 };
 

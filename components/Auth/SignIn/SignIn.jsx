@@ -1,21 +1,24 @@
 import { useContext, useState } from 'react';
 
 import classes from './SignIn.module.css';
-import BoxShadowClasses from '../../UI/V1/BoxShadow.module.css';
+import BoxShadowClasses from '@/components/UI/V1/BoxShadow.module.css';
 
-import UserContext from '../../../store/UserContext';
+import UserContext from '@/store/UserContext';
 
-import Form from '../../UI/V1/Form/Form';
-import FormControl from '../../UI/V1/FormControl/FormControl';
-import FormLabel from '../../UI/V1/FormLabel/FormLabel';
-import FormInput from '../../UI/V1/FormInput/FormInput';
-import Button from '../../UI/V1/Button/Button';
+import Form from '@/components/UI/V1/Form/Form';
+import FormControl from '@/components/UI/V1/FormControl/FormControl';
+import Label from '@/components/UI/V1/Label/Label';
+import Input from '@/components/UI/V1/Input/Input';
+
+import Button from '@/components/UI/V1/Button/Button';
 
 const SignIn = () => {
 	const UserCxt = useContext(UserContext);
 
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const [values, setValues] = useState({
+		email: '',
+		password: '',
+	});
 
 	const { handleSignIn } = UserCxt;
 
@@ -29,10 +32,7 @@ const SignIn = () => {
 
 		setAfterFormSubmitMessage('');
 		setBtnsDisabled(true);
-		const { status, message } = await handleSignIn({
-			email,
-			password,
-		}).then((response) => {
+		const { status, message } = await handleSignIn(values).then((response) => {
 			setBtnsDisabled(false);
 			return response;
 		});
@@ -51,21 +51,25 @@ const SignIn = () => {
 			onSubmit={submitHandler}
 		>
 			<FormControl className={classes.control}>
-				<FormLabel htmlFor='email'>Your Email</FormLabel>
-				<FormInput
+				<Label htmlFor='email'>Your Email</Label>
+				<Input
 					type='email'
+					name='email'
 					id='email'
 					required
-					onChange={(event) => setEmail(event.target.value)}
+					value={values.email}
+					setValues={setValues}
 				/>
 			</FormControl>
 			<FormControl className={classes.control}>
-				<FormLabel htmlFor='password'>Your Password</FormLabel>
-				<FormInput
+				<Label htmlFor='password'>Your Password</Label>
+				<Input
 					type='password'
+					name='password'
 					id='password'
 					required
-					onChange={(event) => setPassword(event.target.value)}
+					value={values.password}
+					setValues={setValues}
 				/>
 			</FormControl>
 			{afterFormSubmitMessage.length !== 0 && (

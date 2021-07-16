@@ -33,7 +33,7 @@ const HomePage = ({ news }) => {
 	}
 	return (
 		<>
-			<Hero />
+			<Hero user={UserCxt.user} />
 			<Feed news={news.data} />
 		</>
 	);

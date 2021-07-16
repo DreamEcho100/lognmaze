@@ -7,7 +7,7 @@ CREATE TABLE user_account (
   email_verified BOOLEAN DEFAULT FALSE,
   show_email BOOLEAN DEFAULT FALSE,
   password TEXT NOT NULL,
-  country_phone_code TEXT NOT NULL,
+  -- country_phone_code TEXT NOT NULL,
   phone_number TEXT,
   phone_verified BOOLEAN DEFAULT FALSE,
   show_phone_number BOOLEAN DEFAULT FALSE,
@@ -16,7 +16,7 @@ CREATE TABLE user_account (
   last_sign_in TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
   PRIMARY KEY (user_account_id),
-  CONSTRAINT user_phone_number UNIQUE (country_phone_code, phone_number)
+  CONSTRAINT user_phone_number UNIQUE (phone_number)
 );
 
 -- user_profile Table
@@ -138,6 +138,8 @@ CREATE TABLE news_article (
 
   title TEXT NOT NULL,
   slug TEXT UNIQUE NOT NULL,
+  iso_language TEXT NOT NULL,
+  iso_country TEXT NOT NULL,
   image TEXT NOT NULL,
   description TEXT NOT NULL,
 

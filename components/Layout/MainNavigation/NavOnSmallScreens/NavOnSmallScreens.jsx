@@ -12,7 +12,7 @@ const NavOnSmallScreens = ({ user, isLoading, handleSignOut }) => {
 		<>
 			<nav className={NavOnSmallScreensClasses['nav']}>
 				<div className={MainNavigationClasses['logo']}>
-					<Link href={!isLoading && user.id ? '/posts/all' : '/'}>
+					<Link href={'/' /*!isLoading && user.id ? '/posts/all' : '/'*/}>
 						<a className={MainNavigationClasses.logo_anchor}>LogNMaze</a>
 					</Link>
 				</div>

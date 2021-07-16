@@ -1,8 +1,11 @@
 import { Fragment, useEffect, useState } from 'react';
 
+import classes from './Container.module.css';
+import BoxShadowClasses from '../../../../../components/UI/V1/BoxShadow.module.css';
+
 import NewsHeader from '../Header/Header';
 import Details from '../Details/Details';
-import NewsModal from '../Modal/Modal';
+// import NewsModal from '../Modal/Modal';
 
 import Modal from '@/components/UI/V1/Modal/Modal';
 import Button from '@/components/UI/V1/Button/Button';
@@ -33,14 +36,22 @@ const Container = (props) => {
 	}, [data]);
 
 	return (
-		<article>
-			<NewsHeader data={data} setData={setData} setCloseModal={setCloseModal} />
-			<Details
-				data={data}
-				setData={setData}
-				detailsType={props.detailsType}
-				setCloseModal={setCloseModal}
-			/>
+		<>
+			<article
+				className={`${classes.container} ${BoxShadowClasses['box-shadow']}`}
+			>
+				<NewsHeader
+					data={data}
+					setData={setData}
+					setCloseModal={setCloseModal}
+				/>
+				<Details
+					data={data}
+					setData={setData}
+					detailsType={props.detailsType}
+					setCloseModal={setCloseModal}
+				/>
+			</article>
 
 			{props.ModalOnClick && !closeModal && (
 				<Modal
@@ -50,6 +61,10 @@ const Container = (props) => {
 							Close
 						</Button>
 					)}
+					modelClasses={{
+						'modal-wrapper': { width: '90%', maxWidth: 'none' },
+						'modal-container': { background: 'rgba(255, 255, 255)' },
+					}}
 				>
 					<Fragment key='header'>
 						{/* <Header data={data} setData={setData} /> */}
@@ -68,7 +83,7 @@ const Container = (props) => {
 					setData={setData}
 				/>
 			)} */}
-		</article>
+		</>
 	);
 };
 

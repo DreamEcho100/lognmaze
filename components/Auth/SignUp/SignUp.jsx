@@ -8,8 +8,8 @@ import UserContext from '../../../store/UserContext';
 import Form from '../../UI/V1/Form/Form';
 import FormControl from '../../UI/V1/FormControl/FormControl';
 import FormControls from '../../UI/V1/FormControls/FormControls';
-import FormLabel from '../../UI/V1/FormLabel/FormLabel';
-import FormInput from '../../UI/V1/FormInput/FormInput';
+import Label from '@/components/UI/V1/Label/Label';
+import Input from '@/components/UI/V1/Input/Input';
 import Button from '../../UI/V1/Button/Button';
 
 const SignUp = ({
@@ -17,18 +17,28 @@ const SignUp = ({
 }) => {
 	const { handleSignUp } = useContext(UserContext);
 
-	const [firstName, setFirstName] = useState('');
-	const [lastName, setLastName] = useState('');
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [dateOfBirth, setDateOfBirth] = useState('');
-	const [country, setCountry] = useState('');
-	const [state, setState] = useState('');
-	const [city, setCity] = useState('');
+	const [values, setValues] = useState({
+		first_name: '',
+		last_name: '',
+		user_name_id: '',
+		email: '',
+		password: '',
+		date_of_birth: '',
+		country: '',
+		state: '',
+		city: '',
+		phone_number: '',
+		gender: '',
+	});
+
+	console.log('first_name', values.first_name);
+	console.log('last_name', values.last_name);
+	console.log('user_name_id', values.user_name_id);
+
 	const [countryShortName, setCountryShortName] = useState('');
+	const [dateOfBirth, setDateOfBirth] = useState('');
 	const [countryPhoneCode, setCountryPhoneCode] = useState('');
 	const [phoneNumber, setPhoneNumber] = useState('');
-	const [gender, setChoosedGender] = useState('');
 
 	const [countries, setCountries] = useState([]);
 	const [states, setStates] = useState([]);
@@ -37,12 +47,11 @@ const SignUp = ({
 	const [afterFormSubmitMessage, setAfterFormSubmitMessage] = useState(true);
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
 
-	const handleUserName = () => {
-		return `${firstName}-${lastName}`.replace(/[^\w-\_]/gi, '').toLowerCase();
-	};
-
 	const handleGetCities = async (state) => {
-		setCity('');
+		setValues((prev) => ({
+			...prev,
+			city: '',
+		}));
 		try {
 			const response = await fetch(
 				`https://www.universal-tutorial.com/api/cities/${state}`,
@@ -63,7 +72,10 @@ const SignUp = ({
 				})
 				.then((data) => {
 					setCities(data);
-					setCity(data[0].city_name);
+					setValues((prev) => ({
+						...prev,
+						city: data[0].city_name,
+					}));
 				});
 		} catch (error) {
 			console.error(error);
@@ -71,8 +83,11 @@ const SignUp = ({
 	};
 
 	const handleGetStates = async (country) => {
-		setState('');
-		setCity('');
+		setValues((prev) => ({
+			...prev,
+			state: '',
+			city: '',
+		}));
 		try {
 			const response = await fetch(
 				`https://www.universal-tutorial.com/api/states/${country}`,
@@ -92,7 +107,10 @@ const SignUp = ({
 					return data;
 				})
 				.then(async (data) => {
-					setState(data[0].state_name);
+					setValues((prev) => ({
+						...prev,
+						state: data[0].state_name,
+					}));
 					await handleGetCities(data[0].state_name);
 				});
 		} catch (error) {
@@ -109,9 +127,12 @@ const SignUp = ({
 			return;
 		}
 
-		setCountry('');
-		setState('');
-		setCity('');
+		setValues((prev) => ({
+			...prev,
+			country: '',
+			state: '',
+			city: '',
+		}));
 		try {
 			const response = await fetch(
 				'https://www.universal-tutorial.com/api/countries/',
@@ -128,7 +149,10 @@ const SignUp = ({
 					return data;
 				})
 				.then(async (data) => {
-					setCountry(data[0].country_name);
+					setValues((prev) => ({
+						...prev,
+						country: data[0].country_name,
+					}));
 					await handleGetStates(data[0].country_name);
 				});
 		} catch (error) {
@@ -139,26 +163,9 @@ const SignUp = ({
 	const submitHandler = async (event) => {
 		event.preventDefault();
 
-		const userNameId = handleUserName();
-
-		// optional: Add validation
-
 		setAfterFormSubmitMessage('');
 		setBtnsDisabled(true);
-		const { status, message } = await handleSignUp({
-			firstName,
-			lastName,
-			userNameId,
-			email,
-			password,
-			dateOfBirth: new Date(dateOfBirth).toUTCString(),
-			country,
-			state,
-			countryPhoneCode: countryPhoneCode,
-			phoneNumber,
-			city,
-			gender,
-		}).then((response) => {
+		const { status, message } = await handleSignUp(values).then((response) => {
 			setBtnsDisabled(false);
 			return response;
 		});
@@ -168,22 +175,27 @@ const SignUp = ({
 			setBtnsDisabled(false);
 			setAfterFormSubmitMessage(message);
 		}
-		// clearInputsForm();
 	};
 
 	useEffect(() => {
 		handleGetCountries();
-		// countries.length && setCountry(countries[0].country_name);
 	}, []);
 
 	useEffect(() => {
-		if (!country) return;
+		if (!values.country) return;
 		const targetedCountry = countries.find(
-			(countryObj) => countryObj.country_name === country
+			(countryObj) => countryObj.country_name === values.country
 		);
-		setCountryPhoneCode(targetedCountry.country_phone_code);
+		if (!countryPhoneCode) {
+			setCountryPhoneCode(targetedCountry.country_phone_code);
+
+			setValues((prev) => ({
+				...prev,
+				phone_number: targetedCountry.country_phone_code + phoneNumber,
+			}));
+		}
 		setCountryShortName(targetedCountry.country_short_name);
-	}, [country]);
+	}, [values.country]);
 
 	return (
 		<Form
@@ -192,74 +204,128 @@ const SignUp = ({
 		>
 			<FormControls>
 				<FormControl extraClasses='align-center'>
-					<FormLabel htmlFor='firstName'>Your First Name</FormLabel>
-					<FormInput
-						type='text'
-						id='firstName'
+					<Label htmlFor='first_name'>Your First Name</Label>
+					<Input
+						name='first_name'
+						id='first_name'
 						required
-						onChange={(event) => setFirstName(event.target.value)}
-						value={firstName}
+						value={values.first_name}
+						onChange={(event) => {
+							if (true || !values.user_name_id) {
+								return setValues((prev) => ({
+									...prev,
+									user_name_id:
+										`${event.target.value}-${values.last_name}`.replace(
+											/[^\w-\_]/gi,
+											''
+										),
+									[event.target.name]: event.target.value,
+								}));
+							}
+							setValues((prev) => ({
+								...prev,
+								[event.target.name]: event.target.value,
+							}));
+						}}
 					/>
 				</FormControl>
 				<FormControl extraClasses='align-center'>
-					<FormLabel htmlFor='lastName'>Your last Name</FormLabel>
-					<FormInput
-						type='text'
-						id='lastName'
+					<Label htmlFor='last_name'>Your last Name</Label>
+					<Input
+						name='last_name'
+						id='last_name'
 						required
-						onChange={(event) => setLastName(event.target.value)}
-						value={lastName}
+						value={values.last_name}
+						onChange={(event) => {
+							if (true || !values.user_name_id) {
+								return setValues((prev) => ({
+									...prev,
+									user_name_id:
+										`${values.first_name}-${event.target.value}`.replace(
+											/[^\w-\_]/gi,
+											''
+										),
+									[event.target.name]: event.target.value,
+								}));
+							}
+							setValues((prev) => ({
+								...prev,
+								[event.target.name]: event.target.value,
+							}));
+						}}
 					/>
 				</FormControl>
 			</FormControls>
 			<FormControl extraClasses='align-center'>
-				<FormLabel htmlFor='email'>Your Email</FormLabel>
-				<FormInput
+				<Label htmlFor='user_name_id'>Your User Name Id</Label>
+				<Input
+					type='user_name_id'
+					name='user_name_id'
+					id='user_name_id'
+					required
+					value={values.user_name_id.replace(/[^\w-\_]/gi, '')}
+					setValues={setValues}
+				/>
+			</FormControl>
+			<FormControl extraClasses='align-center'>
+				<Label htmlFor='email'>Your Email</Label>
+				<Input
 					type='email'
+					name='email'
 					id='email'
 					required
-					onChange={(event) => setEmail(event.target.value)}
-					value={email}
+					value={values.email}
+					setValues={setValues}
 				/>
 			</FormControl>
 			<FormControl extraClasses='align-center'>
-				<FormLabel htmlFor='password'>Your Password</FormLabel>
-				<FormInput
+				<Label htmlFor='password'>Your Password</Label>
+				<Input
 					type='password'
+					name='password'
 					id='password'
 					required
-					onChange={(event) => setPassword(event.target.value)}
-					value={password}
+					value={values.password}
+					setValues={setValues}
 				/>
 			</FormControl>
 			<FormControl extraClasses='align-center'>
-				<input
-					onChange={(event) => setDateOfBirth(event.target.value)}
-					value={dateOfBirth}
-					required
+				<Label htmlFor='date_of_birth'>Your Date Of Birth</Label>
+				<Input
 					type='date'
-					name='date-of-birth'
-					id='date-of-birth'
+					name='date_of_birth'
+					id='date_of_birth'
+					required
+					value={dateOfBirth}
+					onChange={(event) => {
+						setDateOfBirth(event.target.value);
+						setValues((prev) => ({
+							...prev,
+							[event.target.name]: new Date(event.target.value).toUTCString(),
+						}));
+					}}
 				/>
 			</FormControl>
 
 			<FormControl extraClasses='align-center'>
-				<FormLabel htmlFor='countries'>Choose Your Country</FormLabel>
+				<Label htmlFor='country'>Choose Your Country</Label>
 				<select
-					name='countries'
-					id='countries'
+					name='country'
+					id='country'
 					required
 					onChange={(event) => {
 						new Promise((resolve, reject) => {
-							console.dir(event.target);
-							setCountry(event.target.value);
-							setState([]);
+							setValues((prev) => ({
+								...prev,
+								[event.target.name]: event.target.value,
+							}));
+							setStates([]);
 							setCities([]);
 							resolve();
 							handleGetStates(event.target.value);
 						});
 					}}
-					value={country}
+					value={values.country}
 				>
 					<option valu='' disabled>
 						Choose Your Country
@@ -279,20 +345,23 @@ const SignUp = ({
 
 			{Boolean(states && states.length) && (
 				<FormControl extraClasses='align-center'>
-					<FormLabel htmlFor='states'>Choose Your State</FormLabel>
+					<Label htmlFor='state'>Choose Your State</Label>
 					<select
-						name='states'
-						id='states'
+						name='state'
+						id='state'
 						required
 						onChange={(event) => {
 							new Promise((resolve, reject) => {
-								setState(event.target.value);
+								setValues((prev) => ({
+									...prev,
+									[event.target.name]: event.target.value,
+								}));
 								setCities([]);
 								handleGetCities(event.target.value);
 								resolve();
 							});
 						}}
-						value={state}
+						value={values.state}
 					>
 						<option valu='' disabled>
 							Choose Your City
@@ -308,18 +377,21 @@ const SignUp = ({
 
 			{Boolean(cities && cities.length) && (
 				<FormControl extraClasses='align-center'>
-					<FormLabel htmlFor='cities'>Choose Your City</FormLabel>
+					<Label htmlFor='city'>Choose Your City</Label>
 					<select
-						name='cities'
-						id='cities'
+						name='city'
+						id='city'
 						required
 						onChange={(event) => {
 							new Promise((resolve, reject) => {
-								setCity(event.target.value);
+								setValues((prev) => ({
+									...prev,
+									[event.target.name]: event.target.value,
+								}));
 								resolve();
 							});
 						}}
-						value={city}
+						value={values.city}
 					>
 						<option valu='' disabled>
 							Choose Your State
@@ -334,45 +406,67 @@ const SignUp = ({
 			)}
 
 			<FormControl extraClasses='align-center'>
-				<FormLabel htmlFor='phone-number'>Enter Your Phone Number</FormLabel>
+				<Label htmlFor='phone_number'>Enter Your Phone Number</Label>
 				<div>
-					<span>+{countryPhoneCode}</span>
-					<FormInput
-						required
+					<span>+</span>
+					<Input
 						type='tel'
-						name='phone-number'
-						id='phone-number'
-						onChange={(event) => setPhoneNumber(event.target.value)}
+						name='country_phone_code'
+						id='country_phone_code'
+						required
+						value={countryPhoneCode}
+						onChange={(event) => {
+							setCountryPhoneCode(event.target.value);
+							setValues((prev) => ({
+								...prev,
+								phone_number: event.target.value + phoneNumber,
+							}));
+						}}
+						style={{
+							maxWidth: 'max-content',
+							minWidth: '10rem',
+							width: '10rem',
+						}}
+					/>
+					<span>|</span>
+					<Input
+						type='tel'
+						name='phone_number'
+						id='phone_number'
+						required
 						value={phoneNumber}
+						onChange={(event) => {
+							setPhoneNumber(event.target.value);
+							setValues((prev) => ({
+								...prev,
+								phone_number: countryPhoneCode + event.target.value,
+							}));
+						}}
 					/>
 				</div>
 			</FormControl>
 
 			<FormControl extraClasses='align-center'>
-				<FormInput
-					defaultClasses='form-input-radio'
+				<Input
 					type='radio'
 					name='gender'
+					id='gender-male'
 					value='male'
-					id='male'
-					onChange={(event) => {
-						setChoosedGender(event.target.value);
-					}}
+					required
+					setValues={setValues}
 				/>
-				<FormLabel htmlFor='male'>Male</FormLabel>
+				<Label htmlFor='gender-male'>Male</Label>
 			</FormControl>
 			<FormControl extraClasses='align-center'>
-				<FormInput
-					defaultClasses='form-input-radio'
+				<Input
 					type='radio'
 					name='gender'
+					id='gender-female'
 					value='female'
-					id='female'
-					onChange={(event) => {
-						setChoosedGender(event.target.value);
-					}}
+					required
+					setValues={setValues}
 				/>
-				<FormLabel htmlFor='female'>Female</FormLabel>
+				<Label htmlFor='female'>Female</Label>
 			</FormControl>
 			{afterFormSubmitMessage.length !== 0 && (
 				<div className={classes.warning}>
