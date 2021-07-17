@@ -327,5 +327,7 @@ a {
 @media screen and (max-width: 400px) {
 	:root {
 		font-size: 55.5%;
+		--header1: var(--size-10);
+		--header2: var(--size-7);
 	}
 }
