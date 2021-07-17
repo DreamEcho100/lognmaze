@@ -1,6 +1,7 @@
 .feed {
 	width: 80%;
 	max-width: 100rem;
+	min-width: fit-content;
 	margin: 1em auto;
 	box-shadow: 0rem 0rem 2rem var(--main-bg-color-5);
 	transform: translateZ(2rem);
