@@ -16,7 +16,6 @@ const CreateNewsButton = () => {
 				<CreateAction
 					closeModal={() => setShowCreateNewsButtonModal(false)}
 					news={{ type: 'article', action: 'create', route: 'add' }}
-					actionType='create'
 				/>
 			)}
 		</>

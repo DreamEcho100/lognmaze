@@ -5,7 +5,6 @@ import BoxShadowClasses from '../../../../../components/UI/V1/BoxShadow.module.c
 
 import NewsHeader from '../Header/Header';
 import Details from '../Details/Details';
-// import NewsModal from '../Modal/Modal';
 
 import Modal from '@/components/UI/V1/Modal/Modal';
 import Button from '@/components/UI/V1/Button/Button';
@@ -79,15 +78,6 @@ const Container = (props) => {
 					</Fragment>
 				</Modal>
 			)}
-
-			{/* {props.ModalOnClick && !closeModal && (
-				<NewsModal
-					setCloseModal={setCloseModal}
-					data={data}
-					detailsType='content'
-					setData={setData}
-				/>
-			)} */}
 		</>
 	);
 };

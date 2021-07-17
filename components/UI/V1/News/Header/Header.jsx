@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-// import Image from 'next/image';
 
 import classes from './Header.module.css';
 

@@ -51,7 +51,7 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 			slug: '',
 			iso_language: 'en',
 			iso_country: 'US',
-			tags: '',
+			tags: [],
 			image: '',
 			description: '',
 			content: '',
@@ -65,71 +65,66 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 
 		let bodyObj;
 		const tags_array = [];
+		let fetchMethod;
 
 		if (actionType === 'create') {
+			fetchMethod = 'POST';
 			bodyObj = {
 				type: 'article',
 				author_user_name_id: user.user_name_id,
 				...values,
 			};
 		} else if (actionType === 'update') {
-			const oldTags = data.tags;
-			const newTags = tags.toLowerCase().trim().split(/\s+/);
-
+			fetchMethod = 'PATCH';
 			const removedTags = [];
 			const addedTags = [];
 
-			oldTags.forEach((item) => {
-				if (!newTags.includes(item)) {
-					removedTags.push(item);
-				} else {
-					tags_array.push(item);
-				}
-			});
+			const oldTags = data.tags;
+			const newTags = values.tags;
 
-			newTags.forEach((item) => {
-				if (!oldTags.includes(item)) {
+			if (oldTags.length <= newTags.length) {
+				newTags.forEach((item, index) => {
+					if (oldTags.includes(item)) return;
 					addedTags.push(item);
-					tags_array.push(item);
-				}
-			});
+					if (index <= oldTags.length - 1) {
+						if (!newTags.includes(oldTags[index]))
+							removedTags.push(oldTags[index]);
+					}
+				});
+			} else if (oldTags.length > newTags.length) {
+				oldTags.forEach((item, index) => {
+					if (newTags.includes(item)) return;
+					removedTags.push(item);
+					if (index <= newTags.length - 1) {
+						if (!oldTags.includes(newTags[index]))
+							addedTags.push(newTags[index]);
+					}
+				});
+			}
 
 			bodyObj = {
 				type: 'article',
-				news_id: data.id,
-				data: {
-					format_type,
-					title,
-					slug,
-					image,
-					description,
-					content,
-				},
+				news_id: data.news_id,
+				news_data: {},
 				tags: {
 					removed: removedTags,
 					added: addedTags,
 				},
-				/*
-{
-  "type": "article",
-      "news_id": "5ca95b28-1343-4471-ac07-e675e0445209",
-  "news_data": {
-      "title": "'Test Title (update succefully)'",
-      "slug": "'test-title (update succefully)'"
-  },
-  "tags": {
-      "removed": ["T", "Test"],
-      "added": ["Testing (update succefully)"]
-  }
-}
-*/
 			};
+
+			for (let item in values) {
+				if (item !== 'tags') {
+					if (data[item] !== values[item]) {
+						bodyObj.news_data[item] = `'${values[item]}'`;
+					}
+				}
+			}
 		}
 
 		try {
-			await fetcher({ bodyObj, token: user.token })
+			await fetcher({ bodyObj, token: user.token, method: fetchMethod })
 				.then((response) => response.json())
-				.then(({ status, message, data }) => {
+				.then(({ status, message, ...props }) => {
 					if (status === 'error') {
 						console.error(message);
 						setBtnsDisabled(false);
@@ -142,10 +137,16 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 					} else if (actionType === 'update') {
 						setData({
 							...data,
-							tags: tags_array,
+							...values,
+							updated_on: new Date().toUTCString(),
 						});
+						// {
+						// ...props.data,
+						// tags: tags_array,
+						// ...values,
+						// }
 
-						setTimeout(() => closeModal(), 100);
+						setTimeout(() => closeModal(), 0);
 					}
 				});
 		} catch (error) {
@@ -338,10 +339,7 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 								.split(/\s+/),
 						}));
 					}}
-					{...sharedInputProps({
-						minLength: 10,
-						maxLength: 255,
-					})}
+					{...sharedInputProps()}
 				/>
 			</FormControl>
 

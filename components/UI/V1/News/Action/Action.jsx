@@ -12,16 +12,22 @@ const Action = ({ closeModal, news }) => {
 		news.type = newsType;
 	}, []);
 
-	const fetcher = async ({ bodyObj, token }) =>
+	const fetcher = async ({ bodyObj, token, method = 'POST' }) =>
 		await fetch(`/api/v1/news`, {
 			// /${news.route}
-			method: 'POST',
+			method,
 			body: JSON.stringify(bodyObj),
 			headers: {
 				'Content-Type': 'application/json',
 				authorization: `Bearer ${token}`,
 			},
 		});
+
+	const extraProps = {};
+	if (news.action === 'update') {
+		extraProps.data = news.data;
+		extraProps.setData = news.setData;
+	}
 
 	return (
 		<ModalContainer
@@ -37,6 +43,7 @@ const Action = ({ closeModal, news }) => {
 					closeModal={closeModal}
 					fetcher={fetcher}
 					actionType={news.action}
+					{...extraProps}
 				/>
 			)}
 			{newsType === 'post' && (
@@ -44,6 +51,7 @@ const Action = ({ closeModal, news }) => {
 					closeModal={closeModal}
 					fetcher={fetcher}
 					actionType={news.action}
+					{...extraProps}
 				/>
 			)}
 		</ModalContainer>

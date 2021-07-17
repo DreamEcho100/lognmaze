@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import classes from './Settings.module.css';
 
+import UpdateAction from '@/components/UI/V1/News/Action/Action';
 // import Update from '../../Modal/Article/Update/Update';
 
 const Settings = ({ isDataOwner, data, setData }) => {
@@ -20,14 +21,18 @@ const Settings = ({ isDataOwner, data, setData }) => {
 							<button onClick={() => setShowUpdateNewsModal(true)}>
 								Edit News
 							</button>
-							{showUpdateNewsModal &&
-								{
-									/* <Update
-							closeModal={() => setShowUpdateNewsModal(false)}
-							data={data}
-							setData={setData}
-						/> */
-								}}
+							{showUpdateNewsModal && (
+								<UpdateAction
+									closeModal={() => setShowUpdateNewsModal(false)}
+									news={{
+										type: data.type,
+										action: 'update',
+										route: 'update',
+										data,
+										setData,
+									}}
+								/>
+							)}
 						</li>
 					)}
 					<li>Share News</li>

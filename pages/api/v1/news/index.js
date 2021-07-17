@@ -337,7 +337,7 @@ export default async (req, res) => {
 				.query(
 					`
 				WITH ${CTEFuncs.join(',')}
-
+	
 				SELECT * FROM ${CTEFuncsNames.join(',')}
 			`
 				)
