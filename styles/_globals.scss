@@ -323,3 +323,9 @@ a {
 .font-size-inherit {
 	font-size: inherit !important;
 }
+
+@media screen and (max-width: 400px) {
+	:root {
+		font-size: 55.5%;
+	}
+}
