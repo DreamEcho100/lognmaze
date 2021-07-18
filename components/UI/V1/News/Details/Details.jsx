@@ -6,7 +6,6 @@ import Md from '../Format/Md/Md';
 import classes from './Details.module.css';
 
 const Details = ({ detailsType, setCloseModal, data }) => {
-
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
@@ -29,13 +28,18 @@ const Details = ({ detailsType, setCloseModal, data }) => {
 			return (
 				<>
 					<p>{data.description}</p>
-					<p onClick={() => setCloseModal(false)}>Keep Reading {'->'}</p>
+					<p onClick={() => setCloseModal(false)}>
+						Read More on a Pop Up Window {'->'}
+					</p>
 				</>
 			);
 		} else if (data.type === 'post') {
 			return (
 				<>
 					<p>{data.content}</p>
+					<p onClick={() => setCloseModal(false)}>
+						Keep Reading On a Pop Up Window {'->'}
+					</p>
 				</>
 			);
 		}
@@ -43,7 +47,7 @@ const Details = ({ detailsType, setCloseModal, data }) => {
 		if (data.format_type === 'md') {
 			return <Md content={data.content || ''} />;
 		} else {
-			<p>{data.content}</p>;
+			return <p>{data.content}</p>;
 		}
 	}
 };

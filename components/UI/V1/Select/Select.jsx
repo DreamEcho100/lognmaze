@@ -1,13 +1,14 @@
-import classes from './Textarea.module.css';
+import classes from './Select.module.css';
 import BorderClasses from '../Border.module.css';
 
 import { handleAllClasses } from '../utils/index';
 
-const Textarea = ({
-	defaultClasses = 'textarea',
+const Select = ({
+	defaultClasses = 'select',
 	extraClasses = '',
 	className = '',
 	children,
+	disabledOption = {},
 	onChange,
 	setValues,
 	...props
@@ -20,9 +21,8 @@ const Textarea = ({
 	});
 
 	return (
-		<textarea
-			className={allClasses}
-			className={`${allClasses} ${BorderClasses['border-2']}`}
+		<select
+			className={`${allClasses} ${BorderClasses.border}`}
 			onChange={(event) => {
 				if (setValues) {
 					return setValues((prev) => ({
@@ -34,9 +34,12 @@ const Textarea = ({
 			}}
 			{...props}
 		>
+			{disabledOption.text !== 0 && (
+				<option disabled>{disabledOption.text}</option>
+			)}
 			{children}
-		</textarea>
+		</select>
 	);
 };
 
-export default Textarea;
+export default Select;

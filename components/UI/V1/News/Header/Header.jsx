@@ -7,8 +7,8 @@ import classes from './Header.module.css';
 import { dateToHumanReadableDate } from '../../../../../lib/v1/time';
 
 import UserContext from '@/store/UserContext';
-
-import Settings from './Settings/Settings';
+import CommonNav from './CommonNav/CommonNav';
+import TimeAndDate from './TimeAndDate/TimeAndDate';
 
 const Header = ({ data, setData, setCloseModal }) => {
 	const router = useRouter();
@@ -27,51 +27,14 @@ const Header = ({ data, setData, setCloseModal }) => {
 
 	return (
 		<header>
-			<nav className={classes.nav}>
-				<Link href={`/profile/${data.author_user_name_id}`}>
-					<a
-						target='_blank'
-						target='_blank'
-						className={classes.author_profile_link}
-						rel='noopener noreferrer'
-					>
-						<img
-							src={data.author_profile_picture}
-							alt=''
-							className={classes.author_profile_picture}
-							loading='lazy'
-						/>
-						<p className={classes.author_user_name_id}>
-							<strong>{data.author_user_name_id}</strong>
-						</p>
-					</a>
-				</Link>
-				<Settings isDataOwner={isDataOwner} data={data} setData={setData} />
-			</nav>
+			<CommonNav isDataOwner={isDataOwner} data={data} setData={setData} />
 			{data.type === 'article' && (
-				<section
-					onClick={() => {
-						if (setCloseModal) setCloseModal(false);
-					}}
-				>
-					<div className=''>
-						<p>
-							Created At:{' '}
-							{dateToHumanReadableDate(data.created_at, {
-								locale: 'en-us',
-								format: { day: 'numeric', month: 'long', year: 'numeric' },
-							})}
-						</p>
-						{data.updated_on !== data.created_at ? (
-							<p>
-								Updated On:{' '}
-								{dateToHumanReadableDate(data.updated_on, {
-									locale: 'en-us',
-									format: { day: 'numeric', month: 'long', year: 'numeric' },
-								})}
-							</p>
-						) : null}
-					</div>
+				<section>
+					<TimeAndDate
+						setCloseModal={setCloseModal}
+						created_at={data.created_at}
+						updated_on={data.updated_on}
+					/>
 					<div className=''>
 						{!router.query.slug && data.type === 'article' ? (
 							<Link href={`/article/${data.slug}`}>
@@ -87,6 +50,9 @@ const Header = ({ data, setData, setCloseModal }) => {
 							alt=''
 							style={{ width: '100%' }}
 							loading='lazy'
+							onClick={() => {
+								if (setCloseModal) setCloseModal(false);
+							}}
 						/>
 						<p>
 							<strong>Tags:</strong> {data.tags.join(', ')}
@@ -97,24 +63,11 @@ const Header = ({ data, setData, setCloseModal }) => {
 
 			{data.type === 'post' && (
 				<section>
-					<div className=''>
-						<p>
-							Created At:{' '}
-							{dateToHumanReadableDate(data.created_at, {
-								locale: 'en-us',
-								format: { day: 'numeric', month: 'long', year: 'numeric' },
-							})}
-						</p>
-						{data.updated_on !== data.created_at ? (
-							<p>
-								Updated On:{' '}
-								{dateToHumanReadableDate(data.updated_on, {
-									locale: 'en-us',
-									format: { day: 'numeric', month: 'long', year: 'numeric' },
-								})}
-							</p>
-						) : null}
-					</div>
+					<TimeAndDate
+						setCloseModal={setCloseModal}
+						created_at={data.created_at}
+						updated_on={data.updated_on}
+					/>
 				</section>
 			)}
 		</header>

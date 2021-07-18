@@ -13,6 +13,7 @@ import FormControl from '@/components/UI/V1/FormControl/FormControl';
 import FormControls from '@/components/UI/V1/FormControls/FormControls';
 import Label from '@/components/UI/V1/Label/Label';
 import Input from '@/components/UI/V1/Input/Input';
+import Select from '@/components/UI/V1/Select/Select';
 import Textarea from '@/components/UI/V1/Textarea/Textarea';
 import Button from '@/components/UI/V1/Button/Button';
 
@@ -22,9 +23,6 @@ const iso_languagesKeys = (() => {
 const iso_countriesKeys = (() => {
 	return Object.keys(ISOCountryCodesCountriesISOCode);
 })();
-// return keys.map((item, index) => (
-// 	<option value={ISO639_1LanguageCodes[item]}>{item}</option>
-// ));
 
 const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 	const { user, ...UserCxt } = useContext(UserContext);
@@ -41,7 +39,7 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 		content: data && data.content ? data.content : '',
 	});
 
-	const [afterFormSubmitMessage, setAfterFormSubmitMessage] = useState(true);
+	const [formMessage, setFormMessage] = useState('');
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
 
 	const resetInputs = () => {
@@ -60,10 +58,10 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		setAfterFormSubmitMessage('');
+		setFormMessage('');
 		setBtnsDisabled(true);
 
-		let bodyObj;
+		let bodyObj = {};
 		const tags_array = [];
 		let fetchMethod;
 
@@ -115,43 +113,41 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 			for (let item in values) {
 				if (item !== 'tags') {
 					if (data[item] !== values[item]) {
-						bodyObj.news_data[item] = `'${values[item]}'`;
+						bodyObj.news_data[item] = values[item];
 					}
 				}
 			}
+
+			if (Object.keys(bodyObj.news_data).length === 0)
+				return setFormMessage('There no change in the data!');
 		}
 
 		try {
 			await fetcher({ bodyObj, token: user.token, method: fetchMethod })
 				.then((response) => response.json())
-				.then(({ status, message, ...props }) => {
+				.then(({ status, message, data }) => {
 					if (status === 'error') {
 						console.error(message);
 						setBtnsDisabled(false);
-						setAfterFormSubmitMessage(message);
+						setFormMessage(message);
 						return;
 					}
 					setBtnsDisabled(false);
 					if (actionType === 'create') {
 						resetInputs();
 					} else if (actionType === 'update') {
-						setData({
-							...data,
+						setData((prev) => ({
+							...prev,
 							...values,
 							updated_on: new Date().toUTCString(),
-						});
-						// {
-						// ...props.data,
-						// tags: tags_array,
-						// ...values,
-						// }
+						}));
 
 						setTimeout(() => closeModal(), 0);
 					}
 				});
 		} catch (error) {
 			console.error(error);
-			setAfterFormSubmitMessage(error.message);
+			setFormMessage(error.message);
 			setBtnsDisabled(false);
 		}
 	};
@@ -190,21 +186,17 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 		>
 			<FormControl className={classes['form-control']}>
 				<Label htmlFor='format_type'>Format Type: </Label>
-				<select
+				<Select
 					name='format_type'
 					id='format_type'
+					disabledOption={{ text: 'Choose Format Type' }}
 					value={values.format_type}
-					onChange={(event) =>
-						setValues((prev) => ({
-							...prev,
-							[event.target.name]: event.target.value,
-						}))
-					}
+					setValues={setValues}
 					required
 				>
 					<option value='normal'>normal</option>
 					<option value='md'>md</option>
-				</select>
+				</Select>
 			</FormControl>
 
 			<FormControl className={classes['form-control']}>
@@ -251,15 +243,6 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 								.replace(/(_{2,})/gi, '_')
 								.replace(/^-/, '')
 								.replace(/[^\w-\_]/gi, ''),
-							/*
-								.toLowerCase()
-								.replace(/[^\w\s-\_]/gi, '')
-								.split(/[\s-]+/)
-								.join('-')
-								.replace(/(\_{2,})/gi, '_')
-								.replace(/^[^\w]/gi, '')
-								.replace(/-$/, ''),
-								*/
 						}));
 					}}
 					{...sharedInputProps({
@@ -272,52 +255,38 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 			<FormControls>
 				<FormControl>
 					<Label htmlFor='iso_language'>ISO Language: </Label>
-					<select
+					<Select
 						name='iso_language'
 						id='iso_language'
+						disabledOption={{ text: 'Choose The ISO Language' }}
 						value={values.iso_language}
-						onChange={(event) =>
-							setValues((prev) => ({
-								...prev,
-								[event.target.name]: event.target.value,
-							}))
-						}
+						setValues={setValues}
 						required
 					>
-						<option value='' disabled>
-							Choose The ISO Language
-						</option>
 						{iso_languagesKeys.map((item, index) => (
 							<option key={index} value={ISO639_1LanguageCodes[item]}>
 								{item}
 							</option>
 						))}
-					</select>
+					</Select>
 				</FormControl>
 
 				<FormControl>
 					<Label htmlFor='iso_country'>ISO Country: </Label>
-					<select
+					<Select
 						name='iso_country'
 						id='iso_country'
+						disabledOption={{ text: 'Choose The ISO Country' }}
 						value={values.iso_country}
-						onChange={(event) =>
-							setValues((prev) => ({
-								...prev,
-								[event.target.name]: event.target.value,
-							}))
-						}
+						setValues={setValues}
 						required
 					>
-						<option value='' disabled>
-							Choose The ISO Country
-						</option>
 						{iso_countriesKeys.map((item, index) => (
 							<option key={index} value={ISOCountryCodesCountriesISOCode[item]}>
 								{item}
 							</option>
 						))}
-					</select>
+					</Select>
 				</FormControl>
 			</FormControls>
 
@@ -391,9 +360,9 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 					})}
 				/>
 			</FormControl>
-			{afterFormSubmitMessage.length !== 0 && (
+			{formMessage.length !== 0 && (
 				<div className={classes.warning}>
-					<p>{afterFormSubmitMessage}</p>
+					<p>{formMessage}</p>
 				</div>
 			)}
 			<FormControl className={classes['form-control']}>

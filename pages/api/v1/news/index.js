@@ -152,7 +152,7 @@ export default async (req, res) => {
 								table: 'news_article',
 								type: 'insert',
 								sharedkeys: ['news_article_id'],
-								sharedValues: ['$1'],
+								sharedValues: [response.rows[0].news_id],
 								distencKeysAndValues: {
 									keys: [
 										'format_type',
@@ -164,7 +164,18 @@ export default async (req, res) => {
 										'description',
 										'content',
 									],
-									values: [['$2', '$3', '$4', '$5', '$6', '$7', '$8', '$9']],
+									values: [
+										[
+											news_data.format_type,
+											news_data.title,
+											news_data.slug,
+											news_data.iso_language,
+											news_data.iso_country,
+											news_data.image,
+											news_data.description,
+											news_data.content,
+										],
+									],
 									returning: [
 										'format_type',
 										'title',
@@ -181,10 +192,10 @@ export default async (req, res) => {
 								table: 'news_tag',
 								type: 'insert',
 								sharedkeys: ['news_id'],
-								sharedValues: ['$1'],
+								sharedValues: [response.rows[0].news_id],
 								distencKeysAndValues: {
 									keys: ['name'],
-									values: news_data.tags.map((tag) => [`'${tag}'`]),
+									values: news_data.tags.map((tag) => [tag]),
 								},
 							},
 						]);
@@ -194,17 +205,7 @@ export default async (req, res) => {
 						SELECT * FROM ${CTEFuncsNames.join(',')}
 					`;
 
-						const response2 = await pool.query(sqlQuery, [
-							response.rows[0].news_id,
-							news_data.format_type,
-							news_data.title,
-							news_data.slug,
-							news_data.iso_language,
-							news_data.iso_country,
-							news_data.image,
-							news_data.description,
-							news_data.content,
-						]);
+						const response2 = await pool.query(sqlQuery);
 					} else if (type === 'post') {
 						const response2 = await pool.query(
 							`
@@ -250,10 +251,10 @@ export default async (req, res) => {
 				table: 'news',
 				type: 'update',
 				keysAndValues: {
-					updated_on: `'${new Date().toLocaleString()}'`,
+					updated_on: new Date().toLocaleString(),
 				},
 				$where: {
-					news_id: `'${req.body.news_id}'`,
+					news_id: req.body.news_id,
 				},
 			});
 
@@ -269,7 +270,7 @@ export default async (req, res) => {
 						...req.body.news_data,
 					},
 					$where: {
-						news_article_id: `'${req.body.news_id}'`,
+						news_article_id: req.body.news_id,
 					},
 				});
 
@@ -279,18 +280,18 @@ export default async (req, res) => {
 							table: 'news_tag',
 							type: 'update',
 							keysAndValues: {
-								name: `'${tags.added[0]}'`,
+								name: tags.added[0],
 							},
 							$where: {
-								news_id: `'${req.body.news_id}'`,
+								news_id: req.body.news_id,
 								$and: {
-									name: `'${tag}'`,
+									name: tag,
 								},
 							},
 						});
 						startIndex = index + 1;
 					} else {
-						removedTags.push(`'${tag}'`);
+						removedTags.push(tag);
 					}
 				});
 
@@ -299,7 +300,7 @@ export default async (req, res) => {
 						table: 'news_tag',
 						type: 'delete',
 						$where: {
-							news_id: `'${req.body.news_id}'`,
+							news_id: req.body.news_id,
 							$and: {
 								$in: { name: removedTags },
 							},
@@ -312,14 +313,14 @@ export default async (req, res) => {
 						table: 'news_tag',
 						type: 'insert',
 						sharedkeys: ['news_id'],
-						sharedValues: [`'${req.body.news_id}'`],
+						sharedValues: [req.body.news_id],
 						distencKeysAndValues: {
 							keys: ['name'],
-							values: tags.added.slice(startIndex).map((tag) => [`'${tag}'`]),
+							values: tags.added.slice(startIndex).map((tag) => [tag]),
 						},
 					});
 				}
-			} else if (type === post) {
+			} else if (type === 'post') {
 				array.push({
 					table: 'news_post',
 					type: 'update',
@@ -327,19 +328,20 @@ export default async (req, res) => {
 						...req.body.news_data,
 					},
 					$where: {
-						news_id: `'${req.body.news_id}'`,
+						news_post_id: req.body.news_id,
 					},
 				});
 			}
 
 			const { CTEFuncs, CTEFuncsNames } = arrayToCTE(array);
+
 			const result = await pool
 				.query(
 					`
-				WITH ${CTEFuncs.join(',')}
-	
-				SELECT * FROM ${CTEFuncsNames.join(',')}
-			`
+						WITH ${CTEFuncs.join(',')}
+			
+						SELECT * FROM ${CTEFuncsNames.join(',')}
+					`
 				)
 				.then((response) => response.rows);
 

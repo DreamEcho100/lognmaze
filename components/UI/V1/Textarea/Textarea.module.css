@@ -1,6 +1,8 @@
-.default-textarea {
+.textarea {
 	min-width: 100%;
 	width: 80rem;
 	max-width: 100%;
 	min-height: 10rem;
+	padding: 0.5em;
+	transition: all 0.3s ease-in;
 }

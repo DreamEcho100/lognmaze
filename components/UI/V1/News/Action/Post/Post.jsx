@@ -7,66 +7,100 @@ import UserContext from '@/store/UserContext';
 
 import Form from '@/components/UI/V1/Form/Form';
 import FormControl from '@/components/UI/V1/FormControl/FormControl';
-import FormLabel from '@/components/UI/V1/FormLabel/FormLabel';
+import Label from '@/components/UI/V1/Label/Label';
 import Textarea from '@/components/UI/V1/Textarea/Textarea';
 import Button from '@/components/UI/V1/Button/Button';
 
 const Post = ({ closeModal, fetcher, actionType, data, setData }) => {
 	const { user, ...UserCxt } = useContext(UserContext);
 
-	const [content, setContent] = useState(
-		data && data.content ? data.content : ''
-	);
+	const [values, setValues] = useState({
+		content: data && data.content ? data.content : '',
+	});
 
-	const [afterFormSubmitMessage, setAfterFormSubmitMessage] = useState(true);
+	const [formMessage, setFormMessage] = useState('');
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
 
 	const resetInputs = () => {
-		setContent('');
+		setValues({
+			content: '',
+		});
 	};
 
 	const handleSubmit = async (event) => {
-		setAfterFormSubmitMessage('');
+		setFormMessage('');
 		setBtnsDisabled(true);
 
 		event.preventDefault();
 
-		const bodyObj = {
+		let bodyObj = {
 			type: 'post',
-			content,
 		};
+		let fetchMethod;
 
 		if (actionType === 'create') {
+			fetchMethod = 'POST';
+			bodyObj = {
+				...bodyObj,
+				...values,
+			};
 		} else if (actionType === 'update') {
-			bodyObj.newsPostId = data.id;
+			fetchMethod = 'PATCH';
+			bodyObj = {
+				...bodyObj,
+				news_id: data.news_id,
+				news_data: {},
+			};
+
+			if (values.content.trim() !== data.content.trim()) {
+				bodyObj.news_data.content = values.content;
+			}
+
+			if (Object.keys(bodyObj.news_data).length === 0)
+				return setFormMessage('There no change in the data!');
 		}
 
 		try {
-			await fetcher({ bodyObj, token: user.token })
+			await fetcher({ bodyObj, token: user.token, method: fetchMethod })
 				.then((response) => response.json())
 				.then(({ status, message, data }) => {
 					if (status === 'error') {
 						console.error(message);
 						setBtnsDisabled(false);
-						setAfterFormSubmitMessage(message);
+						setFormMessage(message);
 						return;
 					}
 					setBtnsDisabled(false);
 					if (actionType === 'create') {
 						resetInputs();
 					} else if (actionType === 'update') {
-						setData({
-							...data,
-						});
+						setData((prev) => ({
+							...prev,
+							...values,
+							updated_on: new Date().toUTCString(),
+						}));
 
 						setTimeout(() => closeModal(), 100);
 					}
 				});
 		} catch (error) {
 			console.error(error);
-			setAfterFormSubmitMessage(error.message);
+			setFormMessage(error.message);
 			setBtnsDisabled(false);
 		}
+	};
+
+	const sharedTextareaProps = (
+		{ minLength, maxLength } = { minLength: false, maxLength: false }
+	) => {
+		const props = {
+			extraClasses: classes.textarea,
+			className: classes['textarea'],
+			required: true,
+		};
+		if (minLength) props.minLength = minLength;
+		if (maxLength) props.maxLength = maxLength;
+		return props;
 	};
 
 	return (
@@ -76,19 +110,25 @@ const Post = ({ closeModal, fetcher, actionType, data, setData }) => {
 			className={classes.form}
 		>
 			<FormControl className={classes['form-control']}>
-				<FormLabel htmlFor='post-content'>Content: </FormLabel>
+				<Label htmlFor='content'>Content: </Label>
 				<Textarea
-					className={`${classes['form-text-area']} ${classes.content}`}
-					id='post-content'
-					required
-					value={content}
-					minLength={100}
-					onChange={(event) => setContent(event.target.value)}
+					name='content'
+					id='content'
+					value={values.content}
+					onChange={(event) =>
+						setValues((prev) => ({
+							...prev,
+							[event.target.name]: event.target.value,
+						}))
+					}
+					{...sharedTextareaProps({
+						minLength: 3,
+					})}
 				/>
 			</FormControl>
-			{afterFormSubmitMessage.length !== 0 && (
+			{formMessage.length !== 0 && (
 				<div className={classes.warning}>
-					<p>{afterFormSubmitMessage}</p>
+					<p>{formMessage}</p>
 				</div>
 			)}
 			<FormControl className={classes['form-control']}>

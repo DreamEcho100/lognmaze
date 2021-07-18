@@ -10,6 +10,7 @@ import FormControl from '../../UI/V1/FormControl/FormControl';
 import FormControls from '../../UI/V1/FormControls/FormControls';
 import Label from '@/components/UI/V1/Label/Label';
 import Input from '@/components/UI/V1/Input/Input';
+import Select from '@/components/UI/V1/Select/Select';
 import Button from '../../UI/V1/Button/Button';
 
 const SignUp = ({
@@ -325,7 +326,7 @@ const SignUp = ({
 
 			<FormControl extraClasses='align-center'>
 				<Label htmlFor='country'>Choose Your Country</Label>
-				<select
+				<Select
 					name='country'
 					id='country'
 					required
@@ -356,13 +357,13 @@ const SignUp = ({
 							</option>
 						)
 					)}
-				</select>
+				</Select>
 			</FormControl>
 
 			{Boolean(states && states.length) && (
 				<FormControl extraClasses='align-center'>
 					<Label htmlFor='state'>Choose Your State</Label>
-					<select
+					<Select
 						name='state'
 						id='state'
 						required
@@ -387,14 +388,14 @@ const SignUp = ({
 								{state_name}
 							</option>
 						))}
-					</select>
+					</Select>
 				</FormControl>
 			)}
 
 			{Boolean(cities && cities.length) && (
 				<FormControl extraClasses='align-center'>
 					<Label htmlFor='city'>Choose Your City</Label>
-					<select
+					<Select
 						name='city'
 						id='city'
 						required
@@ -417,7 +418,7 @@ const SignUp = ({
 								{city_name}
 							</option>
 						))}
-					</select>
+					</Select>
 				</FormControl>
 			)}
 

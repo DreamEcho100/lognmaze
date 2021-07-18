@@ -1,4 +1,5 @@
 import classes from './Input.module.css';
+import BorderClasses from '../Border.module.css';
 
 import { handleAllClasses } from '../utils/index';
 
@@ -9,7 +10,7 @@ const Input = ({
 	children,
 	type = 'text',
 	palceholder = '',
-	onChange = () => {},
+	onChange,
 	setValues,
 	...props
 }) => {
@@ -24,7 +25,7 @@ const Input = ({
 		<input
 			type={type}
 			palceholder={palceholder}
-			className={allClasses}
+			className={`${allClasses} ${BorderClasses.border}`}
 			onChange={(event) => {
 				if (setValues) {
 					return setValues((prev) => ({
@@ -32,7 +33,7 @@ const Input = ({
 						[event.target.name]: event.target.value,
 					}));
 				}
-				return onChange(event);
+				if (onChange) return onChange(event);
 			}}
 			{...props}
 		>
