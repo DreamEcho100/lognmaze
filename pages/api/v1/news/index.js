@@ -1,5 +1,5 @@
 import { handleIsAuthorized } from '@/lib/v1/auth';
-import { pool, arrayToCTE } from '@/lib/v1/pg';
+import { pool, queryBuilder /*, QueryBuilder */ } from '@/lib/v1/pg';
 
 export default async (req, res) => {
 	if (
@@ -147,10 +147,12 @@ export default async (req, res) => {
 				)
 				.then(async (response) => {
 					if (type === 'article') {
-						const { CTEFuncs, CTEFuncsNames } = arrayToCTE([
+						// const queryBuilder = new QueryBuilder();
+						const { SQLCTEQuery, CTEParamsArray } = queryBuilder.arrayToCTE([
 							{
 								table: 'news_article',
 								type: 'insert',
+								target: 'one',
 								sharedkeys: ['news_article_id'],
 								sharedValues: [response.rows[0].news_id],
 								distencKeysAndValues: {
@@ -165,16 +167,14 @@ export default async (req, res) => {
 										'content',
 									],
 									values: [
-										[
-											news_data.format_type,
-											news_data.title,
-											news_data.slug,
-											news_data.iso_language,
-											news_data.iso_country,
-											news_data.image,
-											news_data.description,
-											news_data.content,
-										],
+										news_data.format_type,
+										news_data.title,
+										news_data.slug,
+										news_data.iso_language,
+										news_data.iso_country,
+										news_data.image,
+										news_data.description,
+										news_data.content,
 									],
 									returning: [
 										'format_type',
@@ -191,6 +191,7 @@ export default async (req, res) => {
 							{
 								table: 'news_tag',
 								type: 'insert',
+								target: 'many',
 								sharedkeys: ['news_id'],
 								sharedValues: [response.rows[0].news_id],
 								distencKeysAndValues: {
@@ -200,12 +201,10 @@ export default async (req, res) => {
 							},
 						]);
 
-						const sqlQuery = `WITH ${CTEFuncs.join(',')}
+						console.log('SQLCTEQuery', SQLCTEQuery);
+						console.log('CTEParamsArray', CTEParamsArray);
 
-						SELECT * FROM ${CTEFuncsNames.join(',')}
-					`;
-
-						const response2 = await pool.query(sqlQuery);
+						const response2 = await pool.query(SQLCTEQuery, CTEParamsArray);
 					} else if (type === 'post') {
 						const response2 = await pool.query(
 							`
@@ -312,6 +311,7 @@ export default async (req, res) => {
 					array.push({
 						table: 'news_tag',
 						type: 'insert',
+						target: 'many',
 						sharedkeys: ['news_id'],
 						sharedValues: [req.body.news_id],
 						distencKeysAndValues: {
@@ -333,16 +333,11 @@ export default async (req, res) => {
 				});
 			}
 
-			const { CTEFuncs, CTEFuncsNames } = arrayToCTE(array);
+			// const queryBuilder = new QueryBuilder();
+			const { SQLCTEQuery, CTEParamsArray } = queryBuilder.arrayToCTE(array);
 
 			const result = await pool
-				.query(
-					`
-						WITH ${CTEFuncs.join(',')}
-			
-						SELECT * FROM ${CTEFuncsNames.join(',')}
-					`
-				)
+				.query(SQLCTEQuery, CTEParamsArray)
 				.then((response) => response.rows);
 
 			return res.status(200).json({
