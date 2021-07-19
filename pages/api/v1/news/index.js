@@ -1,5 +1,5 @@
 import { handleIsAuthorized } from '@/lib/v1/auth';
-import { pool, queryBuilder /*, QueryBuilder */ } from '@/lib/v1/pg';
+import { pool, QueryBuilder /*, queryBuilder */ } from '@/lib/v1/pg';
 
 export default async (req, res) => {
 	if (
@@ -147,7 +147,7 @@ export default async (req, res) => {
 				)
 				.then(async (response) => {
 					if (type === 'article') {
-						// const queryBuilder = new QueryBuilder();
+						const queryBuilder = new QueryBuilder();
 						const { SQLCTEQuery, CTEParamsArray } = queryBuilder.arrayToCTE([
 							{
 								table: 'news_article',
@@ -262,63 +262,70 @@ export default async (req, res) => {
 				let startIndex = 0;
 				const removedTags = [];
 
-				array.push({
-					table: 'news_article',
-					type: 'update',
-					keysAndValues: {
-						...req.body.news_data,
-					},
-					$where: {
-						news_article_id: req.body.news_id,
-					},
-				});
-
-				tags.removed.forEach((tag, index) => {
-					if (index < tags.added.length) {
-						array.push({
-							table: 'news_tag',
-							type: 'update',
-							keysAndValues: {
-								name: tags.added[0],
-							},
-							$where: {
-								news_id: req.body.news_id,
-								$and: {
-									name: tag,
-								},
-							},
-						});
-						startIndex = index + 1;
-					} else {
-						removedTags.push(tag);
-					}
-				});
-
-				if (removedTags.length !== 0) {
+				if (Object.keys(req.body.news_data).length !== 0) {
 					array.push({
-						table: 'news_tag',
-						type: 'delete',
+						table: 'news_article',
+						type: 'update',
+						keysAndValues: {
+							...req.body.news_data,
+						},
 						$where: {
-							news_id: req.body.news_id,
-							$and: {
-								$in: { name: removedTags },
-							},
+							news_article_id: req.body.news_id,
 						},
 					});
 				}
 
-				if (startIndex < tags.added.length) {
-					array.push({
-						table: 'news_tag',
-						type: 'insert',
-						target: 'many',
-						sharedkeys: ['news_id'],
-						sharedValues: [req.body.news_id],
-						distencKeysAndValues: {
-							keys: ['name'],
-							values: tags.added.slice(startIndex).map((tag) => [tag]),
-						},
+				if (
+					(req.body.tags.added && req.body.tags.added.length !== 0) ||
+					(req.body.tags.removed && req.body.tags.removed.length !== 0)
+				) {
+					tags.removed.forEach((tag, index) => {
+						if (index < tags.added.length) {
+							array.push({
+								table: 'news_tag',
+								type: 'update',
+								keysAndValues: {
+									name: tags.added[0],
+								},
+								$where: {
+									news_id: req.body.news_id,
+									$and: {
+										name: tag,
+									},
+								},
+							});
+							startIndex = index + 1;
+						} else {
+							removedTags.push(tag);
+						}
 					});
+
+					if (removedTags.length !== 0) {
+						array.push({
+							table: 'news_tag',
+							type: 'delete',
+							$where: {
+								news_id: req.body.news_id,
+								$and: {
+									$in: { name: removedTags },
+								},
+							},
+						});
+					}
+
+					if (startIndex < tags.added.length) {
+						array.push({
+							table: 'news_tag',
+							type: 'insert',
+							target: 'many',
+							sharedkeys: ['news_id'],
+							sharedValues: [req.body.news_id],
+							distencKeysAndValues: {
+								keys: ['name'],
+								values: tags.added.slice(startIndex).map((tag) => [tag]),
+							},
+						});
+					}
 				}
 			} else if (type === 'post') {
 				array.push({
@@ -333,8 +340,11 @@ export default async (req, res) => {
 				});
 			}
 
-			// const queryBuilder = new QueryBuilder();
+			const queryBuilder = new QueryBuilder();
 			const { SQLCTEQuery, CTEParamsArray } = queryBuilder.arrayToCTE(array);
+
+			console.log('SQLCTEQuery ', SQLCTEQuery);
+			console.log('CTEParamsArray', CTEParamsArray);
 
 			const result = await pool
 				.query(SQLCTEQuery, CTEParamsArray)

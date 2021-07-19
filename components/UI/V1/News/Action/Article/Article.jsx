@@ -118,10 +118,18 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 				}
 			}
 
-			if (Object.keys(bodyObj.news_data).length === 0)
-				return setFormMessage('There no change in the data!');
+			if (
+				Object.keys(bodyObj.news_data).length === 0 &&
+				Object.keys(bodyObj.tags.removed).length === 0 &&
+				Object.keys(bodyObj.tags.added).length === 0
+			) {
+				setFormMessage('There no change in the data!');
+				setBtnsDisabled(false);
+				return;
+			}
 		}
 
+		console.log('bodyObj', bodyObj);
 		try {
 			await fetcher({ bodyObj, token: user.token, method: fetchMethod })
 				.then((response) => response.json())
