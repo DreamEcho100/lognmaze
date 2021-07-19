@@ -38,7 +38,11 @@ const NewsModal = ({ setCloseModal, detailsType, data, setData }) => {
 				{/* <Header data={data} setData={setData} /> */}
 			</Fragment>
 			<Fragment key='body'>
-				<Container data={data} detailsType={detailsType} />
+				<Container
+					data={data}
+					setData={setData}
+					detailsType={detailsType}
+				/>
 			</Fragment>
 		</Modal>
 	);

@@ -201,9 +201,6 @@ export default async (req, res) => {
 							},
 						]);
 
-						console.log('SQLCTEQuery', SQLCTEQuery);
-						console.log('CTEParamsArray', CTEParamsArray);
-
 						const response2 = await pool.query(SQLCTEQuery, CTEParamsArray);
 					} else if (type === 'post') {
 						const response2 = await pool.query(
@@ -254,6 +251,9 @@ export default async (req, res) => {
 				},
 				$where: {
 					news_id: req.body.news_id,
+					$and: {
+						author_id: isAuthorized.id,
+					},
 				},
 			});
 

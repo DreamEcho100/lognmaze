@@ -32,6 +32,18 @@ const Container = (props) => {
 		if (data.type === 'article' && !data.content) {
 			if (props.ModalOnClick) await handleLoadindArticleContent(data.news_id);
 		}
+
+		if (
+			props.containerType === 'sub'
+			// &&
+			// props.setData &&
+			// JSON.stringify(props.data) !== JSON.stringify(data)
+		) {
+			props.setData((prev) => ({
+				...prev,
+				...data,
+			}));
+		}
 	}, [data]);
 
 	const articleProps = {
@@ -74,7 +86,12 @@ const Container = (props) => {
 						{/* <Header data={data} setData={setData} /> */}
 					</Fragment>
 					<Fragment key='body'>
-						<Container2 data={data} detailsType='content' />
+						<Container2
+							containerType='sub'
+							data={data}
+							setData={setData}
+							detailsType='content'
+						/>
 					</Fragment>
 				</Modal>
 			)}
