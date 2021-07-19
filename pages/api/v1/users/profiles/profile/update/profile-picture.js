@@ -33,7 +33,7 @@ export default async (req, res) => {
 
 			return res.status(201).json({
 				status: 'success',
-				message: 'Profile Picture Updated Successefully!',
+				message: 'Profile Picture Updated Successfully!',
 				data: { profile_picture: url },
 				isAuthorized: true,
 			});

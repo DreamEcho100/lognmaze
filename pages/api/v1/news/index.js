@@ -3,7 +3,12 @@ import { pool, QueryBuilder /*, queryBuilder */ } from '@/lib/v1/pg';
 
 export default async (req, res) => {
 	if (
-		!(req.method === 'GET' || req.method === 'POST' || req.method === 'PATCH')
+		!(
+			req.method === 'GET' ||
+			req.method === 'POST' ||
+			req.method === 'PATCH' ||
+			req.method === 'DELETE'
+		)
 	) {
 		return;
 	}
@@ -109,7 +114,7 @@ export default async (req, res) => {
 
 			return res.status(200).json({
 				status: 'success',
-				message: 'The newest News Arrived Successefully!, Enjoy ;)',
+				message: 'The newest News Arrived Successfully!, Enjoy ;)',
 				data: result,
 			});
 		} catch (error) {
@@ -218,7 +223,7 @@ export default async (req, res) => {
 
 			return res.status(200).json({
 				status: 'success',
-				message: 'Posted Successefully!',
+				message: 'Posted Successfully!',
 				data: {},
 				isAuthorized: true,
 			});
@@ -343,21 +348,34 @@ export default async (req, res) => {
 			const queryBuilder = new QueryBuilder();
 			const { SQLCTEQuery, CTEParamsArray } = queryBuilder.arrayToCTE(array);
 
-			console.log('SQLCTEQuery ', SQLCTEQuery);
-			console.log('CTEParamsArray', CTEParamsArray);
-
 			const result = await pool
 				.query(SQLCTEQuery, CTEParamsArray)
 				.then((response) => response.rows);
 
 			return res.status(200).json({
 				status: 'success',
-				message: 'Posted Successefully!',
+				message: 'Posted Successfully!',
 				data: {},
 				isAuthorized: true,
 			});
 		} catch (error) {
 			console.error(`Error, ${error}`);
+			return res.status(500).json({
+				status: 'error',
+				message: error.message || 'Something went wrong!',
+				data: {},
+				isAuthorized: false,
+			});
+		}
+	} else if (req.method === 'DELETE') {
+		try {
+			return res.status(200).json({
+				status: 'success',
+				message: 'Deleted Successfully!',
+				data: {},
+				isAuthorized: true,
+			});
+		} catch (error) {
 			return res.status(500).json({
 				status: 'error',
 				message: error.message || 'Something went wrong!',

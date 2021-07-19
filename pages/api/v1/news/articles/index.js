@@ -54,7 +54,7 @@ export default async (req, res) => {
 
 			return res.status(200).json({
 				status: 'success',
-				message: 'The newest News Arrived Successefully!, Enjoy ;)',
+				message: 'The newest News Arrived Successfully!, Enjoy ;)',
 				data: result,
 			});
 		} catch (error) {

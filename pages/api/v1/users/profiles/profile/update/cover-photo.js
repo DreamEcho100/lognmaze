@@ -37,7 +37,7 @@ export default async (req, res) => {
 
 			return res.status(201).json({
 				status: 'success',
-				message: 'Cover Photo Updated Successefully!',
+				message: 'Cover Photo Updated Successfully!',
 				data: { cover_photo: url },
 				isAuthorized: true,
 			});

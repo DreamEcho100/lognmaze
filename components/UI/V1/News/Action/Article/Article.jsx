@@ -129,7 +129,6 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 			}
 		}
 
-		console.log('bodyObj', bodyObj);
 		try {
 			await fetcher({ bodyObj, token: user.token, method: fetchMethod })
 				.then((response) => response.json())

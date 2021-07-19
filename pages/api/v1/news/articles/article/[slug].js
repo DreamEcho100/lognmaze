@@ -65,7 +65,7 @@ export default async (req, res) => {
 
 			res.status(200).json({
 				status: 'success',
-				message: 'The Article Arrived Successefully!, Enjoy ;)',
+				message: 'The Article Arrived Successfully!, Enjoy ;)',
 				data: result,
 			});
 			return;
