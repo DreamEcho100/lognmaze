@@ -57,16 +57,9 @@
 	color: var(--main-font-color-5);
 }
 
-/* .settings-item:last-child {
+.settings-item:last-child {
 	border-bottom: unset;
-	border-bottom-left-radius: 1rem;
-	border-bottom-right-radius: 1rem;
 }
-
-.settings-item:first-child {
-	border-top-left-radius: 1rem;
-	border-top-right-radius: 1rem;
-} */
 
 .settings-item-for-data-owner {
 }
