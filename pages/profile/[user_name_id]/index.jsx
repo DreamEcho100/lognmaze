@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getCookie } from '@/lib/v1/cookie';
+import { getCookie } from '@lib/v1/cookie';
 
-import UserContext from '@/store/UserContext';
+import UserContext from '@store/UserContext';
 
-import Profile from '@/components/Profile/Profile';
+import Profile from '@components/Profile/Profile';
 
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';

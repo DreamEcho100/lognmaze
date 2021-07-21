@@ -2,9 +2,9 @@ import { Fragment, useEffect } from 'react';
 
 import classes from './Modal.module.css';
 
-import Modal from '@/components/UI/V1/Modal/Modal';
-import Button from '@/components/UI/V1/Button/Button';
-import Container from '@/components/UI/V1/News/Container/Container';
+import Modal from '@components/UI/V1/Modal/Modal';
+import Button from '@components/UI/V1/Button/Button';
+import Container from '@components/UI/V1/News/Container/Container';
 
 const NewsModal = ({ setCloseModal, detailsType, data, setData }) => {
 	const handleLoadindArticleContent = async (id) => {
@@ -38,11 +38,7 @@ const NewsModal = ({ setCloseModal, detailsType, data, setData }) => {
 				{/* <Header data={data} setData={setData} /> */}
 			</Fragment>
 			<Fragment key='body'>
-				<Container
-					data={data}
-					setData={setData}
-					detailsType={detailsType}
-				/>
+				<Container data={data} setData={setData} detailsType={detailsType} />
 			</Fragment>
 		</Modal>
 	);

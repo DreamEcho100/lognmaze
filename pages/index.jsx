@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import UserContext from '@/store/UserContext';
+import UserContext from '@store/UserContext';
 
-import Hero from '@/components/Home/Hero/Hero';
-import Feed from '@/components/Home/Feed/Feed';
+import Hero from '@components/Home/Hero/Hero';
+import Feed from '@components/Home/Feed/Feed';
 
 const HomePage = ({ news }) => {
 	const router = useRouter();

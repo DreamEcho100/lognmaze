@@ -1,4 +1,4 @@
-import { pool } from '@/lib/v1/pg';
+import { pool } from '@lib/v1/pg';
 
 export default async (req, res) => {
 	if (req.method !== 'GET') {

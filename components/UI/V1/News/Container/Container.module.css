@@ -1,8 +1,13 @@
 .container {
+	max-width: 50rem;
+	margin: 0.5em;
 	padding: 0.5em;
-	margin: 1em auto;
-	word-break: break-all;
-	transition: all 0.3s ease-in;
+	width: 100%;
+	transition: all 0.25s ease-in-out;
+}
+
+.container-max-width {
+	max-width: 50rem;
 }
 
 .modal-wrapper {

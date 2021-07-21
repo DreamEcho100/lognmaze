@@ -22,7 +22,7 @@ const Select = ({
 
 	return (
 		<select
-			className={`${allClasses} ${BorderClasses.border}`}
+			className={`${allClasses} ${BorderClasses['border-bottom']}`}
 			onChange={(event) => {
 				if (setValues) {
 					return setValues((prev) => ({

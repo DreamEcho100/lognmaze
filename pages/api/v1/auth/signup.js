@@ -1,5 +1,5 @@
-import { hashPassword, jwtGenerator } from '@/lib/v1/auth';
-import { pool } from '@/lib/v1/pg';
+import { hashPassword, jwtGenerator } from '@lib/v1/auth';
+import { pool } from '@lib/v1/pg';
 
 export default async (req, res) => {
 	// const data = req.body;

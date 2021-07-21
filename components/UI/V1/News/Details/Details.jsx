@@ -50,6 +50,8 @@ const Details = ({ detailsType, setCloseModal, data }) => {
 			return <p>{data.content}</p>;
 		}
 	}
+
+	return <p>No Content {':('}</p>;
 };
 
 export default Details;

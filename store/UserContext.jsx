@@ -6,7 +6,7 @@ import {
 	getCookie,
 	deleteCookie,
 	checkCookie,
-} from '@/lib/v1/cookie';
+} from '@lib/v1/cookie';
 
 const UserContext = createContext({
 	user: {},

@@ -1,5 +1,5 @@
-import { handleIsAuthorized } from '@/lib/v1/auth';
-import { pool, QueryBuilder /*, queryBuilder */ } from '@/lib/v1/pg';
+import { handleIsAuthorized } from '@lib/v1/auth';
+import { pool, QueryBuilder /*, queryBuilder */ } from '@lib/v1/pg';
 
 export default async (req, res) => {
 	if (
@@ -369,6 +369,20 @@ export default async (req, res) => {
 		}
 	} else if (req.method === 'DELETE') {
 		try {
+			const isAuthorized = await handleIsAuthorized(
+				res,
+				req.headers.authorization
+			);
+
+			if (!isAuthorized.id) return;
+
+			const result = await pool
+				.query(
+					'DELETE FROM news WHERE news_id = ($1) AND author_id = ($2) RETURNING *',
+					[req.body.news_id, isAuthorized.id]
+				)
+				.then((response) => response.rows[0]);
+
 			return res.status(200).json({
 				status: 'success',
 				message: 'Deleted Successfully!',

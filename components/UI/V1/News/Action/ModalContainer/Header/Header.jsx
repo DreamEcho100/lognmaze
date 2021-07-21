@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import classes from './Header.module.css';
 
-import Button from '@/components/UI/V1/Button/Button';
+import Button from '@components/UI/V1/Button/Button';
 
 const Header = ({ news, newsType, setNewsType }) => {
 	const [h2Text, setH2Text] = useState('');

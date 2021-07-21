@@ -1,21 +1,21 @@
 import { useContext, useEffect, useState } from 'react';
 
 import classes from './Article.module.css';
-import BoxShadowClasses from '@/components/UI/V1/BoxShadow.module.css';
+import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 
 import ISO639_1LanguageCodes from '../../../../../../data/ISO639_1LanguageCodes.json';
 import ISOCountryCodesCountriesISOCode from '../../../../../../data/ISOCountryCodesCountriesISOCode.json';
 
-import UserContext from '@/store/UserContext';
+import UserContext from '@store/UserContext';
 
-import Form from '@/components/UI/V1/Form/Form';
-import FormControl from '@/components/UI/V1/FormControl/FormControl';
-import FormControls from '@/components/UI/V1/FormControls/FormControls';
-import Label from '@/components/UI/V1/Label/Label';
-import Input from '@/components/UI/V1/Input/Input';
-import Select from '@/components/UI/V1/Select/Select';
-import Textarea from '@/components/UI/V1/Textarea/Textarea';
-import Button from '@/components/UI/V1/Button/Button';
+import Form from '@components/UI/V1/Form/Form';
+import FormControl from '@components/UI/V1/FormControl/FormControl';
+import FormControls from '@components/UI/V1/FormControls/FormControls';
+import Label from '@components/UI/V1/Label/Label';
+import Input from '@components/UI/V1/Input/Input';
+import Select from '@components/UI/V1/Select/Select';
+import Textarea from '@components/UI/V1/Textarea/Textarea';
+import Button from '@components/UI/V1/Button/Button';
 
 const iso_languagesKeys = (() => {
 	return Object.keys(ISO639_1LanguageCodes);

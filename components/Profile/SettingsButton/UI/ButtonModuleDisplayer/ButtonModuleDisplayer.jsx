@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import classes from './ButtonModuleDisplayer.module.css';
 
-import Button from '@/components/UI/V1/Button/Button';
+import Button from '@components/UI/V1/Button/Button';
 
 const ButtonModuleDisplayer = ({ buttonText, ModalElement }) => {
 	const [showModal, setShowModal] = useState(false);

@@ -1,5 +1,5 @@
-import { handleIsAuthorized /*, verifyPassword*/ } from '@/lib/v1/auth';
-import { pool, checkUserExistAndReturnPasswordById } from '@/lib/v1/pg';
+import { handleIsAuthorized /*, verifyPassword*/ } from '@lib/v1/auth';
+import { pool, checkUserExistAndReturnPasswordById } from '@lib/v1/pg';
 
 export default async (req, res) => {
 	if (req.method === 'PATCH') {

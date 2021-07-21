@@ -1,4 +1,4 @@
-import Post from '@/components/Posts/Post/Post';
+import Post from '@components/Posts/Post/Post';
 
 const PostPage = ({ data }) => {
 	return <Post data={data} />;

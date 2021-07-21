@@ -1,18 +1,28 @@
 import { Fragment, useEffect, useState } from 'react';
 
 import classes from './Container.module.css';
-import BoxShadowClasses from '../../../../../components/UI/V1/BoxShadow.module.css';
+import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
+import BorderClasses from '@components/UI/V1/Border.module.css';
 
 import NewsHeader from '../Header/Header';
 import Details from '../Details/Details';
 
-import Modal from '@/components/UI/V1/Modal/Modal';
-import Button from '@/components/UI/V1/Button/Button';
-import Container2 from '@/components/UI/V1/News/Container/Container';
+import Modal from '@components/UI/V1/Modal/Modal';
+import Button from '@components/UI/V1/Button/Button';
+import Container2 from '@components/UI/V1/News/Container/Container';
 
 const Container = (props) => {
 	const [data, setData] = useState(props.data);
 	const [closeModal, setCloseModal] = useState(true);
+
+	const articleProps = {
+		className: `${classes.container} ${BoxShadowClasses['box-shadow']} ${
+			props.containerType !== 'sub' ? classes['container-max-width'] : ''
+		} ${BorderClasses['border-2']}`,
+	};
+
+	if (data.type === 'article')
+		articleProps.lang = `${data.iso_language}-${data.iso_country}`;
 
 	useEffect(() => setData(data), [props.data]);
 
@@ -34,7 +44,8 @@ const Container = (props) => {
 		}
 
 		if (
-			props.containerType === 'sub'
+			props.containerType === 'sub' &&
+			props.action !== 'delete'
 			// &&
 			// props.setData &&
 			// JSON.stringify(props.data) !== JSON.stringify(data)
@@ -46,12 +57,9 @@ const Container = (props) => {
 		}
 	}, [data]);
 
-	const articleProps = {
-		className: `${classes.container} ${BoxShadowClasses['box-shadow']}`,
-	};
-
-	if (data.type === 'article')
-		articleProps.lang = `${data.iso_language}-${data.iso_country}`;
+	if (Object.keys(data).length === 0) {
+		return <></>;
+	}
 
 	return (
 		<>
@@ -60,6 +68,7 @@ const Container = (props) => {
 					data={data}
 					setData={setData}
 					setCloseModal={setCloseModal}
+					hideHeaderSettings={props.hideHeaderSettings}
 				/>
 				<Details
 					data={data}

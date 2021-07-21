@@ -6,11 +6,11 @@ import classes from './Header.module.css';
 
 import { dateToHumanReadableDate } from '../../../../../lib/v1/time';
 
-import UserContext from '@/store/UserContext';
+import UserContext from '@store/UserContext';
 import CommonNav from './CommonNav/CommonNav';
 import TimeAndDate from './TimeAndDate/TimeAndDate';
 
-const Header = ({ data, setData, setCloseModal }) => {
+const Header = ({ data, setData, setCloseModal, hideHeaderSettings }) => {
 	const router = useRouter();
 
 	const { user, ...UserCxt } = useContext(UserContext);
@@ -27,7 +27,12 @@ const Header = ({ data, setData, setCloseModal }) => {
 
 	return (
 		<header>
-			<CommonNav isDataOwner={isDataOwner} data={data} setData={setData} />
+			<CommonNav
+				isDataOwner={isDataOwner}
+				data={data}
+				setData={setData}
+				hideSettings={hideHeaderSettings}
+			/>
 			{data.type === 'article' && (
 				<section>
 					<TimeAndDate

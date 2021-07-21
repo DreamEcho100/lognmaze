@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import PostContainer from '@/components/UI/V1/posts/PostContainer/PostContainer';
+import PostContainer from '@components/UI/V1/posts/PostContainer/PostContainer';
 
 const Post = ({ data }) => {
 	if (Object.keys(data).length === 0) {

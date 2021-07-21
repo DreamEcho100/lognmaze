@@ -2,20 +2,20 @@ import { Fragment, useContext, useState, useCallback } from 'react';
 
 import classes from './ChangeProfilePictureModal.module.css';
 
-import BoxShadowClasses from '@/components/UI/V1/BoxShadow.module.css';
+import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 
-import UserContext from '@/store/UserContext';
+import UserContext from '@store/UserContext';
 
-import Modal from '@/components/UI/V1/Modal/Modal';
-import Form from '@/components/UI/V1/Form/Form';
-import FormLabel from '@/components/UI/V1/FormLabel/FormLabel';
-import FormInput from '@/components/UI/V1/FormInput/FormInput';
-import FormControl from '@/components/UI/V1/FormControl/FormControl';
-import Button from '@/components/UI/V1/Button/Button';
+import Modal from '@components/UI/V1/Modal/Modal';
+import Form from '@components/UI/V1/Form/Form';
+import FormLabel from '@components/UI/V1/FormLabel/FormLabel';
+import FormInput from '@components/UI/V1/FormInput/FormInput';
+import FormControl from '@components/UI/V1/FormControl/FormControl';
+import Button from '@components/UI/V1/Button/Button';
 
-import InputFileReactDropzone from '@/components/UI/V1/InputFileReactDropzone/InputFileReactDropzone';
-import LinearProgressBar from '@/components/UI/V1/LinearProgressBar/LinearProgressBar';
-import { uploadFileToCloudinary } from '@/lib/v1/fetch';
+import InputFileReactDropzone from '@components/UI/V1/InputFileReactDropzone/InputFileReactDropzone';
+import LinearProgressBar from '@components/UI/V1/LinearProgressBar/LinearProgressBar';
+import { uploadFileToCloudinary } from '@lib/v1/fetch';
 
 const ChangeProfilePictureModal = ({ closeModal }) => {
 	const { user, handleChangeProfilePictureURL } = useContext(UserContext);

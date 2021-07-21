@@ -4,7 +4,7 @@ import classes from './CommonNav.module.css';
 
 import Settings from './Settings/Settings';
 
-const CommonNav = ({ isDataOwner, data, setData }) => (
+const CommonNav = ({ isDataOwner, data, setData, hideSettings }) => (
 	<nav className={classes.nav}>
 		<Link href={`/profile/${data.author_user_name_id}`}>
 			<a
@@ -23,7 +23,9 @@ const CommonNav = ({ isDataOwner, data, setData }) => (
 				</p>
 			</a>
 		</Link>
-		<Settings isDataOwner={isDataOwner} data={data} setData={setData} />
+		{!hideSettings && (
+			<Settings isDataOwner={isDataOwner} data={data} setData={setData} />
+		)}
 	</nav>
 );
 

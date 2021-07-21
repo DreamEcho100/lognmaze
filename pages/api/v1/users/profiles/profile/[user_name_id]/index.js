@@ -1,5 +1,5 @@
-import { handleIsAuthorized } from '@/lib/v1/auth';
-import { getUserData } from '@/lib/v1/pg';
+import { handleIsAuthorized } from '@lib/v1/auth';
+import { getUserData } from '@lib/v1/pg';
 
 export default async (req, res) => {
 	if (req.method !== 'GET') {

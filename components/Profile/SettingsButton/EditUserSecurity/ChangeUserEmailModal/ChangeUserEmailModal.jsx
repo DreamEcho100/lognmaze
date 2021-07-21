@@ -2,14 +2,14 @@ import { Fragment, useContext, useState } from 'react';
 
 import classes from './ChangeUserEmailModal.module.css';
 
-import UserContext from '@/store/UserContext';
+import UserContext from '@store/UserContext';
 
-import Modal from '@/components/UI/V1/Modal/Modal';
-import Form from '@/components/UI/V1/Form/Form';
-import FormControl from '@/components/UI/V1/FormControl/FormControl';
-import FormLabel from '@/components/UI/V1/FormLabel/FormLabel';
-import FormInput from '@/components/UI/V1/FormInput/FormInput';
-import Button from '@/components/UI/V1/Button/Button';
+import Modal from '@components/UI/V1/Modal/Modal';
+import Form from '@components/UI/V1/Form/Form';
+import FormControl from '@components/UI/V1/FormControl/FormControl';
+import FormLabel from '@components/UI/V1/FormLabel/FormLabel';
+import FormInput from '@components/UI/V1/FormInput/FormInput';
+import Button from '@components/UI/V1/Button/Button';
 
 const ChangeUserEmailModal = ({ closeModal }) => {
 	const { handleChangeEmail, user } = useContext(UserContext);

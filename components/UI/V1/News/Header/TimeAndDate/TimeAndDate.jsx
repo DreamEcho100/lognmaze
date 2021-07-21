@@ -1,6 +1,6 @@
 import classes from './TimeAndDate.module.css';
 
-import { dateToHumanReadableDate } from '@/lib/v1/time';
+import { dateToHumanReadableDate } from '@lib/v1/time';
 
 const TimeAndDate = ({ setCloseModal, created_at, updated_on }) => (
 	<div

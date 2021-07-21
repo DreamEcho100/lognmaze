@@ -1,0 +1,68 @@
+.settings-wrapper {
+	position: relative;
+}
+.seeting-btn {
+	background-color: transparent;
+	border-color: transparent;
+	outline-color: rgba(255, 255, 255, 0.1);
+}
+
+.settings-menu {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	/* border: 0.1rem solid black; */
+	border-radius: 0.5rem;
+	background-color: var(--main-bg-color-1);
+	height: 0;
+	overflow-y: hidden;
+}
+
+.show-settings-menu {
+	height: fit-content;
+	overflow-y: auto;
+}
+
+.settings-item {
+	padding: 0.25em;
+	width: 100%;
+	min-width: max-content;
+	border-bottom: 0.1rem solid var(--main-bg-color-0);
+}
+
+.settings-item > button {
+	width: 100%;
+	background-color: transparent;
+	border-color: transparent;
+	outline-color: rgba(255, 255, 255, 0.1);
+	font-weight: bold;
+	text-align: left;
+}
+
+.settings-item:hover {
+	background-color: var(--main-bg-color-2);
+}
+
+.settings-item:focus {
+	background-color: var(--main-bg-color-5);
+	color: var(--main-font-color-5);
+}
+
+.settings-item:focus > * {
+	background-color: var(--main-bg-color-5);
+	color: var(--main-font-color-5);
+}
+
+.settings-item:last-child {
+	border-bottom: unset;
+	border-bottom-left-radius: 0.5rem;
+	border-bottom-right-radius: 0.5rem;
+}
+
+.settings-item:first-child {
+	border-top-left-radius: 0.5rem;
+	border-top-right-radius: 0.5rem;
+}
+
+.settings-item-for-data-owner {
+}
