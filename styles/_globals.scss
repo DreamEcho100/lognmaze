@@ -245,13 +245,13 @@ body {
 	min-height: 100vh;
 	max-width: 200rem;
 	margin: auto;
+	color: var(--main-font-color-1);
+	background: var(--main-bg-color-1);
 }
 
 #__next {
 	min-width: 100%;
 	min-height: 100vh;
-	color: var(--main-font-color-1);
-	background: var(--main-bg-color-1);
 	overflow-x: hidden;
 	display: flex;
 	flex-direction: column;

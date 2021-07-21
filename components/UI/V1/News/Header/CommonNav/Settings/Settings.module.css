@@ -12,10 +12,13 @@
 	top: 100%;
 	right: 0;
 	/* border: 0.1rem solid black; */
-	border-radius: 0.5rem;
-	background-color: var(--main-bg-color-1);
+	/* border-radius: 0.5rem; */
+	background-color: var(--main-bg-color-2);
 	height: 0;
 	overflow-y: hidden;
+
+	border: 0.5rem solid var(--main-bg-color-1);
+	border-radius: 1rem;
 }
 
 .show-settings-menu {
@@ -40,7 +43,7 @@
 }
 
 .settings-item:hover {
-	background-color: var(--main-bg-color-2);
+	background-color: var(--main-bg-color-1);
 }
 
 .settings-item:focus {
@@ -55,13 +58,13 @@
 
 .settings-item:last-child {
 	border-bottom: unset;
-	border-bottom-left-radius: 0.5rem;
-	border-bottom-right-radius: 0.5rem;
+	border-bottom-left-radius: 1rem;
+	border-bottom-right-radius: 1rem;
 }
 
 .settings-item:first-child {
-	border-top-left-radius: 0.5rem;
-	border-top-right-radius: 0.5rem;
+	border-top-left-radius: 1rem;
+	border-top-right-radius: 1rem;
 }
 
 .settings-item-for-data-owner {
