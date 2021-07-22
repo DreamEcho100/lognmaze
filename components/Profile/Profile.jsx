@@ -5,16 +5,12 @@ import classes from './Profile.module.css';
 import CreateNewsButton from './CreateNewsButton/CreateNewsButton';
 import SettingsButton from './SettingsButton/SettingsButton';
 
-import NewsContainer from '@components/UI/V1/News/Container/Container';
+import Feed from '@components/UI/V1/News/Feed/Feed';
 
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
-const Profile = ({
-	userData = {},
-	visitorIdentity = GUEST,
-	news = { data: [] },
-}) => {
+const Profile = ({ userData = {}, visitorIdentity = GUEST, news = [] }) => {
 	const router = useRouter();
 
 	if (!userData.id) {
@@ -24,59 +20,6 @@ const Profile = ({
 			</div>
 		);
 	}
-
-	const formattedData =
-		news.data.length !== 0
-			? news.data.map(
-					({
-						id,
-						author_id,
-						author_user_name_id,
-						format_type,
-						title,
-						slug,
-						image,
-						tags,
-						description,
-						excerpt,
-						content,
-						like_user_id,
-						likes,
-						created_at,
-						updated_on,
-						user_name_id,
-						first_name,
-						last_name,
-						profile_picture,
-					}) => {
-						const author = {
-							user_name_id,
-							first_name,
-							last_name,
-							profile_picture,
-						};
-						const news = {
-							id,
-							author_id,
-							author_user_name_id,
-							format_type,
-							title,
-							slug,
-							image,
-							tags,
-							description,
-							excerpt,
-							content,
-							like_user_id,
-							likes,
-							created_at,
-							updated_on,
-						};
-
-						return { author, news };
-					}
-			  )
-			: [];
 
 	return (
 		<>
@@ -130,12 +73,8 @@ const Profile = ({
 				{visitorIdentity === OWNER && <SettingsButton />}
 				{visitorIdentity === OWNER && <CreateNewsButton />}
 			</section>
-			<>
-				{formattedData.length !== 0 &&
-					formattedData.map((item, index) => (
-						<NewsContainer data={item} key={index} />
-					))}
-			</>
+
+			<Feed news={news} />
 		</>
 	);
 };

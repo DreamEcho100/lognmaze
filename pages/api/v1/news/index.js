@@ -14,7 +14,21 @@ export default async (req, res) => {
 	}
 	if (req.method === 'GET') {
 		try {
-			const { with_news_article_content } = req.headers;
+			const {
+				with_news_article_content,
+				/*with_author_data,*/ filter_by_user_id,
+			} = req.query;
+
+			let whereClause = '';
+			const queryParams = [];
+
+			if (filter_by_user_id) {
+				if (whereClause.length === 0)
+					whereClause += `WHERE news.author_id = $${queryParams.length + 1}`;
+				else whereClause += ` news.author_id = $${queryParams.length + 1}`;
+				queryParams.push(filter_by_user_id);
+			}
+
 			const result = await pool
 				.query(
 					`
@@ -33,8 +47,10 @@ export default async (req, res) => {
 
 						FROM news
 						JOIN user_profile ON user_profile.user_profile_id = news.author_id
+						${whereClause}
 						ORDER BY news.updated_on DESC;				
-					`
+					`,
+					queryParams
 				)
 				.then(async (response) => {
 					const idsRefereToIndexes = {};

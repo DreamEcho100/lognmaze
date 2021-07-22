@@ -9,11 +9,14 @@ import Profile from '@components/Profile/Profile';
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
-const ProfilePage = ({ user = {}, posts = [] }) => {
+const ProfilePage = ({ user = {}, /*posts = []*/ ...props }) => {
 	const router = useRouter();
 
 	const UserCxt = useContext(UserContext);
 
+	const [posts, setPosts] = useState(
+		props.posts.length !== 0 ? props.posts.data : []
+	);
 	const [handleIsAuthorized, setHandleIsAuthorized] = useState(
 		user.isAuthorized
 	);
@@ -51,7 +54,29 @@ const ProfilePage = ({ user = {}, posts = [] }) => {
 					if (handleIsAuthorized) setHandleIsAuthorized(false);
 				}
 			}
-			setIsLoading(false);
+
+			if (
+				Object.keys(userData).length !== 0 &&
+				posts.length !== 0 &&
+				(posts.author_id !== userData.id ||
+					posts.author_user_name_id !== userData.user_name_id ||
+					posts.author_first_name !== userData.first_name ||
+					posts.author_last_name !== userData.last_name ||
+					posts.author_profile_picture !== userData.profile_picture)
+			) {
+				setPosts((prev) =>
+					prev.map((item) => ({
+						...item,
+						author_id: userData.id,
+						author_user_name_id: userData.user_name_id,
+						author_first_name: userData.first_name,
+						author_last_name: userData.last_name,
+						author_profile_picture: userData.profile_picture,
+					}))
+				);
+			}
+
+			if (isLoading) setIsLoading(false);
 		}
 	}, [UserCxt.user, UserCxt.isLoading, router.query.user_name_id]);
 
@@ -72,9 +97,7 @@ const ProfilePage = ({ user = {}, posts = [] }) => {
 	}
 
 	return (
-		<>
-			<Profile userData={userData} visitorIdentity={identity} posts={posts} />
-		</>
+		<Profile userData={userData} visitorIdentity={identity} news={posts} />
 	);
 };
 
@@ -93,9 +116,10 @@ export const getServerSideProps = async ({ req, res, query }) => {
 			},
 		};
 
+		let userCookieObj;
 		if (tokenCookieString.length !== 0 && userCookieString.length !== 0) {
-			const user = JSON.parse(userCookieString);
-			if (user_name_id === user.user_name_id) {
+			userCookieObj = JSON.parse(userCookieString);
+			if (user_name_id === userCookieObj.user_name_id) {
 				init.headers.authorization = `Bearer ${tokenCookieString}`;
 			}
 		}
@@ -123,9 +147,11 @@ export const getServerSideProps = async ({ req, res, query }) => {
 				},
 			};
 		}
-
-		/*const posts = await fetch(
-			`${process.env.BACK_END_ROOT_URL}/api/v1/users/posts/get/by-user-name-id/${user_name_id}`,
+		
+		const posts = await fetch(
+			`${process.env.BACK_END_ROOT_URL}/api/v1/news/?filter_by_user_id=${
+				user.data.id || userCookieObj.id
+			}`,
 			{
 				method: 'GET',
 				headers: {
@@ -141,9 +167,10 @@ export const getServerSideProps = async ({ req, res, query }) => {
 					message: error.message || 'Something went wrong!',
 					data: [],
 				};
-			});*/
+			});
 
-		return { user, posts: [] };
+
+		return { user, posts };
 	};
 
 	let tokenCookieString = '';

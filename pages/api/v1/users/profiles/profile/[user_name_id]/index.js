@@ -44,7 +44,9 @@ export default async (req, res) => {
 				res.status(401).json({
 					status: 'error',
 					message: "User doesn't exist!",
-					data: {},
+					data: {
+						id: isAuthorized.id,
+					},
 					isAuthorized: false,
 					visitorIdentity,
 				});
