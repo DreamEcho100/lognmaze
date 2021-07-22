@@ -4,6 +4,8 @@ import classes from './Container.module.css';
 import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 import BorderClasses from '@components/UI/V1/Border.module.css';
 
+import { handleAllClasses } from '../../utils/index';
+
 import NewsHeader from '../Header/Header';
 import Details from '../Details/Details';
 
@@ -11,14 +13,26 @@ import Modal from '@components/UI/V1/Modal/Modal';
 import Button from '@components/UI/V1/Button/Button';
 import Container2 from '@components/UI/V1/News/Container/Container';
 
-const Container = (props) => {
+const Container = ({
+	defaultClasses = `container`,
+	extraClasses = '',
+	className = '',
+	...props
+}) => {
 	const [data, setData] = useState(props.data);
 	const [closeModal, setCloseModal] = useState(true);
 
+	const allClasses = handleAllClasses({
+		classes,
+		defaultClasses: `${defaultClasses}${
+			props.containerType !== 'sub' ? ' container-max-width' : ''
+		}`,
+		extraClasses,
+		className,
+	});
+
 	const articleProps = {
-		className: `${classes.container} ${BoxShadowClasses['box-shadow']} ${
-			props.containerType !== 'sub' ? classes['container-max-width'] : ''
-		} ${BorderClasses['border-2']}`,
+		className: `${allClasses} ${BoxShadowClasses['box-shadow']} ${BorderClasses['border-2']}`,
 	};
 
 	if (data.type === 'article')

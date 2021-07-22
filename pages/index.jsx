@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import UserContext from '@store/UserContext';
 
 import Hero from '@components/Home/Hero/Hero';
-import Feed from '@components/Home/Feed/Feed';
+import Section1 from '@components/Home/Section1/Section1';
 
 const HomePage = ({ news }) => {
 	const router = useRouter();
@@ -31,10 +31,11 @@ const HomePage = ({ news }) => {
 	if (isLoading) {
 		return <p>Loading...</p>;
 	}
+
 	return (
 		<>
 			<Hero user={UserCxt.user} />
-			<Feed news={news.data} />
+			<Section1 news={news.data} />
 		</>
 	);
 };

@@ -12,6 +12,7 @@ const Feed = ({ news = [] }) => {
 						data={item}
 						detailsType='description'
 						ModalOnClick={true}
+						className={classes['news-container']}
 					/>
 				) : null
 			)}
