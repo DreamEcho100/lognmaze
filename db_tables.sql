@@ -153,30 +153,33 @@ CREATE TABLE news_article (
 CREATE TABLE news_vote (
   news_vote_id uuid DEFAULT uuid_generate_v4(),
   news_id uuid NOT NULL,
+
   type TEXT NOT NULL,
   count INT DEFAULT 0,
 
   CONSTRAINT news_vote_id PRIMARY KEY (news_vote_id),
-  UNIQUE (news_id, type),
   FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE,
 
-  CONSTRAINT news_vote_type CHECK (type='like' OR type='dislike')
+  CONSTRAINT unique_news_vote_type UNIQUE (news_id, type),
+
+  CONSTRAINT news_vote_type CHECK (type='upvote' OR type='downvote')
 );
 
 -- news_voter Table
 CREATE TABLE news_voter (
-  news_id uuid NOT NULL,
-  user_account_id uuid NOT NULL,
-
   news_vote_id uuid NOT NULL,
+  news_id uuid NOT NULL,
+  voter_id uuid NOT NULL,
 
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
-  CONSTRAINT news_voter_id PRIMARY KEY (news_id, user_account_id),
+  CONSTRAINT news_voter_id PRIMARY KEY (news_id, voter_id),
 
+  FOREIGN KEY (news_vote_id) REFERENCES news_vote (news_vote_id) ON DELETE CASCADE,
   FOREIGN KEY (news_id) REFERENCES news (news_id),
-  FOREIGN KEY (user_account_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
-  FOREIGN KEY (news_vote_id) REFERENCES news_vote (news_vote_id) ON DELETE CASCADE
+  FOREIGN KEY (voter_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
+
+  CONSTRAINT news_type_voter UNIQUE (news_vote_id, voter_id)
 );
 
 /*-- news_comment TABLE

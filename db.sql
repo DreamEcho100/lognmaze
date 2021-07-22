@@ -1,3 +1,17 @@
+
+
+WITH user_name_id_exist AS (
+  select
+  case when exists (select true from user_profile where user_name_id='mazen-mohamed')
+    then true
+    else false
+  end)
+
+  SELECT * FROM user_name_id_exist;
+
+
+
+
 SELECT
   news.news_id,
   news.author_id,
