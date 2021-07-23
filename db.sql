@@ -58,6 +58,47 @@ JOIN LATERAL(
 WHERE news_article.news_article_id IN ('c74ac384-aa3b-46e6-91b2-b847310ce535', 'bf54c8c7-473b-4323-bebf-aeb808e1ca5f');
 ;
 
+select
+  case when exists (
+    select true from user_profile where user_name_id='mazen-mohamed'
+    )
+    then true
+    else false
+  end
+
+
+SELECT json_agg (news_reaction)
+FROM  news_reaction
+WHERE news_id = ('905c9bb7-06df-4a92-a022-b9a698048e5c');
+
+SELECT 
+  news_reaction.news_reaction_id ,
+  news_reaction.type,
+  news_reaction.count,
+  user_reaction
+FROM  news_reaction
+JOIN LATERAL (
+  SELECT case when exists (
+    SELECT news_reaction.type AS type FROM news_reactor
+    WHERE news_reaction.news_id = ('905c9bb7-06df-4a92-a022-b9a698048e5c')
+    AND news_reactor.news_reactor_id = 'd47030a8-cad9-4e94-a7ce-60ad6ae48ec8'
+    AND news_reactor.news_reaction_id = news_reaction.news_reaction_id
+  )
+    then true
+    else false
+  end
+) user_reaction ON TRUE
+WHERE news_id = ('905c9bb7-06df-4a92-a022-b9a698048e5c');
+
+news_reaction_id
+news_id
+type
+count
+news_reaction_id
+news_id
+news_reactor_id
+created_at
+
 WITH get_posts AS (
   SELECT
     news_post.content

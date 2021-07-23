@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import UserContext from '../../store/UserContext';
+import UserContext from '@store/UserContext';
 
 import Auth from '../../components/Auth/Auth';
 

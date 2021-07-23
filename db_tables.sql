@@ -149,37 +149,37 @@ CREATE TABLE news_article (
   FOREIGN KEY (news_article_id) REFERENCES news (news_id) ON DELETE CASCADE
 );
 
--- news_vote Table
-CREATE TABLE news_vote (
-  news_vote_id uuid DEFAULT uuid_generate_v4(),
+-- news_reaction Table
+CREATE TABLE news_reaction (
+  news_reaction_id uuid DEFAULT uuid_generate_v4(),
   news_id uuid NOT NULL,
 
   type TEXT NOT NULL,
   count INT DEFAULT 0,
 
-  CONSTRAINT news_vote_id PRIMARY KEY (news_vote_id),
+  CONSTRAINT news_reaction_id PRIMARY KEY (news_reaction_id),
   FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE,
 
-  CONSTRAINT unique_news_vote_type UNIQUE (news_id, type),
+  CONSTRAINT unique_news_reaction_type UNIQUE (news_id, type) -- ,
 
-  CONSTRAINT news_vote_type CHECK (type='upvote' OR type='downvote')
+  -- CONSTRAINT news_reaction_type CHECK (type='upvote' OR type='downvote')
 );
 
--- news_voter Table
-CREATE TABLE news_voter (
-  news_vote_id uuid NOT NULL,
+-- news_reactor Table
+CREATE TABLE news_reactor (
+  news_reaction_id uuid NOT NULL,
   news_id uuid NOT NULL,
-  voter_id uuid NOT NULL,
+  news_reactor_id uuid NOT NULL,
 
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
-  CONSTRAINT news_voter_id PRIMARY KEY (news_id, voter_id),
+  CONSTRAINT news_reactor_id PRIMARY KEY (news_id, news_reactor_id),
 
-  FOREIGN KEY (news_vote_id) REFERENCES news_vote (news_vote_id) ON DELETE CASCADE,
+  FOREIGN KEY (news_reaction_id) REFERENCES news_reaction (news_reaction_id) ON DELETE CASCADE,
   FOREIGN KEY (news_id) REFERENCES news (news_id),
-  FOREIGN KEY (voter_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
+  FOREIGN KEY (news_reactor_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
 
-  CONSTRAINT news_type_voter UNIQUE (news_vote_id, voter_id)
+  CONSTRAINT news_type_reactor UNIQUE (news_reaction_id, news_reactor_id)
 );
 
 /*-- news_comment TABLE
@@ -256,8 +256,8 @@ DROP TABLE
 IF EXISTS
 news_comment_reply,
 news_comment,
-news_voter,
-news_vote,
+news_reactor,
+news_reaction,
 news_article,
 news_post,
 news_tag,
