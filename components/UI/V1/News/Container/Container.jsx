@@ -175,13 +175,13 @@ const Container = ({
 		}
 	};
 
-	useEffect(async () => {
-		await onView();
-		// document.body.removeEventListener('scroll', onView);
-		// document.body.addEventListener('scroll', onView);
-		// window.removeEventListener('scroll', onView);
-		// window.addEventListener('scroll', onView);
-	}, []);
+	// useEffect(async () => {
+	// 	await onView();
+	// 	// document.body.removeEventListener('scroll', onView);
+	// 	// document.body.addEventListener('scroll', onView);
+	// 	window.removeEventListener('scroll', onView);
+	// 	window.addEventListener('scroll', onView);
+	// }, []);
 
 	if (data.type === 'article')
 		articleProps.lang = `${data.iso_language}-${data.iso_country}`;
