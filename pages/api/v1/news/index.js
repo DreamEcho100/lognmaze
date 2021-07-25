@@ -14,19 +14,23 @@ export default async (req, res) => {
 	}
 	if (req.method === 'GET') {
 		try {
-			const {
-				with_news_article_content,
-				/*with_author_data,*/ filter_by_user_id,
-			} = req.query;
+			const { with_news_article_content, news_reactor_id, filter_by_user_id } =
+				req.query;
 
-			let whereClause = '';
 			const queryParams = [];
+			let whereClause = '';
+			let news_reactor_id_index = '';
 
 			if (filter_by_user_id) {
-				if (whereClause.length === 0)
-					whereClause += `WHERE news.author_id = $${queryParams.length + 1}`;
-				else whereClause += ` news.author_id = $${queryParams.length + 1}`;
 				queryParams.push(filter_by_user_id);
+				if (whereClause.length === 0)
+					whereClause += `WHERE news.author_id = $${queryParams.length}`;
+				else whereClause += ` news.author_id = $${queryParams.length}`;
+			}
+
+			if (news_reactor_id) {
+				queryParams.push(news_reactor_id);
+				news_reactor_id_index = queryParams.length;
 			}
 
 			const result = await pool
@@ -43,10 +47,34 @@ export default async (req, res) => {
 							user_profile.user_name_id AS author_user_name_id,
 							user_profile.first_name AS author_first_name,
 							user_profile.last_name AS author_last_name,
-							user_profile.profile_picture AS author_profile_picture
+							user_profile.profile_picture AS author_profile_picture,
+					
+							news_reaction.*
+							${news_reactor_id ? ',news_reactor_reaction.*' : ''}
 
 						FROM news
 						JOIN user_profile ON user_profile.user_profile_id = news.author_id
+						JOIN LATERAL (
+							SELECT json_agg (
+								json_build_object (
+									'news_reaction_id', news_reaction.news_reaction_id ,
+									'type', news_reaction.type,
+									'count', news_reaction.count
+								)
+							) AS reactions
+								FROM  news_reaction
+								WHERE news_reaction.news_id = news.news_id
+							
+						) news_reaction ON TRUE
+						${
+							news_reactor_id
+								? `LEFT JOIN LATERAL (
+									SELECT type AS user_reaction FROM news_reaction
+									JOIN news_reactor ON news_reactor.news_reaction_id = news_reaction.news_reaction_id
+									WHERE news_reaction.news_id = news.news_id AND news_reactor.news_reactor_id = ($${news_reactor_id_index})
+								) news_reactor_reaction ON TRUE`
+								: ''
+						}
 						${whereClause}
 						ORDER BY news.updated_on DESC;				
 					`,
@@ -88,7 +116,6 @@ export default async (req, res) => {
 						sqlQuery = `
 							SELECT
 								news_tags.tags,
-
 								news_article.news_article_id AS id,
 								news_article.format_type,
 								news_article.title,
@@ -98,7 +125,6 @@ export default async (req, res) => {
 								news_article.image,
 								news_article.description
 								${with_news_article_content ? ',news_article.content' : ''}
-
 							FROM news_article
 							JOIN LATERAL(
 											SELECT ARRAY (

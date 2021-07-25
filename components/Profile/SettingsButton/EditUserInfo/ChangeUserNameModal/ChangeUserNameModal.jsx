@@ -22,24 +22,13 @@ const ChangeUserNameModal = ({ closeModal }) => {
 
 	const [firstName, setFirstName] = useState(user.first_name);
 	const [lastName, setLastName] = useState(user.last_name);
-	// const [gender, setChoosedGender] = useState(user.gender);
 	const [password, setPassword] = useState('');
 
 	const [afterFormSubmitMessage, setAfterFormSubmitMessage] = useState(true);
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
 
-	// const handleUserName = () => {
-	// 	return `${firstName}-${lastName}`
-	// 		.replace(/[^\w-\_]/gi, '-')
-	// 		.replace(/(-{2,})/gi, '-')
-	// 		.replace(/^-/, '')
-	// 		.toLowerCase();
-	// };
-
 	const submitHandler = async (event) => {
 		event.preventDefault();
-
-		// const userName = handleUserName();
 
 		setBtnsDisabled(true);
 		/*const { status, message } =*/ await handleChangeUserName({
@@ -50,7 +39,6 @@ const ChangeUserNameModal = ({ closeModal }) => {
 			.then(({ status, message }) => {
 				if (status === 'error') {
 					setBtnsDisabled(false);
-					// throw new Error(message);
 					setAfterFormSubmitMessage(message);
 					return { status, message };
 				}
@@ -60,7 +48,6 @@ const ChangeUserNameModal = ({ closeModal }) => {
 			})
 			.then(({ status, message }) => {
 				if (status === 'success') {
-					// router.replace('/');
 				}
 				return { status, message };
 			})
@@ -113,34 +100,6 @@ const ChangeUserNameModal = ({ closeModal }) => {
 							/>
 						</FormControl>
 					</FormControls>
-					{/* <FormControl>
-						<FormInput
-							defaultClasses='form-input-radio'
-							type='radio'
-							name='gender'
-							defaultChecked={gender === 'male' ? true : false}
-							value='male'
-							id='male'
-							onChange={(event) => {
-								setChoosedGender(event.target.value);
-							}}
-						/>
-						<FormLabel htmlFor='male'>Male</FormLabel>
-					</FormControl> */}
-					{/* <FormControl>
-						<FormInput
-							defaultClasses='form-input-radio'
-							type='radio'
-							name='gender'
-							defaultChecked={gender === 'female' ? true : false}
-							value='female'
-							id='female'
-							onChange={(event) => {
-								setChoosedGender(event.target.value);
-							}}
-						/>
-						<FormLabel htmlFor='female'>Female</FormLabel>
-					</FormControl> */}
 					<FormControl>
 						<FormLabel htmlFor='password-to-change-basic-info-in-settings'>
 							Enter Your Password

@@ -28,7 +28,7 @@ const SignIn = () => {
 	const submitHandler = async (event) => {
 		event.preventDefault();
 
-		// optional: Add validation
+		// Add validation
 
 		setAfterFormSubmitMessage('');
 		setBtnsDisabled(true);
@@ -42,7 +42,6 @@ const SignIn = () => {
 			setBtnsDisabled(false);
 			setAfterFormSubmitMessage(message);
 		}
-		// clearInputsForm();
 	};
 
 	return (

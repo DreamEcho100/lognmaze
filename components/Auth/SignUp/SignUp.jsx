@@ -212,9 +212,6 @@ const SignUp = ({
 								return setValues((prev) => ({
 									...prev,
 									user_name_id: `${event.target.value}-${values.last_name}`
-										// .replace(/[[^\w\s-\_]/gi, '')
-										// .replace(/(-{2,})/gi, '-')
-										// .replace(/-$/, ''),
 										.toLowerCase()
 										.replace(/[^\w\s-\_]/gi, '')
 										.split(/[\s-]+/)
@@ -245,9 +242,6 @@ const SignUp = ({
 									...prev,
 									user_name_id: `${values.first_name}-${event.target.value}`
 
-										// .replace(/[[^\w\s-\_]/gi, '')
-										// .replace(/(-{2,})/gi, '-')
-										// .replace(/-$/, ''),
 										.toLowerCase()
 										.replace(/[^\w\s-\_]/gi, '')
 										.split(/[\s-]+/)
@@ -274,7 +268,6 @@ const SignUp = ({
 					id='user_name_id'
 					required
 					value={values.user_name_id
-						// .replace(/[[^\w\s-\_]/gi, '')
 						.toLowerCase()
 						.replace(/(\s)/gi, '')
 						.replace(/(-{2,})/gi, '-')

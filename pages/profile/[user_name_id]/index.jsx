@@ -117,8 +117,10 @@ export const getServerSideProps = async ({ req, res, query }) => {
 		};
 
 		let userCookieObj;
+		let visitor_id;
 		if (tokenCookieString.length !== 0 && userCookieString.length !== 0) {
 			userCookieObj = JSON.parse(userCookieString);
+			visitor_id = userCookieObj.id;
 			if (user_name_id === userCookieObj.user_name_id) {
 				init.headers.authorization = `Bearer ${tokenCookieString}`;
 			}
@@ -147,11 +149,15 @@ export const getServerSideProps = async ({ req, res, query }) => {
 				},
 			};
 		}
-		
+
+		let posqInputQuery = '/?filter_by_user_id=';
+		if (user.data.id) posqInputQuery += user.data.id;
+		else posqInputQuery += userCookieObj.id;
+
+		if (visitor_id) posqInputQuery += `&news_reactor_id=${visitor_id}`;
+
 		const posts = await fetch(
-			`${process.env.BACK_END_ROOT_URL}/api/v1/news/?filter_by_user_id=${
-				user.data.id || userCookieObj.id
-			}`,
+			`${process.env.BACK_END_ROOT_URL}/api/v1/news${posqInputQuery}`,
 			{
 				method: 'GET',
 				headers: {
@@ -168,7 +174,6 @@ export const getServerSideProps = async ({ req, res, query }) => {
 					data: [],
 				};
 			});
-
 
 		return { user, posts };
 	};

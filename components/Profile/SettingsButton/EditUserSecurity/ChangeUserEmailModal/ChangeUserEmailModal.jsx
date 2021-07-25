@@ -29,7 +29,6 @@ const ChangeUserEmailModal = ({ closeModal }) => {
 
 			if (status === 'error') {
 				setBtnsDisabled(false);
-				// throw new Error(message);
 				setAfterFormSubmitMessage(message);
 				return;
 			}

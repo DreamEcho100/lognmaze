@@ -7,8 +7,6 @@ const Article = ({ data }) => {
 			<Container
 				data={data}
 				detailsType='content'
-				// description
-				// ModalOnClick={true}
 			/>
 		</section>
 	);

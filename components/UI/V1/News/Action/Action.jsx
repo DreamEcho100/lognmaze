@@ -23,7 +23,6 @@ const Action = ({ closeModal, news }) => {
 
 	const fetcher = async ({ bodyObj, token, method = 'POST' }) =>
 		await fetch(`/api/v1/news`, {
-			// /${news.route}
 			method,
 			body: JSON.stringify(bodyObj),
 			headers: {

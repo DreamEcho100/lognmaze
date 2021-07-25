@@ -48,7 +48,6 @@ export default async (req, res) => {
 				data: { email, email_verified: false },
 			});
 		} catch (error) {
-			// console.error(error);
 			res.status(500).json({
 				status: 'error',
 				message: error.message || 'Something went wrong!',

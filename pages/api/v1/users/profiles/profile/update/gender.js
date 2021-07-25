@@ -41,8 +41,6 @@ export default async (req, res) => {
 				[gender, isAuthorized.id]
 			);
 
-			// const { first_name, last_name, user_name, gender } = updatedUser.rows[0];
-
 			res.status(201).json({
 				status: 'success',
 				message: 'Your Gender Updated Successfully!',

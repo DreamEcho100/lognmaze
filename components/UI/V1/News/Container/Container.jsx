@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useRef, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
 
 import classes from './Container.module.css';
 import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
@@ -27,8 +27,6 @@ const Container = ({
 	const [closeModal, setCloseModal] = useState(true);
 	const [statusLoaded, setStatusLoaded] = useState(false);
 
-	const articleRef = useRef();
-
 	const allClasses = handleAllClasses({
 		classes,
 		defaultClasses: `${defaultClasses}${
@@ -42,36 +40,47 @@ const Container = ({
 		className: `${allClasses} ${BoxShadowClasses['box-shadow']} ${BorderClasses['border-2']}`,
 	};
 
-	if (!data.comments) {
+	if (!data.reactions || data.reactions.length === 0) {
 		setData((prev) => ({
 			...prev,
-			comments: {
-				count: 0,
-				data: [],
-			},
+			reactions: [
+				{ news_reaction_id: '', type: 'upvote', count: 0 },
+				{ news_reaction_id: '', type: 'downvote', count: 0 },
+			],
 		}));
+	} else {
+		const messingReactions = [];
+		if (!data.reactions.find((item) => item.type === 'upvote')) {
+			messingReactions.push({
+				news_reaction_id: '',
+				type: 'upvote',
+				count: 0,
+			});
+		}
+		if (!data.reactions.find((item) => item.type === 'downvote')) {
+			messingReactions.push({
+				news_reaction_id: '',
+				type: 'downvote',
+				count: 0,
+			});
+		}
+		if (messingReactions.length !== 0) {
+			setData((prev) => ({
+				...prev,
+				reactions: [...prev.reactions, ...messingReactions],
+			}));
+		}
 	}
 
-	if (!data.reactions) {
-		setData((prev) => ({
-			...prev,
-			reactions: {
-				userReaction: '',
-				types: {
-					upvote: {
-						count: 0,
-						id: '',
-						data: [],
-					},
-					downvote: {
-						count: 0,
-						id: '',
-						data: [],
-					},
-				},
-			},
-		}));
-	}
+
+	useEffect(() => {
+		if (!UserCxt.isLoading && Object.keys(user).length === 0) {
+			setData((prev) => ({
+				...prev,
+				user_reaction: '',
+			}));
+		}
+	}, [user]);
 
 	const handleLoadindArticleContent = async (id) => {
 		await fetch(`/api/v1/news/articles/article/content/${id}`)
@@ -85,7 +94,9 @@ const Container = ({
 			.catch((error) => console.error(error));
 	};
 
-	useEffect(() => setData(data), [props.data]);
+	useEffect(() => {
+		if (JSON.stringify(data) !== JSON.stringify(props.data)) setData(data);
+	}, [props.data]);
 
 	useEffect(async () => {
 		if (data.type === 'article' && !data.content) {
@@ -106,107 +117,28 @@ const Container = ({
 		}
 	}, [data]);
 
-	const onView = async (event) => {
-		// console.log('statusLoaded', statusLoaded);
-		// console.log('data', data);
-		if (!statusLoaded) {
-			if (
-				document.body.offsetHeight >
-				articleRef.current.getBoundingClientRect().top
-			) {
-				if (statusLoaded) return;
-				let statusLoadedIsTrue;
-
-				if (
-					data.reactions.types.upvote.length !== 0 ||
-					data.reactions.types.downvote.length !== 0 ||
-					data.reactions.userReaction.length !== 0
-				) {
-				} else {
-					let fetchInput = `api/v1/news/reactions/reaction/?news_id=${data.news_id}`;
-					if (user.id) fetchInput += `&news_reactor_id=${user.id}`;
-					const result = await fetch(fetchInput).then((response) =>
-						response.json()
-					);
-
-					const reactions = {
-						userReaction: '',
-						types: {},
-					};
-
-					result.data.forEach((item) => {
-						if (item.user_reaction) reactions.userReaction = item.type;
-						reactions.types[item.type] = {
-							news_reaction_id: item.news_reaction_id,
-							count: item.count,
-						};
-					});
-					
-					console.log('data', data);
-
-					setData((prev) => {
-						statusLoadedIsTrue = true;
-						return {
-							...prev,
-							reactions: {
-								...prev.reactions,
-								...reactions,
-							},
-						};
-					});
-
-					console.log('data', data);
-
-					setStatusLoaded((prev) => {
-						if (prev) {
-							statusLoadedIsTrue = true;
-							window.removeEventListener('scroll', onView);
-							return prev;
-						}
-						window.removeEventListener('scroll', onView);
-						return true;
-					});
-				}
-
-				if (statusLoadedIsTrue) {
-					return window.removeEventListener('scroll', onView);
-				}
-			}
-		}
-	};
-
-	// useEffect(async () => {
-	// 	await onView();
-	// 	// document.body.removeEventListener('scroll', onView);
-	// 	// document.body.addEventListener('scroll', onView);
-	// 	window.removeEventListener('scroll', onView);
-	// 	window.addEventListener('scroll', onView);
-	// }, []);
-
 	if (data.type === 'article')
 		articleProps.lang = `${data.iso_language}-${data.iso_country}`;
 
 	if (Object.keys(data).length === 0) {
-		return <></>;
+		return <article style={{ minHeight: '100vh' }}></article>;
 	}
 
 	return (
-		<>
-			<article ref={articleRef} {...articleProps}>
-				<NewsHeader
-					data={data}
-					setData={setData}
-					setCloseModal={setCloseModal}
-					hideHeaderSettings={props.hideHeaderSettings}
-				/>
-				<Details
-					data={data}
-					setData={setData}
-					detailsType={props.detailsType}
-					setCloseModal={setCloseModal}
-				/>
-				<NewsFooter data={data} setData={setData} />
-			</article>
+		<article {...articleProps}>
+			<NewsHeader
+				data={data}
+				setData={setData}
+				setCloseModal={setCloseModal}
+				hideHeaderSettings={props.hideHeaderSettings}
+			/>
+			<Details
+				data={data}
+				setData={setData}
+				detailsType={props.detailsType}
+				setCloseModal={setCloseModal}
+			/>
+			<NewsFooter data={data} setData={setData} />
 
 			{props.ModalOnClick && !closeModal && (
 				<Modal
@@ -234,7 +166,7 @@ const Container = ({
 					</Fragment>
 				</Modal>
 			)}
-		</>
+		</article>
 	);
 };
 

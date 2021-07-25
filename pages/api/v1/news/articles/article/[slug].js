@@ -13,7 +13,6 @@ export default async (req, res) => {
 				.query(
 					`
 						SELECT
-
 							news.news_id,
 							news.type,
 							news.comments_count,
@@ -21,7 +20,9 @@ export default async (req, res) => {
 							news.updated_on,
 							
 							news_tags.tags,
-
+							
+							-- news_reaction.*,
+					
 							news_article.format_type,
 							news_article.title,
 							news_article.slug,
@@ -30,13 +31,13 @@ export default async (req, res) => {
 							news_article.image,
 							news_article.description,
 							news_article.content,
-
+							
 							user_profile.user_profile_id AS author_id,
 							user_profile.user_name_id AS author_user_name_id,
 							user_profile.first_name AS author_first_name,
 							user_profile.last_name AS author_last_name,
 							user_profile.profile_picture AS author_profile_picture
-
+					
 						FROM news
 						JOIN user_profile ON user_profile.user_profile_id = news.author_id
 						JOIN news_article ON news_article.news_article_id = news.news_id
@@ -47,9 +48,20 @@ export default async (req, res) => {
 								WHERE news_tag.news_id = news_article.news_article_id
 							) AS tags
 						) news_tags ON TRUE
+						-- JOIN LATERAL (
+						-- 	SELECT json_agg (
+						-- 		json_build_object (
+						-- 			'news_reaction_id', news_reaction.news_reaction_id ,
+						-- 			'type', news_reaction.type,
+						-- 			'count', news_reaction.count
+						-- 		)
+						-- 	) AS reactions
+						-- 		FROM  news_reaction
+						-- 		WHERE news_reaction.news_id = news.news_id
+						-- ) news_reaction ON TRUE
 						WHERE news_article.slug = $1
-						ORDER BY news.updated_on DESC
-				`,
+						ORDER BY news.updated_on DESC;										
+					`,
 					[slug]
 				)
 				.then((response) => response.rows[0]);
@@ -79,3 +91,15 @@ export default async (req, res) => {
 		}
 	}
 };
+
+/*
+SELECT
+	json_build_object(
+		'news_reaction_id', news_reaction.news_reaction_id ,
+		'type', news_reaction.type,
+		'count', news_reaction.count
+	) AS reactions
+FROM  news_reaction
+;
+
+*/

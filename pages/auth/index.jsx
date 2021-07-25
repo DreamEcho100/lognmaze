@@ -143,8 +143,6 @@ new Promise(async (resolve, reject) => {
 .then(async ({auth_token}) => {
   if (!auth_token && auth_token.length === 0) return [];
   let countries = [];
-  // let states = {};
-  // let cities = {};
 
   countries = await fetch(
     'https://www.universal-tutorial.com/api/countries/',

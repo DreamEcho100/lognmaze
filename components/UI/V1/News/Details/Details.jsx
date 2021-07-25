@@ -1,5 +1,3 @@
-// import Article from './type/Article/Article';
-// import Post from './type/Post/Post';
 import { useEffect, useState } from 'react';
 import Md from '../Format/Md/Md';
 

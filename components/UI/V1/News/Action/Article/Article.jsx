@@ -239,7 +239,6 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 					name='slug'
 					id='slug'
 					value={values.slug}
-					// setValues={setValues}
 					onChange={(event) => {
 						return setValues((prev) => ({
 							...prev,

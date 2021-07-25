@@ -80,7 +80,6 @@ const Modal = ({
 			</div>
 		</div>,
 		document.getElementsByTagName('body')[0]
-		// document.getElementById('modal-holder')
 	);
 };
 

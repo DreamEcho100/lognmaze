@@ -3,7 +3,6 @@ import { useState } from 'react';
 import classes from './Settings.module.css';
 
 import UpdateAction from '@components/UI/V1/News/Action/Action';
-// import Update from '../../Modal/Article/Update/Update';
 import DeleteAction from '@components/UI/V1/News/Action/Action';
 
 const Settings = ({ isDataOwner, data, setData }) => {

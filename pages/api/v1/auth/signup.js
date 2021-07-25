@@ -2,7 +2,6 @@ import { hashPassword, jwtGenerator } from '@lib/v1/auth';
 import { pool } from '@lib/v1/pg';
 
 export default async (req, res) => {
-	// const data = req.body;
 
 	if (req.method !== 'POST') {
 		return;
@@ -141,21 +140,6 @@ export default async (req, res) => {
 				status: 'success',
 				message: 'Created user!',
 				data: newUser,
-				// {
-				// 	...newUser,
-
-				// 	email,
-				// 	phone_number,
-
-				// 	user_name_id,
-				// 	first_name,
-				// 	last_name,
-				// 	date_of_birth,
-				// 	gender,
-				// 	country,
-				// 	state,
-				// 	city,
-				// },
 				jwt,
 			});
 		} catch (error) {

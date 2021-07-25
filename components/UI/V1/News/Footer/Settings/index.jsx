@@ -1,132 +1,162 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 import classes from './index.module.css';
 
 import UserContext from '@store/UserContext';
 
-const Settings = ({ data, reactions, setData }) => {
+const Settings = ({ data, reactions, user_reaction, setData }) => {
 	const { user, ...UserCxt } = useContext(UserContext);
 
+	const [reactBtnDisabled, setReactBtnDisabled] = useState(false);
+
 	const handleReaction = async (reaction) => {
-		if (!reactions.userReaction) {
-			const body = JSON.stringify({
+		setReactBtnDisabled(true);
+		if (!data.user_reaction) {
+			const bodyObj = {
 				news_id: data.news_id,
-				reaction,
-				news_reaction_id: data.reactions.types[reaction].id,
+				news_reaction_type: reaction,
+			};
+			let methodType = 'PATCH';
+
+			data.reactions.find((item) => {
+				if (item.type === reaction) {
+					if (item.news_reaction_id) {
+						bodyObj.news_reaction_id = item.news_reaction_id;
+					} else {
+						methodType = 'POST';
+					}
+					return true;
+				}
 			});
-			return await fetch('api/v1/news/reactions/reaction', {
-				method: 'POST',
+
+			await fetch('/api/v1/news/reactions/reaction', {
+				method: methodType,
 				headers: {
 					'Content-Type': 'application/json',
 					authorization: `Bearer ${user.token}`,
 				},
-				body,
+				body: JSON.stringify(bodyObj),
 			})
 				.then((response) => response.json())
 				.then(({ status, message, data }) => {
 					if (status === 'error') {
 						return console.error(message);
 					}
+
 					setData((prev) => ({
 						...prev,
-						reactions: {
-							userReaction: reaction,
-							types: {
-								...prev.reactions.types,
-								[reaction]: {
-									count: prev.reactions.types[reaction].count + 1,
-									id: prev.reactions.types[reaction].id
-										? prev.reactions.types[reaction].id
+						user_reaction: reaction,
+						reactions: prev.reactions.map((item) => {
+							if (item.type === reaction) {
+								return {
+									...item,
+									count: item.count + 1,
+									news_reaction_id: item.news_reaction_id
+										? item.news_reaction_id
 										: data.news_reaction_id,
-									data: [user.id],
-								},
-							},
-						},
+								};
+							}
+							return item;
+						}),
 					}));
 				})
 				.catch((error) => {
 					console.error('error', error);
 				});
-		}
-
-		if (reaction === reactions.userReaction) {
-			const body = JSON.stringify({
-				news_reaction_id: data.reactions.types[reaction].id,
+		} else if (reaction === data.user_reaction) {
+			const bodyObj = {
 				news_reaction_type: reaction,
+			};
+			reactions.forEach((item) => {
+				if (item.type === reaction)
+					bodyObj.news_reaction_id = item.news_reaction_id;
 			});
-			return await fetch('api/v1/news/reactions/reaction', {
+			await fetch('/api/v1/news/reactions/reaction', {
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json',
 					authorization: `Bearer ${user.token}`,
 				},
-				body,
-			})
-				.then((response) => response.json())
-				.then(() => {
-					setData((prev) => ({
-						...prev,
-						reactions: {
-							userReaction: '',
-							types: {
-								...prev.reactions.types,
-								[reaction]: {
-									...prev.reactions.types[reaction],
-									count: prev.reactions.types[reaction].count - 1,
-									// data: [],
-								},
-							},
-						},
-					}));
-				});
-		}
-
-		if (reaction !== reactions.userReaction) {
-			const body = JSON.stringify({
-				news_id: data.news_id,
-				old_reaction_id: data.reactions.types[reactions.userReaction].id,
-				new_reaction_id: data.reactions.types[reaction].id,
-				new_reaction: reaction,
-			});
-			return await fetch('api/v1/news/reactions/reaction', {
-				method: 'PATCH',
-				headers: {
-					'Content-Type': 'application/json',
-					authorization: `Bearer ${user.token}`,
-				},
-				body,
+				body: JSON.stringify(bodyObj),
 			})
 				.then((response) => response.json())
 				.then(({ status, message, data }) => {
 					if (status === 'error') {
 						return console.error(message);
 					}
+
 					setData((prev) => ({
 						...prev,
-						reactions: {
-							userReaction: reaction,
-							types: {
-								...prev.reactions.types,
-								[reaction]: {
-									count: prev.reactions.types[reaction].count + 1,
-									id: prev.reactions.types[reaction].id
-										? prev.reactions.types[reaction].id
-										: data.new_reaction_id,
-									// data: [],
-								},
-								[reactions.userReaction]: {
-									...prev.reactions.types[reactions.userReaction],
-									count: prev.reactions.types[reactions.userReaction].count - 1,
-									// data: [],
-								},
-							},
-						},
+						user_reaction: '',
+						reactions: prev.reactions.map((item) => {
+							if (item.type === reaction) {
+								return {
+									...item,
+									count: item.count - 1,
+								};
+							}
+							return item;
+						}),
+					}));
+				});
+		} else if (reaction !== data.user_reaction) {
+			const bodyObj = {
+				news_id: data.news_id,
+				new_reaction: reaction,
+			};
+
+			reactions.forEach((item) => {
+				if (item.type === reaction)
+					return (bodyObj.new_reaction_id = item.news_reaction_id);
+
+				if (item.type === data.user_reaction)
+					return (bodyObj.old_reaction_id = item.news_reaction_id);
+			});
+
+			await fetch('/api/v1/news/reactions/reaction', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					authorization: `Bearer ${user.token}`,
+				},
+				body: JSON.stringify(bodyObj),
+			})
+				.then((response) => response.json())
+				.then(({ status, message, data }) => {
+					if (status === 'error') {
+						return console.error(message);
+					}
+
+					setData((prev) => ({
+						...prev,
+						reactions: prev.reactions.map((item) => {
+							if (item.type === reaction) {
+								return {
+									...item,
+									count: item.count + 1,
+									news_reaction_id:
+										typeof item.news_reaction_id === 'string' &&
+										item.news_reaction_id.length !== 0
+											? item.news_reaction_id
+											: data.new_reaction_id,
+								};
+							}
+							if (item.type === prev.user_reaction) {
+								return {
+									...item,
+									count: item.count - 1,
+								};
+							}
+							return item;
+						}),
+						user_reaction: reaction,
 					}));
 				})
 				.catch((error) => {
 					console.error('error', error);
 				});
 		}
+		setReactBtnDisabled(false);
 	};
 
 	return (
@@ -135,18 +165,18 @@ const Settings = ({ data, reactions, setData }) => {
 				<button
 					onClick={() => handleReaction('upvote')}
 					className={`${
-						reactions.userReaction === 'upvote' ? classes['user-reaction'] : ''
+						user_reaction === 'upvote' ? classes['user-reaction'] : ''
 					}`}
+					disabled={reactBtnDisabled}
 				>
 					Upvote
 				</button>
 				<button
 					onClick={() => handleReaction('downvote')}
 					className={`${
-						reactions.userReaction === 'downvote'
-							? classes['user-reaction']
-							: ''
+						user_reaction === 'downvote' ? classes['user-reaction'] : ''
 					}`}
+					disabled={reactBtnDisabled}
 				>
 					Downvote
 				</button>

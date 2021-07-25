@@ -44,7 +44,6 @@ export const UserContextProvider = ({ children }) => {
 			reject({ status: 'error', message: 'No user stored in cookie!' });
 		})
 			.then(async (tokenCookie) => {
-				// return JSON.parse(tokenCookie);
 				const token = tokenCookie;
 
 				const { status, message, data } = await fetch(
@@ -182,10 +181,10 @@ export const UserContextProvider = ({ children }) => {
 	};
 
 	const handleSignUp = async (data) =>
-		await handleUserSign('api/v1/auth/signup', data);
+		await handleUserSign('/api/v1/auth/signup', data);
 
 	const handleSignIn = async (data) =>
-		await handleUserSign('api/v1/auth/signin', data);
+		await handleUserSign('/api/v1/auth/signin', data);
 
 	const handleSignOut = () => {
 		setIsLoading(true);
@@ -252,12 +251,10 @@ export const UserContextProvider = ({ children }) => {
 				return;
 			})
 			.then(async () => {
-				// router.replace('/');
 				router.replace(router.asPath);
 				return;
 			})
 			.then(() => {
-				// setIsLoading(false);
 				setIsLoading(false);
 				return;
 			});

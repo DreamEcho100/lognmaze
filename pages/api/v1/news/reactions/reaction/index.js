@@ -6,6 +6,7 @@ export default async (req, res) => {
 		!(
 			req.method === 'GET' ||
 			req.method === 'POST' ||
+			req.method === 'PUT' ||
 			req.method === 'PATCH' ||
 			req.method === 'DELETE'
 		)
@@ -15,24 +16,30 @@ export default async (req, res) => {
 
 	if (req.method === 'GET') {
 		try {
-			// const isAuthorized = await handleIsAuthorized(
-			// 	res,
-			// 	req.headers.authorization
-			// );
+			const isAuthorized = await handleIsAuthorized(
+				res,
+				req.headers.authorization
+			);
 
-			// if (!isAuthorized.id) return;
+			if (!isAuthorized.id) return;
 
 			const { news_id } = req.query;
 
 			// ?news_id=905c9bb7-06df-4a92-a022-b9a698048e5c&news_reactor_id=d47030a8-cad9-4e94-a7ce-60ad6ae48ec8
 
+			/*	
+SELECT
+	json_build_object(
+		'news_reaction_id', news_reaction.news_reaction_id ,
+		'type', news_reaction.type,
+		'count', news_reaction.count
+	) AS reactions
+FROM  news_reaction
+;
+WHERE news_reaction.news_id = '905c9bb7-06df-4a92-a022-b9a698048e5c' -- news.news_id
+;
+			*/
 			let data;
-
-			console.log(
-				'typeof req.query.news_reactor_id',
-				typeof req.query.news_reactor_id
-			);
-			console.log('news_id', news_id);
 
 			if (req.query.news_reactor_id && req.query.news_reactor_id.length !== 0) {
 				data = await pool
@@ -98,25 +105,19 @@ export default async (req, res) => {
 
 			if (!isAuthorized.id) return;
 
-			const { news_id, reaction } = req.body;
+			const { news_id, news_reaction_type } = req.body;
 
-			const data = {
-				news_reaction_id: req.body.news_reaction_id,
-			};
-
-			if (!data.news_reaction_id) {
-				data.news_reaction_id = await pool
-					.query(
-						`
+			const data = await pool
+				.query(
+					`
           INSERT INTO news_reaction
             (news_id, type, count)
           VALUES ($1, $2, 1)
           RETURNING  news_reaction_id
         `,
-						[news_id, reaction]
-					)
-					.then((response) => response.rows[0].news_reaction_id);
-			}
+					[news_id, news_reaction_type]
+				)
+				.then((response) => response.rows[0]);
 
 			await pool.query(
 				`
@@ -140,7 +141,7 @@ export default async (req, res) => {
 				data: {},
 			});
 		}
-	} else if (req.method === 'PATCH') {
+	} else if (req.method === 'PUT') {
 		try {
 			const isAuthorized = await handleIsAuthorized(
 				res,
@@ -148,8 +149,6 @@ export default async (req, res) => {
 			);
 
 			if (!isAuthorized.id) return;
-
-			console.log('req.body', req.body);
 
 			const { old_reaction_id } = req.body;
 
@@ -228,10 +227,6 @@ export default async (req, res) => {
 						req.body.new_reaction_id,
 						req.body.old_reaction_id,
 						isAuthorized.id,
-						// req.body.news_id,
-						// req.body.new_reaction,
-						// old_reaction_id,
-						// isAuthorized.id,
 					]
 				);
 			}
@@ -247,6 +242,47 @@ export default async (req, res) => {
 				status: 'error',
 				message: error.message || 'Something went wrong!',
 				data: [],
+			});
+		}
+	} else if (req.method === 'PATCH') {
+		try {
+			const isAuthorized = await handleIsAuthorized(
+				res,
+				req.headers.authorization
+			);
+
+			if (!isAuthorized.id) return;
+
+			const { news_reaction_id, news_reaction_type, news_id } = req.body;
+
+			await pool.query(
+				`
+							WITH update_item_1 AS (
+								UPDATE news_reaction
+								SET count = count + 1
+								WHERE news_reaction_id = ($1) AND type = ($2) RETURNING ''
+							), insert_item_1 AS (
+								INSERT INTO news_reactor
+									(news_reaction_id, news_id, news_reactor_id)
+								VALUES ($1, $3, $4) RETURNING ''
+							)
+
+							SELECT * FROM update_item_1, insert_item_1;
+						`,
+				[news_reaction_id, news_reaction_type, news_id, isAuthorized.id]
+			);
+
+			return res.status(201).json({
+				status: 'success',
+				message: 'Reaction Changed Successfully!',
+				data: {},
+			});
+		} catch (error) {
+			console.error(`Error, ${error}`);
+			return res.status(500).json({
+				status: 'error',
+				message: error.message || 'Something went wrong!',
+				data: {},
 			});
 		}
 	} else if (req.method === 'DELETE') {

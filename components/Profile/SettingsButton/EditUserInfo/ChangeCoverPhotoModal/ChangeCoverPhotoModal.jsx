@@ -23,7 +23,6 @@ const ChangeCoverPhotoModal = ({ closeModal }) => {
 	const [CoverPhotoURL, setCoverPhotoURL] = useState(user.cover_photo);
 	const [progress, setProgress] = useState(0);
 	const [file, setFile] = useState({});
-	// const [coverPhoto, setCoverPhoto] = useState(user.profile_picture);
 
 	const [urlInput, setUrlInput] = useState('');
 

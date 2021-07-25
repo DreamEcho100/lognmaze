@@ -1,12 +1,12 @@
 .container {
-	margin: 0.5em;
+	margin: 0.5em auto;
 	padding: 0.5em;
-	width: 100%;
+	width: 95%;
 	transition: all 0.25s ease-in-out;
 }
 
 .container-max-width {
-	max-width: 50rem;
+	/* max-width: 50rem; */
 }
 
 .modal-wrapper {

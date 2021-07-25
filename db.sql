@@ -90,14 +90,94 @@ JOIN LATERAL (
 ) user_reaction ON TRUE
 WHERE news_id = ('905c9bb7-06df-4a92-a022-b9a698048e5c');
 
-news_reaction_id
-news_id
-type
-count
-news_reaction_id
-news_id
-news_reactor_id
-created_at
+
+SELECT 
+  news_reaction.news_reaction_id ,
+  news_reaction.type,
+  news_reaction.count,
+  user_reaction
+FROM  news_reaction
+JOIN LATERAL (
+  SELECT case when exists (
+    SELECT news_reaction.type AS type FROM news_reactor
+    WHERE news_reaction.news_id = ($1)
+    AND news_reactor.news_reactor_id = ($2)
+    AND news_reactor.news_reaction_id = news_reaction.news_reaction_id
+  )
+    then true
+    else false
+  end
+) user_reaction ON TRUE
+-- WHERE news_id = ($1)
+;
+
+SELECT
+  news.news_id,
+  news.type,
+  news.comments_count,
+  news.created_at,
+  news.updated_on,
+
+  user_profile.user_profile_id AS author_id,
+  user_profile.user_name_id AS author_user_name_id,
+  user_profile.first_name AS author_first_name,
+  user_profile.last_name AS author_last_name,
+  user_profile.profile_picture AS author_profile_picture,
+
+  news_reaction.*
+
+FROM news
+JOIN user_profile ON user_profile.user_profile_id = news.author_id
+JOIN LATERAL (
+  SELECT json_agg (
+    json_build_object (
+      'news_reaction_id', news_reaction.news_reaction_id ,
+      'type', news_reaction.type,
+      'count', news_reaction.count
+      /* ,'user_reaction', user_reaction.case */
+    )
+  ) AS reactions
+    FROM  news_reaction
+    /*
+    JOIN LATERAL (
+      SELECT case when exists (
+        SELECT news_reaction.type AS type FROM news_reactor
+        WHERE news_reaction.news_id = news.news_id
+        AND news_reactor.news_reactor_id = 'd47030a8-cad9-4e94-a7ce-60ad6ae48ec8' -- ($2)
+        AND news_reactor.news_reaction_id = news_reaction.news_reaction_id
+      )
+        then true
+        else false
+      end
+    ) user_reaction ON TRUE
+    */
+    WHERE news_reaction.news_id = news.news_id
+  
+) news_reaction ON TRUE
+ORDER BY news.updated_on DESC;				
+				
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 WITH get_posts AS (
   SELECT
