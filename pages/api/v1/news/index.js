@@ -12,8 +12,9 @@ export default async (req, res) => {
 	) {
 		return;
 	}
-	if (req.method === 'GET') {
-		try {
+
+	try {
+		if (req.method === 'GET') {
 			const { with_news_article_content, news_reactor_id, filter_by_user_id } =
 				req.query;
 
@@ -159,16 +160,7 @@ export default async (req, res) => {
 				message: 'The newest News Arrived Successfully!, Enjoy ;)',
 				data: result,
 			});
-		} catch (error) {
-			console.error(`Error, ${error}`);
-			return res.status(500).json({
-				status: 'error',
-				message: error.message || 'Something went wrong!',
-				data: [],
-			});
-		}
-	} else if (req.method === 'POST') {
-		try {
+		} else if (req.method === 'POST') {
 			const isAuthorized = await handleIsAuthorized(
 				res,
 				req.headers.authorization
@@ -269,17 +261,7 @@ export default async (req, res) => {
 				data: {},
 				isAuthorized: true,
 			});
-		} catch (error) {
-			console.error(`Error, ${error}`);
-			return res.status(500).json({
-				status: 'error',
-				message: error.message || 'Something went wrong!',
-				data: {},
-				isAuthorized: false,
-			});
-		}
-	} else if (req.method === 'PATCH') {
-		try {
+		} else if (req.method === 'PATCH') {
 			const isAuthorized = await handleIsAuthorized(
 				res,
 				req.headers.authorization
@@ -400,17 +382,7 @@ export default async (req, res) => {
 				data: {},
 				isAuthorized: true,
 			});
-		} catch (error) {
-			console.error(`Error, ${error}`);
-			return res.status(500).json({
-				status: 'error',
-				message: error.message || 'Something went wrong!',
-				data: {},
-				isAuthorized: false,
-			});
-		}
-	} else if (req.method === 'DELETE') {
-		try {
+		} else if (req.method === 'DELETE') {
 			const isAuthorized = await handleIsAuthorized(
 				res,
 				req.headers.authorization
@@ -431,14 +403,15 @@ export default async (req, res) => {
 				data: {},
 				isAuthorized: true,
 			});
-		} catch (error) {
-			return res.status(500).json({
-				status: 'error',
-				message: error.message || 'Something went wrong!',
-				data: {},
-				isAuthorized: false,
-			});
 		}
+	} catch (error) {
+		console.error(`Error, ${error}`);
+		return res.status(500).json({
+			status: 'error',
+			message: error.message || 'Something went wrong!',
+			data: {},
+			isAuthorized: false,
+		});
 	}
 
 	return;

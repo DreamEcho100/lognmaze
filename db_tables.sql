@@ -182,17 +182,12 @@ CREATE TABLE news_reactor (
   CONSTRAINT news_type_reactor UNIQUE (news_reaction_id, news_reactor_id)
 );
 
-/*-- news_comment TABLE
-CREATE TABLE news_comment ();*/
-
 -- news_comment TABLE
 CREATE TABLE news_comment (
   news_comment_id uuid DEFAULT uuid_generate_v4(),
 
-  user_account_id uuid NOT NULL,
+  author_id uuid NOT NULL,
   news_id uuid NOT NULL,
-
-  replies_count INT DEFAULT 0,
 
   content TEXT NOT NULL,
 
@@ -200,28 +195,36 @@ CREATE TABLE news_comment (
   updated_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
   PRIMARY KEY (news_comment_id),
-  FOREIGN KEY (user_account_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
+
+  FOREIGN KEY (author_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
   FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE
 );
 
--- news_comment TABLE
-CREATE TABLE news_comment_reply (
-  news_comment_reply_id uuid DEFAULT uuid_generate_v4(),
+-- news_comment_main TABLE
+CREATE TABLE news_comment_main (
+  news_comment_main_id uuid NOT NULL,
 
-  user_account_id uuid NOT NULL,
-  news_id uuid NOT NULL,
+  replies_counter INT DEFAULT 0,
 
-  reply_to_id uuid,
+  PRIMARY KEY (news_comment_main_id),
 
-  content TEXT NOT NULL,
+  FOREIGN KEY (news_comment_main_id) REFERENCES news_comment (news_comment_id) ON DELETE CASCADE,
 
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  updated_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT check_replies_counter_min CHECK (replies_counter >= 0)
+);
 
-  PRIMARY KEY (news_comment_reply_id),
-  FOREIGN KEY (user_account_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
-  FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE,
-  FOREIGN KEY (reply_to_id) REFERENCES news_comment_reply (news_comment_reply_id)
+-- news_comment_main_reply TABLE
+CREATE TABLE news_comment_main_reply (
+  news_comment_main_reply_id uuid NOT NULL,
+
+  parent_id uuid NOT NULL,
+  reply_to_id uuid NOT NULL,
+
+  PRIMARY KEY (news_comment_main_reply_id),
+
+  FOREIGN KEY (news_comment_main_reply_id) REFERENCES news_comment (news_comment_id) ON DELETE CASCADE,
+  FOREIGN KEY (parent_id) REFERENCES news_comment_main (news_comment_main_id) ON DELETE CASCADE,
+  FOREIGN KEY (reply_to_id) REFERENCES user_account (user_account_id)
 );
 
 
@@ -254,7 +257,8 @@ CREATE TABLE news_comment_reply (
 /*
 DROP TABLE 
 IF EXISTS
-news_comment_reply,
+news_comment_main_reply,
+news_comment_main,
 news_comment,
 news_reactor,
 news_reaction,
