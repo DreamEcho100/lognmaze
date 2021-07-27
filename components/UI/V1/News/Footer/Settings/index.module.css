@@ -17,26 +17,3 @@
 	outline-color: rgba(255, 255, 255, 0.1);
 	font-weight: 600;
 }
-
-.reaction {
-	background-color: var(--main-bg-color-2);
-	color: var(--main-font-color-2);
-	border-radius: 0.75rem;
-	padding: 0;
-	overflow: hidden;
-}
-
-.reaction button {
-	padding: var(--item-padding);
-	transition: all 0.15s ease-in;
-}
-
-.reaction button:hover {
-	background-color: var(--main-bg-color-5);
-	color: var(--main-font-color-5);
-}
-
-.reaction button.user-reaction {
-	background-color: var(--main-special-bg-color-5);
-	color: var(--main-special-font-color-5);
-}

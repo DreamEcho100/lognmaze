@@ -17,7 +17,7 @@ const HomePage = () => {
 	useEffect(async () => {
 		if (!UserCxt.isLoading && news.length === 0) {
 			let linkQuery = '';
-			if (UserCxt.user.id) {
+			if (UserCxt.userExist) {
 				linkQuery = `/?news_reactor_id=${UserCxt.user.id}`;
 			}
 			const news = await fetch(`api/v1/news${linkQuery}`) // ${process.env.BACK_END_ROOT_URL}/
@@ -39,7 +39,7 @@ const HomePage = () => {
 				});
 			setIsLoading(false);
 		}
-	}, [UserCxt.isLoading, UserCxt.user, router.route]);
+	}, [UserCxt.isLoading, UserCxt.userExist, router.route]);
 
 	if (isLoading) {
 		return <p>Loading...</p>;

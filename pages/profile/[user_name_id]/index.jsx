@@ -27,7 +27,7 @@ const ProfilePage = ({ user = {}, /*posts = []*/ ...props }) => {
 
 	useEffect(() => {
 		if (!UserCxt.isLoading) {
-			if (!UserCxt.user && !UserCxt.user.id) {
+			if (!UserCxt.userExist) {
 				if (userData.id) {
 					if (handleIsAuthorized) setHandleIsAuthorized(false);
 					if (identity === OWNER) setIdentity(GUEST);
@@ -56,7 +56,7 @@ const ProfilePage = ({ user = {}, /*posts = []*/ ...props }) => {
 			}
 
 			if (
-				Object.keys(userData).length !== 0 &&
+				UserCxt.userExist &&
 				posts.length !== 0 &&
 				(posts.author_id !== userData.id ||
 					posts.author_user_name_id !== userData.user_name_id ||
@@ -78,7 +78,7 @@ const ProfilePage = ({ user = {}, /*posts = []*/ ...props }) => {
 
 			if (isLoading) setIsLoading(false);
 		}
-	}, [UserCxt.user, UserCxt.isLoading, router.query.user_name_id]);
+	}, [UserCxt.userExist, UserCxt.isLoading, router.query.user_name_id]);
 
 	if (UserCxt.isLoading || isLoading) {
 		return <p>Loading...</p>;

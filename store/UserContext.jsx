@@ -10,6 +10,7 @@ import {
 
 const UserContext = createContext({
 	user: {},
+	userExist: false,
 	isLoading: true,
 	isUpdatingProfile: false,
 	verifyUserTokenFromCookie: () => {},
@@ -28,6 +29,9 @@ export const UserContextProvider = ({ children }) => {
 	const router = useRouter();
 
 	const [user, setUser] = useState({});
+	const [userExist, setUserExist] = useState(
+		/* Object.keys(user).length === 0 */ user.token ? true : false
+	);
 	const [isLoading, setIsLoading] = useState(true);
 	const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
 
@@ -312,43 +316,18 @@ export const UserContextProvider = ({ children }) => {
 				newPassword,
 			},
 		});
-	/*
-	{
-		return new Promise(async (resolve, reject) => {
-			const response = await fetch(
-				`${process.env.BACK_END_ROOT_URL}/api/v1/users/change-password`,
-				{
-					method: 'PATCH',
-					body: JSON.stringify({
-						oldPassword,
-						newPassword,
-					}),
-					headers: {
-						'Content-Type': 'application/json',
-						'authorization': `Bearer ${user.token}`,
-					},
-				}
-			);
 
-			resolve(response);
-		})
-			.then((response) => response.json())
-			.then(({ status, message, isAuthorized }) => {
-				if (isAuthorized) {
-					return { status, message };
-				} else {
-					handleSignOut();
-					return { status: 'error', message };
-				}
-			})
-			.catch((error) => {
-				return { status: 'error', message: error.message };
-			});
-	};
-	*/
+	useEffect(() => {
+		if (Object.keys(user).length === 0 && userExist) {
+			setUserExist(false);
+		} else if (Object.keys(user).length !== 0 && !userExist) {
+			setUserExist(true);
+		}
+	}, [user]);
 
 	const context = {
 		user,
+		userExist,
 		isLoading,
 		isUpdatingProfile,
 		setIsUpdatingProfile,

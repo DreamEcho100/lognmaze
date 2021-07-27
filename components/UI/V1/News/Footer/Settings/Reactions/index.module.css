@@ -1,0 +1,36 @@
+.item {
+	--item-padding: 0.25em;
+	padding: var(--item-padding);
+	user-select: none;
+}
+
+.item button {
+	background-color: transparent;
+	border-color: transparent;
+	outline-color: rgba(255, 255, 255, 0.1);
+	font-weight: 600;
+}
+
+.reactions {
+	background-color: var(--main-bg-color-2);
+	color: var(--main-font-color-2);
+	border-radius: 0.75rem;
+	min-width: fit-content;
+	padding: 0;
+	overflow: hidden;
+}
+
+.reactions button {
+	padding: var(--item-padding);
+	transition: all 0.15s ease-in;
+}
+
+.reactions button:not(:disabled):hover {
+	background-color: var(--main-bg-color-5);
+	color: var(--main-font-color-5);
+}
+
+.reactions button:not(:disabled).user-reaction {
+	background-color: var(--main-special-bg-color-5);
+	color: var(--main-special-font-color-5);
+}

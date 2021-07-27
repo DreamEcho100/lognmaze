@@ -69,10 +69,12 @@ const SignUp = ({
 				})
 				.then((data) => {
 					setCities(data);
-					setValues((prev) => ({
-						...prev,
-						city: data[0].city_name,
-					}));
+					if (data[0]) {
+						setValues((prev) => ({
+							...prev,
+							city: data[0].city_name,
+						}));
+					}
 				});
 		} catch (error) {
 			console.error(error);
@@ -104,11 +106,13 @@ const SignUp = ({
 					return data;
 				})
 				.then(async (data) => {
-					setValues((prev) => ({
-						...prev,
-						state: data[0].state_name,
-					}));
-					await handleGetCities(data[0].state_name);
+					if (data[0]) {
+						setValues((prev) => ({
+							...prev,
+							state: data[0].state_name,
+						}));
+						await handleGetCities(data[0].state_name);
+					}
 				});
 		} catch (error) {
 			console.error(error);

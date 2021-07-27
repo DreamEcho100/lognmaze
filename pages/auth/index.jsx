@@ -21,7 +21,7 @@ const AuthPage = ({
 
 	useEffect(() => {
 		if (!UserCxt.isLoading) {
-			if (user && Object.keys(user).length !== 0) {
+			if (UserCxt.userExist) {
 				if (!isSigned) setIsSigned(true);
 				setTimeout(() => router.replace('/'), 0);
 			} else {
@@ -29,10 +29,10 @@ const AuthPage = ({
 			}
 		}
 		setIsLoading(false);
-	}, [user, UserCxt.isLoading]);
+	}, [UserCxt.userExist, UserCxt.isLoading]);
 
 	useEffect(() => {
-		if (user && Object.keys(user).length !== 0) {
+		if (UserCxt.userExist) {
 			setIsSigned(true);
 		} else {
 			isSigned && setIsSigned(false);
