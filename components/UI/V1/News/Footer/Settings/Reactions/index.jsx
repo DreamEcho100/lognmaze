@@ -166,8 +166,6 @@ const Reactions = ({
 	};
 
 	useEffect(() => {
-		console.log('userExist', userExist);
-		console.log('reactBtnDisabled', reactBtnDisabled);
 		if (userExist && reactBtnDisabled) {
 			setReactBtnDisabled(false);
 		} else if (!userExist && !reactBtnDisabled) {

@@ -1,5 +1,5 @@
 import { handleIsAuthorized } from '@lib/v1/auth';
-import { pool /*, QueryBuilder*/ } from '@lib/v1/pg';
+import { pool } from '@lib/v1/pg';
 
 export default async (req, res) => {
 	if (
@@ -15,34 +15,61 @@ export default async (req, res) => {
 
 	try {
 		if (req.method === 'GET') {
-			const { parent_id } = req.query;
-			const data = await pool
-				.query(
-					`
-						SELECT
-							news_comment.news_comment_id,
-							news_comment.author_id,
-							news_comment.content,
-							news_comment.created_at,
-							news_comment.updated_on
+			const { type, news_id } = req.query;
 
-							${!parent_id ? `,news_comment_main.replies_counter` : ''}
-						FROM news_comment
-						${
-							!parent_id
-								? `JOIN news_comment_main ON news_comment_main_id = news_comment.news_comment_id`
-								: `JOIN news_comment_main_reply ON news_comment_main_reply_id = news_comment.news_comment_id`
-						}
-						ORDER BY created_at
-          `
-				)
-				.then((response) => response.rows);
+			let data;
+
+			if (type === 'comment') {
+				data = await pool
+					.query(
+						`
+							SELECT
+								news.author_id,
+								news.type,
+								news.comments_count,
+								news.created_at,
+								news.updated_on,
+
+								news_comment.news_comment_id,
+								news_comment.content
+
+							FROM news
+							JOIN news_comment ON news_comment.news_comment_id = news.news_id
+							WHERE news_comment.news_id = $1
+							ORDER BY news.updated_on DESC;
+						`,
+						[news_id]
+					)
+					.then((response) => response.rows);
+			} else if (type === 'comment_reply') {
+				data = await pool
+					.query(
+						`
+						SELECT
+							news.author_id,
+							news.type,
+							news.comments_count,
+							news.created_at,
+							news.updated_on,
+
+							news_comment_reply.news_comment_reply_id,
+							news_comment_reply.reply_to_id,
+							news_comment_reply.content
+
+						FROM news
+						JOIN news_comment_reply ON news_comment_reply.news_comment_reply_id = news.news_id
+						WHERE news_comment_reply.parent_id = ($1)
+						ORDER BY news.updated_on DESC;
+					`,
+						[req.query.parent_id]
+					)
+					.then((response) => response.rows);
+			}
 
 			return res.status(200).json({
 				status: 'success',
-				message: 'Commenting Successfully!',
+				message: 'Comments Arrived Successfully!',
 				data,
-				isAuthorized: true,
 			});
 		} else if (req.method === 'POST') {
 			const isAuthorized = await handleIsAuthorized(
@@ -52,55 +79,54 @@ export default async (req, res) => {
 
 			if (!isAuthorized.id) return;
 
-			const { news_id, content } = req.body;
+			const { type, content } = req.body;
 
 			const data = await pool
 				.query(
 					`
-            INSERT INTO news_comment (author_id, news_id, content)
-            VALUES ($1, $2, $3) RETURNING news_comment_id
+						INSERT INTO news (author_id, type)
+						VALUES ($1, $2) RETURNING news_id
           `,
-					[isAuthorized.id, news_id, content]
+					[isAuthorized.id, type]
 				)
 				.then(async (response) => response.rows[0]);
-
-			if (!req.body.parent_id) {
+			if (type === 'comment') {
 				await pool.query(
 					`
-							WITH insert_item_1 AS (
-								INSERT INTO news_comment_main (news_comment_main_id)
-								VALUES ($1)
-								RETURNING NULL
-							),
-							update_item_1 AS (
-								UPDATE news
-								SET comments_count = comments_count + 1
-								WHERE news_id = ($2)
-								RETURNING NULL
-							)
+						WITH insert_item_1 AS (
+							INSERT INTO news_comment (news_comment_id, news_id, content)
+							VALUES ($1, $2, $3)
+							RETURNING NULL
+						),
+						update_item_1 AS (
+							UPDATE news
+							SET comments_count = comments_count + 1
+							WHERE news_id = ($2)
+							RETURNING NULL
+						)
 
-							SELECT * FROM insert_item_1, update_item_1;
-						`,
-					[data.news_comment_id, news_id]
+						SELECT * FROM insert_item_1, update_item_1;
+					`,
+					[data.news_id, req.body.news_id, content]
 				);
-			} else {
+			} else if (type === 'comment_reply') {
 				await pool.query(
 					`
-							WITH insert_item_1 AS (
-								INSERT INTO news_comment_main_reply (news_comment_main_reply_id, parent_id, reply_to_id)
-								VALUES ($1, $2, $3)
-								RETURNING NULL
-							),
-							update_item_1 AS (
-								UPDATE news_comment_main
-								SET replies_counter = replies_counter + 1
-								WHERE news_comment_main_id = ($2)
-								RETURNING NULL
-							)
+						WITH insert_item_1 AS (
+							INSERT INTO news_comment_reply (news_comment_reply_id, parent_id, reply_to_id, content)
+							VALUES ($1, $2, $3, $4)
+							RETURNING NULL
+						),
+						update_item_1 AS (
+							UPDATE news
+							SET comments_count = comments_count + 1
+							WHERE news_id = ($2) OR news_id = ($3) -- OR (news_id = ($3) And news_id <> ($2))
+							RETURNING NULL
+						)
 
-							SELECT * FROM insert_item_1, update_item_1;
-						`,
-					[data.news_comment_id, req.body.parent_id, req.body.reply_to_id]
+						SELECT * FROM insert_item_1, update_item_1;
+					`,
+					[data.news_id, req.body.parent_id, req.body.reply_to_id, content]
 				);
 			}
 
@@ -118,26 +144,46 @@ export default async (req, res) => {
 
 			if (!isAuthorized.id) return;
 
-			const { news_comment_id, content } = req.body;
+			const { type, comment_id, content } = req.body;
 
 			const data = await pool
 				.query(
 					`
-            UPDATE news_comment
-						SET content = ($1), updated_on = ($2)
-						WHERE news_comment_id = ($3) AND author_id = ($4) RETURNING news_comment_id
-          `,
-					[content, new Date().toUTCString(), news_comment_id, isAuthorized.id]
+							UPDATE news
+							SET updated_on = ($1)
+							WHERE news_id = ($2) AND author_id = ($3) RETURNING news_id
+						`,
+					[new Date().toUTCString(), comment_id, isAuthorized.id]
 				)
-				.then((response) => response.rows[0]);
+				.then(async (response) => response.rows[0]);
 
-			if (!data && !data.news_comment_id) {
+			if (!data && !data.news_id) {
 				return res.status(404).json({
 					status: 'error',
 					message: "Comment Wasn't found :(",
 					data: null,
 					isAuthorized: true,
 				});
+			}
+
+			if (type === 'comment') {
+				await pool.query(
+					`
+						UPDATE news_comment
+						SET content = ($1)
+						WHERE news_comment_id = ($2)
+					`,
+					[content, data.news_id]
+				);
+			} else if (type === 'comment_reply') {
+				await pool.query(
+					`
+						UPDATE news_comment_reply
+						SET content = ($1)
+						WHERE news_comment_reply_id = ($2)
+					`,
+					[content, data.news_id]
+				);
 			}
 
 			return res.status(200).json({
@@ -154,20 +200,20 @@ export default async (req, res) => {
 
 			if (!isAuthorized.id) return;
 
-			const { news_comment_id } = req.body;
+			const { news_id, type } = req.body;
 
 			const data = await pool
 				.query(
 					`
-						DELETE FROM news_comment
-						WHERE news_comment_id = ($1) AND author_id = ($2)
-						RETURNING news_comment_id				
+						DELETE FROM news
+						WHERE news.news_id = ($1) AND news.author_id = ($2)
+						RETURNING news.news_id				
 					`,
-					[news_comment_id, isAuthorized.id]
+					[news_id, isAuthorized.id]
 				)
 				.then((response) => response.rows[0]);
 
-			if (!data && !data.news_comment_id) {
+			if (!data && !data.news_id) {
 				return res.status(404).json({
 					status: 'error',
 					message: "Comment Wasn't found :(",
@@ -176,7 +222,7 @@ export default async (req, res) => {
 				});
 			}
 
-			if (!req.body.parent_id) {
+			if (type === 'comment') {
 				await pool.query(
 					`
 						UPDATE news
@@ -186,7 +232,7 @@ export default async (req, res) => {
 					`,
 					[req.body.parent_id]
 				);
-			} else {
+			} else if (type === 'comment_reply') {
 				await pool.query(
 					`
 						UPDATE news_comment_main

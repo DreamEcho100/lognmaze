@@ -19,14 +19,12 @@ export default async (req, res) => {
 				req.query;
 
 			const queryParams = [];
-			let whereClause = '';
+			let whereClause = "WHERE news.type NOT IN ('comment', 'comment_reply')";
 			let news_reactor_id_index = '';
 
 			if (filter_by_user_id) {
 				queryParams.push(filter_by_user_id);
-				if (whereClause.length === 0)
-					whereClause += `WHERE news.author_id = $${queryParams.length}`;
-				else whereClause += ` news.author_id = $${queryParams.length}`;
+				whereClause += ` AND news.author_id = $${queryParams.length}`;
 			}
 
 			if (news_reactor_id) {
