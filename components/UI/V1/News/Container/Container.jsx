@@ -12,7 +12,7 @@ import Details from '../Details/Details';
 import NewsFooter from '../Footer';
 
 import Modal from '@components/UI/V1/Modal/Modal';
-import Button from '@components/UI/V1/Button/Button';
+import Button from '@components/UI/V1/Button';
 import Container2 from '@components/UI/V1/News/Container/Container';
 
 const Container = ({
@@ -24,6 +24,7 @@ const Container = ({
 	const { user, ...UserCxt } = useContext(UserContext);
 
 	const [data, setData] = useState(props.data);
+	const [isLoading, setIsLoading] = useState(true);
 	const [closeModal, setCloseModal] = useState(true);
 	const [statusLoaded, setStatusLoaded] = useState(false);
 
@@ -40,38 +41,56 @@ const Container = ({
 		className: `${allClasses} ${BoxShadowClasses['box-shadow']} ${BorderClasses['border-2']}`,
 	};
 
-	if (!data.reactions || data.reactions.length === 0) {
-		setData((prev) => ({
-			...prev,
-			reactions: [
-				{ news_reaction_id: '', type: 'upvote', count: 0 },
-				{ news_reaction_id: '', type: 'downvote', count: 0 },
-			],
-		}));
-	} else {
-		const messingReactions = [];
-		if (!data.reactions.find((item) => item.type === 'upvote')) {
-			messingReactions.push({
-				news_reaction_id: '',
-				type: 'upvote',
-				count: 0,
-			});
-		}
-		if (!data.reactions.find((item) => item.type === 'downvote')) {
-			messingReactions.push({
-				news_reaction_id: '',
-				type: 'downvote',
-				count: 0,
-			});
-		}
-		if (messingReactions.length !== 0) {
+	useEffect(() => {
+		if (
+			/*!data.reactions &&  */
+			!data.reactions ||
+			(Array.isArray(data.reactions) && data.reactions.length === 0)
+		) {
 			setData((prev) => ({
 				...prev,
-				reactions: [...prev.reactions, ...messingReactions],
+				reactions: [
+					{ news_reaction_id: '', type: 'upvote', count: 0 },
+					{ news_reaction_id: '', type: 'downvote', count: 0 },
+				],
+			}));
+		} else {
+			const messingReactions = [];
+			if (!data.reactions.find((item) => item.type === 'upvote')) {
+				messingReactions.push({
+					news_reaction_id: '',
+					type: 'upvote',
+					count: 0,
+				});
+			}
+			if (!data.reactions.find((item) => item.type === 'downvote')) {
+				messingReactions.push({
+					news_reaction_id: '',
+					type: 'downvote',
+					count: 0,
+				});
+			}
+			if (messingReactions.length !== 0) {
+				setData((prev) => ({
+					...prev,
+					reactions: [...prev.reactions, ...messingReactions],
+				}));
+			}
+		}
+
+		if (
+			/*!data.comments && */
+			!data.comments ||
+			(Array.isArray(data.comments) && data.comments.length === 0)
+		) {
+			setData((prev) => ({
+				...prev,
+				comments: [],
 			}));
 		}
-	}
 
+		setIsLoading(false);
+	}, []);
 
 	useEffect(() => {
 		if (!UserCxt.isLoading && Object.keys(user).length === 0) {
@@ -116,6 +135,10 @@ const Container = ({
 			}));
 		}
 	}, [data]);
+
+	if (isLoading) {
+		return <article>Loading...</article>;
+	}
 
 	if (data.type === 'article')
 		articleProps.lang = `${data.iso_language}-${data.iso_country}`;

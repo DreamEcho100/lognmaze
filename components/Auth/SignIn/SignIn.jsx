@@ -5,12 +5,12 @@ import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 
 import UserContext from '@store/UserContext';
 
-import Form from '@components/UI/V1/Form/Form';
+import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl/FormControl';
 import Label from '@components/UI/V1/Label/Label';
 import Input from '@components/UI/V1/Input/Input';
 
-import Button from '@components/UI/V1/Button/Button';
+import Button from '@components/UI/V1/Button';
 
 const SignIn = () => {
 	const UserCxt = useContext(UserContext);

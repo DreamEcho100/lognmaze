@@ -1,4 +1,4 @@
-import classes from './Button.module.css';
+import classes from './index.module.css';
 
 import { handleAllClasses } from '../utils/index';
 

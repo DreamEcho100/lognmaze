@@ -27,16 +27,18 @@ const Footer = ({ data, setData }) => {
 				showComments={showComments}
 				focusCommentTextarea={focusCommentTextarea}
 			/>
-			<Comments
-				data={data}
-				setData={setData}
-				comments={data.comments}
-				className={classes.comments}
-				setShowComments={setShowComments}
-				setFocusCommentTextarea={setFocusCommentTextarea}
-				showComments={showComments}
-				focusCommentTextarea={focusCommentTextarea}
-			/>
+			{showComments && (
+				<Comments
+					data={data}
+					setData={setData}
+					comments={data.comments}
+					className={classes.comments}
+					setShowComments={setShowComments}
+					setFocusCommentTextarea={setFocusCommentTextarea}
+					showComments={showComments}
+					focusCommentTextarea={focusCommentTextarea}
+				/>
+			)}
 		</footer>
 	);
 };

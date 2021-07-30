@@ -5,7 +5,7 @@ import classes from './SettingsButton.module.css';
 import Modal from '../../UI/V1/Modal/Modal';
 import EditUserInfo from './EditUserInfo/EditUserInfo';
 import EditUserSecurity from './EditUserSecurity/EditUserSecurity';
-import Button from '../../UI/V1/Button/Button';
+import Button from '../../UI/V1/Button';
 
 const SettingsButton = () => {
 	const [closeModal, setCloseModal] = useState(true);

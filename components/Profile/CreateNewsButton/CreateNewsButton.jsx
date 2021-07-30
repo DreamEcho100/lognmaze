@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import CreateAction from '../../UI/V1/News/Action/Action';
 
-import Button from '../../UI/V1/Button/Button';
+import Button from '../../UI/V1/Button';
 
 const CreateNewsButton = () => {
 	const [showCreateNewsButtonModal, setShowCreateNewsButtonModal] =

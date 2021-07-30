@@ -5,11 +5,11 @@ import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 
 import UserContext from '@store/UserContext';
 
-import Form from '@components/UI/V1/Form/Form';
+import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl/FormControl';
 import Label from '@components/UI/V1/Label/Label';
-import Textarea from '@components/UI/V1/Textarea/Textarea';
-import Button from '@components/UI/V1/Button/Button';
+import Textarea from '@components/UI/V1/Textarea';
+import Button from '@components/UI/V1/Button';
 
 const Post = ({ closeModal, fetcher, actionType, data, setData }) => {
 	const { user, ...UserCxt } = useContext(UserContext);

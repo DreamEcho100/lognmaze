@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import NavOnSmallScreensClasses from './NavOnSmallScreens.module.css';
 import MainNavigationClasses from '../MainNavigation.module.css';
-import Button from '../../../UI/V1/Button/Button';
+import Button from '../../../UI/V1/Button';
 
 const NavOnSmallScreens = ({ user, isLoading, handleSignOut }) => {
 	const [showNavOnSmallScreens, setShowNavOnSmallScreens] = useState(false);

@@ -6,7 +6,7 @@ import ModalContainer from './ModalContainer/ModalContainer';
 import Article from './Article/Article';
 import Post from './Post/Post';
 import Modal from '@components/UI/V1/Modal/Modal';
-import Button from '@components/UI/V1/Button/Button';
+import Button from '@components/UI/V1/Button';
 import Container2 from '@components/UI/V1/News/Container/Container';
 
 const Action = ({ closeModal, news }) => {

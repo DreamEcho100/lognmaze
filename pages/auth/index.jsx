@@ -5,7 +5,7 @@ import UserContext from '@store/UserContext';
 
 import Auth from '../../components/Auth/Auth';
 
-import Button from '../../components/UI/V1/Button/Button';
+import Button from '../../components/UI/V1/Button';
 
 const AuthPage = ({
 	UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN,

@@ -7,11 +7,11 @@ import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 import UserContext from '@store/UserContext';
 
 import Modal from '@components/UI/V1/Modal/Modal';
-import Form from '@components/UI/V1/Form/Form';
+import Form from '@components/UI/V1/Form';
 import FormLabel from '@components/UI/V1/FormLabel/FormLabel';
 import FormInput from '@components/UI/V1/FormInput/FormInput';
 import FormControl from '@components/UI/V1/FormControl/FormControl';
-import Button from '@components/UI/V1/Button/Button';
+import Button from '@components/UI/V1/Button';
 
 import InputFileReactDropzone from '@components/UI/V1/InputFileReactDropzone/InputFileReactDropzone';
 import LinearProgressBar from '@components/UI/V1/LinearProgressBar/LinearProgressBar';

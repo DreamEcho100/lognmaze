@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 
 import classes from './Hero.module.css';
-import Button from '../../UI/V1/Button/Button';
+import Button from '../../UI/V1/Button';
 
 const Hero = ({ user = {} }) => {
 	const router = useRouter();

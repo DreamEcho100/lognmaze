@@ -8,14 +8,14 @@ import ISOCountryCodesCountriesISOCode from '@data/ISOCountryCodesCountriesISOCo
 
 import UserContext from '@store/UserContext';
 
-import Form from '@components/UI/V1/Form/Form';
+import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl/FormControl';
 import FormControls from '@components/UI/V1/FormControls/FormControls';
 import Label from '@components/UI/V1/Label/Label';
 import Input from '@components/UI/V1/Input/Input';
 import Select from '@components/UI/V1/Select/Select';
-import Textarea from '@components/UI/V1/Textarea/Textarea';
-import Button from '@components/UI/V1/Button/Button';
+import Textarea from '@components/UI/V1/Textarea';
+import Button from '@components/UI/V1/Button';
 
 const iso_languagesKeys = (() => {
 	return Object.keys(ISO639_1LanguageCodes);

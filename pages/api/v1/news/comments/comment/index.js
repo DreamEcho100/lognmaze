@@ -24,13 +24,14 @@ export default async (req, res) => {
 					.query(
 						`
 							SELECT
+								news.news_id,
 								news.author_id,
 								news.type,
 								news.comments_count,
 								news.created_at,
 								news.updated_on,
 
-								news_comment.news_comment_id,
+								-- news_comment.news_comment_id AS news_id,
 								news_comment.content
 
 							FROM news
@@ -46,13 +47,14 @@ export default async (req, res) => {
 					.query(
 						`
 						SELECT
+							news.news_id,
 							news.author_id,
 							news.type,
 							news.comments_count,
 							news.created_at,
 							news.updated_on,
 
-							news_comment_reply.news_comment_reply_id,
+							-- news_comment_reply.news_comment_reply_id AS news_id,
 							news_comment_reply.reply_to_id,
 							news_comment_reply.content
 

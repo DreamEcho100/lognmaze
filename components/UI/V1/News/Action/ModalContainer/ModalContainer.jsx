@@ -4,7 +4,7 @@ import classes from './ModalContainer.module.css';
 
 import Header from './Header/Header';
 import Modal from '@components/UI/V1/Modal/Modal';
-import Button from '@components/UI/V1/Button/Button';
+import Button from '@components/UI/V1/Button';
 
 const ModalContainer = ({ closeModal, HeaderProps, children }) => {
 	return (

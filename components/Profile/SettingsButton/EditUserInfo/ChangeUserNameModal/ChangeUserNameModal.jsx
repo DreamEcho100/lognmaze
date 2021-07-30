@@ -8,12 +8,12 @@ import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 import UserContext from '@store/UserContext';
 
 import Modal from '@components/UI/V1/Modal/Modal';
-import Form from '@components/UI/V1/Form/Form';
+import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl/FormControl';
 import FormControls from '@components/UI/V1/FormControls/FormControls';
 import FormLabel from '@components/UI/V1/FormLabel/FormLabel';
 import FormInput from '@components/UI/V1/FormInput/FormInput';
-import Button from '@components/UI/V1/Button/Button';
+import Button from '@components/UI/V1/Button';
 
 const ChangeUserNameModal = ({ closeModal }) => {
 	const router = useRouter();
