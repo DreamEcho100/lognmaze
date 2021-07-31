@@ -7,8 +7,8 @@ import UserContext from '@store/UserContext';
 
 import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl/FormControl';
-import Label from '@components/UI/V1/Label/Label';
-import Input from '@components/UI/V1/Input/Input';
+import Label from '@components/UI/V1/Label';
+import Input from '@components/UI/V1/Input';
 
 import Button from '@components/UI/V1/Button';
 

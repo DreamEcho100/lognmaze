@@ -4,9 +4,8 @@ import classes from './index.module.css';
 
 import UserContext from '@store/UserContext';
 
-import Form from '@components/UI/V1/Form';
-import Textarea from '@components/UI/V1/Textarea';
-import Button from '@components/UI/V1/Button';
+import Comment from './Comment';
+import EditComment from './EditComment';
 
 const Comments = ({
 	inheritedClasses,
@@ -26,7 +25,6 @@ const Comments = ({
 	});
 
 	const [disbleSendCommentButton, setDisbleSendCommentButton] = useState(false);
-
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -85,44 +83,6 @@ const Comments = ({
 		setDisbleSendCommentButton(false);
 	};
 
-	const handleDeleteComment = async (type, news_id) => {
-		// setDisbleDeleteCommentButton(true);
-
-		const body = JSON.stringify({
-			type,
-			news_id,
-		});
-
-		const {
-			status,
-			message,
-			data: comment,
-		} = await fetch('/api/v1/news/comments/comment', {
-			method: 'DELETE',
-			headers: {
-				'Content-Type': 'application/json',
-				authorization: `Bearer ${user.token}`,
-			},
-			body,
-		})
-			.then((respone) => respone.json())
-			.catch((error) => {
-				return { ...error, status: 'error' };
-			});
-
-		if (status === 'error') {
-			console.error(message);
-			// setDisbleDeleteCommentButton(false);
-			return;
-		}
-
-		setData((prev) => ({
-			...prev,
-			comments_count: prev.comments_count - 1,
-			comments: prev.comments.filter((comment) => comment.news_id !== news_id),
-		}));
-	};
-
 	useEffect(async () => {
 		if (data.comments && data.comments_count !== 0) {
 			const {
@@ -146,49 +106,24 @@ const Comments = ({
 
 	return (
 		<section className={`${inheritedClasses}`}>
-			<div
-				style={{
-					width: '100%',
-				}}
-			>
-				<Form onSubmit={handleSubmit}>
-					<Textarea
-						useElement={(elem) => {
-							elem.focus();
-						}}
-						// useElementInEffect={(elem) => {
-						// 	console.log(elem);
-						// 	if (!elem) return;
-						// 	elem.focus();
-						// }}
-						// useElementInEffectDependencyList={[]}
-						name='comment'
-						setValues={setValues}
-						value={values.comment}
-					/>
-					<Button type='submit' disabled={disbleSendCommentButton}>
-						Send
-					</Button>
-				</Form>
-			</div>
+			<EditComment
+				handleSubmit={handleSubmit}
+				focusTextarea={true}
+				setFocusCommentTextarea={setFocusCommentTextarea}
+				name='comment'
+				setValues={setValues}
+				value={values.comment}
+				disbleSubmitBtn={disbleSendCommentButton}
+			/>
 			<div>
 				{data.comments &&
-					data.comments.map((comment, index) => {
-						return (
-							<div key={comment.news_id}>
-								<p>{comment.content}</p>
-								<small>{comment.created_at}</small>
-								<small>{comment.updated_on}</small>
-								<button
-									onClick={() =>
-										handleDeleteComment(comment.type, comment.news_id)
-									}
-								>
-									Delete
-								</button>
-							</div>
-						);
-					})}
+					data.comments.map((comment, index) => (
+						<Comment
+							key={comment.news_id}
+							comment={comment}
+							setData={setData}
+						/>
+					))}
 			</div>
 			<h3
 				onClick={() => {

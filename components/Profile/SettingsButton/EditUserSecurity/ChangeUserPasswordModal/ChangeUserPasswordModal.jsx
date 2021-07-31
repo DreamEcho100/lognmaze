@@ -7,8 +7,8 @@ import UserContext from '@store/UserContext';
 import Modal from '@components/UI/V1/Modal/Modal';
 import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl/FormControl';
-import FormLabel from '@components/UI/V1/FormLabel/FormLabel';
-import FormInput from '@components/UI/V1/FormInput/FormInput';
+import Label from '@components/UI/V1/Label';
+import Input from '@components/UI/V1/Input';
 import Button from '@components/UI/V1/Button';
 
 const ChangeUserPasswordModal = ({ closeModal }) => {
@@ -77,10 +77,8 @@ const ChangeUserPasswordModal = ({ closeModal }) => {
 			<Fragment key='body'>
 				<Form onSubmit={handleSubmit}>
 					<FormControl>
-						<FormLabel htmlFor='old-password'>
-							Enter Your Old Password
-						</FormLabel>
-						<FormInput
+						<Label htmlFor='old-password'>Enter Your Old Password</Label>
+						<Input
 							type='password'
 							id='old-password'
 							required
@@ -89,10 +87,8 @@ const ChangeUserPasswordModal = ({ closeModal }) => {
 						/>
 					</FormControl>
 					<FormControl>
-						<FormLabel htmlFor='new-password'>
-							Enter Your New Password
-						</FormLabel>
-						<FormInput
+						<Label htmlFor='new-password'>Enter Your New Password</Label>
+						<Input
 							type='password'
 							id='new-password'
 							required
@@ -101,10 +97,10 @@ const ChangeUserPasswordModal = ({ closeModal }) => {
 						/>
 					</FormControl>
 					<FormControl>
-						<FormLabel htmlFor='new-password-again'>
+						<Label htmlFor='new-password-again'>
 							Enter Your New Password Again
-						</FormLabel>
-						<FormInput
+						</Label>
+						<Input
 							type='password'
 							id='new-password-again'
 							required

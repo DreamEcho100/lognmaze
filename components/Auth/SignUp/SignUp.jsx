@@ -8,8 +8,8 @@ import UserContext from '../../../store/UserContext';
 import Form from '../../UI/V1/Form';
 import FormControl from '../../UI/V1/FormControl/FormControl';
 import FormControls from '../../UI/V1/FormControls/FormControls';
-import Label from '@components/UI/V1/Label/Label';
-import Input from '@components/UI/V1/Input/Input';
+import Label from '@components/UI/V1/Label';
+import Input from '@components/UI/V1/Input';
 import Select from '@components/UI/V1/Select/Select';
 import Button from '../../UI/V1/Button';
 

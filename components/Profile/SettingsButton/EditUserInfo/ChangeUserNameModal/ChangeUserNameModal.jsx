@@ -11,8 +11,8 @@ import Modal from '@components/UI/V1/Modal/Modal';
 import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl/FormControl';
 import FormControls from '@components/UI/V1/FormControls/FormControls';
-import FormLabel from '@components/UI/V1/FormLabel/FormLabel';
-import FormInput from '@components/UI/V1/FormInput/FormInput';
+import Label from '@components/UI/V1/Label';
+import Input from '@components/UI/V1/Input';
 import Button from '@components/UI/V1/Button';
 
 const ChangeUserNameModal = ({ closeModal }) => {
@@ -80,8 +80,8 @@ const ChangeUserNameModal = ({ closeModal }) => {
 				>
 					<FormControls>
 						<FormControl>
-							<FormLabel htmlFor='firstName'>Your First Name</FormLabel>
-							<FormInput
+							<Label htmlFor='firstName'>Your First Name</Label>
+							<Input
 								type='text'
 								id='firstName'
 								required
@@ -90,8 +90,8 @@ const ChangeUserNameModal = ({ closeModal }) => {
 							/>
 						</FormControl>
 						<FormControl>
-							<FormLabel htmlFor='lastName'>Your last Name</FormLabel>
-							<FormInput
+							<Label htmlFor='lastName'>Your last Name</Label>
+							<Input
 								type='text'
 								id='lastName'
 								required
@@ -101,10 +101,10 @@ const ChangeUserNameModal = ({ closeModal }) => {
 						</FormControl>
 					</FormControls>
 					<FormControl>
-						<FormLabel htmlFor='password-to-change-basic-info-in-settings'>
+						<Label htmlFor='password-to-change-basic-info-in-settings'>
 							Enter Your Password
-						</FormLabel>
-						<FormInput
+						</Label>
+						<Input
 							type='password'
 							id='password-to-change-basic-info-in-settings'
 							required

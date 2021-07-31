@@ -10,8 +10,8 @@ import UserContext from '@store/UserContext';
 import Modal from '@components/UI/V1/Modal/Modal';
 import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl/FormControl';
-import FormLabel from '@components/UI/V1/FormLabel/FormLabel';
-import FormInput from '@components/UI/V1/FormInput/FormInput';
+import Label from '@components/UI/V1/Label';
+import Input from '@components/UI/V1/Input';
 import Button from '@components/UI/V1/Button';
 
 const ChangeUserGenderModal = ({ closeModal }) => {
@@ -69,7 +69,7 @@ const ChangeUserGenderModal = ({ closeModal }) => {
 					onSubmit={submitHandler}
 				>
 					<FormControl>
-						<FormInput
+						<Input
 							defaultClasses='form-input-radio'
 							type='radio'
 							name='gender'
@@ -80,10 +80,10 @@ const ChangeUserGenderModal = ({ closeModal }) => {
 								setChoosedGender(event.target.value);
 							}}
 						/>
-						<FormLabel htmlFor='male'>Male</FormLabel>
+						<Label htmlFor='male'>Male</Label>
 					</FormControl>
 					<FormControl>
-						<FormInput
+						<Input
 							defaultClasses='form-input-radio'
 							type='radio'
 							name='gender'
@@ -94,13 +94,13 @@ const ChangeUserGenderModal = ({ closeModal }) => {
 								setChoosedGender(event.target.value);
 							}}
 						/>
-						<FormLabel htmlFor='female'>Female</FormLabel>
+						<Label htmlFor='female'>Female</Label>
 					</FormControl>
 					<FormControl>
-						<FormLabel htmlFor='password-to-change-basic-info-in-settings'>
+						<Label htmlFor='password-to-change-basic-info-in-settings'>
 							Enter Your Password
-						</FormLabel>
-						<FormInput
+						</Label>
+						<Input
 							type='password'
 							id='password-to-change-basic-info-in-settings'
 							required

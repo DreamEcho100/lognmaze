@@ -1,4 +1,4 @@
-import classes from './Input.module.css';
+import classes from './index.module.css';
 import BorderClasses from '../Border.module.css';
 
 import { handleAllClasses } from '../utils/index';

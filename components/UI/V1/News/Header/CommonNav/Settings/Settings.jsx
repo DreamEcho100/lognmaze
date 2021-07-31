@@ -1,77 +1,92 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import classes from './Settings.module.css';
 
+import DropdownMenu from '@components/UI/V1/DropdownMenu';
 import UpdateAction from '@components/UI/V1/News/Action/Action';
 import DeleteAction from '@components/UI/V1/News/Action/Action';
 
 const Settings = ({ isDataOwner, data, setData }) => {
-	const [showUpdateNewsModal, setShowUpdateNewsModal] = useState(false);
-	const [showSettingsMenu, setShowSettingsMenu] = useState(false);
+	const [items, setItems] = useState([]);
 
-	const [showDeleteModal, setShowDeleteModal] = useState(false);
+	useEffect(() => {
+		if (isDataOwner) {
+			setItems([
+				{
+					className: `${classes['settings-item-for-data-owner']}`,
+					props: {
+						UpdateAction,
+						data,
+						setData,
+					},
+					Element: ({ UpdateAction, data, setData }) => {
+						const [showUpdateNewsModal, setShowUpdateNewsModal] =
+							useState(false);
 
-	return (
-		<div className={classes['settings-wrapper']}>
-			<button className={classes['seeting-btn']}>
-				<strong onClick={() => setShowSettingsMenu((prev) => !prev)}>
-					<i>|</i>
-				</strong>
-			</button>
-			<ul
-				className={`${classes['settings-menu']} ${
-					showSettingsMenu ? classes['show-settings-menu'] : ''
-				}`}
-				onBlur={() => {
-					setTimeout(() => {
-						if (showSettingsMenu) setShowSettingsMenu(false);
-					}, 100);
-				}}
-			>
-				{isDataOwner && (
-					<>
-						<li
-							className={`${classes['settings-item']} ${classes['settings-item-for-data-owner']}`}
-						>
-							<button onClick={() => setShowUpdateNewsModal(true)}>Edit</button>
-							{showUpdateNewsModal && (
-								<UpdateAction
-									closeModal={() => setShowUpdateNewsModal(false)}
-									news={{
-										type: data.type,
-										action: 'update',
-										route: 'update',
-										data,
-										setData,
-									}}
-								/>
-							)}
-						</li>
-						<li
-							className={`${classes['settings-item']} ${classes['settings-item-for-data-owner']}`}
-						>
-							<button onClick={() => setShowDeleteModal(true)}>Delete</button>
-							{showDeleteModal && (
-								<DeleteAction
-									closeModal={() => setShowDeleteModal(false)}
-									news={{
-										type: data.type,
-										action: 'delete',
-										isDataOwner,
-										data,
-										setData,
-									}}
-								/>
-							)}
-						</li>
-					</>
-				)}
-				<li className={classes['settings-item']}>
-					<button>Share News</button>
-				</li>
-			</ul>
-		</div>
-	);
+						return (
+							<>
+								<button onClick={() => setShowUpdateNewsModal(true)}>
+									Edit
+								</button>
+								{showUpdateNewsModal && (
+									<UpdateAction
+										closeModal={() => setShowUpdateNewsModal(false)}
+										news={{
+											type: data.type,
+											action: 'update',
+											route: 'update',
+											data,
+											setData,
+										}}
+									/>
+								)}
+							</>
+						);
+					},
+				},
+				{
+					className: `${classes['settings-item-for-data-owner']}`,
+					props: {
+						DeleteAction,
+						data,
+						setData,
+					},
+					Element: ({ DeleteAction, data, setData }) => {
+						const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+						return (
+							<>
+								<button onClick={() => setShowDeleteModal(true)}>Delete</button>
+								{showDeleteModal && (
+									<DeleteAction
+										closeModal={() => setShowDeleteModal(false)}
+										news={{
+											type: data.type,
+											action: 'delete',
+											isDataOwner,
+											data,
+											setData,
+										}}
+									/>
+								)}
+							</>
+						);
+					},
+				},
+				{
+					Element: () => <button>Share News</button>,
+				},
+			]);
+		} else {
+			setItems([
+				{
+					Element: () => <button>Share News</button>,
+				},
+			]);
+		}
+	}, [isDataOwner]);
+
+	return <DropdownMenu items={items} />;
 };
 
 export default Settings;

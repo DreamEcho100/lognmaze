@@ -8,8 +8,8 @@ import UserContext from '@store/UserContext';
 
 import Modal from '@components/UI/V1/Modal/Modal';
 import Form from '@components/UI/V1/Form';
-import FormLabel from '@components/UI/V1/FormLabel/FormLabel';
-import FormInput from '@components/UI/V1/FormInput/FormInput';
+import Label from '@components/UI/V1/Label';
+import Input from '@components/UI/V1/Input';
 import FormControl from '@components/UI/V1/FormControl/FormControl';
 import Button from '@components/UI/V1/Button';
 
@@ -146,8 +146,8 @@ const ChangeProfilePictureModal = ({ closeModal }) => {
 						<p className={classes['dragged-prop']}>Type: {file.type}</p>
 					</FormControl>
 					<FormControl>
-						<FormLabel htmlFor='url-input'>Or Enter A URL:</FormLabel>
-						<FormInput
+						<Label htmlFor='url-input'>Or Enter A URL:</Label>
+						<Input
 							type='text'
 							id='url-input'
 							value={urlInput}

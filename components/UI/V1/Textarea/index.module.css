@@ -1,6 +1,6 @@
 .textarea {
 	min-width: 100%;
-	/* width: 80rem; */
+	width: 100%;
 	max-width: 100%;
 	min-height: 10rem;
 	padding: 0.5em;

@@ -7,8 +7,8 @@ import UserContext from '@store/UserContext';
 import Modal from '@components/UI/V1/Modal/Modal';
 import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl/FormControl';
-import FormLabel from '@components/UI/V1/FormLabel/FormLabel';
-import FormInput from '@components/UI/V1/FormInput/FormInput';
+import Label from '@components/UI/V1/Label';
+import Input from '@components/UI/V1/Input';
 import Button from '@components/UI/V1/Button';
 
 const ChangeUserEmailModal = ({ closeModal }) => {
@@ -57,8 +57,8 @@ const ChangeUserEmailModal = ({ closeModal }) => {
 			<Fragment key='body'>
 				<Form onSubmit={handleSubmit}>
 					<FormControl>
-						<FormLabel htmlFor='email'>Your Email</FormLabel>
-						<FormInput
+						<Label htmlFor='email'>Your Email</Label>
+						<Input
 							type='email'
 							id='email'
 							required
@@ -67,10 +67,10 @@ const ChangeUserEmailModal = ({ closeModal }) => {
 						/>
 					</FormControl>
 					<FormControl>
-						<FormLabel htmlFor='password-to-change-email-in-settings'>
+						<Label htmlFor='password-to-change-email-in-settings'>
 							Enter Your Password
-						</FormLabel>
-						<FormInput
+						</Label>
+						<Input
 							type='password'
 							id='password-to-change-email-in-settings'
 							required

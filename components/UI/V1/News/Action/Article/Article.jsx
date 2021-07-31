@@ -11,8 +11,8 @@ import UserContext from '@store/UserContext';
 import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl/FormControl';
 import FormControls from '@components/UI/V1/FormControls/FormControls';
-import Label from '@components/UI/V1/Label/Label';
-import Input from '@components/UI/V1/Input/Input';
+import Label from '@components/UI/V1/Label';
+import Input from '@components/UI/V1/Input';
 import Select from '@components/UI/V1/Select/Select';
 import Textarea from '@components/UI/V1/Textarea';
 import Button from '@components/UI/V1/Button';
@@ -259,7 +259,7 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 			</FormControl>
 
 			<FormControls>
-				<FormControl>
+				<FormControl className={classes['form-control']}>
 					<Label htmlFor='iso_language'>ISO Language: </Label>
 					<Select
 						name='iso_language'
@@ -277,7 +277,7 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 					</Select>
 				</FormControl>
 
-				<FormControl>
+				<FormControl className={classes['form-control']}>
 					<Label htmlFor='iso_country'>ISO Country: </Label>
 					<Select
 						name='iso_country'
