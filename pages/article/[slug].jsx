@@ -16,11 +16,13 @@ export const getStaticProps = async (context) => {
 		params: { slug },
 	} = context;
 
-	const response = await fetch(
+	const result = await fetch(
 		`${process.env.BACK_END_ROOT_URL}/api/v1/news/articles/article/${slug}`
-	);
+	)
+		.then((response) => response.json())
+		.catch((error) => ({ status: 'error', message: error.message, data: {} }));
 
-	const { status, message, data } = await response.json();
+	const { status, message, data } = result;
 
 	if (status === 'error' || !data) {
 		return { props: { data: {} } };
@@ -34,10 +36,13 @@ export const getStaticProps = async (context) => {
 };
 
 export const getStaticPaths = async () => {
-	const response = await fetch(
+	const result = await fetch(
 		`${process.env.BACK_END_ROOT_URL}/api/v1/news/articles/?with_news_article_content=true&with_author_data=true`
-	);
-	const { status, message, data } = await response.json();
+	)
+		.then((response) => response.json())
+		.catch((error) => ({ status: 'error', message: error.message, data: {} }));
+
+	const { status, message, data } = result;
 
 	const paths = data.map((post) => ({
 		params: { slug: post.slug },
