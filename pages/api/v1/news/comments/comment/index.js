@@ -30,14 +30,21 @@ export default async (req, res) => {
 								news.comments_count,
 								news.created_at,
 								news.updated_on,
+								
+								user_profile.user_profile_id AS author_id,
+								user_profile.user_name_id AS author_user_name_id,
+								user_profile.first_name AS author_first_name,
+								user_profile.last_name AS author_last_name,
+								user_profile.profile_picture AS author_profile_picture,
 
 								-- news_comment.news_comment_id AS news_id,
 								news_comment.content
 
 							FROM news
+							JOIN user_profile ON user_profile.user_profile_id = news.author_id
 							JOIN news_comment ON news_comment.news_comment_id = news.news_id
 							WHERE news_comment.news_id = $1
-							ORDER BY news.updated_on DESC;
+							ORDER BY news.created_at DESC;
 						`,
 						[news_id]
 					)
@@ -53,12 +60,19 @@ export default async (req, res) => {
 							news.comments_count,
 							news.created_at,
 							news.updated_on,
+								
+							user_profile.user_profile_id AS author_id,
+							user_profile.user_name_id AS author_user_name_id,
+							user_profile.first_name AS author_first_name,
+							user_profile.last_name AS author_last_name,
+							user_profile.profile_picture AS author_profile_picture,
 
 							-- news_comment_reply.news_comment_reply_id AS news_id,
 							news_comment_reply.reply_to_id,
 							news_comment_reply.content
 
 						FROM news
+						JOIN user_profile ON user_profile.user_profile_id = news.author_id
 						JOIN news_comment_reply ON news_comment_reply.news_comment_reply_id = news.news_id
 						WHERE news_comment_reply.parent_id = ($1)
 						ORDER BY news.updated_on DESC;
@@ -146,16 +160,16 @@ export default async (req, res) => {
 
 			if (!isAuthorized.id) return;
 
-			const { type, comment_id, content } = req.body;
+			const { type, news_id, content } = req.body;
 
 			const data = await pool
 				.query(
 					`
-							UPDATE news
-							SET updated_on = ($1)
-							WHERE news_id = ($2) AND author_id = ($3) RETURNING news_id
-						`,
-					[new Date().toUTCString(), comment_id, isAuthorized.id]
+						UPDATE news
+						SET updated_on = ($1)
+						WHERE news_id = ($2) AND author_id = ($3) RETURNING news_id
+					`,
+					[new Date().toUTCString(), news_id, isAuthorized.id]
 				)
 				.then(async (response) => response.rows[0]);
 

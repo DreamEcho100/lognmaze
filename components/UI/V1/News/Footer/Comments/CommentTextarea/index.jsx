@@ -4,7 +4,7 @@ import Form from '@components/UI/V1/Form';
 import Textarea from '@components/UI/V1/Textarea';
 import Button from '@components/UI/V1/Button';
 
-const EditComment = ({
+const CommentTextarea = ({
 	handleSubmit,
 	focusTextarea,
 	setFocusCommentTextarea,
@@ -13,6 +13,8 @@ const EditComment = ({
 	value,
 	onChange,
 	disbleSubmitBtn,
+	closeBtn,
+	onClickingCloseBtn,
 }) => {
 	return (
 		<Form onSubmit={handleSubmit}>
@@ -37,8 +39,11 @@ const EditComment = ({
 			<Button type='submit' disabled={disbleSubmitBtn}>
 				Send
 			</Button>
+			{closeBtn && <Button type='button' disabled={disbleSubmitBtn} onClick={onClickingCloseBtn}>
+				Close
+			</Button>}
 		</Form>
 	);
 };
 
-export default EditComment;
+export default CommentTextarea;

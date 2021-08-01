@@ -4,10 +4,7 @@ const Article = ({ data }) => {
 	return (
 		<section>
 			<h1>Slug</h1>
-			<Container
-				data={data}
-				detailsType='content'
-			/>
+			<Container data={data} detailsType='content' />
 		</section>
 	);
 };

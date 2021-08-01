@@ -5,7 +5,7 @@ import classes from './index.module.css';
 import UserContext from '@store/UserContext';
 
 import Comment from './Comment';
-import EditComment from './EditComment';
+import CommentTextarea from './CommentTextarea';
 
 const Comments = ({
 	inheritedClasses,
@@ -106,7 +106,7 @@ const Comments = ({
 
 	return (
 		<section className={`${inheritedClasses}`}>
-			<EditComment
+			<CommentTextarea
 				handleSubmit={handleSubmit}
 				focusTextarea={true}
 				setFocusCommentTextarea={setFocusCommentTextarea}
@@ -122,6 +122,7 @@ const Comments = ({
 							key={comment.news_id}
 							comment={comment}
 							setData={setData}
+							data={data}
 						/>
 					))}
 			</div>
