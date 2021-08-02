@@ -15,12 +15,13 @@ export default async (req, res) => {
 
 	try {
 		if (req.method === 'GET') {
-			const { type, news_id } = req.query;
+			const { type, offset_index = 0 } = req.query;
 
-			let data;
+			let comments,
+				hit_replies_limit = false;
 
 			if (type === 'comment') {
-				data = await pool
+				comments = await pool
 					.query(
 						`
 							SELECT
@@ -44,48 +45,58 @@ export default async (req, res) => {
 							JOIN user_profile ON user_profile.user_profile_id = news.author_id
 							JOIN news_comment ON news_comment.news_comment_id = news.news_id
 							WHERE news_comment.news_id = $1
-							ORDER BY news.created_at DESC;
+							ORDER BY news.created_at DESC
+							OFFSET ${offset_index * 10} LIMIT 10;
 						`,
-						[news_id]
+						[req.query.news_id]
 					)
 					.then((response) => response.rows);
 			} else if (type === 'comment_reply') {
-				data = await pool
+				comments = await pool
 					.query(
 						`
-						SELECT
-							news.news_id,
-							news.author_id,
-							news.type,
-							news.comments_count,
-							news.created_at,
-							news.updated_on,
+							SELECT
+								news.news_id,
+								news.author_id,
+								news.type,
+								news.comments_count,
+								news.created_at,
+								news.updated_on,
 
-							user_profile.user_profile_id AS author_id,
-							user_profile.user_name_id AS author_user_name_id,
-							user_profile.first_name AS author_first_name,
-							user_profile.last_name AS author_last_name,
-							user_profile.profile_picture AS author_profile_picture,
+								user_profile.user_profile_id AS author_id,
+								user_profile.user_name_id AS author_user_name_id,
+								user_profile.first_name AS author_first_name,
+								user_profile.last_name AS author_last_name,
+								user_profile.profile_picture AS author_profile_picture,
 
-							-- news_comment_reply.news_comment_reply_id AS news_id,
-							news_comment_reply.reply_to_comment_id,
-							news_comment_reply.content
+								-- news_comment_reply.news_comment_reply_id AS news_id,
+								news_comment_reply.reply_to_comment_id,
+								news_comment_reply.content
 
-						FROM news
-						JOIN user_profile ON user_profile.user_profile_id = news.author_id
-						JOIN news_comment_reply ON news_comment_reply.news_comment_reply_id = news.news_id
-						WHERE news_comment_reply.parent_id = ($1)
-						ORDER BY news.updated_on DESC;
-					`,
+							FROM news
+							JOIN user_profile ON user_profile.user_profile_id = news.author_id
+							JOIN news_comment_reply ON news_comment_reply.news_comment_reply_id = news.news_id
+							WHERE news_comment_reply.parent_id = ($1)
+							ORDER BY news.updated_on DESC
+							OFFSET ${offset_index * 10} LIMIT 10;
+						`,
 						[req.query.parent_id]
 					)
 					.then((response) => response.rows);
 			}
+			// replies_index
+			// hit_replies_limit
 
+			if (comments.length < 10) {
+				hit_replies_limit = true;
+			}
 			return res.status(200).json({
 				status: 'success',
 				message: 'Comments Arrived Successfully!',
-				data,
+				data: {
+					comments,
+					hit_replies_limit,
+				},
 			});
 		} else if (req.method === 'POST') {
 			const isAuthorized = await handleIsAuthorized(

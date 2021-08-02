@@ -65,6 +65,12 @@ const Comments = ({
 			comments: [
 				{
 					author_id: user.id,
+
+					author_first_name: user.first_name,
+					author_last_name: user.last_name,
+					author_profile_picture: user.profile_picture,
+					author_user_name_id: user.user_name_id,
+
 					comments_count: 0,
 					content: values.comment,
 					created_at: new Date().toUTCString(),
@@ -85,12 +91,16 @@ const Comments = ({
 
 	useEffect(async () => {
 		if (data.comments && data.comments_count !== 0) {
+			if (data.comments && data.comments.length !== 0) return;
+
 			const {
 				status,
 				message,
-				data: comments,
+				data: result,
 			} = await fetch(
-				`/api/v1/news/comments/comment/?type=comment&news_id=${data.news_id}`
+				`/api/v1/news/comments/comment/?type=comment&news_id=${
+					data.news_id
+				}&offset_index=${0}`
 			).then((respone) => respone.json());
 
 			if (status === 'error') {
@@ -99,7 +109,7 @@ const Comments = ({
 
 			setData((prev) => ({
 				...prev,
-				comments,
+				comments: result.comments,
 			}));
 		}
 	}, []);

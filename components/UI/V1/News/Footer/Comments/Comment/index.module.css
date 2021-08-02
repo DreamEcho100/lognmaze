@@ -10,6 +10,10 @@
 	margin-bottom: 0em;
 }
 
+.type-comment_reply {
+	margin-left: 0.5em;
+}
+
 .header {
 	width: 100%;
 	display: flex;

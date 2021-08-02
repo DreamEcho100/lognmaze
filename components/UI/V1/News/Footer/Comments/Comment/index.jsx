@@ -8,18 +8,49 @@ import { dateToHumanReadableDate } from '@lib/v1/time';
 import DropdownMenu from '@components/UI/V1/DropdownMenu';
 import CommentTextarea from '../CommentTextarea';
 
-const Comment = ({ comment, data, setData }) => {
+const Replies = ({ replies, setData, data, parent_data }) =>
+	replies
+		? replies.map((reply) => (
+				<Comment
+					key={reply.news_id}
+					comment={reply}
+					setData={setData}
+					data={data}
+					parent_data={parent_data}
+				/>
+		  ))
+		: null;
+
+const Comment = ({ comment, data, setData, ...props }) => {
 	const { user, ...UserCxt } = useContext(UserContext);
 
 	const [showContent, setShowContent] = useState(true);
 	const [showReplyTextarea, setShowReplyTextarea] = useState(false);
+	const [showReplies, setShowReplies] = useState(false);
+
+	// useEffect(() => {
+	// }, [])
+
 	const [focusTextarea, setFocusCommentTextarea] = useState(false);
 	const [editBtnsDisabled, setEditBtnsDisabled] = useState(false);
+
 	const [deleteBtnsDisabled, setDeleteBtnsDisabled] = useState(false);
 	const [commentReplyBtnsDisabled, setCommentReplyBtnsDisabled] =
 		useState(false);
 	const [focusCommentReplyTextarea, setFocusCommentReplyTextarea] =
 		useState(false);
+
+	const [repliesIndex, setRepliesIndex] = useState(
+		comment.type === 'comment' && comment.replies_index
+			? comment.replies_index
+			: 0
+	);
+	const [hitRepliesLimit, setHitRepliesLimit] = useState(
+		comment.type === 'comment' && comment.hit_replies_limit
+			? comment.hit_replies_limit
+			: false
+	);
+
 	const [values, setValues] = useState({
 		content: comment.content,
 		comment_reply: '',
@@ -190,6 +221,54 @@ const Comment = ({ comment, data, setData }) => {
 		setShowReplyTextarea(false);
 	};
 
+	const loadRepliesHandler = async (parent_id) => {
+		if (
+			comment.type !== 'comment' ||
+			(comment.type === 'comment' && comment.hit_replies_limit) ||
+			hitRepliesLimit
+		)
+			return;
+
+		if (!showReplies && comment.replies && comment.replies.length !== 0) {
+			setShowReplies(true);
+		}
+
+		const { status, message, data } = await fetch(
+			`/api/v1/news/comments/comment/?type=comment_reply&parent_id=${parent_id}&offset_index=${repliesIndex}`
+		).then((respone) => respone.json());
+
+		if (status === 'error') {
+			return console.error(message);
+		}
+
+		setData((prev) => ({
+			...prev,
+			comments: prev.comments.map((comment) => {
+				if (comment.news_id === parent_id) {
+					const replies = comment.replies
+						? [...comment.replies, ...data.comments]
+						: data.comments;
+
+					return {
+						...comment,
+						replies,
+						hit_replies_limit: data.hit_replies_limit,
+						replies_index: comment.replies_index
+							? comment.replies_index + 1
+							: 1,
+					};
+				}
+
+				return comment;
+			}),
+		}));
+
+		setRepliesIndex((prev) => prev + 1);
+
+		if (data.hit_replies_limit) setHitRepliesLimit(true);
+		if (!showReplies) setShowReplies(true);
+	};
+
 	useEffect(() => {
 		if (UserCxt.userExist) {
 			setItems([
@@ -252,8 +331,19 @@ const Comment = ({ comment, data, setData }) => {
 		}
 	}, [UserCxt.userExist]);
 
+	useEffect(() => {
+		if (
+			comment.type === 'comment' &&
+			!showReplies &&
+			comment.replies &&
+			comment.replies.length !== 0
+		) {
+			setShowReplies(true);
+		}
+	}, []);
+
 	return (
-		<div className={classes.comment}>
+		<div className={`${classes.comment} ${classes[`type-${comment.type}`]}`}>
 			<header className={classes.header}>
 				<nav className={classes.nav}>
 					<img
@@ -299,32 +389,40 @@ const Comment = ({ comment, data, setData }) => {
 					Comment
 				</button>
 			</footer>
-			{comment.type === 'comment' && comment.comments_count !== 0 && (
-				<button>
-					{comment.comments_count === 1 ? 'Comment' : 'Comments'}{' '}
-					{comment.comments_count}
-				</button>
-			)}
+			{!hitRepliesLimit &&
+				comment.type === 'comment' &&
+				comment.comments_count !== 0 && (
+					<button onClick={() => loadRepliesHandler(comment.news_id, setData)}>
+						{comment.comments_count === 1 ? 'Comment' : 'Comments'}{' '}
+						{comment.comments_count}
+					</button>
+				)}
 			{showReplyTextarea && (
 				<CommentTextarea
 					handleSubmit={(event) => {
 						event.preventDefault();
 
+						let bodyObj = {
+							type: 'comment_reply',
+							content: values.comment_reply,
+							// reply_to_comment_id: null, // comment.news_id,
+							reply_to_user_id: comment.author_id,
+						};
+
 						if (comment.type === 'comment') {
-							handleSubmitCommentReply(
-								{
-									type: 'comment_reply',
-									content: values.comment_reply,
-									parent_id: comment.news_id,
-									// reply_to_comment_id: null, // comment.news_id,
-									reply_to_user_id: comment.author_id,
-								},
-								user,
-								comment,
-								setData,
-								setValues
-							);
+							bodyObj.parent_id = comment.news_id;
+						} else if (comment.type === 'comment_reply') {
+							bodyObj.parent_id = props.parent_data.news_id;
+							bodyObj.reply_to_comment_id = comment.news_id;
 						}
+
+						handleSubmitCommentReply(
+							bodyObj,
+							user,
+							comment,
+							setData,
+							setValues
+						);
 					}}
 					focusTextarea={focusCommentReplyTextarea}
 					setFocusCommentTextarea={setFocusCommentReplyTextarea}
@@ -334,6 +432,14 @@ const Comment = ({ comment, data, setData }) => {
 					disbleSubmitBtn={commentReplyBtnsDisabled}
 					closeBtn
 					onClickingCloseBtn={() => setShowReplyTextarea(false)}
+				/>
+			)}
+			{showReplies && (
+				<Replies
+					replies={comment.replies}
+					setData={setData}
+					data={data}
+					parent_data={comment}
 				/>
 			)}
 		</div>
