@@ -122,10 +122,9 @@ const Comment = ({ comment, data, setData }) => {
 		user,
 		comment_parent,
 		setData,
-		setValues,
-		reply_to_user_id
+		setValues
 	) => {
-		event.preventDefault();
+		setCommentReplyBtnsDisabled(true);
 
 		const { status, message, data } = await fetch(
 			'/api/v1/news/comments/comment',
@@ -145,15 +144,11 @@ const Comment = ({ comment, data, setData }) => {
 
 		if (status === 'error') {
 			console.error(message);
-			// setCommentReplyBtnsDisabled(false);
+			setCommentReplyBtnsDisabled(false);
 			return;
 		}
 
 		const commentReplyObj = {
-			// type
-			// content
-			// parent_id
-			// reply_to_comment_id
 			...bodyObj,
 
 			author_first_name: user.first_name,
@@ -191,6 +186,8 @@ const Comment = ({ comment, data, setData }) => {
 			...prev,
 			comment_reply: '',
 		}));
+
+		setShowReplyTextarea(false);
 	};
 
 	useEffect(() => {
@@ -310,7 +307,9 @@ const Comment = ({ comment, data, setData }) => {
 			)}
 			{showReplyTextarea && (
 				<CommentTextarea
-					handleSubmit={() => {
+					handleSubmit={(event) => {
+						event.preventDefault();
+
 						if (comment.type === 'comment') {
 							handleSubmitCommentReply(
 								{
