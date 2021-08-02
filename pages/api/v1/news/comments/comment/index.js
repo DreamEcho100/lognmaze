@@ -60,7 +60,7 @@ export default async (req, res) => {
 							news.comments_count,
 							news.created_at,
 							news.updated_on,
-								
+
 							user_profile.user_profile_id AS author_id,
 							user_profile.user_name_id AS author_user_name_id,
 							user_profile.first_name AS author_first_name,
@@ -68,7 +68,7 @@ export default async (req, res) => {
 							user_profile.profile_picture AS author_profile_picture,
 
 							-- news_comment_reply.news_comment_reply_id AS news_id,
-							news_comment_reply.reply_to_id,
+							news_comment_reply.reply_to_comment_id,
 							news_comment_reply.content
 
 						FROM news
@@ -129,8 +129,15 @@ export default async (req, res) => {
 				await pool.query(
 					`
 						WITH insert_item_1 AS (
-							INSERT INTO news_comment_reply (news_comment_reply_id, parent_id, reply_to_id, content)
-							VALUES ($1, $2, $3, $4)
+							INSERT INTO news_comment_reply
+								(
+									news_comment_reply_id,
+									parent_id,
+									reply_to_comment_id,
+									reply_to_user_id,
+									content
+								)
+							VALUES ($1, $2, $3, $4, $5)
 							RETURNING NULL
 						),
 						update_item_1 AS (
@@ -142,7 +149,13 @@ export default async (req, res) => {
 
 						SELECT * FROM insert_item_1, update_item_1;
 					`,
-					[data.news_id, req.body.parent_id, req.body.reply_to_id, content]
+					[
+						data.news_id,
+						req.body.parent_id,
+						req.body.reply_to_comment_id,
+						req.body.reply_to_user_id,
+						content,
+					]
 				);
 			}
 

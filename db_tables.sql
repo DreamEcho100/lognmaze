@@ -202,7 +202,8 @@ CREATE TABLE news_comment_reply (
   news_comment_reply_id uuid NOT NULL,
 
   parent_id uuid NOT NULL,
-  reply_to_id uuid,
+  reply_to_comment_id uuid, --  NOT NULL,
+  reply_to_user_id uuid NOT NULL,
 
   content TEXT NOT NULL,
 
@@ -210,7 +211,8 @@ CREATE TABLE news_comment_reply (
 
   FOREIGN KEY (news_comment_reply_id) REFERENCES news (news_id) ON DELETE CASCADE,
   FOREIGN KEY (parent_id) REFERENCES news_comment (news_comment_id) ON DELETE CASCADE,
-  FOREIGN KEY (reply_to_id) REFERENCES news (news_id) ON DELETE SET NULL
+  FOREIGN KEY (reply_to_comment_id) REFERENCES news (news_id), --  ON DELETE SET NULL
+  FOREIGN KEY (reply_to_user_id) REFERENCES user_account (user_account_id) --  ON DELETE SET NULL
 );
 
 

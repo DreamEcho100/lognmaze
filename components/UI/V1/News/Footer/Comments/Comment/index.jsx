@@ -12,13 +12,17 @@ const Comment = ({ comment, data, setData }) => {
 	const { user, ...UserCxt } = useContext(UserContext);
 
 	const [showContent, setShowContent] = useState(true);
+	const [showReplyTextarea, setShowReplyTextarea] = useState(false);
 	const [focusTextarea, setFocusCommentTextarea] = useState(false);
 	const [editBtnsDisabled, setEditBtnsDisabled] = useState(false);
 	const [deleteBtnsDisabled, setDeleteBtnsDisabled] = useState(false);
+	const [commentReplyBtnsDisabled, setCommentReplyBtnsDisabled] =
+		useState(false);
+	const [focusCommentReplyTextarea, setFocusCommentReplyTextarea] =
+		useState(false);
 	const [values, setValues] = useState({
-		// type: comment.type,
-		// comment_id: comment.news_id,
 		content: comment.content,
+		comment_reply: '',
 	});
 	const [items, setItems] = useState([]);
 
@@ -113,64 +117,141 @@ const Comment = ({ comment, data, setData }) => {
 		setEditBtnsDisabled(false);
 	};
 
-	useEffect(() => {
-		if(UserCxt.userExist){
-		setItems([
-			{
-				props: {
-					handleDeleteComment,
-					comment,
-					data,
-					deleteBtnsDisabled,
-				},
-				Element: ({
-					handleDeleteComment,
-					comment,
-					data,
-					deleteBtnsDisabled,
-				}) => (
-					<button
-						disabled={deleteBtnsDisabled}
-						onClick={() => {
-							if (comment.type === 'comment') {
-								handleDeleteComment(
-									comment.type,
-									comment.news_id,
-									data.news_id
-								);
-							}
+	const handleSubmitCommentReply = async (
+		bodyObj,
+		user,
+		comment_parent,
+		setData,
+		setValues,
+		reply_to_user_id
+	) => {
+		event.preventDefault();
 
-							if (comment.type === 'comment_reply') {
-								handleDeleteComment(
-									comment.type,
-									comment.news_id,
-									comment.parent_id
-								);
-							}
-						}}
-					>
-						Delete
-					</button>
-				),
-			},
+		const { status, message, data } = await fetch(
+			'/api/v1/news/comments/comment',
 			{
-				props: {
-					setShowContent,
-					setFocusCommentTextarea,
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					authorization: `Bearer ${user.token}`,
 				},
-				Element: ({ setShowContent, setFocusCommentTextarea }) => (
-					<button
-						onClick={() => {
-							setShowContent(false);
-							setFocusCommentTextarea(true);
-						}}
-					>
-						Edit
-					</button>
-				),
-			},
-		]);} else {
-			if(items.length > 0) setItems([])
+				body: JSON.stringify(bodyObj),
+			}
+		)
+			.then((respone) => respone.json())
+			.catch((error) => {
+				return { ...error, status: 'error' };
+			});
+
+		if (status === 'error') {
+			console.error(message);
+			// setCommentReplyBtnsDisabled(false);
+			return;
+		}
+
+		const commentReplyObj = {
+			// type
+			// content
+			// parent_id
+			// reply_to_comment_id
+			...bodyObj,
+
+			author_first_name: user.first_name,
+			author_last_name: user.last_name,
+			author_profile_picture: user.profile_picture,
+			author_user_name_id: user.user_name_id,
+
+			author_id: user.id,
+			comments_count: 0,
+			news_id: data.news_id,
+			created_at: new Date().toUTCString(),
+			updated_on: new Date().toUTCString(),
+		};
+
+		setData((prev) => ({
+			...prev,
+			comments: prev.comments.map((comment) => {
+				if (comment.news_id === bodyObj.parent_id) {
+					const replies = comment.replies
+						? [...comment.replies, commentReplyObj]
+						: [commentReplyObj];
+
+					return {
+						...comment,
+						comments_count: comment.comments_count + 1,
+						replies,
+					};
+				}
+
+				return comment;
+			}),
+		}));
+
+		setValues((prev) => ({
+			...prev,
+			comment_reply: '',
+		}));
+	};
+
+	useEffect(() => {
+		if (UserCxt.userExist) {
+			setItems([
+				{
+					props: {
+						handleDeleteComment,
+						comment,
+						data,
+						deleteBtnsDisabled,
+					},
+					Element: ({
+						handleDeleteComment,
+						comment,
+						data,
+						deleteBtnsDisabled,
+					}) => (
+						<button
+							disabled={deleteBtnsDisabled}
+							onClick={() => {
+								if (comment.type === 'comment') {
+									handleDeleteComment(
+										comment.type,
+										comment.news_id,
+										data.news_id
+									);
+								}
+
+								if (comment.type === 'comment_reply') {
+									handleDeleteComment(
+										comment.type,
+										comment.news_id,
+										comment.parent_id
+									);
+								}
+							}}
+						>
+							Delete
+						</button>
+					),
+				},
+				{
+					props: {
+						setShowContent,
+						setFocusCommentTextarea,
+					},
+					Element: ({ setShowContent, setFocusCommentTextarea }) => (
+						<button
+							onClick={() => {
+								setShowContent(false);
+								setFocusCommentTextarea(true);
+							}}
+						>
+							Edit
+						</button>
+					),
+				},
+			]);
+		} else {
+			if (items.length > 0) setItems([]);
 		}
 	}, [UserCxt.userExist]);
 
@@ -212,20 +293,50 @@ const Comment = ({ comment, data, setData }) => {
 					setValues={setValues}
 					value={values.content}
 					disbleSubmitBtn={editBtnsDisabled}
-					closeBtn={true}
+					closeBtn
 					onClickingCloseBtn={() => setShowContent(true)}
 				/>
 			)}
 			<footer className={classes.footer}>
-				{comment.created_at === comment.updated_on ? (
-					<p>Created At: {dateToHumanReadableDate(comment.created_at)}</p>
-				) : (
-					<p>Updated On: {dateToHumanReadableDate(comment.updated_on)}</p>
-				)}
-				<p className={classes.comments_count}>
-					Comments: {comment.comments_count}
-				</p>
+				<button onClick={() => setShowReplyTextarea((prev) => !prev)}>
+					Comment
+				</button>
 			</footer>
+			{comment.type === 'comment' && comment.comments_count !== 0 && (
+				<button>
+					{comment.comments_count === 1 ? 'Comment' : 'Comments'}{' '}
+					{comment.comments_count}
+				</button>
+			)}
+			{showReplyTextarea && (
+				<CommentTextarea
+					handleSubmit={() => {
+						if (comment.type === 'comment') {
+							handleSubmitCommentReply(
+								{
+									type: 'comment_reply',
+									content: values.comment_reply,
+									parent_id: comment.news_id,
+									// reply_to_comment_id: null, // comment.news_id,
+									reply_to_user_id: comment.author_id,
+								},
+								user,
+								comment,
+								setData,
+								setValues
+							);
+						}
+					}}
+					focusTextarea={focusCommentReplyTextarea}
+					setFocusCommentTextarea={setFocusCommentReplyTextarea}
+					name='comment_reply'
+					setValues={setValues}
+					value={values.comment_reply}
+					disbleSubmitBtn={commentReplyBtnsDisabled}
+					closeBtn
+					onClickingCloseBtn={() => setShowReplyTextarea(false)}
+				/>
+			)}
 		</div>
 	);
 };

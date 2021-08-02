@@ -324,6 +324,12 @@ a {
 	cursor: pointer;
 }
 
+button {
+	background-color: transparent;
+	border-color: transparent;
+	outline-color: rgba(255, 255, 255, 0.1);
+}
+
 button:disabled {
 	cursor: not-allowed;
 }
