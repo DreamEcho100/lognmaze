@@ -102,6 +102,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 						let replies = comment.replies.filter(
 							(reply) => reply.news_id !== bodyObj.news_id
 						);
+
 						if (bodyObj.reply_to_comment_id) {
 							replies = replies.map((reply) => {
 								if (reply.news_id === bodyObj.reply_to_comment_id) {
@@ -113,9 +114,14 @@ const Comment = ({ comment, data, setData, ...props }) => {
 								return reply;
 							});
 						}
+
 						return {
 							...comment,
 							comments_count: comment.comments_count - 1,
+							replies_index:
+								comment.replies_index && comment.replies_index - 0.1 > 0
+									? comment.replies_index - 0.1
+									: 0,
 							replies,
 						};
 					}
@@ -123,6 +129,8 @@ const Comment = ({ comment, data, setData, ...props }) => {
 				}),
 			}));
 		}
+
+		setRepliesIndex((prev) => prev - 0.1);
 	};
 
 	const handleUpdatingComment = async (event) => {
@@ -166,6 +174,28 @@ const Comment = ({ comment, data, setData, ...props }) => {
 							...comment,
 							content: bodyObj.content,
 							updated_on: new Date().toUTCString(),
+						};
+					}
+					return comment;
+				}),
+			}));
+		} else if (comment.type === 'comment_reply') {
+			setData((prev) => ({
+				...prev,
+				comments: prev.comments.map((comment) => {
+					if (comment.news_id === props.parent_data.news_id) {
+						return {
+							...comment,
+							replies: comment.replies.map((reply) => {
+								if (reply.news_id === bodyObj.news_id) {
+									return {
+										...reply,
+										content: bodyObj.content,
+										updated_on: new Date().toUTCString(),
+									};
+								}
+								return reply;
+							}),
 						};
 					}
 					return comment;
@@ -250,6 +280,9 @@ const Comment = ({ comment, data, setData, ...props }) => {
 					return {
 						...comment,
 						comments_count: comment.comments_count + 1,
+						replies_index: comment.replies_index
+							? comment.replies_index + 0.1
+							: 0.1,
 						replies,
 					};
 				}
@@ -263,38 +296,46 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			comment_reply: '',
 		}));
 
+		setRepliesIndex((prev) => prev + 0.1);
+
 		setShowReplyTextarea(false);
 		setCommentReplyBtnsDisabled(false);
 	};
 
 	const loadRepliesHandler = async (parent_id) => {
-		if (
-			comment.type !== 'comment' ||
-			(comment.type === 'comment' && comment.hit_replies_limit) ||
-			hitRepliesLimit
-		)
-			return;
+		// if (
+		// 	comment.type !== 'comment' ||
+		// 	(comment.type === 'comment' &&
+		// 		showReplies &&
+		// 		comment.hit_replies_limit) ||
+		// 	(hitRepliesLimit && showReplies)
+		// )
+		// 	return;
 
-		if (!showReplies && comment.replies && comment.replies.length !== 0) {
-			if (comment.replies.length === comment.comments_count) {
-				setData((prev) => ({
-					...prev,
-					comments: prev.comments.map((comment) => {
-						if (comment.news_id === parent_id) {
-							return {
-								...comment,
-								hit_replies_limit: true,
-							};
-						}
+		// if (!showReplies && comment.replies && comment.replies.length !== 0) {
+		// 	if (comment.replies.length === comment.comments_count) {
+		// 		console.log('comment.replies.length', comment.replies.length);
+		// 		console.log('comment.comments_count', comment.comments_count);
 
-						return comment;
-					}),
-				}));
-			}
-			setHitRepliesLimit(true);
-			setShowReplies(true);
-			return;
-		}
+		// 		setData((prev) => ({
+		// 			...prev,
+		// 			comments: prev.comments.map((comment) => {
+		// 				if (comment.news_id === parent_id) {
+		// 					return {
+		// 						...comment,
+		// 						hit_replies_limit: true,
+		// 					};
+		// 				}
+
+		// 				return comment;
+		// 			}),
+		// 		}));
+
+		// 		setHitRepliesLimit(true);
+		// 	}
+		// 	setShowReplies(true);
+		// 	return;
+		// }
 
 		const { status, message, data } = await fetch(
 			`/api/v1/news/comments/comment/?type=comment_reply&parent_id=${parent_id}&offset_index=${repliesIndex}`
@@ -328,7 +369,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 
 		setRepliesIndex((prev) => prev + 1);
 
-		if (data.hit_replies_limit) setHitRepliesLimit(true);
+		if (data.hit_replies_limit && !hitRepliesLimit) setHitRepliesLimit(true);
 		if (!showReplies) setShowReplies(true);
 	};
 
@@ -456,10 +497,25 @@ const Comment = ({ comment, data, setData, ...props }) => {
 					Comment
 				</button>
 			</footer>
-			{!showReplies && !hitRepliesLimit &&
-				comment.type === 'comment' &&
-				comment.comments_count !== 0 && (
-					<button onClick={() => loadRepliesHandler(comment.news_id, setData)}>
+			{comment.type === 'comment' &&
+				comment.comments_count !== 0 &&
+				!showReplies && (
+					// !hitRepliesLimit &&
+					<button
+						onClick={() => {
+							if (comment.replies && comment.replies.length !== 0)
+								setShowReplies(true);
+							if (
+								(comment.replies &&
+									comment.replies.length !== comment.comments_count) ||
+								!comment.hitRepliesLimit
+							) {
+								loadRepliesHandler(comment.news_id, setData);
+							} else {
+								if (hitRepliesLimit) setHitRepliesLimit(true);
+							}
+						}}
+					>
 						{comment.comments_count === 1 ? 'Comment' : 'Comments'}{' '}
 						{comment.comments_count}
 					</button>
@@ -508,6 +564,33 @@ const Comment = ({ comment, data, setData, ...props }) => {
 					data={data}
 					parent_data={comment}
 				/>
+			)}
+
+			{showReplies &&
+				comment.type === 'comment' &&
+				!hitRepliesLimit &&
+				comment.comments_count !== 0 && (
+					<button
+						onClick={() => {
+							if (comment.replies && comment.replies.length !== 0)
+								setShowReplies(true);
+							if (
+								(comment.replies &&
+									comment.replies.length !== comment.comments_count) ||
+								!comment.hitRepliesLimit
+							) {
+								loadRepliesHandler(comment.news_id, setData);
+							} else {
+								if (hitRepliesLimit) setHitRepliesLimit(true);
+							}
+						}}
+					>
+						Load More
+					</button>
+				)}
+
+			{showReplies && (
+				<button onClick={() => setShowReplies(false)}>Hide Replies</button>
 			)}
 		</div>
 	);

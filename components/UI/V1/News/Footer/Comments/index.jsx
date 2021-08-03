@@ -136,14 +136,14 @@ const Comments = ({
 						/>
 					))}
 			</div>
-			<h3
+			<button
 				onClick={() => {
 					if (showComments) setShowComments(false);
 					if (focusCommentTextarea) setFocusCommentTextarea(false);
 				}}
 			>
-				Hide Comments
-			</h3>
+				<h3>Hide Comments</h3>
+			</button>
 		</section>
 	);
 };
