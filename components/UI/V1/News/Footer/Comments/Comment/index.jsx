@@ -57,14 +57,10 @@ const Comment = ({ comment, data, setData, ...props }) => {
 	});
 	const [items, setItems] = useState([]);
 
-	const handleDeleteComment = async (type, news_id, parent_id) => {
+	const handleDeleteComment = async (bodyObj) => {
 		setDeleteBtnsDisabled(true);
 
-		const body = JSON.stringify({
-			type,
-			news_id,
-			parent_id,
-		});
+		const body = JSON.stringify(bodyObj);
 
 		const {
 			status,
@@ -89,11 +85,44 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			return;
 		}
 
-		setData((prev) => ({
-			...prev,
-			comments_count: prev.comments_count - 1,
-			comments: prev.comments.filter((comment) => comment.news_id !== news_id),
-		}));
+		if (bodyObj.type === 'comment') {
+			setData((prev) => ({
+				...prev,
+				comments_count: prev.comments_count - 1,
+				comments: prev.comments.filter(
+					(comment) => comment.news_id !== bodyObj.news_id
+				),
+			}));
+		} else if (bodyObj.type === 'comment_reply') {
+			setData((prev) => ({
+				...prev,
+				// comments_count: prev.comments_count - 1,
+				comments: prev.comments.map((comment) => {
+					if (comment.news_id === bodyObj.parent_id) {
+						let replies = comment.replies.filter(
+							(reply) => reply.news_id !== bodyObj.news_id
+						);
+						if (bodyObj.reply_to_comment_id) {
+							replies = replies.map((reply) => {
+								if (reply.news_id === bodyObj.reply_to_comment_id) {
+									return {
+										...reply,
+										comments_count: reply.comments_count - 1,
+									};
+								}
+								return reply;
+							});
+						}
+						return {
+							...comment,
+							comments_count: comment.comments_count - 1,
+							replies,
+						};
+					}
+					return comment;
+				}),
+			}));
+		}
 	};
 
 	const handleUpdatingComment = async (event) => {
@@ -151,7 +180,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 	const handleSubmitCommentReply = async (
 		bodyObj,
 		user,
-		comment_parent,
+		commentData,
 		setData,
 		setValues
 	) => {
@@ -198,9 +227,25 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			...prev,
 			comments: prev.comments.map((comment) => {
 				if (comment.news_id === bodyObj.parent_id) {
-					const replies = comment.replies
-						? [...comment.replies, commentReplyObj]
-						: [commentReplyObj];
+					// const replies = comment.replies
+					// 	? [...comment.replies, commentReplyObj]
+					// 	: [commentReplyObj];
+
+					let replies = comment.replies || [];
+
+					if (bodyObj.reply_to_comment_id) {
+						replies = replies.map((reply) => {
+							if (reply.news_id === bodyObj.reply_to_comment_id) {
+								return {
+									...reply,
+									comments_count: reply.comments_count + 1,
+								};
+							}
+							return reply;
+						});
+					}
+
+					replies.push(commentReplyObj);
 
 					return {
 						...comment,
@@ -219,6 +264,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 		}));
 
 		setShowReplyTextarea(false);
+		setCommentReplyBtnsDisabled(false);
 	};
 
 	const loadRepliesHandler = async (parent_id) => {
@@ -230,7 +276,24 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			return;
 
 		if (!showReplies && comment.replies && comment.replies.length !== 0) {
+			if (comment.replies.length === comment.comments_count) {
+				setData((prev) => ({
+					...prev,
+					comments: prev.comments.map((comment) => {
+						if (comment.news_id === parent_id) {
+							return {
+								...comment,
+								hit_replies_limit: true,
+							};
+						}
+
+						return comment;
+					}),
+				}));
+			}
+			setHitRepliesLimit(true);
 			setShowReplies(true);
+			return;
 		}
 
 		const { status, message, data } = await fetch(
@@ -288,21 +351,25 @@ const Comment = ({ comment, data, setData, ...props }) => {
 						<button
 							disabled={deleteBtnsDisabled}
 							onClick={() => {
+								let bodyObj = {};
 								if (comment.type === 'comment') {
-									handleDeleteComment(
-										comment.type,
-										comment.news_id,
-										data.news_id
-									);
+									bodyObj = {
+										type: comment.type,
+										news_id: comment.news_id,
+										parent_id: data.news_id,
+									};
+								} else if (comment.type === 'comment_reply') {
+									bodyObj = {
+										type: comment.type,
+										news_id: comment.news_id,
+										parent_id: props.parent_data.news_id,
+									};
+
+									if (comment.reply_to_comment_id)
+										bodyObj.reply_to_comment_id = comment.reply_to_comment_id;
 								}
 
-								if (comment.type === 'comment_reply') {
-									handleDeleteComment(
-										comment.type,
-										comment.news_id,
-										comment.parent_id
-									);
-								}
+								handleDeleteComment(bodyObj);
 							}}
 						>
 							Delete
@@ -389,7 +456,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 					Comment
 				</button>
 			</footer>
-			{!hitRepliesLimit &&
+			{!showReplies && !hitRepliesLimit &&
 				comment.type === 'comment' &&
 				comment.comments_count !== 0 && (
 					<button onClick={() => loadRepliesHandler(comment.news_id, setData)}>

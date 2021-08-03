@@ -247,7 +247,7 @@ export default async (req, res) => {
 					`
 						DELETE FROM news
 						WHERE news.news_id = ($1) AND news.author_id = ($2)
-						RETURNING news.news_id				
+						RETURNING news.news_id
 					`,
 					[news_id, isAuthorized.id]
 				)
@@ -267,20 +267,30 @@ export default async (req, res) => {
 					`
 						UPDATE news
 						SET comments_count = comments_count - 1
-						WHERE news_id = ($1)
-						RETURNING NULL		
+						WHERE news_id = ($1)	
 					`,
 					[req.body.parent_id]
 				);
 			} else if (type === 'comment_reply') {
-				await pool.query(
-					`
-						UPDATE news_comment_main
-						SET replies_counter = replies_counter - 1
-						WHERE news_comment_main_id = ($1)			
-					`,
-					[req.body.parent_id]
-				);
+				if (req.body.reply_to_comment_id) {
+					await pool.query(
+						`
+							UPDATE news
+							SET comments_count = comments_count - 1
+							WHERE news_id = ($1) OR news_id = ($2)
+						`,
+						[req.body.parent_id, req.body.reply_to_comment_id]
+					);
+				} else {
+					await pool.query(
+						`
+							UPDATE news
+							SET comments_count = comments_count - 1
+							WHERE news_id = ($1)		
+						`,
+						[req.body.parent_id]
+					);
+				}
 			}
 
 			return res.status(200).json({
