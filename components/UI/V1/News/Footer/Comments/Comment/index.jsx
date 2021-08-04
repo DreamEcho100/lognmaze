@@ -12,7 +12,7 @@ const Replies = ({ replies, setData, data, parent_data }) =>
 	replies
 		? replies.map((reply) => (
 				<Comment
-					key={reply.news_id}
+					key={reply.news_comment_id}
 					comment={reply}
 					setData={setData}
 					data={data}
@@ -41,12 +41,12 @@ const Comment = ({ comment, data, setData, ...props }) => {
 		useState(false);
 
 	const [repliesIndex, setRepliesIndex] = useState(
-		comment.type === 'comment' && comment.replies_index
+		comment.type === 'comment_main' && comment.replies_index
 			? comment.replies_index
 			: 0
 	);
 	const [hitRepliesLimit, setHitRepliesLimit] = useState(
-		comment.type === 'comment' && comment.hit_replies_limit
+		comment.type === 'comment_main' && comment.hit_replies_limit
 			? comment.hit_replies_limit
 			: false
 	);
@@ -85,39 +85,38 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			return;
 		}
 
-		if (bodyObj.type === 'comment') {
+		if (bodyObj.type === 'comment_main') {
 			setData((prev) => ({
 				...prev,
-				comments_count: prev.comments_count - 1,
+				comments_counter: prev.comments_counter - 1,
 				comments: prev.comments.filter(
-					(comment) => comment.news_id !== bodyObj.news_id
+					(comment) => comment.news_comment_id !== bodyObj.news_comment_id
 				),
 			}));
-		} else if (bodyObj.type === 'comment_reply') {
+		} else if (bodyObj.type === 'comment_main_reply') {
 			setData((prev) => ({
 				...prev,
-				// comments_count: prev.comments_count - 1,
 				comments: prev.comments.map((comment) => {
-					if (comment.news_id === bodyObj.parent_id) {
+					if (comment.news_comment_id === bodyObj.parent_id) {
 						let replies = comment.replies.filter(
-							(reply) => reply.news_id !== bodyObj.news_id
+							(reply) => reply.news_comment_id !== bodyObj.news_comment_id
 						);
 
-						if (bodyObj.reply_to_comment_id) {
-							replies = replies.map((reply) => {
-								if (reply.news_id === bodyObj.reply_to_comment_id) {
-									return {
-										...reply,
-										comments_count: reply.comments_count - 1,
-									};
-								}
-								return reply;
-							});
-						}
+						// if (bodyObj.reply_to_comment_id) {
+						// 	replies = replies.map((reply) => {
+						// 		if (reply.news_comment_id === bodyObj.reply_to_comment_id) {
+						// 			return {
+						// 				...reply,
+						// 				comments_counter: reply.comments_counter - 1,
+						// 			};
+						// 		}
+						// 		return reply;
+						// 	});
+						// }
 
 						return {
 							...comment,
-							comments_count: comment.comments_count - 1,
+							replies_counter: comment.replies_counter - 1,
 							replies_index:
 								comment.replies_index && comment.replies_index - 0.1 > 0
 									? comment.replies_index - 0.1
@@ -130,7 +129,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			}));
 		}
 
-		setRepliesIndex((prev) => prev - 0.1);
+		if (repliesIndex) setRepliesIndex((prev) => prev - 0.1);
 	};
 
 	const handleUpdatingComment = async (event) => {
@@ -138,9 +137,9 @@ const Comment = ({ comment, data, setData, ...props }) => {
 		setEditBtnsDisabled(true);
 
 		const bodyObj = {
+			// type: comment.type,
 			content: values.content,
-			type: comment.type,
-			news_id: comment.news_id,
+			news_comment_id: comment.news_comment_id,
 		};
 
 		const { status, message, data } = await fetch(
@@ -165,11 +164,11 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			return;
 		}
 
-		if (comment.type === 'comment') {
+		if (comment.type === 'comment_main') {
 			setData((prev) => ({
 				...prev,
 				comments: prev.comments.map((comment) => {
-					if (comment.news_id === bodyObj.news_id) {
+					if (comment.news_comment_id === bodyObj.news_comment_id) {
 						return {
 							...comment,
 							content: bodyObj.content,
@@ -179,15 +178,15 @@ const Comment = ({ comment, data, setData, ...props }) => {
 					return comment;
 				}),
 			}));
-		} else if (comment.type === 'comment_reply') {
+		} else if (comment.type === 'comment_main_reply') {
 			setData((prev) => ({
 				...prev,
 				comments: prev.comments.map((comment) => {
-					if (comment.news_id === props.parent_data.news_id) {
+					if (comment.news_comment_id === props.parent_data.news_comment_id) {
 						return {
 							...comment,
 							replies: comment.replies.map((reply) => {
-								if (reply.news_id === bodyObj.news_id) {
+								if (reply.news_comment_id === bodyObj.news_comment_id) {
 									return {
 										...reply,
 										content: bodyObj.content,
@@ -247,8 +246,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			author_user_name_id: user.user_name_id,
 
 			author_id: user.id,
-			comments_count: 0,
-			news_id: data.news_id,
+			news_comment_id: data.news_comment_id,
 			created_at: new Date().toUTCString(),
 			updated_on: new Date().toUTCString(),
 		};
@@ -256,30 +254,30 @@ const Comment = ({ comment, data, setData, ...props }) => {
 		setData((prev) => ({
 			...prev,
 			comments: prev.comments.map((comment) => {
-				if (comment.news_id === bodyObj.parent_id) {
+				if (comment.news_comment_id === bodyObj.parent_id) {
 					// const replies = comment.replies
 					// 	? [...comment.replies, commentReplyObj]
 					// 	: [commentReplyObj];
 
 					let replies = comment.replies || [];
 
-					if (bodyObj.reply_to_comment_id) {
-						replies = replies.map((reply) => {
-							if (reply.news_id === bodyObj.reply_to_comment_id) {
-								return {
-									...reply,
-									comments_count: reply.comments_count + 1,
-								};
-							}
-							return reply;
-						});
-					}
+					// if (bodyObj.reply_to_comment_id) {
+					// 	replies = replies.map((reply) => {
+					// 		if (reply.news_id === bodyObj.reply_to_comment_id) {
+					// 			return {
+					// 				...reply,
+					// 				comments_counter: reply.comments_counter + 1,
+					// 			};
+					// 		}
+					// 		return reply;
+					// 	});
+					// }
 
 					replies.push(commentReplyObj);
 
 					return {
 						...comment,
-						comments_count: comment.comments_count + 1,
+						replies_counter: comment.replies_counter + 1,
 						replies_index: comment.replies_index
 							? comment.replies_index + 0.1
 							: 0.1,
@@ -304,8 +302,8 @@ const Comment = ({ comment, data, setData, ...props }) => {
 
 	const loadRepliesHandler = async (parent_id) => {
 		// if (
-		// 	comment.type !== 'comment' ||
-		// 	(comment.type === 'comment' &&
+		// 	comment.type !== 'comment_main' ||
+		// 	(comment.type === 'comment_main' &&
 		// 		showReplies &&
 		// 		comment.hit_replies_limit) ||
 		// 	(hitRepliesLimit && showReplies)
@@ -313,9 +311,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 		// 	return;
 
 		// if (!showReplies && comment.replies && comment.replies.length !== 0) {
-		// 	if (comment.replies.length === comment.comments_count) {
-		// 		console.log('comment.replies.length', comment.replies.length);
-		// 		console.log('comment.comments_count', comment.comments_count);
+		// 	if (comment.replies.length === comment.replies_counter) {
 
 		// 		setData((prev) => ({
 		// 			...prev,
@@ -338,7 +334,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 		// }
 
 		const { status, message, data } = await fetch(
-			`/api/v1/news/comments/comment/?type=comment_reply&parent_id=${parent_id}&offset_index=${repliesIndex}`
+			`/api/v1/news/comments/comment/?type=comment_main_reply&parent_id=${parent_id}&offset_index=${repliesIndex}`
 		).then((respone) => respone.json());
 
 		if (status === 'error') {
@@ -348,10 +344,10 @@ const Comment = ({ comment, data, setData, ...props }) => {
 		setData((prev) => ({
 			...prev,
 			comments: prev.comments.map((comment) => {
-				if (comment.news_id === parent_id) {
+				if (comment.news_comment_id === parent_id) {
 					const replies = comment.replies
-						? [...comment.replies, ...data.comments]
-						: data.comments;
+						? [...comment.replies, ...data.comments.reverse()]
+						: data.comments.reverse();
 
 					return {
 						...comment,
@@ -393,17 +389,17 @@ const Comment = ({ comment, data, setData, ...props }) => {
 							disabled={deleteBtnsDisabled}
 							onClick={() => {
 								let bodyObj = {};
-								if (comment.type === 'comment') {
+								if (comment.type === 'comment_main') {
 									bodyObj = {
 										type: comment.type,
-										news_id: comment.news_id,
+										news_comment_id: comment.news_comment_id,
 										parent_id: data.news_id,
 									};
-								} else if (comment.type === 'comment_reply') {
+								} else if (comment.type === 'comment_main_reply') {
 									bodyObj = {
 										type: comment.type,
-										news_id: comment.news_id,
-										parent_id: props.parent_data.news_id,
+										news_comment_id: comment.news_comment_id,
+										parent_id: props.parent_data.news_comment_id,
 									};
 
 									if (comment.reply_to_comment_id)
@@ -441,7 +437,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 
 	useEffect(() => {
 		if (
-			comment.type === 'comment' &&
+			comment.type === 'comment_main' &&
 			!showReplies &&
 			comment.replies &&
 			comment.replies.length !== 0
@@ -497,8 +493,8 @@ const Comment = ({ comment, data, setData, ...props }) => {
 					Comment
 				</button>
 			</footer>
-			{comment.type === 'comment' &&
-				comment.comments_count !== 0 &&
+			{comment.type === 'comment_main' &&
+				comment.replies_counter !== 0 &&
 				!showReplies && (
 					// !hitRepliesLimit &&
 					<button
@@ -507,17 +503,17 @@ const Comment = ({ comment, data, setData, ...props }) => {
 								setShowReplies(true);
 							if (
 								(comment.replies &&
-									comment.replies.length !== comment.comments_count) ||
+									comment.replies.length !== comment.replies_counter) ||
 								!comment.hitRepliesLimit
 							) {
-								loadRepliesHandler(comment.news_id, setData);
+								loadRepliesHandler(comment.news_comment_id, setData);
 							} else {
 								if (hitRepliesLimit) setHitRepliesLimit(true);
 							}
 						}}
 					>
-						{comment.comments_count === 1 ? 'Comment' : 'Comments'}{' '}
-						{comment.comments_count}
+						{comment.replies_counter === 1 ? 'Comment' : 'Comments'}{' '}
+						{comment.replies_counter}
 					</button>
 				)}
 			{showReplyTextarea && (
@@ -526,17 +522,18 @@ const Comment = ({ comment, data, setData, ...props }) => {
 						event.preventDefault();
 
 						let bodyObj = {
-							type: 'comment_reply',
+							type: 'comment_main_reply',
+							news_id: data.news_id,
 							content: values.comment_reply,
 							// reply_to_comment_id: null, // comment.news_id,
 							reply_to_user_id: comment.author_id,
 						};
 
-						if (comment.type === 'comment') {
-							bodyObj.parent_id = comment.news_id;
-						} else if (comment.type === 'comment_reply') {
-							bodyObj.parent_id = props.parent_data.news_id;
-							bodyObj.reply_to_comment_id = comment.news_id;
+						if (comment.type === 'comment_main') {
+							bodyObj.parent_id = comment.news_comment_id;
+						} else if (comment.type === 'comment_main_reply') {
+							bodyObj.parent_id = props.parent_data.news_comment_id;
+							bodyObj.reply_to_comment_id = comment.news_comment_id;
 						}
 
 						handleSubmitCommentReply(
@@ -567,19 +564,19 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			)}
 
 			{showReplies &&
-				comment.type === 'comment' &&
+				comment.type === 'comment_main' &&
 				!hitRepliesLimit &&
-				comment.comments_count !== 0 && (
+				comment.replies_counter !== 0 && (
 					<button
 						onClick={() => {
 							if (comment.replies && comment.replies.length !== 0)
 								setShowReplies(true);
 							if (
 								(comment.replies &&
-									comment.replies.length !== comment.comments_count) ||
+									comment.replies.length !== comment.replies_counter) ||
 								!comment.hitRepliesLimit
 							) {
-								loadRepliesHandler(comment.news_id, setData);
+								loadRepliesHandler(comment.news_comment_id, setData);
 							} else {
 								if (hitRepliesLimit) setHitRepliesLimit(true);
 							}

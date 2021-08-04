@@ -21,7 +21,7 @@ const Comments = ({
 	const { user, ...UserCxt } = useContext(UserContext);
 
 	const [values, setValues] = useState({
-		comment: '',
+		content: '',
 	});
 
 	const [disbleSendCommentButton, setDisbleSendCommentButton] = useState(false);
@@ -32,8 +32,8 @@ const Comments = ({
 		setDisbleSendCommentButton(true);
 
 		const body = JSON.stringify({
-			type: 'comment',
-			content: values.comment,
+			type: 'comment_main',
+			content: values.content,
 			news_id: data.news_id,
 		});
 
@@ -61,8 +61,9 @@ const Comments = ({
 
 		setData((prev) => ({
 			...prev,
-			comments_count: prev.comments_count + 1,
+			comments_counter: prev.comments_counter + 1,
 			comments: [
+				...prev.comments,
 				{
 					author_id: user.id,
 
@@ -71,26 +72,25 @@ const Comments = ({
 					author_profile_picture: user.profile_picture,
 					author_user_name_id: user.user_name_id,
 
-					comments_count: 0,
-					content: values.comment,
+					replies_counter: 0,
+					content: values.content,
 					created_at: new Date().toUTCString(),
-					news_id: comment.news_id,
-					type: 'comment',
+					news_comment_id: comment.news_comment_id,
+					type: 'comment_main',
 					updated_on: new Date().toUTCString(),
 				},
-				...prev.comments,
 			],
 		}));
 
 		setValues({
-			comment: '',
+			content: '',
 		});
 
 		setDisbleSendCommentButton(false);
 	};
 
 	useEffect(async () => {
-		if (data.comments && data.comments_count !== 0) {
+		if (data.comments && data.comments_counter !== 0) {
 			if (data.comments && data.comments.length !== 0) return;
 
 			const {
@@ -98,7 +98,7 @@ const Comments = ({
 				message,
 				data: result,
 			} = await fetch(
-				`/api/v1/news/comments/comment/?type=comment&news_id=${
+				`/api/v1/news/comments/comment/?type=comment_main&news_id=${
 					data.news_id
 				}&offset_index=${0}`
 			).then((respone) => respone.json());
@@ -109,7 +109,7 @@ const Comments = ({
 
 			setData((prev) => ({
 				...prev,
-				comments: result.comments,
+				comments: result.comments.reverse(),
 			}));
 		}
 	}, []);
@@ -120,16 +120,16 @@ const Comments = ({
 				handleSubmit={handleSubmit}
 				focusTextarea={true}
 				setFocusCommentTextarea={setFocusCommentTextarea}
-				name='comment'
+				name='content'
 				setValues={setValues}
-				value={values.comment}
+				value={values.content}
 				disbleSubmitBtn={disbleSendCommentButton}
 			/>
 			<div>
 				{data.comments &&
 					data.comments.map((comment, index) => (
 						<Comment
-							key={comment.news_id}
+							key={comment.news_comment_id}
 							comment={comment}
 							setData={setData}
 							data={data}

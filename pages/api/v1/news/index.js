@@ -38,7 +38,7 @@ export default async (req, res) => {
 						SELECT
 							news.news_id,
 							news.type,
-							news.comments_count,
+							news.comments_counter,
 							news.created_at,
 							news.updated_on,
 						

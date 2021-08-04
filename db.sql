@@ -17,7 +17,7 @@ SELECT
   news.author_id,
   news.type,
   news.content,
-  news.comments_count,
+  news.comments_counter,
   news.created_at,
   news.updated_on,
 
@@ -114,7 +114,7 @@ JOIN LATERAL (
 SELECT
   news.news_id,
   news.type,
-  news.comments_count,
+  news.comments_counter,
   news.created_at,
   news.updated_on,
 
@@ -244,7 +244,7 @@ SELECT
   news_article.content,
 
   news.type,
-  news.comments_count,
+  news.comments_counter,
   news.created_at,
   news.updated_on
 
@@ -267,7 +267,7 @@ SELECT
 
   news.news_id,
   news.type,
-  news.comments_count,
+  news.comments_counter,
   news.created_at,
   news.updated_on,
   
