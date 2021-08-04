@@ -36,8 +36,7 @@ export default async (req, res) => {
 							user_profile.profile_picture AS author_profile_picture,`
 									: ''
 							}
-					
-							news_article.format_type,
+
 							news_article.title,
 							news_article.slug,
 							news_article.iso_language,

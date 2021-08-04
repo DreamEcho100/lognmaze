@@ -52,8 +52,7 @@ export default async (req, res) => {
 					
 					news_reaction.*,
 					${news_reactor_id ? 'news_reactor_reaction.*,' : ''}
-			
-					news_article.format_type,
+
 					news_article.title,
 					news_article.slug,
 					news_article.iso_language,

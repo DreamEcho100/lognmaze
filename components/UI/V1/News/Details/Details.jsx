@@ -42,11 +42,12 @@ const Details = ({ detailsType, setCloseModal, data }) => {
 			);
 		}
 	} else if (detailsType === 'content') {
-		if (data.format_type === 'md') {
-			return <Md content={data.content || ''} />;
-		} else {
-			return <p>{data.content}</p>;
-		}
+		// if (data.format_type === 'md') {
+		// 	return <Md content={data.content || ''} />;
+		// } else {
+		// 	return <p>{data.content}</p>;
+		// }
+		return <Md content={data.content || ''} />;
 	}
 
 	return <p>No Content {':('}</p>;

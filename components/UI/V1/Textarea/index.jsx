@@ -37,7 +37,6 @@ const Textarea = ({
 
 	return (
 		<textarea
-			className={allClasses}
 			className={`${allClasses} ${BorderClasses['border-2']}`}
 			ref={textareaRef}
 			onChange={(event) => {

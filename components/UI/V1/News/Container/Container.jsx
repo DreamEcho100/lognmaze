@@ -41,7 +41,7 @@ const Container = ({
 		className: `${allClasses} ${BoxShadowClasses['box-shadow']} ${BorderClasses['border-2']}`,
 	};
 
-	useEffect(() => {
+	useEffect(async () => {
 		if (
 			/*!data.reactions &&  */
 			!data.reactions ||
@@ -90,6 +90,14 @@ const Container = ({
 		}
 
 		setIsLoading(false);
+
+		if (
+			props.containerType === 'sub' &&
+			!data.content &&
+			props.handleLoadindArticleContent
+		) {
+			await props.handleLoadindArticleContent();
+		}
 	}, []);
 
 	useEffect(() => {
@@ -104,37 +112,51 @@ const Container = ({
 	const handleLoadindArticleContent = async (id) => {
 		await fetch(`/api/v1/news/articles/article/content/${id}`)
 			.then((response) => response.json())
-			.then(({ message, status, ...result }) => {
-				setData({
+			.then(({ message, status, data }) => {
+				setData((prev) => ({
+					...prev,
 					...data,
-					...result.data,
-				});
+				}));
 			})
 			.catch((error) => console.error(error));
 	};
 
-	useEffect(() => {
-		if (JSON.stringify(data) !== JSON.stringify(props.data)) setData(data);
-	}, [props.data]);
+	// useEffect(() => {
+	// 	if (JSON.stringify(data) !== JSON.stringify(props.data)) setData(data);
+	// }, [props.data]);
 
-	useEffect(async () => {
-		if (data.type === 'article' && !data.content) {
-			if (props.ModalOnClick) await handleLoadindArticleContent(data.news_id);
-		}
+	// useEffect(async () => {
+	// 	if (
+	// 		props.containerType === 'sub' &&
+	// 		!data.content
+	// 	) {
+	// 		await props.handleLoadindArticleContent(data.news_id);
+	// 	}
+	// }, [])
 
-		if (
-			props.containerType === 'sub' &&
-			props.action !== 'delete'
-			// &&
-			// props.setData &&
-			// JSON.stringify(props.data) !== JSON.stringify(data)
-		) {
-			props.setData((prev) => ({
-				...prev,
-				...data,
-			}));
-		}
-	}, [data]);
+	// useEffect(async () => {
+	// 	// if (
+	// 	// 	props.containerType === 'sub' &&
+	// 	// 	data.type === 'article' &&
+	// 	// 	!data.content
+	// 	// ) {
+	// 	// 	if (props.ModalOnClick && !props.modalClosed)
+	// 	// 		await handleLoadindArticleContent(data.news_id);
+	// 	// }
+
+	// 	if (
+	// 		props.containerType === 'sub' &&
+	// 		props.action !== 'delete'
+	// 		// &&
+	// 		// props.setData &&
+	// 		// JSON.stringify(props.data) !== JSON.stringify(data)
+	// 	) {
+	// 		props.setData((prev) => ({
+	// 			...prev,
+	// 			...data,
+	// 		}));
+	// 	}
+	// }, [data]);
 
 	if (isLoading) {
 		return <article>Loading...</article>;
@@ -150,20 +172,20 @@ const Container = ({
 	return (
 		<article {...articleProps}>
 			<NewsHeader
-				data={data}
-				setData={setData}
+				data={props.containerType === 'sub' ? props.data : data}
+				setData={props.containerType === 'sub' ? props.setData : setData}
 				setCloseModal={setCloseModal}
 				hideHeaderSettings={props.hideHeaderSettings}
 			/>
 			<Details
-				data={data}
-				setData={setData}
+				data={props.containerType === 'sub' ? props.data : data}
+				setData={props.containerType === 'sub' ? props.setData : setData}
 				detailsType={props.detailsType}
 				setCloseModal={setCloseModal}
 			/>
-			<NewsFooter data={data} setData={setData} />
+			<NewsFooter data={props.containerType === 'sub' ? props.data : data} setData={props.containerType === 'sub' ? props.setData : setData} />
 
-			{props.ModalOnClick && !closeModal && (
+			{props.ModalOnClick && !closeModal && props.containerType !== 'sub' && (
 				<Modal
 					click={() => setCloseModal(true)}
 					CloseButtonElement={(props) => (
@@ -182,6 +204,10 @@ const Container = ({
 					<Fragment key='body'>
 						<Container2
 							containerType='sub'
+							modalClosed={closeModal}
+							handleLoadindArticleContent={() =>
+								handleLoadindArticleContent(data.news_id)
+							}
 							data={data}
 							setData={setData}
 							detailsType='content'

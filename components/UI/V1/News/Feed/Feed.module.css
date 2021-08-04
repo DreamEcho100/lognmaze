@@ -6,12 +6,15 @@
 	transform: translateZ(2rem);
 	padding: 1em;
 	display: flex;
-	flex-wrap: wrap;
-	align-items: flex-start;
-	justify-content: space-around;
+	/* flex-wrap: wrap; */
+	/* align-items: flex-start; */
+	/* justify-content: space-around; */
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
 }
 
 .news-container {
 	max-width: 50rem;
-	margin: 0.5em;
+	margin: 0.5em auto;
 }

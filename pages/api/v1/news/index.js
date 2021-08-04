@@ -116,7 +116,6 @@ export default async (req, res) => {
 							SELECT
 								news_tags.tags,
 								news_article.news_article_id AS id,
-								news_article.format_type,
 								news_article.title,
 								news_article.slug,
 								news_article.iso_language,
@@ -194,7 +193,6 @@ export default async (req, res) => {
 								sharedValues: [response.rows[0].news_id],
 								distencKeysAndValues: {
 									keys: [
-										'format_type',
 										'title',
 										'slug',
 										'iso_language',
@@ -204,7 +202,6 @@ export default async (req, res) => {
 										'content',
 									],
 									values: [
-										news_data.format_type,
 										news_data.title,
 										news_data.slug,
 										news_data.iso_language,
@@ -214,7 +211,6 @@ export default async (req, res) => {
 										news_data.content,
 									],
 									returning: [
-										'format_type',
 										'title',
 										'slug',
 										'iso_language',

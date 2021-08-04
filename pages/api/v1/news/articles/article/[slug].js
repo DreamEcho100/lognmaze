@@ -20,10 +20,7 @@ export default async (req, res) => {
 							news.updated_on,
 							
 							news_tags.tags,
-							
-							-- news_reaction.*,
-					
-							news_article.format_type,
+
 							news_article.title,
 							news_article.slug,
 							news_article.iso_language,

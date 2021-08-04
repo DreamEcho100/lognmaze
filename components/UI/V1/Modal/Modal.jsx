@@ -79,7 +79,8 @@ const Modal = ({
 				</div>
 			</div>
 		</div>,
-		document.getElementsByTagName('body')[0]
+		// document.getElementsByTagName('body')[0]
+		document.getElementById('__next')
 	);
 };
 

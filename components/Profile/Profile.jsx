@@ -30,30 +30,25 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, news = [] }) => {
 					<p>{userData.state_of_resident}</p>
 					<p>{userData.country_of_resident}</p>
 					<p>{userData.city_of_resident}</p>
-					{userData.show_address_of_resident ? (
+					{visitorIdentity === OWNER ? (
 						<p>{userData.address_of_resident}</p>
 					) : null}
-					{userData.show_bio ? (
-						<>
-							<p>{userData.bio}</p>
-							<p>{userData.bio_format_type}</p>
-						</>
-					) : null}
-					{userData.show_address_of_birth ? (
+					<p>{userData.bio}</p>
+					{visitorIdentity === OWNER ? (
 						<>
 							<p>{userData.state_of_birth}</p>
 							<p>{userData.country_of_birth}</p>
 							<p>{userData.city_of_birth}</p>
 						</>
 					) : null}
-					{userData.show_date_of_birth ? <p>{userData.date_of_birth}</p> : null}
-					{userData.show_email ? (
+					{visitorIdentity === OWNER ? <p>{userData.date_of_birth}</p> : null}
+					{visitorIdentity === OWNER ? (
 						<>
 							<p>{userData.email}</p>
 							<p>{userData.email_verified}</p>
 						</>
 					) : null}
-					{userData.show_phone_number ? (
+					{visitorIdentity === OWNER ? (
 						<>
 							<p>+{userData.phone_number}</p>
 							<p>{userData.phone_verified}</p>

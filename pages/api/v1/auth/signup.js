@@ -2,7 +2,6 @@ import { hashPassword, jwtGenerator } from '@lib/v1/auth';
 import { pool } from '@lib/v1/pg';
 
 export default async (req, res) => {
-
 	if (req.method !== 'POST') {
 		return;
 	}
@@ -48,10 +47,8 @@ export default async (req, res) => {
 						user_account_id AS id,
 						email,
 						email_verified,
-						show_email,
 						phone_number,
 						phone_verified,
-						show_phone_number,
 						role,
 						created_at,
 						last_sign_in
@@ -81,13 +78,10 @@ export default async (req, res) => {
 									last_name,
 									user_name_id,
 									date_of_birth,
-									show_date_of_birth,
 									gender,
 									profile_picture,
 									cover_photo,
-									bio,
-									bio_format_type,
-									show_bio
+									bio
 							),
 							add_new_user_address as (
 								INSERT INTO user_address
@@ -103,12 +97,10 @@ export default async (req, res) => {
 									country_of_birth,
 									state_of_birth,
 									city_of_birth,
-									show_address_of_birth,
 									country_of_resident,
 									state_of_resident,
 									city_of_resident,
-									address_of_resident,
-									show_address_of_resident
+									address_of_resident
 							)
 							
 							SELECT * FROM add_new_user_profile, add_new_user_address;

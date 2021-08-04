@@ -1,8 +1,8 @@
 export const handleAllClasses = ({
 	classes,
 	defaultClasses = '',
-	extraClasses,
-	className,
+	extraClasses = '',
+	className = '',
 }) => {
 	let allClasses = '';
 

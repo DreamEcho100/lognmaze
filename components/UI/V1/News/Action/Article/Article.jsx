@@ -28,7 +28,7 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 	const { user, ...UserCxt } = useContext(UserContext);
 
 	const [values, setValues] = useState({
-		format_type: data && data.format_type ? data.format_type : 'normal',
+		// format_type: data && data.format_type ? data.format_type : 'normal',
 		title: data && data.title ? data.title : '',
 		slug: data && data.slug ? data.slug : '',
 		iso_language: data && data.iso_language ? data.iso_language : 'en',
@@ -44,7 +44,7 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 
 	const resetInputs = () => {
 		setValues({
-			format_type: 'normal',
+			// format_type: 'normal',
 			title: '',
 			slug: '',
 			iso_language: 'en',
@@ -191,7 +191,7 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 			onSubmit={handleSubmit}
 			className={classes.form}
 		>
-			<FormControl className={classes['form-control']}>
+			{/* <FormControl>
 				<Label htmlFor='format_type'>Format Type: </Label>
 				<Select
 					name='format_type'
@@ -204,11 +204,13 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 					<option value='normal'>normal</option>
 					<option value='md'>md</option>
 				</Select>
-			</FormControl>
+			</FormControl> */}
 
-			<FormControl className={classes['form-control']}>
+			<FormControl>
 				<Label htmlFor='title'>Title: </Label>
 				<Input
+					cn={classes['width-100-perecent']}
+					className={classes['width-100-perecent']}
 					name='title'
 					id='title'
 					value={values.title}
@@ -233,9 +235,11 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 				/>
 			</FormControl>
 
-			<FormControl className={classes['form-control']}>
+			<FormControl>
 				<Label htmlFor='slug'>Slug: </Label>
 				<Input
+					cn={classes['width-100-perecent']}
+					className={classes['width-100-perecent']}
 					name='slug'
 					id='slug'
 					value={values.slug}
@@ -259,7 +263,7 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 			</FormControl>
 
 			<FormControls>
-				<FormControl className={classes['form-control']}>
+				<FormControl>
 					<Label htmlFor='iso_language'>ISO Language: </Label>
 					<Select
 						name='iso_language'
@@ -277,7 +281,7 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 					</Select>
 				</FormControl>
 
-				<FormControl className={classes['form-control']}>
+				<FormControl>
 					<Label htmlFor='iso_country'>ISO Country: </Label>
 					<Select
 						name='iso_country'
@@ -296,9 +300,11 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 				</FormControl>
 			</FormControls>
 
-			<FormControl className={classes['form-control']}>
+			<FormControl>
 				<Label htmlFor='tags'>Tags: {values.tags.join(', ')}</Label>
 				<Input
+					cn={classes['width-100-perecent']}
+					className={classes['width-100-perecent']}
 					name='tags'
 					id='tags'
 					value={values.tags.join(' ')}
@@ -318,9 +324,11 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 				/>
 			</FormControl>
 
-			<FormControl className={classes['form-control']}>
+			<FormControl>
 				<Label htmlFor='image'>Image: </Label>
 				<Input
+					cn={classes['width-100-perecent']}
+					className={classes['width-100-perecent']}
 					name='image'
 					id='image'
 					value={values.image}
@@ -329,11 +337,11 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 				/>
 			</FormControl>
 
-			<FormControl className={classes['form-control']}>
-				<Label extraClasses={classes.input} htmlFor='description'>
-					Description:{' '}
-				</Label>
+			<FormControl>
+				<Label htmlFor='description'>Description: </Label>
 				<Textarea
+					cn={classes['width-100-perecent']}
+					className={classes['width-100-perecent']}
 					name='description'
 					id='description'
 					value={values.description}
@@ -349,9 +357,11 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 				/>
 			</FormControl>
 
-			<FormControl className={classes['form-control']}>
+			<FormControl>
 				<Label htmlFor='content'>Content: </Label>
 				<Textarea
+					cn={classes['width-100-perecent']}
+					className={classes['width-100-perecent']}
 					name='content'
 					id='content'
 					value={values.content}
@@ -371,7 +381,7 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 					<p>{formMessage}</p>
 				</div>
 			)}
-			<FormControl className={classes['form-control']}>
+			<FormControl>
 				<Button disabled={btnsDisabled} type='submit'>
 					submit
 				</Button>

@@ -7,6 +7,7 @@ const Input = ({
 	defaultClasses = 'input',
 	extraClasses = '',
 	className = '',
+	cn = '',
 	children,
 	type = 'text',
 	palceholder = '',
@@ -18,25 +19,27 @@ const Input = ({
 		classes,
 		defaultClasses,
 		extraClasses,
-		className,
+		className: className || cn,
 	});
 
+	const elementProps = {
+		type: type,
+		palceholder: palceholder,
+		className: `${allClasses} ${BorderClasses['border-bottom']}`,
+		onChange: (event) => {
+			if (setValues) {
+				return setValues((prev) => ({
+					...prev,
+					[event.target.name]: event.target.value,
+				}));
+			}
+			if (onChange) return onChange(event);
+		},
+		...props,
+	};
+
 	return (
-		<input
-			type={type}
-			palceholder={palceholder}
-			className={`${allClasses} ${BorderClasses['border-bottom']}`}
-			onChange={(event) => {
-				if (setValues) {
-					return setValues((prev) => ({
-						...prev,
-						[event.target.name]: event.target.value,
-					}));
-				}
-				if (onChange) return onChange(event);
-			}}
-			{...props}
-		>
+		<input {...elementProps} className={`${allClasses} ${BorderClasses['border-bottom']}`}>
 			{children}
 		</input>
 	);

@@ -5,15 +5,11 @@ CREATE TABLE user_account (
   user_account_id uuid DEFAULT uuid_generate_v4(),
   email TEXT NOT NULL UNIQUE,
   email_verified BOOLEAN DEFAULT FALSE,
-  show_email BOOLEAN DEFAULT FALSE,
   password TEXT NOT NULL,
-  -- country_phone_code TEXT NOT NULL,
   phone_number TEXT,
   phone_verified BOOLEAN DEFAULT FALSE,
-  show_phone_number BOOLEAN DEFAULT FALSE,
   role TEXT DEFAULT 'user',
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  last_sign_in TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  user_prefrences JSONB,
 
   PRIMARY KEY (user_account_id),
   CONSTRAINT user_phone_number UNIQUE (phone_number)
@@ -27,15 +23,15 @@ CREATE TABLE user_profile (
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
   date_of_birth DATE NOT NULL,
-  show_date_of_birth BOOLEAN DEFAULT TRUE,
 
   gender TEXT NOT NULL,
   profile_picture TEXT,
   cover_photo TEXT,
 
   bio TEXT,
-  bio_format_type TEXT,
-  show_bio BOOLEAN DEFAULT TRUE,
+  
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  last_sign_in TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
   PRIMARY KEY (user_profile_id),
   FOREIGN KEY (user_profile_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
@@ -48,13 +44,11 @@ CREATE TABLE user_address (
   country_of_birth TEXT,
   state_of_birth TEXT,
   city_of_birth TEXT,
-  show_address_of_birth BOOLEAN DEFAULT FALSE,
 
   country_of_resident TEXT NOT NULL,
   state_of_resident TEXT NOT NULL,
   city_of_resident TEXT,
   address_of_resident TEXT,
-  show_address_of_resident BOOLEAN DEFAULT FALSE,
 
   PRIMARY KEY (user_address_id),
   FOREIGN KEY (user_address_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE
@@ -135,8 +129,6 @@ CREATE TABLE news_post (
 -- article Table
 CREATE TABLE news_article (
   news_article_id uuid NOT NULL,
-
-  format_type TEXT NOT NULL,
 
   title TEXT NOT NULL,
   slug TEXT UNIQUE NOT NULL,
