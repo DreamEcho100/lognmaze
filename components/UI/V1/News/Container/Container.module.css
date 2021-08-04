@@ -20,6 +20,7 @@
 
 @media screen and (max-width: 700px) {
 	.container {
-		min-width: fit-content;
+		width: fit-content;
+		max-width: 100%;
 	}
 }
