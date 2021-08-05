@@ -81,15 +81,17 @@ const ProfilePage = ({ user = {}, /*posts = []*/ ...props }) => {
 	}, [UserCxt.userExist, UserCxt.isLoading, router.query.user_name_id]);
 
 	useEffect(() => {
+		if (identity === OWNER && !UserCxt.user.id) {
+			return setIdentity(GUEST);
+		}
+
 		if (
-			UserCxt.user &&
-			userData &&
 			UserCxt.user.id &&
 			userData.id &&
 			UserCxt.user.id === userData.id &&
 			JSON.stringify(userData) !== JSON.stringify(UserCxt.user)
 		) {
-			setUserData(UserCxt.user);
+			return setUserData(UserCxt.user);
 		}
 	}, [UserCxt.user]);
 
@@ -137,6 +139,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 			userCookieObj = JSON.parse(userCookieString);
 			if (userCookieObj && userCookieObj.id) visitor_id = userCookieObj.id;
 
+			/*
 			if (
 				userCookieObj &&
 				userCookieObj.id &&
@@ -144,8 +147,12 @@ export const getServerSideProps = async ({ req, res, query }) => {
 			) {
 				init.headers.authorization = `Bearer ${tokenCookieString}`;
 			}
+			*/
 
-			if (userCookieObj && userCookieObj.user_name_id === user_name_id) {
+			if (
+				typeof userCookieObj === 'object' &&
+				userCookieObj.user_name_id === user_name_id
+			) {
 				user = {
 					status: 'succuss',
 					message: 'You are the owner of this profile!',
@@ -153,35 +160,37 @@ export const getServerSideProps = async ({ req, res, query }) => {
 					isAuthorized: true,
 					visitorIdentity: OWNER,
 				};
-			} else {
-				user = await fetch(input, init)
-					.then((response) => response.json())
-					.catch((error) => {
-						console.error(error);
-						return {
-							status: 'error',
-							message: error.message,
-							data: {},
-							isAuthorized: false,
-							visitorIdentity: GUEST,
-						};
-					});
-			}
-
-			if (user.status === 'error') {
-				return {
-					user,
-					posts: {
-						status: 'error',
-						message: "Can't get the posts!",
-						data: [],
-					},
-				};
 			}
 		}
 
+		if (!user) {
+			user = await fetch(input, init)
+				.then((response) => response.json())
+				.catch((error) => {
+					console.error(error);
+					return {
+						status: 'error',
+						message: error.message,
+						data: {},
+						isAuthorized: false,
+						visitorIdentity: GUEST,
+					};
+				});
+		}
+
+		if (!user || (user && user.status === 'error')) {
+			return {
+				user,
+				posts: {
+					status: 'error',
+					message: "Can't get the posts!",
+					data: [],
+				},
+			};
+		}
+
 		let posqInputQuery = '/?filter_by_user_id=';
-		if (user.data.id) posqInputQuery += user.data.id;
+		if (user.data && user.data.id) posqInputQuery += user.data.id;
 		else posqInputQuery += userCookieObj.id;
 
 		if (visitor_id) posqInputQuery += `&news_reactor_id=${visitor_id}`;
