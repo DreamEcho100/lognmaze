@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react';
 
 import classes from './SettingsButton.module.css';
 
-import Modal from '../../UI/V1/Modal/Modal';
+import Modal from '../../UI/V1/Modal';
 import EditUserInfo from './EditUserInfo/EditUserInfo';
 import EditUserSecurity from './EditUserSecurity/EditUserSecurity';
 import Button from '../../UI/V1/Button';

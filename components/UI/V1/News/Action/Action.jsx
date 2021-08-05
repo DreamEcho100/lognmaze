@@ -5,7 +5,7 @@ import UserContext from '@store/UserContext';
 import ModalContainer from './ModalContainer/ModalContainer';
 import Article from './Article/Article';
 import Post from './Post/Post';
-import Modal from '@components/UI/V1/Modal/Modal';
+import Modal from '@components/UI/V1/Modal';
 import Button from '@components/UI/V1/Button';
 import Container2 from '@components/UI/V1/News/Container/Container';
 

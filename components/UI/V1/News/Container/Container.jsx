@@ -11,7 +11,7 @@ import NewsHeader from '../Header/Header';
 import Details from '../Details/Details';
 import NewsFooter from '../Footer';
 
-import Modal from '@components/UI/V1/Modal/Modal';
+import Modal from '@components/UI/V1/Modal';
 import Button from '@components/UI/V1/Button';
 import Container2 from '@components/UI/V1/News/Container/Container';
 
@@ -183,7 +183,10 @@ const Container = ({
 				detailsType={props.detailsType}
 				setCloseModal={setCloseModal}
 			/>
-			<NewsFooter data={props.containerType === 'sub' ? props.data : data} setData={props.containerType === 'sub' ? props.setData : setData} />
+			<NewsFooter
+				data={props.containerType === 'sub' ? props.data : data}
+				setData={props.containerType === 'sub' ? props.setData : setData}
+			/>
 
 			{props.ModalOnClick && !closeModal && props.containerType !== 'sub' && (
 				<Modal

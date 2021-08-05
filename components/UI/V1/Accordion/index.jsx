@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import classes from './Accordion.module.css';
+import classes from './index.module.css';
 
 import { handleAllClasses } from '../utils/index';
 

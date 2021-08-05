@@ -1,0 +1,10 @@
+.bio {
+	width: 100%;
+	margin: 0.25em 0;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}

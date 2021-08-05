@@ -23,6 +23,7 @@ const UserContext = createContext({
 	handleChangeCoverPhotoURL: () => {},
 	handleChangeEmail: () => {},
 	handleChangePassword: () => {},
+	handleChangeBio: () => {},
 });
 
 export const UserContextProvider = ({ children }) => {
@@ -317,6 +318,14 @@ export const UserContextProvider = ({ children }) => {
 			},
 		});
 
+	const handleChangeBio = async (bio) =>
+		handleUserUpdate({
+			path: 'bio',
+			bodyObj: {
+				bio,
+			},
+		});
+
 	useEffect(() => {
 		if (Object.keys(user).length === 0 && userExist) {
 			setUserExist(false);
@@ -341,6 +350,7 @@ export const UserContextProvider = ({ children }) => {
 		handleChangeCoverPhotoURL,
 		handleChangeEmail,
 		handleChangePassword,
+		handleChangeBio,
 	};
 
 	return (

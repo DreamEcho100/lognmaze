@@ -15,6 +15,7 @@ export default async (req, res) => {
 		try {
 			user_name_id = req.query.user_name_id;
 
+			/*
 			if (req.headers.authorization) {
 				const isAuthorized = await handleIsAuthorized(
 					undefined,
@@ -22,30 +23,34 @@ export default async (req, res) => {
 				);
 
 				if (isAuthorized.id) {
-					visitorIdentity = OWNER;
-					res.status(201).json({
-						status: 'success',
-						message: 'Authorized!',
-						data: {},
-						isAuthorized: true,
-						visitorIdentity,
-					});
-
-					return;
+					// visitorIdentity = OWNER;
+					// res.status(201).json({
+					// 	status: 'success',
+					// 	message: 'Authorized!',
+					// 	data: {},
+					// 	isAuthorized: true,
+					// 	visitorIdentity,
+					// });
+					// return;
 				}
 			}
+			*/
 
 			const user = await getUserData({
-				filterBy: { key: 'user_profile.user_name_id', value: user_name_id },
+				filterBy: {
+					// 'user_profile.user_name_id': user_name_id,
+					user_name_id,
+				},
 				withPassword: false,
+				withSensitiveInfo: false,
 			});
 
-			if (user.id.length === 0) {
+			if (!user && !user.id && user.id.length === 0) {
 				res.status(401).json({
 					status: 'error',
 					message: "User doesn't exist!",
 					data: {
-						id: isAuthorized.id,
+						// id: isAuthorized.id,
 					},
 					isAuthorized: false,
 					visitorIdentity,

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
-import classes from './Modal.module.css';
+import classes from './index.module.css';
 
 import { handleAllClasses } from '../utils/index';
 

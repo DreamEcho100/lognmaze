@@ -1,4 +1,5 @@
 .accordion {
+	--reduce: 1;
 	--toggltButtonSize: 1;
 	--accordionContainerBorderBottomSize: 1;
 }
@@ -32,8 +33,8 @@
 	background-color: var(--main-special-bg-color-1);
 	outline-color: var(--main-special-bg-color-1);
 	border-color: transparent;
-	width: calc(3.5rem * var(--toggltButtonSize));
-	height: calc(3.5rem * var(--toggltButtonSize));
+	width: calc(3.5rem * var(--toggltButtonSize) * var(--reduce));
+	height: calc(3.5rem * var(--toggltButtonSize) * var(--reduce));
 	border-radius: 50%;
 	overflow: hidden;
 	position: absolute;
@@ -84,4 +85,10 @@
 	height: auto;
 	max-height: fit-content;
 	min-height: fit-content;
+}
+
+@media screen and (max-width: 400px) {
+	.accordion {
+		--reduce: 0.6;
+	}
 }

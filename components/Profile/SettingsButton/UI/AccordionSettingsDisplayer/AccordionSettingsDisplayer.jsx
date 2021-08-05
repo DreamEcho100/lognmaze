@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 
 import classes from './AccordionSettingsDisplayer.module.css';
 
-import Accordion from '@components/UI/V1/Accordion/Accordion';
+import Accordion from '@components/UI/V1/Accordion';
 
 const AccordionSettingsDisplayer = ({ headerText, bodyItems }) => {
 	return (

@@ -9,7 +9,7 @@ import ISOCountryCodesCountriesISOCode from '@data/ISOCountryCodesCountriesISOCo
 import UserContext from '@store/UserContext';
 
 import Form from '@components/UI/V1/Form';
-import FormControl from '@components/UI/V1/FormControl/FormControl';
+import FormControl from '@components/UI/V1/FormControl';
 import FormControls from '@components/UI/V1/FormControls/FormControls';
 import Label from '@components/UI/V1/Label';
 import Input from '@components/UI/V1/Input';

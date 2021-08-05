@@ -7,9 +7,9 @@ import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 
 import UserContext from '@store/UserContext';
 
-import Modal from '@components/UI/V1/Modal/Modal';
+import Modal from '@components/UI/V1/Modal';
 import Form from '@components/UI/V1/Form';
-import FormControl from '@components/UI/V1/FormControl/FormControl';
+import FormControl from '@components/UI/V1/FormControl';
 import FormControls from '@components/UI/V1/FormControls/FormControls';
 import Label from '@components/UI/V1/Label';
 import Input from '@components/UI/V1/Input';

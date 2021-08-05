@@ -2,7 +2,7 @@ import { Fragment, useEffect } from 'react';
 
 import classes from './Modal.module.css';
 
-import Modal from '@components/UI/V1/Modal/Modal';
+import Modal from '@components/UI/V1/Modal';
 import Button from '@components/UI/V1/Button';
 import Container from '@components/UI/V1/News/Container/Container';
 

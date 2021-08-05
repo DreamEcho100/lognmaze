@@ -80,6 +80,19 @@ const ProfilePage = ({ user = {}, /*posts = []*/ ...props }) => {
 		}
 	}, [UserCxt.userExist, UserCxt.isLoading, router.query.user_name_id]);
 
+	useEffect(() => {
+		if (
+			UserCxt.user &&
+			userData &&
+			UserCxt.user.id &&
+			userData.id &&
+			UserCxt.user.id === userData.id &&
+			JSON.stringify(userData) !== JSON.stringify(UserCxt.user)
+		) {
+			setUserData(UserCxt.user);
+		}
+	}, [UserCxt.user]);
+
 	if (UserCxt.isLoading || isLoading) {
 		return <p>Loading...</p>;
 	}
@@ -116,38 +129,55 @@ export const getServerSideProps = async ({ req, res, query }) => {
 			},
 		};
 
+		let user;
 		let userCookieObj;
 		let visitor_id;
+
 		if (tokenCookieString.length !== 0 && userCookieString.length !== 0) {
 			userCookieObj = JSON.parse(userCookieString);
-			visitor_id = userCookieObj.id;
-			if (user_name_id === userCookieObj.user_name_id) {
+			if (userCookieObj && userCookieObj.id) visitor_id = userCookieObj.id;
+
+			if (
+				userCookieObj &&
+				userCookieObj.id &&
+				user_name_id === userCookieObj.user_name_id
+			) {
 				init.headers.authorization = `Bearer ${tokenCookieString}`;
 			}
-		}
 
-		const user = await fetch(input, init)
-			.then((response) => response.json())
-			.catch((error) => {
-				console.error(error);
-				return {
-					status: 'error',
-					message: error.message,
+			if (userCookieObj && userCookieObj.user_name_id === user_name_id) {
+				user = {
+					status: 'succuss',
+					message: 'You are the owner of this profile!',
 					data: {},
-					isAuthorized: false,
-					visitorIdentity: GUEST,
+					isAuthorized: true,
+					visitorIdentity: OWNER,
 				};
-			});
+			} else {
+				user = await fetch(input, init)
+					.then((response) => response.json())
+					.catch((error) => {
+						console.error(error);
+						return {
+							status: 'error',
+							message: error.message,
+							data: {},
+							isAuthorized: false,
+							visitorIdentity: GUEST,
+						};
+					});
+			}
 
-		if (user.status === 'error') {
-			return {
-				user,
-				posts: {
-					status: 'error',
-					message: "Can't get the posts!",
-					data: [],
-				},
-			};
+			if (user.status === 'error') {
+				return {
+					user,
+					posts: {
+						status: 'error',
+						message: "Can't get the posts!",
+						data: [],
+					},
+				};
+			}
 		}
 
 		let posqInputQuery = '/?filter_by_user_id=';
