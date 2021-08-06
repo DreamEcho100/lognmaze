@@ -23,7 +23,7 @@ const HomePage = () => {
 			const news = await fetch(`api/v1/news${linkQuery}`) // ${process.env.BACK_END_ROOT_URL}/
 				.then((response) => response.json())
 				.then(({ status, message, data }) => {
-					if (status === 'error') {
+					if (!status || (status && status === 'error')) {
 						console.error(message);
 						return;
 					}
