@@ -23,15 +23,14 @@ const Modal = ({
 	const closeModal = (event) => {
 		event.stopPropagation();
 
-		click();
-		document.body.style.overflowY = 'auto';
-		// if (event.target.classList.contains('modal-close')) {
-		// 	return new Promise((resolve, reject) => {
-		// 		click();
-		// 		resolve();
-		// 	});
-		// 	// .then(() => (document.body.style.overflowY = 'auto'));
-		// }
+		if (event.target.classList.contains('modal-close')) {
+			return new Promise((resolve, reject) => {
+				click();
+				document.body.style.overflowY = 'auto';
+				resolve();
+			});
+			// .then(() => (document.body.style.overflowY = 'auto'));
+		}
 	};
 
 	const allClasses = handleAllClasses({
