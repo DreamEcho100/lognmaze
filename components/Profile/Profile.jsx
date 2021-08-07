@@ -25,7 +25,6 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, news = [] }) => {
 	return (
 		<>
 			<section className={`${classes.profile}`}>
-				<h1>Profile</h1>
 				<div className={classes['section-1']}>
 					<div className={classes['cover_photo-container']}>
 						<img
@@ -81,7 +80,7 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, news = [] }) => {
 					</Accordion>
 				)}
 				{visitorIdentity === OWNER && <SettingsButton />}
-				<BioSection bio={userData.bio} />
+				<BioSection bio={userData.bio} visitorIdentity={visitorIdentity} />
 				{visitorIdentity === OWNER && <CreateNewsButton />}
 			</section>
 

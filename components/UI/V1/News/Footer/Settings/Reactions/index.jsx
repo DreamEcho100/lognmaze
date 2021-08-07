@@ -9,9 +9,10 @@ const Reactions = ({
 	reactions,
 	user_reaction,
 	setData,
+	isLoadingReactions,
 }) => {
 	const [reactBtnDisabled, setReactBtnDisabled] = useState(
-		userExist ? false : true
+		userExist || isLoadingReactions ? false : true
 	);
 
 	const handleReaction = async (reaction) => {
@@ -166,12 +167,12 @@ const Reactions = ({
 	};
 
 	useEffect(() => {
-		if (userExist && reactBtnDisabled) {
+		if (userExist && !isLoadingReactions && reactBtnDisabled) {
 			setReactBtnDisabled(false);
 		} else if (!userExist && !reactBtnDisabled) {
 			setReactBtnDisabled(true);
 		}
-	}, [userExist]);
+	}, [userExist, isLoadingReactions]);
 
 	return (
 		<div className={`${classes.reactions} ${classes.item}`}>

@@ -3,8 +3,7 @@ import Container from '@components/UI/V1/News/Container/Container';
 const Article = ({ data }) => {
 	return (
 		<section>
-			<h1>Slug</h1>
-			<Container data={data} detailsType='content' />
+			<Container data={data} detailsType='content' loadReactions />
 		</section>
 	);
 };
@@ -24,7 +23,7 @@ export const getStaticProps = async (context) => {
 
 	const { status, message, data } = result;
 
-	if (status === 'error' || !data) {
+	if (!status || !data || (status && status === 'error')) {
 		return { props: { data: {} } };
 	}
 

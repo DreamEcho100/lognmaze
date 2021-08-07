@@ -8,9 +8,9 @@ const CommonNav = ({ isDataOwner, data, setData, hideSettings }) => (
 	<nav className={classes.nav}>
 		<Link href={`/profile/${data.author_user_name_id}`}>
 			<a
-				target='_blank'
 				className={classes.author_profile_link}
-				rel='noopener noreferrer'
+				// target='_blank'
+				// rel='noopener noreferrer'
 			>
 				<img
 					src={data.author_profile_picture}

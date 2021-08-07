@@ -15,6 +15,7 @@ const Settings = ({
 	setFocusCommentTextarea,
 	showComments,
 	focusCommentTextarea,
+	isLoadingReactions,
 }) => {
 	const { user, userExist, ...UserCxt } = useContext(UserContext);
 
@@ -39,12 +40,13 @@ const Settings = ({
 				reactions={reactions}
 				user_reaction={user_reaction}
 				setData={setData}
+				isLoadingReactions={isLoadingReactions}
 			/>
 			<div className={`${classes.comment} ${classes.item}`}>
 				<button
-				 disabled={commentBtnDisabled}
+					disabled={commentBtnDisabled}
 					onClick={() => {
-						if(commentBtnDisabled) return
+						if (commentBtnDisabled) return;
 						if (!showComments) setShowComments(true);
 						if (!focusCommentTextarea) setFocusCommentTextarea(true);
 					}}

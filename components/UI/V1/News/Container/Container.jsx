@@ -24,7 +24,11 @@ const Container = ({
 	const { user, ...UserCxt } = useContext(UserContext);
 
 	const [data, setData] = useState(props.data);
-	const [isLoading, setIsLoading] = useState(true);
+	// const [isLoading, setIsLoading] = useState(data.news_id ? false : true);
+	// const [isLoadingNewsStatus, setIsLoadingNewsStatus] = useState(data.reactions && data.comments ? false : true);
+	const [isLoadingReactions, setIsLoadingReactions] = useState(
+		props.loadReactions
+	);
 	const [closeModal, setCloseModal] = useState(true);
 	const [statusLoaded, setStatusLoaded] = useState(false);
 
@@ -41,73 +45,103 @@ const Container = ({
 		className: `${allClasses} ${BoxShadowClasses['box-shadow']} ${BorderClasses['border-2']}`,
 	};
 
+	// useEffect(async () => {
+	// }, []);
+
 	useEffect(async () => {
-		if (
-			/*!data.reactions &&  */
-			!data.reactions ||
-			(Array.isArray(data.reactions) && data.reactions.length === 0)
-		) {
-			setData((prev) => ({
-				...prev,
-				reactions: [
-					{ news_reaction_id: '', type: 'upvote', count: 0 },
-					{ news_reaction_id: '', type: 'downvote', count: 0 },
-				],
-			}));
-		} else {
-			const messingReactions = [];
-			if (!data.reactions.find((item) => item.type === 'upvote')) {
-				messingReactions.push({
-					news_reaction_id: '',
-					type: 'upvote',
-					count: 0,
-				});
+		if (!UserCxt.isLoading) {
+			if (isLoadingReactions) {
+				if (data.news_id && !data.reactions) {
+					let query = `news_id=${data.news_id}`;
+					if (user.id) query += `&news_reactor_id=${user.id}`;
+
+					const {
+						status,
+						message,
+						data: dataReaction,
+					} = await fetch(`/api/v1/news/reactions/reaction/?${query}`).then(
+						(response) => response.json()
+					);
+
+					if (status === 'error') {
+						console.error(message);
+						return;
+					}
+
+					setData((prev) => ({
+						...prev,
+						...dataReaction,
+					}));
+
+					setIsLoadingReactions(false);
+				}
 			}
-			if (!data.reactions.find((item) => item.type === 'downvote')) {
-				messingReactions.push({
-					news_reaction_id: '',
-					type: 'downvote',
-					count: 0,
-				});
-			}
-			if (messingReactions.length !== 0) {
+
+			if (
+				/*!data.reactions &&  */
+				!data.reactions ||
+				(Array.isArray(data.reactions) && data.reactions.length === 0)
+			) {
 				setData((prev) => ({
 					...prev,
-					reactions: [...prev.reactions, ...messingReactions],
+					reactions: [
+						{ news_reaction_id: '', type: 'upvote', count: 0 },
+						{ news_reaction_id: '', type: 'downvote', count: 0 },
+					],
+				}));
+			} else {
+				const messingReactions = [];
+				if (!data.reactions.find((item) => item.type === 'upvote')) {
+					messingReactions.push({
+						news_reaction_id: '',
+						type: 'upvote',
+						count: 0,
+					});
+				}
+				if (!data.reactions.find((item) => item.type === 'downvote')) {
+					messingReactions.push({
+						news_reaction_id: '',
+						type: 'downvote',
+						count: 0,
+					});
+				}
+				if (messingReactions.length !== 0) {
+					setData((prev) => ({
+						...prev,
+						reactions: [...prev.reactions, ...messingReactions],
+					}));
+				}
+			}
+
+			if (
+				/*!data.comments && */
+				!data.comments ||
+				(Array.isArray(data.comments) && data.comments.length === 0)
+			) {
+				setData((prev) => ({
+					...prev,
+					comments: [],
 				}));
 			}
-		}
 
-		if (
-			/*!data.comments && */
-			!data.comments ||
-			(Array.isArray(data.comments) && data.comments.length === 0)
-		) {
-			setData((prev) => ({
-				...prev,
-				comments: [],
-			}));
-		}
+			if (Object.keys(user).length === 0) {
+				setData((prev) => ({
+					...prev,
+					user_reaction: '',
+				}));
+			}
 
-		setIsLoading(false);
+			if (
+				props.containerType === 'sub' &&
+				!data.content &&
+				props.handleLoadindArticleContent
+			) {
+				await props.handleLoadindArticleContent();
+			}
 
-		if (
-			props.containerType === 'sub' &&
-			!data.content &&
-			props.handleLoadindArticleContent
-		) {
-			await props.handleLoadindArticleContent();
+			// if (isLoading) setIsLoading(false);
 		}
-	}, []);
-
-	useEffect(() => {
-		if (!UserCxt.isLoading && Object.keys(user).length === 0) {
-			setData((prev) => ({
-				...prev,
-				user_reaction: '',
-			}));
-		}
-	}, [user]);
+	}, [UserCxt.isLoading, user]);
 
 	const handleLoadindArticleContent = async (id) => {
 		await fetch(`/api/v1/news/articles/article/content/${id}`)
@@ -121,46 +155,9 @@ const Container = ({
 			.catch((error) => console.error(error));
 	};
 
-	// useEffect(() => {
-	// 	if (JSON.stringify(data) !== JSON.stringify(props.data)) setData(data);
-	// }, [props.data]);
-
-	// useEffect(async () => {
-	// 	if (
-	// 		props.containerType === 'sub' &&
-	// 		!data.content
-	// 	) {
-	// 		await props.handleLoadindArticleContent(data.news_id);
-	// 	}
-	// }, [])
-
-	// useEffect(async () => {
-	// 	// if (
-	// 	// 	props.containerType === 'sub' &&
-	// 	// 	data.type === 'article' &&
-	// 	// 	!data.content
-	// 	// ) {
-	// 	// 	if (props.ModalOnClick && !props.modalClosed)
-	// 	// 		await handleLoadindArticleContent(data.news_id);
-	// 	// }
-
-	// 	if (
-	// 		props.containerType === 'sub' &&
-	// 		props.action !== 'delete'
-	// 		// &&
-	// 		// props.setData &&
-	// 		// JSON.stringify(props.data) !== JSON.stringify(data)
-	// 	) {
-	// 		props.setData((prev) => ({
-	// 			...prev,
-	// 			...data,
-	// 		}));
-	// 	}
-	// }, [data]);
-
-	if (isLoading) {
-		return <article>Loading...</article>;
-	}
+	// if (isLoading) {
+	// 	return <article>Loading...</article>;
+	// }
 
 	if (data.type === 'article')
 		articleProps.lang = `${data.iso_language}-${data.iso_country}`;
@@ -186,6 +183,7 @@ const Container = ({
 			<NewsFooter
 				data={props.containerType === 'sub' ? props.data : data}
 				setData={props.containerType === 'sub' ? props.setData : setData}
+				isLoadingReactions={isLoadingReactions}
 			/>
 
 			{props.ModalOnClick && !closeModal && props.containerType !== 'sub' && (

@@ -11,7 +11,10 @@ import FormControl from '@components/UI/V1/FormControl';
 import Label from '@components/UI/V1/Label';
 import Textarea from '@components/UI/V1/Textarea';
 
-const BioSection = ({ bio = '' }) => {
+const GUEST = 'GUEST';
+const OWNER = 'OWNER';
+
+const BioSection = ({ bio = '', visitorIdentity }) => {
 	const { handleChangeBio, ...UserCxt } = useContext(UserContext);
 
 	const [showBioEditModal, setShowBioEditModal] = useState(false);
@@ -43,7 +46,9 @@ const BioSection = ({ bio = '' }) => {
 		<section className={classes.bio}>
 			<header className={classes.header}>
 				<h2>Bio:</h2>
-				<Button onClick={() => setShowBioEditModal(true)}>Edit</Button>
+				{visitorIdentity === OWNER && (
+					<Button onClick={() => setShowBioEditModal(true)}>Edit</Button>
+				)}
 				{showBioEditModal && (
 					<Modal
 						click={() => setShowBioEditModal(false)}

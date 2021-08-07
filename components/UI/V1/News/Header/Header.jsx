@@ -43,7 +43,9 @@ const Header = ({ data, setData, setCloseModal, hideHeaderSettings }) => {
 					<div className=''>
 						{!router.query.slug && data.type === 'article' ? (
 							<Link href={`/article/${data.slug}`}>
-								<a target='_blank' rel='noopener noreferrer'>
+								<a
+								// target='_blank' rel='noopener noreferrer'
+								>
 									<h1>{data.title}</h1>
 								</a>
 							</Link>

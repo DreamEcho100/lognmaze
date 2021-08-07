@@ -57,17 +57,20 @@ const Details = ({ content }) => {
 		a({ href, children }) {
 			if (href.startsWith('http://') || href.startsWith('https://')) {
 				return (
-					<Link href={href}>
-						<a target='_blank' rel='noopener noreferrer'>
-							{children}
-						</a>
-					</Link>
+					<a
+						hrefLang={href}
+						// target='_blank' rel='noopener noreferrer'
+					>
+						{children}
+					</a>
 				);
 			}
 
 			return (
 				<Link href={href}>
-					<a target='_blank' rel='noopener noreferrer'>
+					<a
+					// target='_blank' rel='noopener noreferrer'
+					>
 						{children}
 					</a>
 				</Link>

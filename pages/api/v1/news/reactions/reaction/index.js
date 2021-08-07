@@ -13,91 +13,70 @@ export default async (req, res) => {
 	) {
 		return;
 	}
+	try {
+		if (req.method === 'GET') {
+			// const isAuthorized = await handleIsAuthorized(
+			// 	res,
+			// 	req.headers.authorization
+			// );
 
-	if (req.method === 'GET') {
-		try {
-			const isAuthorized = await handleIsAuthorized(
-				res,
-				req.headers.authorization
-			);
-
-			if (!isAuthorized.id) return;
+			// if (!isAuthorized.id) return;
 
 			const { news_id } = req.query;
-
-			// ?news_id=905c9bb7-06df-4a92-a022-b9a698048e5c&news_reactor_id=d47030a8-cad9-4e94-a7ce-60ad6ae48ec8
-
-			/*	
-SELECT
-	json_build_object(
-		'news_reaction_id', news_reaction.news_reaction_id ,
-		'type', news_reaction.type,
-		'count', news_reaction.count
-	) AS reactions
-FROM  news_reaction
-;
-WHERE news_reaction.news_id = '905c9bb7-06df-4a92-a022-b9a698048e5c' -- news.news_id
-;
-			*/
 			let data;
 
 			if (req.query.news_reactor_id && req.query.news_reactor_id.length !== 0) {
 				data = await pool
 					.query(
 						`
-						SELECT 
-							news_reaction.news_reaction_id ,
-							news_reaction.type,
-							news_reaction.count,
-							user_reaction
-						FROM  news_reaction
-						JOIN LATERAL (
-							SELECT case when exists (
-								SELECT news_reaction.type AS type FROM news_reactor
-								WHERE news_reaction.news_id = ($1)
+							SELECT json_agg (
+								json_build_object (
+									'news_reaction_id', news_reaction.news_reaction_id ,
+									'type', news_reaction.type,
+									'count', news_reaction.count
+								)
+							) AS reactions,
+							news_reactor_reaction.user_reaction
+							FROM  news_reaction
+							
+							LEFT JOIN LATERAL (
+								SELECT type AS user_reaction FROM news_reaction
+								JOIN news_reactor ON news_reactor.news_reaction_id = news_reaction.news_reaction_id
+								WHERE news_reaction.news_id = ($1) -- news.news_id
 								AND news_reactor.news_reactor_id = ($2)
-								AND news_reactor.news_reaction_id = news_reaction.news_reaction_id
-							)
-								then true
-								else false
-							end
-						) user_reaction ON TRUE
-						WHERE news_id = ($1);
-					`,
+							) news_reactor_reaction ON TRUE
+
+							WHERE news_reaction.news_id = ($1)
+							GROUP BY news_reactor_reaction.user_reaction
+						`,
 						[news_id, req.query.news_reactor_id]
 					)
-					.then((response) => response.rows);
+					.then((response) => response.rows[0]);
 			} else {
 				data = await pool
 					.query(
 						`
-							SELECT 
-								news_reaction.news_reaction_id ,
-								news_reaction.type,
-								news_reaction.count
+							SELECT json_agg (
+								json_build_object (
+									'news_reaction_id', news_reaction.news_reaction_id ,
+									'type', news_reaction.type,
+									'count', news_reaction.count
+								)
+							) AS reactions
 							FROM  news_reaction
-							WHERE news_id = ($1);
+							WHERE news_reaction.news_id = ($1)
 						`,
 						[news_id]
 					)
-					.then((response) => response.rows);
+					.then((response) => response.rows[0]);
 			}
 
-			return res.status(201).json({
+			return res.status(200).json({
 				status: 'success',
 				message: 'Reactions Arrived Successfully!',
 				data,
 			});
-		} catch (error) {
-			console.error(`Error, ${error}`);
-			return res.status(500).json({
-				status: 'error',
-				message: error.message || 'Something went wrong!',
-				data: {},
-			});
-		}
-	} else if (req.method === 'POST') {
-		try {
+		} else if (req.method === 'POST') {
 			const isAuthorized = await handleIsAuthorized(
 				res,
 				req.headers.authorization
@@ -133,16 +112,7 @@ WHERE news_reaction.news_id = '905c9bb7-06df-4a92-a022-b9a698048e5c' -- news.new
 				message: 'Reaction Changed Successfully!',
 				data,
 			});
-		} catch (error) {
-			console.error(`Error, ${error}`);
-			return res.status(500).json({
-				status: 'error',
-				message: error.message || 'Something went wrong!',
-				data: {},
-			});
-		}
-	} else if (req.method === 'PUT') {
-		try {
+		} else if (req.method === 'PUT') {
 			const isAuthorized = await handleIsAuthorized(
 				res,
 				req.headers.authorization
@@ -223,11 +193,7 @@ WHERE news_reaction.news_id = '905c9bb7-06df-4a92-a022-b9a698048e5c' -- news.new
 
 							SELECT * FROM update_item_1, update_item_2, update_item_3
 						`,
-					[
-						req.body.new_reaction_id,
-						req.body.old_reaction_id,
-						isAuthorized.id,
-					]
+					[req.body.new_reaction_id, req.body.old_reaction_id, isAuthorized.id]
 				);
 			}
 
@@ -236,16 +202,7 @@ WHERE news_reaction.news_id = '905c9bb7-06df-4a92-a022-b9a698048e5c' -- news.new
 				message: 'Reaction Changed Successfully!',
 				data,
 			});
-		} catch (error) {
-			console.error(`Error, ${error}`);
-			return res.status(500).json({
-				status: 'error',
-				message: error.message || 'Something went wrong!',
-				data: [],
-			});
-		}
-	} else if (req.method === 'PATCH') {
-		try {
+		} else if (req.method === 'PATCH') {
 			const isAuthorized = await handleIsAuthorized(
 				res,
 				req.headers.authorization
@@ -277,16 +234,7 @@ WHERE news_reaction.news_id = '905c9bb7-06df-4a92-a022-b9a698048e5c' -- news.new
 				message: 'Reaction Changed Successfully!',
 				data: {},
 			});
-		} catch (error) {
-			console.error(`Error, ${error}`);
-			return res.status(500).json({
-				status: 'error',
-				message: error.message || 'Something went wrong!',
-				data: {},
-			});
-		}
-	} else if (req.method === 'DELETE') {
-		try {
+		} else if (req.method === 'DELETE') {
 			const isAuthorized = await handleIsAuthorized(
 				res,
 				req.headers.authorization
@@ -317,13 +265,13 @@ WHERE news_reaction.news_id = '905c9bb7-06df-4a92-a022-b9a698048e5c' -- news.new
 				message: 'Reaction Changed Successfully!',
 				data: result,
 			});
-		} catch (error) {
-			console.error(`Error, ${error}`);
-			return res.status(500).json({
-				status: 'error',
-				message: error.message || 'Something went wrong!',
-				data: [],
-			});
 		}
+	} catch (error) {
+		console.error(`Error, ${error}`);
+		return res.status(500).json({
+			status: 'error',
+			message: error.message || 'Something went wrong!',
+			data: {},
+		});
 	}
 };

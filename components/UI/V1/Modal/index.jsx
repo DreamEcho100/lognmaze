@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 import classes from './index.module.css';
@@ -14,6 +14,8 @@ const Modal = ({
 	click,
 	CloseButtonElement,
 }) => {
+	const modalWrapperRef = useRef();
+
 	const findByKey = (name) => {
 		return children.filter((child) => child.key === name);
 	};
@@ -21,14 +23,15 @@ const Modal = ({
 	const closeModal = (event) => {
 		event.stopPropagation();
 
-		if (event.target.classList.contains('modal-close')) {
-			click();
-			return new Promise((resolve, reject) => {
-				click();
-				resolve();
-			});
-			// .then(() => (document.body.style.overflowY = 'auto'));
-		}
+		click();
+		document.body.style.overflowY = 'auto';
+		// if (event.target.classList.contains('modal-close')) {
+		// 	return new Promise((resolve, reject) => {
+		// 		click();
+		// 		resolve();
+		// 	});
+		// 	// .then(() => (document.body.style.overflowY = 'auto'));
+		// }
 	};
 
 	const allClasses = handleAllClasses({
@@ -37,6 +40,11 @@ const Modal = ({
 		extraClasses,
 		className,
 	});
+
+	useEffect(() => {
+		modalWrapperRef.current.scrollIntoView();
+		document.body.style.overflowY = 'hidden';
+	}, []);
 
 	return createPortal(
 		<div
@@ -47,6 +55,7 @@ const Modal = ({
 			<div
 				className={`${classes['modal-wrapper']}`}
 				style={modelClasses['modal-wrapper']}
+				ref={modalWrapperRef}
 			>
 				<div
 					className={`${classes['modal-container']}`}

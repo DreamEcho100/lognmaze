@@ -5,7 +5,7 @@ import classes from './index.module.css';
 import Settings from './Settings';
 import Comments from './Comments';
 
-const Footer = ({ data, setData }) => {
+const Footer = ({ data, setData, isLoadingReactions }) => {
 	const [showComments, setShowComments] = useState(false);
 	const [focusCommentTextarea, setFocusCommentTextarea] = useState(false);
 
@@ -26,6 +26,7 @@ const Footer = ({ data, setData }) => {
 				setFocusCommentTextarea={setFocusCommentTextarea}
 				showComments={showComments}
 				focusCommentTextarea={focusCommentTextarea}
+				isLoadingReactions={isLoadingReactions}
 			/>
 			{showComments && (
 				<Comments
