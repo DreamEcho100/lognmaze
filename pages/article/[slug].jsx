@@ -1,6 +1,14 @@
+import { useRouter } from 'next/router';
+
 import Container from '@components/UI/V1/News/Container/Container';
 
 const Article = ({ data }) => {
+	const router = useRouter();
+
+	if (router.isFallback) {
+		return <div>Loading...</div>;
+	}
+
 	return (
 		<section>
 			<Container data={data} detailsType='content' loadReactions />
