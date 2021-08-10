@@ -3,22 +3,6 @@
 /*----------------------------*/
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Open+Sans:wght@400;700&display=swap');
 
-:root {
-	--main-font-color: black;
-	--main-bg-color: white;
-	--main-special-color-1: black;
-	--main-special-color-2: white;
-
-	--theme-light-1-bg-color-1: #fff;
-	--theme-light-1-font-color-1: #000;
-	--theme-light-1-special-color-1: #c6541f;
-	--theme-light-1-special-color-2: #090b97;
-
-	--theme-dark-1-bg-color-1: #000;
-	--theme-dark-1-font-color-1: #fff;
-	--theme-dark-1-special-color-1: #970928;
-	--theme-dark-1-special-color-2: #521c03;
-}
 ::selection {
 	color: var(--main-bg-color);
 	background: var(--main-font-color);
@@ -182,13 +166,13 @@
 	--main-bg-color-0: var(--color-1-100);
 	--main-bg-color-1: var(--color-1-90);
 	--main-bg-color-2: var(--color-1-75);
-	--main-bg-color-3: var(--color-2-55);
+	--main-bg-color-3: var(--color-1-55);
 	--main-bg-color-4: var(--color-1-25);
 	--main-bg-color-5: var(--color-1-15);
 
 	--main-font-color-1: var(--color-1-15);
 	--main-font-color-2: var(--color-1-25);
-	--main-font-color-3: var(--color-2-55);
+	--main-font-color-3: var(--color-1-55);
 	--main-font-color-4: var(--color-1-75);
 	--main-font-color-5: var(--color-1-95);
 
@@ -216,6 +200,21 @@
 	--main-special-2-font-color-3: var(--color-2-55);
 	--main-special-2-font-color-4: var(--color-1-25);
 	--main-special-2-font-color-5: var(--color-1-15);
+}
+
+body.dark {
+	--main-bg-color-0: var(--color-1-5);
+	--main-bg-color-1: var(--color-1-15);
+	--main-bg-color-2: var(--color-1-25);
+	--main-bg-color-3: var(--color-12-55);
+	--main-bg-color-4: var(--color-1-75);
+	--main-bg-color-5: var(--color-1-90);
+
+	--main-font-color-1: var(--color-1-95);
+	--main-font-color-2: var(--color-1-75);
+	--main-font-color-3: var(--color-2-55);
+	--main-font-color-4: var(--color-1-25);
+	--main-font-color-5: var(--color-1-15);
 }
 
 .main-section {
