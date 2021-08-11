@@ -3,8 +3,13 @@ import Md from '../Format/Md/Md';
 
 import classes from './Details.module.css';
 
-const Details = ({ detailsType, setCloseModal, data }) => {
-	const [loading, setLoading] = useState(true);
+const Details = ({ detailsType, setShowModal, data }) => {
+	const [loading, setLoading] = useState(
+		(detailsType === 'description' && data.description) ||
+			(detailsType === 'content' && data.content)
+			? false
+			: true
+	);
 
 	useEffect(() => {
 		if (!loading) return;
@@ -24,21 +29,21 @@ const Details = ({ detailsType, setCloseModal, data }) => {
 	if (detailsType === 'description') {
 		if (data.type === 'article') {
 			return (
-				<>
+				<section>
 					<p>{data.description}</p>
-					<p onClick={() => setCloseModal(false)}>
+					<p onClick={() => setShowModal(true)}>
 						Read More on a Pop Up Window {'->'}
 					</p>
-				</>
+				</section>
 			);
 		} else if (data.type === 'post') {
 			return (
-				<>
+				<section>
 					<p>{data.content}</p>
-					<p onClick={() => setCloseModal(false)}>
+					<p onClick={() => setShowModal(true)}>
 						Keep Reading On a Pop Up Window {'->'}
 					</p>
-				</>
+				</section>
 			);
 		}
 	} else if (detailsType === 'content') {
@@ -47,10 +52,18 @@ const Details = ({ detailsType, setCloseModal, data }) => {
 		// } else {
 		// 	return <p>{data.content}</p>;
 		// }
-		return <Md content={data.content || ''} />;
+		return (
+			<section>
+				<Md content={data.content || ''} />
+			</section>
+		);
 	}
 
-	return <p>No Content {':('}</p>;
+	return (
+		<section>
+			<p>No Content {':('}</p>
+		</section>
+	);
 };
 
 export default Details;

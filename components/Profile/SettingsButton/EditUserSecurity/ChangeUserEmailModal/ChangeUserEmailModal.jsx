@@ -11,7 +11,7 @@ import Label from '@components/UI/V1/Label';
 import Input from '@components/UI/V1/Input';
 import Button from '@components/UI/V1/Button';
 
-const ChangeUserEmailModal = ({ closeModal }) => {
+const ChangeUserEmailModal = ({ showModal, setShowModal }) => {
 	const { handleChangeEmail, user } = useContext(UserContext);
 
 	const [email, setEmail] = useState(user.email);
@@ -33,7 +33,7 @@ const ChangeUserEmailModal = ({ closeModal }) => {
 				return;
 			}
 
-			closeModal();
+			setShowModal(false);
 		} catch (error) {
 			setBtnsDisabled(false);
 			console.error(error);
@@ -44,7 +44,8 @@ const ChangeUserEmailModal = ({ closeModal }) => {
 
 	return (
 		<Modal
-			click={closeModal}
+			showModal={showModal}
+			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (
 				<Button type='button' {...props}>
 					Close

@@ -10,7 +10,14 @@ import UserContext from '@store/UserContext';
 import CommonNav from './CommonNav/CommonNav';
 import TimeAndDate from './TimeAndDate/TimeAndDate';
 
-const Header = ({ data, setData, setCloseModal, hideHeaderSettings }) => {
+const Header = ({
+	data,
+	setData,
+	setShowModal,
+	setIsLoadingContent,
+	isLoadingContent,
+	hideHeaderSettings,
+}) => {
 	const router = useRouter();
 
 	const { user, ...UserCxt } = useContext(UserContext);
@@ -31,12 +38,14 @@ const Header = ({ data, setData, setCloseModal, hideHeaderSettings }) => {
 				isDataOwner={isDataOwner}
 				data={data}
 				setData={setData}
+				setIsLoadingContent={setIsLoadingContent}
+				isLoadingContent={isLoadingContent}
 				hideSettings={hideHeaderSettings}
 			/>
 			{data.type === 'article' && (
 				<section>
 					<TimeAndDate
-						setCloseModal={setCloseModal}
+						setShowModal={setShowModal}
 						created_at={data.created_at}
 						updated_on={data.updated_on}
 					/>
@@ -58,7 +67,7 @@ const Header = ({ data, setData, setCloseModal, hideHeaderSettings }) => {
 							style={{ width: '100%' }}
 							loading='lazy'
 							onClick={() => {
-								if (setCloseModal) setCloseModal(false);
+								if (setShowModal) setShowModal(true);
 							}}
 						/>
 						<p>
@@ -71,7 +80,7 @@ const Header = ({ data, setData, setCloseModal, hideHeaderSettings }) => {
 			{data.type === 'post' && (
 				<section>
 					<TimeAndDate
-						setCloseModal={setCloseModal}
+						setShowModal={setShowModal}
 						created_at={data.created_at}
 						updated_on={data.updated_on}
 					/>

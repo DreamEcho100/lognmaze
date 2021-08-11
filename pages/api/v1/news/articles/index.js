@@ -97,7 +97,7 @@ export default async (req, res) => {
 						: ''
 				}
 				${whereClause}
-				ORDER BY news.updated_on DESC;										
+				ORDER BY news.created_at DESC;										
 			`;
 
 			const result = await pool

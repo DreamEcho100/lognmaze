@@ -1,6 +1,8 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
 
 import classes from './Settings.module.css';
+
+import NewsContext from '@components/UI/V1/News/NewsContext';
 
 import DropdownMenu from '@components/UI/V1/DropdownMenu';
 import UpdateAction from '@components/UI/V1/News/Action/Action';
@@ -10,7 +12,7 @@ import SocialMediaShareLink from '@components/UI/V1/SocialMediaShareLink';
 import Modal from '@components/UI/V1/Modal';
 import Button from '@components/UI/V1/Button';
 
-const ShareModel = ({ data, setShowShareModel }) => {
+const ShareModel = ({ data, showShareModel, setShowShareModel }) => {
 	let url = `https://${
 		'lognmaze.vercel.app' || process.env.FRONT_END_ROOT_URL
 	}/`;
@@ -38,6 +40,8 @@ const ShareModel = ({ data, setShowShareModel }) => {
 
 	return (
 		<Modal
+			showModal={showShareModel}
+			setShowShareModel={setShowShareModel}
 			click={() => setShowShareModel(false)}
 			CloseButtonElement={(props) => (
 				<Button type='button' {...props}>
@@ -113,7 +117,13 @@ const ShareModel = ({ data, setShowShareModel }) => {
 	);
 };
 
-const Settings = ({ isDataOwner, data, setData }) => {
+const Settings = ({
+	isDataOwner,
+	data,
+	setData,
+	// setIsLoadingContent,
+	// isLoadingContent,
+}) => {
 	const [items, setItems] = useState([]);
 
 	const [showShareModel, setShowShareModel] = useState(false);
@@ -124,31 +134,67 @@ const Settings = ({ isDataOwner, data, setData }) => {
 				{
 					className: `${classes['settings-item-for-data-owner']}`,
 					props: {
+						// setIsLoadingContent,
+						// isLoadingContent,
 						UpdateAction,
 						data,
 						setData,
 					},
-					Element: ({ UpdateAction, data, setData }) => {
+					Element: ({
+						UpdateAction,
+						data,
+						setData,
+						// setIsLoadingContent,
+						// isLoadingContent,
+					}) => {
+						const {
+							isLoadingContent,
+							setIsLoadingContent,
+							news,
+							setNews,
+							...NewsCxt
+						} = useContext(NewsContext);
+
 						const [showUpdateNewsModal, setShowUpdateNewsModal] =
 							useState(false);
+
+						const [actionNewsData, setActionNewsData] = useState({
+							type: data.type,
+							action: 'update',
+							route: 'update',
+							data: news,
+							setData: setNews,
+						});
+
+						useEffect(() => {
+							if (!data.content) setIsLoadingContent(true);
+						}, []);
+
+						useEffect(() => {
+							if (
+								JSON.stringify(news) !== JSON.stringify(actionNewsData.data)
+							) {
+								setActionNewsData({
+									type: data.type,
+									action: 'update',
+									route: 'update',
+									data: news,
+									setData: setNews,
+								});
+							}
+						}, [news]);
 
 						return (
 							<>
 								<button onClick={() => setShowUpdateNewsModal(true)}>
 									Edit
 								</button>
-								{showUpdateNewsModal && (
-									<UpdateAction
-										closeModal={() => setShowUpdateNewsModal(false)}
-										news={{
-											type: data.type,
-											action: 'update',
-											route: 'update',
-											data,
-											setData,
-										}}
-									/>
-								)}
+								<UpdateAction
+									showModal={showUpdateNewsModal}
+									setShowModal={setShowUpdateNewsModal}
+									closeModal={() => setShowUpdateNewsModal(false)}
+									news={actionNewsData}
+								/>
 							</>
 						);
 					},
@@ -159,25 +205,55 @@ const Settings = ({ isDataOwner, data, setData }) => {
 						DeleteAction,
 						data,
 						setData,
+						// setIsLoadingContent,
+						// isLoadingContent,
 					},
 					Element: ({ DeleteAction, data, setData }) => {
+						const {
+							isLoadingContent,
+							setIsLoadingContent,
+							news,
+							setNews,
+							...NewsCxt
+						} = useContext(NewsContext);
+
 						const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+						const [actionNewsData, setActionNewsData] = useState({
+							type: data.type,
+							action: 'delete',
+							isDataOwner,
+							data: news,
+							setData: setNews,
+						});
+
+						useEffect(() => {
+							if (!data.content) setIsLoadingContent(true);
+						}, []);
+
+						useEffect(() => {
+							if (
+								JSON.stringify(news) !== JSON.stringify(actionNewsData.data)
+							) {
+								setActionNewsData({
+									type: data.type,
+									action: 'delete',
+									isDataOwner,
+									data: news,
+									setData: setNews,
+								});
+							}
+						}, [news]);
 
 						return (
 							<>
 								<button onClick={() => setShowDeleteModal(true)}>Delete</button>
-								{showDeleteModal && (
-									<DeleteAction
-										closeModal={() => setShowDeleteModal(false)}
-										news={{
-											type: data.type,
-											action: 'delete',
-											isDataOwner,
-											data,
-											setData,
-										}}
-									/>
-								)}
+								<DeleteAction
+									showModal={showDeleteModal}
+									setShowModal={setShowDeleteModal}
+									closeModal={() => setShowDeleteModal(false)}
+									news={actionNewsData}
+								/>
 							</>
 						);
 					},
@@ -209,7 +285,12 @@ const Settings = ({ isDataOwner, data, setData }) => {
 		<>
 			<DropdownMenu items={items} />
 			{showShareModel && (
-				<ShareModel data={data} setShowShareModel={setShowShareModel} />
+				<ShareModel
+					data={data}
+					setShowShareModel={setShowShareModel}
+					showShareModel={showShareModel}
+					setShowShareModel={setShowShareModel}
+				/>
 			)}
 		</>
 	);

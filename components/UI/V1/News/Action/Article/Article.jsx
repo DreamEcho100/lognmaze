@@ -185,6 +185,49 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 		return props;
 	};
 
+	const handleLoadindArticleContent = async (id) => {
+		await fetch(`/api/v1/news/articles/article/content/${id}`)
+			.then((response) => response.json())
+			.then(({ message, status, data }) => {
+				setData((prev) => ({
+					...prev,
+					...data,
+				}));
+			})
+			.catch((error) => console.error(error));
+	};
+
+	useEffect(() => {
+		// const changedValues = {};
+		// let valuesChanged = false;
+
+		// for (let item in values) {
+		// 	if (values[item] && values[item] !== data[item]) {
+		// 		changedValues[item] = data[item];
+		// 		if (!valuesChanged) valuesChanged = true;
+		// 	}
+		// }
+
+		// if (valuesChanged) {
+		// 	setValues((prev) => ({
+		// 		...prev,
+		// 		...changedValues,
+		// 	}));
+		// }
+
+		setValues({
+			// format_type: data && data.format_type ? data.format_type : 'normal',
+			title: data && data.title ? data.title : '',
+			slug: data && data.slug ? data.slug : '',
+			iso_language: data && data.iso_language ? data.iso_language : 'en',
+			iso_country: data && data.iso_country ? data.iso_country : 'US',
+			tags: data && data.tags && data.tags.length ? data.tags : [],
+			image: data && data.image ? data.image : '',
+			description: data && data.description ? data.description : '',
+			content: data && data.content ? data.content : '',
+		});
+	}, [data]);
+
 	return (
 		<Form
 			extraClasses={classes.form}

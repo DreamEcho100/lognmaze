@@ -10,7 +10,7 @@ const ButtonModuleDisplayer = ({ buttonText, ModalElement }) => {
 	return (
 		<>
 			<Button onClick={() => setShowModal(true)}>{buttonText}</Button>
-			{showModal && <ModalElement closeModal={() => setShowModal(false)} />}
+			<ModalElement showModal={showModal} setShowModal={setShowModal} />
 		</>
 	);
 };

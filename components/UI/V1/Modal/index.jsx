@@ -13,6 +13,7 @@ const Modal = ({
 	children,
 	click,
 	CloseButtonElement,
+	showModal,
 }) => {
 	const modalWrapperRef = useRef();
 
@@ -40,10 +41,24 @@ const Modal = ({
 		className,
 	});
 
+	// useEffect(() => {
+	// 	modalWrapperRef.current.scrollIntoView();
+	// 	document.body.style.overflowY = 'hidden';
+	// }, []);
+
 	useEffect(() => {
-		modalWrapperRef.current.scrollIntoView();
-		document.body.style.overflowY = 'hidden';
-	}, []);
+		if (showModal) {
+			modalWrapperRef.current.scrollIntoView();
+			document.body.style.overflowY = 'hidden';
+		} else {
+			click();
+			document.body.style.overflowY = 'auto';
+		}
+	}, [showModal]);
+
+	if (!showModal) {
+		return <></>;
+	}
 
 	return createPortal(
 		<div

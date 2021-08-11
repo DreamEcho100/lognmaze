@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 
 import Container from '@components/UI/V1/News/Container/Container';
 
+import { NewsContextProvider } from '@components/UI/V1/News/NewsContext';
+
 const Article = ({ data }) => {
 	const router = useRouter();
 
@@ -11,7 +13,9 @@ const Article = ({ data }) => {
 
 	return (
 		<section>
-			<Container data={data} detailsType='content' loadReactions />
+			<NewsContextProvider>
+				<Container data={data} detailsType='content' loadReactions />
+			</NewsContextProvider>
 		</section>
 	);
 };

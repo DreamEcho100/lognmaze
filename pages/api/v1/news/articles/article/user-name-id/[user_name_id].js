@@ -84,7 +84,7 @@ export default async (req, res) => {
 								: ''
 						}
 						WHERE user_profile.user_name_id = $1
-						ORDER BY news.updated_on DESC;
+						ORDER BY news.created_at DESC;
 					`,
 					[user_name_id]
 				)

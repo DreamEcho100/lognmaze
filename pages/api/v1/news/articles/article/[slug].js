@@ -57,7 +57,8 @@ export default async (req, res) => {
 						-- 		WHERE news_reaction.news_id = news.news_id
 						-- ) news_reaction ON TRUE
 						WHERE news_article.slug = $1
-						ORDER BY news.updated_on DESC;										
+						-- ORDER BY news.created_at DESC
+						;
 					`,
 					[slug]
 				)

@@ -17,7 +17,7 @@ import InputFileReactDropzone from '@components/UI/V1/InputFileReactDropzone/Inp
 import LinearProgressBar from '@components/UI/V1/LinearProgressBar/LinearProgressBar';
 import { uploadFileToCloudinary } from '@lib/v1/fetch';
 
-const ChangeCoverPhotoModal = ({ closeModal }) => {
+const ChangeCoverPhotoModal = ({ showModal, setShowModal }) => {
 	const { user, handleChangeCoverPhotoURL } = useContext(UserContext);
 
 	const [CoverPhotoURL, setCoverPhotoURL] = useState(user.cover_photo);
@@ -98,7 +98,7 @@ const ChangeCoverPhotoModal = ({ closeModal }) => {
 					return { status, message };
 				}
 
-				closeModal();
+				setShowModal(false);
 				return { status, message };
 			})
 			.catch((error) => {
@@ -111,7 +111,8 @@ const ChangeCoverPhotoModal = ({ closeModal }) => {
 
 	return (
 		<Modal
-			click={closeModal}
+			showModal={showModal}
+			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (
 				<Button type='button' {...props}>
 					Close

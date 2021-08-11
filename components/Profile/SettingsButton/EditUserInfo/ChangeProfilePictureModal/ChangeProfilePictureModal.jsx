@@ -17,7 +17,7 @@ import InputFileReactDropzone from '@components/UI/V1/InputFileReactDropzone/Inp
 import LinearProgressBar from '@components/UI/V1/LinearProgressBar/LinearProgressBar';
 import { uploadFileToCloudinary } from '@lib/v1/fetch';
 
-const ChangeProfilePictureModal = ({ closeModal }) => {
+const ChangeProfilePictureModal = ({ showModal, setShowModal }) => {
 	const { user, handleChangeProfilePictureURL } = useContext(UserContext);
 
 	const [profilePictureURL, setProfilePictureURL] = useState(
@@ -106,7 +106,7 @@ const ChangeProfilePictureModal = ({ closeModal }) => {
 					return { status, message };
 				}
 
-				closeModal();
+				setShowModal(false);
 				return { status, message };
 			})
 			.catch((error) => {
@@ -118,7 +118,8 @@ const ChangeProfilePictureModal = ({ closeModal }) => {
 
 	return (
 		<Modal
-			click={closeModal}
+			showModal={showModal}
+			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (
 				<Button type='button' {...props}>
 					Close

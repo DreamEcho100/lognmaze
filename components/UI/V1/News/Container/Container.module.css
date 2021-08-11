@@ -11,7 +11,7 @@
 
 .modal-wrapper {
 	width: 90%;
-	max-width: none;
+	max-width: 200rem;
 }
 
 .modal-container {
@@ -21,6 +21,6 @@
 @media screen and (max-width: 700px) {
 	.container {
 		width: fit-content;
-		max-width: 100%;
+		width: 100%;
 	}
 }

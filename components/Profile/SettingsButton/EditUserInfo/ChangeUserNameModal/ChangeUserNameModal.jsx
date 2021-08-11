@@ -15,7 +15,7 @@ import Label from '@components/UI/V1/Label';
 import Input from '@components/UI/V1/Input';
 import Button from '@components/UI/V1/Button';
 
-const ChangeUserNameModal = ({ closeModal }) => {
+const ChangeUserNameModal = ({ showModal, setShowModal }) => {
 	const router = useRouter();
 
 	const { user, handleChangeUserName } = useContext(UserContext);
@@ -43,7 +43,7 @@ const ChangeUserNameModal = ({ closeModal }) => {
 					return { status, message };
 				}
 
-				closeModal();
+				setShowModal(false);
 				return { status, message };
 			})
 			.then(({ status, message }) => {
@@ -63,7 +63,8 @@ const ChangeUserNameModal = ({ closeModal }) => {
 
 	return (
 		<Modal
-			click={closeModal}
+			showModal={showModal}
+			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (
 				<Button type='button' {...props}>
 					Close

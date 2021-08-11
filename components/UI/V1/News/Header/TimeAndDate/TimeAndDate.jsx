@@ -2,11 +2,11 @@ import classes from './TimeAndDate.module.css';
 
 import { dateToHumanReadableDate } from '@lib/v1/time';
 
-const TimeAndDate = ({ setCloseModal, created_at, updated_on }) => (
+const TimeAndDate = ({ setShowModal, created_at, updated_on }) => (
 	<div
 		className=''
 		onClick={() => {
-			if (setCloseModal) setCloseModal(false);
+			if (setShowModal) setShowModal(true);
 		}}
 	>
 		<p>

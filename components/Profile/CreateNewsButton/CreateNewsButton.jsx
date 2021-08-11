@@ -12,12 +12,12 @@ const CreateNewsButton = () => {
 			<Button onClick={() => setShowCreateNewsButtonModal(true)}>
 				Create A News
 			</Button>
-			{showCreateNewsButtonModal && (
-				<CreateAction
-					closeModal={() => setShowCreateNewsButtonModal(false)}
-					news={{ type: 'article', action: 'create', route: 'add' }}
-				/>
-			)}
+			<CreateAction
+				closeModal={() => setShowCreateNewsButtonModal(false)}
+				showModal={showCreateNewsButtonModal}
+				setShowModal={setShowCreateNewsButtonModal}
+				news={{ type: 'article', action: 'create', route: 'add' }}
+			/>
 		</>
 	);
 };

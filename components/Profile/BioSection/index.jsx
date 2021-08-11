@@ -49,36 +49,35 @@ const BioSection = ({ bio = '', visitorIdentity }) => {
 				{visitorIdentity === OWNER && (
 					<Button onClick={() => setShowBioEditModal(true)}>Edit</Button>
 				)}
-				{showBioEditModal && (
-					<Modal
-						click={() => setShowBioEditModal(false)}
-						CloseButtonElement={(props) => (
-							<Button type='button' {...props}>
-								Close
+				<Modal
+					showModal={showBioEditModal}
+					click={() => setShowBioEditModal(false)}
+					CloseButtonElement={(props) => (
+						<Button type='button' {...props}>
+							Close
+						</Button>
+					)}
+				>
+					<Fragment key='header'>
+						<h2>Edit Bio</h2>
+					</Fragment>
+					<Fragment key='body'>
+						<Form onSubmit={handleSubmit}>
+							<Label htmlFor='bio'>Bio</Label>
+							<FormControl>
+								<Textarea
+									name='bio'
+									id='bio'
+									setValues={setValues}
+									value={values.bio}
+								/>
+							</FormControl>
+							<Button disabled={DisableBtns} type='submit'>
+								Submit
 							</Button>
-						)}
-					>
-						<Fragment key='header'>
-							<h2>Edit Bio</h2>
-						</Fragment>
-						<Fragment key='body'>
-							<Form onSubmit={handleSubmit}>
-								<Label htmlFor='bio'>Bio</Label>
-								<FormControl>
-									<Textarea
-										name='bio'
-										id='bio'
-										setValues={setValues}
-										value={values.bio}
-									/>
-								</FormControl>
-								<Button disabled={DisableBtns} type='submit'>
-									Submit
-								</Button>
-							</Form>
-						</Fragment>
-					</Modal>
-				)}
+						</Form>
+					</Fragment>
+				</Modal>
 			</header>
 			<main>
 				<p>{bio}</p>

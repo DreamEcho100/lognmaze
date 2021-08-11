@@ -11,7 +11,7 @@ import Label from '@components/UI/V1/Label';
 import Input from '@components/UI/V1/Input';
 import Button from '@components/UI/V1/Button';
 
-const ChangeUserPasswordModal = ({ closeModal }) => {
+const ChangeUserPasswordModal = ({ showModal, setShowModal }) => {
 	const { handleChangePassword } = useContext(UserContext);
 
 	const [oldPassword, setOldPassword] = useState('');
@@ -53,7 +53,7 @@ const ChangeUserPasswordModal = ({ closeModal }) => {
 				return;
 			}
 
-			closeModal();
+			setShowModal(false);
 		} catch (error) {
 			setBtnsDisabled(false);
 			console.error(error);
@@ -64,7 +64,8 @@ const ChangeUserPasswordModal = ({ closeModal }) => {
 
 	return (
 		<Modal
-			click={closeModal}
+			showModal={showModal}
+			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (
 				<Button type='button' {...props}>
 					Close

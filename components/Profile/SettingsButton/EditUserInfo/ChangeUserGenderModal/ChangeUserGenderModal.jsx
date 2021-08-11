@@ -14,7 +14,7 @@ import Label from '@components/UI/V1/Label';
 import Input from '@components/UI/V1/Input';
 import Button from '@components/UI/V1/Button';
 
-const ChangeUserGenderModal = ({ closeModal }) => {
+const ChangeUserGenderModal = ({ showModal, setShowModal }) => {
 	const router = useRouter();
 
 	const { user, handleChangeUserGender } = useContext(UserContext);
@@ -40,7 +40,7 @@ const ChangeUserGenderModal = ({ closeModal }) => {
 					return { status, message };
 				}
 
-				closeModal();
+				setShowModal(false);
 				return { status, message };
 			})
 			.catch((error) => {
@@ -53,7 +53,8 @@ const ChangeUserGenderModal = ({ closeModal }) => {
 
 	return (
 		<Modal
-			click={closeModal}
+			showModal={showModal}
+			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (
 				<Button type='button' {...props}>
 					Close

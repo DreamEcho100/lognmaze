@@ -1,15 +1,19 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
 
 import UserContext from '@store/UserContext';
+import { NewsContextProvider } from '@components/UI/V1/News/NewsContext';
 
 import ModalContainer from './ModalContainer/ModalContainer';
 import Article from './Article/Article';
 import Post from './Post/Post';
 import Modal from '@components/UI/V1/Modal';
 import Button from '@components/UI/V1/Button';
-import Container2 from '@components/UI/V1/News/Container/Container';
+import ContainerItems from '@components/UI/V1/News/Container/ContainerItems';
 
-const Action = ({ closeModal, news }) => {
+const Action = ({ closeModal, showModal, setShowModal, news, ...props }) => {
+	// if (!showModal) {
+	// 	return <></>;
+	// }
 	const extraProps = {};
 
 	const { user, ...UserCxt } = useContext(UserContext);
@@ -57,6 +61,8 @@ const Action = ({ closeModal, news }) => {
 	if (news.action === 'create' || news.action === 'update') {
 		return (
 			<ModalContainer
+				showModal={showModal}
+				setShowModal={setShowModal}
 				closeModal={closeModal}
 				HeaderProps={{
 					news,
@@ -87,6 +93,9 @@ const Action = ({ closeModal, news }) => {
 	if (news.action === 'delete') {
 		return (
 			<Modal
+				showModal={showModal}
+				setShowModal={setShowModal}
+				showModal={showModal}
 				click={() => closeModal(true)}
 				CloseButtonElement={(props) => (
 					<Button type='button' {...props}>
@@ -108,13 +117,33 @@ const Action = ({ closeModal, news }) => {
 					</header>
 				</Fragment>
 				<Fragment key='body'>
-					<Container2
+					{/* <Container
 						containerType='sub'
 						data={news.data}
 						setData={news.setData}
 						detailsType='content'
 						hideHeaderSettings={true}
 						action='delete'
+					/> */}
+					{/* <NewsContextProvider key={item.news_id}>
+						<Container
+							data={item}
+							detailsType='description'
+							ModalOnClick={true}
+							className={classes['news-container']}
+						/>
+					</NewsContextProvider> */}
+					<ContainerItems
+						// articleProps={articleProps}
+						containerType='sub'
+						data={news.data}
+						setData={news.setData}
+						detailsType='content'
+						hideHeaderSettings={true}
+						action='delete'
+						setIsLoadingContent={props.setIsLoadingContent}
+						// isLoadingReactions={isLoadingReactions}
+						// isLoadingContent={isLoadingContent}
 					/>
 				</Fragment>
 			</Modal>
