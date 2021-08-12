@@ -18,6 +18,12 @@ const ChangeUserPasswordModal = ({ showModal, setShowModal }) => {
 	const [newPasswordAgain, setNewPasswordAgain] = useState('');
 	const [newPassword, setNewPassword] = useState('');
 
+	const emptyInputs = () => {
+		setOldPassword('');
+		setNewPasswordAgain('');
+		setNewPassword('');
+	};
+
 	const [afterFormSubmitMessage, setAfterFormSubmitMessage] = useState(true);
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
 
@@ -49,9 +55,13 @@ const ChangeUserPasswordModal = ({ showModal, setShowModal }) => {
 
 			if (status === 'error') {
 				setBtnsDisabled(false);
+				console.error(message);
 				setAfterFormSubmitMessage(message);
 				return;
 			}
+
+			emptyInputs();
+			setBtnsDisabled(false);
 
 			setShowModal(false);
 		} catch (error) {

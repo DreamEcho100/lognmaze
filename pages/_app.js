@@ -1,4 +1,24 @@
 import Head from 'next/head';
+import { config, library } from '@fortawesome/fontawesome-svg-core';
+import {
+	faFacebook,
+	faTwitter,
+	faLinkedin,
+	faTumblr,
+	faWhatsapp,
+	faTelegram,
+} from '@fortawesome/free-brands-svg-icons';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+// import '../node_modules/@fortawesome/fontawesome-svg-core/styles.css';
+config.autoAddCss = false;
+library.add(
+	faFacebook,
+	faTwitter,
+	faLinkedin,
+	faTumblr,
+	faWhatsapp,
+	faTelegram
+);
 
 import '@styles/_globals.scss';
 import Layout from '@components/Layout/Layout';

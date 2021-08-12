@@ -118,7 +118,7 @@ const Comments = ({
 		<section className={`${inheritedClasses}`}>
 			<CommentTextarea
 				handleSubmit={handleSubmit}
-				focusTextarea={true}
+				focusTextarea={focusCommentTextarea}
 				setFocusCommentTextarea={setFocusCommentTextarea}
 				name='content'
 				setValues={setValues}

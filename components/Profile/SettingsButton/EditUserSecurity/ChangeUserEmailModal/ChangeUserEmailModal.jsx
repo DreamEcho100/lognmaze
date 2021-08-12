@@ -29,9 +29,13 @@ const ChangeUserEmailModal = ({ showModal, setShowModal }) => {
 
 			if (status === 'error') {
 				setBtnsDisabled(false);
+				console.error(message);
 				setAfterFormSubmitMessage(message);
 				return;
 			}
+
+			setPassword('');
+			setBtnsDisabled(false);
 
 			setShowModal(false);
 		} catch (error) {

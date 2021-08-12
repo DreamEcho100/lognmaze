@@ -36,9 +36,13 @@ const ChangeUserGenderModal = ({ showModal, setShowModal }) => {
 			.then(({ status, message }) => {
 				if (status === 'error') {
 					setBtnsDisabled(false);
+					console.error(message);
 					setAfterFormSubmitMessage(message);
 					return { status, message };
 				}
+
+				setPassword('');
+				setBtnsDisabled(false);
 
 				setShowModal(false);
 				return { status, message };

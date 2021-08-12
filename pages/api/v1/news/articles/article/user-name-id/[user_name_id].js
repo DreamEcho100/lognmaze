@@ -67,7 +67,7 @@ export default async (req, res) => {
 								json_build_object (
 									'news_reaction_id', news_reaction.news_reaction_id ,
 									'type', news_reaction.type,
-									'count', news_reaction.count
+									'counter', news_reaction.counter
 								)
 							) AS reactions
 								FROM  news_reaction

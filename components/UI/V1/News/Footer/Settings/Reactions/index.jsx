@@ -57,7 +57,7 @@ const Reactions = ({
 							if (item.type === reaction) {
 								return {
 									...item,
-									count: item.count + 1,
+									counter: item.counter + 1,
 									news_reaction_id: item.news_reaction_id
 										? item.news_reaction_id
 										: data.news_reaction_id,
@@ -99,7 +99,7 @@ const Reactions = ({
 							if (item.type === reaction) {
 								return {
 									...item,
-									count: item.count - 1,
+									counter: item.counter - 1,
 								};
 							}
 							return item;
@@ -140,7 +140,7 @@ const Reactions = ({
 							if (item.type === reaction) {
 								return {
 									...item,
-									count: item.count + 1,
+									counter: item.counter + 1,
 									news_reaction_id:
 										typeof item.news_reaction_id === 'string' &&
 										item.news_reaction_id.length !== 0
@@ -151,7 +151,7 @@ const Reactions = ({
 							if (item.type === prev.user_reaction) {
 								return {
 									...item,
-									count: item.count - 1,
+									counter: item.counter - 1,
 								};
 							}
 							return item;

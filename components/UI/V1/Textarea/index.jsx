@@ -9,11 +9,10 @@ const Textarea = ({
 	defaultClasses = 'textarea',
 	extraClasses = '',
 	className = '',
-	useElement = () => {},
-	// useElementInEffect = () => {},
-	// useElementInEffectDependencyList = [],
 	children,
 	onChange,
+	focus,
+	setFocus,
 	setValues,
 	...props
 }) => {
@@ -27,32 +26,34 @@ const Textarea = ({
 	});
 
 	useEffect(() => {
-		useElement(textareaRef.current);
-	}, []);
+		if (focus) {
+			textareaRef.current.focus();
+		}
+	}, [focus]);
 
-	// useEffect(() => {
-	// 	if (!textareaRef.current) return;
-	// 	useElementInEffect(textareaRef.current);
-	// }, [...useElementInEffectDependencyList, textareaRef.current]);
-
-	return (
-		<textarea
-			className={`${allClasses} ${BorderClasses['border-2']}`}
-			ref={textareaRef}
-			onChange={(event) => {
-				if (setValues) {
-					return setValues((prev) => ({
-						...prev,
-						[event.target.name]: event.target.value,
-					}));
+	const textareaProps = {
+		className: `${allClasses} ${BorderClasses['border-2']}`,
+		ref: textareaRef,
+		onChange: (event) => {
+			if (setValues) {
+				return setValues((prev) => ({
+					...prev,
+					[event.target.name]: event.target.value,
+				}));
+			}
+			if (onChange) return onChange(event);
+		},
+		onBlur: () => {
+			if (setFocus) {
+				if (focus) {
+					setFocus(false);
 				}
-				if (onChange) return onChange(event);
-			}}
-			{...props}
-		>
-			{children}
-		</textarea>
-	);
+			}
+		},
+		...props,
+	};
+
+	return <textarea {...textareaProps}>{children}</textarea>;
 };
 
 export default Textarea;

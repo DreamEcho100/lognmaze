@@ -1,0 +1,33 @@
+.status {
+	display: flex;
+	align-items: center;
+}
+
+.status-item {
+	margin: 0 0.25em;
+}
+
+.status-item:first-child {
+	margin-left: 0;
+}
+
+.status-item:last-child {
+	margin-right: 0;
+}
+
+.reactions {
+	display: flex;
+	align-items: center;
+}
+
+.reaction {
+	margin: 0 0.125em;
+}
+
+.reaction:first-child {
+	margin-left: 0;
+}
+
+.reaction:last-child {
+	margin-right: 0;
+}

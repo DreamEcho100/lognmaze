@@ -3,11 +3,6 @@
 /*----------------------------*/
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Open+Sans:wght@400;700&display=swap');
 
-::selection {
-	color: var(--main-bg-color);
-	background: var(--main-font-color);
-}
-
 // ::-webkit-scrollbar {
 // 	// width: calc(1.5rem + 0.2vw);
 // }
@@ -202,6 +197,11 @@
 	--main-special-2-font-color-5: var(--color-1-15);
 }
 
+::selection {
+	color: var(--main-bg-color-1);
+	background: var(--main-font-color-1);
+}
+
 body.dark {
 	--main-bg-color-0: var(--color-1-5);
 	--main-bg-color-1: var(--color-1-15);
@@ -328,6 +328,7 @@ button {
 	background-color: transparent;
 	border-color: transparent;
 	outline-color: rgba(255, 255, 255, 0.1);
+	user-select: none;
 }
 
 button:disabled {

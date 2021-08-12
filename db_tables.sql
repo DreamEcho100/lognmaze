@@ -149,7 +149,7 @@ CREATE TABLE news_reaction (
   news_id uuid NOT NULL,
 
   type TEXT NOT NULL,
-  count INT DEFAULT 0,
+  counter INT DEFAULT 0,
 
   CONSTRAINT news_reaction_id PRIMARY KEY (news_reaction_id),
   FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE,

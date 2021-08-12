@@ -74,7 +74,7 @@ WHERE news_id = ('905c9bb7-06df-4a92-a022-b9a698048e5c');
 SELECT 
   news_reaction.news_reaction_id ,
   news_reaction.type,
-  news_reaction.count,
+  news_reaction.counter,
   user_reaction
 FROM  news_reaction
 JOIN LATERAL (
@@ -94,7 +94,7 @@ WHERE news_id = ('905c9bb7-06df-4a92-a022-b9a698048e5c');
 SELECT 
   news_reaction.news_reaction_id ,
   news_reaction.type,
-  news_reaction.count,
+  news_reaction.counter,
   user_reaction
 FROM  news_reaction
 JOIN LATERAL (
@@ -133,7 +133,7 @@ JOIN LATERAL (
     json_build_object (
       'news_reaction_id', news_reaction.news_reaction_id ,
       'type', news_reaction.type,
-      'count', news_reaction.count
+      'counter', news_reaction.counter
       /* ,'user_reaction', user_reaction.case */
     )
   ) AS reactions

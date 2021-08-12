@@ -110,6 +110,9 @@ export const UserContextProvider = ({ children }) => {
 			setCookie({
 				cookieName: 'user_data',
 				cookieValue: JSON.stringify(data),
+				expiresDate: new Date(
+					new Date().getTime() + jwt.expiriesAfter
+				).toUTCString(),
 				domain: process.env.FRONT_END_DOMAIN,
 				path: '/',
 			});

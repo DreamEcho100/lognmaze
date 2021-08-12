@@ -19,18 +19,14 @@ const CommentTextarea = ({
 	return (
 		<Form onSubmit={handleSubmit}>
 			<Textarea
-				useElement={(elem) => {
-					if (focusTextarea) elem.focus();
-				}}
-				// useElementInEffect={(elem) => {
-				// 	console.log(elem);
-				// 	if (!elem) return;
-				// 	elem.focus();
+				// useElement={(elem) => {
+				// 	if (focusTextarea) elem.focus();
 				// }}
-				// useElementInEffectDependencyList={[]}
-				onBlur={() => {
-					if (focusTextarea) setFocusCommentTextarea(false);
-				}}
+				focus={focusTextarea}
+				setFocus={setFocusCommentTextarea}
+				// onBlur={() => {
+				// 	if (focusTextarea) setFocusCommentTextarea(false);
+				// }}
 				name={name}
 				setValues={setValues}
 				onChange={onChange}
@@ -39,9 +35,15 @@ const CommentTextarea = ({
 			<Button type='submit' disabled={disbleSubmitBtn}>
 				Send
 			</Button>
-			{closeBtn && <Button type='button' disabled={disbleSubmitBtn} onClick={onClickingCloseBtn}>
-				Close
-			</Button>}
+			{closeBtn && (
+				<Button
+					type='button'
+					disabled={disbleSubmitBtn}
+					onClick={onClickingCloseBtn}
+				>
+					Close
+				</Button>
+			)}
 		</Form>
 	);
 };

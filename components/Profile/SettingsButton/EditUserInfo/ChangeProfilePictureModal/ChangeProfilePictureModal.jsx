@@ -106,6 +106,8 @@ const ChangeProfilePictureModal = ({ showModal, setShowModal }) => {
 					return { status, message };
 				}
 
+				setBtnsDisabled(false);
+
 				setShowModal(false);
 				return { status, message };
 			})

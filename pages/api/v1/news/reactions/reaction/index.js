@@ -33,7 +33,7 @@ export default async (req, res) => {
 								json_build_object (
 									'news_reaction_id', news_reaction.news_reaction_id ,
 									'type', news_reaction.type,
-									'count', news_reaction.count
+									'counter', news_reaction.counter
 								)
 							) AS reactions,
 							news_reactor_reaction.user_reaction
@@ -60,7 +60,7 @@ export default async (req, res) => {
 								json_build_object (
 									'news_reaction_id', news_reaction.news_reaction_id ,
 									'type', news_reaction.type,
-									'count', news_reaction.count
+									'counter', news_reaction.counter
 								)
 							) AS reactions
 							FROM  news_reaction
@@ -90,7 +90,7 @@ export default async (req, res) => {
 				.query(
 					`
           INSERT INTO news_reaction
-            (news_id, type, count)
+            (news_id, type, counter)
           VALUES ($1, $2, 1)
           RETURNING  news_reaction_id
         `,
@@ -130,13 +130,13 @@ export default async (req, res) => {
 						`
 							WITH insert_item_1 AS (
 								INSERT INTO news_reaction
-									(news_id, type, count)
+									(news_id, type, counter)
 								VALUES ($1, $2, 1)
 								RETURNING news_reaction_id
 							),
 							update_item_1 AS (
 								UPDATE news_reaction
-								SET count = count - 1
+								SET counter = counter - 1
 								WHERE news_reaction_id = ($3)
 								RETURNING NULL
 							),
@@ -174,13 +174,13 @@ export default async (req, res) => {
 					`
 							WITH update_item_1 AS (
 								UPDATE news_reaction
-								SET count = count + 1
+								SET counter = counter + 1
 								WHERE news_reaction_id = ($1)
 								RETURNING NULL
 							),
 							update_item_2 AS (
 								UPDATE news_reaction
-								SET count = count - 1
+								SET counter = counter - 1
 								WHERE news_reaction_id = ($2)
 								RETURNING NULL
 							),
@@ -216,7 +216,7 @@ export default async (req, res) => {
 				`
 							WITH update_item_1 AS (
 								UPDATE news_reaction
-								SET count = count + 1
+								SET counter = counter + 1
 								WHERE news_reaction_id = ($1) AND type = ($2) RETURNING ''
 							), insert_item_1 AS (
 								INSERT INTO news_reactor
@@ -251,7 +251,7 @@ export default async (req, res) => {
 							DELETE FROM news_reactor WHERE news_reaction_id = ($1) AND news_reactor_id = ($3) RETURNING ''
 						),
 						update_item_1 AS (
-							UPDATE news_reaction SET count = count - 1 WHERE news_reaction_id = ($1) AND type = ($2) RETURNING ''
+							UPDATE news_reaction SET counter = counter - 1 WHERE news_reaction_id = ($1) AND type = ($2) RETURNING ''
 						)
 
 						SELECT * FROM delete_item_1, update_item_1;

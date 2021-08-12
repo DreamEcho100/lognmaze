@@ -3,6 +3,7 @@ import { useState } from 'react';
 import classes from './index.module.css';
 
 import Settings from './Settings';
+import Status from './Status';
 import Comments from './Comments';
 
 const Footer = ({ data, setData, isLoadingReactions }) => {
@@ -11,11 +12,11 @@ const Footer = ({ data, setData, isLoadingReactions }) => {
 
 	return (
 		<footer>
-			<section
-				comments={data.comments}
-				reactions={data.reactions}
-				className={classes.status}
-			></section>
+			<Status
+				data={data}
+				showComments={showComments}
+				setShowComments={setShowComments}
+			/>
 			<Settings
 				data={data}
 				comments={data.comments}

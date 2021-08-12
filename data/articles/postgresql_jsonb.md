@@ -20,7 +20,7 @@ Well my friend you can rest at ease since we will talk a little about how you ca
 
 But let start first with what is JSON?
 
-## What is JSON
+## What is JSON?
 
 JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. It is based on a subset of the JavaScript Programming Language Standard ECMA-262 3rd Edition - December 1999. JSON is a text format that is completely language independent but uses conventions that are familiar to programmers of the C-family of languages, including C, C++, C#, Java, JavaScript, Perl, Python, and many others. These properties make JSON an ideal data-interchange language.
 
@@ -154,7 +154,7 @@ LINE 1: SELECT extra ->> 'preferences' ->> 'theme' AS theme FROM use...
 HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
 ```
 
-And we can use one or multiple -> with on ->> at the end
+And we can use one or multiple -> with one ->> at the end
 
 ```sql
 SELECT extra -> 'preferences' ->> 'theme' AS theme FROM user_profile;
@@ -210,7 +210,7 @@ jsonb_insert(
 )
 ```
 
-Returns target with new_value inserted. If target section designated by path is in a JSONB array, new_value will be inserted before target or after if insert_after is true (default is false). If the target section designated by path is in JSONB object, new_value will be inserted only if the target does not exist. As with the path oriented operators, negative integers appear in path count from the end of JSON arrays.
+Returns target with new_value inserted. If target section designated by path is in a JSONB array, new_value will be inserted before target or after if insert_after is true (default is false). If the target section designated by path is in JSONB object, new_value will be inserted only if the target does not exist. As with the path oriented operators, negative integers appear in path counter from the end of JSON arrays.
 
 ```sql
 UPDATE user_profile
@@ -272,7 +272,7 @@ jsonb_set(
 )
 ```
 
-Returns target with the section designated by path replaced by new_value, or with new_value added if create_missing is true (default is true) and the item designated by path does not exist. As with the path oriented operators, negative integers appear in path count from the end of JSON arrays.
+Returns target with the section designated by path replaced by new_value, or with new_value added if create_missing is true (default is true) and the item designated by path does not exist. As with the path oriented operators, negative integers appear in path counter from the end of JSON arrays.
 
 <!-- - **target**:
   -- here would be somthing like **"extra"** column.

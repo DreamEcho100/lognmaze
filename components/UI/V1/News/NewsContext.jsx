@@ -31,8 +31,8 @@ export const NewsContextProvider = ({ children }) => {
 			(Array.isArray(data.reactions) && data.reactions.length === 0)
 		) {
 			extraData.reactions = [
-				{ news_reaction_id: '', type: 'upvote', count: 0 },
-				{ news_reaction_id: '', type: 'downvote', count: 0 },
+				{ news_reaction_id: '', type: 'upvote', counter: 0 },
+				{ news_reaction_id: '', type: 'downvote', counter: 0 },
 			];
 		} else {
 			const messingReactions = [];
@@ -40,14 +40,14 @@ export const NewsContextProvider = ({ children }) => {
 				messingReactions.push({
 					news_reaction_id: '',
 					type: 'upvote',
-					count: 0,
+					counter: 0,
 				});
 			}
 			if (!data.reactions.find((item) => item.type === 'downvote')) {
 				messingReactions.push({
 					news_reaction_id: '',
 					type: 'downvote',
-					count: 0,
+					counter: 0,
 				});
 			}
 			if (messingReactions.length !== 0) {
