@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import NavOnSmallScreensClasses from './NavOnSmallScreens.module.css';
 import MainNavigationClasses from '../MainNavigation.module.css';
@@ -53,7 +54,11 @@ const NavOnSmallScreens = ({ user, isLoading, handleSignOut }) => {
 					{!isLoading && user.id && (
 						<li>
 							<span onClick={() => setShowNavOnSmallScreens(false)}>
-								<Link href={`/profile/${user.user_name_id}`}>Profile</Link>
+								<Link href={`/profile/${user.user_name_id}`}>
+									<a>
+										<FontAwesomeIcon icon={['fas', 'user']} /> Profile
+									</a>
+								</Link>
 							</span>
 						</li>
 					)}

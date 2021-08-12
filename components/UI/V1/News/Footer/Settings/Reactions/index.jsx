@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
 
@@ -183,7 +184,12 @@ const Reactions = ({
 				}`}
 				disabled={reactBtnDisabled}
 			>
-				Upvote
+				{/* Upvote */}
+				{user_reaction === 'upvote' ? (
+					<FontAwesomeIcon icon={['fas', 'long-arrow-alt-up']} />
+				) : (
+					<FontAwesomeIcon icon={['fas', 'arrow-up']} />
+				)}
 			</button>
 			<button
 				onClick={() => handleReaction('downvote')}
@@ -192,7 +198,12 @@ const Reactions = ({
 				}`}
 				disabled={reactBtnDisabled}
 			>
-				Downvote
+				{/* Downvote */}
+				{user_reaction === 'downvote' ? (
+					<FontAwesomeIcon icon={['fas', 'long-arrow-alt-down']} />
+				) : (
+					<FontAwesomeIcon icon={['fas', 'arrow-down']} />
+				)}
 			</button>
 		</div>
 	);

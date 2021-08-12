@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import NavOnBigScreensClasses from './NavOnBigScreens.module.css';
 import MainNavigationClasses from '../MainNavigation.module.css';
@@ -17,7 +18,11 @@ const NavOnBigScreens = ({ user, isLoading, handleSignOut }) => {
 				</li> */}
 				{!isLoading && user.id && (
 					<li className={MainNavigationClasses.li}>
-						<Link href={`/profile/${user.user_name_id}`}>Profile</Link>
+						<Link href={`/profile/${user.user_name_id}`}>
+							<a>
+								<FontAwesomeIcon icon={['fas', 'user']} />
+							</a>
+						</Link>
 					</li>
 				)}
 				{!isLoading && !user.id && (

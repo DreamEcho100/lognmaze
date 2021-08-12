@@ -1,23 +1,64 @@
 import Head from 'next/head';
 import { config, library } from '@fortawesome/fontawesome-svg-core';
 import {
+	faUser,
+	faGlobe,
+	faEllipsisV,
+	faEllipsisH,
+	faSlidersH,
+	faCog,
+	faCogs,
+	faComment,
+	faComments,
+	faCommentSlash,
+	faShare,
+	faShareAlt,
+	faInfo,
+	faArrowUp,
+	faLongArrowAltUp,
+	faArrowDown,
+	faLongArrowAltDown,
+} from '@fortawesome/free-solid-svg-icons';
+import {
+	fab,
 	faFacebook,
-	faTwitter,
 	faLinkedin,
-	faTumblr,
-	faWhatsapp,
+	faReddit,
 	faTelegram,
+	faTumblr,
+	faTwitter,
+	faWhatsapp,
 } from '@fortawesome/free-brands-svg-icons';
-import '@fortawesome/fontawesome-svg-core/styles.css';
-// import '../node_modules/@fortawesome/fontawesome-svg-core/styles.css';
+// import '@fortawesome/fontawesome-svg-core/styles.css';
+import '../node_modules/@fortawesome/fontawesome-svg-core/styles.css';
 config.autoAddCss = false;
 library.add(
+	faUser,
+	faGlobe,
+	faEllipsisV,
+	faEllipsisH,
+	faSlidersH,
+	faCog,
+	faCogs,
+	faComment,
+	faComments,
+	faCommentSlash,
+	faShare,
+	faShareAlt,
+	faInfo,
+	faArrowUp,
+	faLongArrowAltUp,
+	faArrowDown,
+	faLongArrowAltDown,
+	//
+	fab,
 	faFacebook,
-	faTwitter,
 	faLinkedin,
+	faReddit,
+	faTelegram,
 	faTumblr,
-	faWhatsapp,
-	faTelegram
+	faTwitter,
+	faWhatsapp
 );
 
 import '@styles/_globals.scss';

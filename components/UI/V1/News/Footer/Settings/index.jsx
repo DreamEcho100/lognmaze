@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
 
@@ -51,7 +52,8 @@ const Settings = ({
 						if (!focusCommentTextarea) setFocusCommentTextarea(true);
 					}}
 				>
-					comment
+					{/* Comment */}
+					<FontAwesomeIcon icon={['fas', 'comment']} />
 				</button>
 			</div>
 			<div className={`${classes.more} ${classes.item}`}>

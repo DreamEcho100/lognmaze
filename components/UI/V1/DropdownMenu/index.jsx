@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
 
@@ -9,7 +10,7 @@ const DropdownMenu = ({ items }) => {
 		<div className={classes['settings-wrapper']}>
 			<button className={classes['seeting-btn']}>
 				<strong onClick={() => setShowSettingsMenu((prev) => !prev)}>
-					<i>|</i>
+					<FontAwesomeIcon icon={['fas', 'ellipsis-v']} />
 				</strong>
 			</button>
 			<ul
@@ -22,14 +23,25 @@ const DropdownMenu = ({ items }) => {
 					}, 100);
 				}}
 			>
-				{items.map(({ Element = () => {return<></>}, props = {}, className='' }, index) => (
-					<li
-						key={index}
-						className={`${classes['settings-item']} ${className}`}
-					>
-						<Element {...props} />
-					</li>
-				))}
+				{items.map(
+					(
+						{
+							Element = () => {
+								return <></>;
+							},
+							props = {},
+							className = '',
+						},
+						index
+					) => (
+						<li
+							key={index}
+							className={`${classes['settings-item']} ${className}`}
+						>
+							<Element {...props} />
+						</li>
+					)
+				)}
 			</ul>
 		</div>
 	);
