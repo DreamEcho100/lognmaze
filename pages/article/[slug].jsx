@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 
 import Container from '@components/UI/V1/News/Container/Container';
 
-import { NewsContextProvider } from '@components/UI/V1/News/NewsContext';
+import { NewsContextProvider } from '@store/NewsContext';
 
 const Article = ({ data }) => {
 	const router = useRouter();

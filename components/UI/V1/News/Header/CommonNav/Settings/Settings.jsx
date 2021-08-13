@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 
 import classes from './Settings.module.css';
 
-import NewsContext from '@components/UI/V1/News/NewsContext';
+import NewsContext from '@store/NewsContext';
 
 import DropdownMenu from '@components/UI/V1/DropdownMenu';
 import UpdateAction from '@components/UI/V1/News/Action/Action';

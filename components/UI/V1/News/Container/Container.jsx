@@ -4,7 +4,7 @@ import classes from './Container.module.css';
 import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 import BorderClasses from '@components/UI/V1/Border.module.css';
 
-import NewsContext from '@components/UI/V1/News/NewsContext';
+import NewsContext from '@store/NewsContext';
 import { handleAllClasses } from '../../utils/index';
 
 import ContainerItems from './ContainerItems';

@@ -1,7 +1,7 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
 
 import UserContext from '@store/UserContext';
-import { NewsContextProvider } from '@components/UI/V1/News/NewsContext';
+import { NewsContextProvider } from '@store/NewsContext';
 
 import ModalContainer from './ModalContainer/ModalContainer';
 import Article from './Article/Article';

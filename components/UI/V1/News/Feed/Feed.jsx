@@ -2,7 +2,7 @@ import Container from '@components/UI/V1/News/Container/Container';
 
 import classes from './Feed.module.css';
 
-import { NewsContextProvider } from '@components/UI/V1/News/NewsContext';
+import { NewsContextProvider } from '@store/NewsContext';
 
 const Feed = ({ news = [] }) => {
 	return (
