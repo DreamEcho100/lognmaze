@@ -15,7 +15,7 @@ const ProfilePage = ({ user = {}, /*posts = []*/ ...props }) => {
 	const UserCxt = useContext(UserContext);
 
 	const [posts, setPosts] = useState(
-		props.posts.length !== 0 ? props.posts.data : []
+		props.posts.length !== 0 ? props.posts.data.reverse() : []
 	);
 	const [handleIsAuthorized, setHandleIsAuthorized] = useState(
 		user.isAuthorized

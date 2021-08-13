@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Md from '../Format/Md/Md';
+import Md from '@components/UI/V1/Format/Md';
 
 import classes from './Details.module.css';
 
@@ -23,26 +23,26 @@ const Details = ({ detailsType, setShowModal, data }) => {
 	}, [data, data.content]);
 
 	if (loading) {
-		return <p>Loading...</p>;
+		return (
+			<section className={classes.details}>
+				<p>Loading...</p>
+			</section>
+		);
 	}
 
 	if (detailsType === 'description') {
 		if (data.type === 'article') {
 			return (
-				<section>
+				<section className={classes.details}>
 					<p>{data.description}</p>
-					<p onClick={() => setShowModal(true)}>
-						Read More on a Pop Up Window {'->'}
-					</p>
+					<p onClick={() => setShowModal(true)}>Read More {'->'}</p>
 				</section>
 			);
 		} else if (data.type === 'post') {
 			return (
-				<section>
+				<section className={classes.details}>
 					<p>{data.content}</p>
-					<p onClick={() => setShowModal(true)}>
-						Keep Reading On a Pop Up Window {'->'}
-					</p>
+					<p onClick={() => setShowModal(true)}>Keep Reading {'->'}</p>
 				</section>
 			);
 		}
@@ -53,14 +53,14 @@ const Details = ({ detailsType, setShowModal, data }) => {
 		// 	return <p>{data.content}</p>;
 		// }
 		return (
-			<section>
+			<section className={classes.details}>
 				<Md content={data.content || ''} />
 			</section>
 		);
 	}
 
 	return (
-		<section>
+		<section className={classes.details}>
 			<p>No Content {':('}</p>
 		</section>
 	);

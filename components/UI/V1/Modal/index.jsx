@@ -25,11 +25,11 @@ const Modal = ({
 		event.stopPropagation();
 
 		if (event.target.classList.contains('modal-close')) {
-			return new Promise((resolve, reject) => {
-				click();
-				document.body.style.overflowY = 'auto';
-				resolve();
-			});
+			click();
+			// return new Promise((resolve, reject) => {
+			// 	document.body.style.overflowY = 'auto';
+			// 	resolve();
+			// });
 			// .then(() => (document.body.style.overflowY = 'auto'));
 		}
 	};

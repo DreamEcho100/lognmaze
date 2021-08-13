@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
-import classes from './Md.module.css';
+import classes from './index.module.css';
 
 const Details = ({ content }) => {
 	const customRenderers = {
