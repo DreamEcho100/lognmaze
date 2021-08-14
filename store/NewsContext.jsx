@@ -6,7 +6,7 @@ const NewsContext = createContext({
 	news: {},
 	setNews: () => {},
 	handleSetNewsDataForFirstTime: () => {},
-	handleLoadindArticleContent: () => {},
+	handleLoadingArticleContent: () => {},
 	setIsLoadingReactions: () => {},
 	isLoadingReactions: false,
 	isLoadingContent: false,
@@ -73,7 +73,7 @@ export const NewsContextProvider = ({ children }) => {
 		});
 	};
 
-	const handleLoadindArticleContent = async () => {
+	const handleLoadingArticleContent = async () => {
 		setIsLoadingContent(true);
 		await fetch(`/api/v1/news/articles/article/content/${news.news_id}`)
 			.then((response) => response.json())
@@ -132,7 +132,7 @@ export const NewsContextProvider = ({ children }) => {
 	useEffect(async () => {
 		if (isLoadingContent) {
 			if (!news.content) {
-				await handleLoadindArticleContent();
+				await handleLoadingArticleContent();
 			}
 			setIsLoadingContent(false);
 		}
@@ -142,7 +142,7 @@ export const NewsContextProvider = ({ children }) => {
 		news,
 		setNews,
 		handleSetNewsDataForFirstTime,
-		handleLoadindArticleContent,
+		handleLoadingArticleContent,
 		setIsLoadingReactions,
 		setIsLoadingContent,
 		isLoadingReactions,

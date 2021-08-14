@@ -1,7 +1,7 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
 
 import classes from './Container.module.css';
-import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
+// import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 import BorderClasses from '@components/UI/V1/Border.module.css';
 
 import NewsContext from '@store/NewsContext';
@@ -13,14 +13,14 @@ import Modal from '@components/UI/V1/Modal';
 import Button from '@components/UI/V1/Button';
 
 const Container = ({
-	defaultClasses = `container`,
+	defaultClasses = 'container',
 	extraClasses = '',
 	className = '',
 	detailsType = 'description',
 	...props
 }) => {
 	const {
-		handleLoadindArticleContent,
+		handleLoadingArticleContent,
 		handleSetNewsDataForFirstTime,
 		news,
 		setNews,
@@ -43,12 +43,14 @@ const Container = ({
 	});
 
 	const articleProps = {
-		className: `${classes['container']} ${BoxShadowClasses['box-shadow']} ${BorderClasses['border-2']}`,
+		className: `${classes['container']} 
+		${/*BoxShadowClasses['box-shadow']*/ ''}
+		${/*BorderClasses['border-2']*/ ''}`,
 	};
 
 	useEffect(() => {
 		if (showModal && !news.content) {
-			handleLoadindArticleContent();
+			handleLoadingArticleContent();
 		}
 	}, [showModal]);
 
@@ -123,6 +125,7 @@ const Container = ({
 					</Fragment>
 					<Fragment key='body'>
 						<ContainerItems
+							className={`${BorderClasses['border-2']}`}
 							articleProps={articleProps}
 							data={news}
 							setData={setNews}

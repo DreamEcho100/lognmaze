@@ -40,3 +40,31 @@
 	border-radius: 50%;
 	margin: auto;
 }
+
+.main-section {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.section-2 {
+	/* background-color: var(--main-bg-color-1);
+	box-shadow: 0rem 0rem 1rem var(--main-font-color-1); */
+	/* height: 100vh; */
+	flex: 1 1 25%;
+	/* position: sticky;
+	top: 0; */
+}
+
+@media screen and (max-width: 700px) {
+	.main-section {
+		flex-direction: column-reverse;
+	}
+
+	.section-2 {
+		width: 100%;
+		flex: unset;
+		margin: 0;
+		margin-bottom: 1em;
+	}
+}
+

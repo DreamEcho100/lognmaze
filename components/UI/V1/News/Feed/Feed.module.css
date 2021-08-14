@@ -1,10 +1,11 @@
 .feed {
-	width: 99%;
-	min-width: fit-content;
-	margin: 1em auto;
-	box-shadow: 0rem 0rem 2rem var(--main-bg-color-5);
+	/* width: 99%;
+	/* min-width: fit-content; */
+	margin: 0 0.5em 0 auto;
+	/* box-shadow: 0rem 0rem 2rem var(--main-bg-color-5); */
 	transform: translateZ(2rem);
-	padding: 1em;
+	/* padding: 1em; */
+	flex: 1 1 70%;
 	display: flex;
 	/* flex-wrap: wrap; */
 	/* align-items: flex-start; */
@@ -15,6 +16,4 @@
 }
 
 .news-container {
-	max-width: 50rem;
-	margin: 0.5em auto;
 }

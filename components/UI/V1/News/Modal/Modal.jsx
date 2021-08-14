@@ -7,7 +7,7 @@ import Button from '@components/UI/V1/Button';
 import Container from '@components/UI/V1/News/Container/Container';
 
 const NewsModal = ({ setCloseModal, detailsType, data, setData }) => {
-	const handleLoadindArticleContent = async (id) => {
+	const handleLoadingArticleContent = async (id) => {
 		await fetch(`/api/v1/news/articles/article/content/${id}`)
 			.then((response) => response.json())
 			.then(({ message, status, ...result }) => {
@@ -21,7 +21,7 @@ const NewsModal = ({ setCloseModal, detailsType, data, setData }) => {
 
 	useEffect(async () => {
 		if (data.type === 'article' && !data.content) {
-			await handleLoadindArticleContent(data.news_id);
+			await handleLoadingArticleContent(data.news_id);
 		}
 	}, [data]);
 
