@@ -1,4 +1,4 @@
-import classes from './index.module.css';
+// import classes from './index.module.css';
 
 import Wrapper from '@components/UI/V1/Wrapper';
 import NewsHeader from '@components/UI/V1/News/Header/Header';

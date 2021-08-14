@@ -3,8 +3,7 @@ import { useRouter } from 'next/router';
 
 import UserContext from '@store/UserContext';
 
-import Hero from '@components/Home/Hero/Hero';
-import Section1 from '@components/Home/Section1/Section1';
+import Home from '@components/Home';
 
 const HomePage = () => {
 	const router = useRouter();
@@ -45,12 +44,7 @@ const HomePage = () => {
 		return <p>Loading...</p>;
 	}
 
-	return (
-		<>
-			<Hero user={UserCxt.user} />
-			<Section1 news={news} />
-		</>
-	);
+	return <Home user={UserCxt.user} news={news} />;
 };
 
 export default HomePage;

@@ -301,12 +301,14 @@ h6 {
 	}
 }
 
+ul {
+	list-style: none;
+}
+
+a,
 ul,
-ol,
-dl,
 li {
 	text-decoration: none;
-	list-style: none;
 }
 
 span {
@@ -316,7 +318,6 @@ span {
 a {
 	// color: var(--main-font-color);
 	color: inherit;
-	text-decoration: none;
 
 	&:hover,
 	&:link,
@@ -343,6 +344,17 @@ button:disabled {
 	cursor: not-allowed;
 }
 
+main#main {
+	/*width: 95%;*/
+	/* height: 100%; */
+	max-width: 100%;
+	min-height: 100vh;
+	border-radius: 0.2rem;
+	margin: 1em auto;
+	padding: 1em;
+	/*background-color: var(--main-bg-color-0);*/
+}
+
 .font-size-inherit {
 	font-size: inherit !important;
 }
@@ -350,7 +362,14 @@ button:disabled {
 @media screen and (max-width: 400px) {
 	:root {
 		font-size: 55.5%;
-		--header1: var(--size-10);
-		--header2: var(--size-7);
+		// --header1: var(--size-10);
+		// --header2: var(--size-7);
+
+		--header1: calc(var(--size-12) - 0.5rem);
+		--header2: calc(var(--size-8) - 0.5rem);
+		--header3: calc(var(--size-6) - 0.5rem);
+		--header4: calc(var(--size-5) - 0.5rem);
+		--header5: calc(var(--size-4) - 0.5rem);
+		--header6: calc(var(--size-3) - 0.5rem);
 	}
 }

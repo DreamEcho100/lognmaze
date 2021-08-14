@@ -23,7 +23,7 @@ const Auth = ({
 	}, []);
 
 	return (
-		<section className={classes.auth}>
+		<main id='main' className={classes.auth}>
 			<header className={classes.header}>
 				<nav>
 					<ul>
@@ -53,7 +53,7 @@ const Auth = ({
 					}
 				/>
 			)}
-		</section>
+		</main>
 	);
 };
 

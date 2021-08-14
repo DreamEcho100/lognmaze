@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import classes from './index.module.css';
+// import classes from './index.module.css';
 
 import SocialMediaLinksData from './SocialMediaLinksData/index';
 

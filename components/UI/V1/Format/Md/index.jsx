@@ -92,9 +92,31 @@ const Details = ({ content }) => {
 				<code className={className} {...props} />
 			);
 		},
+		h1: ({ children, ...props }) => (
+			<h1 id={`h1_${children[0].replace(/[^\w]/g, '-')}`}>{children}</h1>
+		),
+		h2: ({ children, ...props }) => (
+			<h2 id={`h2_${children[0].replace(/[^\w]/g, '-')}`}>{children}</h2>
+		),
+		h3: ({ children, ...props }) => (
+			<h3 id={`h3_${children[0].replace(/[^\w]/g, '-')}`}>{children}</h3>
+		),
+		h4: ({ children, ...props }) => (
+			<h4 id={`h4_${children[0].replace(/[^\w]/g, '-')}`}>{children}</h4>
+		),
+		h5: ({ children, ...props }) => (
+			<h5 id={`h5_${children[0].replace(/[^\w]/g, '-')}`}>{children}</h5>
+		),
+		h6: ({ children, ...props }) => (
+			<h6 id={`h6_${children[0].replace(/[^\w]/g, '-')}`}>{children}</h6>
+		),
 	};
 
-	return <ReactMarkdown components={customRenderers}>{content}</ReactMarkdown>;
+	return (
+		<main className={classes['format-md']}>
+			<ReactMarkdown components={customRenderers}>{content}</ReactMarkdown>
+		</main>
+	);
 };
 
 export default Details;

@@ -1,0 +1,61 @@
+.format-md {
+	margin: 1.8em auto;
+	line-height: 2.5rem;
+	word-spacing: 0.1rem;
+	letter-spacing: 0.15rem;
+}
+
+.format-md image {
+	width: 100%;
+	max-width: 150rem;
+	margin: 0.5em auto;
+}
+
+.format-md h1 {
+	margin: 1.6em 0 0.25em 0;
+}
+.format-md h2 {
+	margin: 1.4em 0 0.25em 0;
+}
+.format-md h3 {
+	margin: 1em 0 0.25em 0;
+}
+.format-md h4 {
+	margin: 0.8em 0 0.25em 0;
+}
+.format-md h5 {
+	margin: 0.6em 0 0.25em 0;
+}
+.format-md h6 {
+	margin: 0.4em 0 0.25em 0;
+}
+
+.format-md ul {
+	text-decoration: none;
+}
+
+.format-md li {
+	margin-left: 1em;
+	list-style: circle;
+}
+
+.format-md a {
+	color: var(--main-special-bg-color-5);
+	text-shadow: 0rem 0rem 0.1rem var(--main-special-bg-color-3);
+	transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.format-md a:hover {
+	color: var(--main-special-bg-color-5);
+	text-shadow: 0rem 0rem 0.8rem var(--main-special-bg-color-4);
+}
+.format-md a:focus-within,
+.format-md a:active,
+.format-md a:visited {
+	color: var(--main-special-bg-color-5);
+	text-shadow: 0rem 0rem 0rem var(--main-special-bg-color-5);
+	font-weight: 600;
+}
+
+.format-md strong {
+	font-weight: bolder;
+}

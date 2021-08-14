@@ -1,26 +1,24 @@
 import { useRouter } from 'next/router';
 
-import Container from '@components/UI/V1/News/Container/Container';
+import Article from '@components/Article';
 
-import { NewsContextProvider } from '@store/NewsContext';
-
-const Article = ({ data }) => {
+const ArticlePage = ({ data }) => {
 	const router = useRouter();
 
 	if (router.isFallback) {
 		return <div>Loading...</div>;
 	}
 
-	return (
-		<section>
-			<NewsContextProvider>
-				<Container data={data} detailsType='content' loadReactions />
-			</NewsContextProvider>
-		</section>
-	);
+	const articleProps = {
+		data: data,
+		detailsType: 'content',
+		loadReactions: true,
+	};
+
+	return <Article articleProps={articleProps} />;
 };
 
-export default Article;
+export default ArticlePage;
 
 export const getStaticProps = async (context) => {
 	const {

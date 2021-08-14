@@ -24,7 +24,7 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, news = [] }) => {
 	}
 
 	return (
-		<main className={`${classes.profile}`}>
+		<main id='main' className={`${classes.profile}`}>
 			<Wrapper>
 				<div className={classes['cover_photo-container']}>
 					<img

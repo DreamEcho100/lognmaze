@@ -34,7 +34,11 @@ export const NewsContextProvider = ({ children }) => {
 				{ news_reaction_id: '', type: 'upvote', counter: 0 },
 				{ news_reaction_id: '', type: 'downvote', counter: 0 },
 			];
-		} else {
+		} else if (
+			data?.reactions &&
+			data.reactions.length > 0 &&
+			data.reactions.length !== 2
+		) {
 			const messingReactions = [];
 			if (!data.reactions.find((item) => item.type === 'upvote')) {
 				messingReactions.push({
@@ -53,7 +57,23 @@ export const NewsContextProvider = ({ children }) => {
 			if (messingReactions.length !== 0) {
 				extraData.reactions = [...data.reactions, ...messingReactions];
 			}
+		} else {
+			extraData.reactions = data.reactions;
 		}
+
+		const reactionsSorted = [];
+		extraData?.reactions.forEach((reaction) => {
+			if (reactionsSorted.length === 0) {
+				reactionsSorted.push(reaction);
+			} else {
+				if (reaction.type === 'upvote') {
+					reactionsSorted.unshift(reaction);
+				} else {
+					reactionsSorted.push(reaction);
+				}
+			}
+		});
+		extraData.reactions = reactionsSorted;
 
 		if (
 			/*!data.comments && */
@@ -119,9 +139,25 @@ export const NewsContextProvider = ({ children }) => {
 					return;
 				}
 
+				const reactionsSorted = [];
+
+				dataReaction?.reactions.forEach((reaction) => {
+					if (reactionsSorted.length === 0) {
+						reactionsSorted.push(reaction);
+					} else {
+						if (reaction.type === 'upvote') {
+							reactionsSorted.unshift(reaction);
+						} else {
+							reactionsSorted.push(reaction);
+						}
+					}
+				});
+
 				setNews((prev) => ({
 					...prev,
-					...dataReaction,
+					user_reaction: dataReaction.user_reaction,
+					reactions: reactionsSorted,
+					// ...dataReaction,
 				}));
 
 				setIsLoadingReactions(false);
