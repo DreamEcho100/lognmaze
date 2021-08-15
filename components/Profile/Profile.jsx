@@ -6,6 +6,7 @@ import CreateNewsButton from './CreateNewsButton/CreateNewsButton';
 import SettingsButton from './SettingsButton/SettingsButton';
 
 import Wrapper from '@components/UI/V1/Wrapper';
+import Image from '@components/UI/V1/Image';
 import Feed from '@components/UI/V1/News/Feed/Feed';
 import Accordion from '@components/UI/V1/Accordion';
 
@@ -27,14 +28,14 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, news = [] }) => {
 		<main id='main' className={`${classes.profile}`}>
 			<Wrapper>
 				<div className={classes['cover_photo-container']}>
-					<img
+					<Image
 						src={userData.cover_photo}
 						alt=''
 						className={classes['cover_photo']}
 					/>
 				</div>
 				<div className={classes['profile_picture-container']}>
-					<img
+					<Image
 						src={userData.profile_picture}
 						alt=''
 						className={classes['profile_picture']}

@@ -7,6 +7,7 @@ import { dateToHumanReadableDate } from '@lib/v1/time';
 
 import DropdownMenu from '@components/UI/V1/DropdownMenu';
 import CommentTextarea from '../CommentTextarea';
+import Image from '@components/UI/V1/Image';
 
 const Replies = ({ replies, setData, data, parent_data }) =>
 	replies
@@ -40,6 +41,18 @@ const Comment = ({ comment, data, setData, ...props }) => {
 	const [focusCommentReplyTextarea, setFocusCommentReplyTextarea] =
 		useState(false);
 
+	// const [repliesIndex, setRepliesIndex] = useState(
+	// 	comment.type === 'comment_main' && comment.replies_index
+	// 		? comment.replies_index
+	// 		: 0
+	// );
+	// const [hitRepliesLimit, setHitRepliesLimit] = useState(
+	// 	comment.type === 'comment_main' && comment.hit_replies_limit
+	// 		? comment.hit_replies_limit
+	// 		: false
+	// );
+
+	const [loadingReplies, setLoadingReplies] = useState(false);
 	const [repliesIndex, setRepliesIndex] = useState(
 		comment.type === 'comment_main' && comment.replies_index
 			? comment.replies_index
@@ -89,10 +102,16 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			setData((prev) => ({
 				...prev,
 				comments_counter: prev.comments_counter - 1,
+				comments_index:
+					prev.comments_index ||
+					(prev.comments_index && prev.comments_index - 0.1 > 0)
+						? prev.comments_index - 0.1
+						: 0,
 				comments: prev.comments.filter(
 					(comment) => comment.news_comment_id !== bodyObj.news_comment_id
 				),
 			}));
+			props.setCommentsIndex((prev) => prev - 0.1);
 		} else if (bodyObj.type === 'comment_main_reply') {
 			setData((prev) => ({
 				...prev,
@@ -118,7 +137,8 @@ const Comment = ({ comment, data, setData, ...props }) => {
 							...comment,
 							replies_counter: comment.replies_counter - 1,
 							replies_index:
-								comment.replies_index && comment.replies_index - 0.1 > 0
+								comment.replies_index ||
+								(comment.replies_index && comment.replies_index - 0.1 > 0)
 									? comment.replies_index - 0.1
 									: 0,
 							replies,
@@ -127,9 +147,8 @@ const Comment = ({ comment, data, setData, ...props }) => {
 					return comment;
 				}),
 			}));
+			if (repliesIndex) setRepliesIndex((prev) => prev - 0.1);
 		}
-
-		if (repliesIndex) setRepliesIndex((prev) => prev - 0.1);
 	};
 
 	const handleUpdatingComment = async (event) => {
@@ -301,11 +320,13 @@ const Comment = ({ comment, data, setData, ...props }) => {
 	};
 
 	const loadRepliesHandler = async (parent_id) => {
+		setLoadingReplies(true);
 		const { status, message, data } = await fetch(
 			`/api/v1/news/comments/comment/?type=comment_main_reply&parent_id=${parent_id}&offset_index=${repliesIndex}`
 		).then((response) => response.json());
 
 		if (status === 'error') {
+			setLoadingReplies(false);
 			return console.error(message);
 		}
 
@@ -335,6 +356,8 @@ const Comment = ({ comment, data, setData, ...props }) => {
 
 		if (data.hit_replies_limit && !hitRepliesLimit) setHitRepliesLimit(true);
 		if (!showReplies) setShowReplies(true);
+
+		setLoadingReplies(false);
 	};
 
 	useEffect(() => {
@@ -418,7 +441,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 		<div className={`${classes.comment} ${classes[`type-${comment.type}`]}`}>
 			<header className={classes.header}>
 				<nav className={classes.nav}>
-					<img
+					<Image
 						className={classes.profile_picture}
 						src={comment.author_profile_picture}
 						alt=''
@@ -457,7 +480,38 @@ const Comment = ({ comment, data, setData, ...props }) => {
 				/>
 			)}
 			<footer className={classes.footer}>
-				<button onClick={() => setShowReplyTextarea((prev) => !prev)}>
+				<div>
+					<span>
+						<small>
+							<strong>Created At:</strong>{' '}
+							<em>
+								{
+									dateToHumanReadableDate(comment.created_at, {
+										withTime: true,
+									}).dateAndTimeString
+								}
+							</em>
+						</small>
+					</span>
+					{comment.created_at !== comment.updated_on && (
+						<span>
+							<small>
+								, <strong>Updated On:</strong>{' '}
+								<em>
+									{
+										dateToHumanReadableDate(comment.updated_on, {
+											withTime: true,
+										}).dateAndTimeString
+									}
+								</em>
+							</small>
+						</span>
+					)}
+				</div>
+				<button
+					title='Comment'
+					onClick={() => setShowReplyTextarea((prev) => !prev)}
+				>
 					Comment
 				</button>
 			</footer>
@@ -466,6 +520,10 @@ const Comment = ({ comment, data, setData, ...props }) => {
 				!showReplies && (
 					// !hitRepliesLimit &&
 					<button
+						title={`${comment.replies_counter === 1 ? 'Comment' : 'Comments'} ${
+							comment.replies_counter
+						}`}
+						disabled={loadingReplies}
 						onClick={() => {
 							if (comment.replies && comment.replies.length !== 0)
 								setShowReplies(true);
@@ -480,8 +538,10 @@ const Comment = ({ comment, data, setData, ...props }) => {
 							}
 						}}
 					>
-						{comment.replies_counter === 1 ? 'Comment' : 'Comments'}{' '}
-						{comment.replies_counter}
+						<p>
+							{comment.replies_counter === 1 ? 'Comment' : 'Comments'}{' '}
+							{comment.replies_counter}
+						</p>
 					</button>
 				)}
 			{showReplyTextarea && (
@@ -531,11 +591,15 @@ const Comment = ({ comment, data, setData, ...props }) => {
 				/>
 			)}
 
+			{loadingReplies && <p>Loading...</p>}
+
 			{showReplies &&
 				comment.type === 'comment_main' &&
 				!hitRepliesLimit &&
 				comment.replies_counter !== 0 && (
 					<button
+						title='Load More'
+						disabled={loadingReplies}
 						onClick={() => {
 							if (comment.replies && comment.replies.length !== 0)
 								setShowReplies(true);
@@ -555,7 +619,13 @@ const Comment = ({ comment, data, setData, ...props }) => {
 				)}
 
 			{showReplies && (
-				<button onClick={() => setShowReplies(false)}>Hide Replies</button>
+				<button
+					title='Hide Replies'
+					disabled={loadingReplies}
+					onClick={() => setShowReplies(false)}
+				>
+					Hide Replies
+				</button>
 			)}
 		</div>
 	);

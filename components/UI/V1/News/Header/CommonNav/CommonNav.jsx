@@ -3,6 +3,7 @@ import Link from 'next/link';
 import classes from './CommonNav.module.css';
 
 import Settings from './Settings/Settings';
+import Image from '@components/UI/V1/Image';
 
 const CommonNav = ({
 	isDataOwner,
@@ -19,7 +20,7 @@ const CommonNav = ({
 				// target='_blank'
 				// rel='noopener noreferrer'
 			>
-				<img
+				<Image
 					src={data.author_profile_picture}
 					alt=''
 					className={classes.author_profile_picture}

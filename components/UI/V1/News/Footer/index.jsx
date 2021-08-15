@@ -10,10 +10,15 @@ const Footer = ({ data, setData, isLoadingReactions }) => {
 	const footerRef = useRef();
 
 	const [showComments, setShowComments] = useState(false);
+	const [showCommentsCounter, setShowCommentsCounter] = useState(0);
 	const [focusCommentTextarea, setFocusCommentTextarea] = useState(false);
 
 	useEffect(() => {
 		if (!showComments) {
+			setShowCommentsCounter((prev) => prev + 1);
+
+			if (showCommentsCounter === 0) return;
+
 			footerRef.current.scrollIntoView();
 		}
 	}, [showComments]);

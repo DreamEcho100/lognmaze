@@ -6,6 +6,8 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 import classes from './index.module.css';
 
+import Image from '@components/UI/V1/Image';
+
 const Details = ({ content }) => {
 	const customRenderers = {
 		// img(image) {
@@ -41,7 +43,7 @@ const Details = ({ content }) => {
 						height={300}
 						layout='responsive'
 					/> */}
-						<img
+						<Image
 							src={image.properties.src}
 							alt=''
 							style={{ width: '100%', maxWidth: '50rem', maxHeight: '30rem' }}

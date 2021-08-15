@@ -79,7 +79,7 @@ export default async (req, res) => {
 							JOIN news_comment_main_reply ON news_comment_main_reply.news_comment_main_reply_id = news_comment.news_comment_id
 
 							WHERE news_comment_main_reply.parent_id = ($1)
-							ORDER BY news_comment.created_at DESC
+							ORDER BY news_comment.created_at -- DESC
 							OFFSET ${offset_index * 10} LIMIT 10;
 						`,
 						[req.query.parent_id]
@@ -109,10 +109,10 @@ export default async (req, res) => {
 			const data = await pool
 				.query(
 					`
-						INSERT INTO news_comment (news_id, author_id, type, content)
-						VALUES ($1, $2, $3, $4) RETURNING news_comment_id
+						INSERT INTO news_comment (news_id, author_id, type, content, created_at, updated_on)
+						VALUES ($1, $2, $3, $4, $5, $5) RETURNING news_comment_id
           `,
-					[news_id, isAuthorized.id, type, content]
+					[news_id, isAuthorized.id, type, content, new Date().toUTCString()]
 				)
 				.then(async (response) => response.rows[0]);
 			if (type === 'comment_main') {

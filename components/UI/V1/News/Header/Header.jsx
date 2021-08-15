@@ -9,6 +9,7 @@ import { dateToHumanReadableDate } from '@lib/v1/time';
 import UserContext from '@store/UserContext';
 import CommonNav from './CommonNav/CommonNav';
 import TimeAndDate from './TimeAndDate/TimeAndDate';
+import Image from '@components/UI/V1/Image';
 
 const Header = ({
 	data,
@@ -61,7 +62,7 @@ const Header = ({
 						) : (
 							<h1>{data.title}</h1>
 						)}
-						<img
+						<Image
 							src={data.image}
 							alt=''
 							style={{ width: '100%' }}

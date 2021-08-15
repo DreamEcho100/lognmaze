@@ -28,7 +28,6 @@ const Comments = ({
 		useState(false);
 
 	const [loadingComments, setLoadingComments] = useState(false);
-
 	const [commentsIndex, setCommentsIndex] = useState(
 		data.comments_index ? data.comments_index : 0
 	);
@@ -75,6 +74,9 @@ const Comments = ({
 		setData((prev) => ({
 			...prev,
 			comments_counter: prev.comments_counter + 1,
+			comments_index: prev.comments_index
+				? prev.comments_index + 0.1
+				: prev.comments_index,
 			comments: [
 				...prev.comments,
 				{
@@ -87,9 +89,9 @@ const Comments = ({
 
 					replies_counter: 0,
 					content: values.content,
-					created_at: new Date().toUTCString(),
 					news_comment_id: comment.news_comment_id,
 					type: 'comment_main',
+					created_at: new Date().toUTCString(),
 					updated_on: new Date().toUTCString(),
 				},
 			],
@@ -140,7 +142,7 @@ const Comments = ({
 			setHitCommentsLimit(true);
 		}
 
-		toAdd.comments_index = toAdd.comments_index + 1;
+		toAdd.comments_index = data.comments_index ? 1 : data.comments_index + 1;
 		setCommentsIndex((prev) => prev + 1);
 
 		setData((prev) => ({
@@ -173,6 +175,7 @@ const Comments = ({
 							comment={comment}
 							setData={setData}
 							data={data}
+							setCommentsIndex={setCommentsIndex}
 						/>
 					))}
 			</div>
@@ -180,6 +183,14 @@ const Comments = ({
 			<div
 			// className={classes['btn-holder']}
 			>
+				{!hitCommentsLimit && (
+					<button
+						disabled={loadingComments}
+						onClick={async () => await LoadComments()}
+					>
+						<h3>Load More</h3>
+					</button>
+				)}
 				<button disabled={loadingComments}>
 					<h3
 						onClick={() => {
@@ -190,14 +201,6 @@ const Comments = ({
 						Hide Comments
 					</h3>
 				</button>
-				{!hitCommentsLimit && (
-					<button
-						disabled={loadingComments}
-						onClick={async () => await LoadComments()}
-					>
-						<h3>Load More</h3>
-					</button>
-				)}
 			</div>
 		</section>
 	);
