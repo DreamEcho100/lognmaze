@@ -28,7 +28,6 @@ const Container = ({
 		setIsLoadingContent,
 		isLoadingReactions,
 		isLoadingContent,
-		...NewsCxt
 	} = useContext(NewsContext);
 
 	const [showModal, setShowModal] = useState(false);
@@ -43,9 +42,7 @@ const Container = ({
 	});
 
 	const articleProps = {
-		className: `${classes['container']} 
-		${/*BoxShadowClasses['box-shadow']*/ ''}
-		${/*BorderClasses['border-2']*/ ''}`,
+		className: classes['container'],
 	};
 
 	useEffect(() => {
@@ -54,31 +51,15 @@ const Container = ({
 		}
 	}, [showModal]);
 
-	// if (isLoading) {
-	// 	return <article>Loading...</article>;
-	// }
-
 	useEffect(() => {
-		// handleSetNewsDataForFirstTime(data);
 		if (props.containerType !== 'sub') {
 			handleSetNewsDataForFirstTime(props.data);
 		}
-
-		// if (props.containerType === 'sub' && !news.content) {
-		// 	NewsCxt.setIsLoadingContent(true);
-		// }
 	}, []);
 
-	// const [ReactionsLoaded, setReactionsLoaded] = useState(false);
-
 	useEffect(() => {
-		if (
-			props.loadReactions
-			// && !ReactionsLoaded
-			// && news.news_id
-		) {
-			setIsLoadingReactions(true); // props.loadReactions
-			// setReactionsLoaded(true);
+		if (props.loadReactions) {
+			setIsLoadingReactions(true);
 		}
 	}, []);
 

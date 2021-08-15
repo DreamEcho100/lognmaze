@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import classes from './index.module.css';
 
@@ -7,11 +7,19 @@ import Status from './Status';
 import Comments from './Comments';
 
 const Footer = ({ data, setData, isLoadingReactions }) => {
+	const footerRef = useRef();
+
 	const [showComments, setShowComments] = useState(false);
 	const [focusCommentTextarea, setFocusCommentTextarea] = useState(false);
 
+	useEffect(() => {
+		if (!showComments) {
+			footerRef.current.scrollIntoView();
+		}
+	}, [showComments]);
+
 	return (
-		<footer>
+		<footer ref={footerRef}>
 			<Status
 				data={data}
 				showComments={showComments}

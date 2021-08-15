@@ -1,4 +1,4 @@
-import { Component, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import classes from './index.module.css';
 
@@ -74,7 +74,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			},
 			body,
 		})
-			.then((respone) => respone.json())
+			.then((response) => response.json())
 			.catch((error) => {
 				return { ...error, status: 'error' };
 			});
@@ -153,7 +153,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 				body: JSON.stringify(bodyObj),
 			}
 		)
-			.then((respone) => respone.json())
+			.then((response) => response.json())
 			.catch((error) => {
 				return { ...error, status: 'error' };
 			});
@@ -226,7 +226,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 				body: JSON.stringify(bodyObj),
 			}
 		)
-			.then((respone) => respone.json())
+			.then((response) => response.json())
 			.catch((error) => {
 				return { ...error, status: 'error' };
 			});
@@ -301,41 +301,9 @@ const Comment = ({ comment, data, setData, ...props }) => {
 	};
 
 	const loadRepliesHandler = async (parent_id) => {
-		// if (
-		// 	comment.type !== 'comment_main' ||
-		// 	(comment.type === 'comment_main' &&
-		// 		showReplies &&
-		// 		comment.hit_replies_limit) ||
-		// 	(hitRepliesLimit && showReplies)
-		// )
-		// 	return;
-
-		// if (!showReplies && comment.replies && comment.replies.length !== 0) {
-		// 	if (comment.replies.length === comment.replies_counter) {
-
-		// 		setData((prev) => ({
-		// 			...prev,
-		// 			comments: prev.comments.map((comment) => {
-		// 				if (comment.news_id === parent_id) {
-		// 					return {
-		// 						...comment,
-		// 						hit_replies_limit: true,
-		// 					};
-		// 				}
-
-		// 				return comment;
-		// 			}),
-		// 		}));
-
-		// 		setHitRepliesLimit(true);
-		// 	}
-		// 	setShowReplies(true);
-		// 	return;
-		// }
-
 		const { status, message, data } = await fetch(
 			`/api/v1/news/comments/comment/?type=comment_main_reply&parent_id=${parent_id}&offset_index=${repliesIndex}`
-		).then((respone) => respone.json());
+		).then((response) => response.json());
 
 		if (status === 'error') {
 			return console.error(message);
@@ -346,8 +314,8 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			comments: prev.comments.map((comment) => {
 				if (comment.news_comment_id === parent_id) {
 					const replies = comment.replies
-						? [...comment.replies, ...data.comments.reverse()]
-						: data.comments.reverse();
+						? [...comment.replies, ...data.comments /*.reverse()*/]
+						: data.comments; /*.reverse()*/
 
 					return {
 						...comment,
@@ -483,7 +451,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 					comment={comment}
 					setValues={setValues}
 					value={values.content}
-					disbleSubmitBtn={editBtnsDisabled}
+					disableSubmitBtn={editBtnsDisabled}
 					closeBtn
 					onClickingCloseBtn={() => setShowContent(true)}
 				/>
@@ -549,7 +517,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 					name='comment_reply'
 					setValues={setValues}
 					value={values.comment_reply}
-					disbleSubmitBtn={commentReplyBtnsDisabled}
+					disableSubmitBtn={commentReplyBtnsDisabled}
 					closeBtn
 					onClickingCloseBtn={() => setShowReplyTextarea(false)}
 				/>

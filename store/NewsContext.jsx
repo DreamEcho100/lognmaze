@@ -4,13 +4,13 @@ import UserContext from '@store/UserContext';
 
 const NewsContext = createContext({
 	news: {},
-	setNews: () => {},
-	handleSetNewsDataForFirstTime: () => {},
-	handleLoadingArticleContent: () => {},
-	setIsLoadingReactions: () => {},
 	isLoadingReactions: false,
 	isLoadingContent: false,
+	setNews: () => {},
+	setIsLoadingReactions: () => {},
 	checkDataForUpdates: () => {},
+	handleSetNewsDataForFirstTime: () => {},
+	handleLoadingArticleContent: () => {},
 });
 
 export const NewsContextProvider = ({ children }) => {
@@ -176,14 +176,14 @@ export const NewsContextProvider = ({ children }) => {
 
 	const context = {
 		news,
-		setNews,
-		handleSetNewsDataForFirstTime,
-		handleLoadingArticleContent,
-		setIsLoadingReactions,
-		setIsLoadingContent,
 		isLoadingReactions,
 		isLoadingContent,
+		setNews,
+		setIsLoadingReactions,
+		setIsLoadingContent,
 		checkDataForUpdates,
+		handleSetNewsDataForFirstTime,
+		handleLoadingArticleContent,
 	};
 
 	return (

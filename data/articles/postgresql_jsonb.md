@@ -1,7 +1,7 @@
 ---
 title: Basic guide to JSONB in PostgreSQL
 image: https://i.morioh.com/200728/b25ed22b.webp
-discription: Basic guide to JSONB in PostgreSQL You may encounter (or have already encountered) a situation you are dealing with JSON in your application and you want to store it in your database. Or have unpredictable data or have one or multiple columns in the table that are optional.
+description: Basic guide to JSONB in PostgreSQL You may encounter (or have already encountered) a situation you are dealing with JSON in your application and you want to store it in your database. Or have unpredictable data or have one or multiple columns in the table that are optional.
 
 In these situations an object-oriented, NoSQL database makes sense.
 
@@ -26,7 +26,7 @@ JSON (JavaScript Object Notation) is a lightweight data-interchange format. It i
 
 JSON is built on two structures:
 
-- A collection of name/value pairs. In various languages, this is realized as an object, record, struct, dictionary, hash table, keyed list, or associative array.
+- A collection of name/value pairs. In various languages, this is realized as an object, record, dictionary, hash table, keyed list, or associative array.
 
 - An ordered list of values. In most languages, this is realized as an array, vector, list, or sequence.
 
@@ -197,7 +197,7 @@ UPDATE 1
 
 ### Insert into JSON using the **jsonb_insert** function
 
-#### Insert into JSON in one or multipule levels using the **jsonb_insert** function
+#### Insert into JSON in one or multiple levels using the **jsonb_insert** function
 
 The format for jsonb_insert:
 
@@ -240,7 +240,7 @@ RETURNING extra;
 
 - Since the key already exists and we are using **JSONB** not **JSON** type it will override the old value
 
-#### Updating JSON Surface, level one for one or multipule values using the **||** operator
+#### Updating JSON Surface, level one for one or multiple values using the **||** operator
 
 ```sql
 UPDATE user_profile
@@ -275,7 +275,7 @@ jsonb_set(
 Returns target with the section designated by path replaced by new_value, or with new_value added if create_missing is true (default is true) and the item designated by path does not exist. As with the path oriented operators, negative integers appear in path counter from the end of JSON arrays.
 
 <!-- - **target**:
-  -- here would be somthing like **"extra"** column.
+  -- here would be something like **"extra"** column.
 
 - **path**:
   -- The path to the key we want to change.
@@ -305,7 +305,7 @@ Returns target with the section designated by path replaced by new_value, or wit
 (1 row)
 ```
 
-#### Updating JSON deep, multipule levels for one value using the **jsonb_set** function
+#### Updating JSON deep, multiple levels for one value using the **jsonb_set** function
 
 - if we want to target theme in preferences the path would be **'{preferences,theme}'**.
 
@@ -327,7 +327,7 @@ RETURNING extra;
 (1 row)
 ```
 
-#### Updating multipule values in JSON using the **jsonb_set** function
+#### Updating multiple values in JSON using the **jsonb_set** function
 
 ```sql
 UPDATE user_profile
@@ -353,9 +353,9 @@ RETURNING extra;
 
 Ok, what's happening here?
 
-- The inner **jsonb_set** changing the **first_name** value to **true** and retuens a new data.
+- The inner **jsonb_set** changing the **first_name** value to **true** and returns a new data.
 
-- The outer **jsonb_set** take the new data and change **last_name** to **true** and retuens a new data.
+- The outer **jsonb_set** take the new data and change **last_name** to **true** and returns a new data.
 
 - Then you update the **extra** column with the new modified data.
 

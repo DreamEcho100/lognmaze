@@ -18,18 +18,31 @@ const Comments = ({
 	showComments,
 	focusCommentTextarea,
 }) => {
-	const { user, ...UserCxt } = useContext(UserContext);
+	const { user /* , ...UserCxt*/ } = useContext(UserContext);
 
 	const [values, setValues] = useState({
 		content: '',
 	});
 
-	const [disbleSendCommentButton, setDisbleSendCommentButton] = useState(false);
+	const [disableSendCommentButton, setDisableSendCommentButton] =
+		useState(false);
+
+	const [loadingComments, setLoadingComments] = useState(false);
+
+	const [commentsIndex, setCommentsIndex] = useState(
+		data.comments_index ? data.comments_index : 0
+	);
+	const [hitCommentsLimit, setHitCommentsLimit] = useState(
+		data.hit_comments_limit || data.comments_counter === 0
+			? true
+			: // data.hit_comments_limit
+			  false
+	);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
-		setDisbleSendCommentButton(true);
+		setDisableSendCommentButton(true);
 
 		const body = JSON.stringify({
 			type: 'comment_main',
@@ -49,7 +62,7 @@ const Comments = ({
 			},
 			body,
 		})
-			.then((respone) => respone.json())
+			.then((response) => response.json())
 			.catch((error) => {
 				return { ...error, status: 'error' };
 			});
@@ -86,32 +99,59 @@ const Comments = ({
 			content: '',
 		});
 
-		setDisbleSendCommentButton(false);
+		setDisableSendCommentButton(false);
+	};
+
+	const LoadComments = async () => {
+		// if (!news.comments_index) {
+		// 	news.comments_index = 0;
+		// 	news.hit_comments_limit = news.comments_counter === 0 ? true : false;
+
+		// 	if (!addToNews) addToNews = true;
+		// }
+		if (data.comments_counter === 0 || data.hit_comments_limit) return;
+
+		setLoadingComments(true);
+
+		const {
+			status,
+			message,
+			data: result,
+		} = await fetch(
+			`/api/v1/news/comments/comment/?type=comment_main&news_id=${data.news_id}&offset_index=${commentsIndex}`
+		).then((response) => response.json());
+
+		if (status === 'error') {
+			setLoadingComments(false);
+			return console.error(message);
+		}
+
+		const toAdd = {};
+
+		if (result?.comments.length > 0) {
+			toAdd.comments = [...data.comments, ...result.comments /*.reverse()*/];
+		}
+
+		if (
+			result.hit_comments_limit ||
+			(toAdd.comments && toAdd.comments.length === data.comments_counter)
+		) {
+			toAdd.hit_comments_limit = true;
+			setHitCommentsLimit(true);
+		}
+
+		toAdd.comments_index = toAdd.comments_index + 1;
+		setCommentsIndex((prev) => prev + 1);
+
+		setData((prev) => ({
+			...prev,
+			...toAdd,
+		}));
+		setLoadingComments(false);
 	};
 
 	useEffect(async () => {
-		if (data.comments && data.comments_counter !== 0) {
-			if (data.comments && data.comments.length !== 0) return;
-
-			const {
-				status,
-				message,
-				data: result,
-			} = await fetch(
-				`/api/v1/news/comments/comment/?type=comment_main&news_id=${
-					data.news_id
-				}&offset_index=${0}`
-			).then((respone) => respone.json());
-
-			if (status === 'error') {
-				return console.error(message);
-			}
-
-			setData((prev) => ({
-				...prev,
-				comments: result.comments.reverse(),
-			}));
-		}
+		if (data?.comments.length === 0) await LoadComments();
 	}, []);
 
 	return (
@@ -123,7 +163,7 @@ const Comments = ({
 				name='content'
 				setValues={setValues}
 				value={values.content}
-				disbleSubmitBtn={disbleSendCommentButton}
+				disableSubmitBtn={disableSendCommentButton}
 			/>
 			<div>
 				{data.comments &&
@@ -136,14 +176,29 @@ const Comments = ({
 						/>
 					))}
 			</div>
-			<button
-				onClick={() => {
-					if (showComments) setShowComments(false);
-					if (focusCommentTextarea) setFocusCommentTextarea(false);
-				}}
+			{loadingComments && <p>Loading...</p>}
+			<div
+			// className={classes['btn-holder']}
 			>
-				<h3>Hide Comments</h3>
-			</button>
+				<button disabled={loadingComments}>
+					<h3
+						onClick={() => {
+							if (showComments) setShowComments(false);
+							if (focusCommentTextarea) setFocusCommentTextarea(false);
+						}}
+					>
+						Hide Comments
+					</h3>
+				</button>
+				{!hitCommentsLimit && (
+					<button
+						disabled={loadingComments}
+						onClick={async () => await LoadComments()}
+					>
+						<h3>Load More</h3>
+					</button>
+				)}
+			</div>
 		</section>
 	);
 };

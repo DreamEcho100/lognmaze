@@ -12,7 +12,7 @@ const CommentTextarea = ({
 	setValues,
 	value,
 	onChange,
-	disbleSubmitBtn,
+	disableSubmitBtn,
 	closeBtn,
 	onClickingCloseBtn,
 }) => {
@@ -32,13 +32,13 @@ const CommentTextarea = ({
 				onChange={onChange}
 				value={value}
 			/>
-			<Button type='submit' disabled={disbleSubmitBtn}>
+			<Button type='submit' disabled={disableSubmitBtn}>
 				Send
 			</Button>
 			{closeBtn && (
 				<Button
 					type='button'
-					disabled={disbleSubmitBtn}
+					disabled={disableSubmitBtn}
 					onClick={onClickingCloseBtn}
 				>
 					Close

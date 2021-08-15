@@ -17,11 +17,10 @@ export default async (req, res) => {
 		if (req.method === 'GET') {
 			const { type, offset_index = 0 } = req.query;
 
-			let comments,
-				hit_replies_limit = false;
+			const data = {};
 
 			if (type === 'comment_main') {
-				comments = await pool
+				data.comments = await pool
 					.query(
 						`
 							SELECT
@@ -44,14 +43,18 @@ export default async (req, res) => {
 							JOIN user_profile ON user_profile.user_profile_id = news_comment.author_id
 							JOIN news_comment_main ON news_comment_main.news_comment_main_id = news_comment.news_comment_id
 							WHERE news_comment.news_id = $1
-							ORDER BY news_comment.created_at DESC
+							ORDER BY news_comment.created_at -- DESC
 							OFFSET ${offset_index * 10} LIMIT 10;
 						`,
 						[req.query.news_id]
 					)
 					.then((response) => response.rows);
+
+				if (data.comments.length < 10) {
+					data.hit_comments_limit = true;
+				}
 			} else if (type === 'comment_main_reply') {
-				comments = await pool
+				data.comments = await pool
 					.query(
 						`
 							SELECT
@@ -82,20 +85,16 @@ export default async (req, res) => {
 						[req.query.parent_id]
 					)
 					.then((response) => response.rows);
-			}
-			// replies_index
-			// hit_replies_limit
 
-			if (comments.length < 10) {
-				hit_replies_limit = true;
+				if (data.comments.length < 10) {
+					data.hit_replies_limit = true;
+				}
 			}
+
 			return res.status(200).json({
 				status: 'success',
 				message: 'Comments Arrived Successfully!',
-				data: {
-					comments,
-					hit_replies_limit,
-				},
+				data,
 			});
 		} else if (req.method === 'POST') {
 			const isAuthorized = await handleIsAuthorized(
