@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 
-import classes from './auth.module.css';
+import classes from './index.module.css';
 
 import UserContext from '../../store/UserContext';
 

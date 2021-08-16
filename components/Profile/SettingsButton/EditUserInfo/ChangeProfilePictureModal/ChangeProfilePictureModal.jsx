@@ -1,4 +1,5 @@
 import { Fragment, useContext, useState, useCallback } from 'react';
+import dynamic from 'next/dynamic';
 
 import classes from './ChangeProfilePictureModal.module.css';
 
@@ -6,7 +7,9 @@ import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 
 import UserContext from '@store/UserContext';
 
-import Modal from '@components/UI/V1/Modal';
+const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
+
+// import Modal from '@components/UI/V1/Modal';
 import Form from '@components/UI/V1/Form';
 import Label from '@components/UI/V1/Label';
 import Input from '@components/UI/V1/Input';
@@ -119,7 +122,7 @@ const ChangeProfilePictureModal = ({ showModal, setShowModal }) => {
 	};
 
 	return (
-		<Modal
+		<DynamicModal
 			showModal={showModal}
 			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (
@@ -185,7 +188,7 @@ const ChangeProfilePictureModal = ({ showModal, setShowModal }) => {
 					</Button>
 				</Form>
 			</Fragment>
-		</Modal>
+		</DynamicModal>
 	);
 };
 

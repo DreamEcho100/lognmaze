@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import UserContext from '@store/UserContext';
 
-import Home from '@components/Home';
+const DynamicHome = dynamic(() => import('@components/Home'));
+// import Home from '@components/Home';
 
 const HomePage = () => {
 	const router = useRouter();
@@ -44,7 +46,7 @@ const HomePage = () => {
 		return <p>Loading...</p>;
 	}
 
-	return <Home user={UserCxt.user} news={news} />;
+	return <DynamicHome user={UserCxt.user} news={news} />;
 };
 
 export default HomePage;

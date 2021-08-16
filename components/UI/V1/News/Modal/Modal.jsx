@@ -1,8 +1,11 @@
 import { Fragment, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 
 import classes from './Modal.module.css';
 
-import Modal from '@components/UI/V1/Modal';
+const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
+
+// import Modal from '@components/UI/V1/Modal';
 import Button from '@components/UI/V1/Button';
 import Container from '@components/UI/V1/News/Container/Container';
 
@@ -26,7 +29,7 @@ const NewsModal = ({ setCloseModal, detailsType, data, setData }) => {
 	}, [data]);
 
 	return (
-		<Modal
+		<DynamicModal
 			click={() => setCloseModal(true)}
 			CloseButtonElement={(props) => (
 				<Button type='button' {...props}>
@@ -40,7 +43,7 @@ const NewsModal = ({ setCloseModal, detailsType, data, setData }) => {
 			<Fragment key='body'>
 				<Container data={data} setData={setData} detailsType={detailsType} />
 			</Fragment>
-		</Modal>
+		</DynamicModal>
 	);
 };
 

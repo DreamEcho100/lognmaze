@@ -1,12 +1,20 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import UserContext from '@store/UserContext';
-import { NewsContextProvider } from '@store/NewsContext';
+// import { NewsContextProvider } from '@store/NewsContext';
 
-import ModalContainer from './ModalContainer/ModalContainer';
-import Article from './Article/Article';
-import Post from './Post/Post';
-import Modal from '@components/UI/V1/Modal';
+const DynamicModalContainer = dynamic(() =>
+	import('./ModalContainer/ModalContainer')
+);
+const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
+const DynamicArticle = dynamic(() => import('./Article/Article'));
+const DynamicPost = dynamic(() => import('./Post/Post'));
+
+// import ModalContainer from './ModalContainer/ModalContainer';
+// import Article from './Article/Article';
+// import Post from './Post/Post';
+// import Modal from '@components/UI/V1/Modal';
 import Button from '@components/UI/V1/Button';
 import ContainerItems from '@components/UI/V1/News/Container/ContainerItems';
 
@@ -60,7 +68,7 @@ const Action = ({ closeModal, showModal, setShowModal, news, ...props }) => {
 
 	if (news.action === 'create' || news.action === 'update') {
 		return (
-			<ModalContainer
+			<DynamicModalContainer
 				showModal={showModal}
 				setShowModal={setShowModal}
 				closeModal={closeModal}
@@ -71,7 +79,7 @@ const Action = ({ closeModal, showModal, setShowModal, news, ...props }) => {
 				}}
 			>
 				{newsType === 'article' && (
-					<Article
+					<DynamicArticle
 						closeModal={closeModal}
 						fetcher={fetcher}
 						actionType={news.action}
@@ -79,20 +87,20 @@ const Action = ({ closeModal, showModal, setShowModal, news, ...props }) => {
 					/>
 				)}
 				{newsType === 'post' && (
-					<Post
+					<DynamicPost
 						closeModal={closeModal}
 						fetcher={fetcher}
 						actionType={news.action}
 						{...extraProps}
 					/>
 				)}
-			</ModalContainer>
+			</DynamicModalContainer>
 		);
 	}
 
 	if (news.action === 'delete') {
 		return (
-			<Modal
+			<DynamicModal
 				showModal={showModal}
 				setShowModal={setShowModal}
 				showModal={showModal}
@@ -146,7 +154,7 @@ const Action = ({ closeModal, showModal, setShowModal, news, ...props }) => {
 						// isLoadingContent={isLoadingContent}
 					/>
 				</Fragment>
-			</Modal>
+			</DynamicModal>
 		);
 	}
 };

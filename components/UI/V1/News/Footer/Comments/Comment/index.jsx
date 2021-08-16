@@ -1,11 +1,16 @@
 import { useContext, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';
 
 import UserContext from '@store/UserContext';
 import { dateToHumanReadableDate } from '@lib/v1/time';
 
-import DropdownMenu from '@components/UI/V1/DropdownMenu';
+const DynamicDropdownMenu = dynamic(() =>
+	import('@components/UI/V1/DropdownMenu')
+);
+
+// import DropdownMenu from '@components/UI/V1/DropdownMenu';
 import CommentTextarea from '../CommentTextarea';
 import Image from '@components/UI/V1/Image';
 
@@ -41,23 +46,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 	const [focusCommentReplyTextarea, setFocusCommentReplyTextarea] =
 		useState(false);
 
-	// const [repliesIndex, setRepliesIndex] = useState(
-	// 	comment.type === 'comment_main' && comment.replies_index
-	// 		? comment.replies_index
-	// 		: 0
-	// );
-	// const [hitRepliesLimit, setHitRepliesLimit] = useState(
-	// 	comment.type === 'comment_main' && comment.hit_replies_limit
-	// 		? comment.hit_replies_limit
-	// 		: false
-	// );
-
 	const [loadingReplies, setLoadingReplies] = useState(false);
-	const [repliesIndex, setRepliesIndex] = useState(
-		comment.type === 'comment_main' && comment.replies_index
-			? comment.replies_index
-			: 0
-	);
 	const [hitRepliesLimit, setHitRepliesLimit] = useState(
 		comment.type === 'comment_main' && comment.hit_replies_limit
 			? comment.hit_replies_limit
@@ -102,16 +91,10 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			setData((prev) => ({
 				...prev,
 				comments_counter: prev.comments_counter - 1,
-				comments_index:
-					prev.comments_index ||
-					(prev.comments_index && prev.comments_index - 0.1 > 0)
-						? prev.comments_index - 0.1
-						: 0,
 				comments: prev.comments.filter(
 					(comment) => comment.news_comment_id !== bodyObj.news_comment_id
 				),
 			}));
-			props.setCommentsIndex((prev) => prev - 0.1);
 		} else if (bodyObj.type === 'comment_main_reply') {
 			setData((prev) => ({
 				...prev,
@@ -121,33 +104,15 @@ const Comment = ({ comment, data, setData, ...props }) => {
 							(reply) => reply.news_comment_id !== bodyObj.news_comment_id
 						);
 
-						// if (bodyObj.reply_to_comment_id) {
-						// 	replies = replies.map((reply) => {
-						// 		if (reply.news_comment_id === bodyObj.reply_to_comment_id) {
-						// 			return {
-						// 				...reply,
-						// 				comments_counter: reply.comments_counter - 1,
-						// 			};
-						// 		}
-						// 		return reply;
-						// 	});
-						// }
-
 						return {
 							...comment,
 							replies_counter: comment.replies_counter - 1,
-							replies_index:
-								comment.replies_index ||
-								(comment.replies_index && comment.replies_index - 0.1 > 0)
-									? comment.replies_index - 0.1
-									: 0,
 							replies,
 						};
 					}
 					return comment;
 				}),
 			}));
-			if (repliesIndex) setRepliesIndex((prev) => prev - 0.1);
 		}
 	};
 
@@ -297,9 +262,9 @@ const Comment = ({ comment, data, setData, ...props }) => {
 					return {
 						...comment,
 						replies_counter: comment.replies_counter + 1,
-						replies_index: comment.replies_index
-							? comment.replies_index + 0.1
-							: 0.1,
+						replies_to_not_fetch: prev.replies_to_not_fetch
+							? [...prev.replies_to_not_fetch, commentReplyObj.news_comment_id]
+							: [commentReplyObj.news_comment_id],
 						replies,
 					};
 				}
@@ -313,17 +278,33 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			comment_reply: '',
 		}));
 
-		setRepliesIndex((prev) => prev + 0.1);
-
 		setShowReplyTextarea(false);
 		setCommentReplyBtnsDisabled(false);
 	};
 
 	const loadRepliesHandler = async (parent_id) => {
+		if (comment.replies && comment.replies.length === comment.replies_counter)
+			return;
 		setLoadingReplies(true);
-		const { status, message, data } = await fetch(
-			`/api/v1/news/comments/comment/?type=comment_main_reply&parent_id=${parent_id}&offset_index=${repliesIndex}`
-		).then((response) => response.json());
+
+		let fetchInput = `/api/v1/news/comments/comment/?type=comment_main_reply&parent_id=${parent_id}`;
+
+		if (comment.last_reply_created_at) {
+			fetchInput += `&last_reply_created_at=${comment.last_reply_created_at}`;
+		}
+
+		if (
+			comment.replies_to_not_fetch &&
+			comment.replies_to_not_fetch.length > 0
+		) {
+			fetchInput += `&replies_to_not_fetch=${comment.replies_to_not_fetch.join(
+				','
+			)}`;
+		}
+
+		const { status, message, data } = await fetch(fetchInput).then((response) =>
+			response.json()
+		);
 
 		if (status === 'error') {
 			setLoadingReplies(false);
@@ -334,6 +315,9 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			...prev,
 			comments: prev.comments.map((comment) => {
 				if (comment.news_comment_id === parent_id) {
+					const last_reply_created_at =
+						data.comments[data.comments.length - 1].created_at;
+
 					const replies = comment.replies
 						? [...comment.replies, ...data.comments /*.reverse()*/]
 						: data.comments; /*.reverse()*/
@@ -342,17 +326,13 @@ const Comment = ({ comment, data, setData, ...props }) => {
 						...comment,
 						replies,
 						hit_replies_limit: data.hit_replies_limit,
-						replies_index: comment.replies_index
-							? comment.replies_index + 1
-							: 1,
+						last_reply_created_at,
 					};
 				}
 
 				return comment;
 			}),
 		}));
-
-		setRepliesIndex((prev) => prev + 1);
 
 		if (data.hit_replies_limit && !hitRepliesLimit) setHitRepliesLimit(true);
 		if (!showReplies) setShowReplies(true);
@@ -456,7 +436,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 					</div>
 				</nav>
 				{user.id === comment.author_id && showContent && (
-					<DropdownMenu items={items} />
+					<DynamicDropdownMenu items={items} />
 				)}
 			</header>
 			{showContent && (

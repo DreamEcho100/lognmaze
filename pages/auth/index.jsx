@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import UserContext from '@store/UserContext';
 
-import Auth from '../../components/Auth/Auth';
+const DynamicAuth = dynamic(() => import('@components/Auth'));
+// import Auth from '../../components/Auth/';
 
 import Button from '../../components/UI/V1/Button';
 
@@ -65,7 +67,7 @@ const AuthPage = ({
 
 	return (
 		<>
-			<Auth
+			<AuthPage
 				signType={signType}
 				UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
 					UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN

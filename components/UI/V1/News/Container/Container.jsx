@@ -1,4 +1,5 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import classes from './Container.module.css';
 // import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
@@ -7,9 +8,12 @@ import BorderClasses from '@components/UI/V1/Border.module.css';
 import NewsContext from '@store/NewsContext';
 import { handleAllClasses } from '../../utils/index';
 
+const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
+
+// import Modal from '@components/UI/V1/Modal';
+
 import ContainerItems from './ContainerItems';
 
-import Modal from '@components/UI/V1/Modal';
 import Button from '@components/UI/V1/Button';
 
 const Container = ({
@@ -87,7 +91,7 @@ const Container = ({
 			/>
 
 			{props.modalOnClick && (
-				<Modal
+				<DynamicModal
 					showModal={showModal}
 					setShowModal={setShowModal}
 					click={() => setShowModal(false)}
@@ -117,7 +121,7 @@ const Container = ({
 							detailsType='content'
 						/>
 					</Fragment>
-				</Modal>
+				</DynamicModal>
 			)}
 		</>
 	);

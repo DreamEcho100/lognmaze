@@ -15,38 +15,66 @@ export default async (req, res) => {
 
 	try {
 		if (req.method === 'GET') {
-			const { type, offset_index = 0 } = req.query;
+			const { type } = req.query;
 
 			const data = {};
 
 			if (type === 'comment_main') {
+				const queryParams = [req.query.news_id];
+				if (req.query.last_comment_created_at) {
+					queryParams.push(req.query.last_comment_created_at);
+				}
+
+				const WhereParamsIndex = {
+					comments_to_not_fetch: [],
+				};
+
+				if (req.query.comments_to_not_fetch) {
+					req.query.comments_to_not_fetch.split(',').forEach((item) => {
+						queryParams.push(item);
+						WhereParamsIndex.comments_to_not_fetch.push(
+							`$${queryParams.length}`
+						);
+					});
+				}
+
 				data.comments = await pool
 					.query(
 						`
-							SELECT
-								news_comment.news_comment_id,
-								-- news_comment.author_id,
-								news_comment.type,
-								news_comment.content,
-								news_comment.created_at,
-								news_comment.updated_on,
-								
-								user_profile.user_profile_id AS author_id,
-								user_profile.user_name_id AS author_user_name_id,
-								user_profile.first_name AS author_first_name,
-								user_profile.last_name AS author_last_name,
-								user_profile.profile_picture AS author_profile_picture,
+						SELECT
+							news_comment.news_comment_id,
+							-- news_comment.author_id,
+							news_comment.type,
+							news_comment.content,
+							news_comment.created_at,
+							news_comment.updated_on,
+							
+							user_profile.user_profile_id AS author_id,
+							user_profile.user_name_id AS author_user_name_id,
+							user_profile.first_name AS author_first_name,
+							user_profile.last_name AS author_last_name,
+							user_profile.profile_picture AS author_profile_picture,
 
-								news_comment_main.replies_counter
+							news_comment_main.replies_counter
 
-							FROM news_comment
-							JOIN user_profile ON user_profile.user_profile_id = news_comment.author_id
-							JOIN news_comment_main ON news_comment_main.news_comment_main_id = news_comment.news_comment_id
-							WHERE news_comment.news_id = $1
-							ORDER BY news_comment.created_at -- DESC
-							OFFSET ${offset_index * 10} LIMIT 10;
-						`,
-						[req.query.news_id]
+						FROM news_comment
+						JOIN user_profile ON user_profile.user_profile_id = news_comment.author_id
+						JOIN news_comment_main ON news_comment_main.news_comment_main_id = news_comment.news_comment_id
+						WHERE news_comment.news_id = $1 ${
+							WhereParamsIndex.comments_to_not_fetch.length > 0
+								? `AND news_comment.news_comment_id NOT IN (${WhereParamsIndex.comments_to_not_fetch.join(
+										','
+								  )})`
+								: ''
+						} ${
+							req.query.last_comment_created_at
+								? 'AND news_comment.created_at > ($2)'
+								: ''
+						}
+						ORDER BY news_comment.created_at -- DESC
+						LIMIT 10;
+					`,
+						queryParams
 					)
 					.then((response) => response.rows);
 
@@ -54,6 +82,25 @@ export default async (req, res) => {
 					data.hit_comments_limit = true;
 				}
 			} else if (type === 'comment_main_reply') {
+				const queryParams = [req.query.parent_id];
+
+				if (req.query.last_reply_created_at) {
+					queryParams.push(req.query.last_reply_created_at);
+				}
+
+				const WhereParamsIndex = {
+					replies_to_not_fetch: [],
+				};
+
+				if (req.query.replies_to_not_fetch) {
+					req.query.replies_to_not_fetch.split(',').forEach((item) => {
+						queryParams.push(item);
+						WhereParamsIndex.replies_to_not_fetch.push(
+							`$${queryParams.length}`
+						);
+					});
+				}
+
 				data.comments = await pool
 					.query(
 						`
@@ -78,15 +125,25 @@ export default async (req, res) => {
 							JOIN user_profile ON user_profile.user_profile_id = news_comment.author_id
 							JOIN news_comment_main_reply ON news_comment_main_reply.news_comment_main_reply_id = news_comment.news_comment_id
 
-							WHERE news_comment_main_reply.parent_id = ($1)
+							WHERE news_comment_main_reply.parent_id= $1 ${
+								WhereParamsIndex.replies_to_not_fetch.length > 0
+									? `AND news_comment_main_reply.news_comment_main_reply_id NOT IN (${WhereParamsIndex.replies_to_not_fetch.join(
+											','
+									  )})`
+									: ''
+							} ${
+							req.query.last_reply_created_at
+								? 'AND news_comment.created_at > ($2)'
+								: ''
+						}
 							ORDER BY news_comment.created_at -- DESC
-							OFFSET ${offset_index * 10} LIMIT 10;
+							LIMIT 5;
 						`,
-						[req.query.parent_id]
+						queryParams
 					)
 					.then((response) => response.rows);
 
-				if (data.comments.length < 10) {
+				if (data.comments.length < 5) {
 					data.hit_replies_limit = true;
 				}
 			}

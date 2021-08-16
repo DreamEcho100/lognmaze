@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';
 
+const DynamicComments = dynamic(() => import('./Comments'));
+
 import Settings from './Settings';
 import Status from './Status';
-import Comments from './Comments';
+// import Comments from './Comments';
 
 const Footer = ({ data, setData, isLoadingReactions }) => {
 	const footerRef = useRef();
@@ -43,7 +46,7 @@ const Footer = ({ data, setData, isLoadingReactions }) => {
 				isLoadingReactions={isLoadingReactions}
 			/>
 			{showComments && (
-				<Comments
+				<DynamicComments
 					data={data}
 					setData={setData}
 					comments={data.comments}

@@ -1,13 +1,24 @@
 import { useContext, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import classes from './Settings.module.css';
 
 import NewsContext from '@store/NewsContext';
 
-import DropdownMenu from '@components/UI/V1/DropdownMenu';
-import UpdateAction from '@components/UI/V1/News/Action/Action';
-import DeleteAction from '@components/UI/V1/News/Action/Action';
-import ShareModel from '@components/UI/V1/Modal/Share';
+const DynamicDropdownMenu = dynamic(() =>
+	import('@components/UI/V1/DropdownMenu')
+);
+const DynamicAction = dynamic(() =>
+	import('@components/UI/V1/News/Action/Action')
+);
+const DynamicShareModel = dynamic(() =>
+	import('@components/UI/V1/Modal/Share')
+);
+
+// import DropdownMenu from '@components/UI/V1/DropdownMenu';
+// import UpdateAction from '@components/UI/V1/News/Action/Action';
+// import DeleteAction from '@components/UI/V1/News/Action/Action';
+// import ShareModel from '@components/UI/V1/Modal/Share';
 
 const Settings = ({
 	isDataOwner,
@@ -26,12 +37,12 @@ const Settings = ({
 					props: {
 						// setIsLoadingContent,
 						// isLoadingContent,
-						UpdateAction,
+						DynamicAction,
 						data,
 						setData,
 					},
 					Element: ({
-						UpdateAction,
+						DynamicAction,
 						data,
 						setData,
 						// setIsLoadingContent,
@@ -79,7 +90,7 @@ const Settings = ({
 								<button onClick={() => setShowUpdateNewsModal(true)}>
 									Edit
 								</button>
-								<UpdateAction
+								<DynamicAction
 									showModal={showUpdateNewsModal}
 									setShowModal={setShowUpdateNewsModal}
 									closeModal={() => setShowUpdateNewsModal(false)}
@@ -92,13 +103,13 @@ const Settings = ({
 				{
 					className: `${classes['settings-item-for-data-owner']}`,
 					props: {
-						DeleteAction,
+						DynamicAction,
 						data,
 						setData,
 						// setIsLoadingContent,
 						// isLoadingContent,
 					},
-					Element: ({ DeleteAction, data, setData }) => {
+					Element: ({ DynamicAction, data, setData }) => {
 						const {
 							isLoadingContent,
 							setIsLoadingContent,
@@ -138,7 +149,7 @@ const Settings = ({
 						return (
 							<>
 								<button onClick={() => setShowDeleteModal(true)}>Delete</button>
-								<DeleteAction
+								<DynamicAction
 									showModal={showDeleteModal}
 									setShowModal={setShowDeleteModal}
 									closeModal={() => setShowDeleteModal(false)}
@@ -150,10 +161,10 @@ const Settings = ({
 				},
 				{
 					props: {
-						ShareModel,
+						DynamicShareModel,
 						data,
 					},
-					Element: ({ ShareModel, data }) => {
+					Element: ({ DynamicShareModel, data }) => {
 						const [showShareModel, setShowShareModel] = useState(false);
 
 						return (
@@ -161,7 +172,7 @@ const Settings = ({
 								<button onClick={() => setShowShareModel(true)}>
 									Share News
 								</button>
-								<ShareModel
+								<DynamicShareModel
 									data={data}
 									showShareModel={showShareModel}
 									setShowShareModel={setShowShareModel}
@@ -175,10 +186,10 @@ const Settings = ({
 			setItems([
 				{
 					props: {
-						ShareModel,
+						DynamicShareModel,
 						data,
 					},
-					Element: ({ ShareModel, data }) => {
+					Element: ({ DynamicShareModel, data }) => {
 						const [showShareModel, setShowShareModel] = useState(false);
 
 						return (
@@ -186,7 +197,7 @@ const Settings = ({
 								<button onClick={() => setShowShareModel(true)}>
 									Share News
 								</button>
-								<ShareModel
+								<DynamicShareModel
 									data={data}
 									showShareModel={showShareModel}
 									setShowShareModel={setShowShareModel}
@@ -201,7 +212,7 @@ const Settings = ({
 
 	return (
 		<>
-			<DropdownMenu items={items} />
+			<DynamicDropdownMenu items={items} />
 		</>
 	);
 };

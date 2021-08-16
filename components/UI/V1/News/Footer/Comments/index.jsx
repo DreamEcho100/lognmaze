@@ -3,14 +3,15 @@ import { useContext, useEffect, useState } from 'react';
 // import classes from './index.module.css';
 
 import UserContext from '@store/UserContext';
+import NewsContext from '@store/NewsContext';
 
 import Comment from './Comment';
 import CommentTextarea from './CommentTextarea';
 
 const Comments = ({
 	inheritedClasses,
-	data,
-	setData,
+	// data,
+	// setData,
 	comments,
 	className,
 	setShowComments,
@@ -19,6 +20,7 @@ const Comments = ({
 	focusCommentTextarea,
 }) => {
 	const { user /* , ...UserCxt*/ } = useContext(UserContext);
+	const { news, setNews } = useContext(NewsContext);
 
 	const [values, setValues] = useState({
 		content: '',
@@ -28,14 +30,8 @@ const Comments = ({
 		useState(false);
 
 	const [loadingComments, setLoadingComments] = useState(false);
-	const [commentsIndex, setCommentsIndex] = useState(
-		data.comments_index ? data.comments_index : 0
-	);
 	const [hitCommentsLimit, setHitCommentsLimit] = useState(
-		data.hit_comments_limit || data.comments_counter === 0
-			? true
-			: // data.hit_comments_limit
-			  false
+		news.hit_comments_limit || news.comments_counter === 0 ? true : false
 	);
 
 	const handleSubmit = async (event) => {
@@ -46,7 +42,7 @@ const Comments = ({
 		const body = JSON.stringify({
 			type: 'comment_main',
 			content: values.content,
-			news_id: data.news_id,
+			news_id: news.news_id,
 		});
 
 		const {
@@ -63,22 +59,18 @@ const Comments = ({
 		})
 			.then((response) => response.json())
 			.catch((error) => {
-				return { ...error, status: 'error' };
+				return { status: 'error', message: error.message, data: {} };
 			});
 
 		if (status === 'error') {
+			setDisableSendCommentButton(false);
 			console.error(message);
 			return;
 		}
 
-		setData((prev) => ({
+		setNews((prev) => ({
 			...prev,
-			comments_counter: prev.comments_counter + 1,
-			comments_index: prev.comments_index
-				? prev.comments_index + 0.1
-				: prev.comments_index,
 			comments: [
-				...prev.comments,
 				{
 					author_id: user.id,
 
@@ -94,8 +86,15 @@ const Comments = ({
 					created_at: new Date().toUTCString(),
 					updated_on: new Date().toUTCString(),
 				},
+				...prev.comments,
 			],
+			comments_counter: prev.comments_counter + 1,
+			comments_to_not_fetch: prev.comments_to_not_fetch
+				? [...prev.comments_to_not_fetch, comment.news_comment_id]
+				: [comment.news_comment_id],
 		}));
+
+		// setCommentsToNotFetch((prev) => [...prev, comment.news_comment_id]);
 
 		setValues({
 			content: '',
@@ -105,23 +104,27 @@ const Comments = ({
 	};
 
 	const LoadComments = async () => {
-		// if (!news.comments_index) {
-		// 	news.comments_index = 0;
-		// 	news.hit_comments_limit = news.comments_counter === 0 ? true : false;
-
-		// 	if (!addToNews) addToNews = true;
-		// }
-		if (data.comments_counter === 0 || data.hit_comments_limit) return;
+		if (news.comments_counter === 0 || news.hit_comments_limit) return;
 
 		setLoadingComments(true);
+
+		let fetchInput = `/api/v1/news/comments/comment/?type=comment_main&news_id=${news.news_id}`;
+
+		if (news.last_comment_created_at) {
+			fetchInput += `&last_comment_created_at=${news.last_comment_created_at}`;
+		}
+
+		if (news.comments_to_not_fetch && news.comments_to_not_fetch.length > 0) {
+			fetchInput += `&comments_to_not_fetch=${news.comments_to_not_fetch.join(
+				','
+			)}`;
+		}
 
 		const {
 			status,
 			message,
 			data: result,
-		} = await fetch(
-			`/api/v1/news/comments/comment/?type=comment_main&news_id=${data.news_id}&offset_index=${commentsIndex}`
-		).then((response) => response.json());
+		} = await fetch(fetchInput).then((response) => response.json());
 
 		if (status === 'error') {
 			setLoadingComments(false);
@@ -131,21 +134,20 @@ const Comments = ({
 		const toAdd = {};
 
 		if (result?.comments.length > 0) {
-			toAdd.comments = [...data.comments, ...result.comments /*.reverse()*/];
+			toAdd.last_comment_created_at =
+				result.comments[result.comments.length - 1].created_at;
+			toAdd.comments = [...news.comments, ...result.comments];
 		}
 
 		if (
 			result.hit_comments_limit ||
-			(toAdd.comments && toAdd.comments.length === data.comments_counter)
+			(toAdd.comments && toAdd.comments.length === news.comments_counter)
 		) {
 			toAdd.hit_comments_limit = true;
 			setHitCommentsLimit(true);
 		}
 
-		toAdd.comments_index = data.comments_index ? 1 : data.comments_index + 1;
-		setCommentsIndex((prev) => prev + 1);
-
-		setData((prev) => ({
+		setNews((prev) => ({
 			...prev,
 			...toAdd,
 		}));
@@ -153,7 +155,7 @@ const Comments = ({
 	};
 
 	useEffect(async () => {
-		if (data?.comments.length === 0) await LoadComments();
+		if (news?.comments.length === 0) await LoadComments();
 	}, []);
 
 	return (
@@ -168,21 +170,18 @@ const Comments = ({
 				disableSubmitBtn={disableSendCommentButton}
 			/>
 			<div>
-				{data.comments &&
-					data.comments.map((comment, index) => (
+				{news.comments &&
+					news.comments.map((comment, index) => (
 						<Comment
 							key={comment.news_comment_id}
 							comment={comment}
-							setData={setData}
-							data={data}
-							setCommentsIndex={setCommentsIndex}
+							setData={setNews}
+							data={news}
 						/>
 					))}
 			</div>
 			{loadingComments && <p>Loading...</p>}
-			<div
-			// className={classes['btn-holder']}
-			>
+			<div>
 				{!hitCommentsLimit && (
 					<button
 						disabled={loadingComments}

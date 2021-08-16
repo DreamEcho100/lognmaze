@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
 
-import classes from './Profile.module.css';
+import classes from './index.module.css';
 
 import CreateNewsButton from './CreateNewsButton/CreateNewsButton';
 import SettingsButton from './SettingsButton/SettingsButton';

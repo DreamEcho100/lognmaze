@@ -1,4 +1,5 @@
 import { Fragment, useContext, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import classes from './ChangeUserGenderModal.module.css';
@@ -7,7 +8,9 @@ import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 
 import UserContext from '@store/UserContext';
 
-import Modal from '@components/UI/V1/Modal';
+const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
+
+// import Modal from '@components/UI/V1/Modal';
 import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl';
 import Label from '@components/UI/V1/Label';
@@ -56,7 +59,7 @@ const ChangeUserGenderModal = ({ showModal, setShowModal }) => {
 	};
 
 	return (
-		<Modal
+		<DynamicModal
 			showModal={showModal}
 			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (
@@ -127,7 +130,7 @@ const ChangeUserGenderModal = ({ showModal, setShowModal }) => {
 					</Button>
 				</Form>
 			</Fragment>
-		</Modal>
+		</DynamicModal>
 	);
 };
 

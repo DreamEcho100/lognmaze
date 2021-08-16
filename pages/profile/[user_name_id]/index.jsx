@@ -1,10 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { getCookie } from '@lib/v1/cookie';
 
 import UserContext from '@store/UserContext';
 
-import Profile from '@components/Profile/Profile';
+const DynamicProfile = dynamic(() => import('@components/Profile'));
+// import Profile from '@components/Profile';
 
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
@@ -112,7 +114,11 @@ const ProfilePage = ({ user = {}, /*posts = []*/ ...props }) => {
 	}
 
 	return (
-		<Profile userData={userData} visitorIdentity={identity} news={posts} />
+		<DynamicProfile
+			userData={userData}
+			visitorIdentity={identity}
+			news={posts}
+		/>
 	);
 };
 
