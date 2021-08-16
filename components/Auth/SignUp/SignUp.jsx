@@ -208,6 +208,7 @@ const SignUp = ({
 	return (
 		<Form
 			extraClasses={`${BoxShadowClasses['box-shadow']}`}
+			className={classes['sign-up-form']}
 			onSubmit={submitHandler}
 		>
 			<FormControls>
@@ -496,11 +497,12 @@ const SignUp = ({
 			)}
 			<FormControl extraClasses='align-center' className={classes.actions}>
 				<Button
+					title='Sign Up'
 					disabled={btnsDisabled}
 					type='submit'
 					className={classes.submitBtn}
 				>
-					Create Account
+					Sign Up
 				</Button>
 			</FormControl>
 		</Form>

@@ -6,7 +6,7 @@ import Container from '@components/UI/V1/News/Container/Container';
 
 const Article = ({ articleProps }) => {
 	return (
-		<main id='main'>
+		<main className='main'>
 			<section>
 				<NewsContextProvider>
 					<Container {...articleProps} />

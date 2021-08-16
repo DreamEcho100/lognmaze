@@ -46,7 +46,13 @@ const HomePage = () => {
 		return <p>Loading...</p>;
 	}
 
-	return <DynamicHome user={UserCxt.user} news={news} />;
+	return (
+		<DynamicHome
+			user={UserCxt.user}
+			userExist={UserCxt.userExist}
+			news={news}
+		/>
+	);
 };
 
 export default HomePage;

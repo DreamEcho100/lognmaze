@@ -1,24 +1,23 @@
 import { useContext, useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 
 import classes from './Settings.module.css';
 
 import NewsContext from '@store/NewsContext';
 
-const DynamicDropdownMenu = dynamic(() =>
-	import('@components/UI/V1/DropdownMenu')
-);
-const DynamicAction = dynamic(() =>
-	import('@components/UI/V1/News/Action/Action')
-);
-const DynamicShareModel = dynamic(() =>
-	import('@components/UI/V1/Modal/Share')
-);
+// const DynamicDropdownMenu = dynamic(() =>
+// 	import('@components/UI/V1/DropdownMenu')
+// );
+// const DynamicAction = dynamic(() =>
+// 	import('@components/UI/V1/News/Action/Action')
+// );
+// const DynamicShareModel = dynamic(() =>
+// 	import('@components/UI/V1/Modal/Share')
+// );
 
-// import DropdownMenu from '@components/UI/V1/DropdownMenu';
-// import UpdateAction from '@components/UI/V1/News/Action/Action';
-// import DeleteAction from '@components/UI/V1/News/Action/Action';
-// import ShareModel from '@components/UI/V1/Modal/Share';
+import DropdownMenu from '@components/UI/V1/DropdownMenu';
+import Action from '@components/UI/V1/News/Action/Action';
+import ShareModel from '@components/UI/V1/Modal/Share';
 
 const Settings = ({
 	isDataOwner,
@@ -37,12 +36,14 @@ const Settings = ({
 					props: {
 						// setIsLoadingContent,
 						// isLoadingContent,
-						DynamicAction,
+						// DynamicAction,
+						Action,
 						data,
 						setData,
 					},
 					Element: ({
-						DynamicAction,
+						// DynamicAction,
+						Action,
 						data,
 						setData,
 						// setIsLoadingContent,
@@ -80,17 +81,21 @@ const Settings = ({
 									action: 'update',
 									route: 'update',
 									data: news,
-									setData: setNews,
+									setData: setData,setNews,
 								});
 							}
 						}, [news]);
 
 						return (
 							<>
-								<button onClick={() => setShowUpdateNewsModal(true)}>
+								<button
+									title='Edit News'
+									onClick={() => setShowUpdateNewsModal(true)}
+								>
 									Edit
 								</button>
-								<DynamicAction
+								<Action
+									// DynamicAction
 									showModal={showUpdateNewsModal}
 									setShowModal={setShowUpdateNewsModal}
 									closeModal={() => setShowUpdateNewsModal(false)}
@@ -103,13 +108,19 @@ const Settings = ({
 				{
 					className: `${classes['settings-item-for-data-owner']}`,
 					props: {
-						DynamicAction,
+						// DynamicAction,
+						Action,
 						data,
 						setData,
 						// setIsLoadingContent,
 						// isLoadingContent,
 					},
-					Element: ({ DynamicAction, data, setData }) => {
+					Element: ({
+						Action,
+						// DynamicAction
+						data,
+						setData,
+					}) => {
 						const {
 							isLoadingContent,
 							setIsLoadingContent,
@@ -148,8 +159,14 @@ const Settings = ({
 
 						return (
 							<>
-								<button onClick={() => setShowDeleteModal(true)}>Delete</button>
-								<DynamicAction
+								<button
+									title='Delete News'
+									onClick={() => setShowDeleteModal(true)}
+								>
+									Delete
+								</button>
+								<Action
+									// DynamicAction
 									showModal={showDeleteModal}
 									setShowModal={setShowDeleteModal}
 									closeModal={() => setShowDeleteModal(false)}
@@ -161,18 +178,27 @@ const Settings = ({
 				},
 				{
 					props: {
-						DynamicShareModel,
+						ShareModel,
+						// DynamicShareModel,
 						data,
 					},
-					Element: ({ DynamicShareModel, data }) => {
+					Element: ({
+						ShareModel,
+						// DynamicShareModel,
+						data,
+					}) => {
 						const [showShareModel, setShowShareModel] = useState(false);
 
 						return (
 							<>
-								<button onClick={() => setShowShareModel(true)}>
-									Share News
+								<button
+									title='Share News'
+									onClick={() => setShowShareModel(true)}
+								>
+									Share
 								</button>
-								<DynamicShareModel
+								<ShareModel
+									// DynamicShareModel
 									data={data}
 									showShareModel={showShareModel}
 									setShowShareModel={setShowShareModel}
@@ -186,18 +212,27 @@ const Settings = ({
 			setItems([
 				{
 					props: {
-						DynamicShareModel,
+						ShareModel,
+						// DynamicShareModel,
 						data,
 					},
-					Element: ({ DynamicShareModel, data }) => {
+					Element: ({
+						ShareModel,
+						// DynamicShareModel,
+						data,
+					}) => {
 						const [showShareModel, setShowShareModel] = useState(false);
 
 						return (
 							<>
-								<button onClick={() => setShowShareModel(true)}>
-									Share News
+								<button
+									title='Share News'
+									onClick={() => setShowShareModel(true)}
+								>
+									Share
 								</button>
-								<DynamicShareModel
+								<ShareModel
+									// DynamicShareModel
 									data={data}
 									showShareModel={showShareModel}
 									setShowShareModel={setShowShareModel}
@@ -212,7 +247,10 @@ const Settings = ({
 
 	return (
 		<>
-			<DynamicDropdownMenu items={items} />
+			<DropdownMenu
+				// DynamicDropdownMenu
+				items={items}
+			/>
 		</>
 	);
 };

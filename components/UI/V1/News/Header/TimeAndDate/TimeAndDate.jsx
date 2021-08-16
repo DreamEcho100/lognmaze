@@ -10,27 +10,33 @@ const TimeAndDate = ({ setShowModal, created_at, updated_on }) => (
 		}}
 	>
 		<p>
-			Created At:{' '}
-			{
-				dateToHumanReadableDate(created_at, {
-					locale: 'en-us',
-					format: { day: 'numeric', month: 'long', year: 'numeric' },
-					withTime: true,
-				}).dateAndTimeString
-			}
+			<span>
+				<small>
+					<strong>Created At:</strong>{' '}
+					<em>
+						{
+							dateToHumanReadableDate(created_at, {
+								withTime: true,
+							}).dateAndTimeString
+						}
+					</em>
+				</small>
+			</span>
+			{created_at !== updated_on && (
+				<span>
+					<small>
+						, <strong>Updated On:</strong>{' '}
+						<em>
+							{
+								dateToHumanReadableDate(updated_on, {
+									withTime: true,
+								}).dateAndTimeString
+							}
+						</em>
+					</small>
+				</span>
+			)}
 		</p>
-		{updated_on !== created_at ? (
-			<p>
-				Updated On:{' '}
-				{
-					dateToHumanReadableDate(updated_on, {
-						locale: 'en-us',
-						format: { day: 'numeric', month: 'long', year: 'numeric' },
-						withTime: true,
-					}).dateAndTimeString
-				}
-			</p>
-		) : null}
 	</div>
 );
 

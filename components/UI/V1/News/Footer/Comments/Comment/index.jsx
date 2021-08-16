@@ -1,16 +1,16 @@
 import { useContext, useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';
 
 import UserContext from '@store/UserContext';
 import { dateToHumanReadableDate } from '@lib/v1/time';
 
-const DynamicDropdownMenu = dynamic(() =>
-	import('@components/UI/V1/DropdownMenu')
-);
+// const DynamicDropdownMenu = dynamic(() =>
+// 	import('@components/UI/V1/DropdownMenu')
+// );
 
-// import DropdownMenu from '@components/UI/V1/DropdownMenu';
+import DropdownMenu from '@components/UI/V1/DropdownMenu';
 import CommentTextarea from '../CommentTextarea';
 import Image from '@components/UI/V1/Image';
 
@@ -357,6 +357,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 						deleteBtnsDisabled,
 					}) => (
 						<button
+							title='Delete Comment'
 							disabled={deleteBtnsDisabled}
 							onClick={() => {
 								let bodyObj = {};
@@ -391,6 +392,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 					},
 					Element: ({ setShowContent, setFocusCommentTextarea }) => (
 						<button
+							title='Edit Comment'
 							onClick={() => {
 								setShowContent(false);
 								setFocusCommentTextarea(true);
@@ -436,7 +438,10 @@ const Comment = ({ comment, data, setData, ...props }) => {
 					</div>
 				</nav>
 				{user.id === comment.author_id && showContent && (
-					<DynamicDropdownMenu items={items} />
+					<DropdownMenu
+						// DynamicDropdownMenu
+						items={items}
+					/>
 				)}
 			</header>
 			{showContent && (
@@ -460,7 +465,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 				/>
 			)}
 			<footer className={classes.footer}>
-				<div>
+				<p>
 					<span>
 						<small>
 							<strong>Created At:</strong>{' '}
@@ -487,12 +492,13 @@ const Comment = ({ comment, data, setData, ...props }) => {
 							</small>
 						</span>
 					)}
-				</div>
+				</p>
 				<button
+					title='Reply To A Comment'
 					title='Comment'
 					onClick={() => setShowReplyTextarea((prev) => !prev)}
 				>
-					Comment
+					Reply
 				</button>
 			</footer>
 			{comment.type === 'comment_main' &&
@@ -500,7 +506,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 				!showReplies && (
 					// !hitRepliesLimit &&
 					<button
-						title={`${comment.replies_counter === 1 ? 'Comment' : 'Comments'} ${
+						title={`${comment.replies_counter === 1 ? 'Reply' : 'Replies'} ${
 							comment.replies_counter
 						}`}
 						disabled={loadingReplies}
@@ -519,7 +525,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 						}}
 					>
 						<p>
-							{comment.replies_counter === 1 ? 'Comment' : 'Comments'}{' '}
+							{comment.replies_counter === 1 ? 'Reply' : 'Replies'}{' '}
 							{comment.replies_counter}
 						</p>
 					</button>

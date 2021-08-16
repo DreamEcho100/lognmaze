@@ -1,7 +1,7 @@
 // import classes from './EditUserInfo.module.css';
 
-import AccordionSettingsDisplayer from '../UI/AccordionSettingsDisplayer/AccordionSettingsDisplayer';
-import ButtonModuleDisplayer from '../UI/ButtonModuleDisplayer/ButtonModuleDisplayer';
+import AccordionSettingsShower from '../UI/AccordionSettingsShower';
+import ButtonModalShower from '../UI/ButtonModalShower';
 
 import ChangeUserNameModal from './ChangeUserNameModal/ChangeUserNameModal';
 import ChangeUserGenderModal from './ChangeUserGenderModal/ChangeUserGenderModal';
@@ -10,22 +10,22 @@ import ChangeCoverPhotoModal from './ChangeCoverPhotoModal/ChangeCoverPhotoModal
 
 const EditUserInfo = () => {
 	return (
-		<AccordionSettingsDisplayer
+		<AccordionSettingsShower
 			headerText='Edit Your Basic Data'
 			bodyItems={[
-				<ButtonModuleDisplayer
+				<ButtonModalShower
 					buttonText='Change Your First/Last Name'
 					ModalElement={ChangeUserNameModal}
 				/>,
-				<ButtonModuleDisplayer
+				<ButtonModalShower
 					buttonText='Change Your Gender'
 					ModalElement={ChangeUserGenderModal}
 				/>,
-				<ButtonModuleDisplayer
+				<ButtonModalShower
 					buttonText='Change Your Profile Picture'
 					ModalElement={ChangeProfilePictureModal}
 				/>,
-				<ButtonModuleDisplayer
+				<ButtonModalShower
 					buttonText='Change Your Cover Photo'
 					ModalElement={ChangeCoverPhotoModal}
 				/>,

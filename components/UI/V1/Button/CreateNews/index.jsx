@@ -1,9 +1,17 @@
-import { useState } from 'react';
-import CreateAction from '../../UI/V1/News/Action/Action';
+import { useContext, useState } from 'react';
 
-import Button from '../../UI/V1/Button';
+import UserContext from '@store/UserContext';
+
+import Action from '@components/UI/V1/News/Action/Action';
+import Button from '@components/UI/V1/Button';
 
 const CreateNewsButton = () => {
+	const { userExist } = useContext(UserContext);
+
+	if (!userExist) {
+		return <></>;
+	}
+
 	const [showCreateNewsButtonModal, setShowCreateNewsButtonModal] =
 		useState(false);
 
@@ -15,7 +23,7 @@ const CreateNewsButton = () => {
 			>
 				Create A News
 			</Button>
-			<CreateAction
+			<Action
 				closeModal={() => setShowCreateNewsButtonModal(false)}
 				showModal={showCreateNewsButtonModal}
 				setShowModal={setShowCreateNewsButtonModal}

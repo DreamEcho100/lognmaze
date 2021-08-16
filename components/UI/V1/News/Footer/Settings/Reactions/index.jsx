@@ -178,6 +178,7 @@ const Reactions = ({
 	return (
 		<div className={`${classes.reactions} ${classes.item}`}>
 			<button
+				title='upvote'
 				onClick={() => handleReaction('upvote')}
 				className={`${
 					user_reaction === 'upvote' ? classes['user-reaction'] : ''
@@ -192,6 +193,7 @@ const Reactions = ({
 				)}
 			</button>
 			<button
+				title='downvote'
 				onClick={() => handleReaction('downvote')}
 				className={`${
 					user_reaction === 'downvote' ? classes['user-reaction'] : ''

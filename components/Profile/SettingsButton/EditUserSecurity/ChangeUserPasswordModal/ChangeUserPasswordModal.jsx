@@ -1,13 +1,13 @@
 import { Fragment, useContext, useState } from 'react';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 
 import classes from './ChangeUserPasswordModal.module.css';
 
 import UserContext from '@store/UserContext';
 
-const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
+// const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
 
-// import Modal from '@components/UI/V1/Modal';
+import Modal from '@components/UI/V1/Modal';
 import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl';
 import Label from '@components/UI/V1/Label';
@@ -76,11 +76,12 @@ const ChangeUserPasswordModal = ({ showModal, setShowModal }) => {
 	};
 
 	return (
-		<DynamicModal
+		<Modal
+			// DynamicModal
 			showModal={showModal}
 			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (
-				<Button type='button' {...props}>
+				<Button title='Close' {...props}>
 					Close
 				</Button>
 			)}
@@ -128,6 +129,7 @@ const ChangeUserPasswordModal = ({ showModal, setShowModal }) => {
 						</div>
 					)}
 					<Button
+						title='Submit'
 						disabled={btnsDisabled}
 						type='submit'
 						className={classes.submitBtn}
@@ -136,7 +138,7 @@ const ChangeUserPasswordModal = ({ showModal, setShowModal }) => {
 					</Button>
 				</Form>
 			</Fragment>
-		</DynamicModal>
+		</Modal>
 	);
 };
 

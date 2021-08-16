@@ -18,6 +18,7 @@ const NavOnSmallScreens = ({ user, isLoading, handleSignOut }) => {
 					</Link>
 				</div>
 				<button
+					title='Click To Show Side Navbar'
 					onClick={() => setShowNavOnSmallScreens(!showNavOnSmallScreens)}
 					className={`${NavOnSmallScreensClasses['menu-toggle-button']} ${
 						showNavOnSmallScreens ? NavOnSmallScreensClasses.active : ''
@@ -72,7 +73,11 @@ const NavOnSmallScreens = ({ user, isLoading, handleSignOut }) => {
 					{!isLoading && user.id && (
 						<li>
 							<span onClick={() => setShowNavOnSmallScreens(false)}>
-								<Button defaultClasses='button-2' onClick={handleSignOut}>
+								<Button
+									title='Sign Out'
+									defaultClasses='button-2'
+									onClick={handleSignOut}
+								>
 									Sign Out
 								</Button>
 							</span>

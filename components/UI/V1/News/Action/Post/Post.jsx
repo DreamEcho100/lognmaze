@@ -1,3 +1,5 @@
+import Router, { useRouter } from 'next/router';
+
 import { Fragment, useContext, useState } from 'react';
 
 import classes from './Post.module.css';
@@ -12,6 +14,7 @@ import Textarea from '@components/UI/V1/Textarea';
 import Button from '@components/UI/V1/Button';
 
 const Post = ({ closeModal, fetcher, actionType, data, setData }) => {
+	const router = useRouter();
 	const { user, ...UserCxt } = useContext(UserContext);
 
 	const [values, setValues] = useState({
@@ -70,9 +73,9 @@ const Post = ({ closeModal, fetcher, actionType, data, setData }) => {
 						setFormMessage(message);
 						return;
 					}
-					setBtnsDisabled(false);
 					if (actionType === 'create') {
-						resetInputs();
+						// resetInputs();
+						return router.reload(window.location.pathname);
 					} else if (actionType === 'update') {
 						setData((prev) => ({
 							...prev,
@@ -82,6 +85,8 @@ const Post = ({ closeModal, fetcher, actionType, data, setData }) => {
 
 						setTimeout(() => closeModal(), 100);
 					}
+
+					setBtnsDisabled(false);
 				});
 		} catch (error) {
 			console.error(error);
@@ -132,7 +137,7 @@ const Post = ({ closeModal, fetcher, actionType, data, setData }) => {
 				</div>
 			)}
 			<FormControl className={classes['form-control']}>
-				<Button disabled={btnsDisabled} type='submit'>
+				<Button title='Submit' disabled={btnsDisabled} type='submit'>
 					submit
 				</Button>
 			</FormControl>

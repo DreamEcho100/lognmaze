@@ -184,13 +184,14 @@ const Comments = ({
 			<div>
 				{!hitCommentsLimit && (
 					<button
+						title='Load More'
 						disabled={loadingComments}
 						onClick={async () => await LoadComments()}
 					>
 						<h3>Load More</h3>
 					</button>
 				)}
-				<button disabled={loadingComments}>
+				<button title='Hide Comments' disabled={loadingComments}>
 					<h3
 						onClick={() => {
 							if (showComments) setShowComments(false);

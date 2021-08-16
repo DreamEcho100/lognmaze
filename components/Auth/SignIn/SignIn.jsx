@@ -47,6 +47,7 @@ const SignIn = () => {
 	return (
 		<Form
 			extraClasses={`${BoxShadowClasses['box-shadow']}`}
+			className={classes['sign-in-form']}
 			onSubmit={submitHandler}
 		>
 			<FormControl className={classes.control}>
@@ -78,6 +79,7 @@ const SignIn = () => {
 			)}
 			<FormControl extraClasses='align-center' className={classes.actions}>
 				<Button
+					title='Sign In'
 					disabled={btnsDisabled}
 					type='submit'
 					className={classes.submitBtn}

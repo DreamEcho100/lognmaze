@@ -1,10 +1,10 @@
 import { Fragment } from 'react';
 
-import classes from './AccordionSettingsDisplayer.module.css';
+import classes from './index.module.css';
 
 import Accordion from '@components/UI/V1/Accordion';
 
-const AccordionSettingsDisplayer = ({ headerText, bodyItems }) => {
+const AccordionSettingsShower = ({ headerText, bodyItems }) => {
 	return (
 		<Accordion>
 			<Fragment key='header'>
@@ -23,4 +23,4 @@ const AccordionSettingsDisplayer = ({ headerText, bodyItems }) => {
 	);
 };
 
-export default AccordionSettingsDisplayer;
+export default AccordionSettingsShower;

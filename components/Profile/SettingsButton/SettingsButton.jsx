@@ -1,11 +1,11 @@
 import { Fragment, useState } from 'react';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 
 // import classes from './SettingsButton.module.css';
 
-const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
+// const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
 
-// import Modal from '../../UI/V1/Modal';
+import Modal from '../../UI/V1/Modal';
 import EditUserInfo from './EditUserInfo/EditUserInfo';
 import EditUserSecurity from './EditUserSecurity/EditUserSecurity';
 import Button from '../../UI/V1/Button';
@@ -15,13 +15,16 @@ const SettingsButton = () => {
 
 	return (
 		<>
-			<Button onClick={() => setShowModal(true)}>Settings</Button>
+			<Button title='User Settings' onClick={() => setShowModal(true)}>
+				Settings
+			</Button>
 
-			<DynamicModal
+			<Modal
+				// DynamicModal
 				showModal={showModal}
 				click={() => setShowModal(false)}
 				CloseButtonElement={(props) => (
-					<Button type='button' {...props}>
+					<Button title='Close' type='button' {...props}>
 						Close
 					</Button>
 				)}
@@ -33,7 +36,7 @@ const SettingsButton = () => {
 					<EditUserInfo />
 					<EditUserSecurity />
 				</Fragment>
-			</DynamicModal>
+			</Modal>
 		</>
 	);
 };

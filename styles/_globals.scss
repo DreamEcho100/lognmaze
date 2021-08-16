@@ -350,15 +350,13 @@ button:disabled {
 	cursor: not-allowed;
 }
 
-main#main {
-	/*width: 95%;*/
-	/* height: 100%; */
+// main#main
+.main {
 	max-width: 100%;
 	min-height: 100vh;
 	border-radius: 0.2rem;
 	margin: 1em auto;
 	padding: 1em;
-	/*background-color: var(--main-bg-color-0);*/
 }
 
 .font-size-inherit {

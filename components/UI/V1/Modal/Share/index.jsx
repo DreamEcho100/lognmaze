@@ -1,16 +1,16 @@
 import { Fragment } from 'react';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
 
-const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
-const DynamicSocialMediaShareLink = dynamic(() =>
-	import('@components/UI/V1/SocialMediaShareLink')
-);
+// const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
+// const DynamicSocialMediaShareLink = dynamic(() =>
+// 	import('@components/UI/V1/SocialMediaShareLink')
+// );
 
-// import Modal from '@components/UI/V1/Modal';
-// import SocialMediaShareLink from '@components/UI/V1/SocialMediaShareLink';
+import Modal from '@components/UI/V1/Modal';
+import SocialMediaShareLink from '@components/UI/V1/SocialMediaShareLink';
 import Button from '@components/UI/V1/Button';
 
 const ShareModel = ({
@@ -45,12 +45,13 @@ const ShareModel = ({
 	}
 
 	return (
-		<DynamicModal
+		<Modal
+			// DynamicModal
 			showModal={showShareModel}
 			setShowShareModel={setShowShareModel}
 			click={() => setShowShareModel(false)}
 			CloseButtonElement={(props) => (
-				<Button type='button' {...props}>
+				<Button title='Close' {...props}>
 					Close
 				</Button>
 			)}
@@ -62,9 +63,11 @@ const ShareModel = ({
 				<section>
 					{(paltforms.all || paltforms.facebook) && (
 						<button
+							title='Facebook Share Button'
 							className={`${classes['social-platform']} ${classes.facebook}`}
 						>
-							<DynamicSocialMediaShareLink
+							<SocialMediaShareLink
+								// DynamicSocialMediaShareLink
 								type='facebook'
 								url={url}
 								quote={quote}
@@ -72,14 +75,16 @@ const ShareModel = ({
 							>
 								<FontAwesomeIcon icon={['fab', 'facebook']} />
 								<p className={classes['link-text']}>Facebook</p>
-							</DynamicSocialMediaShareLink>
+							</SocialMediaShareLink>
 						</button>
 					)}
 					{(paltforms.all || paltforms.linkedin) && (
 						<button
+							title='Linkedin Share Button'
 							className={`${classes['social-platform']} ${classes.linkedin}`}
 						>
-							<DynamicSocialMediaShareLink
+							<SocialMediaShareLink
+								// DynamicSocialMediaShareLink
 								type='linkedin'
 								url={url}
 								title={title}
@@ -88,42 +93,48 @@ const ShareModel = ({
 							>
 								<FontAwesomeIcon icon={['fab', 'linkedin']} />
 								<p className={classes['link-text']}>Linkedin</p>
-							</DynamicSocialMediaShareLink>
+							</SocialMediaShareLink>
 						</button>
 					)}
 					{(paltforms.all || paltforms.reddit) && (
 						<button
+							title='Reddit Share Button'
 							className={`${classes['social-platform']} ${classes.reddit}`}
 						>
-							<DynamicSocialMediaShareLink
+							<SocialMediaShareLink
+								// DynamicSocialMediaShareLink
 								type='reddit'
 								url={url}
 								title={title}
 							>
 								<FontAwesomeIcon icon={['fab', 'reddit']} />
 								<p className={classes['link-text']}>Reddit</p>
-							</DynamicSocialMediaShareLink>
+							</SocialMediaShareLink>
 						</button>
 					)}
 					{(paltforms.all || paltforms.telegram) && (
 						<button
+							title='Telegram Share Button'
 							className={`${classes['social-platform']} ${classes.telegram}`}
 						>
-							<DynamicSocialMediaShareLink
+							<SocialMediaShareLink
+								// DynamicSocialMediaShareLink
 								type='telegram'
 								url={url}
 								title={title}
 							>
 								<FontAwesomeIcon icon={['fab', 'telegram']} />
 								<p className={classes['link-text']}>Telegram</p>
-							</DynamicSocialMediaShareLink>
+							</SocialMediaShareLink>
 						</button>
 					)}
 					{(paltforms.all || paltforms.tumblr) && (
 						<button
+							title='Tumblr Share Button'
 							className={`${classes['social-platform']} ${classes.tumblr}`}
 						>
-							<DynamicSocialMediaShareLink
+							<SocialMediaShareLink
+								// DynamicSocialMediaShareLink
 								type='tumblr'
 								url={url}
 								title={title}
@@ -132,14 +143,16 @@ const ShareModel = ({
 							>
 								<FontAwesomeIcon icon={['fab', 'tumblr']} />
 								<p className={classes['link-text']}>Tumblr</p>
-							</DynamicSocialMediaShareLink>
+							</SocialMediaShareLink>
 						</button>
 					)}
 					{(paltforms.all || paltforms.twitter) && (
 						<button
+							title='Twitter Share Button'
 							className={`${classes['social-platform']} ${classes.twitter}`}
 						>
-							<DynamicSocialMediaShareLink
+							<SocialMediaShareLink
+								// DynamicSocialMediaShareLink
 								type='twitter'
 								url={url}
 								text={title}
@@ -147,26 +160,28 @@ const ShareModel = ({
 							>
 								<FontAwesomeIcon icon={['fab', 'twitter']} />
 								<p className={classes['link-text']}>Twitter</p>
-							</DynamicSocialMediaShareLink>
+							</SocialMediaShareLink>
 						</button>
 					)}
 					{(paltforms.all || paltforms.whatsapp) && (
 						<button
+							title='Whatsapp Share Button'
 							className={`${classes['social-platform']} ${classes.whatsapp}`}
 						>
-							<DynamicSocialMediaShareLink
+							<SocialMediaShareLink
+								// DynamicSocialMediaShareLink
 								type='whatsapp'
 								url={url}
 								title={title}
 							>
 								<FontAwesomeIcon icon={['fab', 'whatsapp']} />
 								<p className={classes['link-text']}>Whatsapp</p>
-							</DynamicSocialMediaShareLink>
+							</SocialMediaShareLink>
 						</button>
 					)}
 				</section>
 			</Fragment>
-		</DynamicModal>
+		</Modal>
 	);
 };
 

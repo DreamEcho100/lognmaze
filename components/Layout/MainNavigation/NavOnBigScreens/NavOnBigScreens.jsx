@@ -33,6 +33,7 @@ const NavOnBigScreens = ({ user, isLoading, handleSignOut }) => {
 				{!isLoading && user.id && (
 					<li className={MainNavigationClasses.li}>
 						<button
+							title='Sign Out'
 							className={MainNavigationClasses.button}
 							onClick={handleSignOut}
 						>

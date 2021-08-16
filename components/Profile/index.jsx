@@ -2,6 +2,9 @@ import { Fragment, useState } from 'react';
 
 import classes from './index.module.css';
 
+import { dateToHumanReadableDate } from '@lib/v1/time';
+
+// import CreateNewsButton from '@components/UI/V1/Button/CreateNews';
 import CreateNewsButton from './CreateNewsButton/CreateNewsButton';
 import SettingsButton from './SettingsButton/SettingsButton';
 
@@ -25,7 +28,7 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, news = [] }) => {
 	}
 
 	return (
-		<main id='main' className={`${classes.profile}`}>
+		<main className={`${classes.profile} main`}>
 			<Wrapper>
 				<div className={classes['cover_photo-container']}>
 					<Image
@@ -44,15 +47,30 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, news = [] }) => {
 				<div className={classes['basic-data']}>
 					<h3>{userData.user_name_id}</h3>
 					<p>{userData.gender}</p>
-					<p>{userData.created_at}</p>
 				</div>
 				{visitorIdentity === OWNER && <SettingsButton />}
 			</Wrapper>
 
 			<section className={classes['main-section']}>
-				{/* <Wrapper> */}
-				<Feed className={classes['section-1']} news={news} />
-				{/* </Wrapper> */}
+				<section>
+					<Feed className={classes['section-1']} news={news} />
+					<Wrapper>
+						<p>
+							<span>
+								<small>
+									<strong>Account Created At:</strong>{' '}
+									<em>
+										{
+											dateToHumanReadableDate(userData.created_at, {
+												withTime: true,
+											}).dateAndTimeString
+										}
+									</em>
+								</small>
+							</span>
+						</p>
+					</Wrapper>
+				</section>
 				<section className={classes['section-2']}>
 					<Wrapper>
 						{visitorIdentity === OWNER && <CreateNewsButton />}

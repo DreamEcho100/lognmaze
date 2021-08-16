@@ -7,6 +7,7 @@ const Button = ({
 	extraClasses = '',
 	className = '',
 	children,
+	type = 'button',
 	...props
 }) => {
 	const allClasses = handleAllClasses({
@@ -16,11 +17,13 @@ const Button = ({
 		className,
 	});
 
-	return (
-		<button {...props} className={allClasses}>
-			{children}
-		</button>
-	);
+	const buttonProps = {
+		className: allClasses,
+		type,
+		...props,
+	};
+
+	return <button {...buttonProps}>{children}</button>;
 };
 
 export default Button;

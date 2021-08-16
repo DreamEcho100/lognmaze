@@ -170,7 +170,7 @@ CREATE TABLE news_reactor (
   CONSTRAINT news_reactor_id PRIMARY KEY (news_id, news_reactor_id),
 
   FOREIGN KEY (news_reaction_id) REFERENCES news_reaction (news_reaction_id) ON DELETE CASCADE,
-  FOREIGN KEY (news_id) REFERENCES news (news_id),
+  FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE,
   FOREIGN KEY (news_reactor_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
 
   CONSTRAINT news_type_reactor UNIQUE (news_reaction_id, news_reactor_id)

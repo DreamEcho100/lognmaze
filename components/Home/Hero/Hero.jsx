@@ -10,8 +10,14 @@ const Hero = ({ user = {} }) => {
 		<section className={classes.hero}>
 			{!user.id && (
 				<div>
-					<Button onClick={() => router.replace('/auth')}>Sign In</Button> or{' '}
-					<Button onClick={() => router.replace('/auth?sign-type=up')}>
+					<Button title='Sign In' onClick={() => router.replace('/auth')}>
+						Sign In
+					</Button>{' '}
+					or{' '}
+					<Button
+						title='Sign Up'
+						onClick={() => router.replace('/auth?sign-type=up')}
+					>
 						Sign Up
 					</Button>
 				</div>

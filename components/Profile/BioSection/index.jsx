@@ -1,14 +1,14 @@
 import { Fragment, useContext, useState } from 'react';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';
 
 import UserContext from '@store/UserContext';
 
-const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
+// const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
 
+import Modal from '@components/UI/V1/Modal';
 import Button from '@components/UI/V1/Button';
-// import Modal from '@components/UI/V1/Modal';
 import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl';
 import Label from '@components/UI/V1/Label';
@@ -50,13 +50,16 @@ const BioSection = ({ bio = '', visitorIdentity }) => {
 			<header className={classes.header}>
 				<h2>Bio:</h2>
 				{visitorIdentity === OWNER && (
-					<Button onClick={() => setShowBioEditModal(true)}>Edit</Button>
+					<Button title='Edit' onClick={() => setShowBioEditModal(true)}>
+						Edit
+					</Button>
 				)}
-				<DynamicModal
+				<Modal
+					// DynamicModal
 					showModal={showBioEditModal}
 					click={() => setShowBioEditModal(false)}
 					CloseButtonElement={(props) => (
-						<Button type='button' {...props}>
+						<Button title='Close' type='button' {...props}>
 							Close
 						</Button>
 					)}
@@ -75,12 +78,12 @@ const BioSection = ({ bio = '', visitorIdentity }) => {
 									value={values.bio}
 								/>
 							</FormControl>
-							<Button disabled={DisableBtns} type='submit'>
+							<Button title='Submit' disabled={DisableBtns} type='submit'>
 								Submit
 							</Button>
 						</Form>
 					</Fragment>
-				</DynamicModal>
+				</Modal>
 			</header>
 			<main>
 				<p>{bio}</p>

@@ -57,17 +57,20 @@ const AuthPage = ({
 		return (
 			<>
 				<p>You Are Already Signed!</p>
-				<Button onClick={() => router.replace('/')}>
+				<Button title='Return To Home Page' onClick={() => router.replace('/')}>
 					Return To Home Page
 				</Button>{' '}
-				or <Button onClick={() => handleSignOut()}>Sign Out</Button>
+				or{' '}
+				<Button title='Sign Out' onClick={() => handleSignOut()}>
+					Sign Out
+				</Button>
 			</>
 		);
 	}
 
 	return (
 		<>
-			<AuthPage
+			<DynamicAuth
 				signType={signType}
 				UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
 					UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN

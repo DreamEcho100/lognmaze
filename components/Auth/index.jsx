@@ -1,53 +1,59 @@
 import { useContext, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';
 
 import UserContext from '../../store/UserContext';
 
-import SignIn from './SignIn/SignIn';
-import SignUp from './SignUp/SignUp';
+const DynamicSignUp = dynamic(() => import('./SignUp/SignUp'));
+const DynamicSignIn = dynamic(() => import('./SignIn/SignIn'));
+
+// import SignIn from './SignIn/SignIn';
+// import SignUp from './SignUp/SignUp';
 import Button from '@components/UI/V1/Button';
 
 const Auth = ({
 	UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN,
-	signType,
+	// signType,
+	...props
 }) => {
 	const { user, ...UserCxt } = useContext(UserContext);
 
-	const [signInComponent, setSignInComponent] = useState(true);
+	const [signType, setSignType] = useState('');
 
 	useEffect(() => {
-		if (signType === 'up') {
-			setSignInComponent(false);
-		}
+		// if (signType === 'up') {
+		// 	setSignInComponent(false);
+		// }
+		console.log('props.signType', props.signType);
+		setSignType(props.signType || 'in');
 	}, []);
 
 	return (
-		<main id='main' className={classes.auth}>
+		<main className={`${classes.auth} main`}>
 			<header className={classes.header}>
 				<nav>
 					<ul>
 						<li
 							onClick={() => {
-								setSignInComponent(true);
+								setSignType('in');
 							}}
 						>
-							<Button>Sign In</Button>
+							<Button title='Sign In'>Sign In</Button>
 						</li>
 						<li
 							onClick={() => {
-								setSignInComponent(false);
+								setSignType('up');
 							}}
 						>
-							<Button>Sign Up</Button>
+							<Button title='Sign Up'>Sign Up</Button>
 						</li>
 					</ul>
 				</nav>
 			</header>
-			{signInComponent ? (
-				<SignIn />
-			) : (
-				<SignUp
+			{signType === 'in' && <DynamicSignIn />}
+			{signType === 'up' && (
+				<DynamicSignUp
 					UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
 						UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN
 					}

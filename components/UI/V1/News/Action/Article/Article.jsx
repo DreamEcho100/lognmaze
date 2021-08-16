@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 import { useContext, useEffect, useState } from 'react';
 
 import classes from './Article.module.css';
@@ -25,6 +27,8 @@ const iso_countriesKeys = (() => {
 })();
 
 const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
+	const router = useRouter();
+
 	const { user, ...UserCxt } = useContext(UserContext);
 
 	const [values, setValues] = useState({
@@ -139,9 +143,9 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 						setFormMessage(message);
 						return;
 					}
-					setBtnsDisabled(false);
 					if (actionType === 'create') {
-						resetInputs();
+						// resetInputs();
+						return router.reload(window.location.pathname);
 					} else if (actionType === 'update') {
 						setData((prev) => ({
 							...prev,
@@ -151,6 +155,8 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 
 						setTimeout(() => closeModal(), 0);
 					}
+
+					setBtnsDisabled(false);
 				});
 		} catch (error) {
 			console.error(error);
@@ -425,7 +431,7 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 				</div>
 			)}
 			<FormControl>
-				<Button disabled={btnsDisabled} type='submit'>
+				<Button title='Submit' disabled={btnsDisabled} type='submit'>
 					submit
 				</Button>
 			</FormControl>

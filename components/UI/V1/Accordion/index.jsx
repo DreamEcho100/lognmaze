@@ -45,6 +45,7 @@ const Accordion = ({
 			<div className={`${classes['accordion-header']} accordion-header`}>
 				<div className={classes['container']}>{findByKey('header')}</div>
 				<button
+					title='toggle accordion body'
 					className={`${classes['toggle-accordion-body']} ${
 						hideAccordion ? classes['toggle'] : ''
 					}`}

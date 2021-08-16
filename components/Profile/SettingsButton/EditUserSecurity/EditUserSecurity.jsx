@@ -1,20 +1,20 @@
 // import classes from './EditUserSecurity.module.css';
 
-import AccordionSettingsDisplayer from '../UI/AccordionSettingsDisplayer/AccordionSettingsDisplayer';
-import ButtonModuleDisplayer from '../UI/ButtonModuleDisplayer/ButtonModuleDisplayer';
+import AccordionSettingsShower from '../UI/AccordionSettingsShower';
+import ButtonModalShower from '../UI/ButtonModalShower';
 import ChangeUserEmailModal from './ChangeUserEmailModal/ChangeUserEmailModal';
 import ChangeUserPasswordModal from './ChangeUserPasswordModal/ChangeUserPasswordModal';
 
 const EditUserSecurity = () => {
 	return (
-		<AccordionSettingsDisplayer
+		<AccordionSettingsShower
 			headerText='Edit Your Security'
 			bodyItems={[
-				<ButtonModuleDisplayer
+				<ButtonModalShower
 					buttonText='Change Your Email'
 					ModalElement={ChangeUserEmailModal}
 				/>,
-				<ButtonModuleDisplayer
+				<ButtonModalShower
 					buttonText='Change Your Password'
 					ModalElement={ChangeUserPasswordModal}
 				/>,

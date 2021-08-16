@@ -1,20 +1,20 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 
 import UserContext from '@store/UserContext';
 // import { NewsContextProvider } from '@store/NewsContext';
 
-const DynamicModalContainer = dynamic(() =>
-	import('./ModalContainer/ModalContainer')
-);
-const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
-const DynamicArticle = dynamic(() => import('./Article/Article'));
-const DynamicPost = dynamic(() => import('./Post/Post'));
+// const DynamicModalContainer = dynamic(() =>
+// 	import('./ModalContainer/ModalContainer')
+// );
+// const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
+// const DynamicArticle = dynamic(() => import('./Article/Article'));
+// const DynamicPost = dynamic(() => import('./Post/Post'));
 
-// import ModalContainer from './ModalContainer/ModalContainer';
-// import Article from './Article/Article';
-// import Post from './Post/Post';
-// import Modal from '@components/UI/V1/Modal';
+import ModalContainer from './ModalContainer/ModalContainer';
+import Article from './Article/Article';
+import Post from './Post/Post';
+import Modal from '@components/UI/V1/Modal';
 import Button from '@components/UI/V1/Button';
 import ContainerItems from '@components/UI/V1/News/Container/ContainerItems';
 
@@ -54,11 +54,15 @@ const Action = ({ closeModal, showModal, setShowModal, news, ...props }) => {
 		})
 			.then((response) => response.json())
 			.then(({ status, message, data, isAuthorized }) => {
-				news.setData({});
-			})
-			.then(() => {
-				setTimeout(() => closeModal(true), 10);
+				news.setData((prev) => {
+					closeModal();
+					console.log(prev);
+					return {};
+				});
 			});
+		// .then(() => {
+		// 	setTimeout(() => closeModal(), 10);
+		// });
 	};
 
 	if (news.action === 'update') {
@@ -68,7 +72,8 @@ const Action = ({ closeModal, showModal, setShowModal, news, ...props }) => {
 
 	if (news.action === 'create' || news.action === 'update') {
 		return (
-			<DynamicModalContainer
+			<ModalContainer
+				// DynamicModalContainer
 				showModal={showModal}
 				setShowModal={setShowModal}
 				closeModal={closeModal}
@@ -79,7 +84,8 @@ const Action = ({ closeModal, showModal, setShowModal, news, ...props }) => {
 				}}
 			>
 				{newsType === 'article' && (
-					<DynamicArticle
+					<Article
+						// DynamicArticle
 						closeModal={closeModal}
 						fetcher={fetcher}
 						actionType={news.action}
@@ -87,26 +93,28 @@ const Action = ({ closeModal, showModal, setShowModal, news, ...props }) => {
 					/>
 				)}
 				{newsType === 'post' && (
-					<DynamicPost
+					<Post
+						// DynamicPost
 						closeModal={closeModal}
 						fetcher={fetcher}
 						actionType={news.action}
 						{...extraProps}
 					/>
 				)}
-			</DynamicModalContainer>
+			</ModalContainer>
 		);
 	}
 
 	if (news.action === 'delete') {
 		return (
-			<DynamicModal
+			<Modal
+				// DynamicModal
 				showModal={showModal}
 				setShowModal={setShowModal}
 				showModal={showModal}
 				click={() => closeModal(true)}
 				CloseButtonElement={(props) => (
-					<Button type='button' {...props}>
+					<Button title='button' {...props}>
 						Close
 					</Button>
 				)}
@@ -119,8 +127,12 @@ const Action = ({ closeModal, showModal, setShowModal, news, ...props }) => {
 					<header>
 						<h2>Are you sure you want to delete it?</h2>
 						<div>
-							<Button onClick={() => deleteNews()}>Yes</Button>
-							<Button onClick={() => closeModal(true)}>No</Button>
+							<Button title='Yes' onClick={() => deleteNews()}>
+								Yes
+							</Button>
+							<Button title='No' onClick={() => closeModal()}>
+								No
+							</Button>
 						</div>
 					</header>
 				</Fragment>
@@ -154,7 +166,7 @@ const Action = ({ closeModal, showModal, setShowModal, news, ...props }) => {
 						// isLoadingContent={isLoadingContent}
 					/>
 				</Fragment>
-			</DynamicModal>
+			</Modal>
 		);
 	}
 };

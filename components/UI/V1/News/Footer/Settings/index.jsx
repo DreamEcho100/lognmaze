@@ -57,7 +57,9 @@ const Settings = ({
 				</button>
 			</div>
 			<div className={`${classes.more} ${classes.item}`}>
-				<button>More</button>
+				<button title='More (None At The Moment)' disabled>
+					More
+				</button>
 			</div>
 		</section>
 	);

@@ -27,6 +27,7 @@ const Header = ({ news, newsType, setNewsType }) => {
 					<ul className={classes.ul}>
 						<li>
 							<Button
+								title='Article'
 								onClick={() => {
 									if (newsType !== 'article') setNewsType('article');
 								}}
@@ -36,6 +37,7 @@ const Header = ({ news, newsType, setNewsType }) => {
 						</li>
 						<li>
 							<Button
+								title='Post'
 								onClick={() => {
 									if (newsType !== 'post') setNewsType('post');
 								}}

@@ -17,6 +17,7 @@ const Status = ({ data, showComments, setShowComments }) => {
 
 					return (
 						<button
+							title={item.type}
 							key={item.news_reaction_id || index}
 							className={`${classes.reaction} ${item.type}`}
 						>
@@ -33,16 +34,20 @@ const Status = ({ data, showComments, setShowComments }) => {
 				}}
 				className={`${classes.comments_counter} ${classes['status-item']}`}
 			>
-				<button>
-					{data.comments_counter === 0 ? (
+				{data.comments_counter === 0 ? (
+					<button title='No Comment'>
 						<FontAwesomeIcon icon={['fas', 'comment-slash']} />
-					) : data.comments_counter === 1 ? (
+					</button>
+				) : data.comments_counter === 1 ? (
+					<button title='1 Comment'>
 						<FontAwesomeIcon icon={['fas', 'comment']} />
-					) : (
+					</button>
+				) : (
+					<button title={`${data.comments_counter} Comments`}>
 						<FontAwesomeIcon icon={['fas', 'comments']} />
-					)}{' '}
-					{data.comments_counter}
-				</button>
+					</button>
+				)}{' '}
+				{data.comments_counter}
 			</div>
 		</section>
 	);

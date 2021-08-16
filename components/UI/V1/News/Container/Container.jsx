@@ -1,5 +1,5 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 
 import classes from './Container.module.css';
 // import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
@@ -8,9 +8,9 @@ import BorderClasses from '@components/UI/V1/Border.module.css';
 import NewsContext from '@store/NewsContext';
 import { handleAllClasses } from '../../utils/index';
 
-const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
+// const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
 
-// import Modal from '@components/UI/V1/Modal';
+import Modal from '@components/UI/V1/Modal';
 
 import ContainerItems from './ContainerItems';
 
@@ -68,7 +68,7 @@ const Container = ({
 	}, []);
 
 	if (Object.keys(news).length === 0) {
-		return <article style={{ minHeight: '100vh' }}></article>;
+		return <article />;
 	}
 
 	if (news.type === 'article')
@@ -91,12 +91,13 @@ const Container = ({
 			/>
 
 			{props.modalOnClick && (
-				<DynamicModal
+				<Modal
+					// DynamicModal
 					showModal={showModal}
 					setShowModal={setShowModal}
 					click={() => setShowModal(false)}
 					CloseButtonElement={(props) => (
-						<Button type='button' {...props}>
+						<Button title='Close' {...props}>
 							Close
 						</Button>
 					)}
@@ -121,7 +122,7 @@ const Container = ({
 							detailsType='content'
 						/>
 					</Fragment>
-				</DynamicModal>
+				</Modal>
 			)}
 		</>
 	);
