@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import Link from 'next/link';
 // import Image from 'next/image';
@@ -9,6 +10,8 @@ import classes from './index.module.css';
 import Image from '@components/UI/V1/Image';
 
 const Details = ({ content }) => {
+	const [hasError, setHasError] = useState(false);
+
 	const customRenderers = {
 		// img(image) {
 		//   return (
@@ -95,30 +98,74 @@ const Details = ({ content }) => {
 			);
 		},
 		h1: ({ children, ...props }) => (
-			<h1 id={`h1_${children[0].replace(/[^\w]/g, '-')}`}>{children}</h1>
+			<h1
+				id={`h1_${
+					children && /* children[0] && */ children[0].replace(/[^\w]/g, '-')
+				}`}
+			>
+				{children}
+			</h1>
 		),
 		h2: ({ children, ...props }) => (
-			<h2 id={`h2_${children[0].replace(/[^\w]/g, '-')}`}>{children}</h2>
+			<h2
+				id={`h2_${
+					children && /* children[0] && */ children[0].replace(/[^\w]/g, '-')
+				}`}
+			>
+				{children}
+			</h2>
 		),
 		h3: ({ children, ...props }) => (
-			<h3 id={`h3_${children[0].replace(/[^\w]/g, '-')}`}>{children}</h3>
+			<h3
+				id={`h3_${
+					children && /* children[0] && */ children[0].replace(/[^\w]/g, '-')
+				}`}
+			>
+				{children}
+			</h3>
 		),
 		h4: ({ children, ...props }) => (
-			<h4 id={`h4_${children[0].replace(/[^\w]/g, '-')}`}>{children}</h4>
+			<h4
+				id={`h4_${
+					children && /* children[0] && */ children[0].replace(/[^\w]/g, '-')
+				}`}
+			>
+				{children}
+			</h4>
 		),
 		h5: ({ children, ...props }) => (
-			<h5 id={`h5_${children[0].replace(/[^\w]/g, '-')}`}>{children}</h5>
+			<h5
+				id={`h5_${
+					children && /* children[0] && */ children[0].replace(/[^\w]/g, '-')
+				}`}
+			>
+				{children}
+			</h5>
 		),
 		h6: ({ children, ...props }) => (
-			<h6 id={`h6_${children[0].replace(/[^\w]/g, '-')}`}>{children}</h6>
+			<h6
+				id={`h6_${
+					children && /* children[0] && */ children[0].replace(/[^\w]/g, '-')
+				}`}
+			>
+				{children}
+			</h6>
 		),
 	};
 
-	return (
-		<main className={classes['format-md']}>
-			<ReactMarkdown components={customRenderers}>{content}</ReactMarkdown>
-		</main>
-	);
+	if (hasError) {
+		return <>Error</>;
+	}
+
+	try {
+		return (
+			<main className={classes['format-md']}>
+				<ReactMarkdown components={customRenderers}>{content}</ReactMarkdown>
+			</main>
+		);
+	} catch (error) {
+		setHasError(true);
+	}
 };
 
 export default Details;
