@@ -36,6 +36,7 @@
 	box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.33);
 	transition: all 0.3s ease;
 	font-family: Helvetica, Arial, sans-serif;
+	min-height: fit-content;
 	background-color: rgba(255, 255, 255, 0.95);
 }
 

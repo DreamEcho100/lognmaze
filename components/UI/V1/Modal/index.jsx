@@ -14,6 +14,7 @@ const Modal = ({
 	click,
 	CloseButtonElement,
 	showModal,
+	hideScrollOnView = true,
 }) => {
 	const modalWrapperRef = useRef();
 
@@ -49,10 +50,10 @@ const Modal = ({
 	useEffect(() => {
 		if (showModal) {
 			modalWrapperRef.current.scrollIntoView();
-			document.body.style.overflowY = 'hidden';
+			if (hideScrollOnView) document.body.style.overflowY = 'hidden';
 		} else {
 			click();
-			document.body.style.overflowY = 'auto';
+			if (hideScrollOnView) document.body.style.overflowY = 'auto';
 		}
 	}, [showModal]);
 

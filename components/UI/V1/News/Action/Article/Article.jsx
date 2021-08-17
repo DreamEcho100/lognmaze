@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 
 import classes from './Article.module.css';
-import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
+// import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 
 import ISO639_1LanguageCodes from '@data/ISO639_1LanguageCodes.json';
 import ISOCountryCodesCountriesISOCode from '@data/ISOCountryCodesCountriesISOCode.json';
@@ -18,6 +18,7 @@ import Input from '@components/UI/V1/Input';
 import Select from '@components/UI/V1/Select/Select';
 import Textarea from '@components/UI/V1/Textarea';
 import Button from '@components/UI/V1/Button';
+import FormatConvertorModal from '@components/UI/V1/Modal/FormatConvertor';
 
 const iso_languagesKeys = (() => {
 	return Object.keys(ISO639_1LanguageCodes);
@@ -45,6 +46,8 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 
 	const [formMessage, setFormMessage] = useState('');
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
+	const [showFormatConvertorModal, setShowFormatConvertorModal] =
+		useState(false);
 
 	const resetInputs = () => {
 		setValues({
@@ -423,6 +426,19 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 					{...sharedTextareaProps({
 						minLength: 100,
 					})}
+					onClick={() => setShowFormatConvertorModal(true)}
+				/>
+				<FormatConvertorModal
+					showModal={showFormatConvertorModal}
+					setShowModal={setShowFormatConvertorModal}
+					formatConvertorProps={{
+						setValues,
+						values,
+						name: 'content',
+						id: 'content',
+						fromFormatType: 'txt',
+						toFormatType: 'md',
+					}}
 				/>
 			</FormControl>
 			{formMessage.length !== 0 && (
