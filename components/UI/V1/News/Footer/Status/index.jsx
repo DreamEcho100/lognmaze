@@ -9,9 +9,9 @@ const Status = ({ data, showComments, setShowComments }) => {
 				{data.reactions.map((item, index) => {
 					let icon;
 
-					if (item.type === 'upvote') {
+					if (item.type === 'up') {
 						icon = ['fas', 'arrow-up'];
-					} else if (item.type === 'downvote') {
+					} else if (item.type === 'down') {
 						icon = ['fas', 'arrow-down'];
 					}
 

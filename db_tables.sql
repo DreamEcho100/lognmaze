@@ -156,8 +156,11 @@ CREATE TABLE news_reaction (
 
   CONSTRAINT unique_news_reaction_type UNIQUE (news_id, type) -- ,
 
-  -- CONSTRAINT news_reaction_type CHECK (type='upvote' OR type='downvote')
+  -- CONSTRAINT news_reaction_type CHECK (type='up' OR type='down')
 );
+
+ALTER TABLE news_reaction
+ADD CONSTRAINT news_reaction_type CHECK (type='up' OR type='down');
 
 -- news_reactor Table
 CREATE TABLE news_reactor (

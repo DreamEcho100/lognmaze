@@ -31,22 +31,22 @@ export const NewsContextProvider = ({ children }) => {
 			(Array.isArray(data.reactions) && data.reactions.length === 0)
 		) {
 			extraData.reactions = [
-				{ news_reaction_id: '', type: 'upvote', counter: 0 },
-				{ news_reaction_id: '', type: 'downvote', counter: 0 },
+				{ news_reaction_id: '', type: 'up', counter: 0 },
+				{ news_reaction_id: '', type: 'down', counter: 0 },
 			];
 		} else {
 			const messingReactions = [];
-			if (!data.reactions.find((item) => item.type === 'upvote')) {
+			if (!data.reactions.find((item) => item.type === 'up')) {
 				messingReactions.push({
 					news_reaction_id: '',
-					type: 'upvote',
+					type: 'up',
 					counter: 0,
 				});
 			}
-			if (!data.reactions.find((item) => item.type === 'downvote')) {
+			if (!data.reactions.find((item) => item.type === 'down')) {
 				messingReactions.push({
 					news_reaction_id: '',
-					type: 'downvote',
+					type: 'down',
 					counter: 0,
 				});
 			}

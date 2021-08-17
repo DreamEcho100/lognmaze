@@ -178,30 +178,28 @@ const Reactions = ({
 	return (
 		<div className={`${classes.reactions} ${classes.item}`}>
 			<button
-				title='upvote'
-				onClick={() => handleReaction('upvote')}
-				className={`${
-					user_reaction === 'upvote' ? classes['user-reaction'] : ''
-				}`}
+				title='up'
+				onClick={() => handleReaction('up')}
+				className={`${user_reaction === 'up' ? classes['user-reaction'] : ''}`}
 				disabled={reactBtnDisabled}
 			>
-				{/* Upvote */}
-				{user_reaction === 'upvote' ? (
+				{/* up */}
+				{user_reaction === 'up' ? (
 					<FontAwesomeIcon icon={['fas', 'long-arrow-alt-up']} />
 				) : (
 					<FontAwesomeIcon icon={['fas', 'arrow-up']} />
 				)}
 			</button>
 			<button
-				title='downvote'
-				onClick={() => handleReaction('downvote')}
+				title='down'
+				onClick={() => handleReaction('down')}
 				className={`${
-					user_reaction === 'downvote' ? classes['user-reaction'] : ''
+					user_reaction === 'down' ? classes['user-reaction'] : ''
 				}`}
 				disabled={reactBtnDisabled}
 			>
-				{/* Downvote */}
-				{user_reaction === 'downvote' ? (
+				{/* down */}
+				{user_reaction === 'down' ? (
 					<FontAwesomeIcon icon={['fas', 'long-arrow-alt-down']} />
 				) : (
 					<FontAwesomeIcon icon={['fas', 'arrow-down']} />
