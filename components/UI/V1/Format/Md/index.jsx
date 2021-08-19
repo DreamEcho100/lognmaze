@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import Link from 'next/link';
 // import Image from 'next/image';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -160,7 +161,11 @@ const Details = ({ content }) => {
 	try {
 		return (
 			<main className={classes['format-md']}>
-				<ReactMarkdown components={customRenderers}>{content}</ReactMarkdown>
+				<ReactMarkdown
+					children={content}
+					components={customRenderers}
+					remarkPlugins={[remarkGfm]}
+				/>
 			</main>
 		);
 	} catch (error) {

@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import Head from 'next/head';
 
 import classes from './SignIn.module.css';
 import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
@@ -65,6 +66,15 @@ const SignIn = () => {
 			className={classes['sign-in-form']}
 			onSubmit={submitHandler}
 		>
+			<Head>
+				<meta property='og:url' content={`https://lognmaze.com/auth/`} />
+				<meta name='twitter:url' content={`https://lognmaze.com/auth/`} />
+
+				<meta property='og:description' content='Sign in to LogNMaze' />
+				<meta name='description' content='Sign in to LogNMaze' />
+				<meta property='og:title' content='Sign in | LogNMaze' />
+				<title>Sign in | LogNMaze</title>
+			</Head>
 			<FormControl className={classes.control}>
 				<Label htmlFor='email'>Your Email</Label>
 				<Input

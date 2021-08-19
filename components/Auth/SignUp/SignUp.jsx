@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import Head from 'next/head';
 
 import classes from './SignUp.module.css';
 import BoxShadowClasses from '../../UI/V1/BoxShadow.module.css';
@@ -250,6 +251,21 @@ const SignUp = ({
 			className={classes['sign-up-form']}
 			onSubmit={submitHandler}
 		>
+			<Head>
+				<meta
+					property='og:url'
+					content={`https://lognmaze.com/auth/?sign-type=up`}
+				/>
+				<meta
+					name='twitter:url'
+					content={`https://lognmaze.com/auth/?sign-type=up`}
+				/>
+
+				<meta property='og:description' content='Sign up to LogNMaze' />
+				<meta name='description' content='Sign up to LogNMaze' />
+				<meta property='og:title' content='Sign up | LogNMaze' />
+				<title>Sign up | LogNMaze</title>
+			</Head>
 			<FormControls>
 				<FormControl extraClasses='align-center'>
 					<Label htmlFor='first_name'>Your First Name</Label>

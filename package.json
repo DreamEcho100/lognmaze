@@ -25,6 +25,7 @@
 		"react-dropzone": "^11.3.4",
 		"react-markdown": "^7.0.0",
 		"react-syntax-highlighter": "^15.4.4",
+		"remark-gfm": "^2.0.0",
 		"sass": "^1.37.5"
 	}
 }

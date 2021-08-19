@@ -1,4 +1,5 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
+import Head from 'next/head';
 
 import classes from './index.module.css';
 
@@ -29,6 +30,69 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, news = [] }) => {
 
 	return (
 		<main className={`${classes.profile} main`}>
+			<Head>
+				<meta property='og:locale' content='en_US' />
+				<meta property='og:type' content='profile' />
+				<meta property='profile:first_name' content={userData.first_name} />
+				<meta property='profile:last_name' content={userData.last_name} />
+				<meta property='profile:username' content={userData.user_name_id} />
+				<meta property='profile:gender' content={userData.gender} />
+				<meta
+					property='og:title'
+					content={`${userData.user_name_id} | LogNMaze`}
+				/>
+				<meta
+					property='og:url'
+					content={`https://lognmaze.com/profile/${userData.userData}`}
+				/>
+				<meta
+					name='twitter:url'
+					content={`https://lognmaze.com/profile/${userData.userData}`}
+				/>
+
+				{userData?.profile_picture?.length !== 0 ? (
+					<>
+						<meta property='og:image' content={userData.profile_picture} />
+						<meta property='og:image:width' content='250' />
+						<meta property='og:image:height' content='250' />
+						<meta
+							property='og:image:alt'
+							content={`${userData.user_name_id} profile picture`}
+						/>
+						<meta name='twitter:image' content={userData.profile_picture} />
+					</>
+				) : (
+					''
+				)}
+
+				{userData.bio && userData.bio.length > 20 ? (
+					<>
+						<meta property='og:description' content={userData.bio} />
+						<meta name='description' content={userData.bio} />
+						<meta name='twitter:description' content={userData.bio} />
+					</>
+				) : (
+					''
+				)}
+				<meta
+					property='og:url'
+					content={`https://lognmaze.com/profile/${userData.user_name_id}`}
+				/>
+				<meta
+					name='twitter:url'
+					content={`https://lognmaze.com/profile/${userData.user_name_id}`}
+				/>
+				<meta
+					name='twitter:title'
+					content={`${userData.user_name_id} | LogNMaze`}
+				/>
+
+				<meta
+					property='og:title'
+					content={`${userData.user_name_id} | LogNMaze`}
+				/>
+				<title>{userData.user_name_id} | LogNMaze</title>
+			</Head>
 			<Wrapper>
 				<div className={classes['cover_photo-container']}>
 					<Image
@@ -46,6 +110,9 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, news = [] }) => {
 				</div>
 				<div className={classes['basic-data']}>
 					<h3>{userData.user_name_id}</h3>
+					<h4>
+						{userData.first_name} {userData.last_name}
+					</h4>
 					<p>{userData.gender}</p>
 				</div>
 				{visitorIdentity === OWNER && <SettingsButton />}
@@ -83,9 +150,6 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, news = [] }) => {
 								<Fragment key='body'>
 									<div>
 										<p>{userData.role}</p>
-										<p>
-											{userData.first_name} {userData.last_name}
-										</p>
 
 										<p>{userData.state_of_birth}</p>
 										<p>{userData.country_of_birth}</p>
