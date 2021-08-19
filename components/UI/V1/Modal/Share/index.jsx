@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 // import dynamic from 'next/dynamic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -12,6 +12,9 @@ import classes from './index.module.css';
 import Modal from '@components/UI/V1/Modal';
 import SocialMediaShareLink from '@components/UI/V1/SocialMediaShareLink';
 import Button from '@components/UI/V1/Button';
+import Input from '@components/UI/V1/Input';
+import FormControl from '@components/UI/V1/FormControl';
+import { useEffect } from 'react';
 
 const ShareModel = ({
 	data,
@@ -19,6 +22,9 @@ const ShareModel = ({
 	showShareModel,
 	setShowShareModel,
 }) => {
+	const [useInput, setUseInput] = useState(false);
+	const [inputCopiedToClipboard, setInputCopiedToClipboard] = useState(false);
+
 	let url = `https://${
 		'lognmaze.vercel.app' || process.env.FRONT_END_ROOT_URL
 	}/`;
@@ -37,12 +43,38 @@ const ShareModel = ({
 		quote = data.description;
 		hashtag = data.tags || [];
 	} else if (data.type === 'post') {
-		url += `post/${data.id}`;
+		url += `post/${data.news_id}`;
 		title = data.content;
 		summary = data.content;
 		quote = data.content;
 		hashtag = [];
 	}
+
+	const copyToClipboard = (element) => {
+		// Select the text field
+		element.select();
+		// For mobile devices
+		element.setSelectionRange(0, 99999);
+
+		// Copy the text inside the text field
+		navigator.clipboard.writeText(element.value);
+
+		// Alert the copied text
+		// alert(`Copied the text:  ${element.value}`);
+		setInputCopiedToClipboard(true);
+	};
+
+	let setTimeoutId;
+
+	useEffect(() => {
+		if (inputCopiedToClipboard) {
+			clearTimeout(setTimeoutId);
+
+			setTimeoutId = setTimeout(() => {
+				setInputCopiedToClipboard(false);
+			}, 3000);
+		}
+	}, [inputCopiedToClipboard]);
 
 	return (
 		<Modal
@@ -179,6 +211,25 @@ const ShareModel = ({
 							</SocialMediaShareLink>
 						</button>
 					)}
+					<FormControl className={classes['form-control']}>
+						<Input
+							className={classes['form-input']}
+							useElementIn={(element) => copyToClipboard(element)}
+							useElement={useInput}
+							setUseElement={setUseInput}
+							value={url}
+						/>
+						<Button
+							title={
+								inputCopiedToClipboard
+									? 'Copied to clipboard!'
+									: 'Or copy the link!'
+							}
+							onClick={() => setUseInput(true)}
+						>
+							<FontAwesomeIcon icon={['fas', 'copy']} />
+						</Button>
+					</FormControl>
 				</section>
 			</Fragment>
 		</Modal>

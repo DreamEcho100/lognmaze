@@ -62,7 +62,7 @@ const Container = ({
 	}, []);
 
 	useEffect(() => {
-		if (props.loadingUserVote && props.isModalOnView) {
+		if (props.loadingUserVote && props.isContainerContentOnView) {
 			setIsLoadingUserVote(true);
 		}
 	}, []);
@@ -116,7 +116,7 @@ const Container = ({
 							data={news}
 							setData={setNews}
 							setShowModal={setShowModal}
-							isModalOnView={showModal}
+							isContainerContentOnView={showModal}
 							setIsLoadingContent={setIsLoadingContent}
 							isLoadingUserVote={isLoadingUserVote}
 							isLoadingContent={isLoadingContent}

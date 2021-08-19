@@ -18,6 +18,7 @@ import {
 	faLongArrowAltUp,
 	faArrowDown,
 	faLongArrowAltDown,
+	faCopy,
 } from '@fortawesome/free-solid-svg-icons';
 import {
 	// fab,
@@ -50,6 +51,7 @@ library.add(
 	faLongArrowAltUp,
 	faArrowDown,
 	faLongArrowAltDown,
+	faCopy,
 	//
 	// fab,
 	faFacebook,

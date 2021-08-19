@@ -1,7 +1,7 @@
 .feed {
 	/* width: 99%;
 	/* min-width: fit-content; */
-	margin: 0 0.5em 0 auto;
+	margin: auto;
 	/* box-shadow: 0rem 0rem 2rem var(--main-bg-color-5); */
 	transform: translateZ(2rem);
 	/* padding: 1em; */

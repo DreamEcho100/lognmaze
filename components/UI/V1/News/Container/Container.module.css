@@ -3,6 +3,9 @@
 	min-width: 50%;
 	width: 100%;
 	transition: all 0.25s ease-in-out;
+
+	max-width: 100rem;
+	margin: auto;
 }
 
 .container-max-width {

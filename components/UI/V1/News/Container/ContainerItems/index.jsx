@@ -18,7 +18,15 @@ const ContainerItems = ({
 	...props
 }) => {
 	return (
-		<Wrapper extraClasses='full-width'>
+		<Wrapper
+			style={{
+				width: '100%',
+				maxWidth: '100rem',
+				marginLeft: 'auto',
+				marginRight: 'auto',
+			}}
+			extraClasses='full-width'
+		>
 			<article {...articleProps}>
 				<NewsHeader
 					data={data}

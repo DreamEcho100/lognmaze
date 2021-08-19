@@ -1,7 +1,10 @@
+import { useRef } from 'react';
+
 import classes from './index.module.css';
 import BorderClasses from '../Border.module.css';
 
 import { handleAllClasses } from '../utils/index';
+import { useEffect } from 'react';
 
 const Input = ({
 	defaultClasses = 'input',
@@ -10,11 +13,20 @@ const Input = ({
 	cn = '',
 	children,
 	type = 'text',
-	palceholder = '',
+	placeholder = '',
 	onChange,
 	setValues,
+	useElement = false,
+	setUseElement = () => {
+		return;
+	},
+	useElementIn = () => {
+		return;
+	},
 	...props
 }) => {
+	const inputRef = useRef();
+
 	const allClasses = handleAllClasses({
 		classes,
 		defaultClasses,
@@ -22,9 +34,10 @@ const Input = ({
 		className: className || cn,
 	});
 
-	const elementProps = {
+	const inputProps = {
+		ref: inputRef,
 		type: type,
-		palceholder: palceholder,
+		placeholder,
 		className: `${allClasses} ${BorderClasses['border-bottom']}`,
 		onChange: (event) => {
 			if (setValues) {
@@ -38,8 +51,22 @@ const Input = ({
 		...props,
 	};
 
+	// const handleUseElement = () => {
+	// 	useElement(inputRef.current);
+	// }
+
+	useEffect(() => {
+		if (useElement) {
+			useElementIn(inputRef.current);
+			setUseElement(false);
+		}
+	}, [useElement]);
+
 	return (
-		<input {...elementProps} className={`${allClasses} ${BorderClasses['border-bottom']}`}>
+		<input
+			{...inputProps}
+			className={`${allClasses} ${BorderClasses['border-bottom']}`}
+		>
 			{children}
 		</input>
 	);

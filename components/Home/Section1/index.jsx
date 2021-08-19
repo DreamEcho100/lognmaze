@@ -12,15 +12,17 @@ const Section1 = ({ news = [], userExist }) => {
 
 	return (
 		<main className={classes['main-section']}>
-			<Feed news={news} />
+			<section className={classes['section-1']}>
+				<Feed news={news} />
+			</section>
 
-			<section className={classes['side-section']}>
-				<Wrapper>
+			<section className={classes['section-2']}>
+				<Wrapper style={{ width: '100%' }}>
 					<section>
 						<h2>Welcome</h2>
 					</section>
 				</Wrapper>
-				<Wrapper>
+				<Wrapper style={{ width: '100%' }}>
 					{!userExist && (
 						<section>
 							<Button title='Sign In' onClick={() => router.replace('/auth')}>

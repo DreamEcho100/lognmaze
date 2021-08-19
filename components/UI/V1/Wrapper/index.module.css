@@ -1,4 +1,6 @@
 .wrapper {
+	width: 100%;
+	/* min-width: fit-content; */
 	padding: 0.5em;
 	background-color: var(--main-bg-color-1);
 	margin: 0.5em auto;

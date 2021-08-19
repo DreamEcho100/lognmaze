@@ -1,8 +1,9 @@
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-const DynamicArticle = dynamic(() => import('@components/Article'));
-// import Article from '@components/Article';
+const DynamicOneNewsContent = dynamic(() =>
+	import('@components/OneNewsContent')
+);
 
 const ArticlePage = ({ data }) => {
 	const router = useRouter();
@@ -11,13 +12,7 @@ const ArticlePage = ({ data }) => {
 		return <div>Loading...</div>;
 	}
 
-	const articleProps = {
-		data: data,
-		detailsType: 'content',
-		loadingUserVote: true,
-	};
-
-	return <DynamicArticle articleProps={articleProps} />;
+	return <DynamicOneNewsContent data={data} />;
 };
 
 export default ArticlePage;

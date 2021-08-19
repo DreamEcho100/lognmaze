@@ -15,7 +15,7 @@
 
 .format-md h1 {
 	margin: 0.25em 0;
-	line-height: 3.5rem;
+	line-height: unset;
 }
 .format-md h2 {
 	margin: 1.4em 0 0.25em 0;
@@ -38,7 +38,7 @@
 }
 
 .format-md li {
-	margin-left: 1em;
+	margin-left: 1.5em;
 	list-style: circle;
 }
 
