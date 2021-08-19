@@ -15,19 +15,19 @@
 	margin-right: 0;
 }
 
-.reactions {
+.votes {
 	display: flex;
 	align-items: center;
 }
 
-.reaction {
+.vote {
 	margin: 0 0.125em;
 }
 
-.reaction:first-child {
+.vote:first-child {
 	margin-left: 0;
 }
 
-.reaction:last-child {
+.vote:last-child {
 	margin-right: 0;
 }

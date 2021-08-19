@@ -16,10 +16,17 @@ export default async (req, res) => {
 							news.news_id,
 							news.type,
 							news.comments_counter,
+							news.up_votes_counter,
+							news.down_votes_counter,
 							news.created_at,
 							news.updated_on,
 							
-							news_tags.tags,
+							user_profile.user_profile_id AS author_id,
+							user_profile.user_name_id AS author_user_name_id,
+							user_profile.first_name AS author_first_name,
+							user_profile.last_name AS author_last_name,
+							user_profile.profile_picture AS author_profile_picture,
+							user_profile.bio AS author_bio,
 
 							news_article.title,
 							news_article.slug,
@@ -28,36 +35,17 @@ export default async (req, res) => {
 							news_article.image,
 							news_article.description,
 							news_article.content,
-							
-							user_profile.user_profile_id AS author_id,
-							user_profile.user_name_id AS author_user_name_id,
-							user_profile.first_name AS author_first_name,
-							user_profile.last_name AS author_last_name,
-							user_profile.profile_picture AS author_profile_picture
-					
-						FROM news
-						JOIN user_profile ON user_profile.user_profile_id = news.author_id
-						JOIN news_article ON news_article.news_article_id = news.news_id
-						JOIN LATERAL(
-							SELECT ARRAY (
+
+							ARRAY (
 								SELECT news_tag.name AS tag
 								FROM news_tag
 								WHERE news_tag.news_id = news_article.news_article_id
 							) AS tags
-						) news_tags ON TRUE
-						-- JOIN LATERAL (
-						-- 	SELECT json_agg (
-						-- 		json_build_object (
-						-- 			'news_reaction_id', news_reaction.news_reaction_id ,
-						-- 			'type', news_reaction.type,
-						-- 			'counter', news_reaction.counter
-						-- 		)
-						-- 	) AS reactions
-						-- 		FROM  news_reaction
-						-- 		WHERE news_reaction.news_id = news.news_id
-						-- ) news_reaction ON TRUE
+					
+						FROM news
+						JOIN user_profile ON user_profile.user_profile_id = news.author_id
+						JOIN news_article ON news_article.news_article_id = news.news_id
 						WHERE news_article.slug = $1
-						-- ORDER BY news.created_at DESC
 						;
 					`,
 					[slug]
@@ -89,15 +77,3 @@ export default async (req, res) => {
 		}
 	}
 };
-
-/*
-SELECT
-	json_build_object(
-		'news_reaction_id', news_reaction.news_reaction_id ,
-		'type', news_reaction.type,
-		'counter', news_reaction.counter
-	) AS reactions
-FROM  news_reaction
-;
-
-*/

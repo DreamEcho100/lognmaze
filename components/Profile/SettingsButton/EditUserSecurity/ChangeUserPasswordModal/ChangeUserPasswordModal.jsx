@@ -3,6 +3,7 @@ import { Fragment, useContext, useState } from 'react';
 
 import classes from './ChangeUserPasswordModal.module.css';
 
+import { validatePasswordStrength } from '@lib/v1/validate';
 import UserContext from '@store/UserContext';
 
 // const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
@@ -27,18 +28,30 @@ const ChangeUserPasswordModal = ({ showModal, setShowModal }) => {
 		setNewPassword('');
 	};
 
-	const [afterFormSubmitMessage, setAfterFormSubmitMessage] = useState(true);
-	const [btnsDisabled, setBtnsDisabled] = useState(false);
+	const [AfterFormSubmitMessage, setAfterFormSubmitMessage] = useState(() => (
+		<></>
+	));
+	const [afterFormSubmitMessageExist, setAfterFormSubmitMessageExist] =
+		useState(false);
+	const [buttonsDisabled, setBtnsDisabled] = useState(false);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
+		setBtnsDisabled(true);
+
 		if (oldPassword === newPassword) {
-			return setAfterFormSubmitMessage('Old password and new password match?');
+			setAfterFormSubmitMessage(() => (
+				<p>Old password and new password match?</p>
+			));
+			setButtonsDisabled(false);
+			return;
 		}
 
 		if (newPasswordAgain !== newPassword) {
-			return setAfterFormSubmitMessage("New password doesn't match!");
+			setAfterFormSubmitMessage(() => <p>New password doesn't match!</p>);
+			setBtnsDisabled(false);
+			return;
 		}
 
 		if (
@@ -46,11 +59,34 @@ const ChangeUserPasswordModal = ({ showModal, setShowModal }) => {
 			newPasswordAgain.length === 0 ||
 			newPassword.length === 0
 		) {
-			return setAfterFormSubmitMessage('Empty field/s!');
+			setAfterFormSubmitMessage(() => <p>Empty field/s!</p>);
+			setBtnsDisabled(false);
+			return;
+		}
+
+		const passwordValidated = validatePasswordStrength(newPassword);
+		if (passwordValidated.strength !== 'strong') {
+			setAfterFormSubmitMessage(() => {
+				return (
+					<>
+						<p>New password strength is {passwordValidated.strength}</p>
+						<p>Strong password requirements:</p>
+						<ul>
+							{passwordValidated.strongPasswordRequirements.map(
+								(item, index) => (
+									<li key={index}>{item}</li>
+								)
+							)}
+						</ul>
+					</>
+				);
+			});
+			setAfterFormSubmitMessageExist(true);
+			setBtnsDisabled(false);
+			return;
 		}
 
 		try {
-			setBtnsDisabled(true);
 			const { status, message } = await handleChangePassword(
 				oldPassword,
 				newPassword
@@ -59,7 +95,8 @@ const ChangeUserPasswordModal = ({ showModal, setShowModal }) => {
 			if (status === 'error') {
 				setBtnsDisabled(false);
 				console.error(message);
-				setAfterFormSubmitMessage(message);
+				setAfterFormSubmitMessage(() => <>{message}</>);
+				setAfterFormSubmitMessageExist(true);
 				return;
 			}
 
@@ -123,14 +160,12 @@ const ChangeUserPasswordModal = ({ showModal, setShowModal }) => {
 							value={newPasswordAgain}
 						/>
 					</FormControl>
-					{afterFormSubmitMessage.length !== 0 && (
-						<div className={classes.warning}>
-							<p>{afterFormSubmitMessage}</p>
-						</div>
+					{afterFormSubmitMessageExist && (
+						<div className={classes.warning}>{AfterFormSubmitMessage}</div>
 					)}
 					<Button
 						title='Submit'
-						disabled={btnsDisabled}
+						disabled={buttonsDisabled}
 						type='submit'
 						className={classes.submitBtn}
 					>

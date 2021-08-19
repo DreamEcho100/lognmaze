@@ -25,7 +25,6 @@ const Auth = ({
 		// if (signType === 'up') {
 		// 	setSignInComponent(false);
 		// }
-		console.log('props.signType', props.signType);
 		setSignType(props.signType || 'in');
 	}, []);
 

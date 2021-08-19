@@ -15,142 +15,85 @@ export default async (req, res) => {
 
 	try {
 		if (req.method === 'GET') {
-			const { with_news_article_content, news_reactor_id, filter_by_user_id } =
+			const { with_news_article_content, voter_id, filter_by_user_id } =
 				req.query;
 
 			const queryParams = [];
-			let whereClause = "WHERE news.type NOT IN ('comment', 'comment_reply')";
-			let news_reactor_id_index = '';
+			let whereClause = '';
+			let voter_id_index = '';
 
 			if (filter_by_user_id) {
 				queryParams.push(filter_by_user_id);
-				whereClause += ` AND news.author_id = $${queryParams.length}`;
+				whereClause += `WHERE news.author_id = $${queryParams.length}`;
 			}
 
-			if (news_reactor_id) {
-				queryParams.push(news_reactor_id);
-				news_reactor_id_index = queryParams.length;
+			if (voter_id) {
+				queryParams.push(voter_id);
+				voter_id_index = queryParams.length;
 			}
 
 			const result = await pool
 				.query(
 					`
-						SELECT
-							news.news_id,
-							news.type,
-							news.comments_counter,
-							news.created_at,
-							news.updated_on,
-						
-							user_profile.user_profile_id AS author_id,
-							user_profile.user_name_id AS author_user_name_id,
-							user_profile.first_name AS author_first_name,
-							user_profile.last_name AS author_last_name,
-							user_profile.profile_picture AS author_profile_picture,
+						SELECT 
+						news.news_id,
+						news.type,
+						news.comments_counter,
+						news.up_votes_counter,
+						news.down_votes_counter,
+						news.created_at,
+						news.updated_on,
 					
-							news_reaction.*
-							${news_reactor_id ? ',news_reactor_reaction.*' : ''}
+						user_profile.user_profile_id AS author_id,
+						user_profile.user_name_id AS author_user_name_id,
+						user_profile.first_name AS author_first_name,
+						user_profile.last_name AS author_last_name,
+						user_profile.profile_picture AS author_profile_picture,
+						user_profile.bio AS author_bio,
 
-						FROM news
-						JOIN user_profile ON user_profile.user_profile_id = news.author_id
-						JOIN LATERAL (
-							SELECT json_agg (
-								json_build_object (
-									'news_reaction_id', news_reaction.news_reaction_id ,
-									'type', news_reaction.type,
-									'counter', news_reaction.counter
-								)
-							) AS reactions
-								FROM  news_reaction
-								WHERE news_reaction.news_id = news.news_id
-							
-						) news_reaction ON TRUE
-						${
-							news_reactor_id
-								? `LEFT JOIN LATERAL (
-									SELECT type AS user_reaction FROM news_reaction
-									JOIN news_reactor ON news_reactor.news_reaction_id = news_reaction.news_reaction_id
-									WHERE news_reaction.news_id = news.news_id AND news_reactor.news_reactor_id = ($${news_reactor_id_index})
-								) news_reactor_reaction ON TRUE`
-								: ''
-						}
-						${whereClause}
-						ORDER BY news.created_at DESC;				
+						${voter_id ? 'user_vote.vote_type AS user_vote_type,' : ''}
+					
+						CASE WHEN news.type = 'article' THEN (
+							SELECT 
+									json_build_object(
+									'title', news_article.title,
+									'slug', news_article.slug,
+									'iso_language', news_article.iso_language,
+									'iso_country', news_article.iso_country,
+									'image', news_article.image,
+									'description', news_article.description,
+									${with_news_article_content ? "'content', news_article.content," : ''}
+									'tags', ARRAY (
+										SELECT news_tag.name AS tag
+										FROM news_tag
+										WHERE news_tag.news_id = news_article.news_article_id
+									)
+								) AS data
+							FROM news_article
+							WHERE news_article_id = news_id
+						)
+						ELSE (
+							SELECT json_build_object( 'content', news_post.content) FROM news_post WHERE news_post_id = news_id
+						)
+						END AS type_data
+					FROM news
+					JOIN user_profile ON user_profile.user_profile_id = news.author_id
+					${
+						voter_id
+							? `
+						LEFT JOIN LATERAL (
+							SELECT news_vote.vote_type FROM news_vote WHERE news_vote.news_id = news.news_id AND news_vote.voter_id = ($${voter_id_index})
+						) user_vote ON TRUE
+					`
+							: ''
+					}
+					${whereClause}
+					ORDER BY news.created_at DESC;
+					;				
 					`,
 					queryParams
 				)
-				.then(async (response) => {
-					const idsRefereToIndexes = {};
-					const articlesIds = [];
-					const postsIds = [];
-					let sqlQuery;
-
-					response.rows.forEach((item, index) => {
-						idsRefereToIndexes[item.news_id] = index;
-						if (item.type === 'article') articlesIds.push(`'${item.news_id}'`);
-						else if (item.type === 'post') postsIds.push(`'${item.news_id}'`);
-					});
-
-					if (postsIds.length !== 0) {
-						sqlQuery = `
-							SELECT
-								news_post_id AS id,
-								content
-							from news_post WHERE news_post_id IN (${postsIds.join(',')})
-						`;
-
-						await pool.query(sqlQuery).then((response2) => {
-							response2.rows.forEach((item) => {
-								const id = item.id;
-								delete item.id;
-								response.rows[idsRefereToIndexes[id]] = {
-									...response.rows[idsRefereToIndexes[id]],
-									...item,
-								};
-							});
-						});
-					}
-
-					if (articlesIds.length !== 0) {
-						sqlQuery = `
-							SELECT
-								news_tags.tags,
-								news_article.news_article_id AS id,
-								news_article.title,
-								news_article.slug,
-								news_article.iso_language,
-								news_article.iso_country,
-								news_article.image,
-								news_article.description
-								${with_news_article_content ? ',news_article.content' : ''}
-							FROM news_article
-							JOIN LATERAL(
-											SELECT ARRAY (
-															-- SELECT array_agg(post_tags.name) AS tags
-															SELECT news_tag.name AS tag
-															FROM news_tag
-															-- JOIN posts
-															-- ON news_tag.post_id = posts.id
-															WHERE news_tag.news_id = news_article.news_article_id
-											) AS tags
-							) news_tags ON TRUE
-							WHERE news_article.news_article_id IN (${articlesIds.join(',')})
-						`;
-
-						await pool.query(sqlQuery).then((response2) => {
-							response2.rows.forEach((item) => {
-								const id = item.id;
-								delete item.id;
-								response.rows[idsRefereToIndexes[id]] = {
-									...response.rows[idsRefereToIndexes[id]],
-									...item,
-								};
-							});
-						});
-					}
-
-					return response.rows;
-				});
+				.then(async (response) => response.rows);
 
 			return res.status(200).json({
 				status: 'success',

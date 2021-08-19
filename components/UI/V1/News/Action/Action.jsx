@@ -56,7 +56,6 @@ const Action = ({ closeModal, showModal, setShowModal, news, ...props }) => {
 			.then(({ status, message, data, isAuthorized }) => {
 				news.setData((prev) => {
 					closeModal();
-					console.log(prev);
 					return {};
 				});
 			});
@@ -162,7 +161,7 @@ const Action = ({ closeModal, showModal, setShowModal, news, ...props }) => {
 						hideHeaderSettings={true}
 						action='delete'
 						setIsLoadingContent={props.setIsLoadingContent}
-						// isLoadingReactions={isLoadingReactions}
+						// isLoadingUserVote={isLoadingUserVote}
 						// isLoadingContent={isLoadingContent}
 					/>
 				</Fragment>

@@ -3,6 +3,7 @@ import { useContext, useState } from 'react';
 import classes from './SignIn.module.css';
 import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 
+import { validateEmail } from '@lib/v1/validate';
 import UserContext from '@store/UserContext';
 
 import Form from '@components/UI/V1/Form';
@@ -22,16 +23,29 @@ const SignIn = () => {
 
 	const { handleSignIn } = UserCxt;
 
-	const [afterFormSubmitMessage, setAfterFormSubmitMessage] = useState(true);
+	const [AfterFormSubmitMessage, setAfterFormSubmitMessage] = useState(() => (
+		<></>
+	));
+	const [afterFormSubmitMessageExist, setAfterFormSubmitMessageExist] =
+		useState(false);
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
 
 	const submitHandler = async (event) => {
 		event.preventDefault();
 
-		// Add validation
-
-		setAfterFormSubmitMessage('');
 		setBtnsDisabled(true);
+		setAfterFormSubmitMessage(() => <></>);
+		setAfterFormSubmitMessageExist(false);
+
+		const emailValidated = validateEmail(values.email);
+
+		if (!emailValidated) {
+			setAfterFormSubmitMessage(() => <p>There is something with the email</p>);
+			setAfterFormSubmitMessageExist(true);
+			setBtnsDisabled(false);
+			return;
+		}
+
 		const { status, message } = await handleSignIn(values).then((response) => {
 			setBtnsDisabled(false);
 			return response;
@@ -40,7 +54,8 @@ const SignIn = () => {
 		if (status === 'error') {
 			console.error(message);
 			setBtnsDisabled(false);
-			setAfterFormSubmitMessage(message);
+			setAfterFormSubmitMessage(() => <>{message}</>);
+			setAfterFormSubmitMessageExist(true);
 		}
 	};
 
@@ -72,10 +87,8 @@ const SignIn = () => {
 					setValues={setValues}
 				/>
 			</FormControl>
-			{afterFormSubmitMessage.length !== 0 && (
-				<div className={classes.warning}>
-					<p>{afterFormSubmitMessage}</p>
-				</div>
+			{afterFormSubmitMessageExist && (
+				<div className={classes.warning}>{AfterFormSubmitMessage}</div>
 			)}
 			<FormControl extraClasses='align-center' className={classes.actions}>
 				<Button

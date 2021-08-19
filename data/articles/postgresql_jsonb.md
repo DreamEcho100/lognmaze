@@ -5,7 +5,7 @@ description: Basic guide to JSONB in PostgreSQL You may encounter (or have alrea
 
 In these situations an object-oriented, NoSQL database makes sense.
 
-But you're probably going to have to learn a new data query syntax, data creation statement, install new software, and running some new server in production. Now rather than developing your features, you are going to be spending valuable time learning, experimenting.
+But you're probably going to have to learn a new data query syntax, data creation statement, install new software, and running some new servers in production. Now rather than developing your features, you are going to be spending valuable time learning, experimenting.
 
 Well my friend you can rest at ease since we will talk a little about how you can use PostgreSQL for all your JSON needs.
 ---

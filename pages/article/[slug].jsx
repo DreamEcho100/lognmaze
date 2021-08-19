@@ -14,7 +14,7 @@ const ArticlePage = ({ data }) => {
 	const articleProps = {
 		data: data,
 		detailsType: 'content',
-		loadReactions: true,
+		loadingUserVote: true,
 	};
 
 	return <DynamicArticle articleProps={articleProps} />;

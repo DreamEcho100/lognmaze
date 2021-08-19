@@ -5,18 +5,17 @@ import classes from './index.module.css';
 
 import UserContext from '@store/UserContext';
 
-import Reactions from './Reactions';
+import Votes from './Votes';
 
 const Settings = ({
 	data,
-	reactions,
-	user_reaction,
+
 	setData,
 	setShowComments,
 	setFocusCommentTextarea,
 	showComments,
 	focusCommentTextarea,
-	isLoadingReactions,
+	isLoadingUserVote,
 }) => {
 	const { user, userExist, ...UserCxt } = useContext(UserContext);
 
@@ -34,14 +33,12 @@ const Settings = ({
 
 	return (
 		<section className={classes.settings}>
-			<Reactions
+			<Votes
 				user={user}
 				userExist={userExist}
 				data={data}
-				reactions={reactions}
-				user_reaction={user_reaction}
 				setData={setData}
-				isLoadingReactions={isLoadingReactions}
+				isLoadingUserVote={isLoadingUserVote}
 			/>
 			<div className={`${classes.comment} ${classes.item}`}>
 				<button

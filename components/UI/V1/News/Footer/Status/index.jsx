@@ -5,26 +5,21 @@ import classes from './index.module.css';
 const Status = ({ data, showComments, setShowComments }) => {
 	return (
 		<section className={classes.status}>
-			<div className={`${classes.reactions} ${classes['status-item']}`}>
-				{data.reactions.map((item, index) => {
-					let icon;
+			<div className={`${classes.votes} ${classes['status-item']}`}>
+				<button
+					title='Up Vote'
+					className={`${classes.vote} ${classes['up-vote']}`}
+				>
+					<FontAwesomeIcon icon={['fas', 'arrow-up']} /> {data.up_votes_counter}
+				</button>
 
-					if (item.type === 'up') {
-						icon = ['fas', 'arrow-up'];
-					} else if (item.type === 'down') {
-						icon = ['fas', 'arrow-down'];
-					}
-
-					return (
-						<button
-							title={item.type}
-							key={item.news_reaction_id || index}
-							className={`${classes.reaction} ${item.type}`}
-						>
-							<FontAwesomeIcon icon={icon} /> {item.counter}
-						</button>
-					);
-				})}
+				<button
+					title='Down Vote'
+					className={`${classes.vote} ${classes['down-vote']}`}
+				>
+					<FontAwesomeIcon icon={['fas', 'arrow-down']} />{' '}
+					{data.down_votes_counter}
+				</button>
 			</div>
 			<div
 				onClick={() => {

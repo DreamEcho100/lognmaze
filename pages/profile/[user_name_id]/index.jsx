@@ -6,18 +6,40 @@ import { getCookie } from '@lib/v1/cookie';
 import UserContext from '@store/UserContext';
 
 const DynamicProfile = dynamic(() => import('@components/Profile'));
-// import Profile from '@components/Profile';
 
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
-const ProfilePage = ({ user = {}, /*posts = []*/ ...props }) => {
+const ProfilePage = ({ user = {}, ...props }) => {
 	const router = useRouter();
 
 	const UserCxt = useContext(UserContext);
 
 	const [posts, setPosts] = useState(
-		props.posts.length !== 0 ? props.posts.data.reverse() : []
+		props.posts.length !== 0
+			? // props.posts.data.reverse()
+			  (() => {
+					const formattedData = props.posts.data.map((obj) => {
+						const formattedItem = {};
+						let itemA;
+						for (itemA in obj) {
+							if (itemA !== 'type_data') {
+								formattedItem[itemA] = obj[itemA];
+							} else {
+								let itemB;
+								for (itemB in obj['type_data']) {
+									formattedItem[itemB] = obj.type_data[itemB];
+								}
+							}
+						}
+
+						return formattedItem;
+					});
+
+					// return formattedData.reverse();
+					return formattedData;
+			  })()
+			: []
 	);
 	const [handleIsAuthorized, setHandleIsAuthorized] = useState(
 		user.isAuthorized
@@ -27,7 +49,7 @@ const ProfilePage = ({ user = {}, /*posts = []*/ ...props }) => {
 
 	const [isLoading, setIsLoading] = useState(true);
 
-	useEffect(() => {
+	useEffect(async () => {
 		if (!UserCxt.isLoading) {
 			if (!UserCxt.userExist) {
 				if (userData.id) {
@@ -42,19 +64,69 @@ const ProfilePage = ({ user = {}, /*posts = []*/ ...props }) => {
 				)
 					setUserData(UserCxt.user);
 
-				if (
-					router.query.user_name_id === UserCxt.user.user_name_id &&
-					identity === GUEST
-				) {
-					setIdentity(OWNER);
+				if (router.query.user_name_id === UserCxt.user.user_name_id) {
+					if (identity === GUEST) setIdentity(OWNER);
 					if (!handleIsAuthorized) setHandleIsAuthorized(true);
-				} else if (
-					router.query.user_name_id !== UserCxt.user.user_name_id &&
-					identity === OWNER
-				) {
-					setIdentity(GUEST);
+				} else if (router.query.user_name_id !== UserCxt.user.user_name_id) {
+					if (identity === OWNER) setIdentity(GUEST);
 					if (handleIsAuthorized) setHandleIsAuthorized(false);
 				}
+			}
+
+			if (
+				userData.user_name_id &&
+				router.query.user_name_id !== userData.user_name_id
+			) {
+				setIsLoading(true);
+
+				const userResult = await fetch(
+					`/api/v1/users/profiles/profile/${router.query.user_name_id}`
+				);
+
+				if (
+					!userResult?.data?.user_name_id ||
+					(userResult && userResult.status === 'error')
+				) {
+					setUserData({});
+					setPosts([]);
+					return;
+				}
+
+				setUserData(userResult.data);
+
+				if (UserCxt?.user?.user_name_id === userResult.data.user_name_id) {
+					if (identity === GUEST) setIdentity(OWNER);
+					if (!handleIsAuthorized) setHandleIsAuthorized(true);
+				} else {
+					if (identity === OWNER) setIdentity(GUEST);
+					if (handleIsAuthorized) setHandleIsAuthorized(false);
+				}
+
+				let postInputQuery = '/?filter_by_user_id=';
+				if (user.data && user.data.id) postInputQuery += user.data.id;
+				else postInputQuery += userCookieObj.id;
+
+				if (UserCxt?.user?.id) postInputQuery += `&voter_id=${UserCxt.user.id}`;
+
+				const postsResult = await fetch(`/api/v1/news${postInputQuery}`, {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				})
+					.then((response) => response.json())
+					.catch((error) => {
+						console.error(error);
+						return {
+							status: 'error',
+							message: error.message || 'Something went wrong!',
+							data: [],
+						};
+					});
+
+				setPosts(postsResult.posts);
+
+				setIsLoading(true);
 			}
 
 			if (
@@ -130,12 +202,6 @@ export const getServerSideProps = async ({ req, res, query }) => {
 	*/
 	const fetcher = async (tokenCookieString, userCookieString, user_name_id) => {
 		const input = `${process.env.BACK_END_ROOT_URL}/api/v1/users/profiles/profile/${user_name_id}`;
-		const init = {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		};
 
 		let user;
 		let userCookieObj;
@@ -144,16 +210,6 @@ export const getServerSideProps = async ({ req, res, query }) => {
 		if (tokenCookieString.length !== 0 && userCookieString.length !== 0) {
 			userCookieObj = JSON.parse(userCookieString);
 			if (userCookieObj && userCookieObj.id) visitor_id = userCookieObj.id;
-
-			/*
-			if (
-				userCookieObj &&
-				userCookieObj.id &&
-				user_name_id === userCookieObj.user_name_id
-			) {
-				init.headers.authorization = `Bearer ${tokenCookieString}`;
-			}
-			*/
 
 			if (
 				typeof userCookieObj === 'object' &&
@@ -170,7 +226,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 		}
 
 		if (!user) {
-			user = await fetch(input, init)
+			user = await fetch(input)
 				.then((response) => response.json())
 				.catch((error) => {
 					console.error(error);
@@ -195,14 +251,14 @@ export const getServerSideProps = async ({ req, res, query }) => {
 			};
 		}
 
-		let posqInputQuery = '/?filter_by_user_id=';
-		if (user.data && user.data.id) posqInputQuery += user.data.id;
-		else posqInputQuery += userCookieObj.id;
+		let postInputQuery = '/?filter_by_user_id=';
+		if (user.data && user.data.id) postInputQuery += user.data.id;
+		else postInputQuery += userCookieObj.id;
 
-		if (visitor_id) posqInputQuery += `&news_reactor_id=${visitor_id}`;
+		if (visitor_id) postInputQuery += `&voter_id=${visitor_id}`;
 
 		const posts = await fetch(
-			`${process.env.BACK_END_ROOT_URL}/api/v1/news${posqInputQuery}`,
+			`${process.env.BACK_END_ROOT_URL}/api/v1/news${postInputQuery}`,
 			{
 				method: 'GET',
 				headers: {

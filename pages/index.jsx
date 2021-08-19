@@ -19,7 +19,7 @@ const HomePage = () => {
 		if (!UserCxt.isLoading && news.length === 0) {
 			let linkQuery = '';
 			if (UserCxt.userExist) {
-				linkQuery = `/?news_reactor_id=${UserCxt.user.id}`;
+				linkQuery = `/?voter_id=${UserCxt.user.id}`;
 			}
 			const news = await fetch(`api/v1/news${linkQuery}`) // ${process.env.BACK_END_ROOT_URL}/
 				.then((response) => response.json())
@@ -28,7 +28,24 @@ const HomePage = () => {
 						console.error(message);
 						return;
 					}
-					setNews(data);
+					const formattedData = data.map((obj) => {
+						const formattedItem = {};
+						let itemA;
+						for (itemA in obj) {
+							if (itemA !== 'type_data') {
+								formattedItem[itemA] = obj[itemA];
+							} else {
+								let itemB;
+								for (itemB in obj['type_data']) {
+									formattedItem[itemB] = obj.type_data[itemB];
+								}
+							}
+						}
+
+						return formattedItem;
+					});
+
+					setNews(formattedData);
 				})
 				.catch((error) => {
 					console.error(error);

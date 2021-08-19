@@ -94,7 +94,10 @@ CREATE TABLE news (
 
   type TEXT NOT NULL,
 
-  comments_counter INT DEFAULT 0,
+  comments_counter BIGINT DEFAULT 0,
+
+  up_votes_counter BIGINT DEFAULT 0,
+  down_votes_counter BIGINT DEFAULT 0,
 
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -102,9 +105,10 @@ CREATE TABLE news (
   PRIMARY KEY (news_id),
   FOREIGN KEY (author_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
 
-  CONSTRAINT check_comments_counter_min CHECK (comments_counter >= 0)
+  CONSTRAINT check_comments_counter_min CHECK (comments_counter >= 0),
+  CONSTRAINT check_up_votes_counter_min CHECK (up_votes_counter >= 0),
+  CONSTRAINT check_down_votes_counter_min CHECK (down_votes_counter >= 0)
 );
-
 
 -- tag Table
 CREATE TABLE news_tag (
@@ -141,42 +145,25 @@ CREATE TABLE news_article (
 
   PRIMARY KEY (news_article_id),
   FOREIGN KEY (news_article_id) REFERENCES news (news_id) ON DELETE CASCADE
+
 );
 
--- news_reaction Table
-CREATE TABLE news_reaction (
-  news_reaction_id uuid DEFAULT uuid_generate_v4(),
+-- news_vote Table
+
+CREATE TABLE news_vote (
   news_id uuid NOT NULL,
+  voter_id uuid NOT NULL,
 
-  type TEXT NOT NULL,
-  counter INT DEFAULT 0,
-
-  CONSTRAINT news_reaction_id PRIMARY KEY (news_reaction_id),
-  FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE,
-
-  CONSTRAINT unique_news_reaction_type UNIQUE (news_id, type) -- ,
-
-  -- CONSTRAINT news_reaction_type CHECK (type='up' OR type='down')
-);
-
-ALTER TABLE news_reaction
-ADD CONSTRAINT news_reaction_type CHECK (type='up' OR type='down');
-
--- news_reactor Table
-CREATE TABLE news_reactor (
-  news_reaction_id uuid NOT NULL,
-  news_id uuid NOT NULL,
-  news_reactor_id uuid NOT NULL,
+  vote_type TEXT NOT NULL,
 
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
-  CONSTRAINT news_reactor_id PRIMARY KEY (news_id, news_reactor_id),
+  PRIMARY KEY (news_id, voter_id),
 
-  FOREIGN KEY (news_reaction_id) REFERENCES news_reaction (news_reaction_id) ON DELETE CASCADE,
   FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE,
-  FOREIGN KEY (news_reactor_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
+  FOREIGN KEY (voter_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
 
-  CONSTRAINT news_type_reactor UNIQUE (news_reaction_id, news_reactor_id)
+  CONSTRAINT news_vote_check_vote_type CHECK (vote_type = 'up' OR vote_type = 'down')
 );
 
 -- news_comment Table
@@ -224,6 +211,71 @@ CREATE TABLE news_comment_main_reply (
   FOREIGN KEY (reply_to_comment_id) REFERENCES news_comment (news_comment_id) ON DELETE SET NULL,
   FOREIGN KEY (reply_to_user_id) REFERENCES user_account (user_account_id) ON DELETE SET NULL
 );
+
+/*
+
+-- news_vote_up Table
+CREATE TABLE news_vote_up, (
+  news_id uuid NOT NULL,
+  news_voter_id uuid NOT NULL,
+
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+  PRIMARY KEY (news_id, news_voter_id),
+
+  FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE,
+  FOREIGN KEY (news_voter_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE
+);
+
+-- news_vote_down Table
+
+CREATE TABLE news_vote_down, (
+  news_id uuid NOT NULL,
+  news_voter_id uuid NOT NULL,
+
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+  PRIMARY KEY (news_id, news_voter_id),
+
+  FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE,
+  FOREIGN KEY (news_voter_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE
+);
+*/
+
+/*
+-- news_reaction Table
+CREATE TABLE news_reaction (
+  news_reaction_id uuid DEFAULT uuid_generate_v4(),
+  news_id uuid NOT NULL,
+
+  type TEXT NOT NULL,
+  counter INT DEFAULT 0,
+
+  CONSTRAINT news_reaction_id PRIMARY KEY (news_reaction_id),
+  FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE,
+
+  CONSTRAINT unique_news_reaction_type UNIQUE (news_id, type) -- ,
+
+  -- CONSTRAINT news_reaction_type CHECK (type='up' OR type='down')
+);
+
+-- news_reactor Table
+CREATE TABLE news_reactor (
+  news_reaction_id uuid NOT NULL,
+  news_id uuid NOT NULL,
+  news_reactor_id uuid NOT NULL,
+
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+  CONSTRAINT news_reactor_id PRIMARY KEY (news_id, news_reactor_id),
+
+  FOREIGN KEY (news_reaction_id) REFERENCES news_reaction (news_reaction_id) ON DELETE CASCADE,
+  FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE,
+  FOREIGN KEY (news_reactor_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
+
+  CONSTRAINT news_type_reactor UNIQUE (news_reaction_id, news_reactor_id)
+);
+*/
 
 /*
 -- news_comment TABLE
@@ -289,8 +341,7 @@ IF EXISTS
 news_comment_main_reply,
 news_comment_main,
 news_comment,
-news_reactor,
-news_reaction,
+news_vote,
 news_article,
 news_post,
 news_tag,

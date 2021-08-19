@@ -4,10 +4,10 @@ import UserContext from '@store/UserContext';
 
 const NewsContext = createContext({
 	news: {},
-	isLoadingReactions: false,
+	isLoadingUserVote: false,
 	isLoadingContent: false,
 	setNews: () => {},
-	setIsLoadingReactions: () => {},
+	setIsLoadingUserVote: () => {},
 	checkDataForUpdates: () => {},
 	handleSetNewsDataForFirstTime: () => {},
 	handleLoadingArticleContent: () => {},
@@ -17,7 +17,7 @@ export const NewsContextProvider = ({ children }) => {
 	const { user, ...UserCxt } = useContext(UserContext);
 
 	const [news, setNews] = useState({});
-	const [isLoadingReactions, setIsLoadingReactions] = useState(false);
+	const [isLoadingUserVote, setIsLoadingUserVote] = useState(false);
 	const [isLoadingContent, setIsLoadingContent] = useState(false);
 
 	const checkDataForUpdates = (data) => {};
@@ -26,65 +26,11 @@ export const NewsContextProvider = ({ children }) => {
 		let extraData = {};
 
 		if (
-			/*!data.reactions &&  */
-			!data.reactions ||
-			(Array.isArray(data.reactions) && data.reactions.length === 0)
-		) {
-			extraData.reactions = [
-				{ news_reaction_id: '', type: 'up', counter: 0 },
-				{ news_reaction_id: '', type: 'down', counter: 0 },
-			];
-		} else if (
-			data?.reactions &&
-			data.reactions.length > 0 &&
-			data.reactions.length !== 2
-		) {
-			const messingReactions = [];
-			if (!data.reactions.find((item) => item.type === 'up')) {
-				messingReactions.push({
-					news_reaction_id: '',
-					type: 'up',
-					counter: 0,
-				});
-			}
-			if (!data.reactions.find((item) => item.type === 'down')) {
-				messingReactions.push({
-					news_reaction_id: '',
-					type: 'down',
-					counter: 0,
-				});
-			}
-			if (messingReactions.length !== 0) {
-				extraData.reactions = [...data.reactions, ...messingReactions];
-			}
-		} else {
-			extraData.reactions = data.reactions;
-		}
-
-		const reactionsSorted = [];
-		extraData?.reactions.forEach((reaction) => {
-			if (reactionsSorted.length === 0) {
-				reactionsSorted.push(reaction);
-			} else {
-				if (reaction.type === 'up') {
-					reactionsSorted.unshift(reaction);
-				} else {
-					reactionsSorted.push(reaction);
-				}
-			}
-		});
-		extraData.reactions = reactionsSorted;
-
-		if (
 			/*!data.comments && */
 			!data.comments ||
 			(Array.isArray(data.comments) && data.comments.length === 0)
 		) {
 			extraData.comments = [];
-		}
-
-		if (Object.keys(user).length === 0) {
-			extraData.user_reaction = '';
 		}
 
 		setNews({
@@ -111,27 +57,27 @@ export const NewsContextProvider = ({ children }) => {
 		if (Object.keys(user).length === 0) {
 			setNews((prev) => ({
 				...prev,
-				user_reaction: '',
+				user_vote_type: '',
 			}));
 		}
 	}, [user]);
 
 	useEffect(async () => {
-		if (!UserCxt.isLoading && isLoadingReactions) {
+		if (!UserCxt.isLoading && isLoadingUserVote) {
 			if (
 				news.news_id &&
-				(!news.user_reaction ||
-					(news.user_reaction && news.user_reaction.length === 0))
+				(!news.user_vote_type ||
+					(news.user_vote_type && news.user_vote_type.length === 0))
 			) {
 				let query = `news_id=${news.news_id}`;
-				if (user.id) query += `&news_reactor_id=${user.id}`;
+				if (user.id) query += `&voter_id=${user.id}`;
 
 				const {
 					status,
 					message,
-					data: dataReaction,
-				} = await fetch(`/api/v1/news/reactions/reaction/?${query}`).then(
-					(response) => response.json()
+					data: user_vote_typeData,
+				} = await fetch(`/api/v1/news/votes/vote/?${query}`).then((response) =>
+					response.json()
 				);
 
 				if (status === 'error') {
@@ -139,31 +85,15 @@ export const NewsContextProvider = ({ children }) => {
 					return;
 				}
 
-				const reactionsSorted = [];
-
-				dataReaction?.reactions.forEach((reaction) => {
-					if (reactionsSorted.length === 0) {
-						reactionsSorted.push(reaction);
-					} else {
-						if (reaction.type === 'up') {
-							reactionsSorted.unshift(reaction);
-						} else {
-							reactionsSorted.push(reaction);
-						}
-					}
-				});
-
 				setNews((prev) => ({
 					...prev,
-					user_reaction: dataReaction.user_reaction,
-					reactions: reactionsSorted,
-					// ...dataReaction,
+					...user_vote_typeData,
 				}));
 
-				setIsLoadingReactions(false);
+				setIsLoadingUserVote(false);
 			}
 		}
-	}, [UserCxt.isLoading, isLoadingReactions]);
+	}, [UserCxt.isLoading, isLoadingUserVote]);
 
 	useEffect(async () => {
 		if (isLoadingContent) {
@@ -176,10 +106,10 @@ export const NewsContextProvider = ({ children }) => {
 
 	const context = {
 		news,
-		isLoadingReactions,
+		isLoadingUserVote,
 		isLoadingContent,
 		setNews,
-		setIsLoadingReactions,
+		setIsLoadingUserVote,
 		setIsLoadingContent,
 		checkDataForUpdates,
 		handleSetNewsDataForFirstTime,

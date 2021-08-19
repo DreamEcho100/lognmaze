@@ -52,7 +52,7 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, news = [] }) => {
 			</Wrapper>
 
 			<section className={classes['main-section']}>
-				<section>
+				<section style={{ minWidth: '70%', marginRight: '1em' }}>
 					<Feed className={classes['section-1']} news={news} />
 					<Wrapper>
 						<p>

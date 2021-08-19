@@ -28,9 +28,9 @@ const Container = ({
 		handleSetNewsDataForFirstTime,
 		news,
 		setNews,
-		setIsLoadingReactions,
+		setIsLoadingUserVote,
 		setIsLoadingContent,
-		isLoadingReactions,
+		isLoadingUserVote,
 		isLoadingContent,
 	} = useContext(NewsContext);
 
@@ -62,8 +62,8 @@ const Container = ({
 	}, []);
 
 	useEffect(() => {
-		if (props.loadReactions) {
-			setIsLoadingReactions(true);
+		if (props.loadingUserVote && props.isModalOnView) {
+			setIsLoadingUserVote(true);
 		}
 	}, []);
 
@@ -86,7 +86,7 @@ const Container = ({
 				setShowModal={setShowModal}
 				detailsType={detailsType}
 				setIsLoadingContent={setIsLoadingContent}
-				isLoadingReactions={isLoadingReactions}
+				isLoadingUserVote={isLoadingUserVote}
 				isLoadingContent={isLoadingContent}
 			/>
 
@@ -116,8 +116,9 @@ const Container = ({
 							data={news}
 							setData={setNews}
 							setShowModal={setShowModal}
+							isModalOnView={showModal}
 							setIsLoadingContent={setIsLoadingContent}
-							isLoadingReactions={isLoadingReactions}
+							isLoadingUserVote={isLoadingUserVote}
 							isLoadingContent={isLoadingContent}
 							detailsType='content'
 						/>

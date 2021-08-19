@@ -10,12 +10,12 @@ export default async (req, res) => {
 			const {
 				with_news_article_content,
 				with_author_data,
-				news_reactor_id,
+				voter_id,
 				filter_by_user_id,
 			} = req.query;
 
 			let whereClause = '';
-			let news_reactor_id_index = '';
+			let voter_id_index = '';
 			const queryParams = [];
 
 			if (filter_by_user_id) {
@@ -25,9 +25,9 @@ export default async (req, res) => {
 				else whereClause += ` news.author_id = $${queryParams.length}`;
 			}
 
-			if (news_reactor_id) {
-				queryParams.push(news_reactor_id);
-				news_reactor_id_index = queryParams.length;
+			if (voter_id) {
+				queryParams.push(voter_id);
+				voter_id_index = queryParams.length;
 			}
 
 			const sqlQuery = `
@@ -35,6 +35,8 @@ export default async (req, res) => {
 					news.news_id,
 					news.type,
 					news.comments_counter,
+					news.up_votes_counter,
+					news.down_votes_counter,
 					news.created_at,
 					news.updated_on,
 				
@@ -44,22 +46,26 @@ export default async (req, res) => {
 					user_profile.user_name_id AS author_user_name_id,
 					user_profile.first_name AS author_first_name,
 					user_profile.last_name AS author_last_name,
-					user_profile.profile_picture AS author_profile_picture,`
+					user_profile.profile_picture AS author_profile_picture,
+					user_profile.bio AS author_bio,`
 							: ''
 					}
 					
-					news_tags.tags,
-					
-					news_reaction.*,
-					${news_reactor_id ? 'news_reactor_reaction.*,' : ''}
+					${voter_id ? 'user_vote.vote_type AS user_vote_type,' : ''}
 
 					news_article.title,
 					news_article.slug,
 					news_article.iso_language,
 					news_article.iso_country,
 					news_article.image,
-					news_article.description
-					${with_news_article_content ? ',news_article.content' : ''}
+					news_article.description,
+					${with_news_article_content ? 'news_article.content,' : ''}
+					
+					ARRAY (
+						SELECT news_tag.name AS tag
+						FROM news_tag
+						WHERE news_tag.news_id = news_article.news_article_id
+					) AS tags
 				
 				FROM news
 				${
@@ -68,32 +74,13 @@ export default async (req, res) => {
 						: ''
 				}
 				JOIN news_article ON news_article.news_article_id = news.news_id
-				JOIN LATERAL(
-					SELECT ARRAY (
-						SELECT news_tag.name AS tag
-						FROM news_tag
-						WHERE news_tag.news_id = news_article.news_article_id
-					) AS tags
-				) news_tags ON TRUE
-				JOIN LATERAL (
-					SELECT json_agg (
-						json_build_object (
-							'news_reaction_id', news_reaction.news_reaction_id ,
-							'type', news_reaction.type,
-							'counter', news_reaction.counter
-						)
-					) AS reactions
-						FROM  news_reaction
-						WHERE news_reaction.news_id = news.news_id
-					
-				) news_reaction ON TRUE
 				${
-					news_reactor_id
-						? `LEFT JOIN LATERAL (
-							SELECT type AS user_reaction FROM news_reaction
-							JOIN news_reactor ON news_reactor.news_reaction_id = news_reaction.news_reaction_id
-							WHERE news_reaction.news_id = news.news_id AND news_reactor.news_reactor_id = ($${news_reactor_id_index})
-						) news_reactor_reaction ON TRUE`
+					voter_id
+						? `
+						LEFT JOIN LATERAL (
+							SELECT news_vote.vote_type FROM news_vote WHERE news_vote.news_id = news.news_id AND news_vote.voter_id = ($${voter_id_index})
+						) user_vote ON TRUE
+					`
 						: ''
 				}
 				${whereClause}

@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import classes from './SignUp.module.css';
 import BoxShadowClasses from '../../UI/V1/BoxShadow.module.css';
 
+import { validateEmail, validatePasswordStrength } from '@lib/v1/validate';
 import UserContext from '../../../store/UserContext';
 
 import Form from '../../UI/V1/Form';
@@ -48,7 +49,12 @@ const SignUp = ({
 	const [states, setStates] = useState([]);
 	const [cities, setCities] = useState([]);
 
-	const [afterFormSubmitMessage, setAfterFormSubmitMessage] = useState(true);
+	const [AfterFormSubmitMessage, setAfterFormSubmitMessage] = useState(() => (
+		<></>
+	));
+	const [afterFormSubmitMessageExist, setAfterFormSubmitMessageExist] =
+		useState(false);
+
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
 
 	const handleGetCities = async (state) => {
@@ -171,8 +177,41 @@ const SignUp = ({
 	const submitHandler = async (event) => {
 		event.preventDefault();
 
-		setAfterFormSubmitMessage('');
 		setBtnsDisabled(true);
+		setAfterFormSubmitMessage(() => <></>);
+		setAfterFormSubmitMessageExist(false);
+
+		const emailValidated = validateEmail(values.email);
+		const passwordValidated = validatePasswordStrength(values.password);
+
+		if (!emailValidated) {
+			setAfterFormSubmitMessage(() => <p>There is something with the email</p>);
+			setAfterFormSubmitMessageExist(true);
+			setBtnsDisabled(false);
+			return;
+		}
+
+		if (passwordValidated.strength !== 'strong') {
+			setAfterFormSubmitMessage(() => {
+				return (
+					<>
+						<p>Password strength is {passwordValidated.strength}</p>
+						<p>Strong password requirements:</p>
+						<ul>
+							{passwordValidated.strongPasswordRequirements.map(
+								(item, index) => (
+									<li key={index}>{item}</li>
+								)
+							)}
+						</ul>
+					</>
+				);
+			});
+			setAfterFormSubmitMessageExist(true);
+			setBtnsDisabled(false);
+			return;
+		}
+
 		const { status, message } = await handleSignUp(values).then((response) => {
 			setBtnsDisabled(false);
 			return response;
@@ -180,8 +219,8 @@ const SignUp = ({
 
 		if (status === 'error') {
 			console.error(message);
-			setBtnsDisabled(false);
-			setAfterFormSubmitMessage(message);
+			setAfterFormSubmitMessage(() => <>{message}</>);
+			setAfterFormSubmitMessageExist(true);
 		}
 	};
 
@@ -490,10 +529,8 @@ const SignUp = ({
 				/>
 				<Label htmlFor='female'>Female</Label>
 			</FormControl>
-			{afterFormSubmitMessage.length !== 0 && (
-				<div className={classes.warning}>
-					<p>{afterFormSubmitMessage}</p>
-				</div>
+			{afterFormSubmitMessageExist && (
+				<div className={classes.warning}>{AfterFormSubmitMessage}</div>
 			)}
 			<FormControl extraClasses='align-center' className={classes.actions}>
 				<Button

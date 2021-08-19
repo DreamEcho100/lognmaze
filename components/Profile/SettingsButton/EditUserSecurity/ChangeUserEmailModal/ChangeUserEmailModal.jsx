@@ -3,6 +3,7 @@ import { Fragment, useContext, useState } from 'react';
 
 import classes from './ChangeUserEmailModal.module.css';
 
+import { validateEmail } from '@lib/v1/validate';
 import UserContext from '@store/UserContext';
 
 // const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
@@ -20,20 +21,38 @@ const ChangeUserEmailModal = ({ showModal, setShowModal }) => {
 	const [email, setEmail] = useState(user.email);
 	const [password, setPassword] = useState('');
 
-	const [afterFormSubmitMessage, setAfterFormSubmitMessage] = useState(true);
+	const [AfterFormSubmitMessage, setAfterFormSubmitMessage] = useState(() => (
+		<></>
+	));
+	const [afterFormSubmitMessageExist, setAfterFormSubmitMessageExist] =
+		useState(false);
+
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
+		setBtnsDisabled(true);
+		setAfterFormSubmitMessage(() => <></>);
+		setAfterFormSubmitMessageExist(false);
+
+		const emailValidated = validateEmail(email);
+
+		if (!emailValidated) {
+			setAfterFormSubmitMessage(() => <p>There is something with the email</p>);
+			setAfterFormSubmitMessageExist(true);
+			setBtnsDisabled(false);
+			return;
+		}
+
 		try {
-			setBtnsDisabled(true);
 			const { status, message } = await handleChangeEmail({ email, password });
 
 			if (status === 'error') {
 				setBtnsDisabled(false);
 				console.error(message);
-				setAfterFormSubmitMessage(message);
+				setAfterFormSubmitMessage(() => <>{message}</>);
+				setAfterFormSubmitMessageExist(true);
 				return;
 			}
 
@@ -44,7 +63,8 @@ const ChangeUserEmailModal = ({ showModal, setShowModal }) => {
 		} catch (error) {
 			setBtnsDisabled(false);
 			console.error(error);
-			setAfterFormSubmitMessage(error.message);
+			setAfterFormSubmitMessage(() => <>{error.message}</>);
+			setAfterFormSubmitMessageExist(true);
 			return { status: 'error', message: error.message };
 		}
 	};
@@ -87,10 +107,8 @@ const ChangeUserEmailModal = ({ showModal, setShowModal }) => {
 							value={password}
 						/>
 					</FormControl>
-					{afterFormSubmitMessage.length !== 0 && (
-						<div className={classes.warning}>
-							<p>{afterFormSubmitMessage}</p>
-						</div>
+					{afterFormSubmitMessageExist && (
+						<div className={classes.warning}>{AfterFormSubmitMessage}</div>
 					)}
 					<Button
 						title='Submit'

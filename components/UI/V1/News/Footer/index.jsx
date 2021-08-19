@@ -9,7 +9,7 @@ import Comments from './Comments';
 import Settings from './Settings';
 import Status from './Status';
 
-const Footer = ({ data, setData, isLoadingReactions }) => {
+const Footer = ({ data, setData, isLoadingUserVote }) => {
 	const footerRef = useRef();
 
 	const [showComments, setShowComments] = useState(false);
@@ -36,14 +36,13 @@ const Footer = ({ data, setData, isLoadingReactions }) => {
 			<Settings
 				data={data}
 				comments={data.comments}
-				reactions={data.reactions}
-				user_reaction={data.user_reaction}
+				user_vote_type={data.user_vote_type}
 				setData={setData}
 				setShowComments={setShowComments}
 				setFocusCommentTextarea={setFocusCommentTextarea}
 				showComments={showComments}
 				focusCommentTextarea={focusCommentTextarea}
-				isLoadingReactions={isLoadingReactions}
+				isLoadingUserVote={isLoadingUserVote}
 			/>
 			{showComments && (
 				<Comments

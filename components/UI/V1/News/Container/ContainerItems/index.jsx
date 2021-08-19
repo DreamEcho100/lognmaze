@@ -13,7 +13,7 @@ const ContainerItems = ({
 	setShowModal,
 	setIsLoadingContent,
 	isLoadingContent,
-	isLoadingReactions,
+	isLoadingUserVote,
 	// props.hideHeaderSettings,
 	...props
 }) => {
@@ -38,7 +38,7 @@ const ContainerItems = ({
 				<NewsFooter
 					data={data}
 					setData={setData}
-					isLoadingReactions={isLoadingReactions}
+					isLoadingUserVote={isLoadingUserVote}
 				/>
 			</article>
 		</Wrapper>
