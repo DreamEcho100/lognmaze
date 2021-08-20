@@ -89,7 +89,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 					if (identity === OWNER) setIdentity(GUEST);
 					if (handleIsAuthorized) setHandleIsAuthorized(false);
 				} else {
-					userResult = await fetch(
+					const userResult = await fetch(
 						`/api/v1/users/profiles/profile/${router.query.user_name_id}`
 					).then((response) => response.json());
 
