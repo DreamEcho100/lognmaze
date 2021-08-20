@@ -70,7 +70,7 @@ export const UserContextProvider = ({ children }) => {
 					const user = JSON.parse(userCookie);
 					setUser({
 						...user,
-						token,
+						token, 
 					});
 				}
 

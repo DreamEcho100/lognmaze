@@ -1,34 +1,44 @@
-import { verifyJwtToken } from '@lib/v1/auth';
+import {
+	handleIsAuthorized,
+	// , verifyJwtToken
+} from '@lib/v1/auth';
 
 export default async (req, res) => {
 	if (req.method === 'POST') {
 		try {
-			const token = req.headers.authorization.split(' ')[1];
+			const isAuthorized = await handleIsAuthorized(
+				res,
+				req.headers.authorization
+			);
 
-			const isAuthorized = await verifyJwtToken(token);
+			// if (!isAuthorized.id) return;
 
-			if (isAuthorized) {
-				return res.status(200).json({
-					status: 'success',
-					message: 'Authorized!',
+			// const token = req.headers.authorization.split(' ')[1];
+
+			// const isAuthorized = await verifyJwtToken(token);
+
+			if (!isAuthorized.id) {
+				return res.status(401).json({
+					status: 'error',
+					message: 'Unauthorized!',
 					data: {
-						isAuthorized: true,
+						isAuthorized: false,
 					},
 				});
 			}
 
-			return res.status(401).json({
-				status: 'error',
-				message: 'Unauthorized!',
+			return res.status(200).json({
+				status: 'success',
+				message: 'Authorized!',
 				data: {
-					isAuthorized: false,
+					isAuthorized: true,
 				},
 			});
 		} catch (error) {
 			console.error(error);
 			return res.status(500).json({
 				status: 'error',
-				message: error.maessage || 'Unauthorized!',
+				message: error.message || 'Unauthorized!',
 				data: {
 					isAuthorized: false,
 				},
