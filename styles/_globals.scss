@@ -232,29 +232,33 @@ body.dark {
 
 #main-intro.verifying-credentials-finished {
 	transform: translateX(-100%);
+	// opacity: 0;
+	// filter: hue-rotate(360deg);
 }
 
-.svg-container {
+#main-intro.verifying-credentials-finished .svg-container {
+	transform: translateX(75%) rotate(90deg) scale(0.4);
+	// opacity: 0;
+	// filter: hue-rotate(360deg);
+}
+
+#main-intro .svg-container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 100%;
-	height: 100%;
-	background-color: transparent;
-}
-
-.svg-container {
-	width: 50rem;
+	width: 80rem;
 	max-width: 90%;
 	margin: auto;
-	// --animation-time: 7s;
+	height: 100%;
+	background-color: transparent;
+	transition: all 0.3s ease-in-out;
 }
 
-.lognmaze-signature {
+#main-intro .lognmaze-signature {
 	// --3036:
 	stroke-dasharray: 40477;
 	stroke-dashoffset: 40477;
-	opacity: 0.4;
+	opacity: 0.5;
 	animation: sign 5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 1s forwards;
 }
 

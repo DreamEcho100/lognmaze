@@ -7,11 +7,11 @@ export default async (req, res) => {
 	}
 
 	if (req.method === 'GET') {
-		const GUEST = 'GUEST';
-		const OWNER = 'OWNER';
+		// const GUEST = 'GUEST';
+		// const OWNER = 'OWNER';
 
 		let user_name_id;
-		let visitorIdentity = GUEST;
+		// let visitorIdentity = GUEST;
 		try {
 			user_name_id = req.query.user_name_id;
 
@@ -22,7 +22,7 @@ export default async (req, res) => {
 					req.headers.authorization
 				);
 
-				if (isAuthorized.id) {
+				if (isAuthorized.id) { 
 					// visitorIdentity = OWNER;
 					// res.status(201).json({
 					// 	status: 'success',
@@ -45,15 +45,14 @@ export default async (req, res) => {
 				withSensitiveInfo: false,
 			});
 
-			if (!user && !user.id && user.id.length === 0) {
+			if (!user && !user.id) {
 				res.status(401).json({
 					status: 'error',
 					message: "User doesn't exist!",
 					data: {
 						// id: isAuthorized.id,
 					},
-					isAuthorized: false,
-					visitorIdentity,
+					// visitorIdentity,
 				});
 
 				return;
@@ -61,21 +60,19 @@ export default async (req, res) => {
 
 			// delete user.rows[0].password;
 
-			return res.status(401).json({
+			return res.status(200).json({
 				status: 'success',
 				message: 'User exist!',
 				data: user,
-				isAuthorized: false,
-				visitorIdentity,
+				// visitorIdentity,
 			});
 		} catch (error) {
-			visitorIdentity = GUEST;
+			// visitorIdentity = GUEST;
 			return res.status(401).json({
 				status: 'error',
 				message: error.message,
 				data: {},
-				isAuthorized: false,
-				visitorIdentity,
+				// visitorIdentity,
 			});
 		}
 	}

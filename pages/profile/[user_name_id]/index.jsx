@@ -73,38 +73,53 @@ const ProfilePage = ({ user = {}, ...props }) => {
 				}
 			}
 
+			let userProfileData;
+
 			if (
+				router.query.user_name_id &&
 				userData.user_name_id &&
 				router.query.user_name_id !== userData.user_name_id
 			) {
 				setIsLoading(true);
 
-				const userResult = await fetch(
-					`/api/v1/users/profiles/profile/${router.query.user_name_id}`
-				);
-
-				if (
-					!userResult?.data?.user_name_id ||
-					(userResult && userResult.status === 'error')
-				) {
-					setUserData({});
-					setPosts([]);
-					return;
-				}
-
-				setUserData(userResult.data);
-
-				if (UserCxt?.user?.user_name_id === userResult.data.user_name_id) {
+				if (UserCxt?.user?.user_name_id === router.query.user_name_id) {
+					userProfileData = UserCxt.user;
 					if (identity === GUEST) setIdentity(OWNER);
 					if (!handleIsAuthorized) setHandleIsAuthorized(true);
-				} else {
 					if (identity === OWNER) setIdentity(GUEST);
 					if (handleIsAuthorized) setHandleIsAuthorized(false);
+				} else {
+					userResult = await fetch(
+						`/api/v1/users/profiles/profile/${router.query.user_name_id}`
+					).then((response) => response.json());
+
+					if (
+						!userResult?.data?.user_name_id ||
+						(userResult && userResult.status === 'error')
+					) {
+						setUserData({});
+						setPosts([]);
+						setIsLoading(false);
+						return;
+					}
+
+					userProfileData = userResult.data;
 				}
 
+				setUserData(userProfileData);
+
+				// if (UserCxt?.user?.user_name_id === userProfileData.user_name_id) {
+				// 	if (identity === GUEST) setIdentity(OWNER);
+				// 	if (!handleIsAuthorized) setHandleIsAuthorized(true);
+				// } else {
+				// 	if (identity === OWNER) setIdentity(GUEST);
+				// 	if (handleIsAuthorized) setHandleIsAuthorized(false);
+				// }
+
 				let postInputQuery = '/?filter_by_user_id=';
-				if (user.data && user.data.id) postInputQuery += user.data.id;
-				else postInputQuery += userCookieObj.id;
+				// if (user.data && user.data.id) postInputQuery += user.data.id;
+				// else
+				postInputQuery += userProfileData.id;
 
 				if (UserCxt?.user?.id) postInputQuery += `&voter_id=${UserCxt.user.id}`;
 
@@ -124,31 +139,40 @@ const ProfilePage = ({ user = {}, ...props }) => {
 						};
 					});
 
-				setPosts(postsResult.posts);
-
-				setIsLoading(true);
-			}
-
-			if (
-				UserCxt.userExist &&
-				posts.length !== 0 &&
-				(posts.author_id !== userData.id ||
-					posts.author_user_name_id !== userData.user_name_id ||
-					posts.author_first_name !== userData.first_name ||
-					posts.author_last_name !== userData.last_name ||
-					posts.author_profile_picture !== userData.profile_picture)
-			) {
-				setPosts((prev) =>
-					prev.map((item) => ({
-						...item,
-						author_id: userData.id,
-						author_user_name_id: userData.user_name_id,
-						author_first_name: userData.first_name,
-						author_last_name: userData.last_name,
-						author_profile_picture: userData.profile_picture,
-					}))
+				setPosts(
+					postsResult.data.map((item) => {
+						return {
+							...item,
+							...item.type_data,
+							type_data: {},
+						};
+					})
 				);
+
+				setIsLoading(false);
 			}
+
+			// if (
+			// 	UserCxt.userExist &&
+			// 	posts &&
+			// 	posts.length !== 0 &&
+			// 	(posts.author_id !== userData.id ||
+			// 		posts.author_user_name_id !== userData.user_name_id ||
+			// 		posts.author_first_name !== userData.first_name ||
+			// 		posts.author_last_name !== userData.last_name ||
+			// 		posts.author_profile_picture !== userData.profile_picture)
+			// ) {
+			// 	setPosts((prev) =>
+			// 		prev.map((item) => ({
+			// 			...item,
+			// 			author_id: userData.id,
+			// 			author_user_name_id: userData.user_name_id,
+			// 			author_first_name: userData.first_name,
+			// 			author_last_name: userData.last_name,
+			// 			author_profile_picture: userData.profile_picture,
+			// 		}))
+			// 	);
+			// }
 
 			if (isLoading) setIsLoading(false);
 		}
