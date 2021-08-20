@@ -77,7 +77,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 
 			if (
 				router.query.user_name_id &&
-				userData.user_name_id &&
+				// userData.user_name_id &&
 				router.query.user_name_id !== userData.user_name_id
 			) {
 				setIsLoading(true);
@@ -94,8 +94,9 @@ const ProfilePage = ({ user = {}, ...props }) => {
 					).then((response) => response.json());
 
 					if (
-						!userResult?.data?.user_name_id ||
-						(userResult && userResult.status === 'error')
+						!userResult.data ||
+						!userResult.data.user_name_id ||
+						(userResult.status && userResult.status === 'error')
 					) {
 						setUserData({});
 						setPosts([]);
