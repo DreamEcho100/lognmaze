@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Head from 'next/head';
 
 import classes from './index.module.css';
@@ -43,11 +43,11 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, news = [] }) => {
 				/>
 				<meta
 					property='og:url'
-					content={`https://lognmaze.com/profile/${userData.userData}`}
+					content={`https://lognmaze.com/profile/${userData.user_name_id}`}
 				/>
 				<meta
 					name='twitter:url'
-					content={`https://lognmaze.com/profile/${userData.userData}`}
+					content={`https://lognmaze.com/profile/${userData.user_name_id}`}
 				/>
 
 				{userData?.profile_picture?.length !== 0 ? (

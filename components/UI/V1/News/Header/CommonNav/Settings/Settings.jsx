@@ -69,8 +69,9 @@ const Settings = ({
 						});
 
 						useEffect(() => {
-							if (!data.content) setIsLoadingContent(true);
-						}, []);
+							if (showUpdateNewsModal && !data.content)
+								setIsLoadingContent(true);
+						}, [showUpdateNewsModal]);
 
 						useEffect(() => {
 							if (
@@ -81,7 +82,8 @@ const Settings = ({
 									action: 'update',
 									route: 'update',
 									data: news,
-									setData: setData,setNews,
+									setData: setData,
+									setNews,
 								});
 							}
 						}, [news]);
@@ -140,8 +142,8 @@ const Settings = ({
 						});
 
 						useEffect(() => {
-							if (!data.content) setIsLoadingContent(true);
-						}, []);
+							if (showDeleteModal && !data.content) setIsLoadingContent(true);
+						}, [showDeleteModal]);
 
 						useEffect(() => {
 							if (

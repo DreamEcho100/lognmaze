@@ -165,7 +165,8 @@ const ProfilePage = ({ user = {}, ...props }) => {
 			UserCxt.user.id === userData.id &&
 			JSON.stringify(userData) !== JSON.stringify(UserCxt.user)
 		) {
-			return setUserData(UserCxt.user);
+			setUserData(UserCxt.user);
+			// return router.reload(window.location.pathname);
 		}
 	}, [UserCxt.user]);
 

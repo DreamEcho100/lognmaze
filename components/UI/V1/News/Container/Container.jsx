@@ -50,7 +50,11 @@ const Container = ({
 	};
 
 	useEffect(() => {
-		if (showModal && !news.content) {
+		if (
+			showModal &&
+			!news.content
+			// && props.containerType === 'sub'
+		) {
 			handleLoadingArticleContent();
 		}
 	}, [showModal]);
@@ -119,7 +123,7 @@ const Container = ({
 							isContainerContentOnView={showModal}
 							setIsLoadingContent={setIsLoadingContent}
 							isLoadingUserVote={isLoadingUserVote}
-							isLoadingContent={isLoadingContent}
+							isLoadingContent={isLoadingContent && showModal}
 							detailsType='content'
 						/>
 					</Fragment>

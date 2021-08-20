@@ -194,17 +194,17 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 		return props;
 	};
 
-	const handleLoadingArticleContent = async (id) => {
-		await fetch(`/api/v1/news/articles/article/content/${id}`)
-			.then((response) => response.json())
-			.then(({ message, status, data }) => {
-				setData((prev) => ({
-					...prev,
-					...data,
-				}));
-			})
-			.catch((error) => console.error(error));
-	};
+	// const handleLoadingArticleContent = async (id) => {
+	// 	await fetch(`/api/v1/news/articles/article/content/${id}`)
+	// 		.then((response) => response.json())
+	// 		.then(({ message, status, data }) => {
+	// 			setData((prev) => ({
+	// 				...prev,
+	// 				...data,
+	// 			}));
+	// 		})
+	// 		.catch((error) => console.error(error));
+	// };
 
 	useEffect(() => {
 		// const changedValues = {};

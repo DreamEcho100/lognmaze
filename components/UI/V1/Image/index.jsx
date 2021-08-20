@@ -26,6 +26,10 @@ const Image = ({
 
 	useEffect(() => observer.observe(imageRef.current), []);
 
+	useEffect(() => {
+		if (props.src !== src) setSrc(props.src);
+	}, [props.src]);
+
 	const imageProps = {
 		className,
 		alt,
