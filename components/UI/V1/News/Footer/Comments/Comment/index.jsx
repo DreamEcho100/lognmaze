@@ -14,20 +14,20 @@ import DropdownMenu from '@components/UI/V1/DropdownMenu';
 import CommentTextarea from '../CommentTextarea';
 import Image from '@components/UI/V1/Image';
 
-const Replies = ({ replies, setData, data, parent_data }) =>
+const Replies = ({ replies, setData, newsItem, parent_data }) =>
 	replies
 		? replies.map((reply) => (
 				<Comment
 					key={reply.news_comment_id}
 					comment={reply}
 					setData={setData}
-					data={data}
+					newsItem={newsItem}
 					parent_data={parent_data}
 				/>
 		  ))
 		: null;
 
-const Comment = ({ comment, data, setData, ...props }) => {
+const Comment = ({ comment, newsItem, setData, ...props }) => {
 	const { user, ...UserCxt } = useContext(UserContext);
 
 	const [showContent, setShowContent] = useState(true);
@@ -126,7 +126,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			news_comment_id: comment.news_comment_id,
 		};
 
-		const { status, message, data } = await fetch(
+		const { status, message, newsItem } = await fetch(
 			'/api/v1/news/comments/comment',
 			{
 				method: 'PATCH',
@@ -199,7 +199,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 	) => {
 		setCommentReplyBtnsDisabled(true);
 
-		const { status, message, data } = await fetch(
+		const { status, message, newsItem } = await fetch(
 			'/api/v1/news/comments/comment',
 			{
 				method: 'POST',
@@ -230,7 +230,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			author_user_name_id: user.user_name_id,
 
 			author_id: user.id,
-			news_comment_id: data.news_comment_id,
+			news_comment_id: newsItem.news_comment_id,
 			created_at: new Date().toUTCString(),
 			updated_on: new Date().toUTCString(),
 		};
@@ -302,8 +302,8 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			)}`;
 		}
 
-		const { status, message, data } = await fetch(fetchInput).then((response) =>
-			response.json()
+		const { status, message, newsItem } = await fetch(fetchInput).then(
+			(response) => response.json()
 		);
 
 		if (status === 'error') {
@@ -316,16 +316,16 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			comments: prev.comments.map((comment) => {
 				if (comment.news_comment_id === parent_id) {
 					const last_reply_created_at =
-						data.comments[data.comments.length - 1].created_at;
+						newsItem.comments[newsItem.comments.length - 1].created_at;
 
 					const replies = comment.replies
-						? [...comment.replies, ...data.comments /*.reverse()*/]
-						: data.comments; /*.reverse()*/
+						? [...comment.replies, ...newsItem.comments /*.reverse()*/]
+						: newsItem.comments; /*.reverse()*/
 
 					return {
 						...comment,
 						replies,
-						hit_replies_limit: data.hit_replies_limit,
+						hit_replies_limit: newsItem.hit_replies_limit,
 						last_reply_created_at,
 					};
 				}
@@ -334,7 +334,8 @@ const Comment = ({ comment, data, setData, ...props }) => {
 			}),
 		}));
 
-		if (data.hit_replies_limit && !hitRepliesLimit) setHitRepliesLimit(true);
+		if (newsItem.hit_replies_limit && !hitRepliesLimit)
+			setHitRepliesLimit(true);
 		if (!showReplies) setShowReplies(true);
 
 		setLoadingReplies(false);
@@ -347,13 +348,13 @@ const Comment = ({ comment, data, setData, ...props }) => {
 					props: {
 						handleDeleteComment,
 						comment,
-						data,
+						newsItem,
 						deleteBtnsDisabled,
 					},
 					Element: ({
 						handleDeleteComment,
 						comment,
-						data,
+						newsItem,
 						deleteBtnsDisabled,
 					}) => (
 						<button
@@ -365,7 +366,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 									bodyObj = {
 										type: comment.type,
 										news_comment_id: comment.news_comment_id,
-										parent_id: data.news_id,
+										parent_id: newsItem.news_id,
 									};
 								} else if (comment.type === 'comment_main_reply') {
 									bodyObj = {
@@ -537,7 +538,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 
 						let bodyObj = {
 							type: 'comment_main_reply',
-							news_id: data.news_id,
+							news_id: newsItem.news_id,
 							content: values.comment_reply,
 							// reply_to_comment_id: null, // comment.news_id,
 							reply_to_user_id: comment.author_id,
@@ -572,7 +573,7 @@ const Comment = ({ comment, data, setData, ...props }) => {
 				<Replies
 					replies={comment.replies}
 					setData={setData}
-					data={data}
+					newsItem={newsItem}
 					parent_data={comment}
 				/>
 			)}

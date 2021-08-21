@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
 
-const Status = ({ data, showComments, setShowComments }) => {
+const Status = ({ newsItem, showComments, setShowComments }) => {
 	return (
 		<section className={classes.status}>
 			<div className={`${classes.votes} ${classes['status-item']}`}>
@@ -10,7 +10,8 @@ const Status = ({ data, showComments, setShowComments }) => {
 					title='Up Vote'
 					className={`${classes.vote} ${classes['up-vote']}`}
 				>
-					<FontAwesomeIcon icon={['fas', 'arrow-up']} /> {data.up_votes_counter}
+					<FontAwesomeIcon icon={['fas', 'arrow-up']} />{' '}
+					{newsItem.up_votes_counter}
 				</button>
 
 				<button
@@ -18,7 +19,7 @@ const Status = ({ data, showComments, setShowComments }) => {
 					className={`${classes.vote} ${classes['down-vote']}`}
 				>
 					<FontAwesomeIcon icon={['fas', 'arrow-down']} />{' '}
-					{data.down_votes_counter}
+					{newsItem.down_votes_counter}
 				</button>
 			</div>
 			<div
@@ -29,20 +30,20 @@ const Status = ({ data, showComments, setShowComments }) => {
 				}}
 				className={`${classes.comments_counter} ${classes['status-item']}`}
 			>
-				{data.comments_counter === 0 ? (
+				{newsItem.comments_counter === 0 ? (
 					<button title='No Comment'>
 						<FontAwesomeIcon icon={['fas', 'comment-slash']} />
 					</button>
-				) : data.comments_counter === 1 ? (
+				) : newsItem.comments_counter === 1 ? (
 					<button title='1 Comment'>
 						<FontAwesomeIcon icon={['fas', 'comment']} />
 					</button>
 				) : (
-					<button title={`${data.comments_counter} Comments`}>
+					<button title={`${newsItem.comments_counter} Comments`}>
 						<FontAwesomeIcon icon={['fas', 'comments']} />
 					</button>
 				)}{' '}
-				{data.comments_counter}
+				{newsItem.comments_counter}
 			</div>
 		</section>
 	);

@@ -2,8 +2,10 @@ import { useContext, useEffect, useState } from 'react';
 
 // import classes from './index.module.css';
 
+import { handleLoadingNewsItemComments } from '@store/NewsContextTest/actions';
+import NewsContextTest from '@store/NewsContextTest';
 import UserContext from '@store/UserContext';
-import NewsContext from '@store/NewsContext';
+// import NewsContext from '@store/NewsContext';
 
 import Comment from './Comment';
 import CommentTextarea from './CommentTextarea';
@@ -13,14 +15,17 @@ const Comments = ({
 	// data,
 	// setData,
 	comments,
+	setNews = () => {},
 	className,
+	newsItem,
 	setShowComments,
 	setFocusCommentTextarea,
 	showComments,
 	focusCommentTextarea,
 }) => {
+	const { /* state, */ dispatch /* , types */ } = useContext(NewsContextTest);
 	const { user /* , ...UserCxt*/ } = useContext(UserContext);
-	const { news, setNews } = useContext(NewsContext);
+	// const { news, setNews } = useContext(NewsContext);
 
 	const [values, setValues] = useState({
 		content: '',
@@ -30,9 +35,6 @@ const Comments = ({
 		useState(false);
 
 	const [loadingComments, setLoadingComments] = useState(false);
-	const [hitCommentsLimit, setHitCommentsLimit] = useState(
-		news.hit_comments_limit || news.comments_counter === 0 ? true : false
-	);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -42,14 +44,14 @@ const Comments = ({
 		const body = JSON.stringify({
 			type: 'comment_main',
 			content: values.content,
-			news_id: news.news_id,
+			news_id: newsItem.news_id,
 		});
 
 		const {
 			status,
 			message,
 			data: comment,
-		} = await fetch('/api/v1/news/comments/comment', {
+		} = await fetch('/api/v1/newsItem/comments/comment', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -104,59 +106,19 @@ const Comments = ({
 	};
 
 	const LoadComments = async () => {
-		if (news.comments_counter === 0 || news.hit_comments_limit) return;
+		console.log('setLoadingComments', setLoadingComments);
+		if (newsItem.comments_counter === 0 || newsItem.hit_comments_limit) return;
 
 		setLoadingComments(true);
 
-		let fetchInput = `/api/v1/news/comments/comment/?type=comment_main&news_id=${news.news_id}`;
+		await handleLoadingNewsItemComments({ dispatch, newsItem });
 
-		if (news.last_comment_created_at) {
-			fetchInput += `&last_comment_created_at=${news.last_comment_created_at}`;
-		}
-
-		if (news.comments_to_not_fetch && news.comments_to_not_fetch.length > 0) {
-			fetchInput += `&comments_to_not_fetch=${news.comments_to_not_fetch.join(
-				','
-			)}`;
-		}
-
-		const {
-			status,
-			message,
-			data: result,
-		} = await fetch(fetchInput).then((response) => response.json());
-
-		if (status === 'error') {
-			setLoadingComments(false);
-			return console.error(message);
-		}
-
-		const toAdd = {};
-
-		if (result?.comments.length > 0) {
-			toAdd.last_comment_created_at =
-				result.comments[result.comments.length - 1].created_at;
-			toAdd.comments = [...news.comments, ...result.comments];
-		}
-
-		if (
-			result.hit_comments_limit ||
-			(toAdd.comments && toAdd.comments.length === news.comments_counter)
-		) {
-			toAdd.hit_comments_limit = true;
-			setHitCommentsLimit(true);
-		}
-
-		setNews((prev) => ({
-			...prev,
-			...toAdd,
-		}));
 		setLoadingComments(false);
 	};
 
-	useEffect(async () => {
-		if (news?.comments.length === 0) await LoadComments();
-	}, []);
+	useEffect(() => LoadComments(), []);
+
+	console.log('loadingComments', loadingComments);
 
 	return (
 		<section className={`${inheritedClasses}`}>
@@ -170,19 +132,19 @@ const Comments = ({
 				disableSubmitBtn={disableSendCommentButton}
 			/>
 			<div>
-				{news.comments &&
-					news.comments.map((comment, index) => (
+				{newsItem.comments &&
+					newsItem.comments.map((comment, index) => (
 						<Comment
 							key={comment.news_comment_id}
 							comment={comment}
 							setData={setNews}
-							data={news}
+							newsItem={newsItem}
 						/>
 					))}
 			</div>
 			{loadingComments && <p>Loading...</p>}
 			<div>
-				{!hitCommentsLimit && (
+				{!newsItem.hit_comments_limit && (
 					<button
 						title='Load More'
 						disabled={loadingComments}

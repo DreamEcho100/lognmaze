@@ -5,7 +5,8 @@ import classes from './Container.module.css';
 // import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 import BorderClasses from '@components/UI/V1/Border.module.css';
 
-import NewsContext from '@store/NewsContext';
+import NewsContextTest from '@store/NewsContextTest';
+import { handleLoadingNewsItemContent } from '@store/NewsContextTest/actions';
 import { handleAllClasses } from '../../utils/index';
 
 // const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
@@ -21,20 +22,17 @@ const Container = ({
 	extraClasses = '',
 	className = '',
 	detailsType = 'description',
+	newsItem,
 	...props
 }) => {
-	const {
-		handleLoadingArticleContent,
-		handleSetNewsDataForFirstTime,
-		news,
-		setNews,
-		setIsLoadingUserVote,
-		setIsLoadingContent,
-		isLoadingUserVote,
-		isLoadingContent,
-	} = useContext(NewsContext);
+	console.log('newsItem', newsItem);
+	const { /* state, */ dispatch /* , types */ } = useContext(NewsContextTest);
 
 	const [showModal, setShowModal] = useState(false);
+
+	const articleProps = {
+		className: classes['container'],
+	};
 
 	const allClasses = handleAllClasses({
 		classes,
@@ -45,38 +43,26 @@ const Container = ({
 		className,
 	});
 
-	const articleProps = {
-		className: classes['container'],
-	};
-
-	useEffect(() => {
-		if (
-			showModal &&
-			!news.content
-			// && props.containerType === 'sub'
-		) {
-			handleLoadingArticleContent();
-		}
-	}, [showModal]);
-
-	useEffect(() => {
-		if (props.containerType !== 'sub') {
-			handleSetNewsDataForFirstTime(props.data);
-		}
-	}, []);
-
-	useEffect(() => {
-		if (props.loadingUserVote && props.isContainerContentOnView) {
-			setIsLoadingUserVote(true);
-		}
-	}, []);
-
-	if (Object.keys(news).length === 0) {
+	if (Object.keys(newsItem).length === 0) {
 		return <article />;
 	}
 
-	if (news.type === 'article')
-		articleProps.lang = `${news.iso_language}-${news.iso_country}`;
+	if (newsItem.type === 'article')
+		articleProps.lang = `${newsItem.iso_language}-${newsItem.iso_country}`;
+
+	useEffect(async () => {
+		if (
+			showModal &&
+			!newsItem.content
+			// && props.containerType === 'sub'
+		) {
+			await handleLoadingNewsItemContent({
+				dispatch,
+				news_id: newsItem.news_id,
+			});
+			// handleLoadingArticleContent();
+		}
+	}, [showModal]);
 
 	return (
 		<>
@@ -85,13 +71,12 @@ const Container = ({
 					...articleProps,
 					className: `${allClasses} ${articleProps.className}`,
 				}}
-				data={news}
-				setData={setNews}
+				newsItem={newsItem}
 				setShowModal={setShowModal}
 				detailsType={detailsType}
-				setIsLoadingContent={setIsLoadingContent}
-				isLoadingUserVote={isLoadingUserVote}
-				isLoadingContent={isLoadingContent}
+				// setIsLoadingContent={setIsLoadingContent}
+				// isLoadingUserVote={isLoadingUserVote}
+				// isLoadingContent={isLoadingContent}
 			/>
 
 			{props.modalOnClick && (
@@ -117,13 +102,13 @@ const Container = ({
 						<ContainerItems
 							className={`${BorderClasses['border-2']}`}
 							articleProps={articleProps}
-							data={news}
-							setData={setNews}
+							newsItem={newsItem}
+							setData={() => {}}
 							setShowModal={setShowModal}
-							isContainerContentOnView={showModal}
-							setIsLoadingContent={setIsLoadingContent}
-							isLoadingUserVote={isLoadingUserVote}
-							isLoadingContent={isLoadingContent && showModal}
+							// isContainerContentOnView={showModal}
+							// setIsLoadingContent={setIsLoadingContent}
+							// isLoadingUserVote={isLoadingUserVote}
+							// isLoadingContent={isLoadingContent && showModal}
 							detailsType='content'
 						/>
 					</Fragment>
@@ -131,6 +116,31 @@ const Container = ({
 			)}
 		</>
 	);
+
+	/*
+	const {
+		handleLoadingArticleContent,
+		handleSetNewsDataForFirstTime,
+		newsItem,
+		setNews,
+		setIsLoadingUserVote,
+		setIsLoadingContent,
+		isLoadingUserVote,
+		isLoadingContent,
+	} = useContext(NewsContext);
+
+	useEffect(() => {
+		if (props.containerType !== 'sub') {
+			handleSetNewsDataForFirstTime(props.data);
+		}
+	}, []);
+
+	useEffect(() => {
+		if (props.loadingUserVote && props.isContainerContentOnView) {
+			setIsLoadingUserVote(true);
+		}
+	}, []);
+	*/
 };
 
 export default Container;

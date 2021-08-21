@@ -12,7 +12,7 @@ import TimeAndDate from './TimeAndDate/TimeAndDate';
 import Image from '@components/UI/V1/Image';
 
 const Header = ({
-	data,
+	newsItem,
 	setData,
 	setShowModal,
 	setIsLoadingContent,
@@ -26,7 +26,7 @@ const Header = ({
 	const [isDataOwner, setIsDataOwner] = useState(false);
 
 	useEffect(() => {
-		if (user && user.user_name_id === data.author_user_name_id) {
+		if (user && user.user_name_id === newsItem.author_user_name_id) {
 			setIsDataOwner(true);
 		} else if (isDataOwner) {
 			setIsDataOwner(false);
@@ -37,33 +37,33 @@ const Header = ({
 		<header>
 			<CommonNav
 				isDataOwner={isDataOwner}
-				data={data}
+				newsItem={newsItem}
 				setData={setData}
 				setIsLoadingContent={setIsLoadingContent}
 				isLoadingContent={isLoadingContent}
 				hideSettings={hideHeaderSettings}
 			/>
-			{data.type === 'article' && (
+			{newsItem.type === 'article' && (
 				<section>
 					<TimeAndDate
 						setShowModal={setShowModal}
-						created_at={data.created_at}
-						updated_on={data.updated_on}
+						created_at={newsItem.created_at}
+						updated_on={newsItem.updated_on}
 					/>
 					<div className=''>
-						{!router.query.slug && data.type === 'article' ? (
-							<Link href={`/article/${data.slug}`}>
+						{!router.query.slug && newsItem.type === 'article' ? (
+							<Link href={`/article/${newsItem.slug}`}>
 								<a
 								// target='_blank' rel='noopener noreferrer'
 								>
-									<h1>{data.title}</h1>
+									<h1>{newsItem.title}</h1>
 								</a>
 							</Link>
 						) : (
-							<h1>{data.title}</h1>
+							<h1>{newsItem.title}</h1>
 						)}
 						<Image
-							src={data.image}
+							src={newsItem.image}
 							alt=''
 							style={{ width: '100%' }}
 							loading='lazy'
@@ -72,18 +72,18 @@ const Header = ({
 							}}
 						/>
 						<p>
-							<strong>Tags:</strong> {data.tags.join(', ')}
+							<strong>Tags:</strong> {newsItem.tags.join(', ')}
 						</p>
 					</div>
 				</section>
 			)}
 
-			{data.type === 'post' && (
+			{newsItem.type === 'post' && (
 				<section>
 					<TimeAndDate
 						setShowModal={setShowModal}
-						created_at={data.created_at}
-						updated_on={data.updated_on}
+						created_at={newsItem.created_at}
+						updated_on={newsItem.updated_on}
 					/>
 				</section>
 			)}

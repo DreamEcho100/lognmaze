@@ -3,10 +3,10 @@ import Md from '@components/UI/V1/Format/Md';
 
 import classes from './Details.module.css';
 
-const Details = ({ detailsType, setShowModal, data }) => {
+const Details = ({ detailsType, setShowModal, newsItem }) => {
 	const [loading, setLoading] = useState(
-		(detailsType === 'description' && data.description) ||
-			(detailsType === 'content' && data.content)
+		(detailsType === 'description' && newsItem.description) ||
+			(detailsType === 'content' && newsItem.content)
 			? false
 			: true
 	);
@@ -16,11 +16,13 @@ const Details = ({ detailsType, setShowModal, data }) => {
 
 		if (
 			detailsType === 'description' ||
-			(detailsType === 'content' && data.content && data.content.length !== 0)
+			(detailsType === 'content' &&
+				newsItem.content &&
+				newsItem.content.length !== 0)
 		) {
 			setLoading(false);
 		}
-	}, [data, data.content]);
+	}, [newsItem, newsItem.content]);
 
 	if (loading) {
 		return (
@@ -31,30 +33,30 @@ const Details = ({ detailsType, setShowModal, data }) => {
 	}
 
 	if (detailsType === 'description') {
-		if (data.type === 'article') {
+		if (newsItem.type === 'article') {
 			return (
 				<section className={classes.details}>
-					<p>{data.description}</p>
+					<p>{newsItem.description}</p>
 					<p onClick={() => setShowModal(true)}>Read More {'->'}</p>
 				</section>
 			);
-		} else if (data.type === 'post') {
+		} else if (newsItem.type === 'post') {
 			return (
 				<section className={classes.details}>
-					<p>{data.content}</p>
+					<p>{newsItem.content}</p>
 					<p onClick={() => setShowModal(true)}>Keep Reading {'->'}</p>
 				</section>
 			);
 		}
 	} else if (detailsType === 'content') {
-		// if (data.format_type === 'md') {
-		// 	return <Md content={data.content || ''} />;
+		// if (newsItem.format_type === 'md') {
+		// 	return <Md content={newsItem.content || ''} />;
 		// } else {
-		// 	return <p>{data.content}</p>;
+		// 	return <p>{newsItem.content}</p>;
 		// }
 		return (
 			<section className={classes.details}>
-				<Md content={data.content || ''} />
+				<Md content={newsItem.content || ''} />
 			</section>
 		);
 	}

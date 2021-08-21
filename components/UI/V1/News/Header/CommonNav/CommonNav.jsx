@@ -7,34 +7,34 @@ import Image from '@components/UI/V1/Image';
 
 const CommonNav = ({
 	isDataOwner,
-	data,
+	newsItem,
 	setData,
 	setIsLoadingContent,
 	isLoadingContent,
 	hideSettings,
 }) => (
 	<nav className={classes.nav}>
-		<Link href={`/profile/${data.author_user_name_id}`}>
+		<Link href={`/profile/${newsItem.author_user_name_id}`}>
 			<a
 				className={classes.author_profile_link}
 				// target='_blank'
 				// rel='noopener noreferrer'
 			>
 				<Image
-					src={data.author_profile_picture}
+					src={newsItem.author_profile_picture}
 					alt=''
 					className={classes.author_profile_picture}
 					loading='lazy'
 				/>
 				<p className={classes.author_user_name_id}>
-					<strong>{data.author_user_name_id}</strong>
+					<strong>{newsItem.author_user_name_id}</strong>
 				</p>
 			</a>
 		</Link>
 		{!hideSettings && (
 			<Settings
 				isDataOwner={isDataOwner}
-				data={data}
+				newsItem={newsItem}
 				setData={setData}
 				setIsLoadingContent={setIsLoadingContent}
 				isLoadingContent={isLoadingContent}

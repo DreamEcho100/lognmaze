@@ -13,7 +13,7 @@ const Section1 = ({ news = [], userExist }) => {
 	return (
 		<main className={classes['main-section']}>
 			<section className={classes['section-1']}>
-				<Feed news={news} />
+					<Feed news={news} />
 			</section>
 
 			<section className={classes['section-2']}>

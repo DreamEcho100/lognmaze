@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
 
-const Votes = ({ user, userExist, data, setData, isLoadingUserVote }) => {
+const Votes = ({ user, userExist, newsItem, setData, isLoadingUserVote }) => {
 	const [voteBtnDisabled, setVoteBtnDisabled] = useState(
 		userExist || isLoadingUserVote ? false : true
 	);
@@ -13,8 +13,8 @@ const Votes = ({ user, userExist, data, setData, isLoadingUserVote }) => {
 		setVoteBtnDisabled(true);
 
 		if (
-			!data.user_vote_type ||
-			(data.user_vote_type && data.user_vote_type.length === 0)
+			!newsItem.user_vote_type ||
+			(newsItem.user_vote_type && newsItem.user_vote_type.length === 0)
 		) {
 			const result = await fetch('/api/v1/news/votes/vote', {
 				method: 'POST',
@@ -23,7 +23,7 @@ const Votes = ({ user, userExist, data, setData, isLoadingUserVote }) => {
 					authorization: `Bearer ${user.token}`,
 				},
 				body: JSON.stringify({
-					news_id: data.news_id,
+					news_id: newsItem.news_id,
 					vote_type,
 				}),
 			}).then((response) => response.json());
@@ -43,7 +43,7 @@ const Votes = ({ user, userExist, data, setData, isLoadingUserVote }) => {
 				user_vote_type: vote_type,
 			}));
 		} else {
-			if (data.user_vote_type !== vote_type) {
+			if (newsItem.user_vote_type !== vote_type) {
 				const result = await fetch('/api/v1/news/votes/vote', {
 					method: 'PATCH',
 					headers: {
@@ -51,8 +51,8 @@ const Votes = ({ user, userExist, data, setData, isLoadingUserVote }) => {
 						authorization: `Bearer ${user.token}`,
 					},
 					body: JSON.stringify({
-						news_id: data.news_id,
-						old_type: data.user_vote_type,
+						news_id: newsItem.news_id,
+						old_type: newsItem.user_vote_type,
 						new_type: vote_type,
 					}),
 				}).then((response) => response.json());
@@ -76,7 +76,7 @@ const Votes = ({ user, userExist, data, setData, isLoadingUserVote }) => {
 						: 1,
 					user_vote_type: vote_type,
 				}));
-			} else if (data.user_vote_type === vote_type) {
+			} else if (newsItem.user_vote_type === vote_type) {
 				const result = await fetch('/api/v1/news/votes/vote', {
 					method: 'DELETE',
 					headers: {
@@ -84,7 +84,7 @@ const Votes = ({ user, userExist, data, setData, isLoadingUserVote }) => {
 						authorization: `Bearer ${user.token}`,
 					},
 					body: JSON.stringify({
-						news_id: data.news_id,
+						news_id: newsItem.news_id,
 						vote_type,
 					}),
 				}).then((response) => response.json());
@@ -125,12 +125,12 @@ const Votes = ({ user, userExist, data, setData, isLoadingUserVote }) => {
 				title='up'
 				onClick={() => handleVoting('up')}
 				className={`${
-					data.user_vote_type === 'up' ? classes['user_vote_type'] : ''
+					newsItem.user_vote_type === 'up' ? classes['user_vote_type'] : ''
 				}`}
 				disabled={voteBtnDisabled}
 			>
 				{/* up */}
-				{data.user_vote_type === 'up' ? (
+				{newsItem.user_vote_type === 'up' ? (
 					<FontAwesomeIcon icon={['fas', 'long-arrow-alt-up']} />
 				) : (
 					<FontAwesomeIcon icon={['fas', 'arrow-up']} />
@@ -140,12 +140,12 @@ const Votes = ({ user, userExist, data, setData, isLoadingUserVote }) => {
 				title='down'
 				onClick={() => handleVoting('down')}
 				className={`${
-					data.user_vote_type === 'down' ? classes['user_vote_type'] : ''
+					newsItem.user_vote_type === 'down' ? classes['user_vote_type'] : ''
 				}`}
 				disabled={voteBtnDisabled}
 			>
 				{/* down */}
-				{data.user_vote_type === 'down' ? (
+				{newsItem.user_vote_type === 'down' ? (
 					<FontAwesomeIcon icon={['fas', 'long-arrow-alt-down']} />
 				) : (
 					<FontAwesomeIcon icon={['fas', 'arrow-down']} />

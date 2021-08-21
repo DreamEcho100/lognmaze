@@ -8,7 +8,7 @@ import UserContext from '@store/UserContext';
 import Votes from './Votes';
 
 const Settings = ({
-	data,
+	newsItem,
 
 	setData,
 	setShowComments,
@@ -36,7 +36,7 @@ const Settings = ({
 			<Votes
 				user={user}
 				userExist={userExist}
-				data={data}
+				newsItem={newsItem}
 				setData={setData}
 				isLoadingUserVote={isLoadingUserVote}
 			/>

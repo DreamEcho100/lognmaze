@@ -21,7 +21,7 @@ import ShareModel from '@components/UI/V1/Modal/Share';
 
 const Settings = ({
 	isDataOwner,
-	data,
+	newsItem,
 	setData,
 	// setIsLoadingContent,
 	// isLoadingContent,
@@ -32,19 +32,19 @@ const Settings = ({
 		if (isDataOwner) {
 			setItems([
 				{
-					className: `${classes['settings-item-for-data-owner']}`,
+					className: `${classes['settings-item-for-newsItem-owner']}`,
 					props: {
 						// setIsLoadingContent,
 						// isLoadingContent,
 						// DynamicAction,
 						Action,
-						data,
+						newsItem,
 						setData,
 					},
 					Element: ({
 						// DynamicAction,
 						Action,
-						data,
+						newsItem,
 						setData,
 						// setIsLoadingContent,
 						// isLoadingContent,
@@ -61,27 +61,27 @@ const Settings = ({
 							useState(false);
 
 						const [actionNewsData, setActionNewsData] = useState({
-							type: data.type,
+							type: newsItem.type,
 							action: 'update',
 							route: 'update',
-							data: news,
+							newsItem: news,
 							setData: setNews,
 						});
 
 						useEffect(() => {
-							if (showUpdateNewsModal && !data.content)
+							if (showUpdateNewsModal && !newsItem.content)
 								setIsLoadingContent(true);
 						}, [showUpdateNewsModal]);
 
 						useEffect(() => {
 							if (
-								JSON.stringify(news) !== JSON.stringify(actionNewsData.data)
+								JSON.stringify(news) !== JSON.stringify(actionNewsData.newsItem)
 							) {
 								setActionNewsData({
-									type: data.type,
+									type: newsItem.type,
 									action: 'update',
 									route: 'update',
-									data: news,
+									newsItem: news,
 									setData: setData,
 									setNews,
 								});
@@ -108,11 +108,11 @@ const Settings = ({
 					},
 				},
 				{
-					className: `${classes['settings-item-for-data-owner']}`,
+					className: `${classes['settings-item-for-newsItem-owner']}`,
 					props: {
 						// DynamicAction,
 						Action,
-						data,
+						newsItem,
 						setData,
 						// setIsLoadingContent,
 						// isLoadingContent,
@@ -120,7 +120,7 @@ const Settings = ({
 					Element: ({
 						Action,
 						// DynamicAction
-						data,
+						newsItem,
 						setData,
 					}) => {
 						const {
@@ -134,26 +134,27 @@ const Settings = ({
 						const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 						const [actionNewsData, setActionNewsData] = useState({
-							type: data.type,
+							type: newsItem.type,
 							action: 'delete',
 							isDataOwner,
-							data: news,
+							newsItem: news,
 							setData: setNews,
 						});
 
 						useEffect(() => {
-							if (showDeleteModal && !data.content) setIsLoadingContent(true);
+							if (showDeleteModal && !newsItem.content)
+								setIsLoadingContent(true);
 						}, [showDeleteModal]);
 
 						useEffect(() => {
 							if (
-								JSON.stringify(news) !== JSON.stringify(actionNewsData.data)
+								JSON.stringify(news) !== JSON.stringify(actionNewsData.newsItem)
 							) {
 								setActionNewsData({
-									type: data.type,
+									type: newsItem.type,
 									action: 'delete',
 									isDataOwner,
-									data: news,
+									newsItem: news,
 									setData: setNews,
 								});
 							}
@@ -182,12 +183,12 @@ const Settings = ({
 					props: {
 						ShareModel,
 						// DynamicShareModel,
-						data,
+						newsItem,
 					},
 					Element: ({
 						ShareModel,
 						// DynamicShareModel,
-						data,
+						newsItem,
 					}) => {
 						const [showShareModel, setShowShareModel] = useState(false);
 
@@ -201,7 +202,7 @@ const Settings = ({
 								</button>
 								<ShareModel
 									// DynamicShareModel
-									data={data}
+									data={newsItem}
 									showShareModel={showShareModel}
 									setShowShareModel={setShowShareModel}
 								/>
@@ -216,12 +217,12 @@ const Settings = ({
 					props: {
 						ShareModel,
 						// DynamicShareModel,
-						data,
+						newsItem,
 					},
 					Element: ({
 						ShareModel,
 						// DynamicShareModel,
-						data,
+						newsItem,
 					}) => {
 						const [showShareModel, setShowShareModel] = useState(false);
 
@@ -235,7 +236,7 @@ const Settings = ({
 								</button>
 								<ShareModel
 									// DynamicShareModel
-									data={data}
+									data={newsItem}
 									showShareModel={showShareModel}
 									setShowShareModel={setShowShareModel}
 								/>
