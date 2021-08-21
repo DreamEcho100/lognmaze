@@ -227,19 +227,19 @@ body.dark {
 	width: 100vw;
 	height: 100vh;
 	background-color: var(--main-special-bg-color-5);
-	transition: all 0.7s ease-in-out;
+	transition: all 0.7s ease-in-out, opacity 0.2s ease-in-out 0.5s;
 	z-index: 9999;
 }
 
 #main-intro.verifying-credentials-finished {
 	transform: translateX(-100%);
 	pointer-events: none;
-	// opacity: 0;
+	opacity: 0;
 	// filter: hue-rotate(360deg);
 }
 
 #main-intro.verifying-credentials-finished .svg-container {
-	transform: translateX(75%) rotate(90deg) scale(0.4);
+	transform: translateX(60%) rotate(90deg) scale(0.4);
 	// opacity: 0;
 	// filter: hue-rotate(360deg);
 }
@@ -398,6 +398,8 @@ button {
 	border-color: transparent;
 	outline-color: rgba(255, 255, 255, 0.1);
 	user-select: none;
+	min-width: 48px;
+	min-height: 24px;
 }
 
 button:disabled {
