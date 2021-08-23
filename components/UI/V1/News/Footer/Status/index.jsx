@@ -32,18 +32,20 @@ const Status = ({ newsItem, showComments, setShowComments }) => {
 			>
 				{newsItem.comments_counter === 0 ? (
 					<button title='No Comment'>
-						<FontAwesomeIcon icon={['fas', 'comment-slash']} />
+						<FontAwesomeIcon icon={['fas', 'comment-slash']} />{' '}
+						{newsItem.comments_counter}
 					</button>
 				) : newsItem.comments_counter === 1 ? (
 					<button title='1 Comment'>
-						<FontAwesomeIcon icon={['fas', 'comment']} />
+						<FontAwesomeIcon icon={['fas', 'comment']} />{' '}
+						{newsItem.comments_counter}
 					</button>
 				) : (
 					<button title={`${newsItem.comments_counter} Comments`}>
-						<FontAwesomeIcon icon={['fas', 'comments']} />
+						<FontAwesomeIcon icon={['fas', 'comments']} />{' '}
+						{newsItem.comments_counter}
 					</button>
 				)}{' '}
-				{newsItem.comments_counter}
 			</div>
 		</section>
 	);

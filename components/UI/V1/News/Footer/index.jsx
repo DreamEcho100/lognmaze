@@ -10,6 +10,10 @@ import Settings from './Settings';
 import Status from './Status';
 
 const Footer = ({ newsItem, setData, isLoadingUserVote }) => {
+	if (!newsItem?.news_id) {
+		return <></>;
+	}
+
 	const footerRef = useRef();
 
 	const [showComments, setShowComments] = useState(false);

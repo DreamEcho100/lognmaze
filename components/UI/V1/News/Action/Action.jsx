@@ -1,15 +1,12 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
-// import dynamic from 'next/dynamic';
 
+import {
+	handleCreatingNewsItem,
+	handleDeletingUserNewsItem,
+	handleUpdatingUserNewsItem,
+} from '@store/NewsContextTest/actions';
+import NewsContextTest from '@store/NewsContextTest';
 import UserContext from '@store/UserContext';
-// import { NewsContextProvider } from '@store/NewsContext';
-
-// const DynamicModalContainer = dynamic(() =>
-// 	import('./ModalContainer/ModalContainer')
-// );
-// const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
-// const DynamicArticle = dynamic(() => import('./Article/Article'));
-// const DynamicPost = dynamic(() => import('./Post/Post'));
 
 import ModalContainer from './ModalContainer/ModalContainer';
 import Article from './Article/Article';
@@ -18,85 +15,93 @@ import Modal from '@components/UI/V1/Modal';
 import Button from '@components/UI/V1/Button';
 import ContainerItems from '@components/UI/V1/News/Container/ContainerItems';
 
-const Action = ({ closeModal, showModal, setShowModal, news, ...props }) => {
-	// if (!showModal) {
-	// 	return <></>;
-	// }
+const Action = ({
+	closeModal,
+	showModal,
+	setShowModal,
+	type,
+	action,
+	newsItem,
+	...props
+}) => {
+	const { dispatch } = useContext(NewsContextTest);
 	const extraProps = {};
 
 	const { user, ...UserCxt } = useContext(UserContext);
 
-	const [newsType, setNewsType] = useState(news.type);
+	const [newsType, setNewsType] = useState(type);
 
 	useEffect(() => {
-		if (news.type !== newsType) setNewsType(news.type);
-		news.type = newsType;
+		if (type !== newsType) setNewsType(type);
+		type = newsType;
 	}, []);
 
-	const fetcher = async ({ bodyObj, token, method = 'POST' }) =>
-		await fetch(`/api/v1/news`, {
-			method,
-			body: JSON.stringify(bodyObj),
-			headers: {
-				'Content-Type': 'application/json',
-				authorization: `Bearer ${token}`,
-			},
+	const deleteNews = async ({ news_id }) => {
+		await handleDeletingUserNewsItem({
+			dispatch,
+			user,
+			news_id,
 		});
 
-	const deleteNews = () => {
-		fetcher({
-			token: user.token,
-			method: 'DELETE',
-			bodyObj: {
-				news_id: news.data.news_id,
-				type: news.data.type,
-			},
-		})
-			.then((response) => response.json())
-			.then(({ status, message, data, isAuthorized }) => {
-				news.setData((prev) => {
-					closeModal();
-					return {};
-				});
-			});
-		// .then(() => {
-		// 	setTimeout(() => closeModal(), 10);
-		// });
+		if (setShowModal && !showModal) setShowModal(false);
+		else document.body.style.overflowY = 'auto';
+
+		return;
 	};
 
-	if (news.action === 'update') {
-		extraProps.data = news.data;
-		extraProps.setData = news.setData;
+	const createNews = async (values, newsType) => {
+		return await handleCreatingNewsItem({
+			dispatch,
+			user,
+			newsType,
+			newsValues: values,
+			newsType,
+		});
+	};
+
+	const updateNews = async (newsType, oldValues, newValues) => {
+		return await handleUpdatingUserNewsItem({
+			dispatch,
+			user,
+			newsType,
+			oldValues,
+			newValues,
+		});
+	};
+
+	if (action === 'update') {
+		extraProps.newsItem = newsItem;
 	}
 
-	if (news.action === 'create' || news.action === 'update') {
+	if (action === 'create' || action === 'update') {
 		return (
 			<ModalContainer
-				// DynamicModalContainer
 				showModal={showModal}
 				setShowModal={setShowModal}
 				closeModal={closeModal}
 				HeaderProps={{
-					news,
+					action,
 					newsType,
 					setNewsType,
 				}}
 			>
 				{newsType === 'article' && (
 					<Article
-						// DynamicArticle
 						closeModal={closeModal}
-						fetcher={fetcher}
-						actionType={news.action}
+						newsItem={newsItem}
+						createNews={createNews}
+						updateNews={updateNews}
+						actionType={action}
 						{...extraProps}
 					/>
 				)}
 				{newsType === 'post' && (
 					<Post
-						// DynamicPost
 						closeModal={closeModal}
-						fetcher={fetcher}
-						actionType={news.action}
+						newsItem={newsItem}
+						createNews={createNews}
+						updateNews={updateNews}
+						actionType={action}
 						{...extraProps}
 					/>
 				)}
@@ -104,10 +109,9 @@ const Action = ({ closeModal, showModal, setShowModal, news, ...props }) => {
 		);
 	}
 
-	if (news.action === 'delete') {
+	if (action === 'delete') {
 		return (
 			<Modal
-				// DynamicModal
 				showModal={showModal}
 				setShowModal={setShowModal}
 				showModal={showModal}
@@ -126,7 +130,10 @@ const Action = ({ closeModal, showModal, setShowModal, news, ...props }) => {
 					<header>
 						<h2>Are you sure you want to delete it?</h2>
 						<div>
-							<Button title='Yes' onClick={() => deleteNews()}>
+							<Button
+								title='Yes'
+								onClick={() => deleteNews({ news_id: newsItem.news_id })}
+							>
 								Yes
 							</Button>
 							<Button title='No' onClick={() => closeModal()}>
@@ -136,27 +143,9 @@ const Action = ({ closeModal, showModal, setShowModal, news, ...props }) => {
 					</header>
 				</Fragment>
 				<Fragment key='body'>
-					{/* <Container
-						containerType='sub'
-						data={news.data}
-						setData={news.setData}
-						detailsType='content'
-						hideHeaderSettings={true}
-						action='delete'
-					/> */}
-					{/* <NewsContextProvider key={item.news_id}>
-						<Container
-							data={item}
-							detailsType='description'
-							ModalOnClick={true}
-							className={classes['news-container']}
-						/>
-					</NewsContextProvider> */}
 					<ContainerItems
-						// articleProps={articleProps}
 						containerType='sub'
-						data={news.data}
-						setData={news.setData}
+						newsItem={newsItem}
 						detailsType='content'
 						hideHeaderSettings={true}
 						action='delete'

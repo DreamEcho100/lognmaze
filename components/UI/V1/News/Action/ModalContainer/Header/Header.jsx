@@ -4,7 +4,7 @@ import classes from './Header.module.css';
 
 import Button from '@components/UI/V1/Button';
 
-const Header = ({ news, newsType, setNewsType }) => {
+const Header = ({ action, newsType, setNewsType }) => {
 	const [h2Text, setH2Text] = useState('');
 
 	useEffect(() => {
@@ -19,7 +19,7 @@ const Header = ({ news, newsType, setNewsType }) => {
 		`);
 	}, [newsType]);
 
-	if (news.action === 'create') {
+	if (action === 'create') {
 		return (
 			<header>
 				<h2>{h2Text}</h2>
@@ -51,7 +51,7 @@ const Header = ({ news, newsType, setNewsType }) => {
 		);
 	}
 
-	if (news.action === 'update') {
+	if (action === 'update') {
 		return (
 			<h2>
 				Update{' '}

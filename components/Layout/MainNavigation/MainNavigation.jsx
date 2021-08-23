@@ -6,9 +6,21 @@ import UserContext from '../../../store/UserContext';
 import NavOnBigScreens from './NavOnBigScreens/NavOnBigScreens';
 import NavOnSmallScreens from './NavOnSmallScreens/NavOnSmallScreens';
 
-const MainNavigation = () => {
-	const { verifyUserTokenFromCookie, user, isLoading, handleSignOut } =
-		useContext(UserContext);
+const MainNavigation = (/*{ isAuthenticated }*/) => {
+	const {
+		verifyUserTokenFromCookie,
+		// setUserDataAndTokenFomCookie,
+		user,
+		isLoading,
+		// setIsLoading,
+		handleSignOut,
+	} = useContext(UserContext);
+
+	// useEffect(() => {
+	// 	// setTimeout(() => verifyUserTokenFromCookie(), 250);
+	// 	if (!isAuthenticated) handleSignOut();
+	// 	else setUserDataAndTokenFomCookie();
+	// }, []);
 
 	useEffect(() => setTimeout(() => verifyUserTokenFromCookie(), 250), []);
 

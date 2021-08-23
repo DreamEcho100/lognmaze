@@ -2,7 +2,10 @@ import { useContext, useEffect, useState } from 'react';
 
 // import classes from './index.module.css';
 
-import { handleLoadingNewsItemComments } from '@store/NewsContextTest/actions';
+import {
+	handleLoadingNewsItemComments,
+	handlePostingCommentToNewsItem,
+} from '@store/NewsContextTest/actions';
 import NewsContextTest from '@store/NewsContextTest';
 import UserContext from '@store/UserContext';
 // import NewsContext from '@store/NewsContext';
@@ -23,8 +26,8 @@ const Comments = ({
 	showComments,
 	focusCommentTextarea,
 }) => {
-	const { /* state, */ dispatch /* , types */ } = useContext(NewsContextTest);
 	const { user /* , ...UserCxt*/ } = useContext(UserContext);
+	const { dispatch } = useContext(NewsContextTest);
 	// const { news, setNews } = useContext(NewsContext);
 
 	const [values, setValues] = useState({
@@ -41,62 +44,13 @@ const Comments = ({
 
 		setDisableSendCommentButton(true);
 
-		const body = JSON.stringify({
-			type: 'comment_main',
-			content: values.content,
+		await handlePostingCommentToNewsItem({
+			dispatch,
+			commentType: 'comment_main',
+			commentContent: values.content,
 			news_id: newsItem.news_id,
+			user,
 		});
-
-		const {
-			status,
-			message,
-			data: comment,
-		} = await fetch('/api/v1/newsItem/comments/comment', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				authorization: `Bearer ${user.token}`,
-			},
-			body,
-		})
-			.then((response) => response.json())
-			.catch((error) => {
-				return { status: 'error', message: error.message, data: {} };
-			});
-
-		if (status === 'error') {
-			setDisableSendCommentButton(false);
-			console.error(message);
-			return;
-		}
-
-		setNews((prev) => ({
-			...prev,
-			comments: [
-				{
-					author_id: user.id,
-
-					author_first_name: user.first_name,
-					author_last_name: user.last_name,
-					author_profile_picture: user.profile_picture,
-					author_user_name_id: user.user_name_id,
-
-					replies_counter: 0,
-					content: values.content,
-					news_comment_id: comment.news_comment_id,
-					type: 'comment_main',
-					created_at: new Date().toUTCString(),
-					updated_on: new Date().toUTCString(),
-				},
-				...prev.comments,
-			],
-			comments_counter: prev.comments_counter + 1,
-			comments_to_not_fetch: prev.comments_to_not_fetch
-				? [...prev.comments_to_not_fetch, comment.news_comment_id]
-				: [comment.news_comment_id],
-		}));
-
-		// setCommentsToNotFetch((prev) => [...prev, comment.news_comment_id]);
 
 		setValues({
 			content: '',
@@ -106,7 +60,6 @@ const Comments = ({
 	};
 
 	const LoadComments = async () => {
-		console.log('setLoadingComments', setLoadingComments);
 		if (newsItem.comments_counter === 0 || newsItem.hit_comments_limit) return;
 
 		setLoadingComments(true);
@@ -117,8 +70,6 @@ const Comments = ({
 	};
 
 	useEffect(() => LoadComments(), []);
-
-	console.log('loadingComments', loadingComments);
 
 	return (
 		<section className={`${inheritedClasses}`}>

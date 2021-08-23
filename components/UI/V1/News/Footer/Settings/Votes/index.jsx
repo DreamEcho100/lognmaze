@@ -1,110 +1,52 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
 
+import {
+	HandleAddingUserVote,
+	HandleDeletingUserVote,
+	HandleChangingUserVote,
+} from '@store/NewsContextTest/actions';
+import NewsContextTest from '@store/NewsContextTest';
+
 const Votes = ({ user, userExist, newsItem, setData, isLoadingUserVote }) => {
+	const { dispatch } = useContext(NewsContextTest);
+
 	const [voteBtnDisabled, setVoteBtnDisabled] = useState(
-		userExist || isLoadingUserVote ? false : true
+		!userExist || isLoadingUserVote ? false : true
 	);
 
 	const handleVoting = async (vote_type) => {
-		if (!userExist) return;
+		if (!userExist || isLoadingUserVote) return;
 		setVoteBtnDisabled(true);
 
 		if (
 			!newsItem.user_vote_type ||
 			(newsItem.user_vote_type && newsItem.user_vote_type.length === 0)
 		) {
-			const result = await fetch('/api/v1/news/votes/vote', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					authorization: `Bearer ${user.token}`,
-				},
-				body: JSON.stringify({
-					news_id: newsItem.news_id,
-					vote_type,
-				}),
-			}).then((response) => response.json());
-
-			if (result?.status === 'error') {
-				console.error(result.message);
-
-				setVoteBtnDisabled(false);
-				return;
-			}
-
-			setData((prev) => ({
-				...prev,
-				[`${vote_type}_votes_counter`]: prev[`${vote_type}_votes_counter`]
-					? parseInt(prev[`${vote_type}_votes_counter`]) + 1
-					: 1,
-				user_vote_type: vote_type,
-			}));
+			await HandleAddingUserVote({
+				dispatch,
+				user,
+				news_id: newsItem.news_id,
+				vote_type,
+			});
 		} else {
 			if (newsItem.user_vote_type !== vote_type) {
-				const result = await fetch('/api/v1/news/votes/vote', {
-					method: 'PATCH',
-					headers: {
-						'Content-Type': 'application/json',
-						authorization: `Bearer ${user.token}`,
-					},
-					body: JSON.stringify({
-						news_id: newsItem.news_id,
-						old_type: newsItem.user_vote_type,
-						new_type: vote_type,
-					}),
-				}).then((response) => response.json());
-
-				if (result?.status === 'error') {
-					console.error(result.message);
-
-					setVoteBtnDisabled(false);
-					return;
-				}
-
-				setData((prev) => ({
-					...prev,
-					[`${prev.user_vote_type}_votes_counter`]: prev[
-						`${prev.user_vote_type}_votes_counter`
-					]
-						? parseInt(prev[`${prev.user_vote_type}_votes_counter`]) - 1
-						: 0,
-					[`${vote_type}_votes_counter`]: prev[`${vote_type}_votes_counter`]
-						? parseInt(prev[`${vote_type}_votes_counter`]) + 1
-						: 1,
-					user_vote_type: vote_type,
-				}));
+				await HandleChangingUserVote({
+					dispatch,
+					user,
+					news_id: newsItem.news_id,
+					old_vote_type: newsItem.user_vote_type,
+					new_vote_type: vote_type,
+				});
 			} else if (newsItem.user_vote_type === vote_type) {
-				const result = await fetch('/api/v1/news/votes/vote', {
-					method: 'DELETE',
-					headers: {
-						'Content-Type': 'application/json',
-						authorization: `Bearer ${user.token}`,
-					},
-					body: JSON.stringify({
-						news_id: newsItem.news_id,
-						vote_type,
-					}),
-				}).then((response) => response.json());
-
-				if (result?.status === 'error') {
-					console.error(result.message);
-
-					setVoteBtnDisabled(false);
-					return;
-				}
-
-				setData((prev) => ({
-					...prev,
-					[`${prev.user_vote_type}_votes_counter`]: prev[
-						`${prev.user_vote_type}_votes_counter`
-					]
-						? parseInt(prev[`${prev.user_vote_type}_votes_counter`]) - 1
-						: 0,
-					user_vote_type: '',
-				}));
+				await HandleDeletingUserVote({
+					dispatch,
+					user,
+					news_id: newsItem.news_id,
+					vote_type,
+				});
 			}
 		}
 
@@ -112,10 +54,8 @@ const Votes = ({ user, userExist, newsItem, setData, isLoadingUserVote }) => {
 	};
 
 	useEffect(() => {
-		if (userExist && !isLoadingUserVote && voteBtnDisabled) {
-			setVoteBtnDisabled(false);
-		} else if (!userExist && !voteBtnDisabled) {
-			setVoteBtnDisabled(true);
+		if ((!userExist || isLoadingUserVote) !== voteBtnDisabled) {
+			setVoteBtnDisabled(!userExist || isLoadingUserVote);
 		}
 	}, [userExist, isLoadingUserVote]);
 

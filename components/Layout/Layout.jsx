@@ -8,11 +8,11 @@ import { NewsContextProviderTest } from '@store/NewsContextTest';
 import MainNavigation from './MainNavigation/MainNavigation';
 import MainIntro from './MainIntro';
 
-const Layout = ({ children }) => {
+const Layout = ({ children /*, isAuthenticated*/ }) => {
 	return (
 		<UserContextProvider>
 			<NewsContextProviderTest>
-				<MainNavigation />
+				<MainNavigation /*isAuthenticated={isAuthenticated}*/ />
 				{children}
 				<MainIntro />
 			</NewsContextProviderTest>

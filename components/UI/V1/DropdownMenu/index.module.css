@@ -28,14 +28,14 @@
 	overflow-y: auto;
 }
 
-.settings-item {
+.settings-menu > li {
 	padding: 0.25em;
 	width: 100%;
 	min-width: max-content;
 	border-bottom: 0.1rem solid var(--main-bg-color-0);
 }
 
-.settings-item > button {
+.settings-menu > li > button {
 	width: 100%;
 	background-color: transparent;
 	border-color: transparent;
@@ -44,23 +44,23 @@
 	text-align: left;
 }
 
-.settings-item:hover {
+.settings-menu > li:hover {
 	background-color: var(--main-bg-color-1);
 }
 
-.settings-item:focus {
+.settings-menu > li:focus {
 	background-color: var(--main-bg-color-5);
 	color: var(--main-font-color-5);
 }
 
-.settings-item:focus > * {
+.settings-menu > li:focus > * {
 	background-color: var(--main-bg-color-5);
 	color: var(--main-font-color-5);
 }
 
-.settings-item:last-child {
+.settings-menu > li:last-child {
 	border-bottom: unset;
 }
 
-.settings-item-for-data-owner {
+.settings-menu > li-for-data-owner {
 }

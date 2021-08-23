@@ -14,17 +14,34 @@ const Image = ({
 	const imageRef = useRef();
 
 	const [src, setSrc] = useState('');
+	const [observer, setObserver] = useState(null);
 
 	const options = {};
 
-	let observer = new IntersectionObserver((entries, observer) => {
-		entries.forEach((entry) => {
-			setSrc(props.src);
-			observer.disconnect();
-		});
-	}, options);
+	useEffect(() => {
+		setTimeout(() => {
+			setObserver(
+				new IntersectionObserver((entries, observer) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting /*  && !entry.isVisible */) {
+							setSrc(props.src);
+							// observer.unobserve(imageRef.current);
+							observer.disconnect();
+						}
+					});
+					return observer;
+				}, options)
+			);
 
-	useEffect(() => observer.observe(imageRef.current), []);
+			const observe = () =>
+				setTimeout(
+					() => (observer ? observer.observe(imageRef.current) : observe()),
+					1000
+				);
+
+			observe();
+		}, 100);
+	}, []);
 
 	useEffect(() => {
 		if (props.src !== src) setSrc(props.src);

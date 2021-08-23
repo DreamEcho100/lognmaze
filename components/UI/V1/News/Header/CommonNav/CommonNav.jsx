@@ -31,7 +31,7 @@ const CommonNav = ({
 				</p>
 			</a>
 		</Link>
-		{!hideSettings && (
+		{!hideSettings && newsItem.news_id && (
 			<Settings
 				isDataOwner={isDataOwner}
 				newsItem={newsItem}

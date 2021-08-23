@@ -3,6 +3,13 @@ import { useContext, useEffect, useState } from 'react';
 
 import classes from './index.module.css';
 
+import {
+	handleDeletingMainOrReplyCommentInNewsItem,
+	handleLoadingCommentRepliesInNewsItem,
+	handleReplyingToMainOrReplyCommentInNewsItem,
+	handleUpdatingMainOrReplyCommentInNewsItem,
+} from '@store/NewsContextTest/actions';
+import NewsContextTest from '@store/NewsContextTest';
 import UserContext from '@store/UserContext';
 import { dateToHumanReadableDate } from '@lib/v1/time';
 
@@ -28,14 +35,13 @@ const Replies = ({ replies, setData, newsItem, parent_data }) =>
 		: null;
 
 const Comment = ({ comment, newsItem, setData, ...props }) => {
+	const { dispatch } = useContext(NewsContextTest);
+
 	const { user, ...UserCxt } = useContext(UserContext);
 
 	const [showContent, setShowContent] = useState(true);
 	const [showReplyTextarea, setShowReplyTextarea] = useState(false);
 	const [showReplies, setShowReplies] = useState(false);
-
-	// useEffect(() => {
-	// }, [])
 
 	const [focusTextarea, setFocusCommentTextarea] = useState(false);
 	const [editBtnsDisabled, setEditBtnsDisabled] = useState(false);
@@ -47,11 +53,6 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 		useState(false);
 
 	const [loadingReplies, setLoadingReplies] = useState(false);
-	const [hitRepliesLimit, setHitRepliesLimit] = useState(
-		comment.type === 'comment_main' && comment.hit_replies_limit
-			? comment.hit_replies_limit
-			: false
-	);
 
 	const [values, setValues] = useState({
 		content: comment.content,
@@ -62,58 +63,17 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 	const handleDeleteComment = async (bodyObj) => {
 		setDeleteBtnsDisabled(true);
 
-		const body = JSON.stringify(bodyObj);
-
-		const {
-			status,
-			message,
-			data: comment,
-		} = await fetch('/api/v1/news/comments/comment', {
-			method: 'DELETE',
-			headers: {
-				'Content-Type': 'application/json',
-				authorization: `Bearer ${user.token}`,
-			},
-			body,
-		})
-			.then((response) => response.json())
-			.catch((error) => {
-				return { ...error, status: 'error' };
-			});
-
-		if (status === 'error') {
-			console.error(message);
-			setDeleteBtnsDisabled(false);
-			return;
-		}
-
-		if (bodyObj.type === 'comment_main') {
-			setData((prev) => ({
-				...prev,
-				comments_counter: prev.comments_counter - 1,
-				comments: prev.comments.filter(
-					(comment) => comment.news_comment_id !== bodyObj.news_comment_id
-				),
-			}));
-		} else if (bodyObj.type === 'comment_main_reply') {
-			setData((prev) => ({
-				...prev,
-				comments: prev.comments.map((comment) => {
-					if (comment.news_comment_id === bodyObj.parent_id) {
-						let replies = comment.replies.filter(
-							(reply) => reply.news_comment_id !== bodyObj.news_comment_id
-						);
-
-						return {
-							...comment,
-							replies_counter: comment.replies_counter - 1,
-							replies,
-						};
-					}
-					return comment;
-				}),
-			}));
-		}
+		await handleDeletingMainOrReplyCommentInNewsItem({
+			dispatch,
+			news_id: newsItem.news_id,
+			comment,
+			user,
+			bodyObj,
+			parent_data_id:
+				comment.type === 'comment_main_reply'
+					? props.parent_data.news_comment_id
+					: undefined,
+		});
 	};
 
 	const handleUpdatingComment = async (event) => {
@@ -126,71 +86,24 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 			news_comment_id: comment.news_comment_id,
 		};
 
-		const { status, message, newsItem } = await fetch(
-			'/api/v1/news/comments/comment',
-			{
-				method: 'PATCH',
-				headers: {
-					'Content-Type': 'application/json',
-					authorization: `Bearer ${user.token}`,
-				},
-				body: JSON.stringify(bodyObj),
-			}
-		)
-			.then((response) => response.json())
-			.catch((error) => {
-				return { ...error, status: 'error' };
-			});
-
-		if (status === 'error') {
-			console.error(message);
-			setEditBtnsDisabled(false);
-			return;
-		}
-
-		if (comment.type === 'comment_main') {
-			setData((prev) => ({
-				...prev,
-				comments: prev.comments.map((comment) => {
-					if (comment.news_comment_id === bodyObj.news_comment_id) {
-						return {
-							...comment,
-							content: bodyObj.content,
-							updated_on: new Date().toUTCString(),
-						};
-					}
-					return comment;
-				}),
-			}));
-		} else if (comment.type === 'comment_main_reply') {
-			setData((prev) => ({
-				...prev,
-				comments: prev.comments.map((comment) => {
-					if (comment.news_comment_id === props.parent_data.news_comment_id) {
-						return {
-							...comment,
-							replies: comment.replies.map((reply) => {
-								if (reply.news_comment_id === bodyObj.news_comment_id) {
-									return {
-										...reply,
-										content: bodyObj.content,
-										updated_on: new Date().toUTCString(),
-									};
-								}
-								return reply;
-							}),
-						};
-					}
-					return comment;
-				}),
-			}));
-		}
+		await handleUpdatingMainOrReplyCommentInNewsItem({
+			dispatch,
+			user,
+			bodyObj,
+			comment,
+			news_id: newsItem.news_id,
+			parent_data_id:
+				comment.type === 'comment_main_reply'
+					? props.parent_data.news_comment_id
+					: undefined,
+		});
 
 		setShowContent(true);
 		setEditBtnsDisabled(false);
 	};
 
 	const handleSubmitCommentReply = async (
+		dispatch,
 		bodyObj,
 		user,
 		commentData,
@@ -199,79 +112,12 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 	) => {
 		setCommentReplyBtnsDisabled(true);
 
-		const { status, message, newsItem } = await fetch(
-			'/api/v1/news/comments/comment',
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					authorization: `Bearer ${user.token}`,
-				},
-				body: JSON.stringify(bodyObj),
-			}
-		)
-			.then((response) => response.json())
-			.catch((error) => {
-				return { ...error, status: 'error' };
-			});
-
-		if (status === 'error') {
-			console.error(message);
-			setCommentReplyBtnsDisabled(false);
-			return;
-		}
-
-		const commentReplyObj = {
-			...bodyObj,
-
-			author_first_name: user.first_name,
-			author_last_name: user.last_name,
-			author_profile_picture: user.profile_picture,
-			author_user_name_id: user.user_name_id,
-
-			author_id: user.id,
-			news_comment_id: newsItem.news_comment_id,
-			created_at: new Date().toUTCString(),
-			updated_on: new Date().toUTCString(),
-		};
-
-		setData((prev) => ({
-			...prev,
-			comments: prev.comments.map((comment) => {
-				if (comment.news_comment_id === bodyObj.parent_id) {
-					// const replies = comment.replies
-					// 	? [...comment.replies, commentReplyObj]
-					// 	: [commentReplyObj];
-
-					let replies = comment.replies || [];
-
-					// if (bodyObj.reply_to_comment_id) {
-					// 	replies = replies.map((reply) => {
-					// 		if (reply.news_id === bodyObj.reply_to_comment_id) {
-					// 			return {
-					// 				...reply,
-					// 				comments_counter: reply.comments_counter + 1,
-					// 			};
-					// 		}
-					// 		return reply;
-					// 	});
-					// }
-
-					replies.push(commentReplyObj);
-
-					return {
-						...comment,
-						replies_counter: comment.replies_counter + 1,
-						replies_to_not_fetch: prev.replies_to_not_fetch
-							? [...prev.replies_to_not_fetch, commentReplyObj.news_comment_id]
-							: [commentReplyObj.news_comment_id],
-						replies,
-					};
-				}
-
-				return comment;
-			}),
-		}));
+		await handleReplyingToMainOrReplyCommentInNewsItem({
+			dispatch,
+			newsItem,
+			user,
+			bodyObj,
+		});
 
 		setValues((prev) => ({
 			...prev,
@@ -282,60 +128,21 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 		setCommentReplyBtnsDisabled(false);
 	};
 
-	const loadRepliesHandler = async (parent_id) => {
-		if (comment.replies && comment.replies.length === comment.replies_counter)
+	const loadRepliesHandler = async (parent_id, news_id) => {
+		if (
+			comment.hit_replies_limit ||
+			(comment.replies && comment.replies.length === comment.replies_counter)
+		)
 			return;
 		setLoadingReplies(true);
 
-		let fetchInput = `/api/v1/news/comments/comment/?type=comment_main_reply&parent_id=${parent_id}`;
+		await handleLoadingCommentRepliesInNewsItem({
+			dispatch,
+			comment,
+			parent_id,
+			news_id,
+		});
 
-		if (comment.last_reply_created_at) {
-			fetchInput += `&last_reply_created_at=${comment.last_reply_created_at}`;
-		}
-
-		if (
-			comment.replies_to_not_fetch &&
-			comment.replies_to_not_fetch.length > 0
-		) {
-			fetchInput += `&replies_to_not_fetch=${comment.replies_to_not_fetch.join(
-				','
-			)}`;
-		}
-
-		const { status, message, newsItem } = await fetch(fetchInput).then(
-			(response) => response.json()
-		);
-
-		if (status === 'error') {
-			setLoadingReplies(false);
-			return console.error(message);
-		}
-
-		setData((prev) => ({
-			...prev,
-			comments: prev.comments.map((comment) => {
-				if (comment.news_comment_id === parent_id) {
-					const last_reply_created_at =
-						newsItem.comments[newsItem.comments.length - 1].created_at;
-
-					const replies = comment.replies
-						? [...comment.replies, ...newsItem.comments /*.reverse()*/]
-						: newsItem.comments; /*.reverse()*/
-
-					return {
-						...comment,
-						replies,
-						hit_replies_limit: newsItem.hit_replies_limit,
-						last_reply_created_at,
-					};
-				}
-
-				return comment;
-			}),
-		}));
-
-		if (newsItem.hit_replies_limit && !hitRepliesLimit)
-			setHitRepliesLimit(true);
 		if (!showReplies) setShowReplies(true);
 
 		setLoadingReplies(false);
@@ -505,23 +312,25 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 			{comment.type === 'comment_main' &&
 				comment.replies_counter !== 0 &&
 				!showReplies && (
-					// !hitRepliesLimit &&
+					// !comment.hit_replies_limit &&
 					<button
 						title={`${comment.replies_counter === 1 ? 'Reply' : 'Replies'} ${
 							comment.replies_counter
 						}`}
 						disabled={loadingReplies}
 						onClick={() => {
-							if (comment.replies && comment.replies.length !== 0)
+							if (
+								comment.replies &&
+								comment.replies.length !== 0 &&
+								!showReplies
+							)
 								setShowReplies(true);
 							if (
 								(comment.replies &&
 									comment.replies.length !== comment.replies_counter) ||
-								!comment.hitRepliesLimit
+								!comment.hit_replies_limit
 							) {
-								loadRepliesHandler(comment.news_comment_id, setData);
-							} else {
-								if (hitRepliesLimit) setHitRepliesLimit(true);
+								loadRepliesHandler(comment.news_comment_id, newsItem.news_id);
 							}
 						}}
 					>
@@ -552,6 +361,7 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 						}
 
 						handleSubmitCommentReply(
+							dispatch,
 							bodyObj,
 							user,
 							comment,
@@ -582,22 +392,24 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 
 			{showReplies &&
 				comment.type === 'comment_main' &&
-				!hitRepliesLimit &&
+				!comment.hit_replies_limit &&
 				comment.replies_counter !== 0 && (
 					<button
 						title='Load More'
 						disabled={loadingReplies}
 						onClick={() => {
-							if (comment.replies && comment.replies.length !== 0)
+							if (
+								comment.replies &&
+								comment.replies.length !== 0 &&
+								!showReplies
+							)
 								setShowReplies(true);
 							if (
 								(comment.replies &&
 									comment.replies.length !== comment.replies_counter) ||
-								!comment.hitRepliesLimit
+								!comment.hit_replies_limit
 							) {
-								loadRepliesHandler(comment.news_comment_id, setData);
-							} else {
-								if (hitRepliesLimit) setHitRepliesLimit(true);
+								loadRepliesHandler(comment.news_comment_id, newsItem.news_id);
 							}
 						}}
 					>

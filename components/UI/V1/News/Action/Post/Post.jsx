@@ -1,11 +1,6 @@
-import Router, { useRouter } from 'next/router';
-
-import { Fragment, useContext, useState } from 'react';
+import { useState } from 'react';
 
 import classes from './Post.module.css';
-import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
-
-import UserContext from '@store/UserContext';
 
 import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl';
@@ -13,12 +8,9 @@ import Label from '@components/UI/V1/Label';
 import Textarea from '@components/UI/V1/Textarea';
 import Button from '@components/UI/V1/Button';
 
-const Post = ({ closeModal, fetcher, actionType, data, setData }) => {
-	const router = useRouter();
-	const { user, ...UserCxt } = useContext(UserContext);
-
+const Post = ({ closeModal, createNews, updateNews, actionType, newsItem }) => {
 	const [values, setValues] = useState({
-		content: data && data.content ? data.content : '',
+		content: newsItem && newsItem.content ? newsItem.content : '',
 	});
 
 	const [formMessage, setFormMessage] = useState('');
@@ -31,68 +23,20 @@ const Post = ({ closeModal, fetcher, actionType, data, setData }) => {
 	};
 
 	const handleSubmit = async (event) => {
+		event.preventDefault();
 		setFormMessage('');
 		setBtnsDisabled(true);
 
-		event.preventDefault();
-
-		let bodyObj = {
-			type: 'post',
-		};
-		let fetchMethod;
-
 		if (actionType === 'create') {
-			fetchMethod = 'POST';
-			bodyObj = {
-				...bodyObj,
-				...values,
-			};
+			await createNews(values, 'post');
 		} else if (actionType === 'update') {
-			fetchMethod = 'PATCH';
-			bodyObj = {
-				...bodyObj,
-				news_id: data.news_id,
-				news_data: {},
-			};
-
-			if (values.content.trim() !== data.content.trim()) {
-				bodyObj.news_data.content = values.content;
-			}
-
-			if (Object.keys(bodyObj.news_data).length === 0)
-				return setFormMessage('There no change in the data!');
+			await updateNews(newsItem.type, newsItem, values);
 		}
 
-		try {
-			await fetcher({ bodyObj, token: user.token, method: fetchMethod })
-				.then((response) => response.json())
-				.then(({ status, message, data }) => {
-					if (status === 'error') {
-						console.error(message);
-						setBtnsDisabled(false);
-						setFormMessage(message);
-						return;
-					}
-					if (actionType === 'create') {
-						// resetInputs();
-						return router.reload(window.location.pathname);
-					} else if (actionType === 'update') {
-						setData((prev) => ({
-							...prev,
-							...values,
-							updated_on: new Date().toUTCString(),
-						}));
-
-						setTimeout(() => closeModal(), 100);
-					}
-
-					setBtnsDisabled(false);
-				});
-		} catch (error) {
-			console.error(error);
-			setFormMessage(error.message);
-			setBtnsDisabled(false);
-		}
+		resetInputs();
+		setBtnsDisabled(false);
+		closeModal();
+		return;
 	};
 
 	const sharedTextareaProps = (

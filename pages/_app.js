@@ -1,3 +1,4 @@
+// import App from 'next/app';
 import Head from 'next/head';
 import { config, library } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -63,7 +64,13 @@ library.add(
 	faWhatsapp
 );
 
-import '@styles/_globals.scss';
+import '@styles/_globals.css';
+
+// import {
+// 	getCookie,
+// } from '@lib/v1/cookie';
+// import { verifyJwtToken } from '@lib/v1/auth';
+
 import Layout from '@components/Layout/Layout';
 
 const MyApp = ({ Component, pageProps }) => {
@@ -104,7 +111,7 @@ const MyApp = ({ Component, pageProps }) => {
 				<meta property='og:title' content='LogNMaze' />
 				<title>LogNMaze</title>
 			</Head>
-			<Layout>
+			<Layout isAuthenticated={pageProps.isAuthenticated}>
 				<Component {...pageProps} />
 			</Layout>
 		</>
@@ -112,3 +119,33 @@ const MyApp = ({ Component, pageProps }) => {
 };
 
 export default MyApp;
+
+// MyApp.getInitialProps = async (appContext) => {
+// 	// calls page's `getInitialProps` and fills `appProps.pageProps`
+// 	// const appProps = await App.getInitialProps(appContext);
+
+// 	if (appContext.ctx.req) {
+// 		const cookie = appContext.ctx.req.headers.cookie;
+
+// 		const tokenCookie = getCookie({
+// 			cookieName: 'user_token',
+// 			cookieString: cookie,
+// 		});
+
+// 		let isAuthenticated = false;
+
+// 		if (tokenCookie.length !== 0) {
+// 			isAuthenticated = await verifyJwtToken(token);
+
+// 		return {
+// 			pageProps: {
+// 				isAuthenticated,
+// 				// ...appProps,
+// 			},
+// 		};
+// 	}
+
+// 	return {
+// 		pageProps: {},
+// 	};
+// };

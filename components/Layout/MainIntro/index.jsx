@@ -4,7 +4,7 @@ import classes from './index.module.css';
 
 import UserContext from '@store/UserContext';
 
-import LogNMazeSignature from '@/svg/LogNMazeSignature';
+import LogNMazeSignature from '../../../svg/LogNMazeSignature';
 
 const MainIntro = () => {
 	const UserCxt = useContext(UserContext);

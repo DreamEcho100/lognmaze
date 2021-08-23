@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
 
-const DropdownMenu = ({ items }) => {
+const DropdownMenu = ({ items = [], children }) => {
 	const [showSettingsMenu, setShowSettingsMenu] = useState(false);
 
 	return (
@@ -42,6 +42,7 @@ const DropdownMenu = ({ items }) => {
 						</li>
 					)
 				)}
+				{children}
 			</ul>
 		</div>
 	);

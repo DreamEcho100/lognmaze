@@ -15,7 +15,7 @@
 
 .format-md h1 {
 	margin: 0.25em 0;
-	line-height: unset;
+	line-height: 4rem;
 }
 .format-md h2 {
 	margin: 1.4em 0 0.25em 0;

@@ -190,12 +190,14 @@ export default async (req, res) => {
 							[response.rows[0].news_id, news_data.content]
 						);
 					}
+
+					return response.rows[0];
 				});
 
 			return res.status(200).json({
 				status: 'success',
 				message: 'Posted Successfully!',
-				data: {},
+				data: newPost,
 				isAuthorized: true,
 			});
 		} else if (req.method === 'PATCH') {

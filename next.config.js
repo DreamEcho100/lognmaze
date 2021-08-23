@@ -14,7 +14,7 @@ const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 //    { /* nextConfig options here */ }
 // );
 
-module.exports = (phase) => {
+const obj = (phase) => {
 	let env = {};
 	// const baseUrl = `${
 	// 	process.env.NODE_ENV !== 'production' ? 'http' : 'https'
@@ -95,3 +95,11 @@ module.exports = (phase) => {
 		// }
 	};
 };
+
+// const withPlugins = require('next-compose-plugins');
+// const withBundleAnalyzer = require('@next/bundle-analyzer')({
+// 	enabled: process.env.ANALYZE === 'true',
+// });
+
+// module.exports = withBundleAnalyzer([withPlugins], obj);
+module.exports = obj;

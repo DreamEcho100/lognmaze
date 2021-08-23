@@ -178,13 +178,13 @@ export default async (req, res) => {
 						WITH insert_item_1 AS (
 							INSERT INTO news_comment_main (news_comment_main_id)
 							VALUES ($1)
-							RETURNING NULL
+							RETURNING news_comment_main_id
 						),
 						update_item_1 AS (
 							UPDATE news
 							SET comments_counter = comments_counter + 1
 							WHERE news_id = ($2)
-							RETURNING NULL
+							RETURNING news_id
 						)
 
 						SELECT * FROM insert_item_1, update_item_1;
@@ -203,13 +203,13 @@ export default async (req, res) => {
 									reply_to_user_id
 								)
 							VALUES ($1, $2, $3, $4)
-							RETURNING NULL
+							RETURNING news_comment_main_reply_id
 						),
 						update_item_1 AS (
 							UPDATE news_comment_main
 							SET replies_counter = replies_counter + 1
 							WHERE news_comment_main_id = ($2)
-							RETURNING NULL
+							RETURNING news_comment_main_id
 						)
 
 						SELECT * FROM insert_item_1, update_item_1;

@@ -1,9 +1,7 @@
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { pool } from '@lib/v1/pg';
 
-const DynamicOneNewsContent = dynamic(() =>
-	import('@components/OneNewsContent')
-);
+import OneNewsContent from '@components/OneNewsContent';
 
 const ArticlePage = ({ data }) => {
 	const router = useRouter();
@@ -12,7 +10,11 @@ const ArticlePage = ({ data }) => {
 		return <div>Loading...</div>;
 	}
 
-	return <DynamicOneNewsContent data={data} />;
+	return (
+		<OneNewsContent
+			newsItem={typeof data === 'string' ? JSON.parse(data) : data}
+		/>
+	);
 };
 
 export default ArticlePage;
@@ -22,41 +24,149 @@ export const getStaticProps = async (context) => {
 		params: { slug },
 	} = context;
 
-	const result = await fetch(
-		`${process.env.BACK_END_ROOT_URL}/api/v1/news/articles/article/${slug}`
-	)
-		.then((response) => response.json())
-		.catch((error) => ({ status: 'error', message: error.message, data: {} }));
+	try {
+		if (!slug) {
+			return {
+				props: {
+					data: {},
+				},
+			};
+		}
+		const result = await pool
+			.query(
+				`
+						SELECT
+							news.news_id,
+							news.type,
+							news.comments_counter,
+							news.up_votes_counter,
+							news.down_votes_counter,
+							news.created_at,
+							news.updated_on,
+							
+							user_profile.user_profile_id AS author_id,
+							user_profile.user_name_id AS author_user_name_id,
+							user_profile.first_name AS author_first_name,
+							user_profile.last_name AS author_last_name,
+							user_profile.profile_picture AS author_profile_picture,
+							user_profile.bio AS author_bio,
 
-	const { status, message, data } = result;
+							news_article.title,
+							news_article.slug,
+							news_article.iso_language,
+							news_article.iso_country,
+							news_article.image,
+							news_article.description,
+							news_article.content,
 
-	if (!status || !data || (status && status === 'error')) {
-		return { props: { data: {} } };
+							ARRAY (
+								SELECT news_tag.name AS tag
+								FROM news_tag
+								WHERE news_tag.news_id = news_article.news_article_id
+							) AS tags
+					
+						FROM news
+						JOIN user_profile ON user_profile.user_profile_id = news.author_id
+						JOIN news_article ON news_article.news_article_id = news.news_id
+						WHERE news_article.slug = $1
+						;
+					`,
+				[slug]
+			)
+			.then((response) => response.rows[0]);
+
+		if (!result) {
+			return {
+				props: {
+					data: false,
+				},
+			};
+		}
+
+		return {
+			props: {
+				data: JSON.stringify(result),
+			},
+			revalidate: 60,
+		};
+	} catch (error) {
+		console.error(`Error, ${error}`);
+
+		return {
+			props: {
+				data: false,
+			},
+		};
 	}
 
-	return {
-		props: {
-			data,
-			revalidate: 60,
-		},
-	};
+	// const result = await fetch(
+	// 	`${process.env.BACK_END_ROOT_URL}/api/v1/news/articles/article/${slug}`
+	// )
+	// 	.then((response) => response.json())
+	// 	.catch((error) => ({ status: 'error', message: error.message, data: {} }));
+
+	// const { status, message, data } = result;
+
+	// if (!status || !data || (status && status === 'error')) {
+	// 	return { props: { data: {} } };
+	// }
+
+	// return {
+	// 	props: {
+	// 		data,
+	// 		revalidate: 60,
+	// 	},
+	// };
 };
 
 export const getStaticPaths = async () => {
-	const result = await fetch(
-		`${process.env.BACK_END_ROOT_URL}/api/v1/news/articles/?with_news_article_content=true&with_author_data=true`
-	)
-		.then((response) => response.json())
-		.catch((error) => ({ status: 'error', message: error.message, data: {} }));
+	try {
+		const result = await pool
+			.query('SELECT slug FROM news_article')
+			.then(async (response) => response.rows);
 
-	const { status, message, data } = result;
+		// return res.status(200).json({
+		// 	status: 'success',
+		// 	message: 'The newest News Arrived Successfully!, Enjoy ;)',
+		// 	data: result,
+		// });
 
-	const paths = data.map((post) => ({
-		params: { slug: post.slug },
-	}));
+		const paths = result.map((post) => ({
+			params: { slug: post.slug },
+		}));
 
-	return {
-		paths,
-		fallback: true,
-	};
+		return {
+			paths,
+			fallback: true,
+		};
+	} catch (error) {
+		console.error(`Error, ${error}`);
+		// return res.status(500).json({
+		// 	status: 'error',
+		// 	message: error.message || 'Something went wrong!',
+		// 	data: [],
+		// });
+
+		return {
+			paths: { params: {} },
+			fallback: true,
+		};
+	}
+
+	// const result = await fetch(
+	// 	`${process.env.BACK_END_ROOT_URL}/api/v1/news/articles/slugs`
+	// )
+	// 	.then((response) => response.json())
+	// 	.catch((error) => ({ status: 'error', message: error.message, data: [] }));
+
+	// const { status, message, data } = result;
+
+	// const paths = data.map((post) => ({
+	// 	params: { slug: post.slug },
+	// }));
+
+	// return {
+	// 	paths,
+	// 	fallback: true,
+	// };
 };

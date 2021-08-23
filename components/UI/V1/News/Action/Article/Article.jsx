@@ -1,14 +1,10 @@
-import { useRouter } from 'next/router';
-
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import classes from './Article.module.css';
 // import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 
 import ISO639_1LanguageCodes from '@data/ISO639_1LanguageCodes.json';
 import ISOCountryCodesCountriesISOCode from '@data/ISOCountryCodesCountriesISOCode.json';
-
-import UserContext from '@store/UserContext';
 
 import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl';
@@ -27,21 +23,24 @@ const iso_countriesKeys = (() => {
 	return Object.keys(ISOCountryCodesCountriesISOCode);
 })();
 
-const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
-	const router = useRouter();
-
-	const { user, ...UserCxt } = useContext(UserContext);
-
+const Article = ({
+	closeModal,
+	createNews,
+	updateNews,
+	actionType,
+	newsItem,
+}) => {
 	const [values, setValues] = useState({
-		// format_type: data && data.format_type ? data.format_type : 'normal',
-		title: data && data.title ? data.title : '',
-		slug: data && data.slug ? data.slug : '',
-		iso_language: data && data.iso_language ? data.iso_language : 'en',
-		iso_country: data && data.iso_country ? data.iso_country : 'US',
-		tags: data && data.tags && data.tags.length ? data.tags : [],
-		image: data && data.image ? data.image : '',
-		description: data && data.description ? data.description : '',
-		content: data && data.content ? data.content : '',
+		title: newsItem && newsItem.title ? newsItem.title : '',
+		slug: newsItem && newsItem.slug ? newsItem.slug : '',
+		iso_language:
+			newsItem && newsItem.iso_language ? newsItem.iso_language : 'en',
+		iso_country: newsItem && newsItem.iso_country ? newsItem.iso_country : 'US',
+		tags:
+			newsItem && newsItem.tags && newsItem.tags.length ? newsItem.tags : [],
+		image: newsItem && newsItem.image ? newsItem.image : '',
+		description: newsItem && newsItem.description ? newsItem.description : '',
+		content: newsItem && newsItem.content ? newsItem.content : '',
 	});
 
 	const [formMessage, setFormMessage] = useState('');
@@ -68,104 +67,17 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 		setFormMessage('');
 		setBtnsDisabled(true);
 
-		let bodyObj = {};
-		const tags_array = [];
-		let fetchMethod;
-
 		if (actionType === 'create') {
-			fetchMethod = 'POST';
-			bodyObj = {
-				type: 'article',
-				author_user_name_id: user.user_name_id,
-				...values,
-			};
+			await createNews(values, 'article');
 		} else if (actionType === 'update') {
-			fetchMethod = 'PATCH';
-			const removedTags = [];
-			const addedTags = [];
-
-			const oldTags = data.tags;
-			const newTags = values.tags;
-
-			if (oldTags.length <= newTags.length) {
-				newTags.forEach((item, index) => {
-					if (oldTags.includes(item)) return;
-					addedTags.push(item);
-					if (index <= oldTags.length - 1) {
-						if (!newTags.includes(oldTags[index]))
-							removedTags.push(oldTags[index]);
-					}
-				});
-			} else if (oldTags.length > newTags.length) {
-				oldTags.forEach((item, index) => {
-					if (newTags.includes(item)) return;
-					removedTags.push(item);
-					if (index <= newTags.length - 1) {
-						if (!oldTags.includes(newTags[index]))
-							addedTags.push(newTags[index]);
-					}
-				});
-			}
-
-			bodyObj = {
-				type: 'article',
-				news_id: data.news_id,
-				news_data: {},
-				tags: {
-					removed: removedTags,
-					added: addedTags,
-				},
-			};
-
-			for (let item in values) {
-				if (item !== 'tags') {
-					if (data[item] !== values[item]) {
-						bodyObj.news_data[item] = values[item];
-					}
-				}
-			}
-
-			if (
-				Object.keys(bodyObj.news_data).length === 0 &&
-				Object.keys(bodyObj.tags.removed).length === 0 &&
-				Object.keys(bodyObj.tags.added).length === 0
-			) {
-				setFormMessage('There no change in the data!');
-				setBtnsDisabled(false);
-				return;
-			}
+			await updateNews(newsItem.type, newsItem, values);
 		}
 
-		try {
-			await fetcher({ bodyObj, token: user.token, method: fetchMethod })
-				.then((response) => response.json())
-				.then(({ status, message, data }) => {
-					if (status === 'error') {
-						console.error(message);
-						setBtnsDisabled(false);
-						setFormMessage(message);
-						return;
-					}
-					if (actionType === 'create') {
-						// resetInputs();
-						return router.reload(window.location.pathname);
-					} else if (actionType === 'update') {
-						setData((prev) => ({
-							...prev,
-							...values,
-							updated_on: new Date().toUTCString(),
-						}));
-
-						setTimeout(() => closeModal(), 0);
-					}
-
-					setBtnsDisabled(false);
-				});
-		} catch (error) {
-			console.error(error);
-			setFormMessage(error.message);
-			setBtnsDisabled(false);
-		}
+		resetInputs();
+		setBtnsDisabled(false);
+		closeModal();
+		return;
+		// setFormMessage(error.message);
 	};
 
 	const sharedInputProps = (
@@ -194,48 +106,21 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 		return props;
 	};
 
-	// const handleLoadingArticleContent = async (id) => {
-	// 	await fetch(`/api/v1/news/articles/article/content/${id}`)
-	// 		.then((response) => response.json())
-	// 		.then(({ message, status, data }) => {
-	// 			setData((prev) => ({
-	// 				...prev,
-	// 				...data,
-	// 			}));
-	// 		})
-	// 		.catch((error) => console.error(error));
-	// };
-
 	useEffect(() => {
-		// const changedValues = {};
-		// let valuesChanged = false;
-
-		// for (let item in values) {
-		// 	if (values[item] && values[item] !== data[item]) {
-		// 		changedValues[item] = data[item];
-		// 		if (!valuesChanged) valuesChanged = true;
-		// 	}
-		// }
-
-		// if (valuesChanged) {
-		// 	setValues((prev) => ({
-		// 		...prev,
-		// 		...changedValues,
-		// 	}));
-		// }
-
 		setValues({
-			// format_type: data && data.format_type ? data.format_type : 'normal',
-			title: data && data.title ? data.title : '',
-			slug: data && data.slug ? data.slug : '',
-			iso_language: data && data.iso_language ? data.iso_language : 'en',
-			iso_country: data && data.iso_country ? data.iso_country : 'US',
-			tags: data && data.tags && data.tags.length ? data.tags : [],
-			image: data && data.image ? data.image : '',
-			description: data && data.description ? data.description : '',
-			content: data && data.content ? data.content : '',
+			title: newsItem && newsItem.title ? newsItem.title : '',
+			slug: newsItem && newsItem.slug ? newsItem.slug : '',
+			iso_language:
+				newsItem && newsItem.iso_language ? newsItem.iso_language : 'en',
+			iso_country:
+				newsItem && newsItem.iso_country ? newsItem.iso_country : 'US',
+			tags:
+				newsItem && newsItem.tags && newsItem.tags.length ? newsItem.tags : [],
+			image: newsItem && newsItem.image ? newsItem.image : '',
+			description: newsItem && newsItem.description ? newsItem.description : '',
+			content: newsItem && newsItem.content ? newsItem.content : '',
 		});
-	}, [data]);
+	}, [newsItem]);
 
 	return (
 		<Form
@@ -243,21 +128,6 @@ const Article = ({ closeModal, fetcher, actionType, data, setData }) => {
 			onSubmit={handleSubmit}
 			className={classes.form}
 		>
-			{/* <FormControl>
-				<Label htmlFor='format_type'>Format Type: </Label>
-				<Select
-					name='format_type'
-					id='format_type'
-					disabledOption={{ text: 'Choose Format Type' }}
-					value={values.format_type}
-					setValues={setValues}
-					required
-				>
-					<option value='normal'>normal</option>
-					<option value='md'>md</option>
-				</Select>
-			</FormControl> */}
-
 			<FormControl>
 				<Label htmlFor='title'>Title: </Label>
 				<Input

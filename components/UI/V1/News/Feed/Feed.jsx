@@ -23,8 +23,6 @@ const Feed = ({
 		});
 	}, []);
 
-	console.log('state', state);
-
 	const allClasses = handleAllClasses({
 		classes,
 		defaultClasses,
@@ -39,18 +37,16 @@ const Feed = ({
 
 	return (
 		<section {...feedProps}>
-			{state.news.map((item, key) =>
-				Object.keys.length !== 0 ? (
-					<NewsContextProvider key={item.news_id}>
-						<Container
-							newsItem={item}
-							detailsType='description'
-							modalOnClick
-							className={classes['news-container']}
-						/>
-					</NewsContextProvider>
-				) : null
-			)}
+			{state.news.map((item, index) => (
+				<NewsContextProvider key={`Feed-${index}-${item.news_id}`}>
+					<Container
+						newsItem={item}
+						detailsType='description'
+						modalOnClick
+						className={classes['news-container']}
+					/>
+				</NewsContextProvider>
+			))}
 		</section>
 	);
 };

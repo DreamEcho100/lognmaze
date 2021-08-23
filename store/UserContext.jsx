@@ -13,6 +13,8 @@ const UserContext = createContext({
 	userExist: false,
 	isLoading: true,
 	isUpdatingProfile: false,
+	setIsLoading: () => {},
+	setUserDataAndTokenFomCookie: () => {},
 	verifyUserTokenFromCookie: () => {},
 	handleSignUp: () => {},
 	handleSignIn: () => {},
@@ -70,7 +72,7 @@ export const UserContextProvider = ({ children }) => {
 					const user = JSON.parse(userCookie);
 					setUser({
 						...user,
-						token, 
+						token,
 					});
 				}
 
@@ -89,6 +91,26 @@ export const UserContextProvider = ({ children }) => {
 				setIsLoading(false);
 				return { status: 'succuss', message: error.message, data: {} };
 			});
+	};
+
+	const setUserDataAndTokenFomCookie = () => {
+		const tokenCookie = getCookie({
+			cookieName: 'user_token',
+			cookieString: document.cookie,
+		});
+
+		const userCookie = getCookie({
+			cookieName: 'user_data',
+			cookieString: document.cookie,
+		});
+
+		const user = JSON.parse(userCookie);
+		setUser({
+			...user,
+			token: tokenCookie,
+		});
+
+		if (isLoading) setIsLoading(false);
 	};
 
 	const handleUserSign = async (path, bodyObj) => {
@@ -342,6 +364,8 @@ export const UserContextProvider = ({ children }) => {
 		userExist,
 		isLoading,
 		isUpdatingProfile,
+		setIsLoading,
+		setUserDataAndTokenFomCookie,
 		setIsUpdatingProfile,
 		verifyUserTokenFromCookie,
 		handleSignUp,

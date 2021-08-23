@@ -1,9 +1,15 @@
 import { useEffect, useState } from 'react';
-import Md from '@components/UI/V1/Format/Md';
+import dynamic from 'next/dynamic';
 
 import classes from './Details.module.css';
 
+const DynamicMd = dynamic(() => import('@components/UI/V1/Format/Md'));
+
 const Details = ({ detailsType, setShowModal, newsItem }) => {
+	if (!newsItem?.news_id) {
+		return <h2>Not Found</h2>;
+	}
+
 	const [loading, setLoading] = useState(
 		(detailsType === 'description' && newsItem.description) ||
 			(detailsType === 'content' && newsItem.content)
@@ -56,7 +62,7 @@ const Details = ({ detailsType, setShowModal, newsItem }) => {
 		// }
 		return (
 			<section className={classes.details}>
-				<Md content={newsItem.content || ''} />
+				<DynamicMd content={newsItem.content || ''} />
 			</section>
 		);
 	}
