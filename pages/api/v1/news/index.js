@@ -13,6 +13,8 @@ export default async (req, res) => {
 		return;
 	}
 
+	let news_id_to_delete;
+
 	try {
 		if (req.method === 'GET') {
 			const { with_news_article_content, voter_id, filter_by_user_id } =
@@ -125,9 +127,17 @@ export default async (req, res) => {
 					[isAuthorized.id, type]
 				)
 				.then(async (response) => {
+					news_id_to_delete = response.rows[0].news_id;
+
 					if (type === 'article') {
 						const queryBuilder = new QueryBuilder();
-						const { SQLCTEQuery, CTEParamsArray } = queryBuilder.arrayToCTE([
+						const {
+							// SQLCTEQuery,
+							CTEFuncCounter,
+							CTEParamsArray,
+							CTEFuncsNames,
+							CTEFuncs,
+						} = queryBuilder.arrayToCTE([
 							{
 								table: 'news_article',
 								type: 'insert',
@@ -177,17 +187,42 @@ export default async (req, res) => {
 							},
 						]);
 
-						const response2 = await pool.query(SQLCTEQuery, CTEParamsArray);
+						const response2 = await pool.query(
+							`
+								WITH ${CTEFuncs.join(',')},
+								update_news_article_counter_on_user_profile AS (
+									UPDATE user_profile SET news_article_counter = news_article_counter + 1
+									WHERE user_profile_id = ($${CTEParamsArray.length + 1})
+									RETURNING user_profile_id
+								)
+					
+								SELECT * FROM ${CTEFuncsNames.join(
+									','
+								)}, update_news_article_counter_on_user_profile;
+							`,
+							[...CTEParamsArray, isAuthorized.id]
+						);
 					} else if (type === 'post') {
 						const response2 = await pool.query(
 							`
-							INSERT INTO news_post
-								(
-									news_post_id,
-									content
-								)
-							VALUES ($1, $2)`,
-							[response.rows[0].news_id, news_data.content]
+							WITH insert_item_1 AS (
+								INSERT INTO news_post
+									(
+										news_post_id,
+										content
+									)
+								VALUES ($1, $2)
+								RETURNING news_post_id
+							),
+							update_news_post_counter_on_user_profile AS (
+								UPDATE user_profile SET news_post_counter = news_post_counter + 1
+								WHERE user_profile_id = ($3)
+								RETURNING user_profile_id
+							)
+
+							SELECT * FROM insert_item_1, update_news_post_counter_on_user_profile;
+							`,
+							[response.rows[0].news_id, news_data.content, isAuthorized.id]
 						);
 					}
 
@@ -331,10 +366,25 @@ export default async (req, res) => {
 
 			const result = await pool
 				.query(
-					'DELETE FROM news WHERE news_id = ($1) AND author_id = ($2) RETURNING *',
+					'DELETE FROM news WHERE news_id = ($1) AND author_id = ($2) RETURNING type',
 					[req.body.news_id, isAuthorized.id]
 				)
 				.then((response) => response.rows[0]);
+
+			console.log('result', result);
+
+			const result2 = await pool
+				.query(
+					`
+						UPDATE user_profile SET news_${result.type}_counter = news_${result.type}_counter - 1
+						WHERE user_profile_id = ($1)
+						RETURNING user_profile_id
+					`,
+					[isAuthorized.id]
+				)
+				.then((response) => response.rows[0]);
+
+			console.log('result2', result2);
 
 			return res.status(200).json({
 				status: 'success',
@@ -344,7 +394,21 @@ export default async (req, res) => {
 			});
 		}
 	} catch (error) {
-		console.error(`Error, ${error}`);
+		console.error(`Error, ${error.message}`);
+		try {
+			if (news_id_to_delete && req.method === 'POST') {
+				const result = await pool
+					.query(
+						'DELETE FROM news WHERE news_id = ($1) AND author_id = ($2) RETURNING type',
+						[req.body.news_id, isAuthorized.id]
+					)
+					.then((response) => response.rows[0]);
+
+				console.log('DELETE news', result);
+			}
+		} catch (error2) {
+			console.error(`Error, ${error2.message}`);
+		}
 		return res.status(500).json({
 			status: 'error',
 			message: error.message || 'Something went wrong!',

@@ -81,7 +81,9 @@ export default async (req, res) => {
 									gender,
 									profile_picture,
 									cover_photo,
-									bio
+									bio,
+									news_article_counter,
+									news_post_counter
 							),
 							add_new_user_address as (
 								INSERT INTO user_address

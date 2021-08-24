@@ -5,11 +5,11 @@ import classes from './Container.module.css';
 // import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 import BorderClasses from '@components/UI/V1/Border.module.css';
 
-import NewsContextTest from '@store/NewsContextTest';
+import NewsContext from '@store/NewsContext';
 import {
 	handleLoadingNewsItemContent,
 	HandleLoadingUserVote,
-} from '@store/NewsContextTest/actions';
+} from '@store/NewsContext/actions';
 import UserContext from '@store/UserContext';
 import { handleAllClasses } from '../../utils/index';
 
@@ -30,7 +30,7 @@ const Container = ({
 	...props
 }) => {
 	const { user, userExist } = useContext(UserContext);
-	const { state, dispatch } = useContext(NewsContextTest);
+	const { state, dispatch } = useContext(NewsContext);
 
 	const [showModal, setShowModal] = useState(false);
 	const [isLoadingUserVote, setIsLoadingUserVote] = useState(

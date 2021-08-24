@@ -7,11 +7,11 @@ import {
 	HandleAddingUserVote,
 	HandleDeletingUserVote,
 	HandleChangingUserVote,
-} from '@store/NewsContextTest/actions';
-import NewsContextTest from '@store/NewsContextTest';
+} from '@store/NewsContext/actions';
+import NewsContext from '@store/NewsContext';
 
 const Votes = ({ user, userExist, newsItem, setData, isLoadingUserVote }) => {
-	const { dispatch } = useContext(NewsContextTest);
+	const { dispatch } = useContext(NewsContext);
 
 	const [voteBtnDisabled, setVoteBtnDisabled] = useState(
 		!userExist || isLoadingUserVote ? false : true

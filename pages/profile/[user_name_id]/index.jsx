@@ -44,35 +44,13 @@ const ProfilePage = ({ user = {}, ...props }) => {
 	const [handleIsAuthorized, setHandleIsAuthorized] = useState(
 		user.isAuthorized
 	);
-	const [identity, setIdentity] = useState(user.visitorIdentity);
+	const [identity, setIdentity] = useState(user.visitorIdentity || GUEST);
 	const [userData, setUserData] = useState(user.data);
 
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(async () => {
-		if (!UserCxt.isLoading) {
-			if (!UserCxt.userExist) {
-				if (userData.id) {
-					if (handleIsAuthorized) setHandleIsAuthorized(false);
-					if (identity === OWNER) setIdentity(GUEST);
-				}
-			} else {
-				if (
-					(JSON.stringify(UserCxt.user) !== JSON.stringify(userData) ||
-						Object.keys(userData).length === 0) &&
-					UserCxt.user.user_name_id === router.query.user_name_id
-				)
-					setUserData(UserCxt.user);
-
-				if (router.query.user_name_id === UserCxt.user.user_name_id) {
-					if (identity === GUEST) setIdentity(OWNER);
-					if (!handleIsAuthorized) setHandleIsAuthorized(true);
-				} else if (router.query.user_name_id !== UserCxt.user.user_name_id) {
-					if (identity === OWNER) setIdentity(GUEST);
-					if (handleIsAuthorized) setHandleIsAuthorized(false);
-				}
-			}
-
+		if (!UserCxt.isLoading && router.query.user_name_id) {
 			let userProfileData;
 
 			if (
@@ -84,14 +62,15 @@ const ProfilePage = ({ user = {}, ...props }) => {
 
 				if (UserCxt?.user?.user_name_id === router.query.user_name_id) {
 					userProfileData = UserCxt.user;
-					if (identity === GUEST) setIdentity(OWNER);
-					if (!handleIsAuthorized) setHandleIsAuthorized(true);
-					if (identity === OWNER) setIdentity(GUEST);
-					if (handleIsAuthorized) setHandleIsAuthorized(false);
+					// if (identity === GUEST) setIdentity(OWNER);
+					// if (!handleIsAuthorized) setHandleIsAuthorized(true);
 				} else {
 					const userResult = await fetch(
 						`/api/v1/users/profiles/profile/${router.query.user_name_id}`
 					).then((response) => response.json());
+
+					// if (identity === OWNER) setIdentity(GUEST);
+					// if (handleIsAuthorized) setHandleIsAuthorized(false);
 
 					if (
 						!userResult.data ||
@@ -101,6 +80,8 @@ const ProfilePage = ({ user = {}, ...props }) => {
 						setUserData({});
 						setPosts([]);
 						setIsLoading(false);
+						if (handleIsAuthorized) setHandleIsAuthorized(false);
+						if (identity !== GUEST) setIdentity(GUEST);
 						return;
 					}
 
@@ -108,14 +89,6 @@ const ProfilePage = ({ user = {}, ...props }) => {
 				}
 
 				setUserData(userProfileData);
-
-				// if (UserCxt?.user?.user_name_id === userProfileData.user_name_id) {
-				// 	if (identity === GUEST) setIdentity(OWNER);
-				// 	if (!handleIsAuthorized) setHandleIsAuthorized(true);
-				// } else {
-				// 	if (identity === OWNER) setIdentity(GUEST);
-				// 	if (handleIsAuthorized) setHandleIsAuthorized(false);
-				// }
 
 				let postInputQuery = '/?filter_by_user_id=';
 				// if (user.data && user.data.id) postInputQuery += user.data.id;
@@ -153,57 +126,29 @@ const ProfilePage = ({ user = {}, ...props }) => {
 				setIsLoading(false);
 			}
 
-			// if (
-			// 	UserCxt.userExist &&
-			// 	posts &&
-			// 	posts.length !== 0 &&
-			// 	(posts.author_id !== userData.id ||
-			// 		posts.author_user_name_id !== userData.user_name_id ||
-			// 		posts.author_first_name !== userData.first_name ||
-			// 		posts.author_last_name !== userData.last_name ||
-			// 		posts.author_profile_picture !== userData.profile_picture)
-			// ) {
-			// 	setPosts((prev) =>
-			// 		prev.map((item) => ({
-			// 			...item,
-			// 			author_id: userData.id,
-			// 			author_user_name_id: userData.user_name_id,
-			// 			author_first_name: userData.first_name,
-			// 			author_last_name: userData.last_name,
-			// 			author_profile_picture: userData.profile_picture,
-			// 		}))
-			// 	);
-			// }
+			if (!UserCxt.userExist) {
+				if (handleIsAuthorized) setHandleIsAuthorized(false);
+				if (identity !== GUEST) setIdentity(GUEST);
+			} else {
+				if (router.query.user_name_id === UserCxt.user.user_name_id) {
+					setUserData(UserCxt.user);
+					if (identity !== OWNER) setIdentity(OWNER);
+					if (!handleIsAuthorized) setHandleIsAuthorized(true);
+				} else if (router.query.user_name_id !== UserCxt.user.user_name_id) {
+					if (identity !== GUEST) setIdentity(GUEST);
+					if (handleIsAuthorized) setHandleIsAuthorized(false);
+				}
+			}
 
 			if (isLoading) setIsLoading(false);
 		}
 	}, [UserCxt.userExist, UserCxt.isLoading, router.query.user_name_id]);
 
-	useEffect(() => {
-		if (identity === OWNER && !UserCxt.user.id) {
-			return setIdentity(GUEST);
-		}
-
-		if (
-			UserCxt.user.id &&
-			userData.id &&
-			UserCxt.user.id === userData.id &&
-			JSON.stringify(userData) !== JSON.stringify(UserCxt.user)
-		) {
-			setUserData(UserCxt.user);
-			// return router.reload(window.location.pathname);
-		}
-	}, [UserCxt.user]);
-
 	if (UserCxt.isLoading || isLoading) {
 		return <p>Loading...</p>;
 	}
 
-	if (
-		Object.keys(userData).length === 0 &&
-		!userData.id &&
-		!handleIsAuthorized
-	) {
+	if (!userData.id) {
 		return (
 			<div className=''>
 				<p>No User found!</p>

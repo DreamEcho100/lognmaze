@@ -5,10 +5,9 @@ import { useContext, useEffect, useState } from 'react';
 import {
 	handleLoadingNewsItemComments,
 	handlePostingCommentToNewsItem,
-} from '@store/NewsContextTest/actions';
-import NewsContextTest from '@store/NewsContextTest';
+} from '@store/NewsContext/actions';
+import NewsContext from '@store/NewsContext';
 import UserContext from '@store/UserContext';
-// import NewsContext from '@store/NewsContext';
 
 import Comment from './Comment';
 import CommentTextarea from './CommentTextarea';
@@ -26,9 +25,8 @@ const Comments = ({
 	showComments,
 	focusCommentTextarea,
 }) => {
-	const { user /* , ...UserCxt*/ } = useContext(UserContext);
-	const { dispatch } = useContext(NewsContextTest);
-	// const { news, setNews } = useContext(NewsContext);
+	const { user, userExist } = useContext(UserContext);
+	const { dispatch } = useContext(NewsContext);
 
 	const [values, setValues] = useState({
 		content: '',
@@ -60,7 +58,11 @@ const Comments = ({
 	};
 
 	const LoadComments = async () => {
-		if (newsItem.comments_counter === 0 || newsItem.hit_comments_limit) return;
+		if (
+			parseInt(newsItem.comments_counter) === 0 ||
+			newsItem.hit_comments_limit
+		)
+			return;
 
 		setLoadingComments(true);
 
@@ -73,15 +75,17 @@ const Comments = ({
 
 	return (
 		<section className={`${inheritedClasses}`}>
-			<CommentTextarea
-				handleSubmit={handleSubmit}
-				focusTextarea={focusCommentTextarea}
-				setFocusCommentTextarea={setFocusCommentTextarea}
-				name='content'
-				setValues={setValues}
-				value={values.content}
-				disableSubmitBtn={disableSendCommentButton}
-			/>
+			{userExist && (
+				<CommentTextarea
+					handleSubmit={handleSubmit}
+					focusTextarea={focusCommentTextarea}
+					setFocusCommentTextarea={setFocusCommentTextarea}
+					name='content'
+					setValues={setValues}
+					value={values.content}
+					disableSubmitBtn={disableSendCommentButton}
+				/>
+			)}
 			<div>
 				{newsItem.comments &&
 					newsItem.comments.map((comment, index) => (

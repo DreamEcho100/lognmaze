@@ -29,14 +29,38 @@ CREATE TABLE user_profile (
   cover_photo TEXT,
 
   bio TEXT,
-  
+
+  news_post_counter BIGINT DEFAULT 0,
+  news_article_counter BIGINT DEFAULT 0,
+
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   last_sign_in TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
   PRIMARY KEY (user_profile_id),
   FOREIGN KEY (user_profile_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
-  UNIQUE(user_name_id)
+  UNIQUE(user_name_id),
+
+  CONSTRAINT check_news_post_counter_min CHECK (news_post_counter >= 0),
+  CONSTRAINT check_news_article_counter_min CHECK (news_article_counter >= 0)
 );
+
+-- ALTER TABLE user_profile
+-- ADD COLUMN news_post_counter BIGINT DEFAULT 0;
+
+-- ALTER TABLE user_profile
+-- ADD COLUMN news_article_counter BIGINT DEFAULT 0;
+
+-- ALTER TABLE user_profile 
+-- ADD CONSTRAINT check_news_post_counter_min 
+-- CHECK (
+-- 	news_post_counter >= 0
+-- );
+
+-- ALTER TABLE user_profile 
+-- ADD CONSTRAINT check_news_article_counter_min 
+-- CHECK (
+-- 	news_article_counter >= 0
+-- );
 
 CREATE TABLE user_address (
   user_address_id uuid NOT NULL,

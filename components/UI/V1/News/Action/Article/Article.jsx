@@ -67,16 +67,21 @@ const Article = ({
 		setFormMessage('');
 		setBtnsDisabled(true);
 
+		let result = {};
+
 		if (actionType === 'create') {
-			await createNews(values, 'article');
+			result = await createNews(values, 'article');
 		} else if (actionType === 'update') {
-			await updateNews(newsItem.type, newsItem, values);
+			result = await updateNews(newsItem.type, newsItem, values);
 		}
 
-		resetInputs();
 		setBtnsDisabled(false);
-		closeModal();
-		return;
+
+		if (result.status !== 'error') {
+			resetInputs();
+			closeModal();
+		}
+		return result;
 		// setFormMessage(error.message);
 	};
 

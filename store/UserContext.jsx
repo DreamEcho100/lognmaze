@@ -26,6 +26,8 @@ const UserContext = createContext({
 	handleChangeEmail: () => {},
 	handleChangePassword: () => {},
 	handleChangeBio: () => {},
+	increaseUserNewsCounterByOne: () => {},
+	decreaseUserNewsCounterByOne: () => {},
 });
 
 export const UserContextProvider = ({ children }) => {
@@ -351,6 +353,24 @@ export const UserContextProvider = ({ children }) => {
 			},
 		});
 
+	const increaseUserNewsCounterByOne = (type) => {
+		setUser((prev) => ({
+			...prev,
+			[`news_${type}_counter`]: prev[`news_${type}_counter`]
+				? parseInt(prev[`news_${type}_counter`]) + 1
+				: 1,
+		}));
+	};
+
+	const decreaseUserNewsCounterByOne = (type) => {
+		setUser((prev) => ({
+			...prev,
+			[`news_${type}_counter`]: prev[`news_${type}_counter`]
+				? parseInt(prev[`news_${type}_counter`]) - 1
+				: 0,
+		}));
+	};
+
 	useEffect(() => {
 		if (Object.keys(user).length === 0 && userExist) {
 			setUserExist(false);
@@ -378,6 +398,8 @@ export const UserContextProvider = ({ children }) => {
 		handleChangeEmail,
 		handleChangePassword,
 		handleChangeBio,
+		increaseUserNewsCounterByOne,
+		decreaseUserNewsCounterByOne,
 	};
 
 	return (

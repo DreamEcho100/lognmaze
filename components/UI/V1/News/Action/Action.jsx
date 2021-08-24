@@ -4,8 +4,8 @@ import {
 	handleCreatingNewsItem,
 	handleDeletingUserNewsItem,
 	handleUpdatingUserNewsItem,
-} from '@store/NewsContextTest/actions';
-import NewsContextTest from '@store/NewsContextTest';
+} from '@store/NewsContext/actions';
+import NewsContext from '@store/NewsContext';
 import UserContext from '@store/UserContext';
 
 import ModalContainer from './ModalContainer/ModalContainer';
@@ -24,10 +24,15 @@ const Action = ({
 	newsItem,
 	...props
 }) => {
-	const { dispatch } = useContext(NewsContextTest);
+	const { dispatch } = useContext(NewsContext);
 	const extraProps = {};
 
-	const { user, ...UserCxt } = useContext(UserContext);
+	const {
+		user,
+		increaseUserNewsCounterByOne,
+		decreaseUserNewsCounterByOne,
+		...UserCxt
+	} = useContext(UserContext);
 
 	const [newsType, setNewsType] = useState(type);
 
@@ -36,27 +41,37 @@ const Action = ({
 		type = newsType;
 	}, []);
 
-	const deleteNews = async ({ news_id }) => {
-		await handleDeletingUserNewsItem({
+	const deleteNews = async ({ news_id, newsType }) => {
+		const result = await handleDeletingUserNewsItem({
 			dispatch,
 			user,
 			news_id,
 		});
 
+		if (result.status === 'success') {
+			decreaseUserNewsCounterByOne(newsType);
+		}
+
 		if (setShowModal && !showModal) setShowModal(false);
 		else document.body.style.overflowY = 'auto';
 
-		return;
+		return result;
 	};
 
 	const createNews = async (values, newsType) => {
-		return await handleCreatingNewsItem({
+		const result = await handleCreatingNewsItem({
 			dispatch,
 			user,
 			newsType,
 			newsValues: values,
 			newsType,
 		});
+
+		if (result.status === 'success') {
+			increaseUserNewsCounterByOne(newsType);
+		}
+
+		return result;
 	};
 
 	const updateNews = async (newsType, oldValues, newValues) => {
@@ -132,7 +147,9 @@ const Action = ({
 						<div>
 							<Button
 								title='Yes'
-								onClick={() => deleteNews({ news_id: newsItem.news_id })}
+								onClick={() =>
+									deleteNews({ news_id: newsItem.news_id, newsType: type })
+								}
 							>
 								Yes
 							</Button>

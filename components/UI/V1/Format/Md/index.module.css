@@ -13,9 +13,17 @@
 	margin: 0.5em auto;
 }
 
+.format-md h1,
+.format-md h2,
+.format-md h3,
+.format-md h4,
+.format-md h5,
+.format-md h6 {
+	line-height: normal;
+}
+
 .format-md h1 {
 	margin: 0.25em 0;
-	line-height: 4rem;
 }
 .format-md h2 {
 	margin: 1.4em 0 0.25em 0;

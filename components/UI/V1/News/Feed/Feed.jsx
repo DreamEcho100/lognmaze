@@ -2,8 +2,7 @@ import Container from '@components/UI/V1/News/Container/Container';
 
 import classes from './Feed.module.css';
 
-import NewsContextTest from '@store/NewsContextTest';
-import { NewsContextProvider } from '@store/NewsContext';
+import NewsContext from '@store/NewsContext';
 import { handleAllClasses } from '../../utils/index';
 import { useContext, useEffect } from 'react';
 
@@ -14,7 +13,7 @@ const Feed = ({
 	news = [],
 	...props
 }) => {
-	const { state, dispatch, types } = useContext(NewsContextTest);
+	const { state, dispatch, types } = useContext(NewsContext);
 
 	useEffect(() => {
 		dispatch({
@@ -38,14 +37,13 @@ const Feed = ({
 	return (
 		<section {...feedProps}>
 			{state.news.map((item, index) => (
-				<NewsContextProvider key={`Feed-${index}-${item.news_id}`}>
-					<Container
-						newsItem={item}
-						detailsType='description'
-						modalOnClick
-						className={classes['news-container']}
-					/>
-				</NewsContextProvider>
+				<Container
+					key={`Feed-${index}-${item.news_id}`}
+					newsItem={item}
+					detailsType='description'
+					modalOnClick
+					className={classes['news-container']}
+				/>
 			))}
 		</section>
 	);

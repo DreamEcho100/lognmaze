@@ -22,6 +22,7 @@
 
 .vote {
 	margin: 0 0.125em;
+	cursor: default;
 }
 
 .vote:first-child {

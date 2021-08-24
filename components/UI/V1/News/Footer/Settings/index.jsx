@@ -17,7 +17,7 @@ const Settings = ({
 	focusCommentTextarea,
 	isLoadingUserVote,
 }) => {
-	const { user, userExist, ...UserCxt } = useContext(UserContext);
+	const { user, userExist } = useContext(UserContext);
 
 	const [commentBtnDisabled, setCommentBtnDisabled] = useState(
 		userExist ? false : true
@@ -42,7 +42,8 @@ const Settings = ({
 			/>
 			<div className={`${classes.comment} ${classes.item}`}>
 				<button
-					disabled={commentBtnDisabled}
+					title={`Comment on this ${newsItem.type.toLowerCase()}`}
+					disabled={commentBtnDisabled && userExist}
 					onClick={() => {
 						if (commentBtnDisabled) return;
 						if (!showComments) setShowComments(true);

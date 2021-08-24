@@ -8,8 +8,8 @@ import {
 	handleLoadingCommentRepliesInNewsItem,
 	handleReplyingToMainOrReplyCommentInNewsItem,
 	handleUpdatingMainOrReplyCommentInNewsItem,
-} from '@store/NewsContextTest/actions';
-import NewsContextTest from '@store/NewsContextTest';
+} from '@store/NewsContext/actions';
+import NewsContext from '@store/NewsContext';
 import UserContext from '@store/UserContext';
 import { dateToHumanReadableDate } from '@lib/v1/time';
 
@@ -35,9 +35,9 @@ const Replies = ({ replies, setData, newsItem, parent_data }) =>
 		: null;
 
 const Comment = ({ comment, newsItem, setData, ...props }) => {
-	const { dispatch } = useContext(NewsContextTest);
+	const { dispatch } = useContext(NewsContext);
 
-	const { user, ...UserCxt } = useContext(UserContext);
+	const { user, userExist, ...UserCxt } = useContext(UserContext);
 
 	const [showContent, setShowContent] = useState(true);
 	const [showReplyTextarea, setShowReplyTextarea] = useState(false);
@@ -301,22 +301,24 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 						</span>
 					)}
 				</p>
-				<button
-					title='Reply To A Comment'
-					title='Comment'
-					onClick={() => setShowReplyTextarea((prev) => !prev)}
-				>
-					Reply
-				</button>
+				{userExist && (
+					<button
+						title='Reply To A Comment'
+						title='Comment'
+						onClick={() => setShowReplyTextarea((prev) => !prev)}
+					>
+						Reply
+					</button>
+				)}
 			</footer>
 			{comment.type === 'comment_main' &&
-				comment.replies_counter !== 0 &&
+				parseInt(comment.replies_counter) !== 0 &&
 				!showReplies && (
 					// !comment.hit_replies_limit &&
 					<button
-						title={`${comment.replies_counter === 1 ? 'Reply' : 'Replies'} ${
-							comment.replies_counter
-						}`}
+						title={`${
+							parseInt(comment.replies_counter) === 1 ? 'Reply' : 'Replies'
+						} ${parseInt(comment.replies_counter)}`}
 						disabled={loadingReplies}
 						onClick={() => {
 							if (
@@ -327,7 +329,8 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 								setShowReplies(true);
 							if (
 								(comment.replies &&
-									comment.replies.length !== comment.replies_counter) ||
+									comment.replies.length !==
+										parseInt(comment.replies_counter)) ||
 								!comment.hit_replies_limit
 							) {
 								loadRepliesHandler(comment.news_comment_id, newsItem.news_id);
@@ -335,12 +338,12 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 						}}
 					>
 						<p>
-							{comment.replies_counter === 1 ? 'Reply' : 'Replies'}{' '}
-							{comment.replies_counter}
+							{parseInt(comment.replies_counter) === 1 ? 'Reply' : 'Replies'}{' '}
+							{parseInt(comment.replies_counter)}
 						</p>
 					</button>
 				)}
-			{showReplyTextarea && (
+			{userExist && showReplyTextarea && (
 				<CommentTextarea
 					handleSubmit={(event) => {
 						event.preventDefault();
@@ -393,7 +396,8 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 			{showReplies &&
 				comment.type === 'comment_main' &&
 				!comment.hit_replies_limit &&
-				comment.replies_counter !== 0 && (
+				parseInt(comment.replies_counter) !== 0 &&
+				parseInt(comment.replies_counter) !== comment?.replies?.length && (
 					<button
 						title='Load More'
 						disabled={loadingReplies}

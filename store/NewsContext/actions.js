@@ -281,8 +281,11 @@ export const handleLoadingNewsItemComments = async ({ dispatch, newsItem }) => {
 	const dataToAdd = {};
 
 	if (data?.comments.length > 0) {
-		dataToAdd.last_comment_created_at =
-			data.comments[data.comments.length - 1].created_at;
+		dataToAdd.last_comment_created_at = data.comments[data.comments.length - 1]
+			? data.comments[data.comments.length - 1].created_at
+			: data.comments[data.comments.length - 1].created_at
+			? data.comments[data.comments.length - 1].created_at
+			: undefined;
 		dataToAdd.comments = [...newsItem.comments, ...data.comments];
 	}
 

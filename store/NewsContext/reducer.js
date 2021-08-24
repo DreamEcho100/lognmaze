@@ -10,9 +10,12 @@ const reducer = (state, action) => {
 			news: news?.map((item) => ({
 				...item,
 				comments: [],
-				hit_comments_limit: item.comments_counter === 0 ? true : false,
+				hit_comments_limit:
+					parseInt(item.comments_counter) === 0 ? true : false,
 			})),
-			last_news_created_at: news[news.length - 1].created_at,
+			last_news_created_at: news[news.length - 1]
+				? news[news.length - 1].created_at
+				: undefined,
 		};
 	}
 	if (action.type === types.ADDING_USER_ONE_NEWS_ITEM_TO_NEWS) {
@@ -167,8 +170,13 @@ const reducer = (state, action) => {
 						...newsItem,
 						comments: newsItem.comments.map((comment) => {
 							if (comment.news_comment_id === parent_id) {
-								const last_reply_created_at =
-									data.comments[data.parseInt(comments.length) - 1].created_at;
+								const last_reply_created_at = data.comments[
+									data.comments.length - 1
+								]
+									? data.comments[data.comments.length - 1].created_at
+									: comment.last_reply_created_at
+									? comment.last_reply_created_at
+									: undefined;
 
 								const replies = comment.replies
 									? [...comment.replies, ...data.comments /*.reverse()*/]

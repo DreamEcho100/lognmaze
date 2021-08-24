@@ -4,7 +4,7 @@ import Head from 'next/head';
 
 // import classes from './index.module.css';
 
-import NewsContextTest from '@store/NewsContextTest';
+import NewsContext from '@store/NewsContext';
 
 import Container from '@components/UI/V1/News/Container/Container';
 import Wrapper from '@components/UI/V1/Wrapper';
@@ -103,7 +103,7 @@ const OneNewsContent = ({ newsItem }) => {
 };
 
 const NewsContextWrapper = ({ newsItem }) => {
-	const { state, dispatch, types } = useContext(NewsContextTest);
+	const { state, dispatch, types } = useContext(NewsContext);
 
 	useEffect(() => {
 		dispatch({

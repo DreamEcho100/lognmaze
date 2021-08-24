@@ -27,16 +27,23 @@ const Post = ({ closeModal, createNews, updateNews, actionType, newsItem }) => {
 		setFormMessage('');
 		setBtnsDisabled(true);
 
+		let result = {};
+
 		if (actionType === 'create') {
-			await createNews(values, 'post');
+			result = await createNews(values, 'post');
 		} else if (actionType === 'update') {
-			await updateNews(newsItem.type, newsItem, values);
+			result = await updateNews(newsItem.type, newsItem, values);
 		}
 
-		resetInputs();
 		setBtnsDisabled(false);
-		closeModal();
-		return;
+
+		console.log('result', result);
+
+		if (result.status !== 'error') {
+			resetInputs();
+			closeModal();
+		}
+		return result;
 	};
 
 	const sharedTextareaProps = (
