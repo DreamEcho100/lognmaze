@@ -3,8 +3,6 @@ import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';
 
-import UserContext from '../../store/UserContext';
-
 const DynamicSignUp = dynamic(() => import('./SignUp/SignUp'));
 const DynamicSignIn = dynamic(() => import('./SignIn/SignIn'));
 
@@ -17,8 +15,6 @@ const Auth = ({
 	// signType,
 	...props
 }) => {
-	const { user, ...UserCxt } = useContext(UserContext);
-
 	const [signType, setSignType] = useState('');
 
 	useEffect(() => {

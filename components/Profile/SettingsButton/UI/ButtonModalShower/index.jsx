@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import Button from '@components/UI/V1/Button';
 
-const ButtonModalShower = ({ buttonText, ModalElement }) => {
+const ButtonModalShower = ({ buttonText, ModalElement, ModelProps }) => {
 	const [showModal, setShowModal] = useState(false);
 
 	return (
@@ -12,7 +12,11 @@ const ButtonModalShower = ({ buttonText, ModalElement }) => {
 			<Button title={buttonText} onClick={() => setShowModal(true)}>
 				{buttonText}
 			</Button>
-			<ModalElement showModal={showModal} setShowModal={setShowModal} />
+			<ModalElement
+				{...ModelProps}
+				showModal={showModal}
+				setShowModal={setShowModal}
+			/>
 		</>
 	);
 };

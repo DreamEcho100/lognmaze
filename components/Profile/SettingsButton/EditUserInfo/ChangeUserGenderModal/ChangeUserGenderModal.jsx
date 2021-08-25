@@ -1,14 +1,8 @@
-import { Fragment, useContext, useState } from 'react';
-// import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
+import { Fragment, useState } from 'react';
 
 import classes from './ChangeUserGenderModal.module.css';
 
 import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
-
-import UserContext from '@store/UserContext';
-
-// const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
 
 import Modal from '@components/UI/V1/Modal';
 import Form from '@components/UI/V1/Form';
@@ -17,11 +11,14 @@ import Label from '@components/UI/V1/Label';
 import Input from '@components/UI/V1/Input';
 import Button from '@components/UI/V1/Button';
 
-const ChangeUserGenderModal = ({ showModal, setShowModal }) => {
-	const router = useRouter();
-
-	const { user, handleChangeUserGender } = useContext(UserContext);
-
+const ChangeUserGenderModal = ({
+	user,
+	token,
+	userDispatch,
+	handleUpdateUserData,
+	showModal,
+	setShowModal,
+}) => {
 	const [gender, setChoosedGender] = useState(user.gender);
 	const [password, setPassword] = useState('');
 
@@ -32,9 +29,14 @@ const ChangeUserGenderModal = ({ showModal, setShowModal }) => {
 		event.preventDefault();
 
 		setBtnsDisabled(true);
-		/*const { status, message } =*/ await handleChangeUserGender({
-			gender,
+		/*const { status, message } =*/ await handleUpdateUserData({
+			dispatch: userDispatch,
+			userData: user,
+			values: {
+				gender,
+			},
 			password,
+			token,
 		})
 			.then(({ status, message }) => {
 				if (status === 'error') {

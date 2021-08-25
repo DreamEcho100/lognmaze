@@ -10,12 +10,8 @@ import {
 	handleUpdatingMainOrReplyCommentInNewsItem,
 } from '@store/NewsContext/actions';
 import NewsContext from '@store/NewsContext';
-import UserContext from '@store/UserContext';
+import UserContextTest from '@store/UserContextTest';
 import { dateToHumanReadableDate } from '@lib/v1/time';
-
-// const DynamicDropdownMenu = dynamic(() =>
-// 	import('@components/UI/V1/DropdownMenu')
-// );
 
 import DropdownMenu from '@components/UI/V1/DropdownMenu';
 import CommentTextarea from '../CommentTextarea';
@@ -36,8 +32,7 @@ const Replies = ({ replies, setData, newsItem, parent_data }) =>
 
 const Comment = ({ comment, newsItem, setData, ...props }) => {
 	const { dispatch } = useContext(NewsContext);
-
-	const { user, userExist, ...UserCxt } = useContext(UserContext);
+	const { state: userState } = useContext(UserContextTest);
 
 	const [showContent, setShowContent] = useState(true);
 	const [showReplyTextarea, setShowReplyTextarea] = useState(false);
@@ -67,7 +62,7 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 			dispatch,
 			news_id: newsItem.news_id,
 			comment,
-			user,
+			user: userState.user,
 			bodyObj,
 			parent_data_id:
 				comment.type === 'comment_main_reply'
@@ -88,7 +83,7 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 
 		await handleUpdatingMainOrReplyCommentInNewsItem({
 			dispatch,
-			user,
+			user: userState.user,
 			bodyObj,
 			comment,
 			news_id: newsItem.news_id,
@@ -149,7 +144,7 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 	};
 
 	useEffect(() => {
-		if (UserCxt.userExist) {
+		if (userState.userExist) {
 			setItems([
 				{
 					props: {
@@ -214,7 +209,7 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 		} else {
 			if (items.length > 0) setItems([]);
 		}
-	}, [UserCxt.userExist]);
+	}, [userState.userExist]);
 
 	useEffect(() => {
 		if (
@@ -245,7 +240,7 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 						</p>
 					</div>
 				</nav>
-				{user.id === comment.author_id && showContent && (
+				{userState.user.id === comment.author_id && showContent && (
 					<DropdownMenu
 						// DynamicDropdownMenu
 						items={items}
@@ -301,7 +296,7 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 						</span>
 					)}
 				</p>
-				{userExist && (
+				{userState.userExist && (
 					<button
 						title='Reply To A Comment'
 						title='Comment'
@@ -343,7 +338,7 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 						</p>
 					</button>
 				)}
-			{userExist && showReplyTextarea && (
+			{userState.userExist && showReplyTextarea && (
 				<CommentTextarea
 					handleSubmit={(event) => {
 						event.preventDefault();
@@ -366,7 +361,7 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 						handleSubmitCommentReply(
 							dispatch,
 							bodyObj,
-							user,
+							userState.user,
 							comment,
 							setData,
 							setValues

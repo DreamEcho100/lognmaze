@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { getCookie } from '@lib/v1/cookie';
 
-import UserContext from '@store/UserContext';
+import UserContextTest from '@store/UserContextTest';
 
 const DynamicProfile = dynamic(() => import('@components/Profile'));
 
@@ -13,7 +13,7 @@ const OWNER = 'OWNER';
 const ProfilePage = ({ user = {}, ...props }) => {
 	const router = useRouter();
 
-	const UserCxt = useContext(UserContext);
+	const { state: userState } = useContext(UserContextTest);
 
 	const [posts, setPosts] = useState(
 		props.posts.length !== 0
@@ -50,7 +50,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(async () => {
-		if (!UserCxt.isLoading && router.query.user_name_id) {
+		if (!userState.isVerifyingUserLoading && router.query.user_name_id) {
 			let userProfileData;
 
 			if (
@@ -60,8 +60,8 @@ const ProfilePage = ({ user = {}, ...props }) => {
 			) {
 				setIsLoading(true);
 
-				if (UserCxt?.user?.user_name_id === router.query.user_name_id) {
-					userProfileData = UserCxt.user;
+				if (userState.user?.user_name_id === router.query.user_name_id) {
+					userProfileData = userState.user;
 					// if (identity === GUEST) setIdentity(OWNER);
 					// if (!handleIsAuthorized) setHandleIsAuthorized(true);
 				} else {
@@ -95,7 +95,8 @@ const ProfilePage = ({ user = {}, ...props }) => {
 				// else
 				postInputQuery += userProfileData.id;
 
-				if (UserCxt?.user?.id) postInputQuery += `&voter_id=${UserCxt.user.id}`;
+				if (userState.user?.id)
+					postInputQuery += `&voter_id=${userState.user.id}`;
 
 				const postsResult = await fetch(`/api/v1/news${postInputQuery}`, {
 					method: 'GET',
@@ -126,15 +127,15 @@ const ProfilePage = ({ user = {}, ...props }) => {
 				setIsLoading(false);
 			}
 
-			if (!UserCxt.userExist) {
+			if (!userState.userExist) {
 				if (handleIsAuthorized) setHandleIsAuthorized(false);
 				if (identity !== GUEST) setIdentity(GUEST);
 			} else {
-				if (router.query.user_name_id === UserCxt.user.user_name_id) {
-					setUserData(UserCxt.user);
+				if (router.query.user_name_id === userState.user.user_name_id) {
+					setUserData(userState.user);
 					if (identity !== OWNER) setIdentity(OWNER);
 					if (!handleIsAuthorized) setHandleIsAuthorized(true);
-				} else if (router.query.user_name_id !== UserCxt.user.user_name_id) {
+				} else if (router.query.user_name_id !== userState.user.user_name_id) {
 					if (identity !== GUEST) setIdentity(GUEST);
 					if (handleIsAuthorized) setHandleIsAuthorized(false);
 				}
@@ -142,9 +143,13 @@ const ProfilePage = ({ user = {}, ...props }) => {
 
 			if (isLoading) setIsLoading(false);
 		}
-	}, [UserCxt.userExist, UserCxt.isLoading, router.query.user_name_id]);
+	}, [
+		userState.userExist,
+		userState.isVerifyingUserLoading,
+		router.query.user_name_id,
+	]);
 
-	if (UserCxt.isLoading || isLoading) {
+	if (userState.isVerifyingUserLoading || isLoading) {
 		return <p>Loading...</p>;
 	}
 
@@ -158,7 +163,11 @@ const ProfilePage = ({ user = {}, ...props }) => {
 
 	return (
 		<DynamicProfile
-			userData={userData}
+			userData={
+				userState.user?.user_name_id === router.query.user_name_id
+					? userState.user
+					: userData
+			}
 			visitorIdentity={identity}
 			news={posts}
 		/>

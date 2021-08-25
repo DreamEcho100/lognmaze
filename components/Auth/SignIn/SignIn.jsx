@@ -5,7 +5,8 @@ import classes from './SignIn.module.css';
 import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 
 import { validateEmail } from '@lib/v1/validate';
-import UserContext from '@store/UserContext';
+import { handleSignIn } from '@store/UserContextTest/actions';
+import UserContextTest from '@store/UserContextTest';
 
 import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl';
@@ -15,14 +16,13 @@ import Input from '@components/UI/V1/Input';
 import Button from '@components/UI/V1/Button';
 
 const SignIn = () => {
-	const UserCxt = useContext(UserContext);
-
+	const { dispatch: userDispatch } =
+		useContext(UserContextTest);
+	
 	const [values, setValues] = useState({
 		email: '',
 		password: '',
 	});
-
-	const { handleSignIn } = UserCxt;
 
 	const [AfterFormSubmitMessage, setAfterFormSubmitMessage] = useState(() => (
 		<></>
@@ -47,7 +47,7 @@ const SignIn = () => {
 			return;
 		}
 
-		const { status, message } = await handleSignIn(values).then((response) => {
+		const { status, message } = await handleSignIn({dispatch: userDispatch, data: values}).then((response) => {
 			setBtnsDisabled(false);
 			return response;
 		});

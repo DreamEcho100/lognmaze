@@ -10,15 +10,13 @@ import {
 	handleLoadingNewsItemContent,
 	HandleLoadingUserVote,
 } from '@store/NewsContext/actions';
-import UserContext from '@store/UserContext';
+import UserContextTest from '@store/UserContextTest';
 import { handleAllClasses } from '../../utils/index';
 
 // const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
 
 import Modal from '@components/UI/V1/Modal';
-
 import ContainerItems from './ContainerItems';
-
 import Button from '@components/UI/V1/Button';
 
 const Container = ({
@@ -29,7 +27,7 @@ const Container = ({
 	newsItem,
 	...props
 }) => {
-	const { user, userExist } = useContext(UserContext);
+	const { state: userState } = useContext(UserContextTest);
 	const { state, dispatch } = useContext(NewsContext);
 
 	const [showModal, setShowModal] = useState(false);
@@ -68,17 +66,17 @@ const Container = ({
 	}, [showModal]);
 
 	useEffect(async () => {
-		if (isLoadingUserVote && userExist && newsItem?.news_id) {
+		if (isLoadingUserVote && userState.userExist && newsItem?.news_id) {
 			setIsLoadingUserVote(true);
 			await HandleLoadingUserVote({
 				dispatch,
 				news_id: newsItem.news_id,
-				user,
+				user: userState.user,
 				state,
 			});
 			setIsLoadingUserVote(false);
 		}
-	}, [isLoadingUserVote, userExist]);
+	}, [isLoadingUserVote, userState.userExist]);
 
 	return (
 		<>

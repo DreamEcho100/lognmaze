@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
 
-import UserContext from '@store/UserContext';
+import UserContextTest from '@store/UserContextTest';
 
 import Votes from './Votes';
 
@@ -17,25 +17,25 @@ const Settings = ({
 	focusCommentTextarea,
 	isLoadingUserVote,
 }) => {
-	const { user, userExist } = useContext(UserContext);
+	const { state: userState } = useContext(UserContextTest);
 
 	const [commentBtnDisabled, setCommentBtnDisabled] = useState(
-		userExist ? false : true
+		userState.userExist ? false : true
 	);
 	commentBtnDisabled;
 	useEffect(() => {
-		if (userExist && commentBtnDisabled) {
+		if (userState.userExist && commentBtnDisabled) {
 			setCommentBtnDisabled(false);
-		} else if (!userExist && !commentBtnDisabled) {
+		} else if (!userState.userExist && !commentBtnDisabled) {
 			setCommentBtnDisabled(true);
 		}
-	}, [userExist]);
+	}, [userState.userExist]);
 
 	return (
 		<section className={classes.settings}>
 			<Votes
-				user={user}
-				userExist={userExist}
+				user={userState.user}
+				userExist={userState.userExist}
 				newsItem={newsItem}
 				setData={setData}
 				isLoadingUserVote={isLoadingUserVote}
@@ -43,7 +43,7 @@ const Settings = ({
 			<div className={`${classes.comment} ${classes.item}`}>
 				<button
 					title={`Comment on this ${newsItem.type.toLowerCase()}`}
-					disabled={commentBtnDisabled && userExist}
+					disabled={commentBtnDisabled && userState.userExist}
 					onClick={() => {
 						if (commentBtnDisabled) return;
 						if (!showComments) setShowComments(true);

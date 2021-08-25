@@ -1,10 +1,11 @@
-import Container from '@components/UI/V1/News/Container/Container';
+import { useContext, useEffect } from 'react';
 
 import classes from './Feed.module.css';
 
 import NewsContext from '@store/NewsContext';
 import { handleAllClasses } from '../../utils/index';
-import { useContext, useEffect } from 'react';
+
+import Container from '@components/UI/V1/News/Container/Container';
 
 const Feed = ({
 	defaultClasses = 'feed',

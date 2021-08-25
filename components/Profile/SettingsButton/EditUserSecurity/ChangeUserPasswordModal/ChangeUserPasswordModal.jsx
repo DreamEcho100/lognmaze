@@ -1,12 +1,8 @@
-import { Fragment, useContext, useState } from 'react';
-// import dynamic from 'next/dynamic';
+import { Fragment, useState } from 'react';
 
 import classes from './ChangeUserPasswordModal.module.css';
 
 import { validatePasswordStrength } from '@lib/v1/validate';
-import UserContext from '@store/UserContext';
-
-// const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
 
 import Modal from '@components/UI/V1/Modal';
 import Form from '@components/UI/V1/Form';
@@ -15,9 +11,12 @@ import Label from '@components/UI/V1/Label';
 import Input from '@components/UI/V1/Input';
 import Button from '@components/UI/V1/Button';
 
-const ChangeUserPasswordModal = ({ showModal, setShowModal }) => {
-	const { handleChangePassword } = useContext(UserContext);
-
+const ChangeUserPasswordModal = ({
+	token,
+	handleUpdateUserPassword,
+	showModal,
+	setShowModal,
+}) => {
 	const [oldPassword, setOldPassword] = useState('');
 	const [newPasswordAgain, setNewPasswordAgain] = useState('');
 	const [newPassword, setNewPassword] = useState('');
@@ -87,10 +86,13 @@ const ChangeUserPasswordModal = ({ showModal, setShowModal }) => {
 		}
 
 		try {
-			const { status, message } = await handleChangePassword(
-				oldPassword,
-				newPassword
-			);
+			const { status, message } = await handleUpdateUserPassword({
+				bodyObj: {
+					oldPassword,
+					newPassword,
+				},
+				token,
+			});
 
 			if (status === 'error') {
 				setBtnsDisabled(false);

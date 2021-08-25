@@ -1,14 +1,8 @@
-import { Fragment, useContext, useState, useCallback } from 'react';
-// import dynamic from 'next/dynamic';
+import { Fragment, useState, useCallback } from 'react';
 
 import classes from './ChangeCoverPhotoModal.module.css';
 
 import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
-
-import UserContext from '@store/UserContext';
-
-// const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
-
 import Modal from '@components/UI/V1/Modal';
 import Form from '@components/UI/V1/Form';
 import Label from '@components/UI/V1/Label';
@@ -20,10 +14,14 @@ import InputFileReactDropzone from '@components/UI/V1/InputFileReactDropzone/Inp
 import LinearProgressBar from '@components/UI/V1/LinearProgressBar/LinearProgressBar';
 import { uploadFileToCloudinary } from '@lib/v1/fetch';
 
-const ChangeCoverPhotoModal = ({ showModal, setShowModal }) => {
-	const { user, handleChangeCoverPhotoURL } = useContext(UserContext);
-
-	const [CoverPhotoURL, setCoverPhotoURL] = useState(user.cover_photo);
+const ChangeCoverPhotoModal = ({
+	user,
+	token,
+	userDispatch,
+	handleUpdateUserData,
+	showModal,
+	setShowModal,
+}) => {
 	const [progress, setProgress] = useState(0);
 	const [file, setFile] = useState({});
 
@@ -92,7 +90,14 @@ const ChangeCoverPhotoModal = ({ showModal, setShowModal }) => {
 			}
 		})
 			.then(async (url) => {
-				const { status, message } = await handleChangeCoverPhotoURL({ url });
+				const { status, message } = await handleUpdateUserData({
+					dispatch: userDispatch,
+					userData: user,
+					values: {
+						cover_photo: url,
+					},
+					token,
+				});
 
 				if (status === 'error') {
 					setBtnsDisabled(false);

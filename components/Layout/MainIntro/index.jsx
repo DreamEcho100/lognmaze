@@ -1,13 +1,13 @@
 import { useContext, useState } from 'react';
 
-import classes from './index.module.css';
+// import classes from './index.module.css';
 
-import UserContext from '@store/UserContext';
+import UserContextTest from '@store/UserContextTest';
 
 import LogNMazeSignature from '../../../svg/LogNMazeSignature';
 
 const MainIntro = () => {
-	const UserCxt = useContext(UserContext);
+	const { state: userState } = useContext(UserContextTest);
 
 	const [animationEnd, setAnimationEnd] = useState(false);
 
@@ -15,7 +15,7 @@ const MainIntro = () => {
 		<div
 			id='main-intro'
 			className={`${
-				!UserCxt.isLoading && animationEnd
+				!userState.isVerifyingUserLoading && animationEnd
 					? 'verifying-credentials-finished'
 					: ''
 			}`}

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import UserContext from '@store/UserContext';
+import UserContextTest from '@store/UserContextTest';
 
 const DynamicAuth = dynamic(() => import('@components/Auth'));
 // import Auth from '../../components/Auth/';
@@ -14,7 +14,8 @@ const AuthPage = ({
 }) => {
 	const router = useRouter();
 
-	const { user, handleSignOut, ...UserCxt } = useContext(UserContext);
+	const { dispatch: userDispatch, state: userState } =
+		useContext(UserContextTest);
 
 	const [isLoading, setIsLoading] = useState(true);
 	const [isSigned, setIsSigned] = useState(false);
@@ -22,8 +23,8 @@ const AuthPage = ({
 	const [signType, setSignType] = useState('in');
 
 	useEffect(() => {
-		if (!UserCxt.isLoading) {
-			if (UserCxt.userExist) {
+		if (!userState.isVerifyingUserLoading) {
+			if (userState.userExist) {
 				if (!isSigned) setIsSigned(true);
 				setTimeout(() => router.replace('/'), 0);
 			} else {
@@ -31,10 +32,10 @@ const AuthPage = ({
 			}
 		}
 		setIsLoading(false);
-	}, [UserCxt.userExist, UserCxt.isLoading]);
+	}, [userState.userExist, userState.isVerifyingUserLoading]);
 
 	useEffect(() => {
-		if (UserCxt.userExist) {
+		if (userState.userExist) {
 			setIsSigned(true);
 		} else {
 			isSigned && setIsSigned(false);
@@ -49,7 +50,7 @@ const AuthPage = ({
 		}
 	}, []);
 
-	if (isLoading || UserCxt.isLoading) {
+	if (isLoading || userState.isVerifyingUserLoading) {
 		return <p>Loading...</p>;
 	}
 
@@ -61,7 +62,10 @@ const AuthPage = ({
 					Return To Home Page
 				</Button>{' '}
 				or{' '}
-				<Button title='Sign Out' onClick={() => handleSignOut()}>
+				<Button
+					title='Sign Out'
+					onClick={() => handleSignOut({ dispatch: userDispatch })}
+				>
 					Sign Out
 				</Button>
 			</>

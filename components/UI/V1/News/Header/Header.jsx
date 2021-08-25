@@ -6,7 +6,8 @@ import Link from 'next/link';
 
 import { dateToHumanReadableDate } from '@lib/v1/time';
 
-import UserContext from '@store/UserContext';
+import UserContextTest from '@store/UserContextTest';
+
 import CommonNav from './CommonNav/CommonNav';
 import TimeAndDate from './TimeAndDate/TimeAndDate';
 import Image from '@components/UI/V1/Image';
@@ -21,17 +22,20 @@ const Header = ({
 }) => {
 	const router = useRouter();
 
-	const { user, ...UserCxt } = useContext(UserContext);
+	const { state: userState } = useContext(UserContextTest);
 
 	const [isDataOwner, setIsDataOwner] = useState(false);
 
 	useEffect(() => {
-		if (user && user.user_name_id === newsItem.author_user_name_id) {
+		if (
+			userState.user &&
+			userState.user.user_name_id === newsItem.author_user_name_id
+		) {
 			setIsDataOwner(true);
 		} else if (isDataOwner) {
 			setIsDataOwner(false);
 		}
-	}, [user]);
+	}, [userState.user]);
 
 	return (
 		<header>

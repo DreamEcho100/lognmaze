@@ -2,39 +2,38 @@ import { useContext, useEffect } from 'react';
 
 import MainNavigationClasses from './MainNavigation.module.css';
 
-import UserContext from '../../../store/UserContext';
+import {
+	setDataFirstTime,
+	handleSignOut,
+} from '@store/UserContextTest/actions';
+import UserContextTest from '@store/UserContextTest';
+
 import NavOnBigScreens from './NavOnBigScreens/NavOnBigScreens';
 import NavOnSmallScreens from './NavOnSmallScreens/NavOnSmallScreens';
 
-const MainNavigation = (/*{ isAuthenticated }*/) => {
-	const {
-		verifyUserTokenFromCookie,
-		// setUserDataAndTokenFomCookie,
-		user,
-		isLoading,
-		// setIsLoading,
-		handleSignOut,
-	} = useContext(UserContext);
+const MainNavigation = () => {
+	const { dispatch: userDispatch, state: userState } =
+		useContext(UserContextTest);
 
-	// useEffect(() => {
-	// 	// setTimeout(() => verifyUserTokenFromCookie(), 250);
-	// 	if (!isAuthenticated) handleSignOut();
-	// 	else setUserDataAndTokenFomCookie();
-	// }, []);
-
-	useEffect(() => setTimeout(() => verifyUserTokenFromCookie(), 250), []);
+	useEffect(
+		() =>
+			setTimeout(() => {
+				setDataFirstTime({ dispatch: userDispatch });
+			}, 250),
+		[]
+	);
 
 	return (
 		<header className={MainNavigationClasses.header}>
 			<NavOnBigScreens
-				user={user}
-				isLoading={isLoading}
-				handleSignOut={handleSignOut}
+				user={userState.user}
+				isVerifyingUserLoading={userState.isVerifyingUserLoading}
+				handleSignOut={() => handleSignOut({ dispatch: userDispatch })}
 			/>
 			<NavOnSmallScreens
-				user={user}
-				isLoading={isLoading}
-				handleSignOut={handleSignOut}
+				user={userState.user}
+				isVerifyingUserLoading={userState.isVerifyingUserLoading}
+				handleSignOut={() => handleSignOut({ dispatch: userDispatch })}
 			/>
 		</header>
 	);

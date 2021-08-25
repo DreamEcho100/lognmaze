@@ -6,14 +6,18 @@ import NavOnSmallScreensClasses from './NavOnSmallScreens.module.css';
 import MainNavigationClasses from '../MainNavigation.module.css';
 import Button from '../../../UI/V1/Button';
 
-const NavOnSmallScreens = ({ user, isLoading, handleSignOut }) => {
+const NavOnSmallScreens = ({ user, isVerifyingUserLoading, handleSignOut }) => {
 	const [showNavOnSmallScreens, setShowNavOnSmallScreens] = useState(false);
 
 	return (
 		<>
 			<nav className={NavOnSmallScreensClasses['nav']}>
 				<div className={MainNavigationClasses['logo']}>
-					<Link href={'/' /*!isLoading && user.id ? '/posts/all' : '/'*/}>
+					<Link
+						href={
+							'/' /*!isVerifyingUserLoading && user.id ? '/posts/all' : '/'*/
+						}
+					>
 						<a className={MainNavigationClasses.logo_anchor}>LogNMaze</a>
 					</Link>
 				</div>
@@ -52,7 +56,7 @@ const NavOnSmallScreens = ({ user, isLoading, handleSignOut }) => {
 							<Link href='/posts/all'>All Posts</Link>
 						</span>
 					</li> */}
-					{!isLoading && user.id && (
+					{!isVerifyingUserLoading && user.id && (
 						<li>
 							<span onClick={() => setShowNavOnSmallScreens(false)}>
 								<Link href={`/profile/${user.user_name_id}`}>
@@ -63,14 +67,14 @@ const NavOnSmallScreens = ({ user, isLoading, handleSignOut }) => {
 							</span>
 						</li>
 					)}
-					{!isLoading && !user.id && (
+					{!isVerifyingUserLoading && !user.id && (
 						<li>
 							<span onClick={() => setShowNavOnSmallScreens(false)}>
 								<Link href='/auth'>Sign In/Up</Link>
 							</span>
 						</li>
 					)}
-					{!isLoading && user.id && (
+					{!isVerifyingUserLoading && user.id && (
 						<li>
 							<span onClick={() => setShowNavOnSmallScreens(false)}>
 								<Button

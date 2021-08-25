@@ -5,7 +5,8 @@ import classes from './SignUp.module.css';
 import BoxShadowClasses from '../../UI/V1/BoxShadow.module.css';
 
 import { validateEmail, validatePasswordStrength } from '@lib/v1/validate';
-import UserContext from '../../../store/UserContext';
+import { handleSignUp } from '@store/UserContextTest/actions';
+import UserContextTest from '@store/UserContextTest';
 
 import Form from '../../UI/V1/Form';
 import FormControl from '../../UI/V1/FormControl';
@@ -25,7 +26,7 @@ const SignUp = ({
 			</section>
 		);
 	}
-	const { handleSignUp } = useContext(UserContext);
+	const { dispatch: userDispatch } = useContext(UserContextTest);
 
 	const [values, setValues] = useState({
 		first_name: '',
@@ -213,7 +214,10 @@ const SignUp = ({
 			return;
 		}
 
-		const { status, message } = await handleSignUp(values).then((response) => {
+		const { status, message } = await handleSignUp({
+			dispatch: userDispatch,
+			data: values,
+		}).then((response) => {
 			setBtnsDisabled(false);
 			return response;
 		});

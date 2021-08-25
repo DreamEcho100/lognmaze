@@ -1,12 +1,7 @@
-import { Fragment, useContext, useState } from 'react';
-// import dynamic from 'next/dynamic';
-
+import { Fragment, useState } from 'react';
 import classes from './ChangeUserEmailModal.module.css';
 
 import { validateEmail } from '@lib/v1/validate';
-import UserContext from '@store/UserContext';
-
-// const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
 
 import Modal from '@components/UI/V1/Modal';
 import Form from '@components/UI/V1/Form';
@@ -15,9 +10,14 @@ import Label from '@components/UI/V1/Label';
 import Input from '@components/UI/V1/Input';
 import Button from '@components/UI/V1/Button';
 
-const ChangeUserEmailModal = ({ showModal, setShowModal }) => {
-	const { handleChangeEmail, user } = useContext(UserContext);
-
+const ChangeUserEmailModal = ({
+	user,
+	token,
+	userDispatch,
+	handleUpdateUserData,
+	showModal,
+	setShowModal,
+}) => {
 	const [email, setEmail] = useState(user.email);
 	const [password, setPassword] = useState('');
 
@@ -46,7 +46,13 @@ const ChangeUserEmailModal = ({ showModal, setShowModal }) => {
 		}
 
 		try {
-			const { status, message } = await handleChangeEmail({ email, password });
+			const { status, message } = await handleUpdateUserData({
+				dispatch: userDispatch,
+				userData: user,
+				values: { email },
+				password,
+				token,
+			});
 
 			if (status === 'error') {
 				setBtnsDisabled(false);

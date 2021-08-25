@@ -6,19 +6,21 @@
 
 3- Fixing some bugs like: [ ]
 
-1- Remove adding comment to news when there is no user. [ ]
+1- Remove adding comment to news when there is no user. [x]
 
     2- Adding a loading and disable textarea when loading the content news in update news modal. [ ]
 
     3- Adding some styles to the profile page when there is no profile picture or a cover photo. [ ]
 
-    4- Updating user update route from many to one route. [ ]
+    4- Updating user update route from many to one route. [x]
 
-    5- Adding a title to a link. [ ]
+    5- Adding a title to a links. [ ]
 
     6- Adding an alt to an image article in (sql table, concerning routes, UI, ...). [ ]
 
-    7- [ ]
+    7- Fixing a bug in the comment (main & replies) settings
+
+    - [ ]
 
 4- Adding a to do list (optional). [ ]
 

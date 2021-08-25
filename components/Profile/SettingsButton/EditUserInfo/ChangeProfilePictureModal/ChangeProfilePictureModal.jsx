@@ -1,13 +1,9 @@
-import { Fragment, useContext, useState, useCallback } from 'react';
+import { Fragment, useState, useCallback } from 'react';
 // import dynamic from 'next/dynamic';
 
 import classes from './ChangeProfilePictureModal.module.css';
 
 import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
-
-import UserContext from '@store/UserContext';
-
-// const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
 
 import Modal from '@components/UI/V1/Modal';
 import Form from '@components/UI/V1/Form';
@@ -20,12 +16,14 @@ import InputFileReactDropzone from '@components/UI/V1/InputFileReactDropzone/Inp
 import LinearProgressBar from '@components/UI/V1/LinearProgressBar/LinearProgressBar';
 import { uploadFileToCloudinary } from '@lib/v1/fetch';
 
-const ChangeProfilePictureModal = ({ showModal, setShowModal }) => {
-	const { user, handleChangeProfilePictureURL } = useContext(UserContext);
-
-	const [profilePictureURL, setProfilePictureURL] = useState(
-		user.profile_picture
-	);
+const ChangeProfilePictureModal = ({
+	user,
+	token,
+	userDispatch,
+	handleUpdateUserData,
+	showModal,
+	setShowModal,
+}) => {
 	const [progress, setProgress] = useState(0);
 	const [file, setFile] = useState({});
 
@@ -98,8 +96,13 @@ const ChangeProfilePictureModal = ({ showModal, setShowModal }) => {
 			}
 		})
 			.then(async (url) => {
-				const { status, message, data } = await handleChangeProfilePictureURL({
-					url,
+				const { status, message, data } = await handleUpdateUserData({
+					dispatch: userDispatch,
+					userData: user,
+					values: {
+						profile_picture: url,
+					},
+					token,
 				});
 
 				if (status === 'error') {

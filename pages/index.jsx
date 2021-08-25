@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import UserContext from '@store/UserContext';
+import UserContextTest from '@store/UserContextTest';
 
 const DynamicHome = dynamic(() => import('@components/Home'));
 // import Home from '@components/Home';
@@ -10,16 +10,16 @@ const DynamicHome = dynamic(() => import('@components/Home'));
 const HomePage = () => {
 	const router = useRouter();
 
+	const { state: userState } = useContext(UserContextTest);
+
 	const [isLoading, setIsLoading] = useState(true);
 	const [news, setNews] = useState([]);
 
-	const UserCxt = useContext(UserContext);
-
 	useEffect(async () => {
-		if (!UserCxt.isLoading && news.length === 0) {
+		if (!userState.isVerifyingUserLoading && news.length === 0) {
 			let linkQuery = '';
-			if (UserCxt.userExist) {
-				linkQuery = `/?voter_id=${UserCxt.user.id}`;
+			if (userState.userExist) {
+				linkQuery = `/?voter_id=${userState.user.id}`;
 			}
 			const news = await fetch(`api/v1/news${linkQuery}`) // ${process.env.BACK_END_ROOT_URL}/
 				.then((response) => response.json())
@@ -57,7 +57,7 @@ const HomePage = () => {
 				});
 			setIsLoading(false);
 		}
-	}, [UserCxt.isLoading, UserCxt.userExist, router.route]);
+	}, [userState.isVerifyingUserLoading, userState.userExist, router.route]);
 
 	if (isLoading) {
 		return <p>Loading...</p>;
@@ -65,8 +65,8 @@ const HomePage = () => {
 
 	return (
 		<DynamicHome
-			user={UserCxt.user}
-			userExist={UserCxt.userExist}
+			user={userState.user}
+			userExist={userState.userExist}
 			news={news}
 		/>
 	);
