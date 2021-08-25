@@ -121,7 +121,7 @@ export const setDataFirstTime = async ({ dispatch }) => {
 
 export const handleSignOut = async ({ dispatch }) => {
 	new Promise((resolve, reject) => {
-		const deleteCookie = () => {
+		const handleDeleteCookie = () => {
 			if (
 				checkCookie({
 					cookieName: 'user_data',
@@ -171,7 +171,7 @@ export const handleSignOut = async ({ dispatch }) => {
 			}
 		};
 
-		deleteCookie();
+		handleDeleteCookie();
 
 		if (
 			checkCookie({
