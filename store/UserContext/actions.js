@@ -121,53 +121,57 @@ export const setDataFirstTime = async ({ dispatch }) => {
 
 export const handleSignOut = async ({ dispatch }) => {
 	new Promise((resolve, reject) => {
-		if (
-			checkCookie({
-				cookieName: 'user_data',
-				cookieString: document.cookie,
-			}) ||
-			checkCookie({
-				cookieName: 'user_token',
-				cookieString: document.cookie,
-			}) ||
-			checkCookie({
-				cookieName: 'user_expiry_deadline',
-				cookieString: document.cookie,
-			})
-		) {
-			deleteCookie(
-				{
+		const deleteCookie = () => {
+			if (
+				checkCookie({
 					cookieName: 'user_data',
-					domain: process.env.FRONT_END_DOMAIN,
-					path: '/',
-				},
-				process.env.FRONT_END_ROOT_URL
-			);
-
-			deleteCookie(
-				{
+					cookieString: document.cookie,
+				}) ||
+				checkCookie({
 					cookieName: 'user_token',
-					domain: process.env.FRONT_END_DOMAIN,
-					path: '/',
-				},
-				process.env.FRONT_END_ROOT_URL
-			);
-
-			deleteCookie(
-				{
+					cookieString: document.cookie,
+				}) ||
+				checkCookie({
 					cookieName: 'user_expiry_deadline',
-					domain: process.env.FRONT_END_DOMAIN,
-					path: '/',
-				},
-				process.env.FRONT_END_ROOT_URL
-			);
+					cookieString: document.cookie,
+				})
+			) {
+				deleteCookie(
+					{
+						cookieName: 'user_data',
+						domain: process.env.FRONT_END_DOMAIN,
+						path: '/',
+					},
+					process.env.FRONT_END_ROOT_URL
+				);
 
-			new Promise((resolve, reject) => {
-				setTimeout(() => {
-					resolve();
-				}, 1000);
-			});
-		}
+				deleteCookie(
+					{
+						cookieName: 'user_token',
+						domain: process.env.FRONT_END_DOMAIN,
+						path: '/',
+					},
+					process.env.FRONT_END_ROOT_URL
+				);
+
+				deleteCookie(
+					{
+						cookieName: 'user_expiry_deadline',
+						domain: process.env.FRONT_END_DOMAIN,
+						path: '/',
+					},
+					process.env.FRONT_END_ROOT_URL
+				);
+
+				new Promise((resolve, reject) => {
+					setTimeout(() => {
+						resolve();
+					}, 1000);
+				});
+			}
+		};
+
+		deleteCookie();
 
 		if (
 			checkCookie({

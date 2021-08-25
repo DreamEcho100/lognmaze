@@ -1,33 +1,39 @@
 # A To Do List
 
-1- Adding a counter to track the amount of article and posts per user. [x]
+## To dos
 
-2- Changing the intro in screen sizes smaller than 700px. [ ] <---
+- Changing the intro in screen sizes smaller than 700px. [ ] <---
 
-3- Fixing some bugs like: [ ] <---
+- Fixing some bugs like: [ ] <---
 
-1- Remove adding comment to news when there is no user. [x]
+  - Adding a loading and disable textarea when loading the content news in update news modal. [ ] <---
 
-    2- Adding a loading and disable textarea when loading the content news in update news modal. [ ] <---
+  - Adding some styles to the profile page when there is no profile picture or a cover photo. [ ] <---
 
-    3- Adding some styles to the profile page when there is no profile picture or a cover photo. [ ] <---
+  - Adding a title to a links. [ ] <---
 
-    4- Updating user update route from many to one route. [x]
+  - Adding an alt to an image article in (sql table, concerning routes, UI, ...). [ ] <---
 
-    5- Adding a title to a links. [ ] <---
+  - [ ]
 
-    6- Adding an alt to an image article in (sql table, concerning routes, UI, ...). [ ] <---
+- Adding a to do list (optional). [ ] <---
 
-    7- Fixing a bug in the comment (main & replies) settings. [x]
+- Adding a limit to news description and read more. [ ] <---
 
-    - [ ]
-
-4- Adding a to do list (optional). [ ] <---
-
-5- Adding a limit to news description and read more. [ ] <---
-
-6- Changing "Reading More ->" to an icon + "Full Article". [ ] <---
-
-7- Refactoring UserContext to use useReducer. [x]
+- Changing "Reading More ->" to an icon + "Full Article". [ ] <---
 
 - [ ]
+
+## Done
+
+- Adding a counter to track the amount of article and posts per user. [x]
+
+- Fixing some bugs like: [ ] <---
+
+  - Remove adding comment to news when there is no user. [x]
+
+  - Updating user update route from many to one route. [x]
+
+  - Fixing a bug in the comment (main & replies) settings. [x]
+
+- Refactoring UserContext to use useReducer. [x]
