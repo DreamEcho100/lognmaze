@@ -5,17 +5,16 @@ import { useContext } from 'react';
 import AccordionSettingsShower from '../UI/AccordionSettingsShower';
 import ButtonModalShower from '../UI/ButtonModalShower';
 
-import UserContextTest from '@store/UserContextTest';
+import UserContext from '@store/UserContext';
 
 import ChangeUserNameModal from './ChangeUserNameModal/ChangeUserNameModal';
 import ChangeUserGenderModal from './ChangeUserGenderModal/ChangeUserGenderModal';
 import ChangeProfilePictureModal from './ChangeProfilePictureModal/ChangeProfilePictureModal';
 import ChangeCoverPhotoModal from './ChangeCoverPhotoModal/ChangeCoverPhotoModal';
-import { handleUpdateUserData } from '@store/UserContextTest/actions';
+import { handleUpdateUserData } from '@store/UserContext/actions';
 
 const EditUserInfo = () => {
-	const { dispatch: userDispatch, state: userState } =
-		useContext(UserContextTest);
+	const { dispatch: userDispatch, state: userState } = useContext(UserContext);
 
 	return (
 		<AccordionSettingsShower

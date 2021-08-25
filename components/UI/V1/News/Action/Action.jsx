@@ -5,7 +5,7 @@ import {
 	handleDeletingUserNewsItem,
 	handleUpdatingUserNewsItem,
 } from '@store/NewsContext/actions';
-import UserContextTest from '@store/UserContextTest';
+import UserContext from '@store/UserContext';
 import NewsContext from '@store/NewsContext';
 
 import ModalContainer from './ModalContainer/ModalContainer';
@@ -27,7 +27,7 @@ const Action = ({
 	const { dispatch } = useContext(NewsContext);
 	const extraProps = {};
 
-	const { state: userState } = useContext(UserContextTest);
+	const { state: userState } = useContext(UserContext);
 
 	const [newsType, setNewsType] = useState(type);
 

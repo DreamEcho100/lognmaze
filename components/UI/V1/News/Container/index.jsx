@@ -10,7 +10,7 @@ import {
 	handleLoadingNewsItemContent,
 	HandleLoadingUserVote,
 } from '@store/NewsContext/actions';
-import UserContextTest from '@store/UserContextTest';
+import UserContext from '@store/UserContext';
 import { handleAllClasses } from '../../utils/index';
 
 // const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
@@ -27,7 +27,7 @@ const Container = ({
 	newsItem,
 	...props
 }) => {
-	const { state: userState } = useContext(UserContextTest);
+	const { state: userState } = useContext(UserContext);
 	const { state, dispatch } = useContext(NewsContext);
 
 	const [showModal, setShowModal] = useState(false);

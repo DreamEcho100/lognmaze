@@ -7,7 +7,7 @@ import {
 	handlePostingCommentToNewsItem,
 } from '@store/NewsContext/actions';
 import NewsContext from '@store/NewsContext';
-import UserContextTest from '@store/UserContextTest';
+import UserContext from '@store/UserContext';
 
 import Comment from './Comment';
 import CommentTextarea from './CommentTextarea';
@@ -21,7 +21,7 @@ const Comments = ({
 	showComments,
 	focusCommentTextarea,
 }) => {
-	const { state: userState } = useContext(UserContextTest);
+	const { state: userState } = useContext(UserContext);
 	const { dispatch } = useContext(NewsContext);
 
 	const [values, setValues] = useState({

@@ -10,7 +10,7 @@ import {
 	handleUpdatingMainOrReplyCommentInNewsItem,
 } from '@store/NewsContext/actions';
 import NewsContext from '@store/NewsContext';
-import UserContextTest from '@store/UserContextTest';
+import UserContext from '@store/UserContext';
 import { dateToHumanReadableDate } from '@lib/v1/time';
 
 import DropdownMenu from '@components/UI/V1/DropdownMenu';
@@ -31,7 +31,7 @@ const Replies = ({ replies, newsItem, parent_data }) =>
 
 const Comment = ({ comment, newsItem, ...props }) => {
 	const { dispatch } = useContext(NewsContext);
-	const { state: userState } = useContext(UserContextTest);
+	const { state: userState } = useContext(UserContext);
 
 	const [showContent, setShowContent] = useState(true);
 	const [showReplyTextarea, setShowReplyTextarea] = useState(false);

@@ -3,7 +3,7 @@ import { createContext, useReducer } from 'react';
 import types from './types';
 import reducer from './reducer';
 
-const UserContextTest = createContext({
+const UserContext = createContext({
 	state: [],
 	dispatch: () => {},
 	types: {},
@@ -16,7 +16,7 @@ const initialState = {
 	isVerifyingUserLoading: true,
 };
 
-export const UserContextTestProvider = ({ children }) => {
+export const UserContextProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
 	const context = {
@@ -26,10 +26,8 @@ export const UserContextTestProvider = ({ children }) => {
 	};
 
 	return (
-		<UserContextTest.Provider value={context}>
-			{children}
-		</UserContextTest.Provider>
+		<UserContext.Provider value={context}>{children}</UserContext.Provider>
 	);
 };
 
-export default UserContextTest;
+export default UserContext;

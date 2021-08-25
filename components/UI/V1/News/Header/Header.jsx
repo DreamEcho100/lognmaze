@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 import { dateToHumanReadableDate } from '@lib/v1/time';
 
-import UserContextTest from '@store/UserContextTest';
+import UserContext from '@store/UserContext';
 
 import CommonNav from './CommonNav/CommonNav';
 import TimeAndDate from './TimeAndDate/TimeAndDate';
@@ -21,7 +21,7 @@ const Header = ({
 }) => {
 	const router = useRouter();
 
-	const { state: userState } = useContext(UserContextTest);
+	const { state: userState } = useContext(UserContext);
 
 	const [isDataOwner, setIsDataOwner] = useState(false);
 

@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import dynamic from 'next/dynamic';
 
-import UserContextTest from '@store/UserContextTest';
+import UserContext from '@store/UserContext';
 
 const CreateAction = dynamic(() =>
 	import('@components/UI/V1/News/Action/Action')
@@ -9,7 +9,7 @@ const CreateAction = dynamic(() =>
 import Button from '@components/UI/V1/Button';
 
 const CreateNewsButton = () => {
-	const { state: userState } = useContext(UserContextTest);
+	const { state: userState } = useContext(UserContext);
 
 	if (!userState.userExist) {
 		return <></>;

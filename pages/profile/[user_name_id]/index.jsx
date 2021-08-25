@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { getCookie } from '@lib/v1/cookie';
 
-import UserContextTest from '@store/UserContextTest';
+import UserContext from '@store/UserContext';
 
 const DynamicProfile = dynamic(() => import('@components/Profile'));
 
@@ -13,7 +13,7 @@ const OWNER = 'OWNER';
 const ProfilePage = ({ user = {}, ...props }) => {
 	const router = useRouter();
 
-	const { state: userState } = useContext(UserContextTest);
+	const { state: userState } = useContext(UserContext);
 
 	const [posts, setPosts] = useState(
 		props.posts.length !== 0
@@ -66,7 +66,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 					// if (!handleIsAuthorized) setHandleIsAuthorized(true);
 				} else {
 					const userResult = await fetch(
-						`/api/v1/users/profiles/profile/${router.query.user_name_id}`
+						`/api/v1/users/user/${router.query.user_name_id}`
 					).then((response) => response.json());
 
 					// if (identity === OWNER) setIdentity(GUEST);
@@ -181,7 +181,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 		}://${ctx.req.headers.host}`;
 	*/
 	const fetcher = async (tokenCookieString, userCookieString, user_name_id) => {
-		const input = `${process.env.BACK_END_ROOT_URL}/api/v1/users/profiles/profile/${user_name_id}`;
+		const input = `${process.env.BACK_END_ROOT_URL}/api/v1/users/user/${user_name_id}`;
 
 		let user;
 		let userCookieObj;

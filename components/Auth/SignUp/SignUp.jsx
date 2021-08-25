@@ -5,8 +5,8 @@ import classes from './SignUp.module.css';
 import BoxShadowClasses from '../../UI/V1/BoxShadow.module.css';
 
 import { validateEmail, validatePasswordStrength } from '@lib/v1/validate';
-import { handleSignUp } from '@store/UserContextTest/actions';
-import UserContextTest from '@store/UserContextTest';
+import { handleSignUp } from '@store/UserContext/actions';
+import UserContext from '@store/UserContext';
 
 import Form from '../../UI/V1/Form';
 import FormControl from '../../UI/V1/FormControl';
@@ -26,7 +26,7 @@ const SignUp = ({
 			</section>
 		);
 	}
-	const { dispatch: userDispatch } = useContext(UserContextTest);
+	const { dispatch: userDispatch } = useContext(UserContext);
 
 	const [values, setValues] = useState({
 		first_name: '',

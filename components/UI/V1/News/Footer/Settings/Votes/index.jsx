@@ -9,10 +9,10 @@ import {
 	HandleChangingUserVote,
 } from '@store/NewsContext/actions';
 import NewsContext from '@store/NewsContext';
-import UserContextTest from '@store/UserContextTest';
+import UserContext from '@store/UserContext';
 
 const Votes = ({ user, userExist, newsItem, isLoadingUserVote }) => {
-	const { state: userState } = useContext(UserContextTest);
+	const { state: userState } = useContext(UserContext);
 	const { dispatch } = useContext(NewsContext);
 
 	const [voteBtnDisabled, setVoteBtnDisabled] = useState(

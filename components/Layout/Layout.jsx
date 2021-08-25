@@ -1,6 +1,6 @@
 // import classes from './Layout.module.css';
 
-import { UserContextTestProvider } from '@store/UserContextTest';
+import { UserContextProvider } from '@store/UserContext';
 import { NewsContextProvider } from '@store/NewsContext';
 
 import MainNavigation from './MainNavigation/MainNavigation';
@@ -8,13 +8,13 @@ import MainIntro from './MainIntro';
 
 const Layout = ({ children /*, isAuthenticated*/ }) => {
 	return (
-		<UserContextTestProvider>
+		<UserContextProvider>
 			<NewsContextProvider>
 				<MainNavigation /*isAuthenticated={isAuthenticated}*/ />
 				{children}
 				<MainIntro />
 			</NewsContextProvider>
-		</UserContextTestProvider>
+		</UserContextProvider>
 	);
 };
 

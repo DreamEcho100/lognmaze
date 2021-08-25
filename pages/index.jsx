@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import UserContextTest from '@store/UserContextTest';
+import UserContext from '@store/UserContext';
 
 const DynamicHome = dynamic(() => import('@components/Home'));
 // import Home from '@components/Home';
@@ -10,7 +10,7 @@ const DynamicHome = dynamic(() => import('@components/Home'));
 const HomePage = () => {
 	const router = useRouter();
 
-	const { state: userState } = useContext(UserContextTest);
+	const { state: userState } = useContext(UserContext);
 
 	const [isLoading, setIsLoading] = useState(true);
 	const [news, setNews] = useState([]);

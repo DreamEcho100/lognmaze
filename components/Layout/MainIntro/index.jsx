@@ -2,12 +2,12 @@ import { useContext, useState } from 'react';
 
 // import classes from './index.module.css';
 
-import UserContextTest from '@store/UserContextTest';
+import UserContext from '@store/UserContext';
 
 import LogNMazeSignature from '../../../svg/LogNMazeSignature';
 
 const MainIntro = () => {
-	const { state: userState } = useContext(UserContextTest);
+	const { state: userState } = useContext(UserContext);
 
 	const [animationEnd, setAnimationEnd] = useState(false);
 

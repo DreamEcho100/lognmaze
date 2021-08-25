@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import UserContextTest from '@store/UserContextTest';
+import UserContext from '@store/UserContext';
 
 const DynamicAuth = dynamic(() => import('@components/Auth'));
 // import Auth from '../../components/Auth/';
@@ -14,8 +14,7 @@ const AuthPage = ({
 }) => {
 	const router = useRouter();
 
-	const { dispatch: userDispatch, state: userState } =
-		useContext(UserContextTest);
+	const { dispatch: userDispatch, state: userState } = useContext(UserContext);
 
 	const [isLoading, setIsLoading] = useState(true);
 	const [isSigned, setIsSigned] = useState(false);

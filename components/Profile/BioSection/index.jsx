@@ -3,8 +3,8 @@ import { Fragment, useContext, useState } from 'react';
 
 import classes from './index.module.css';
 
-import UserContextTest from '@store/UserContextTest';
-import { handleUpdateUserData } from '@store/UserContextTest/actions';
+import UserContext from '@store/UserContext';
+import { handleUpdateUserData } from '@store/UserContext/actions';
 
 import Modal from '@components/UI/V1/Modal';
 import Button from '@components/UI/V1/Button';
@@ -17,8 +17,7 @@ const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
 const BioSection = ({ bio = '', visitorIdentity }) => {
-	const { dispatch: userDispatch, state: userState } =
-		useContext(UserContextTest);
+	const { dispatch: userDispatch, state: userState } = useContext(UserContext);
 
 	const [showBioEditModal, setShowBioEditModal] = useState(false);
 	const [values, setValues] = useState({

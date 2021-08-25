@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
 
-import UserContextTest from '@store/UserContextTest';
+import UserContext from '@store/UserContext';
 
 import Votes from './Votes';
 
@@ -15,7 +15,7 @@ const Settings = ({
 	focusCommentTextarea,
 	isLoadingUserVote,
 }) => {
-	const { state: userState } = useContext(UserContextTest);
+	const { state: userState } = useContext(UserContext);
 
 	const [commentBtnDisabled, setCommentBtnDisabled] = useState(
 		userState.userExist ? false : true

@@ -2,11 +2,11 @@ import { useContext } from 'react';
 
 // import classes from './EditUserSecurity.module.css';
 
-import UserContextTest from '@store/UserContextTest';
+import UserContext from '@store/UserContext';
 import {
 	handleUpdateUserData,
 	handleUpdateUserPassword,
-} from '@store/UserContextTest/actions';
+} from '@store/UserContext/actions';
 
 import AccordionSettingsShower from '../UI/AccordionSettingsShower';
 import ButtonModalShower from '../UI/ButtonModalShower';
@@ -14,8 +14,7 @@ import ChangeUserEmailModal from './ChangeUserEmailModal/ChangeUserEmailModal';
 import ChangeUserPasswordModal from './ChangeUserPasswordModal/ChangeUserPasswordModal';
 
 const EditUserSecurity = () => {
-	const { dispatch: userDispatch, state: userState } =
-		useContext(UserContextTest);
+	const { dispatch: userDispatch, state: userState } = useContext(UserContext);
 
 	return (
 		<AccordionSettingsShower
