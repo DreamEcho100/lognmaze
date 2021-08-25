@@ -36,7 +36,7 @@ const handleUserSign = async ({ dispatch, path, bodyObj }) => {
 		expiresDate: new Date(
 			new Date().getTime() + jwt.expiriesAfter
 		).toUTCString(),
-		domain: process.env.FRONT_END_DOMAIN,
+		// domain: process.env.FRONT_END_DOMAIN,
 		path: '/',
 	});
 
@@ -46,7 +46,7 @@ const handleUserSign = async ({ dispatch, path, bodyObj }) => {
 		expiresDate: new Date(
 			new Date().getTime() + jwt.expiriesAfter
 		).toUTCString(),
-		domain: process.env.FRONT_END_DOMAIN,
+		// domain: process.env.FRONT_END_DOMAIN,
 		path: '/',
 	});
 
@@ -56,7 +56,7 @@ const handleUserSign = async ({ dispatch, path, bodyObj }) => {
 		expiresDate: new Date(
 			new Date().getTime() + jwt.expiriesAfter
 		).toUTCString(),
-		domain: process.env.FRONT_END_DOMAIN,
+		// domain: process.env.FRONT_END_DOMAIN,
 		path: '/',
 	});
 
@@ -120,6 +120,33 @@ export const setDataFirstTime = async ({ dispatch }) => {
 };
 
 export const handleSignOut = async ({ dispatch }) => {
+	// if (
+	// 	checkCookie({
+	// 		cookieName: 'user_data',
+	// 		cookieString: document.cookie,
+	// 	}) ||
+	// 	checkCookie({
+	// 		cookieName: 'user_token',
+	// 		cookieString: document.cookie,
+	// 	}) ||
+	// 	checkCookie({
+	// 		cookieName: 'user_expiry_deadline',
+	// 		cookieString: document.cookie,
+	// 	})
+	// ) {
+	deleteCookie({
+		cookieName: 'user_data',
+	});
+
+	deleteCookie({
+		cookieName: 'user_token',
+	});
+
+	deleteCookie({
+		cookieName: 'user_expiry_deadline',
+	});
+	// }
+
 	new Promise((resolve, reject) => {
 		const handleDeleteCookie = () => {
 			if (
@@ -136,32 +163,17 @@ export const handleSignOut = async ({ dispatch }) => {
 					cookieString: document.cookie,
 				})
 			) {
-				deleteCookie(
-					{
-						cookieName: 'user_data',
-						domain: process.env.FRONT_END_DOMAIN,
-						path: '/',
-					},
-					process.env.FRONT_END_ROOT_URL
-				);
+				deleteCookie({
+					cookieName: 'user_data',
+				});
 
-				deleteCookie(
-					{
-						cookieName: 'user_token',
-						domain: process.env.FRONT_END_DOMAIN,
-						path: '/',
-					},
-					process.env.FRONT_END_ROOT_URL
-				);
+				deleteCookie({
+					cookieName: 'user_token',
+				});
 
-				deleteCookie(
-					{
-						cookieName: 'user_expiry_deadline',
-						domain: process.env.FRONT_END_DOMAIN,
-						path: '/',
-					},
-					process.env.FRONT_END_ROOT_URL
-				);
+				deleteCookie({
+					cookieName: 'user_expiry_deadline',
+				});
 
 				new Promise((resolve, reject) => {
 					setTimeout(() => {
@@ -268,7 +280,7 @@ export const handleUpdateUserData = async ({
 		cookieName: 'user_data',
 		cookieValue: JSON.stringify(user_data),
 		expiresDate: new Date(parseInt(user_expiry_deadline)),
-		domain: process.env.FRONT_END_DOMAIN,
+		// domain: process.env.FRONT_END_DOMAIN,
 		path: '/',
 	});
 

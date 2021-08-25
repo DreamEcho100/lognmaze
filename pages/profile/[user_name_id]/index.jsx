@@ -66,7 +66,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 					// if (!handleIsAuthorized) setHandleIsAuthorized(true);
 				} else {
 					const userResult = await fetch(
-						`/api/v1/users/user/${router.query.user_name_id}`
+						`/api/v1/users/user/?user_name_id=${router.query.user_name_id}`
 					).then((response) => response.json());
 
 					// if (identity === OWNER) setIdentity(GUEST);
@@ -181,7 +181,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 		}://${ctx.req.headers.host}`;
 	*/
 	const fetcher = async (tokenCookieString, userCookieString, user_name_id) => {
-		const input = `${process.env.BACK_END_ROOT_URL}/api/v1/users/user/${user_name_id}`;
+		const input = `${process.env.BACK_END_ROOT_URL}/api/v1/users/user/?user_name_id=${user_name_id}`;
 
 		let user;
 		let userCookieObj;
@@ -189,7 +189,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 
 		if (tokenCookieString.length !== 0 && userCookieString.length !== 0) {
 			userCookieObj = JSON.parse(userCookieString);
-			if (userCookieObj && userCookieObj.id) visitor_id = userCookieObj.id;
+			if (userCookieObj?.id) visitor_id = userCookieObj.id;
 
 			if (
 				typeof userCookieObj === 'object' &&
@@ -220,7 +220,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 				});
 		}
 
-		if (!user || (user && user.status === 'error')) {
+		if (!user?.data?.id || (user && user.status === 'error')) {
 			return {
 				user,
 				posts: {
@@ -231,11 +231,16 @@ export const getServerSideProps = async ({ req, res, query }) => {
 			};
 		}
 
-		let postInputQuery = '/?filter_by_user_id=';
-		if (user.data && user.data.id) postInputQuery += user.data.id;
-		else postInputQuery += userCookieObj.id;
+		let postInputQuery = '';
+		if (user?.data?.id) postInputQuery += `/?filter_by_user_id=${user.data.id}`;
+		else if (userCookieObj?.id && userCookieObj?.user_name_id === user_name_id)
+			postInputQuery += `/?filter_by_user_id=${userCookieObj.id}`;
 
-		if (visitor_id) postInputQuery += `&voter_id=${visitor_id}`;
+		if (visitor_id) {
+			if (postInputQuery.length !== 0)
+				postInputQuery += `&voter_id=${visitor_id}`;
+			else postInputQuery += `/?voter_id=${visitor_id}`;
+		}
 
 		const posts = await fetch(
 			`${process.env.BACK_END_ROOT_URL}/api/v1/news${postInputQuery}`,
