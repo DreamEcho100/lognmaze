@@ -9,7 +9,7 @@ import Comments from './Comments';
 import Settings from './Settings';
 import Status from './Status';
 
-const Footer = ({ newsItem, setData, isLoadingUserVote }) => {
+const Footer = ({ newsItem, isLoadingUserVote }) => {
 	if (!newsItem?.news_id) {
 		return <></>;
 	}
@@ -41,7 +41,6 @@ const Footer = ({ newsItem, setData, isLoadingUserVote }) => {
 				newsItem={newsItem}
 				comments={newsItem.comments}
 				user_vote_type={newsItem.user_vote_type}
-				setData={setData}
 				setShowComments={setShowComments}
 				setFocusCommentTextarea={setFocusCommentTextarea}
 				showComments={showComments}
@@ -52,7 +51,6 @@ const Footer = ({ newsItem, setData, isLoadingUserVote }) => {
 				<Comments
 					// DynamicComments
 					newsItem={newsItem}
-					setData={setData}
 					comments={newsItem.comments}
 					className={classes.comments}
 					setShowComments={setShowComments}

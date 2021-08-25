@@ -5,8 +5,8 @@ import {
 	handleDeletingUserNewsItem,
 	handleUpdatingUserNewsItem,
 } from '@store/NewsContext/actions';
+import UserContextTest from '@store/UserContextTest';
 import NewsContext from '@store/NewsContext';
-import UserContext from '@store/UserContext';
 
 import ModalContainer from './ModalContainer/ModalContainer';
 import Article from './Article/Article';
@@ -27,12 +27,7 @@ const Action = ({
 	const { dispatch } = useContext(NewsContext);
 	const extraProps = {};
 
-	const {
-		user,
-		increaseUserNewsCounterByOne,
-		decreaseUserNewsCounterByOne,
-		...UserCxt
-	} = useContext(UserContext);
+	const { state: userState } = useContext(UserContextTest);
 
 	const [newsType, setNewsType] = useState(type);
 
@@ -44,13 +39,9 @@ const Action = ({
 	const deleteNews = async ({ news_id, newsType }) => {
 		const result = await handleDeletingUserNewsItem({
 			dispatch,
-			user,
+			token: userState.token,
 			news_id,
 		});
-
-		if (result.status === 'success') {
-			decreaseUserNewsCounterByOne(newsType);
-		}
 
 		if (setShowModal && !showModal) setShowModal(false);
 		else document.body.style.overflowY = 'auto';
@@ -61,15 +52,12 @@ const Action = ({
 	const createNews = async (values, newsType) => {
 		const result = await handleCreatingNewsItem({
 			dispatch,
-			user,
+			user: userState.user,
+			token: userState.token,
 			newsType,
 			newsValues: values,
 			newsType,
 		});
-
-		if (result.status === 'success') {
-			increaseUserNewsCounterByOne(newsType);
-		}
 
 		return result;
 	};
@@ -77,7 +65,8 @@ const Action = ({
 	const updateNews = async (newsType, oldValues, newValues) => {
 		return await handleUpdatingUserNewsItem({
 			dispatch,
-			user,
+			user: userState.user,
+			token: userState.token,
 			newsType,
 			oldValues,
 			newValues,

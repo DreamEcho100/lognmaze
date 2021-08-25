@@ -6,7 +6,7 @@ import Head from 'next/head';
 
 import NewsContext from '@store/NewsContext';
 
-import Container from '@components/UI/V1/News/Container/Container';
+import Container from '@components/UI/V1/News/Container';
 import Wrapper from '@components/UI/V1/Wrapper';
 
 const OneNewsContent = ({ newsItem }) => {

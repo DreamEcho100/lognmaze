@@ -371,7 +371,6 @@ export default async (req, res) => {
 				)
 				.then((response) => response.rows[0]);
 
-			console.log('result', result);
 
 			const result2 = await pool
 				.query(
@@ -384,7 +383,6 @@ export default async (req, res) => {
 				)
 				.then((response) => response.rows[0]);
 
-			console.log('result2', result2);
 
 			return res.status(200).json({
 				status: 'success',
@@ -404,7 +402,6 @@ export default async (req, res) => {
 					)
 					.then((response) => response.rows[0]);
 
-				console.log('DELETE news', result);
 			}
 		} catch (error2) {
 			console.error(`Error, ${error2.message}`);

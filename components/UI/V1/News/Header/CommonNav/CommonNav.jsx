@@ -8,7 +8,6 @@ import Image from '@components/UI/V1/Image';
 const CommonNav = ({
 	isDataOwner,
 	newsItem,
-	setData,
 	setIsLoadingContent,
 	isLoadingContent,
 	hideSettings,
@@ -35,7 +34,6 @@ const CommonNav = ({
 			<Settings
 				isDataOwner={isDataOwner}
 				newsItem={newsItem}
-				setData={setData}
 				setIsLoadingContent={setIsLoadingContent}
 				isLoadingContent={isLoadingContent}
 			/>

@@ -9,8 +9,6 @@ import Votes from './Votes';
 
 const Settings = ({
 	newsItem,
-
-	setData,
 	setShowComments,
 	setFocusCommentTextarea,
 	showComments,
@@ -37,7 +35,6 @@ const Settings = ({
 				user={userState.user}
 				userExist={userState.userExist}
 				newsItem={newsItem}
-				setData={setData}
 				isLoadingUserVote={isLoadingUserVote}
 			/>
 			<div className={`${classes.comment} ${classes.item}`}>

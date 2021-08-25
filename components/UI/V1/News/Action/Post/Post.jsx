@@ -37,8 +37,6 @@ const Post = ({ closeModal, createNews, updateNews, actionType, newsItem }) => {
 
 		setBtnsDisabled(false);
 
-		console.log('result', result);
-
 		if (result.status !== 'error') {
 			resetInputs();
 			closeModal();

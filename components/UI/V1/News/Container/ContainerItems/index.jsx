@@ -8,7 +8,6 @@ import NewsFooter from '@components/UI/V1/News/Footer';
 const ContainerItems = ({
 	articleProps = {},
 	newsItem,
-	setData = () => {},
 	detailsType,
 	setShowModal,
 	setIsLoadingContent,
@@ -30,7 +29,6 @@ const ContainerItems = ({
 			<article {...articleProps}>
 				<NewsHeader
 					newsItem={newsItem}
-					setData={setData}
 					setShowModal={setShowModal}
 					hideHeaderSettings={props.hideHeaderSettings}
 					setIsLoadingContent={setIsLoadingContent}
@@ -38,16 +36,11 @@ const ContainerItems = ({
 				/>
 				<Details
 					newsItem={newsItem}
-					setData={setData}
 					detailsType={detailsType}
 					setShowModal={setShowModal}
 					isLoadingContent={isLoadingContent}
 				/>
-				<NewsFooter
-					newsItem={newsItem}
-					setData={setData}
-					isLoadingUserVote={isLoadingUserVote}
-				/>
+				<NewsFooter newsItem={newsItem} isLoadingUserVote={isLoadingUserVote} />
 			</article>
 		</Wrapper>
 	);

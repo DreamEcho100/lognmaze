@@ -17,20 +17,19 @@ import DropdownMenu from '@components/UI/V1/DropdownMenu';
 import CommentTextarea from '../CommentTextarea';
 import Image from '@components/UI/V1/Image';
 
-const Replies = ({ replies, setData, newsItem, parent_data }) =>
+const Replies = ({ replies, newsItem, parent_data }) =>
 	replies
 		? replies.map((reply) => (
 				<Comment
 					key={reply.news_comment_id}
 					comment={reply}
-					setData={setData}
 					newsItem={newsItem}
 					parent_data={parent_data}
 				/>
 		  ))
 		: null;
 
-const Comment = ({ comment, newsItem, setData, ...props }) => {
+const Comment = ({ comment, newsItem, ...props }) => {
 	const { dispatch } = useContext(NewsContext);
 	const { state: userState } = useContext(UserContextTest);
 
@@ -62,7 +61,7 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 			dispatch,
 			news_id: newsItem.news_id,
 			comment,
-			user: userState.user,
+			token: userState.token,
 			bodyObj,
 			parent_data_id:
 				comment.type === 'comment_main_reply'
@@ -83,7 +82,7 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 
 		await handleUpdatingMainOrReplyCommentInNewsItem({
 			dispatch,
-			user: userState.user,
+			token: userState.token,
 			bodyObj,
 			comment,
 			news_id: newsItem.news_id,
@@ -102,7 +101,6 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 		bodyObj,
 		user,
 		commentData,
-		setData,
 		setValues
 	) => {
 		setCommentReplyBtnsDisabled(true);
@@ -110,7 +108,8 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 		await handleReplyingToMainOrReplyCommentInNewsItem({
 			dispatch,
 			newsItem,
-			user,
+			user: userState.user,
+			token: userState.token,
 			bodyObj,
 		});
 
@@ -240,7 +239,7 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 						</p>
 					</div>
 				</nav>
-				{userState.user.id === comment.author_id && showContent && (
+				{userState.user.id === comment.author_id /*&& showContent*/ && (
 					<DropdownMenu
 						// DynamicDropdownMenu
 						items={items}
@@ -363,7 +362,6 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 							bodyObj,
 							userState.user,
 							comment,
-							setData,
 							setValues
 						);
 					}}
@@ -380,7 +378,6 @@ const Comment = ({ comment, newsItem, setData, ...props }) => {
 			{showReplies && (
 				<Replies
 					replies={comment.replies}
-					setData={setData}
 					newsItem={newsItem}
 					parent_data={comment}
 				/>

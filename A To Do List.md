@@ -18,7 +18,7 @@
 
     6- Adding an alt to an image article in (sql table, concerning routes, UI, ...). [ ]
 
-    7- Fixing a bug in the comment (main & replies) settings
+    7- Fixing a bug in the comment (main & replies) settings [x]
 
     - [ ]
 
@@ -28,6 +28,6 @@
 
 6- Changing "Reading More ->" to an icon + "Full Article". [ ]
 
-7- Refactoring UserContext to use useReducer [ ]
+7- Refactoring UserContext to use useReducer [x]
 
 - [ ]

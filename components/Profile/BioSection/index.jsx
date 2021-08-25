@@ -3,9 +3,8 @@ import { Fragment, useContext, useState } from 'react';
 
 import classes from './index.module.css';
 
-import UserContext from '@store/UserContext';
-
-// const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
+import UserContextTest from '@store/UserContextTest';
+import { handleUpdateUserData } from '@store/UserContextTest/actions';
 
 import Modal from '@components/UI/V1/Modal';
 import Button from '@components/UI/V1/Button';
@@ -18,7 +17,8 @@ const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
 const BioSection = ({ bio = '', visitorIdentity }) => {
-	const { handleChangeBio, ...UserCxt } = useContext(UserContext);
+	const { dispatch: userDispatch, state: userState } =
+		useContext(UserContextTest);
 
 	const [showBioEditModal, setShowBioEditModal] = useState(false);
 	const [values, setValues] = useState({
@@ -32,7 +32,16 @@ const BioSection = ({ bio = '', visitorIdentity }) => {
 
 		setDisableBtns(true);
 
-		const { status, message, data } = await handleChangeBio(values.bio);
+		const { status, message, data } = await handleUpdateUserData({
+			dispatch: userDispatch,
+			userData: userState.user,
+			values: {
+				bio: values.bio,
+			},
+			token: userState.token,
+		});
+
+		setDisableBtns(false);
 
 		if (status === 'success') {
 			setShowBioEditModal(false);
@@ -41,8 +50,6 @@ const BioSection = ({ bio = '', visitorIdentity }) => {
 		if (status === 'error') {
 			console.error(message);
 		}
-
-		setDisableBtns(false);
 	};
 
 	return (

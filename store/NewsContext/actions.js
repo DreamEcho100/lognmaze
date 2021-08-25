@@ -45,6 +45,7 @@ export const handleLoadingNewsItemContent = async ({ dispatch, news_id }) => {
 export const handleCreatingNewsItem = async ({
 	dispatch,
 	user,
+	token,
 	newsValues,
 	newsType,
 }) => {
@@ -60,7 +61,7 @@ export const handleCreatingNewsItem = async ({
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			authorization: user.token ? `Bearer ${user.token}` : undefined,
+			authorization: token ? `Bearer ${token}` : undefined,
 		},
 		body: JSON.stringify(bodyObj),
 	})
@@ -94,6 +95,7 @@ export const handleCreatingNewsItem = async ({
 export const handleUpdatingUserNewsItem = async ({
 	dispatch,
 	user,
+	token,
 	newsType,
 	oldValues,
 	newValues,
@@ -118,7 +120,7 @@ export const handleUpdatingUserNewsItem = async ({
 
 		if (oldTags.length <= newTags.length) {
 			newTags.forEach((item, index) => {
-				if (oldTags.includes(item)) return tags.push(item);
+				if (oldTags.includes(item)) return;
 				addedTags.push(item);
 				tags.push(item);
 				if (index <= oldTags.length - 1) {
@@ -167,7 +169,7 @@ export const handleUpdatingUserNewsItem = async ({
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json',
-			authorization: user.token ? `Bearer ${user.token}` : undefined,
+			authorization: token ? `Bearer ${token}` : undefined,
 		},
 		body: JSON.stringify(bodyObj),
 	})
@@ -208,14 +210,14 @@ export const handleUpdatingUserNewsItem = async ({
 };
 export const handleDeletingUserNewsItem = async ({
 	dispatch,
-	user,
+	token,
 	news_id,
 }) => {
 	const { message, status, data } = await fetch('/api/v1/news', {
 		method: 'DELETE',
 		headers: {
 			'Content-Type': 'application/json',
-			authorization: user.token ? `Bearer ${user.token}` : undefined,
+			authorization: token ? `Bearer ${token}` : undefined,
 		},
 		body: JSON.stringify({ news_id }),
 	})
@@ -315,6 +317,7 @@ export const handlePostingCommentToNewsItem = async ({
 	commentType,
 	commentContent,
 	user,
+	token,
 }) => {
 	const body = JSON.stringify({
 		type: commentType,
@@ -330,7 +333,7 @@ export const handlePostingCommentToNewsItem = async ({
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			authorization: user.token ? `Bearer ${user.token}` : undefined,
+			authorization: token ? `Bearer ${token}` : undefined,
 		},
 		body,
 	})
@@ -400,6 +403,7 @@ export const handleLoadingCommentRepliesInNewsItem = async ({
 export const handleReplyingToMainOrReplyCommentInNewsItem = async ({
 	dispatch,
 	user,
+	token,
 	bodyObj,
 }) => {
 	const { status, message, data } = await fetch(
@@ -408,7 +412,7 @@ export const handleReplyingToMainOrReplyCommentInNewsItem = async ({
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				authorization: user.token ? `Bearer ${user.token}` : undefined,
+				authorization: token ? `Bearer ${token}` : undefined,
 			},
 			body: JSON.stringify(bodyObj),
 		}
@@ -438,7 +442,7 @@ export const handleReplyingToMainOrReplyCommentInNewsItem = async ({
 };
 export const handleUpdatingMainOrReplyCommentInNewsItem = async ({
 	dispatch,
-	user,
+	token,
 	bodyObj,
 	comment,
 	news_id,
@@ -450,7 +454,7 @@ export const handleUpdatingMainOrReplyCommentInNewsItem = async ({
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
-				authorization: user.token ? `Bearer ${user.token}` : undefined,
+				authorization: token ? `Bearer ${token}` : undefined,
 			},
 			body: JSON.stringify(bodyObj),
 		}
@@ -480,7 +484,7 @@ export const handleUpdatingMainOrReplyCommentInNewsItem = async ({
 };
 export const handleDeletingMainOrReplyCommentInNewsItem = async ({
 	dispatch,
-	user,
+	token,
 	bodyObj,
 	news_id,
 	comment,
@@ -491,7 +495,7 @@ export const handleDeletingMainOrReplyCommentInNewsItem = async ({
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
-				authorization: user.token ? `Bearer ${user.token}` : undefined,
+				authorization: token ? `Bearer ${token}` : undefined,
 			},
 			body: JSON.stringify(bodyObj),
 		}
@@ -522,7 +526,7 @@ export const handleDeletingMainOrReplyCommentInNewsItem = async ({
 
 export const HandleAddingUserVote = async ({
 	dispatch,
-	user,
+	token,
 	news_id,
 	vote_type,
 }) => {
@@ -530,7 +534,7 @@ export const HandleAddingUserVote = async ({
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			authorization: user.token ? `Bearer ${user.token}` : undefined,
+			authorization: token ? `Bearer ${token}` : undefined,
 		},
 		body: JSON.stringify({
 			news_id,
@@ -563,7 +567,7 @@ export const HandleAddingUserVote = async ({
 
 export const HandleDeletingUserVote = async ({
 	dispatch,
-	user,
+	token,
 	news_id,
 	vote_type,
 }) => {
@@ -571,7 +575,7 @@ export const HandleDeletingUserVote = async ({
 		method: 'DELETE',
 		headers: {
 			'Content-Type': 'application/json',
-			authorization: user.token ? `Bearer ${user.token}` : undefined,
+			authorization: token ? `Bearer ${token}` : undefined,
 		},
 		body: JSON.stringify({
 			news_id,
@@ -604,7 +608,7 @@ export const HandleDeletingUserVote = async ({
 
 export const HandleChangingUserVote = async ({
 	dispatch,
-	user,
+	token,
 	news_id,
 	old_vote_type,
 	new_vote_type,
@@ -613,7 +617,7 @@ export const HandleChangingUserVote = async ({
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json',
-			authorization: user.token ? `Bearer ${user.token}` : undefined,
+			authorization: token ? `Bearer ${token}` : undefined,
 		},
 		body: JSON.stringify({
 			news_id,

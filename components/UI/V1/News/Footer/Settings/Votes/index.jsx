@@ -9,8 +9,10 @@ import {
 	HandleChangingUserVote,
 } from '@store/NewsContext/actions';
 import NewsContext from '@store/NewsContext';
+import UserContextTest from '@store/UserContextTest';
 
-const Votes = ({ user, userExist, newsItem, setData, isLoadingUserVote }) => {
+const Votes = ({ user, userExist, newsItem, isLoadingUserVote }) => {
+	const { state: userState } = useContext(UserContextTest);
 	const { dispatch } = useContext(NewsContext);
 
 	const [voteBtnDisabled, setVoteBtnDisabled] = useState(
@@ -27,7 +29,7 @@ const Votes = ({ user, userExist, newsItem, setData, isLoadingUserVote }) => {
 		) {
 			await HandleAddingUserVote({
 				dispatch,
-				user,
+				token: userState.token,
 				news_id: newsItem.news_id,
 				vote_type,
 			});
@@ -35,7 +37,7 @@ const Votes = ({ user, userExist, newsItem, setData, isLoadingUserVote }) => {
 			if (newsItem.user_vote_type !== vote_type) {
 				await HandleChangingUserVote({
 					dispatch,
-					user,
+					token: userState.token,
 					news_id: newsItem.news_id,
 					old_vote_type: newsItem.user_vote_type,
 					new_vote_type: vote_type,
@@ -43,7 +45,7 @@ const Votes = ({ user, userExist, newsItem, setData, isLoadingUserVote }) => {
 			} else if (newsItem.user_vote_type === vote_type) {
 				await HandleDeletingUserVote({
 					dispatch,
-					user,
+					token: userState.token,
 					news_id: newsItem.news_id,
 					vote_type,
 				});

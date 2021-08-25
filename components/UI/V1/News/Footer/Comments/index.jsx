@@ -14,10 +14,6 @@ import CommentTextarea from './CommentTextarea';
 
 const Comments = ({
 	inheritedClasses,
-	// data,
-	// setData,
-	comments,
-	setNews = () => {},
 	className,
 	newsItem,
 	setShowComments,
@@ -48,6 +44,7 @@ const Comments = ({
 			commentContent: values.content,
 			news_id: newsItem.news_id,
 			user: userState.user,
+			token: userState.token,
 		});
 
 		setValues({
@@ -92,7 +89,6 @@ const Comments = ({
 						<Comment
 							key={comment.news_comment_id}
 							comment={comment}
-							setData={setNews}
 							newsItem={newsItem}
 						/>
 					))}

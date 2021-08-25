@@ -58,14 +58,14 @@ const reducer = (state, action) => {
 			updated_on: new Date().toUTCString(),
 		};
 
-		if (tags?.length !== 0) {
-			toAdd.tags = newsItem.tags;
-		}
-
 		return {
 			...state,
 			news: state.news.map((newsItem) => {
 				if (newsItem.news_id === bodyObj.news_id) {
+					if (tags?.length !== 0) {
+						toAdd.tags = newsItem.tags;
+					}
+
 					return {
 						...newsItem,
 						...toAdd,

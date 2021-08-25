@@ -14,7 +14,6 @@ import Image from '@components/UI/V1/Image';
 
 const Header = ({
 	newsItem,
-	setData,
 	setShowModal,
 	setIsLoadingContent,
 	isLoadingContent,
@@ -42,7 +41,6 @@ const Header = ({
 			<CommonNav
 				isDataOwner={isDataOwner}
 				newsItem={newsItem}
-				setData={setData}
 				setIsLoadingContent={setIsLoadingContent}
 				isLoadingContent={isLoadingContent}
 				hideSettings={hideHeaderSettings}
