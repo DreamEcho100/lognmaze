@@ -293,10 +293,6 @@ const SignUp = ({
 									[event.target.name]: event.target.value,
 								}));
 							}
-							setValues((prev) => ({
-								...prev,
-								[event.target.name]: event.target.value,
-							}));
 						}}
 					/>
 				</FormControl>
@@ -323,10 +319,6 @@ const SignUp = ({
 									[event.target.name]: event.target.value,
 								}));
 							}
-							setValues((prev) => ({
-								...prev,
-								[event.target.name]: event.target.value,
-							}));
 						}}
 					/>
 				</FormControl>
@@ -408,7 +400,7 @@ const SignUp = ({
 					}}
 					value={values.country}
 				>
-					<option valu='' disabled>
+					<option value='' disabled>
 						Choose Your Country
 					</option>
 					{countries.map(

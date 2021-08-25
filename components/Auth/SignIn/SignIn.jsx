@@ -77,7 +77,7 @@ const SignIn = () => {
 				<meta property='og:title' content='Sign in | LogNMaze' />
 				<title>Sign in | LogNMaze</title>
 			</Head>
-			<FormControl className={classes.control}>
+			<FormControl extraClasses='align-center' className={classes.control}>
 				<Label htmlFor='email'>Your Email</Label>
 				<Input
 					type='email'
@@ -88,7 +88,7 @@ const SignIn = () => {
 					setValues={setValues}
 				/>
 			</FormControl>
-			<FormControl className={classes.control}>
+			<FormControl extraClasses='align-center' className={classes.control}>
 				<Label htmlFor='password'>Your Password</Label>
 				<Input
 					type='password'
