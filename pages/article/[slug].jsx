@@ -98,25 +98,6 @@ export const getStaticProps = async (context) => {
 			},
 		};
 	}
-
-	// const result = await fetch(
-	// 	`${process.env.BACK_END_ROOT_URL}/api/v1/news/articles/article/${slug}`
-	// )
-	// 	.then((response) => response.json())
-	// 	.catch((error) => ({ status: 'error', message: error.message, data: {} }));
-
-	// const { status, message, data } = result;
-
-	// if (!status || !data || (status && status === 'error')) {
-	// 	return { props: { data: {} } };
-	// }
-
-	// return {
-	// 	props: {
-	// 		data,
-	// 		revalidate: 60,
-	// 	},
-	// };
 };
 
 export const getStaticPaths = async () => {
@@ -124,12 +105,6 @@ export const getStaticPaths = async () => {
 		const result = await pool
 			.query('SELECT slug FROM news_article')
 			.then(async (response) => response.rows);
-
-		// return res.status(200).json({
-		// 	status: 'success',
-		// 	message: 'The newest News Arrived Successfully!, Enjoy ;)',
-		// 	data: result,
-		// });
 
 		const paths = result.map((post) => ({
 			params: { slug: post.slug },
@@ -141,32 +116,10 @@ export const getStaticPaths = async () => {
 		};
 	} catch (error) {
 		console.error(`Error, ${error}`);
-		// return res.status(500).json({
-		// 	status: 'error',
-		// 	message: error.message || 'Something went wrong!',
-		// 	data: [],
-		// });
 
 		return {
 			paths: { params: {} },
 			fallback: true,
 		};
 	}
-
-	// const result = await fetch(
-	// 	`${process.env.BACK_END_ROOT_URL}/api/v1/news/articles/slugs`
-	// )
-	// 	.then((response) => response.json())
-	// 	.catch((error) => ({ status: 'error', message: error.message, data: [] }));
-
-	// const { status, message, data } = result;
-
-	// const paths = data.map((post) => ({
-	// 	params: { slug: post.slug },
-	// }));
-
-	// return {
-	// 	paths,
-	// 	fallback: true,
-	// };
 };

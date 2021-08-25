@@ -2,25 +2,25 @@
 
 ## To dos
 
-- Changing the intro in screen sizes smaller than 700px. [ ] <---
+- Changing the intro in screen sizes smaller than 700px. [ ]
 
-- Fixing some bugs like: [ ] <---
+- Fixing some bugs like: [ ]
 
-  - Adding a loading and disable textarea when loading the content news in update news modal. [ ] <---
+  - Adding a loading and disable textarea when loading the content news in update news modal. [ ]
 
   - Adding some styles to the profile page when there is no profile picture or a cover photo. [ ] <---
 
-  - Adding a title to a links. [ ] <---
+  - Adding a title to a links. [ ]
 
   - Adding an alt to an image article in (sql table, concerning routes, UI, ...). [ ] <---
 
   - [ ]
 
-- Adding a to do list (optional). [ ] <---
+- Adding a to do list (optional). [ ]
 
-- Adding a limit to news description and read more. [ ] <---
+- Adding a limit to news description and read more. [ ]
 
-- Changing "Reading More ->" to an icon + "Full Article". [ ] <---
+- Changing "Reading More ->" to an icon + "Full Article". [ ]
 
 - [ ]
 
@@ -28,7 +28,7 @@
 
 - Adding a counter to track the amount of article and posts per user. [x]
 
-- Fixing some bugs like: [ ] <---
+- Fixing some bugs like: [ ]
 
   - Remove adding comment to news when there is no user. [x]
 

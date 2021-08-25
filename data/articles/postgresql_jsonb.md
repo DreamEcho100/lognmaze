@@ -275,15 +275,6 @@ jsonb_set(
 
 Returns target with the section designated by path replaced by new_value, or with new_value added if create_missing is true (default is true) and the item designated by path does not exist. As with the path oriented operators, negative integers appear in path counter from the end of JSON arrays.
 
-<!-- - **target**:
-  -- here would be something like **"extra"** column.
-
-- **path**:
-  -- The path to the key we want to change.
-
-- **new_value**
-  -- Would the value we want to set in the specified path. -->
-
 #### Updating JSON Surface, level one path for one value using the **jsonb_set** function
 
 - if we want to target email_verified the path would be **'{email_verified}'**.

@@ -109,38 +109,55 @@ export const handleUpdatingUserNewsItem = async ({
 		news_data: {},
 	};
 
-	const tags = [];
+	let tagsChanged = false;
+	let tags;
 
 	if (newsType === 'article') {
 		const removedTags = [];
 		const addedTags = [];
 
-		const oldTags = oldValues.tags;
+
+		const oldTags = oldValues.tags.filter(item => /*!item || */item.length !== 0);
 		const newTags = newValues.tags;
 
 		if (oldTags.length <= newTags.length) {
 			newTags.forEach((item, index) => {
-				if (oldTags.includes(item)) return;
-				addedTags.push(item);
-				tags.push(item);
-				if (index <= oldTags.length - 1) {
-					if (!newTags.includes(oldTags[index]))
-						removedTags.push(oldTags[index]);
+				// if (oldTags.includes(item)) return;
+
+				if (!oldTags.includes(item) && item.length !== 0) {
+					addedTags.push(item);
 				}
-				if (!dataChanged) dataChanged = true;
-			});
-		} else if (oldTags.length > newTags.length) {
-			oldTags.forEach((item, index) => {
-				if (newTags.includes(item)) return tags.push(item);
-				removedTags.push(item);
-				if (index <= newTags.length - 1) {
-					if (!oldTags.includes(newTags[index])) {
-						addedTags.push(newTags[index]);
-						tags.push(item);
+				
+				if (index <= oldTags.length - 1) {
+					if (!newTags.includes(oldTags[index])){
+						removedTags.push(oldTags[index]);
 					}
 				}
-				if (!dataChanged) dataChanged = true;
 			});
+		} else if (oldTags.length > newTags.length) {
+			oldTags.forEach((item, index) => {				
+				// if (oldTags.includes(item)) return;
+
+				if (!newTags.includes(item) && item.length !== 0) {
+					removedTags.push(item);
+				}
+				
+				if (index <= newTags.length - 1) {
+					if (!oldTags.includes(newTags[index])){
+						addedTags.push(newTags[index]);
+					}
+				}
+			});
+		}
+
+		tags = [...oldTags.filter(item => {
+			return !removedTags.includes(item)
+		}), ...addedTags];
+
+		if(
+			(tags?.added?.length !== 0) || (tags?.removed?.length !== 0)) {
+			if(!tagsChanged) tagsChanged = true;
+			if (!dataChanged) dataChanged = true;
 		}
 
 		bodyObj.tags = {
@@ -165,7 +182,7 @@ export const handleUpdatingUserNewsItem = async ({
 		};
 	}
 
-	const { message, status, data } = await fetch('/api/v1/news', {
+	const /* { message, status, data } */ result = await fetch('/api/v1/news', {
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json',
@@ -182,11 +199,11 @@ export const handleUpdatingUserNewsItem = async ({
 			};
 		});
 
-	if (!status || (status && status === 'error')) {
+	if (result?.status === 'error') {
 		console.error(message);
 		return {
 			status: 'error',
-			message,
+			message: result.message,
 		};
 	}
 
@@ -196,16 +213,14 @@ export const handleUpdatingUserNewsItem = async ({
 			user,
 			bodyObj,
 			newsType,
-			tags:
-				(tags?.added?.length !== 0) | (tags?.removed?.length !== 0)
-					? tags
-					: undefined,
+			tags,
+			tagsChanged
 		},
 	});
 
 	return {
-		status,
-		message,
+		status: result.status,
+		message: result.message,
 	};
 };
 export const handleDeletingUserNewsItem = async ({

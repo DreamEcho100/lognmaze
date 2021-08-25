@@ -51,19 +51,19 @@ const reducer = (state, action) => {
 		};
 	}
 	if (action.type === types.UPDATING_USER_ONE_NEWS_ITEM_IN_NEWS) {
-		const { bodyObj, tags } = action.payload;
+		const { bodyObj, tags, tagsChanged } = action.payload;
 
 		const toAdd = {
-			...bodyObj,
+			...bodyObj.news_data,
 			updated_on: new Date().toUTCString(),
 		};
-
+ 
 		return {
 			...state,
 			news: state.news.map((newsItem) => {
 				if (newsItem.news_id === bodyObj.news_id) {
-					if (tags?.length !== 0) {
-						toAdd.tags = newsItem.tags;
+					if (tagsChanged) {
+						toAdd.tags = tags;
 					}
 
 					return {
