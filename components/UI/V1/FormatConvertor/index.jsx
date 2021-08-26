@@ -4,6 +4,9 @@ import dynamic from 'next/dynamic';
 import classes from './index.module.css';
 
 const DynamicMd = dynamic(() => import('@components/UI/V1/Format/Md'));
+const DynamicContainer = dynamic(() =>
+	import('@components/UI/V1/Format/Container')
+);
 
 import Textarea from '@components/UI/V1/Textarea';
 
@@ -31,7 +34,9 @@ const FormatConvertor = ({
 			</section>
 			<section>
 				{fromFormatType === 'txt' && toFormatType === 'md' && (
-					<DynamicMd content={props.values[name] || values[name]} />
+					<DynamicContainer>
+						<DynamicMd content={props.values[name] || values[name]} />
+					</DynamicContainer>
 				)}
 			</section>
 		</main>

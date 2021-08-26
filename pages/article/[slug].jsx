@@ -55,7 +55,8 @@ export const getStaticProps = async (context) => {
 							news_article.slug,
 							news_article.iso_language,
 							news_article.iso_country,
-							news_article.image,
+							news_article.image_alt,
+							news_article.image_src,
 							news_article.description,
 							news_article.content,
 

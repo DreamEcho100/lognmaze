@@ -162,7 +162,8 @@ CREATE TABLE news_article (
   slug TEXT UNIQUE NOT NULL,
   iso_language TEXT NOT NULL,
   iso_country TEXT NOT NULL,
-  image TEXT NOT NULL,
+  image_alt TEXT NOT NULL,
+  image_src TEXT NOT NULL,
   description TEXT NOT NULL,
 
   content TEXT NOT NULL,

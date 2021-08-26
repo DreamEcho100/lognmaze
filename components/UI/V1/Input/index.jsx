@@ -10,7 +10,6 @@ const Input = ({
 	defaultClasses = 'input',
 	extraClasses = '',
 	className = '',
-	cn = '',
 	children,
 	type = 'text',
 	placeholder = '',
@@ -31,7 +30,7 @@ const Input = ({
 		classes,
 		defaultClasses,
 		extraClasses,
-		className: className || cn,
+		className: className,
 	});
 
 	const inputProps = {

@@ -65,8 +65,8 @@ const Header = ({
 							<h1>{newsItem.title}</h1>
 						)}
 						<Image
-							src={newsItem.image}
-							alt=''
+							src={newsItem.image_src}
+							alt={newsItem.image_alt}
 							style={{ width: '100%' }}
 							loading='lazy'
 							onClick={() => {

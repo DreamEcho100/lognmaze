@@ -62,7 +62,8 @@ export default async (req, res) => {
 									'slug', news_article.slug,
 									'iso_language', news_article.iso_language,
 									'iso_country', news_article.iso_country,
-									'image', news_article.image,
+									'image_alt', news_article.image_alt,
+									'image_src', news_article.image_src,
 									'description', news_article.description,
 									${with_news_article_content ? "'content', news_article.content," : ''}
 									'tags', ARRAY (
@@ -150,7 +151,8 @@ export default async (req, res) => {
 										'slug',
 										'iso_language',
 										'iso_country',
-										'image',
+										'image_alt',
+										'image_src',
 										'description',
 										'content',
 									],
@@ -159,7 +161,8 @@ export default async (req, res) => {
 										news_data.slug,
 										news_data.iso_language,
 										news_data.iso_country,
-										news_data.image,
+										news_data.image_alt,
+										news_data.image_src,
 										news_data.description,
 										news_data.content,
 									],
@@ -168,7 +171,8 @@ export default async (req, res) => {
 										'slug',
 										'iso_language',
 										'iso_country',
-										'image',
+										'image_alt',
+										'image_src',
 										'description',
 										'content',
 									],
@@ -371,7 +375,6 @@ export default async (req, res) => {
 				)
 				.then((response) => response.rows[0]);
 
-
 			const result2 = await pool
 				.query(
 					`
@@ -382,7 +385,6 @@ export default async (req, res) => {
 					[isAuthorized.id]
 				)
 				.then((response) => response.rows[0]);
-
 
 			return res.status(200).json({
 				status: 'success',
@@ -401,7 +403,6 @@ export default async (req, res) => {
 						[req.body.news_id, isAuthorized.id]
 					)
 					.then((response) => response.rows[0]);
-
 			}
 		} catch (error2) {
 			console.error(`Error, ${error2.message}`);

@@ -52,3 +52,7 @@
 .comments_counter {
 	margin: 0 0.25em;
 }
+
+.comment_content {
+	padding: 0.25em 0.125em;
+}

@@ -94,19 +94,23 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, news = [] }) => {
 				<title>{userData.user_name_id} | LogNMaze</title>
 			</Head>
 			<Wrapper>
-				<div className={classes['cover_photo-container']}>
-					<Image
-						src={userData.cover_photo}
-						alt=''
-						className={classes['cover_photo']}
-					/>
+				<div className={classes['cover_photo-outer-container']}>
+					<div className={classes['cover_photo-inner-container']}>
+						<Image
+							src={userData.cover_photo}
+							alt=''
+							className={classes['cover_photo']}
+						/>
+					</div>{' '}
 				</div>
-				<div className={classes['profile_picture-container']}>
-					<Image
-						src={userData.profile_picture}
-						alt=''
-						className={classes['profile_picture']}
-					/>
+				<div className={classes['profile_picture-outer-container']}>
+					<div className={classes['profile_picture-inner-container']}>
+						<Image
+							src={userData.profile_picture}
+							alt=''
+							className={classes['profile_picture']}
+						/>
+					</div>{' '}
 				</div>
 				<div className={classes['basic-data']}>
 					<h3>{userData.user_name_id}</h3>

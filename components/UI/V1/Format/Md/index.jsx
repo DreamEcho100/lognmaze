@@ -9,8 +9,6 @@ import remarkGfm from 'remark-gfm';
 // import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 const SyntaxHighlighterDynamic = dynamic(() => import('./SyntaxHighlighter'));
 
-import classes from './index.module.css';
-
 import Image from '@components/UI/V1/Image';
 
 const Details = ({ content }) => {
@@ -162,13 +160,11 @@ const Details = ({ content }) => {
 
 	try {
 		return (
-			<main className={classes['format-md']}>
-				<ReactMarkdown
-					children={content}
-					components={customRenderers}
-					remarkPlugins={[remarkGfm]}
-				/>
-			</main>
+			<ReactMarkdown
+				children={content}
+				components={customRenderers}
+				remarkPlugins={[remarkGfm]}
+			/>
 		);
 	} catch (error) {
 		setHasError(true);

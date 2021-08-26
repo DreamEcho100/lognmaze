@@ -11,6 +11,11 @@ import types from './types';
 // });
 
 export const handleLoadingNewsItemContent = async ({ dispatch, news_id }) => {
+	dispatch({
+		type: types.SET_IS_LOADING_CONTENT_IN_NEWS_ITEM,
+		payload: { news_id: news_id, isLoadingContent: true },
+	});
+
 	const { message, status, data } = await fetch(
 		`/api/v1/news/articles/article/content/${news_id}`
 	)
@@ -33,7 +38,7 @@ export const handleLoadingNewsItemContent = async ({ dispatch, news_id }) => {
 
 	dispatch({
 		type: types.ADD_CONTENT_TO_NEWS_ITEM,
-		payload: { content: data.content, news_id },
+		payload: { content: data.content, news_id, isLoadingContent: false },
 	});
 
 	return {
@@ -116,8 +121,9 @@ export const handleUpdatingUserNewsItem = async ({
 		const removedTags = [];
 		const addedTags = [];
 
-
-		const oldTags = oldValues.tags.filter(item => /*!item || */item.length !== 0);
+		const oldTags = oldValues.tags.filter(
+			(item) => /*!item || */ item.length !== 0
+		);
 		const newTags = newValues.tags;
 
 		if (oldTags.length <= newTags.length) {
@@ -127,36 +133,38 @@ export const handleUpdatingUserNewsItem = async ({
 				if (!oldTags.includes(item) && item.length !== 0) {
 					addedTags.push(item);
 				}
-				
+
 				if (index <= oldTags.length - 1) {
-					if (!newTags.includes(oldTags[index])){
+					if (!newTags.includes(oldTags[index])) {
 						removedTags.push(oldTags[index]);
 					}
 				}
 			});
 		} else if (oldTags.length > newTags.length) {
-			oldTags.forEach((item, index) => {				
+			oldTags.forEach((item, index) => {
 				// if (oldTags.includes(item)) return;
 
 				if (!newTags.includes(item) && item.length !== 0) {
 					removedTags.push(item);
 				}
-				
+
 				if (index <= newTags.length - 1) {
-					if (!oldTags.includes(newTags[index])){
+					if (!oldTags.includes(newTags[index])) {
 						addedTags.push(newTags[index]);
 					}
 				}
 			});
 		}
 
-		tags = [...oldTags.filter(item => {
-			return !removedTags.includes(item)
-		}), ...addedTags];
+		tags = [
+			...oldTags.filter((item) => {
+				return !removedTags.includes(item);
+			}),
+			...addedTags,
+		];
 
-		if(
-			(tags?.added?.length !== 0) || (tags?.removed?.length !== 0)) {
-			if(!tagsChanged) tagsChanged = true;
+		if (tags?.added?.length !== 0 || tags?.removed?.length !== 0) {
+			if (!tagsChanged) tagsChanged = true;
 			if (!dataChanged) dataChanged = true;
 		}
 
@@ -183,21 +191,21 @@ export const handleUpdatingUserNewsItem = async ({
 	}
 
 	const /* { message, status, data } */ result = await fetch('/api/v1/news', {
-		method: 'PATCH',
-		headers: {
-			'Content-Type': 'application/json',
-			authorization: token ? `Bearer ${token}` : undefined,
-		},
-		body: JSON.stringify(bodyObj),
-	})
-		.then((response) => response.json())
-		.catch((error) => {
-			console.error(error.message);
-			return {
-				status: 'error',
-				message: error.message,
-			};
-		});
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				authorization: token ? `Bearer ${token}` : undefined,
+			},
+			body: JSON.stringify(bodyObj),
+		})
+			.then((response) => response.json())
+			.catch((error) => {
+				console.error(error.message);
+				return {
+					status: 'error',
+					message: error.message,
+				};
+			});
 
 	if (result?.status === 'error') {
 		console.error(message);
@@ -214,7 +222,7 @@ export const handleUpdatingUserNewsItem = async ({
 			bodyObj,
 			newsType,
 			tags,
-			tagsChanged
+			tagsChanged,
 		},
 	});
 

@@ -8,15 +8,11 @@
 
   - Adding a loading and disable textarea when loading the content news in update news modal. [ ]
 
-  - Adding some styles to the profile page when there is no profile picture or a cover photo. [ ] <---
-
-  - Adding a title to a links. [ ]
-
-  - Adding an alt to an image article in (sql table, concerning routes, UI, ...). [ ] <---
-
   - [ ]
 
 - Adding a to do list (optional). [ ]
+
+- Adding a title to a links. [ ]
 
 - Adding a limit to news description and read more. [ ]
 
@@ -36,4 +32,8 @@
 
   - Fixing a bug in the comment (main & replies) settings. [x]
 
+  - Adding some styles to the profile page when there is no profile picture or a cover photo. [x]
+
 - Refactoring UserContext to use useReducer. [x]
+
+  - Adding an alt to an image article in (sql table, concerning routes, UI, ...). [x]

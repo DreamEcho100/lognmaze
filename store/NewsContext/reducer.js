@@ -7,12 +7,22 @@ const reducer = (state, action) => {
 		return {
 			...state,
 			newsType: action.payload.newsType,
-			news: news?.map((item) => ({
-				...item,
-				comments: [],
-				hit_comments_limit:
-					parseInt(item.comments_counter) === 0 ? true : false,
-			})),
+			news: news?.map((newsItem) => {
+				const toAdd = {
+					comments: [],
+					hit_comments_limit:
+						parseInt(newsItem.comments_counter) === 0 ? true : false,
+				};
+
+				if (newsItem.type === 'article' && !newsItem.content) {
+					toAdd.isLoadingContent = true;
+				}
+
+				return {
+					...newsItem,
+					...toAdd,
+				};
+			}),
 			last_news_created_at: news[news.length - 1]
 				? news[news.length - 1].created_at
 				: undefined,
@@ -57,7 +67,7 @@ const reducer = (state, action) => {
 			...bodyObj.news_data,
 			updated_on: new Date().toUTCString(),
 		};
- 
+
 		return {
 			...state,
 			news: state.news.map((newsItem) => {
@@ -85,8 +95,26 @@ const reducer = (state, action) => {
 		};
 	}
 
+	if (action.type === types.SET_IS_LOADING_CONTENT_IN_NEWS_ITEM) {
+		const { news_id, isLoadingContent } = action.payload;
+
+		return {
+			...state,
+			news: state.news.map((newsItem) => {
+				if (newsItem.news_id === news_id) {
+					return {
+						...newsItem,
+						isLoadingContent,
+					};
+				}
+
+				return newsItem;
+			}),
+		};
+	}
+
 	if (action.type === types.ADD_CONTENT_TO_NEWS_ITEM) {
-		const { content, news_id } = action.payload;
+		const { content, news_id, isLoadingContent } = action.payload;
 
 		return {
 			...state,
@@ -95,6 +123,7 @@ const reducer = (state, action) => {
 					return {
 						...newsItem,
 						content,
+						isLoadingContent,
 					};
 				}
 

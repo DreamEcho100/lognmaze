@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-// import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';
 
@@ -12,6 +12,11 @@ import {
 import NewsContext from '@store/NewsContext';
 import UserContext from '@store/UserContext';
 import { dateToHumanReadableDate } from '@lib/v1/time';
+
+const DynamicMd = dynamic(() => import('@components/UI/V1/Format/Md'));
+const DynamicContainer = dynamic(() =>
+	import('@components/UI/V1/Format/Container')
+);
 
 import DropdownMenu from '@components/UI/V1/DropdownMenu';
 import CommentTextarea from '../CommentTextarea';
@@ -247,9 +252,9 @@ const Comment = ({ comment, newsItem, ...props }) => {
 				)}
 			</header>
 			{showContent && (
-				<main className={classes.main}>
-					<p>{comment.content}</p>
-				</main>
+				<DynamicContainer className={classes.comment_content}>
+					<DynamicMd content={comment.content} />
+				</DynamicContainer>
 			)}
 			{!showContent && (
 				<CommentTextarea

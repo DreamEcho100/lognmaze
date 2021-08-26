@@ -66,15 +66,21 @@ const Container = ({
 	}, [showModal]);
 
 	useEffect(async () => {
-		if (isLoadingUserVote && userState.userExist && newsItem?.news_id) {
-			setIsLoadingUserVote(true);
+		if (
+			isLoadingUserVote &&
+			userState.userExist &&
+			newsItem?.news_id &&
+			(parseInt(newsItem.up_votes_counter) !== 0 ||
+				parseInt(newsItem.down_votes_counter) !== 0)
+		) {
+			if (!isLoadingUserVote) setIsLoadingUserVote(true);
 			await HandleLoadingUserVote({
 				dispatch,
 				news_id: newsItem.news_id,
 				user: userState.user,
 				state,
 			});
-			setIsLoadingUserVote(false);
+			if (isLoadingUserVote) setIsLoadingUserVote(false);
 		}
 	}, [isLoadingUserVote, userState.userExist]);
 

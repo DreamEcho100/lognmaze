@@ -38,7 +38,8 @@ const Article = ({
 		iso_country: newsItem && newsItem.iso_country ? newsItem.iso_country : 'US',
 		tags:
 			newsItem && newsItem.tags && newsItem.tags.length ? newsItem.tags : [],
-		image: newsItem && newsItem.image ? newsItem.image : '',
+		image_alt: newsItem && newsItem.image_alt ? newsItem.image_alt : '',
+		image_src: newsItem && newsItem.image_src ? newsItem.image_src : '',
 		description: newsItem && newsItem.description ? newsItem.description : '',
 		content: newsItem && newsItem.content ? newsItem.content : '',
 	});
@@ -56,7 +57,8 @@ const Article = ({
 			iso_language: 'en',
 			iso_country: 'US',
 			tags: [],
-			image: '',
+			image_alt: '',
+			image_src: '',
 			description: '',
 			content: '',
 		});
@@ -121,7 +123,8 @@ const Article = ({
 				newsItem && newsItem.iso_country ? newsItem.iso_country : 'US',
 			tags:
 				newsItem && newsItem.tags && newsItem.tags.length ? newsItem.tags : [],
-			image: newsItem && newsItem.image ? newsItem.image : '',
+			image_alt: newsItem && newsItem.image_alt ? newsItem.image_alt : '',
+			image_src: newsItem && newsItem.image_src ? newsItem.image_src : '',
 			description: newsItem && newsItem.description ? newsItem.description : '',
 			content: newsItem && newsItem.content ? newsItem.content : '',
 		});
@@ -136,8 +139,6 @@ const Article = ({
 			<FormControl>
 				<Label htmlFor='title'>Title: </Label>
 				<Input
-					cn={classes['width-100-perecent']}
-					className={classes['width-100-perecent']}
 					name='title'
 					id='title'
 					value={values.title}
@@ -159,14 +160,13 @@ const Article = ({
 						minLength: 10,
 						maxLength: 255,
 					})}
+					className={classes['width-100-percent']}
 				/>
 			</FormControl>
 
 			<FormControl>
 				<Label htmlFor='slug'>Slug: </Label>
 				<Input
-					cn={classes['width-100-perecent']}
-					className={classes['width-100-perecent']}
 					name='slug'
 					id='slug'
 					value={values.slug}
@@ -186,10 +186,11 @@ const Article = ({
 						minLength: 10,
 						maxLength: 255,
 					})}
+					className={classes['width-100-percent']}
 				/>
 			</FormControl>
 
-			<FormControls>
+			<FormControls className={classes['width-100-percent']}>
 				<FormControl>
 					<Label htmlFor='iso_language'>ISO Language: </Label>
 					<Select
@@ -230,8 +231,6 @@ const Article = ({
 			<FormControl>
 				<Label htmlFor='tags'>Tags: {values.tags.join(', ')}</Label>
 				<Input
-					cn={classes['width-100-perecent']}
-					className={classes['width-100-perecent']}
 					name='tags'
 					id='tags'
 					value={values.tags.join(' ')}
@@ -248,27 +247,37 @@ const Article = ({
 						}));
 					}}
 					{...sharedInputProps()}
+					className={classes['width-100-percent']}
 				/>
 			</FormControl>
 
 			<FormControl>
-				<Label htmlFor='image'>Image: </Label>
+				<Label htmlFor='image_alt'>Image Name: </Label>
 				<Input
-					cn={classes['width-100-perecent']}
-					className={classes['width-100-perecent']}
-					name='image'
-					id='image'
-					value={values.image}
+					name='image_alt'
+					id='image_alt'
+					value={values.image_alt}
 					setValues={setValues}
 					{...sharedInputProps()}
+					className={classes['width-100-percent']}
+				/>
+			</FormControl>
+
+			<FormControl>
+				<Label htmlFor='image_src'>Image Source: </Label>
+				<Input
+					name='image_src'
+					id='image_src'
+					value={values.image_src}
+					setValues={setValues}
+					{...sharedInputProps()}
+					className={classes['width-100-percent']}
 				/>
 			</FormControl>
 
 			<FormControl>
 				<Label htmlFor='description'>Description: </Label>
 				<Textarea
-					cn={classes['width-100-perecent']}
-					className={classes['width-100-perecent']}
 					name='description'
 					id='description'
 					value={values.description}
@@ -281,14 +290,15 @@ const Article = ({
 					{...sharedTextareaProps({
 						minLength: 50,
 					})}
+					className={classes['width-100-percent']}
 				/>
 			</FormControl>
 
 			<FormControl>
-				<Label htmlFor='content'>Content: </Label>
+				<Label htmlFor='content'>
+					{newsItem.isLoadingContent ? 'Loading' : ''} Content:{' '}
+				</Label>
 				<Textarea
-					cn={classes['width-100-perecent']}
-					className={classes['width-100-perecent']}
 					name='content'
 					id='content'
 					value={values.content}
@@ -302,6 +312,9 @@ const Article = ({
 						minLength: 100,
 					})}
 					onClick={() => setShowFormatConvertorModal(true)}
+					className={`${classes['width-100-percent']} ${
+						newsItem.isLoadingContent ? 'disable' : ''
+					}`}
 				/>
 				<FormatConvertorModal
 					showModal={showFormatConvertorModal}

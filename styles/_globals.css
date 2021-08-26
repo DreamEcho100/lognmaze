@@ -416,6 +416,13 @@ button:disabled {
 	padding: 1em;
 }
 
+.disable {
+	pointer-events: none;
+	filter: grayscale(1);
+	user-select: none;
+	cursor: not-allowed;
+}
+
 .font-size-inherit {
 	font-size: inherit !important;
 }

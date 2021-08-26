@@ -45,12 +45,12 @@ const OneNewsContent = ({ newsItem }) => {
 
 						<meta name='keywords' content={newsItem.tags.join(',')} />
 
-						<meta property='og:image' content={newsItem.image} />
+						<meta property='og:image' content={newsItem.image_src} />
 						<meta property='og:image:width' content='1200' />
 						<meta property='og:image:height' content='630' />
-						<meta property='og:image:alt' content={`${newsItem.title} image`} />
+						<meta property='og:image:alt' content={newsItem.image_alt} />
 
-						<meta name='twitter:image' content={newsItem.image} />
+						<meta name='twitter:image' content={newsItem.image_src} />
 						<meta name='twitter:card' content='summary_large_image' />
 
 						<meta
