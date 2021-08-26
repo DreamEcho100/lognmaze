@@ -97,6 +97,7 @@ const ShareModel = ({
 							className={`${classes['social-platform']} ${classes.facebook}`}
 						>
 							<SocialMediaShareLink
+								title='Share it on facebook'
 								// DynamicSocialMediaShareLink
 								type='facebook'
 								url={url}
@@ -114,6 +115,7 @@ const ShareModel = ({
 							className={`${classes['social-platform']} ${classes.linkedin}`}
 						>
 							<SocialMediaShareLink
+								title='Share it on linkedin'
 								// DynamicSocialMediaShareLink
 								type='linkedin'
 								url={url}
@@ -132,6 +134,7 @@ const ShareModel = ({
 							className={`${classes['social-platform']} ${classes.reddit}`}
 						>
 							<SocialMediaShareLink
+								title='Share it on reddit'
 								// DynamicSocialMediaShareLink
 								type='reddit'
 								url={url}
@@ -148,6 +151,7 @@ const ShareModel = ({
 							className={`${classes['social-platform']} ${classes.telegram}`}
 						>
 							<SocialMediaShareLink
+								title='Share it on telegram'
 								// DynamicSocialMediaShareLink
 								type='telegram'
 								url={url}
@@ -164,6 +168,7 @@ const ShareModel = ({
 							className={`${classes['social-platform']} ${classes.tumblr}`}
 						>
 							<SocialMediaShareLink
+								title='Share it on tumblr'
 								// DynamicSocialMediaShareLink
 								type='tumblr'
 								url={url}
@@ -182,6 +187,7 @@ const ShareModel = ({
 							className={`${classes['social-platform']} ${classes.twitter}`}
 						>
 							<SocialMediaShareLink
+								title='Share it on twitter'
 								// DynamicSocialMediaShareLink
 								type='twitter'
 								url={url}
@@ -199,6 +205,7 @@ const ShareModel = ({
 							className={`${classes['social-platform']} ${classes.whatsapp}`}
 						>
 							<SocialMediaShareLink
+								title='Share it on whatsapp'
 								// DynamicSocialMediaShareLink
 								type='whatsapp'
 								url={url}

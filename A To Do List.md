@@ -2,15 +2,9 @@
 
 ## To dos
 
-- Changing the intro in screen sizes smaller than 700px. [ ]
-
 - Adding a to do list (optional). [ ]
 
 - Adding a title to a links. [ ]
-
-- Adding a limit to news description and read more. [ ]
-
-- Changing "Reading More ->" to an icon + "Full Article". [ ]
 
 - [ ]
 
@@ -33,3 +27,9 @@
 - Refactoring UserContext to use useReducer. [x]
 
 - Adding an alt to an image article in (sql table, concerning routes, UI, ...). [x]
+
+- Adding a limit to news description and read more. [x]
+
+- Changing "Reading More ->" to an icon + "Full Article". [x]
+
+- Changing the intro in screen sizes where width is smaller than height. [x]

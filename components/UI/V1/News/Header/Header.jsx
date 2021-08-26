@@ -56,7 +56,8 @@ const Header = ({
 						{!router.query.slug && newsItem.type === 'article' ? (
 							<Link href={`/article/${newsItem.slug}`}>
 								<a
-								// target='_blank' rel='noopener noreferrer'
+									title={`${newsItem.type} | ${newsItem.title}`}
+									// target='_blank' rel='noopener noreferrer'
 								>
 									<h1>{newsItem.title}</h1>
 								</a>

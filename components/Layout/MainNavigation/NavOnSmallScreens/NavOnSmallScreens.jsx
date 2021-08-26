@@ -18,7 +18,12 @@ const NavOnSmallScreens = ({ user, isVerifyingUserLoading, handleSignOut }) => {
 							'/' /*!isVerifyingUserLoading && user.id ? '/posts/all' : '/'*/
 						}
 					>
-						<a className={MainNavigationClasses.logo_anchor}>LogNMaze</a>
+						<a
+							title='LogNMaze | Home Page'
+							className={MainNavigationClasses.logo_anchor}
+						>
+							LogNMaze
+						</a>
 					</Link>
 				</div>
 				<button
@@ -51,16 +56,11 @@ const NavOnSmallScreens = ({ user, isVerifyingUserLoading, handleSignOut }) => {
 				}`}
 			>
 				<ul className={`${NavOnSmallScreensClasses['main-list']}`}>
-					{/* <li>
-						<span onClick={() => setShowNavOnSmallScreens(false)}>
-							<Link href='/posts/all'>All Posts</Link>
-						</span>
-					</li> */}
 					{!isVerifyingUserLoading && user.id && (
 						<li>
 							<span onClick={() => setShowNavOnSmallScreens(false)}>
 								<Link href={`/profile/${user.user_name_id}`}>
-									<a>
+									<a title={`${user.user_name_id} profile`}>
 										<FontAwesomeIcon icon={['fas', 'user']} /> Profile
 									</a>
 								</Link>
@@ -70,7 +70,9 @@ const NavOnSmallScreens = ({ user, isVerifyingUserLoading, handleSignOut }) => {
 					{!isVerifyingUserLoading && !user.id && (
 						<li>
 							<span onClick={() => setShowNavOnSmallScreens(false)}>
-								<Link href='/auth'>Sign In/Up</Link>
+								<Link href='/auth'>
+									<a title='Sign In/Up'>Sign In/Up</a>
+								</Link>
 							</span>
 						</li>
 					)}

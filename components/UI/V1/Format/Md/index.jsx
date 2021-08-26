@@ -15,16 +15,18 @@ const Details = ({ content }) => {
 	const [hasError, setHasError] = useState(false);
 
 	const customRenderers = {
-		// img(image) {
-		//   return (
-		//     <Image
-		//       src={`/images/News/${news.slug}/${image.src}`}
-		//       alt={image.alt}
-		//       width={600}
-		//       height={300}
-		//     />
-		//   );
-		// },
+		img(image) {
+			return (
+				<Image
+					src={image.src}
+					alt={image.alt}
+					style={{ width: '100%', maxWidth: '50rem', maxHeight: '30rem' }}
+					loading='lazy'
+				/>
+			);
+		},
+
+		/*
 		p({ children, node }) {
 			if (node.children[0].tagName === 'img') {
 				const image = node.children[0];
@@ -41,13 +43,6 @@ const Details = ({ content }) => {
 
 				return (
 					<div className={classes.image}>
-						{/* <Image
-						src={imgSrc}
-						alt={image.alt}
-						width={600}
-						height={300}
-						layout='responsive'
-					/> */}
 						<Image
 							src={image.properties.src}
 							alt=''
@@ -60,12 +55,14 @@ const Details = ({ content }) => {
 
 			return <p>{children}</p>;
 		},
+		*/
 
-		a({ href, children }) {
+		a({ href, children, node }) {
 			if (href.startsWith('http://') || href.startsWith('https://')) {
 				return (
 					<a
 						href={href}
+						title={node.children[0].value}
 						// target='_blank' rel='noopener noreferrer'
 					>
 						{children}
@@ -76,7 +73,8 @@ const Details = ({ content }) => {
 			return (
 				<Link href={href}>
 					<a
-					// target='_blank' rel='noopener noreferrer'
+						title={node.children[0].value}
+						// target='_blank' rel='noopener noreferrer'
 					>
 						{children}
 					</a>

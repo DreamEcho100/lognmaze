@@ -20,11 +20,13 @@ import {
 	faArrowDown,
 	faLongArrowAltDown,
 	faCopy,
+	faBookReader,
 } from '@fortawesome/free-solid-svg-icons';
 import {
 	// fab,
 	faFacebook,
 	faLinkedin,
+	faReadme,
 	faReddit,
 	faTelegram,
 	faTumblr,
@@ -53,6 +55,7 @@ library.add(
 	faArrowDown,
 	faLongArrowAltDown,
 	faCopy,
+	faBookReader,
 	//
 	// fab,
 	faFacebook,

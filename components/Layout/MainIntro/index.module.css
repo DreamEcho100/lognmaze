@@ -1,0 +1,75 @@
+.main-intro {
+	user-select: none;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: var(--main-special-bg-color-5);
+	transition: all 0.7s ease-in-out, opacity 0.2s ease-in-out 0.5s;
+	z-index: 9999;
+}
+
+.main-intro.verifying-credentials-finished {
+	transform: translateX(-100%);
+	pointer-events: none;
+	opacity: 0;
+	/* filter: hue-rotate(360deg); */
+}
+
+.main-intro.verifying-credentials-finished .svg-container svg {
+	transform: translateX(60%) rotate(90deg) scale(0.4);
+	/* opacity: 0; */
+	/* filter: hue-rotate(360deg); */
+}
+
+.main-intro .svg-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 80rem;
+	max-width: 90%;
+	margin: auto;
+	height: 100%;
+	background-color: transparent;
+}
+
+.main-intro .lognmaze-signature {
+	/* --3036: */
+	stroke-dasharray: 40477;
+	stroke-dashoffset: 40477;
+	opacity: 0.5;
+	animation: sign 5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 1s forwards;
+	transition: all 0.3s ease-in-out;
+}
+
+.main-intro.setVertical {
+	/* transform: rotate(90deg); */
+	width: 100vh;
+	height: 100vw;
+	max-width: 80rem;
+	margin: auto;
+	height: 100%;
+}
+
+.main-intro.setVertical .svg-container {
+	transform: rotate(90deg);
+	width: 100vh;
+	height: 100vw;
+	margin: 5vw 0;
+}
+
+.main-intro.setVertical.verifying-credentials-finished .svg-container svg {
+	transform: translateX(80%) rotate(180deg) scale(0.4);
+	/* opacity: 0; */
+	/* filter: hue-rotate(360deg); */
+}
+
+@keyframes sign {
+	to {
+		stroke-dashoffset: 0;
+		opacity: 1;
+	}
+}

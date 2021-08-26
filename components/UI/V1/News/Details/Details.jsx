@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './Details.module.css';
 
@@ -8,6 +10,8 @@ const DynamicContainer = dynamic(() =>
 );
 
 const Details = ({ detailsType, setShowModal, newsItem }) => {
+	const [showFullDetails, setShowFullDetails] = useState(false);
+
 	if (!newsItem?.news_id) {
 		return <h2>Not Found</h2>;
 	}
@@ -29,19 +33,88 @@ const Details = ({ detailsType, setShowModal, newsItem }) => {
 			return (
 				<>
 					<section className={classes.details}>
-						<p>{newsItem.description}</p>
+						<DynamicContainer>
+							{newsItem.description.replace(/\s\w+\s?$/, '').length < 150 ? (
+								newsItem.description
+							) : (
+								<>
+									{!showFullDetails && (
+										<>
+											{newsItem.description
+												.slice(0, 150)
+												.replace(/\s\w+\s?$/, '')}
+											<button
+												className='text-glow-special display-inline'
+												title='see more'
+												onClick={() => setShowFullDetails(true)}
+											>
+												<strong>...</strong>see more
+											</button>
+										</>
+									)}
+									{showFullDetails && (
+										<>
+											{newsItem.description}{' '}
+											<button
+												className='text-glow-special display-inline'
+												title='see less'
+												onClick={() => setShowFullDetails(false)}
+											>
+												see less
+											</button>
+										</>
+									)}
+								</>
+							)}
+						</DynamicContainer>
 					</section>
-					<p onClick={() => setShowModal(true)}>Read More {'->'}</p>
+					<button
+						className='text-glow-special display-inline'
+						title='Keep Reading'
+						onClick={() => setShowModal(true)}
+					>
+						Keep Reading <FontAwesomeIcon icon={['fas', 'book-reader']} />
+					</button>
 				</>
 			);
 		} else if (newsItem.type === 'post') {
 			return (
-				<>
-					<DynamicContainer className={classes.details}>
-						<DynamicMd content={newsItem.content} />
-					</DynamicContainer>
-					<p onClick={() => setShowModal(true)}>Keep Reading {'->'}</p>
-				</>
+				<DynamicContainer>
+					{newsItem.content.replace(/\s\w+\s?$/, '').length < 150 ? (
+						newsItem.content
+					) : (
+						<>
+							{!showFullDetails && (
+								<>
+									<DynamicMd
+										content={newsItem.content
+											.slice(0, 150)
+											.replace(/\s\w+\s?$/, '')}
+									/>
+									<button
+										className='text-glow-special display-inline'
+										title='see more'
+										onClick={() => setShowFullDetails(true)}
+									>
+										<strong>...</strong>see more
+									</button>
+								</>
+							)}
+							{showFullDetails && (
+								<>
+									<DynamicMd content={newsItem.content} />
+									<button
+										className='text-glow-special display-inline'
+										title='see less'
+										onClick={() => setShowFullDetails(false)}
+									>
+										see less
+									</button>
+								</>
+							)}
+						</>
+					)}
+				</DynamicContainer>
 			);
 		}
 	} else if (detailsType === 'content') {

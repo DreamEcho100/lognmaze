@@ -8,18 +8,20 @@ const NavOnBigScreens = ({ user, isVerifyingUserLoading, handleSignOut }) => {
 	return (
 		<nav className={NavOnBigScreensClasses['nav-on-big-screens']}>
 			<div className={MainNavigationClasses.logo}>
-				<Link href={'/' /*!isVerifyingUserLoading && user.id ? '/posts/all' : '/'*/}>
-					<a className={MainNavigationClasses.logo_anchor}>LogNMaze</a>
+				<Link href={'/'}>
+					<a
+						title='LogNMaze | Home Page'
+						className={MainNavigationClasses.logo_anchor}
+					>
+						LogNMaze
+					</a>
 				</Link>
 			</div>
 			<ul className={MainNavigationClasses.ul}>
-				{/* <li className={MainNavigationClasses.li}>
-					<Link href='/posts/all'>All Posts</Link>
-				</li> */}
 				{!isVerifyingUserLoading && user.id && (
 					<li className={MainNavigationClasses.li}>
 						<Link href={`/profile/${user.user_name_id}`}>
-							<a>
+							<a title={`${user.user_name_id} profile`}>
 								<FontAwesomeIcon icon={['fas', 'user']} />
 							</a>
 						</Link>

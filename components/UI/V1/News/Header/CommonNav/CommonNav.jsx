@@ -15,6 +15,7 @@ const CommonNav = ({
 	<nav className={classes.nav}>
 		<Link href={`/profile/${newsItem.author_user_name_id}`}>
 			<a
+				title={`author ${newsItem.author_user_name_id} profile`}
 				className={classes.author_profile_link}
 				// target='_blank'
 				// rel='noopener noreferrer'

@@ -7,6 +7,7 @@ import SocialMediaLinksData from './SocialMediaLinksData/index';
 const SocialMediaShareLink = ({
 	children,
 	type,
+	title = '',
 	useEffectDependencyList = [],
 	anchorExtraProps = {},
 	...props
@@ -32,6 +33,7 @@ const SocialMediaShareLink = ({
 		setAnchorProps((prev) => ({
 			...prev,
 			href: `${link}/?${linkPramsArr.join('&')}`,
+			title,
 		}));
 	}, useEffectDependencyList || []);
 

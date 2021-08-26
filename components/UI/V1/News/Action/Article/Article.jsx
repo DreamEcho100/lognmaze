@@ -296,7 +296,7 @@ const Article = ({
 
 			<FormControl>
 				<Label htmlFor='content'>
-					{newsItem.isLoadingContent ? 'Loading' : ''} Content:{' '}
+					{newsItem?.isLoadingContent ? 'Loading' : ''} Content:{' '}
 				</Label>
 				<Textarea
 					name='content'
@@ -313,7 +313,7 @@ const Article = ({
 					})}
 					onClick={() => setShowFormatConvertorModal(true)}
 					className={`${classes['width-100-percent']} ${
-						newsItem.isLoadingContent ? 'disable' : ''
+						newsItem?.isLoadingContent ? 'disable' : ''
 					}`}
 				/>
 				<FormatConvertorModal

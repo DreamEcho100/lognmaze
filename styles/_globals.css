@@ -238,7 +238,7 @@ body.dark {
 	/* filter: hue-rotate(360deg); */
 }
 
-#main-intro.verifying-credentials-finished .svg-container {
+#main-intro.verifying-credentials-finished .svg-container svg {
 	transform: translateX(60%) rotate(90deg) scale(0.4);
 	/* opacity: 0; */
 	/* filter: hue-rotate(360deg); */
@@ -253,7 +253,6 @@ body.dark {
 	margin: auto;
 	height: 100%;
 	background-color: transparent;
-	transition: all 0.3s ease-in-out;
 }
 
 #main-intro .lognmaze-signature {
@@ -262,6 +261,29 @@ body.dark {
 	stroke-dashoffset: 40477;
 	opacity: 0.5;
 	animation: sign 5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 1s forwards;
+	transition: all 0.3s ease-in-out;
+}
+
+#main-intro.setVertical {
+	/* transform: rotate(90deg); */
+	width: 100vh;
+	height: 100vw;
+	max-width: 80rem;
+	margin: auto;
+	height: 100%;
+}
+
+#main-intro.setVertical .svg-container {
+	transform: rotate(90deg);
+	width: 100vh;
+	height: 100vw;
+	margin: 5vw 0;
+}
+
+#main-intro.setVertical.verifying-credentials-finished .svg-container svg {
+	transform: translateX(80%) rotate(180deg) scale(0.4);
+	/* opacity: 0; */
+	/* filter: hue-rotate(360deg); */
 }
 
 @keyframes sign {
@@ -421,6 +443,31 @@ button:disabled {
 	filter: grayscale(1);
 	user-select: none;
 	cursor: not-allowed;
+}
+
+.text-glow-special {
+	color: var(--main-special-bg-color-5);
+	text-shadow: 0rem 0rem 0.1rem var(--main-special-bg-color-3);
+	transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.text-glow-special:hover {
+	color: var(--main-special-bg-color-5);
+	text-shadow: 0rem 0rem 0.8rem var(--main-special-bg-color-4);
+}
+.text-glow-special:focus-within,
+.text-glow-special:active,
+.text-glow-special:visited {
+	color: var(--main-special-bg-color-5);
+	text-shadow: 0rem 0rem 0rem var(--main-special-bg-color-5);
+	font-weight: 600;
+}
+
+.cursor-pointer {
+	cursor: pointer;
+}
+
+.display-inline {
+	display: inline;
 }
 
 .font-size-inherit {
