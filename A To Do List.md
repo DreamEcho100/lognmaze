@@ -4,8 +4,6 @@
 
 - Adding a to do list (optional). [ ]
 
-- Adding a title to a links. [ ]
-
 - [ ]
 
 ## Done
@@ -33,3 +31,5 @@
 - Changing "Reading More ->" to an icon + "Full Article". [x]
 
 - Changing the intro in screen sizes where width is smaller than height. [x]
+
+- Adding a title to a links. [x]
