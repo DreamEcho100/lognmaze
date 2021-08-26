@@ -4,12 +4,6 @@
 
 - Changing the intro in screen sizes smaller than 700px. [ ]
 
-- Fixing some bugs like: [ ]
-
-  - Adding a loading and disable textarea when loading the content news in update news modal. [ ]
-
-  - [ ]
-
 - Adding a to do list (optional). [ ]
 
 - Adding a title to a links. [ ]
@@ -24,7 +18,7 @@
 
 - Adding a counter to track the amount of article and posts per user. [x]
 
-- Fixing some bugs like: [ ]
+- Fixing some bugs like: [x]
 
   - Remove adding comment to news when there is no user. [x]
 
@@ -34,6 +28,8 @@
 
   - Adding some styles to the profile page when there is no profile picture or a cover photo. [x]
 
+  - Adding a loading and disable textarea when loading the content news in update news modal. [x]
+
 - Refactoring UserContext to use useReducer. [x]
 
-  - Adding an alt to an image article in (sql table, concerning routes, UI, ...). [x]
+- Adding an alt to an image article in (sql table, concerning routes, UI, ...). [x]
