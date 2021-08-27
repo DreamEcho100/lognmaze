@@ -135,14 +135,34 @@ CREATE TABLE news (
 );
 
 -- tag Table
+CREATE TABLE tag (
+  name TEXT NOT NULL,
+  counter BIGINT DEFAULT 1,
+
+  PRIMARY KEY (name),
+  CONSTRAINT check_counter_min CHECK (counter >= 0)
+);
+
+-- tag Table
 CREATE TABLE news_tag (
   news_tag_id uuid DEFAULT uuid_generate_v4(),
   news_id uuid NOT NULL,
-  name TEXT,
+  name TEXT NOT NULL,
 
   PRIMARY KEY (news_tag_id),
-  FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE
+  FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE,
+  FOREIGN KEY (name) REFERENCES tag (name) ON DELETE CASCADE
 );
+
+-- -- tag Table
+-- CREATE TABLE news_tag (
+--   news_tag_id uuid DEFAULT uuid_generate_v4(),
+--   news_id uuid NOT NULL,
+--   name TEXT NOT NULL,
+
+--   PRIMARY KEY (news_tag_id),
+--   FOREIGN KEY (news_id) REFERENCES news (news_id) ON DELETE CASCADE
+-- );
 
 -- post Table
 CREATE TABLE news_post (

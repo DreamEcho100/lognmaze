@@ -17,21 +17,45 @@ export default async (req, res) => {
 
 	try {
 		if (req.method === 'GET') {
-			const { with_news_article_content, voter_id, filter_by_user_id } =
-				req.query;
+			const {
+				with_news_article_content,
+				voter_id,
+				filter_by_user_id,
+				filterByArticleTagsOr,
+				filterByArticleTagsAnd,
+			} = req.query;
 
 			const queryParams = [];
 			let whereClause = '';
+			let articleTagsJoinCondition = 'TRUE';
 			let voter_id_index = '';
 
 			if (filter_by_user_id) {
 				queryParams.push(filter_by_user_id);
-				whereClause += `WHERE news.author_id = $${queryParams.length}`;
+				whereClause += `AND news.author_id = $${queryParams.length}`;
 			}
 
 			if (voter_id) {
 				queryParams.push(voter_id);
 				voter_id_index = queryParams.length;
+			}
+
+			if (filterByArticleTagsOr) {
+				queryParams.push(filterByArticleTagsOr.split(','));
+				if (articleTagsJoinCondition === 'TRUE') {
+					articleTagsJoinCondition = `tags_agg.tags && $${queryParams.length}`;
+				} else {
+					articleTagsJoinCondition += `AND tags_agg.tags && $${queryParams.length}`;
+				}
+			}
+
+			if (filterByArticleTagsAnd) {
+				queryParams.push(filterByArticleTagsAnd.split(','));
+				if (articleTagsJoinCondition === 'TRUE') {
+					articleTagsJoinCondition = `tags_agg.tags <@ $${queryParams.length}`;
+				} else {
+					articleTagsJoinCondition += `AND tags_agg.tags <@ $${queryParams.length}`;
+				}
 			}
 
 			const result = await pool
@@ -54,10 +78,15 @@ export default async (req, res) => {
 						user_profile.bio AS author_bio,
 
 						${voter_id ? 'user_vote.vote_type AS user_vote_type,' : ''}
-					
-						CASE WHEN news.type = 'article' THEN (
-							SELECT 
-									json_build_object(
+
+						type_data_agg.type_data
+
+					FROM news
+					JOIN user_profile ON user_profile.user_profile_id = news.author_id
+					JOIN LATERAL (
+						SELECT (CASE WHEN news.type = 'article' THEN (
+							SELECT
+								json_build_object(
 									'title', news_article.title,
 									'slug', news_article.slug,
 									'iso_language', news_article.iso_language,
@@ -66,21 +95,23 @@ export default async (req, res) => {
 									'image_src', news_article.image_src,
 									'description', news_article.description,
 									${with_news_article_content ? "'content', news_article.content," : ''}
-									'tags', ARRAY (
-										SELECT news_tag.name AS tag
-										FROM news_tag
-										WHERE news_tag.news_id = news_article.news_article_id
-									)
-								) AS data
+									'tags', tags_agg.tags
+								) AS type_data
+
 							FROM news_article
-							WHERE news_article_id = news_id
-						)
-						ELSE (
-							SELECT json_build_object( 'content', news_post.content) FROM news_post WHERE news_post_id = news_id
-						)
-						END AS type_data
-					FROM news
-					JOIN user_profile ON user_profile.user_profile_id = news.author_id
+							INNER JOIN LATERAL (
+								SELECT ARRAY (
+									SELECT news_tag.name AS tag
+									FROM news_tag
+									WHERE news_tag.news_id = news_article.news_article_id
+									GROUP BY name
+									) AS tags
+							) tags_agg ON ${articleTagsJoinCondition}
+							WHERE news_article.news_article_id = news.news_id
+						) ELSE (
+							SELECT json_build_object( 'content', news_post.content) AS type_data FROM news_post WHERE news_post_id = news_id
+						) END)
+					) type_data_agg ON TRUE
 					${
 						voter_id
 							? `
@@ -90,7 +121,7 @@ export default async (req, res) => {
 					`
 							: ''
 					}
-					${whereClause}
+					WHERE type_data IS NOT NULL ${whereClause}
 					ORDER BY news.created_at DESC;
 					;				
 					`,
@@ -123,7 +154,7 @@ export default async (req, res) => {
 							)
 						VALUES
 							($1, $2)
-						RETURNING news_id;				
+						RETURNING news_id, author_id
 					`,
 					[isAuthorized.id, type]
 				)
@@ -131,81 +162,60 @@ export default async (req, res) => {
 					news_id_to_delete = response.rows[0].news_id;
 
 					if (type === 'article') {
-						const queryBuilder = new QueryBuilder();
-						const {
-							// SQLCTEQuery,
-							CTEFuncCounter,
-							CTEParamsArray,
-							CTEFuncsNames,
-							CTEFuncs,
-						} = queryBuilder.arrayToCTE([
-							{
-								table: 'news_article',
-								type: 'insert',
-								target: 'one',
-								sharedkeys: ['news_article_id'],
-								sharedValues: [response.rows[0].news_id],
-								distencKeysAndValues: {
-									keys: [
-										'title',
-										'slug',
-										'iso_language',
-										'iso_country',
-										'image_alt',
-										'image_src',
-										'description',
-										'content',
-									],
-									values: [
-										news_data.title,
-										news_data.slug,
-										news_data.iso_language,
-										news_data.iso_country,
-										news_data.image_alt,
-										news_data.image_src,
-										news_data.description,
-										news_data.content,
-									],
-									returning: [
-										'title',
-										'slug',
-										'iso_language',
-										'iso_country',
-										'image_alt',
-										'image_src',
-										'description',
-										'content',
-									],
-								},
-							},
-							{
-								table: 'news_tag',
-								type: 'insert',
-								target: 'many',
-								sharedkeys: ['news_id'],
-								sharedValues: [response.rows[0].news_id],
-								distencKeysAndValues: {
-									keys: ['name'],
-									values: news_data.tags.map((tag) => [tag]),
-								},
-							},
-						]);
+						const params = [
+							response.rows[0].news_id,
+							news_data.title,
+							news_data.slug,
+							news_data.iso_language,
+							news_data.iso_country,
+							news_data.image_alt,
+							news_data.image_src,
+							news_data.description,
+							news_data.content,
+						];
 
-						const response2 = await pool.query(
-							`
-								WITH ${CTEFuncs.join(',')},
-								update_news_article_counter_on_user_profile AS (
-									UPDATE user_profile SET news_article_counter = news_article_counter + 1
-									WHERE user_profile_id = ($${CTEParamsArray.length + 1})
-									RETURNING user_profile_id
-								)
-					
-								SELECT * FROM ${CTEFuncsNames.join(
-									','
-								)}, update_news_article_counter_on_user_profile;
-							`,
-							[...CTEParamsArray, isAuthorized.id]
-						);
+						const tagsToInsert = news_data.tags;
+						let tagsToInsertStringValue = [];
+
+						let i;
+						for (i = 0; i < tagsToInsert.length; i++) {
+							params.push(tagsToInsert[i]);
+							tagsToInsertStringValue.push(`$${params.length}`);
+						}
+
+						params.push(response.rows[0].author_id);
+
+						const sqlQuery = `
+							WITH insert_items_1 AS (
+								INSERT INTO news_article 
+								(news_article_id, title, slug, iso_language, iso_country, image_alt, image_src, description, content)
+								VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+								RETURNING news_article_id
+							),
+							upsert_items_1 AS (
+								INSERT INTO tag (name) 
+								VALUES (${tagsToInsertStringValue.join('),(')})
+								ON CONFLICT (name) DO UPDATE 
+								SET counter = tag.counter + 1
+								RETURNING tag.name
+							),
+							insert_items_2 AS (
+								INSERT INTO news_tag
+								(news_id, name)
+								VALUES ($1,${tagsToInsertStringValue.join('),($1,')})
+								RETURNING news_tag_id
+							),
+							update_news_article_counter_on_user_profile AS (
+								UPDATE user_profile SET news_article_counter = news_article_counter + 1
+								WHERE user_profile_id = ($${params.length})
+								RETURNING user_profile_id
+							)
+
+							SELECT news_article_id, name, news_tag_id user_profile_id
+							FROM insert_items_1, upsert_items_1, insert_items_2, update_news_article_counter_on_user_profile
+						`;
+
+						const response2 = await pool.query(sqlQuery, params);
 					} else if (type === 'post') {
 						const response2 = await pool.query(
 							`
@@ -229,6 +239,8 @@ export default async (req, res) => {
 							[response.rows[0].news_id, news_data.content, isAuthorized.id]
 						);
 					}
+
+					news_id_to_delete = '';
 
 					return response.rows[0];
 				});
@@ -398,10 +410,9 @@ export default async (req, res) => {
 		try {
 			if (news_id_to_delete && req.method === 'POST') {
 				const result = await pool
-					.query(
-						'DELETE FROM news WHERE news_id = ($1) AND author_id = ($2) RETURNING type',
-						[req.body.news_id, isAuthorized.id]
-					)
+					.query('DELETE FROM news WHERE news_id = ($1) RETURNING type', [
+						news_id_to_delete,
+					])
 					.then((response) => response.rows[0]);
 			}
 		} catch (error2) {
