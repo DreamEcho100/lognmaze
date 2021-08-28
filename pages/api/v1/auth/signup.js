@@ -34,7 +34,10 @@ export default async (req, res) => {
 					.json({ status: 'error', message: 'User already exist!' });
 			}
 
+			console.log('req.body', req.body);
+			console.log('password', password);
 			const hashedPassword = await hashPassword(password);
+			console.log('hashedPassword', hashedPassword);
 
 			const newUser = await pool
 				.query(
@@ -49,9 +52,7 @@ export default async (req, res) => {
 						email_verified,
 						phone_number,
 						phone_verified,
-						role,
-						created_at,
-						last_sign_in
+						role
 					;
 				`,
 					[email, hashedPassword, phone_number]
@@ -83,7 +84,9 @@ export default async (req, res) => {
 									cover_photo,
 									bio,
 									news_article_counter,
-									news_post_counter
+									news_post_counter,
+									created_at,
+									last_sign_in
 							),
 							add_new_user_address as (
 								INSERT INTO user_address

@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import { pool } from '@lib/v1/pg';
 
+import { NewsContextProvider } from '@store/NewsContext';
+
 import OneNewsContent from '@components/OneNewsContent';
 
 const ArticlePage = ({ data }) => {
@@ -11,9 +13,11 @@ const ArticlePage = ({ data }) => {
 	}
 
 	return (
-		<OneNewsContent
-			newsItem={typeof data === 'string' ? JSON.parse(data) : data}
-		/>
+		<NewsContextProvider>
+			<OneNewsContent
+				newsItem={typeof data === 'string' ? JSON.parse(data) : data}
+			/>
+		</NewsContextProvider>
 	);
 };
 

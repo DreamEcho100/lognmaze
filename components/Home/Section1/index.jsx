@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 
 import classes from './index.module.css';
 
+import { NewsContextProvider } from '@store/NewsContext';
+
 import Feed from '@components/UI/V1/News/Feed/Feed';
 import Wrapper from '@components/UI/V1/Wrapper';
 import Button from '@components/UI/V1/Button';
@@ -11,6 +13,7 @@ const Section1 = ({ news = [], userExist }) => {
 	const router = useRouter();
 
 	return (
+		<NewsContextProvider>
 		<main className={classes['main-section']}>
 			<section className={classes['section-1']}>
 					<Feed news={news} />
@@ -41,6 +44,7 @@ const Section1 = ({ news = [], userExist }) => {
 				</Wrapper>
 			</section>
 		</main>
+				</NewsContextProvider>
 	);
 };
 

@@ -1,9 +1,15 @@
 import { pool } from '@lib/v1/pg';
 
+import { NewsContextProvider } from '@store/NewsContext';
+
 import OneNewsContent from '@components/OneNewsContent';
 
 const PostPage = ({ data }) => {
-	return <OneNewsContent newsItem={data ? JSON.parse(data) : {}} />;
+	return (
+		<NewsContextProvider>
+			<OneNewsContent newsItem={data ? JSON.parse(data) : {}} />
+		</NewsContextProvider>
+	);
 };
 
 export default PostPage;

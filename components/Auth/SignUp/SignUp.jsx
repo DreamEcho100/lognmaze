@@ -214,6 +214,8 @@ const SignUp = ({
 			return;
 		}
 
+		console.log('values', values);
+
 		const { status, message } = await handleSignUp({
 			dispatch: userDispatch,
 			data: values,

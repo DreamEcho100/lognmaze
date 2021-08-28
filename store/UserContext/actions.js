@@ -8,6 +8,7 @@ import {
 import types from './types';
 
 const handleUserSign = async ({ dispatch, path, bodyObj }) => {
+	console.log('bodyObj', bodyObj);
 	const { status, message, data, jwt } = await fetch(path, {
 		method: 'POST',
 		headers: {
@@ -214,13 +215,15 @@ export const handleSignOut = async ({ dispatch }) => {
 	});
 };
 
-export const handleSignUp = async ({ dispatch, data }) =>
-	await handleUserSign({
+export const handleSignUp = async ({ dispatch, data }) => {
+	console.log('dispatch', dispatch);
+	console.log('data', data);
+	return await handleUserSign({
 		dispatch,
 		path: '/api/v1/auth/signup',
-		bodyObh: data,
+		bodyObj: data,
 	});
-
+};
 export const handleSignIn = async ({ dispatch, data }) =>
 	await handleUserSign({
 		dispatch,

@@ -260,91 +260,171 @@ export default async (req, res) => {
 			if (!isAuthorized.id) return;
 
 			const { type /*, ...news_data*/ } = req.body;
+			const cte = [
+				`
+				update_item_1 AS (
+					UPDATE news SET updated_on = ($3)
+					WHERE news_id = ($1) AND author_id = ($2)
+				)
+			`,
+			];
+			const cteNames = ['update_item_1'];
+			const params = [
+				req.body.news_id,
+				isAuthorized.id,
+				new Date().toUTCString(),
+			];
+
 			const array = [];
 
-			array.push({
-				table: 'news',
-				type: 'update',
-				keysAndValues: {
-					updated_on: new Date().toLocaleString(),
-				},
-				$where: {
-					news_id: req.body.news_id,
-					$and: {
-						author_id: isAuthorized.id,
-					},
-				},
-			});
+			// array.push({
+			// 	table: 'news',
+			// 	type: 'update',
+			// 	keysAndValues: {
+			// 		updated_on: new Date().toUTCString(),
+			// 	},
+			// 	$where: {
+			// 		news_id: req.body.news_id,
+			// 		$and: {
+			// 			author_id: isAuthorized.id,
+			// 		},
+			// 	},
+			// });
 
 			if (type === 'article') {
-				const { tags } = req.body;
-				let startIndex = 0;
-				const removedTags = [];
-
 				if (Object.keys(req.body.news_data).length !== 0) {
-					array.push({
-						table: 'news_article',
-						type: 'update',
-						keysAndValues: {
-							...req.body.news_data,
-						},
-						$where: {
-							news_article_id: req.body.news_id,
-						},
-					});
+					const newsDataToUpdate = [];
+					let item;
+					for (item in req.body.news_data) {
+						params.push(req.body.news_data[item]);
+						newsDataToUpdate.push(`${item}=($${params.length})`);
+					}
+
+					cte.push(`
+						update_item_2 AS (
+							UPDATE news_article SET ${newsDataToUpdate.join(',')}
+							WHERE news_article_id = ($1)
+						)
+					`);
+					cteNames.push('update_item_2');
+
+					// array.push({
+					// 	table: 'news_article',
+					// 	type: 'update',
+					// 	keysAndValues: {
+					// 		...req.body.news_data,
+					// 	},
+					// 	$where: {
+					// 		news_article_id: req.body.news_id,
+					// 	},
+					// });
 				}
 
-				if (
-					(req.body.tags.added && req.body.tags.added.length !== 0) ||
-					(req.body.tags.removed && req.body.tags.removed.length !== 0)
-				) {
+				const { tags } = req.body;
+				let startIndex = 0;
+
+				const tagsToUpdateTo = [];
+				const tagsToUpdateFrom = [];
+
+				const tagsToRemove = [];
+				const tagsToInsert = [];
+
+				const tagsToDecrement = [];
+				const tagsToIncrement = [];
+
+				if (tags?.added?.length !== 0 || tags?.removed?.length !== 0) {
 					tags.removed.forEach((tag, index) => {
 						if (index < tags.added.length) {
-							array.push({
-								table: 'news_tag',
-								type: 'update',
-								keysAndValues: {
-									name: tags.added[0],
-								},
-								$where: {
-									news_id: req.body.news_id,
-									$and: {
-										name: tag,
-									},
-								},
-							});
+							params.push(tags.added[index]);
+
+							tagsToUpdateTo.push(tags.added[index]);
+							tagsToUpdateFrom.push(tag);
+
 							startIndex = index + 1;
 						} else {
-							removedTags.push(tag);
+							tagsToRemove.push(tag);
 						}
 					});
 
-					if (removedTags.length !== 0) {
-						array.push({
-							table: 'news_tag',
-							type: 'delete',
-							$where: {
-								news_id: req.body.news_id,
-								$and: {
-									$in: { name: removedTags },
-								},
-							},
+					let tagsToUpdateTotLocation = [];
+					let tagsToUpdateFromLocation = [];
+					if (tagsToUpdateTo.length !== 0 && tagsToUpdateFrom.length !== 0) {
+						tagsToUpdateTo.forEach((tag, index) => {
+							params.push(tag);
+							params.push(tagsToUpdateFrom[index]);
+
+							tagsToUpdateTotLocation.push(`$${params.length - 1}`);
+							tagsToUpdateFromLocation.push(`$${params.length}`);
+
+							cte.push(`
+						update_news_tag_${index} AS (
+							UPDATE news_tag SET=($${params.length - 1})
+							WHERE news_id = ($1) AND name = ($${params.length})
+						)
+					`);
+							cteNames.push('update_news_tag_!{ind$x}');
 						});
 					}
 
-					if (startIndex < tags.added.length) {
-						array.push({
-							table: 'news_tag',
-							type: 'insert',
-							target: 'many',
-							sharedkeys: ['news_id'],
-							sharedValues: [req.body.news_id],
-							distencKeysAndValues: {
-								keys: ['name'],
-								values: tags.added.slice(startIndex).map((tag) => [tag]),
-							},
+					let tagsToRemoveLocation = [];
+					if (tagsToRemove.length !== 0) {
+						tagsToRemove.forEach((tag, index) => {
+							params.push(tag);
+
+							tagsToRemoveLocation.push(`$${params}`);
 						});
+
+						cte.push(`
+							delete_item_1 AS (
+								DELETE FROM news_tags
+								WHERE news_id = ($1) AND name IN (${tagsToRemoveLocation.join(',')})
+							)
+						`);
+						cteNames.push('delete_item_1');
 					}
+
+					let tagsToInsertLocation = [];
+					if (startIndex < tags.added.length) {
+						tagsToInsert = tags.added.slice(startIndex);
+
+						tagsToInsert.forEach((tag, index) => {
+							params.push(tag);
+
+							tagsToInsertLocation.push(`$${params}`);
+						});
+
+						cte.push(`
+							insert_news_tags AS (
+								INSERT INTO news_tag (news_id, name)
+								VALUES ($1,${tagsToInsertLocation.join('),($1,')})
+							)
+						`);
+						cteNames.push('insert_news_tags');
+					}
+
+					cte.push(`
+							upsert_tag AS (
+								INSERT INTO tag (name) 
+								VALUES (${[...tagsToInsertLocation, ...tagsToUpdateTotLocation].join('),(')})
+								ON CONFLICT (name) DO UPDATE 
+								SET counter = tag.counter + 1
+								RETURNING tag.name
+							),
+					`);
+					cteNames.push('upsert_tag');
+
+					cte.push(`
+							update_tag AS (
+								UPDATE tag
+								SET counter = tag.counter - 1
+								WHERE name IN (${[
+									...tagsToInsetagsToRemoveLocationrtLocation,
+									...tagsToUpdateFromLocation,
+								].join('),(')})
+								RETURNING tag.name
+							),
+					`);
+					cteNames.push('update_tag');
 				}
 			} else if (type === 'post') {
 				array.push({
@@ -359,8 +439,12 @@ export default async (req, res) => {
 				});
 			}
 
-			const queryBuilder = new QueryBuilder();
-			const { SQLCTEQuery, CTEParamsArray } = queryBuilder.arrayToCTE(array);
+			console.log('params', params);
+			console.log('cte', cte);
+			console.log('cteNames', cteNames);
+
+			// const queryBuilder = new QueryBuilder();
+			// const { SQLCTEQuery, CTEParamsArray } = queryBuilder.arrayToCTE(array);
 
 			const result = await pool
 				.query(SQLCTEQuery, CTEParamsArray)
