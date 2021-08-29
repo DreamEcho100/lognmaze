@@ -275,9 +275,9 @@ body.dark {
 
 #main-intro.setVertical .svg-container {
 	transform: rotate(90deg);
-	width: 100vh;
+	width: 70vh;
 	height: 100vw;
-	margin: 5vw 0;
+	margin: 15% 0;
 }
 
 #main-intro.setVertical.verifying-credentials-finished .svg-container svg {
