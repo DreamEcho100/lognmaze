@@ -41,7 +41,7 @@ export default async (req, res) => {
 					INSERT INTO user_account
 					 ( email, password )
 					VALUES
-						( $1, $2, $3 )
+						( $1, $2 )
 					RETURNING
 						user_account_id AS id,
 						email,
