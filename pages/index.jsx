@@ -13,22 +13,25 @@ const HomePage = () => {
 	const { state: userState } = useContext(UserContext);
 
 	const [isLoading, setIsLoading] = useState(true);
+	const [newsFetchRouteQuery, setNewsFetchRouteQuery] = useState('');
 	const [news, setNews] = useState([]);
 
 	useEffect(async () => {
+		let linkQuery = '';
+		if (userState.userExist) {
+			linkQuery = `/?voter_id=${userState.user.id}`;
+			setNewsFetchRouteQuery(linkQuery);
+		}
+
 		if (!userState.isVerifyingUserLoading && news.length === 0) {
-			let linkQuery = '';
-			if (userState.userExist) {
-				linkQuery = `/?voter_id=${userState.user.id}`;
-			}
-			const news = await fetch(`api/v1/news${linkQuery}`) // ${process.env.BACK_END_ROOT_URL}/
+			const news = await fetch(`api/v1/news${newsFetchRouteQuery}`) // ${process.env.BACK_END_ROOT_URL}/
 				.then((response) => response.json())
 				.then(({ status, message, data }) => {
 					if (!status || (status && status === 'error')) {
 						console.error(message);
 						return;
 					}
-					const formattedData = data.map((obj) => {
+					const formattedData = data.news.map((obj) => {
 						const formattedItem = {};
 						let itemA;
 						for (itemA in obj) {
@@ -68,6 +71,7 @@ const HomePage = () => {
 			user={userState.user}
 			userExist={userState.userExist}
 			news={news}
+			newsFetchRouteQuery={newsFetchRouteQuery}
 		/>
 	);
 };

@@ -123,7 +123,7 @@ export const getStaticPaths = async () => {
 		console.error(`Error, ${error}`);
 
 		return {
-			paths: { params: {} },
+			paths: [],
 			fallback: true,
 		};
 	}

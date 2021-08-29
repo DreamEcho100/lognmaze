@@ -2,12 +2,12 @@ import types from './types';
 
 const reducer = (state, action) => {
 	if (action.type === types.INIT_STATE) {
-		const { news } = action.payload;
+		const { news = [] } = action.payload;
 
 		return {
 			...state,
 			newsType: action.payload.newsType,
-			news: news?.map((newsItem) => {
+			news: news.map((newsItem) => {
 				const toAdd = {
 					comments: [],
 					hit_comments_limit:
@@ -23,11 +23,58 @@ const reducer = (state, action) => {
 					...toAdd,
 				};
 			}),
-			last_news_created_at: news[news.length - 1]
+			last_news_item_created_at: news[news.length - 1]
 				? news[news.length - 1].created_at
 				: undefined,
+			isLoadingMoreNewsItems: false,
 		};
 	}
+
+	if (action.type === types.SET_IS_LOADING_MORE_NEWS_ITEM) {
+		const { isLoadingMoreNewsItems } = action.payload;
+
+		return {
+			...state,
+			isLoadingMoreNewsItems,
+		};
+	}
+
+	if (action.type === types.ADD_MORE_NEWS_ITEM) {
+		const {
+			newNewsItem = [],
+			isLoadingMoreNewsItems,
+			hit_news_items_limit,
+		} = action.payload;
+
+		return {
+			...state,
+			news: [
+				...state.news,
+				...newNewsItem.map((newsItem) => {
+					const toAdd = {
+						comments: [],
+						hit_comments_limit:
+							parseInt(newsItem.comments_counter) === 0 ? true : false,
+					};
+
+					if (newsItem.type === 'article' && !newsItem.content) {
+						toAdd.isLoadingContent = true;
+					}
+
+					return {
+						...newsItem,
+						...toAdd,
+					};
+				}),
+			],
+			last_news_item_created_at: newNewsItem[newNewsItem.length - 1]
+				? newNewsItem[newNewsItem.length - 1].created_at
+				: state.last_news_item_created_at,
+			hit_news_items_limit,
+			isLoadingMoreNewsItems,
+		};
+	}
+
 	if (action.type === types.ADDING_USER_ONE_NEWS_ITEM_TO_NEWS) {
 		const { user, data, newsValues, newsType } = action.payload;
 

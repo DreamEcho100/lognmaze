@@ -4,7 +4,7 @@
 
 - Adding a to do list (optional). [ ]
 
-- [ ]
+- DELETE phone_number and phone_verified from user_account [ ]
 
 ## Done
 

@@ -38,14 +38,10 @@ const SignUp = ({
 		country: '',
 		state: '',
 		city: '',
-		phone_number: '',
 		gender: '',
 	});
 
-	const [countryShortName, setCountryShortName] = useState('');
 	const [dateOfBirth, setDateOfBirth] = useState('');
-	const [countryPhoneCode, setCountryPhoneCode] = useState('');
-	const [phoneNumber, setPhoneNumber] = useState('');
 
 	const [countries, setCountries] = useState([]);
 	const [states, setStates] = useState([]);
@@ -214,8 +210,6 @@ const SignUp = ({
 			return;
 		}
 
-		console.log('values', values);
-
 		const { status, message } = await handleSignUp({
 			dispatch: userDispatch,
 			data: values,
@@ -240,15 +234,6 @@ const SignUp = ({
 		const targetedCountry = countries.find(
 			(countryObj) => countryObj.country_name === values.country
 		);
-		if (!countryPhoneCode) {
-			setCountryPhoneCode(targetedCountry.country_phone_code);
-
-			setValues((prev) => ({
-				...prev,
-				phone_number: targetedCountry.country_phone_code + phoneNumber,
-			}));
-		}
-		setCountryShortName(targetedCountry.country_short_name);
 	}, [values.country]);
 
 	return (
@@ -479,47 +464,6 @@ const SignUp = ({
 					</Select>
 				</FormControl>
 			)}
-
-			<FormControl extraClasses='align-center'>
-				<Label htmlFor='phone_number'>Enter Your Phone Number</Label>
-				<div>
-					<span>+</span>
-					<Input
-						type='tel'
-						name='country_phone_code'
-						id='country_phone_code'
-						required
-						value={countryPhoneCode}
-						onChange={(event) => {
-							setCountryPhoneCode(event.target.value);
-							setValues((prev) => ({
-								...prev,
-								phone_number: event.target.value + phoneNumber,
-							}));
-						}}
-						style={{
-							maxWidth: 'max-content',
-							minWidth: '10rem',
-							width: '10rem',
-						}}
-					/>
-					<span>|</span>
-					<Input
-						type='tel'
-						name='phone_number'
-						id='phone_number'
-						required
-						value={phoneNumber}
-						onChange={(event) => {
-							setPhoneNumber(event.target.value);
-							setValues((prev) => ({
-								...prev,
-								phone_number: countryPhoneCode + event.target.value,
-							}));
-						}}
-					/>
-				</div>
-			</FormControl>
 
 			<FormControl extraClasses='align-center'>
 				<Input

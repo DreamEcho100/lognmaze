@@ -36,11 +36,13 @@ const Action = ({
 		type = newsType;
 	}, []);
 
-	const deleteNews = async ({ news_id, newsType }) => {
+	const deleteNews = async ({ news_id, newsType, tags }) => {
 		const result = await handleDeletingUserNewsItem({
 			dispatch,
 			token: userState.token,
 			news_id,
+			newsType,
+			tags,
 		});
 
 		if (setShowModal && !showModal) setShowModal(false);
@@ -137,7 +139,11 @@ const Action = ({
 							<Button
 								title='Yes'
 								onClick={() =>
-									deleteNews({ news_id: newsItem.news_id, newsType: type })
+									deleteNews({
+										news_id: newsItem.news_id,
+										newsType: newsItem.type,
+										tags: newsItem.tags,
+									})
 								}
 							>
 								Yes

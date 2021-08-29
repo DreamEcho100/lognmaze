@@ -20,7 +20,12 @@ import BioSection from './BioSection';
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
-const Profile = ({ userData = {}, visitorIdentity = GUEST, news = [] }) => {
+const Profile = ({
+	userData = {},
+	visitorIdentity = GUEST,
+	news = [],
+	newsFetchRouteQuery,
+}) => {
 	if (!userData.id) {
 		return (
 			<div className=''>
@@ -120,13 +125,16 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, news = [] }) => {
 							{userData.first_name} {userData.last_name}
 						</h4>
 						<p>{userData.gender}</p>
+						<p>{userData.state_of_resident}</p>
+						<p>{userData.country_of_resident}</p>
+						<p>{userData.city_of_resident}</p>
 					</div>
 					{visitorIdentity === OWNER && <SettingsButton />}
 				</Wrapper>
 
 				<section className={classes['main-section']}>
 					<section className={classes['section-1']}>
-						<Feed news={news} />
+						<Feed news={news} newsFetchRouteQuery={newsFetchRouteQuery} />
 						<Wrapper>
 							<p>
 								<span>
@@ -161,17 +169,12 @@ const Profile = ({ userData = {}, visitorIdentity = GUEST, news = [] }) => {
 											<p>{userData.country_of_birth}</p>
 											<p>{userData.city_of_birth}</p>
 
-											<p>{userData.state_of_resident}</p>
-											<p>{userData.country_of_resident}</p>
-											<p>{userData.city_of_resident}</p>
 											<p>{userData.address_of_resident}</p>
 
 											<p>{userData.date_of_birth}</p>
 
 											<p>{userData.email}</p>
 											<p>{userData.email_verified}</p>
-
-											<p>+{userData.phone_number}</p>
 
 											<p>{userData.last_sign_in}</p>
 										</div>

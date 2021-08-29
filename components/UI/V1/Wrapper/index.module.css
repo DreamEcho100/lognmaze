@@ -6,6 +6,7 @@
 	margin: 0.5em auto;
 	border-radius: 1rem;
 	box-shadow: 0rem 0rem 1rem var(--main-font-color-1);
+	overflow: hidden;
 }
 
 .wrapper:first-child {

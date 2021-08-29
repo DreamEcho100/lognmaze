@@ -9,42 +9,42 @@ import Wrapper from '@components/UI/V1/Wrapper';
 import Button from '@components/UI/V1/Button';
 import CreateNewsButton from '@components/UI/V1/Button/CreateNews';
 
-const Section1 = ({ news = [], userExist }) => {
+const Section1 = ({ news = [], userExist, newsFetchRouteQuery }) => {
 	const router = useRouter();
 
 	return (
 		<NewsContextProvider>
-		<main className={classes['main-section']}>
-			<section className={classes['section-1']}>
-					<Feed news={news} />
-			</section>
+			<main className={classes['main-section']}>
+				<section className={classes['section-1']}>
+					<Feed news={news} newsFetchRouteQuery={newsFetchRouteQuery} />
+				</section>
 
-			<section className={classes['section-2']}>
-				<Wrapper style={{ width: '100%' }}>
-					<section>
-						<h2>Welcome</h2>
-					</section>
-				</Wrapper>
-				<Wrapper style={{ width: '100%' }}>
-					{!userExist && (
+				<section className={classes['section-2']}>
+					<Wrapper style={{ width: '100%' }}>
 						<section>
-							<Button title='Sign In' onClick={() => router.replace('/auth')}>
-								Sign In
-							</Button>{' '}
-							or{' '}
-							<Button
-								title='Sign Up'
-								onClick={() => router.replace('/auth?sign-type=up')}
-							>
-								Sign Up
-							</Button>
+							<h2>Welcome</h2>
 						</section>
-					)}
-					<CreateNewsButton />
-				</Wrapper>
-			</section>
-		</main>
-				</NewsContextProvider>
+					</Wrapper>
+					<Wrapper style={{ width: '100%' }}>
+						{!userExist && (
+							<section>
+								<Button title='Sign In' onClick={() => router.replace('/auth')}>
+									Sign In
+								</Button>{' '}
+								or{' '}
+								<Button
+									title='Sign Up'
+									onClick={() => router.replace('/auth?sign-type=up')}
+								>
+									Sign Up
+								</Button>
+							</section>
+						)}
+						<CreateNewsButton />
+					</Wrapper>
+				</section>
+			</main>
+		</NewsContextProvider>
 	);
 };
 

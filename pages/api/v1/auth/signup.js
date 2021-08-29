@@ -11,7 +11,6 @@ export default async (req, res) => {
 			const {
 				email,
 				password,
-				phone_number,
 
 				user_name_id,
 				first_name,
@@ -34,28 +33,23 @@ export default async (req, res) => {
 					.json({ status: 'error', message: 'User already exist!' });
 			}
 
-			console.log('req.body', req.body);
-			console.log('password', password);
 			const hashedPassword = await hashPassword(password);
-			console.log('hashedPassword', hashedPassword);
 
 			const newUser = await pool
 				.query(
 					`
 					INSERT INTO user_account
-					 ( email, password, phone_number )
+					 ( email, password )
 					VALUES
 						( $1, $2, $3 )
 					RETURNING
 						user_account_id AS id,
 						email,
 						email_verified,
-						phone_number,
-						phone_verified,
 						role
 					;
 				`,
-					[email, hashedPassword, phone_number]
+					[email, hashedPassword]
 				)
 				.then(async (response) => {
 					delete response.rows[0].password;

@@ -6,13 +6,10 @@ CREATE TABLE user_account (
   email TEXT NOT NULL UNIQUE,
   email_verified BOOLEAN DEFAULT FALSE,
   password TEXT NOT NULL,
-  phone_number TEXT,
-  phone_verified BOOLEAN DEFAULT FALSE,
-  role TEXT DEFAULT 'user',
+  role TEXT DEFAULT 'user', 
   user_prefrences JSONB,
 
-  PRIMARY KEY (user_account_id),
-  CONSTRAINT user_phone_number UNIQUE (phone_number)
+  PRIMARY KEY (user_account_id)
 );
 
 -- user_profile Table

@@ -20,19 +20,25 @@ export default async (req, res) => {
 			const {
 				with_news_article_content,
 				voter_id,
+				last_news_item_created_at,
 				filter_by_user_id,
 				filterByArticleTagsOr,
 				filterByArticleTagsAnd,
 			} = req.query;
 
 			const queryParams = [];
-			let whereClause = '';
+			let whereClause = 'WHERE type_data IS NOT NULL';
 			let articleTagsJoinCondition = 'TRUE';
 			let voter_id_index = '';
 
+			if (last_news_item_created_at) {
+				queryParams.push(last_news_item_created_at);
+				whereClause += ` AND news.created_at < $${queryParams.length}`;
+			}
+
 			if (filter_by_user_id) {
 				queryParams.push(filter_by_user_id);
-				whereClause += `AND news.author_id = $${queryParams.length}`;
+				whereClause += ` AND news.author_id = $${queryParams.length}`;
 			}
 
 			if (voter_id) {
@@ -121,18 +127,25 @@ export default async (req, res) => {
 					`
 							: ''
 					}
-					WHERE type_data IS NOT NULL ${whereClause}
-					ORDER BY news.created_at DESC;
+					${whereClause}
+					ORDER BY news.created_at DESC
+					LIMIT 10
 					;				
 					`,
 					queryParams
 				)
 				.then(async (response) => response.rows);
 
+			let hit_news_items_limit = false;
+
+			if (result?.length < 10) {
+				hit_news_items_limit = true;
+			}
+
 			return res.status(200).json({
 				status: 'success',
 				message: 'The newest News Arrived Successfully!, Enjoy ;)',
-				data: result,
+				data: { news: result, hit_news_items_limit },
 			});
 		} else if (req.method === 'POST') {
 			const isAuthorized = await handleIsAuthorized(
@@ -249,7 +262,6 @@ export default async (req, res) => {
 				status: 'success',
 				message: 'Posted Successfully!',
 				data: newPost,
-				isAuthorized: true,
 			});
 		} else if (req.method === 'PATCH') {
 			const isAuthorized = await handleIsAuthorized(
@@ -265,6 +277,7 @@ export default async (req, res) => {
 				update_item_1 AS (
 					UPDATE news SET updated_on = ($3)
 					WHERE news_id = ($1) AND author_id = ($2)
+					RETURNING news_id
 				)
 			`,
 			];
@@ -275,49 +288,23 @@ export default async (req, res) => {
 				new Date().toUTCString(),
 			];
 
-			const array = [];
-
-			// array.push({
-			// 	table: 'news',
-			// 	type: 'update',
-			// 	keysAndValues: {
-			// 		updated_on: new Date().toUTCString(),
-			// 	},
-			// 	$where: {
-			// 		news_id: req.body.news_id,
-			// 		$and: {
-			// 			author_id: isAuthorized.id,
-			// 		},
-			// 	},
-			// });
-
 			if (type === 'article') {
-				if (Object.keys(req.body.news_data).length !== 0) {
-					const newsDataToUpdate = [];
-					let item;
-					for (item in req.body.news_data) {
-						params.push(req.body.news_data[item]);
-						newsDataToUpdate.push(`${item}=($${params.length})`);
-					}
+				const newsDataToUpdate = [];
+				let item;
+				for (item in req.body.news_data) {
+					params.push(req.body.news_data[item]);
+					newsDataToUpdate.push(`${item}=($${params.length})`);
+				}
 
+				if (newsDataToUpdate.length !== 0) {
 					cte.push(`
 						update_item_2 AS (
 							UPDATE news_article SET ${newsDataToUpdate.join(',')}
 							WHERE news_article_id = ($1)
+							RETURNING  news_article_id
 						)
 					`);
 					cteNames.push('update_item_2');
-
-					// array.push({
-					// 	table: 'news_article',
-					// 	type: 'update',
-					// 	keysAndValues: {
-					// 		...req.body.news_data,
-					// 	},
-					// 	$where: {
-					// 		news_article_id: req.body.news_id,
-					// 	},
-					// });
 				}
 
 				const { tags } = req.body;
@@ -329,14 +316,9 @@ export default async (req, res) => {
 				const tagsToRemove = [];
 				const tagsToInsert = [];
 
-				const tagsToDecrement = [];
-				const tagsToIncrement = [];
-
 				if (tags?.added?.length !== 0 || tags?.removed?.length !== 0) {
 					tags.removed.forEach((tag, index) => {
 						if (index < tags.added.length) {
-							params.push(tags.added[index]);
-
 							tagsToUpdateTo.push(tags.added[index]);
 							tagsToUpdateFrom.push(tag);
 
@@ -358,11 +340,12 @@ export default async (req, res) => {
 
 							cte.push(`
 						update_news_tag_${index} AS (
-							UPDATE news_tag SET=($${params.length - 1})
+							UPDATE news_tag SET name=($${params.length - 1})
 							WHERE news_id = ($1) AND name = ($${params.length})
+							RETURNING news_tag_id
 						)
 					`);
-							cteNames.push('update_news_tag_!{ind$x}');
+							cteNames.push(`update_news_tag_${index}`);
 						});
 					}
 
@@ -371,13 +354,14 @@ export default async (req, res) => {
 						tagsToRemove.forEach((tag, index) => {
 							params.push(tag);
 
-							tagsToRemoveLocation.push(`$${params}`);
+							tagsToRemoveLocation.push(`$${params.length}`);
 						});
 
 						cte.push(`
 							delete_item_1 AS (
-								DELETE FROM news_tags
+								DELETE FROM news_tag
 								WHERE news_id = ($1) AND name IN (${tagsToRemoveLocation.join(',')})
+								RETURNING news_tag_id
 							)
 						`);
 						cteNames.push('delete_item_1');
@@ -390,16 +374,17 @@ export default async (req, res) => {
 						tagsToInsert.forEach((tag, index) => {
 							params.push(tag);
 
-							tagsToInsertLocation.push(`$${params}`);
+							tagsToInsertLocation.push(`$${params.length}`);
 						});
 
 						cte.push(`
-							insert_news_tags AS (
+							insert_news_tag AS (
 								INSERT INTO news_tag (news_id, name)
 								VALUES ($1,${tagsToInsertLocation.join('),($1,')})
+								RETURNING news_tag_id
 							)
 						`);
-						cteNames.push('insert_news_tags');
+						cteNames.push('insert_news_tag');
 					}
 
 					cte.push(`
@@ -409,7 +394,7 @@ export default async (req, res) => {
 								ON CONFLICT (name) DO UPDATE 
 								SET counter = tag.counter + 1
 								RETURNING tag.name
-							),
+							)
 					`);
 					cteNames.push('upsert_tag');
 
@@ -417,44 +402,49 @@ export default async (req, res) => {
 							update_tag AS (
 								UPDATE tag
 								SET counter = tag.counter - 1
-								WHERE name IN (${[
-									...tagsToInsetagsToRemoveLocationrtLocation,
-									...tagsToUpdateFromLocation,
-								].join('),(')})
+								WHERE name IN (${[...tagsToRemoveLocation, ...tagsToUpdateFromLocation].join(
+									','
+								)})
 								RETURNING tag.name
-							),
+							)
 					`);
 					cteNames.push('update_tag');
 				}
 			} else if (type === 'post') {
-				array.push({
-					table: 'news_post',
-					type: 'update',
-					keysAndValues: {
-						...req.body.news_data,
-					},
-					$where: {
-						news_post_id: req.body.news_id,
-					},
-				});
+				const newsDataToUpdate = [];
+				let item;
+				for (item in req.body.news_data) {
+					params.push(req.body.news_data[item]);
+					newsDataToUpdate.push(`${item}=($${params.length})`);
+				}
+
+				if (newsDataToUpdate.length !== 0) {
+					cte.push(`
+					update_news_post AS (
+						UPDATE news_post SET ${newsDataToUpdate.join(',')}
+						WHERE news_post_id = ($1)
+						RETURNING  news_post_id
+					)
+				`);
+					cteNames.push('update_news_post');
+				}
 			}
 
-			console.log('params', params);
-			console.log('cte', cte);
-			console.log('cteNames', cteNames);
-
-			// const queryBuilder = new QueryBuilder();
-			// const { SQLCTEQuery, CTEParamsArray } = queryBuilder.arrayToCTE(array);
-
 			const result = await pool
-				.query(SQLCTEQuery, CTEParamsArray)
+				.query(
+					`
+						WITH ${cte.join(',')}
+
+						SELECT * FROM ${cteNames.join(',')}
+					`,
+					params
+				)
 				.then((response) => response.rows);
 
 			return res.status(200).json({
 				status: 'success',
 				message: 'Posted Successfully!',
 				data: {},
-				isAuthorized: true,
 			});
 		} else if (req.method === 'DELETE') {
 			const isAuthorized = await handleIsAuthorized(
@@ -471,22 +461,44 @@ export default async (req, res) => {
 				)
 				.then((response) => response.rows[0]);
 
-			const result2 = await pool
-				.query(
-					`
+			if (result.type === 'article') {
+				const result2 = await pool
+					.query(
+						`
+						WITH update_user_profile AS (
+							UPDATE user_profile SET news_${result.type}_counter = news_${result.type}_counter - 1
+							WHERE user_profile_id = ($1)
+							RETURNING user_profile_id
+						),
+						update_tag AS (
+							UPDATE tag
+							SET counter = tag.counter - 1
+							WHERE name = ANY($2)
+							RETURNING tag.name
+						)
+
+						SELECT * FROM update_user_profile, update_tag;
+					`,
+						[isAuthorized.id, req.body.tags]
+					)
+					.then((response) => response.rows[0]);
+			} else {
+				const result2 = await pool
+					.query(
+						`
 						UPDATE user_profile SET news_${result.type}_counter = news_${result.type}_counter - 1
 						WHERE user_profile_id = ($1)
 						RETURNING user_profile_id
 					`,
-					[isAuthorized.id]
-				)
-				.then((response) => response.rows[0]);
+						[isAuthorized.id]
+					)
+					.then((response) => response.rows[0]);
+			}
 
 			return res.status(200).json({
 				status: 'success',
 				message: 'Deleted Successfully!',
 				data: {},
-				isAuthorized: true,
 			});
 		}
 	} catch (error) {
@@ -506,7 +518,6 @@ export default async (req, res) => {
 			status: 'error',
 			message: error.message || 'Something went wrong!',
 			data: {},
-			isAuthorized: false,
 		});
 	}
 

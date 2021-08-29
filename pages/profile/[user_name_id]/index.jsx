@@ -15,11 +15,15 @@ const ProfilePage = ({ user = {}, ...props }) => {
 
 	const { state: userState } = useContext(UserContext);
 
+	const [newsFetchRouteQuery, setNewsFetchRouteQuery] = useState(
+		props.newsFetchRouteQuery
+	);
+
 	const [posts, setPosts] = useState(
 		props.posts.length !== 0
 			? // props.posts.data.reverse()
 			  (() => {
-					const formattedData = props.posts.data.map((obj) => {
+					const formattedData = props.posts.map((obj) => {
 						const formattedItem = {};
 						let itemA;
 						for (itemA in obj) {
@@ -50,13 +54,19 @@ const ProfilePage = ({ user = {}, ...props }) => {
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(async () => {
-		if (!userState.isVerifyingUserLoading && router.query.user_name_id) {
+		if (
+			!userState.isVerifyingUserLoading &&
+			router.query.user_name_id
+			// && isLoading
+		) {
+			setIsLoading(true);
 			let userProfileData;
 
 			if (
 				router.query.user_name_id &&
 				// userData.user_name_id &&
-				router.query.user_name_id !== userData.user_name_id
+				router.query.user_name_id !== userData?.user_name_id
+				// && router.query.user_name_id !== user?.data?.user_name_id
 			) {
 				setIsLoading(true);
 
@@ -98,6 +108,8 @@ const ProfilePage = ({ user = {}, ...props }) => {
 				if (userState.user?.id)
 					postInputQuery += `&voter_id=${userState.user.id}`;
 
+				setNewsFetchRouteQuery(postInputQuery);
+
 				const postsResult = await fetch(`/api/v1/news${postInputQuery}`, {
 					method: 'GET',
 					headers: {
@@ -115,7 +127,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 					});
 
 				setPosts(
-					postsResult.data.map((item) => {
+					postsResult.data.news.map((item) => {
 						return {
 							...item,
 							...item.type_data,
@@ -170,11 +182,13 @@ const ProfilePage = ({ user = {}, ...props }) => {
 			}
 			visitorIdentity={identity}
 			news={posts}
+			newsFetchRouteQuery={newsFetchRouteQuery}
 		/>
 	);
 };
 
 export const getServerSideProps = async ({ req, res, query }) => {
+	let newsFetchRouteQuery = '';
 	/*
 		const baseUrl = `${
 			process.env.NODE_ENV !== 'production' ? 'http' : 'https'
@@ -191,34 +205,35 @@ export const getServerSideProps = async ({ req, res, query }) => {
 			userCookieObj = JSON.parse(userCookieString);
 			if (userCookieObj?.id) visitor_id = userCookieObj.id;
 
-			if (
-				typeof userCookieObj === 'object' &&
-				userCookieObj.user_name_id === user_name_id
-			) {
-				user = {
-					status: 'succuss',
-					message: 'You are the owner of this profile!',
-					data: {},
-					isAuthorized: true,
-					visitorIdentity: OWNER,
-				};
-			}
+			// if (
+			// 	typeof userCookieObj === 'object' &&
+			// 	userCookieObj.user_name_id === user_name_id
+			// ) {
+			// 	user = {
+			// 		status: 'succuss',
+			// 		message: 'You are the owner of this profile!',
+			// 		data: {},
+			// 		isAuthorized: true,
+			// 		visitorIdentity: OWNER,
+			// 	};
+			// }
 		}
 
-		if (!user) {
-			user = await fetch(input)
-				.then((response) => response.json())
-				.catch((error) => {
-					console.error(error);
-					return {
-						status: 'error',
-						message: error.message,
-						data: {},
-						isAuthorized: false,
-						visitorIdentity: GUEST,
-					};
-				});
-		}
+		// if (!user) {
+		user = await fetch(input)
+			.then((response) => response.json())
+			.catch((error) => {
+				console.error(error);
+				return {
+					status: 'error',
+					message: error.message,
+					data: {},
+					isAuthorized: false,
+					visitorIdentity:
+						userCookieObj.user_name_id === user_name_id ? OWNER : GUEST,
+				};
+			});
+		// }
 
 		if (!user?.data?.id || (user && user.status === 'error')) {
 			return {
@@ -226,24 +241,24 @@ export const getServerSideProps = async ({ req, res, query }) => {
 				posts: {
 					status: 'error',
 					message: "Can't get the posts!",
-					data: [],
+					data: { news: undefined },
 				},
 			};
 		}
 
-		let postInputQuery = '';
-		if (user?.data?.id) postInputQuery += `/?filter_by_user_id=${user.data.id}`;
+		if (user?.data?.id)
+			newsFetchRouteQuery += `/?filter_by_user_id=${user.data.id}`;
 		else if (userCookieObj?.id && userCookieObj?.user_name_id === user_name_id)
-			postInputQuery += `/?filter_by_user_id=${userCookieObj.id}`;
+			newsFetchRouteQuery += `/?filter_by_user_id=${userCookieObj.id}`;
 
 		if (visitor_id) {
-			if (postInputQuery.length !== 0)
-				postInputQuery += `&voter_id=${visitor_id}`;
-			else postInputQuery += `/?voter_id=${visitor_id}`;
+			if (newsFetchRouteQuery.length !== 0)
+				newsFetchRouteQuery += `&voter_id=${visitor_id}`;
+			else newsFetchRouteQuery += `/?voter_id=${visitor_id}`;
 		}
 
 		const posts = await fetch(
-			`${process.env.BACK_END_ROOT_URL}/api/v1/news${postInputQuery}`,
+			`${process.env.BACK_END_ROOT_URL}/api/v1/news${newsFetchRouteQuery}`,
 			{
 				method: 'GET',
 				headers: {
@@ -261,7 +276,15 @@ export const getServerSideProps = async ({ req, res, query }) => {
 				};
 			});
 
-		return { user, posts };
+		return {
+			user: {
+				...user,
+				isAuthorized: user.data.user_name_id === user_name_id ? true : false,
+				visitorIdentity:
+					user.data.user_name_id === user_name_id ? OWNER : GUEST,
+			},
+			posts,
+		};
 	};
 
 	let tokenCookieString = '';
@@ -286,7 +309,8 @@ export const getServerSideProps = async ({ req, res, query }) => {
 	return {
 		props: {
 			user: data.user ? data.user : {},
-			posts: data.posts ? data.posts : [],
+			posts: data?.posts?.data?.news ? data.posts.data.news : [],
+			newsFetchRouteQuery,
 		}, // will be passed to the page component as props
 	};
 };

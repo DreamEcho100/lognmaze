@@ -46,7 +46,59 @@ export const handleLoadingNewsItemContent = async ({ dispatch, news_id }) => {
 		message,
 	};
 };
+export const handleLoadMoreNewsItems = async ({
+	dispatch,
+	last_news_item_created_at,
+	newsFetchRouteQuery,
+}) => {
+	dispatch({
+		type: types.SET_IS_LOADING_MORE_NEWS_ITEM,
+		payload: { isLoadingMoreNewsItems: true },
+	});
 
+	const query =
+		newsFetchRouteQuery?.length === 0
+			? `/?last_news_item_created_at=${last_news_item_created_at}`
+			: `${newsFetchRouteQuery}&last_news_item_created_at=${last_news_item_created_at}`;
+
+	const { message, status, data } = await fetch(
+		`${process.env.FRONT_END_ROOT_URL}/api/v1/news${query}`
+	)
+		.then((response) => response.json())
+		.catch((error) => {
+			console.error(error.message);
+			return {
+				status: 'error',
+				message: "# Couldn't load more news! \n" + +error.message,
+			};
+		});
+
+	if (!status || (status && status === 'error')) {
+		console.error(message);
+		return {
+			status: 'error',
+			message,
+		};
+	}
+
+	dispatch({
+		type: types.ADD_MORE_NEWS_ITEM,
+		payload: {
+			newNewsItem: data.news.map((item) => ({
+				...item,
+				...item.type_data,
+				type_data: undefined,
+			})),
+			hit_news_items_limit: data.hit_news_items_limit,
+			isLoadingMoreNewsItems: false,
+		},
+	});
+
+	return {
+		status,
+		message,
+	};
+};
 export const handleCreatingNewsItem = async ({
 	dispatch,
 	user,
@@ -208,7 +260,7 @@ export const handleUpdatingUserNewsItem = async ({
 			});
 
 	if (result?.status === 'error') {
-		console.error(message);
+		console.error(result.message);
 		return {
 			status: 'error',
 			message: result.message,
@@ -235,6 +287,8 @@ export const handleDeletingUserNewsItem = async ({
 	dispatch,
 	token,
 	news_id,
+	newsType,
+	tags,
 }) => {
 	const { message, status, data } = await fetch('/api/v1/news', {
 		method: 'DELETE',
@@ -242,7 +296,7 @@ export const handleDeletingUserNewsItem = async ({
 			'Content-Type': 'application/json',
 			authorization: token ? `Bearer ${token}` : undefined,
 		},
-		body: JSON.stringify({ news_id }),
+		body: JSON.stringify({ news_id, type: newsType, tags }),
 	})
 		.then((response) => response.json())
 		.catch((error) => {
