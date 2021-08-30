@@ -5,7 +5,7 @@ const CreateActionDynamic = dynamic(() =>
 	import('@components/UI/V1/News/Action/Action')
 );
 
-import Button from '../../UI/V1/Button';
+import Button from '@components/UI/V1/Button';
 
 const CreateNewsButton = () => {
 	const [showCreateNewsButtonModal, setShowCreateNewsButtonModal] =

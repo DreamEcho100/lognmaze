@@ -21,6 +21,7 @@ import {
 	faLongArrowAltDown,
 	faCopy,
 	faBookReader,
+	faEdit,
 } from '@fortawesome/free-solid-svg-icons';
 import {
 	// fab,
@@ -33,8 +34,8 @@ import {
 	faTwitter,
 	faWhatsapp,
 } from '@fortawesome/free-brands-svg-icons';
-// import '@fortawesome/fontawesome-svg-core/styles.css';
-import '../node_modules/@fortawesome/fontawesome-svg-core/styles.css';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+// import '../node_modules/@fortawesome/fontawesome-svg-core/styles.css';
 config.autoAddCss = false;
 library.add(
 	faUser,
@@ -56,6 +57,7 @@ library.add(
 	faLongArrowAltDown,
 	faCopy,
 	faBookReader,
+	faEdit,
 	//
 	// fab,
 	faFacebook,
@@ -68,11 +70,6 @@ library.add(
 );
 
 import '@styles/_globals.css';
-
-// import {
-// 	getCookie,
-// } from '@lib/v1/cookie';
-// import { verifyJwtToken } from '@lib/v1/auth';
 
 import Layout from '@components/Layout/Layout';
 
@@ -122,33 +119,3 @@ const MyApp = ({ Component, pageProps }) => {
 };
 
 export default MyApp;
-
-// MyApp.getInitialProps = async (appContext) => {
-// 	// calls page's `getInitialProps` and fills `appProps.pageProps`
-// 	// const appProps = await App.getInitialProps(appContext);
-
-// 	if (appContext.ctx.req) {
-// 		const cookie = appContext.ctx.req.headers.cookie;
-
-// 		const tokenCookie = getCookie({
-// 			cookieName: 'user_token',
-// 			cookieString: cookie,
-// 		});
-
-// 		let isAuthenticated = false;
-
-// 		if (tokenCookie.length !== 0) {
-// 			isAuthenticated = await verifyJwtToken(token);
-
-// 		return {
-// 			pageProps: {
-// 				isAuthenticated,
-// 				// ...appProps,
-// 			},
-// 		};
-// 	}
-
-// 	return {
-// 		pageProps: {},
-// 	};
-// };

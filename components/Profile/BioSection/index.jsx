@@ -1,5 +1,6 @@
 import { Fragment, useContext, useState } from 'react';
 // import dynamic from 'next/dynamic';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
 
@@ -57,7 +58,7 @@ const BioSection = ({ bio = '', visitorIdentity }) => {
 				<h2>Bio:</h2>
 				{visitorIdentity === OWNER && (
 					<Button title='Edit' onClick={() => setShowBioEditModal(true)}>
-						Edit
+						<FontAwesomeIcon icon={['fas', 'edit']} />
 					</Button>
 				)}
 				<Modal

@@ -2,19 +2,19 @@ import { useContext, useEffect, useState } from 'react';
 import Head from 'next/head';
 
 import classes from './SignUp.module.css';
-import BoxShadowClasses from '../../UI/V1/BoxShadow.module.css';
+import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 
 import { validateEmail, validatePasswordStrength } from '@lib/v1/validate';
 import { handleSignUp } from '@store/UserContext/actions';
 import UserContext from '@store/UserContext';
 
-import Form from '../../UI/V1/Form';
-import FormControl from '../../UI/V1/FormControl';
-import FormControls from '../../UI/V1/FormControls/FormControls';
+import Form from '@components/UI/V1/Form';
+import FormControl from '@components/UI/V1/FormControl';
+import FormControls from '@components/UI/V1/FormControls/FormControls';
 import Label from '@components/UI/V1/Label';
 import Input from '@components/UI/V1/Input';
 import Select from '@components/UI/V1/Select/Select';
-import Button from '../../UI/V1/Button';
+import Button from '@components/UI/V1/Button';
 
 const SignUp = ({
 	UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN,

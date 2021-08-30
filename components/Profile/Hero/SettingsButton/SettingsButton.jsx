@@ -5,10 +5,10 @@ import { Fragment, useState } from 'react';
 
 // const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
 
-import Modal from '../../UI/V1/Modal';
+import Modal from '@components/UI/V1/Modal';
 import EditUserInfo from './EditUserInfo/EditUserInfo';
 import EditUserSecurity from './EditUserSecurity/EditUserSecurity';
-import Button from '../../UI/V1/Button';
+import Button from '@components/UI/V1/Button';
 
 const SettingsButton = () => {
 	const [showModal, setShowModal] = useState(false);

@@ -8,10 +8,9 @@ import { NewsContextProvider } from '@store/NewsContext';
 
 // import CreateNewsButton from '@components/UI/V1/Button/CreateNews';
 import CreateNewsButton from './CreateNewsButton/CreateNewsButton';
-import SettingsButton from './SettingsButton/SettingsButton';
 
 import Wrapper from '@components/UI/V1/Wrapper';
-import Image from '@components/UI/V1/Image';
+import Hero from './Hero';
 import Feed from '@components/UI/V1/News/Feed/Feed';
 import Accordion from '@components/UI/V1/Accordion';
 
@@ -100,38 +99,7 @@ const Profile = ({
 					/>
 					<title>{userData.user_name_id} | LogNMaze</title>
 				</Head>
-				<Wrapper>
-					<div className={classes['cover_photo-outer-container']}>
-						<div className={classes['cover_photo-inner-container']}>
-							<Image
-								src={userData.cover_photo}
-								alt=''
-								className={classes['cover_photo']}
-							/>
-						</div>{' '}
-					</div>
-					<div className={classes['profile_picture-outer-container']}>
-						<div className={classes['profile_picture-inner-container']}>
-							<Image
-								src={userData.profile_picture}
-								alt=''
-								className={classes['profile_picture']}
-							/>
-						</div>{' '}
-					</div>
-					<div className={classes['basic-data']}>
-						<h3>{userData.user_name_id}</h3>
-						<h4>
-							{userData.first_name} {userData.last_name}
-						</h4>
-						<p>{userData.gender}</p>
-						<p>{userData.state_of_resident}</p>
-						<p>{userData.country_of_resident}</p>
-						<p>{userData.city_of_resident}</p>
-					</div>
-					{visitorIdentity === OWNER && <SettingsButton />}
-				</Wrapper>
-
+				<Hero userData={userData} visitorIdentity={visitorIdentity} />
 				<section className={classes['main-section']}>
 					<section className={classes['section-1']}>
 						<Feed news={news} newsFetchRouteQuery={newsFetchRouteQuery} />

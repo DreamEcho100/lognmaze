@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import NavOnSmallScreensClasses from './NavOnSmallScreens.module.css';
 import MainNavigationClasses from '../MainNavigation.module.css';
-import Button from '../../../UI/V1/Button';
+import Button from '@components/UI/V1/Button';
 
 const NavOnSmallScreens = ({ user, isVerifyingUserLoading, handleSignOut }) => {
 	const [showNavOnSmallScreens, setShowNavOnSmallScreens] = useState(false);
