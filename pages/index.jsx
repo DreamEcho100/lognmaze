@@ -17,13 +17,15 @@ const HomePage = () => {
 	const [news, setNews] = useState([]);
 
 	useEffect(async () => {
+		if (userState.isVerifyingUserLoading) return;
+
 		let linkQuery = '';
 		if (userState.userExist) {
 			linkQuery = `/?voter_id=${userState.user.id}`;
 			setNewsFetchRouteQuery(linkQuery);
 		}
 
-		if (!userState.isVerifyingUserLoading && news.length === 0) {
+		if (news.length === 0) {
 			const news = await fetch(`api/v1/news${newsFetchRouteQuery}`) // ${process.env.BACK_END_ROOT_URL}/
 				.then((response) => response.json())
 				.then(({ status, message, data }) => {
@@ -60,7 +62,7 @@ const HomePage = () => {
 				});
 			setIsLoading(false);
 		}
-	}, [userState.isVerifyingUserLoading, userState.userExist, router.route]);
+	}, [userState.isVerifyingUserLoading /*, userState.userExist*/]);
 
 	if (isLoading) {
 		return <p>Loading...</p>;
