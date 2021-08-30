@@ -22,6 +22,7 @@ const OWNER = 'OWNER';
 const Profile = ({
 	userData = {},
 	visitorIdentity = GUEST,
+	userExist,
 	news = [],
 	newsFetchRouteQuery,
 }) => {
@@ -99,7 +100,11 @@ const Profile = ({
 					/>
 					<title>{userData.user_name_id} | LogNMaze</title>
 				</Head>
-				<Hero userData={userData} visitorIdentity={visitorIdentity} />
+				<Hero
+					userData={userData}
+					userExist={userExist}
+					visitorIdentity={visitorIdentity}
+				/>
 				<section className={classes['main-section']}>
 					<section className={classes['section-1']}>
 						<Feed news={news} newsFetchRouteQuery={newsFetchRouteQuery} />

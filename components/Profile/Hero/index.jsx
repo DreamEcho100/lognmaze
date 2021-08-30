@@ -12,7 +12,7 @@ import UpdateUserPictureModal from '@components/UI/V1/Modal/UpdateUserPicture';
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
-const Hero = ({ userData, visitorIdentity }) => {
+const Hero = ({ userData, userExist, visitorIdentity }) => {
 	const [
 		showUpdateUserProfilePictureModalModal,
 		setShowUpdateUserProfilePictureModalModal,
@@ -37,13 +37,15 @@ const Hero = ({ userData, visitorIdentity }) => {
 							className={classes['cover_photo']}
 						/>
 					</div>{' '}
-					<Button
-						className={classes['edit-button']}
-						title='Edit'
-						onClick={() => setShowUpdateUserCoverPhotoModalModal(true)}
-					>
-						<FontAwesomeIcon icon={['fas', 'edit']} />
-					</Button>
+					{userExist && (
+						<Button
+							className={classes['edit-button']}
+							title='Edit'
+							onClick={() => setShowUpdateUserCoverPhotoModalModal(true)}
+						>
+							<FontAwesomeIcon icon={['fas', 'edit']} />
+						</Button>
+					)}
 					<UpdateUserPictureModal
 						showModal={showUpdateUserCoverPhotoModalModal}
 						setShowModal={setShowUpdateUserCoverPhotoModalModal}
@@ -63,13 +65,15 @@ const Hero = ({ userData, visitorIdentity }) => {
 							className={classes['profile_picture']}
 						/>
 					</div>{' '}
-					<Button
-						className={classes['edit-button']}
-						title='Edit'
-						onClick={() => setShowUpdateUserProfilePictureModalModal(true)}
-					>
-						<FontAwesomeIcon icon={['fas', 'edit']} />
-					</Button>
+					{userExist && (
+						<Button
+							className={classes['edit-button']}
+							title='Edit'
+							onClick={() => setShowUpdateUserProfilePictureModalModal(true)}
+						>
+							<FontAwesomeIcon icon={['fas', 'edit']} />
+						</Button>
+					)}
 					<UpdateUserPictureModal
 						showModal={showUpdateUserProfilePictureModalModal}
 						setShowModal={setShowUpdateUserProfilePictureModalModal}

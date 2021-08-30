@@ -54,112 +54,108 @@ const ProfilePage = ({ user = {}, ...props }) => {
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(async () => {
+		if (userState.isVerifyingUserLoading || !router.query.user_name_id) return;
+
+		setIsLoading(true);
+		let userProfileData;
+
 		if (
-			!userState.isVerifyingUserLoading &&
-			router.query.user_name_id
-			// && isLoading
+			router.query.user_name_id &&
+			// userData.user_name_id &&
+			router.query.user_name_id !== userData?.user_name_id
+			// && router.query.user_name_id !== user?.data?.user_name_id
 		) {
 			setIsLoading(true);
-			let userProfileData;
 
-			if (
-				router.query.user_name_id &&
-				// userData.user_name_id &&
-				router.query.user_name_id !== userData?.user_name_id
-				// && router.query.user_name_id !== user?.data?.user_name_id
-			) {
-				setIsLoading(true);
-
-				if (userState.user?.user_name_id === router.query.user_name_id) {
-					userProfileData = userState.user;
-					// if (identity === GUEST) setIdentity(OWNER);
-					// if (!handleIsAuthorized) setHandleIsAuthorized(true);
-				} else {
-					const userResult = await fetch(
-						`/api/v1/users/user/?user_name_id=${router.query.user_name_id}`
-					).then((response) => response.json());
-
-					// if (identity === OWNER) setIdentity(GUEST);
-					// if (handleIsAuthorized) setHandleIsAuthorized(false);
-
-					if (
-						!userResult.data ||
-						!userResult.data.user_name_id ||
-						(userResult.status && userResult.status === 'error')
-					) {
-						setUserData({});
-						setPosts([]);
-						setIsLoading(false);
-						if (handleIsAuthorized) setHandleIsAuthorized(false);
-						if (identity !== GUEST) setIdentity(GUEST);
-						return;
-					}
-
-					userProfileData = userResult.data;
-				}
-
-				setUserData(userProfileData);
-
-				let postInputQuery = '/?filter_by_user_id=';
-				// if (user.data && user.data.id) postInputQuery += user.data.id;
-				// else
-				postInputQuery += userProfileData.id;
-
-				if (userState.user?.id)
-					postInputQuery += `&voter_id=${userState.user.id}`;
-
-				setNewsFetchRouteQuery(postInputQuery);
-
-				const postsResult = await fetch(`/api/v1/news${postInputQuery}`, {
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				})
-					.then((response) => response.json())
-					.catch((error) => {
-						console.error(error);
-						return {
-							status: 'error',
-							message: error.message || 'Something went wrong!',
-							data: [],
-						};
-					});
-
-				setPosts(
-					postsResult.data.news.map((item) => {
-						return {
-							...item,
-							...item.type_data,
-							type_data: {},
-						};
-					})
-				);
-
-				setIsLoading(false);
-			}
-
-			if (!userState.userExist) {
-				if (handleIsAuthorized) setHandleIsAuthorized(false);
-				if (identity !== GUEST) setIdentity(GUEST);
+			if (userState.user?.user_name_id === router.query.user_name_id) {
+				userProfileData = userState.user;
+				// if (identity === GUEST) setIdentity(OWNER);
+				// if (!handleIsAuthorized) setHandleIsAuthorized(true);
 			} else {
-				if (router.query.user_name_id === userState.user.user_name_id) {
-					setUserData(userState.user);
-					if (identity !== OWNER) setIdentity(OWNER);
-					if (!handleIsAuthorized) setHandleIsAuthorized(true);
-				} else if (router.query.user_name_id !== userState.user.user_name_id) {
-					if (identity !== GUEST) setIdentity(GUEST);
+				const userResult = await fetch(
+					`/api/v1/users/user/?user_name_id=${router.query.user_name_id}`
+				).then((response) => response.json());
+
+				// if (identity === OWNER) setIdentity(GUEST);
+				// if (handleIsAuthorized) setHandleIsAuthorized(false);
+
+				if (
+					!userResult.data ||
+					!userResult.data.user_name_id ||
+					(userResult.status && userResult.status === 'error')
+				) {
+					setUserData({});
+					setPosts([]);
+					setIsLoading(false);
 					if (handleIsAuthorized) setHandleIsAuthorized(false);
+					if (identity !== GUEST) setIdentity(GUEST);
+					return;
 				}
+
+				userProfileData = userResult.data;
 			}
 
-			if (isLoading) setIsLoading(false);
+			setUserData(userProfileData);
+
+			let postInputQuery = '/?filter_by_user_id=';
+			// if (user.data && user.data.id) postInputQuery += user.data.id;
+			// else
+			postInputQuery += userProfileData.id;
+
+			if (userState.user?.id)
+				postInputQuery += `&voter_id=${userState.user.id}`;
+
+			setNewsFetchRouteQuery(postInputQuery);
+
+			const postsResult = await fetch(`/api/v1/news${postInputQuery}`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			})
+				.then((response) => response.json())
+				.catch((error) => {
+					console.error(error);
+					return {
+						status: 'error',
+						message: error.message || 'Something went wrong!',
+						data: [],
+					};
+				});
+
+			setPosts(
+				postsResult.data.news.map((item) => {
+					return {
+						...item,
+						...item.type_data,
+						type_data: {},
+					};
+				})
+			);
+
+			setIsLoading(false);
 		}
-	}, [
-		userState.userExist,
-		userState.isVerifyingUserLoading,
-		router.query.user_name_id,
-	]);
+
+		if (isLoading) setIsLoading(false);
+	}, [userState.isVerifyingUserLoading, router.query.user_name_id]);
+
+	useEffect(() => {
+		if (userState.isVerifyingUserLoading) return;
+
+		if (!userState.userExist) {
+			if (handleIsAuthorized) setHandleIsAuthorized(false);
+			if (identity !== GUEST) setIdentity(GUEST);
+		} else {
+			if (router.query.user_name_id === userState.user.user_name_id) {
+				setUserData(userState.user);
+				if (identity !== OWNER) setIdentity(OWNER);
+				if (!handleIsAuthorized) setHandleIsAuthorized(true);
+			} else if (router.query.user_name_id !== userState.user.user_name_id) {
+				if (identity !== GUEST) setIdentity(GUEST);
+				if (handleIsAuthorized) setHandleIsAuthorized(false);
+			}
+		}
+	}, [userState.userExist, userState.isVerifyingUserLoading]);
 
 	if (userState.isVerifyingUserLoading || isLoading) {
 		return <p>Loading...</p>;
@@ -180,6 +176,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 					? userState.user
 					: userData
 			}
+			userExist={userState.userExist}
 			visitorIdentity={identity}
 			news={posts}
 			newsFetchRouteQuery={newsFetchRouteQuery}
