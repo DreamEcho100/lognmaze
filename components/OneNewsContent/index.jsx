@@ -20,6 +20,7 @@ const OneNewsContent = ({ newsItem }) => {
 	return (
 		<main className='main'>
 			<Head>
+				<meta name="robots" content="index,follow">
 				<meta property='og:type' content='article' />
 				<meta
 					property='article:publisher'

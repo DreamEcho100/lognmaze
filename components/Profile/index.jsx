@@ -38,6 +38,7 @@ const Profile = ({
 		<NewsContextProvider>
 			<main className={`${classes.profile} main`}>
 				<Head>
+					<meta name="robots" content="index,follow">
 					<meta property='og:locale' content='en_US' />
 					<meta property='og:type' content='profile' />
 					<meta property='profile:first_name' content={userData.first_name} />

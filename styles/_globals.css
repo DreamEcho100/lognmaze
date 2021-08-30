@@ -277,7 +277,7 @@ body.dark {
 	transform: rotate(90deg);
 	width: 70vh;
 	height: 100vw;
-	margin: 15% 0;
+	margin: 13.5% 0;
 }
 
 #main-intro.setVertical.verifying-credentials-finished .svg-container svg {
@@ -350,6 +350,7 @@ a {
 }
 
 svg {
+	font-size: calc(var(--current-font-size) * 1.2);
 	color: inherit;
 }
 

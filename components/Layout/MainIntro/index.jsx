@@ -4,7 +4,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 
 import UserContext from '@store/UserContext';
 
-import LogNMazeSignature from '../../../svg/LogNMazeSignature';
+import LogNMazeSignature from '@svg/LogNMazeSignature';
 
 const MainIntro = () => {
 	const introRef = useRef();

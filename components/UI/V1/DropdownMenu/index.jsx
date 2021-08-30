@@ -17,7 +17,7 @@ const DropdownMenu = ({ items = [], children }) => {
 
 	return (
 		<div className={classes['settings-wrapper']}>
-			<button title='ellipsis-v svg' className={classes['seeting-btn']}>
+			<button title='dropdown menu' className={classes['seeting-btn']}>
 				<strong onClick={() => setShowSettingsMenu((prev) => !prev)}>
 					<FontAwesomeIcon icon={['fas', 'ellipsis-v']} />
 				</strong>

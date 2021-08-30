@@ -8,6 +8,7 @@ const Home = ({ /*user,*/ userExist = false, news, newsFetchRouteQuery }) => {
 	return (
 		<main className='main'>
 			<Head>
+				<meta name="robots" content="index,follow">
 				<title>Home | LogNMaze</title>
 			</Head>
 			{/* <Hero user={user} /> */ ''}
