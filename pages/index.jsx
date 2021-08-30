@@ -26,7 +26,7 @@ const HomePage = () => {
 		}
 
 		if (news.length === 0) {
-			const news = await fetch(`api/v1/news${newsFetchRouteQuery}`) // ${process.env.BACK_END_ROOT_URL}/
+			const news = await fetch(`api/v1/news${linkQuery}`) // ${process.env.BACK_END_ROOT_URL}/
 				.then((response) => response.json())
 				.then(({ status, message, data }) => {
 					if (!status || (status && status === 'error')) {
