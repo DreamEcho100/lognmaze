@@ -26,8 +26,6 @@ const SignIn = () => {
 	const [AfterFormSubmitMessage, setAfterFormSubmitMessage] = useState(() => (
 		<></>
 	));
-	const [afterFormSubmitMessageExist, setAfterFormSubmitMessageExist] =
-		useState(false);
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
 
 	const submitHandler = async (event) => {
@@ -35,13 +33,11 @@ const SignIn = () => {
 
 		setBtnsDisabled(true);
 		setAfterFormSubmitMessage(() => <></>);
-		setAfterFormSubmitMessageExist(false);
 
 		const emailValidated = validateEmail(values.email);
 
 		if (!emailValidated) {
 			setAfterFormSubmitMessage(() => <p>There is something with the email</p>);
-			setAfterFormSubmitMessageExist(true);
 			setBtnsDisabled(false);
 			return;
 		}
@@ -58,7 +54,6 @@ const SignIn = () => {
 			console.error(message);
 			setBtnsDisabled(false);
 			setAfterFormSubmitMessage(() => <>{message}</>);
-			setAfterFormSubmitMessageExist(true);
 		}
 	};
 
@@ -69,7 +64,7 @@ const SignIn = () => {
 			onSubmit={submitHandler}
 		>
 			<Head>
-				<meta name="robots" content="index,follow" />
+				<meta name='robots' content='index,follow' />
 				<meta property='og:url' content={`https://lognmaze.com/auth/`} />
 				<meta name='twitter:url' content={`https://lognmaze.com/auth/`} />
 
@@ -100,9 +95,9 @@ const SignIn = () => {
 					setValues={setValues}
 				/>
 			</FormControl>
-			{afterFormSubmitMessageExist && (
-				<div className={classes.warning}>{AfterFormSubmitMessage}</div>
-			)}
+
+			<div className={classes.warning}>{AfterFormSubmitMessage}</div>
+
 			<FormControl extraClasses='align-center' className={classes.actions}>
 				<Button
 					title='Sign In'

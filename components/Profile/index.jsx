@@ -38,7 +38,7 @@ const Profile = ({
 		<NewsContextProvider>
 			<main className={`${classes.profile} main`}>
 				<Head>
-					<meta name="robots" content="index,follow" />
+					<meta name='robots' content='index,follow' />
 					<meta property='og:locale' content='en_US' />
 					<meta property='og:type' content='profile' />
 					<meta property='profile:first_name' content={userData.first_name} />
@@ -110,7 +110,7 @@ const Profile = ({
 					<section className={classes['section-1']}>
 						<Feed news={news} newsFetchRouteQuery={newsFetchRouteQuery} />
 						<Wrapper>
-							<p>
+							<time>
 								<span>
 									<small>
 										<strong>Account Created At:</strong>{' '}
@@ -123,7 +123,7 @@ const Profile = ({
 										</em>
 									</small>
 								</span>
-							</p>
+							</time>
 						</Wrapper>
 					</section>
 					<section className={classes['section-2']}>

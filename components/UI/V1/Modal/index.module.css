@@ -37,7 +37,7 @@
 	transition: all 0.3s ease;
 	font-family: Helvetica, Arial, sans-serif;
 	min-height: fit-content;
-	background-color: rgba(255, 255, 255, 0.95);
+	background-color: var(--main-bg-color-0-95);
 }
 
 .modal-header {

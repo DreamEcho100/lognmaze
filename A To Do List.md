@@ -4,8 +4,6 @@
 
 - Adding a to do list (optional). [ ]
 
-- DELETE phone_number and phone_verified from user_account [ ]
-
 ## Done
 
 - Adding a counter to track the amount of article and posts per user. [x]
@@ -33,3 +31,7 @@
 - Changing the intro in screen sizes where width is smaller than height. [x]
 
 - Adding a title to a links. [x]
+
+- DELETE phone_number and phone_verified from user_account [x]
+
+- In the front-end adding the UI to change the user user_name_id.

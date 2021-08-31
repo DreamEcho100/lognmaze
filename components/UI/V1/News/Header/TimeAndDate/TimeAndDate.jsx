@@ -9,7 +9,7 @@ const TimeAndDate = ({ setShowModal, created_at, updated_on }) => (
 			if (setShowModal) setShowModal(true);
 		}}
 	>
-		<p>
+		<time>
 			<span>
 				<small>
 					<strong>Created At:</strong>{' '}
@@ -36,7 +36,7 @@ const TimeAndDate = ({ setShowModal, created_at, updated_on }) => (
 					</small>
 				</span>
 			)}
-		</p>
+		</time>
 	</div>
 );
 

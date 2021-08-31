@@ -129,7 +129,10 @@ const Action = ({
 				)}
 				modelClasses={{
 					'modal-wrapper': { width: '90%', maxWidth: 'none' },
-					'modal-container': { background: 'rgba(255, 255, 255)' },
+					'modal-container': { background: 'var(--main-bg-color-2)' },
+					'modal-body': {
+						background: 'var(--main-bg-color-1)',
+					},
 				}}
 			>
 				<Fragment key='header'>

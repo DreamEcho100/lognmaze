@@ -9,6 +9,8 @@ import UserContext from '@store/UserContext';
 
 import ChangeUserNameModal from './ChangeUserNameModal/ChangeUserNameModal';
 import ChangeUserGenderModal from './ChangeUserGenderModal/ChangeUserGenderModal';
+import ChangeUserNameIdModal from './ChangeUserNameIdModal';
+
 import { handleUpdateUserData } from '@store/UserContext/actions';
 
 const EditUserInfo = () => {
@@ -31,6 +33,16 @@ const EditUserInfo = () => {
 				<ButtonModalShower
 					buttonText='Change Your Gender'
 					ModalElement={ChangeUserGenderModal}
+					ModelProps={{
+						user: userState.user,
+						token: userState.token,
+						userDispatch: userDispatch,
+						handleUpdateUserData,
+					}}
+				/>,
+				<ButtonModalShower
+					buttonText='Change Your User Name Id'
+					ModalElement={ChangeUserNameIdModal}
 					ModelProps={{
 						user: userState.user,
 						token: userState.token,

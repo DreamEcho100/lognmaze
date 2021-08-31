@@ -61,6 +61,7 @@ const Details = ({ content }) => {
 			if (href.startsWith('http://') || href.startsWith('https://')) {
 				return (
 					<a
+						className='text-glow-special'
 						href={href}
 						title={node.children[0].value}
 						// target='_blank' rel='noopener noreferrer'
@@ -73,6 +74,7 @@ const Details = ({ content }) => {
 			return (
 				<Link href={href}>
 					<a
+						className='text-glow-special'
 						title={node.children[0].value}
 						// target='_blank' rel='noopener noreferrer'
 					>

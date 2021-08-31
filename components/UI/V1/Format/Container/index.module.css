@@ -49,24 +49,3 @@
 	margin-left: 1.5em;
 	list-style: circle;
 }
-
-.format-md a {
-	color: var(--main-special-bg-color-5);
-	text-shadow: 0rem 0rem 0.1rem var(--main-special-bg-color-3);
-	transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
-}
-.format-md a:hover {
-	color: var(--main-special-bg-color-5);
-	text-shadow: 0rem 0rem 0.8rem var(--main-special-bg-color-4);
-}
-.format-md a:focus-within,
-.format-md a:active,
-.format-md a:visited {
-	color: var(--main-special-bg-color-5);
-	text-shadow: 0rem 0rem 0rem var(--main-special-bg-color-5);
-	font-weight: 600;
-}
-
-.format-md strong {
-	font-weight: bolder;
-}

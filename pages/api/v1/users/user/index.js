@@ -81,17 +81,17 @@ export default async (req, res) => {
 				profile_picture: {
 					requirePassword: false,
 				},
+				user_name_id: {
+					requirePassword: true,
+				},
 			};
-
+ 
 			const user_accountTable = {
 				email: {
 					requirePassword: true,
 				},
 				password: {
 					requirePassword: false,
-				},
-				user_name_id: {
-					requirePassword: true,
 				},
 			};
 

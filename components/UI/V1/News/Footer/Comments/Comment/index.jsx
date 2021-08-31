@@ -272,7 +272,7 @@ const Comment = ({ comment, newsItem, ...props }) => {
 				/>
 			)}
 			<footer className={classes.footer}>
-				<p>
+				<time>
 					<span>
 						<small>
 							<strong>Created At:</strong>{' '}
@@ -299,7 +299,7 @@ const Comment = ({ comment, newsItem, ...props }) => {
 							</small>
 						</span>
 					)}
-				</p>
+				</time>
 				{userState.userExist && (
 					<button
 						title='Reply To A Comment'

@@ -20,7 +20,7 @@ const OneNewsContent = ({ newsItem }) => {
 	return (
 		<main className='main'>
 			<Head>
-				<meta name="robots" content="index,follow" />
+				<meta name='robots' content='index,follow' />
 				<meta property='og:type' content='article' />
 				<meta
 					property='article:publisher'
@@ -86,19 +86,19 @@ const OneNewsContent = ({ newsItem }) => {
 					</>
 				)}
 			</Head>
-			<section
+			{/* <section
 				style={{
 					width: '100%',
 					maxWidth: '100rem',
 					margin: 'auto',
 				}}
-			>
-				{/* <NewsContextProvider> */}
-				<Wrapper>
-					<Container {...articleProps} />
-				</Wrapper>
-				{/* </NewsContextProvider> */}
-			</section>
+			>  */}
+			{/* <NewsContextProvider> */}
+			<Wrapper>
+				<Container {...articleProps} />
+			</Wrapper>
+			{/* </NewsContextProvider> */}
+			{/* </section> */}
 		</main>
 	);
 };

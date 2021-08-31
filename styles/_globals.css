@@ -1,8 +1,6 @@
 /*----------------------------*/
 /* GLOBAL STYLES */
 /*----------------------------*/
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Open+Sans:wght@400;700&display=swap');
-
 /* ::-webkit-scrollbar { */
 /* 	/* width: calc(1.5rem + 0.2vw); */
 /* } */
@@ -17,36 +15,56 @@
 /* 	background: var(--main-bg-color); */
 /* } */
 
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap'); */
+
 :root {
 	font-size: 62.5%;
 	scroll-behavior: smooth;
 
-	--size-1: 0.4rem;
-	--size-2: 0.8rem;
-	--size-3: 1.2rem;
-	--size-4: 1.6rem;
-	--size-5: 2rem;
-	--size-6: 2.4rem;
-	--size-8: 3.2rem;
-	--size-9: 3.6rem;
-	--size-10: 4rem;
-	--size-11: 4.4rem;
-	--size-12: 4.8rem;
-	--size-13: 5.2rem;
-	--size-14: 5.6rem;
-	--size-15: 6rem;
-	--size-16: 6.4rem;
-	--size-20: 8rem;
-	--size-40: 16rem;
+	--size-1: 0.2rem;
+	--size-2: 0.4rem;
+	--size-3: 0.6rem;
+	--size-4: 0.8rem;
+	--size-5: 1rem;
+	--size-6: 1.2rem;
+	--size-8: 1.4rem;
+	--size-9: 1.6rem;
+	--size-10: 1.8rem;
+	--size-11: 2rem;
+	--size-12: 2.2rem;
+	--size-13: 2.4rem;
+	--size-14: 2.6rem;
+	--size-15: 2.8rem;
+	--size-16: 3rem;
+	--size-17: 3.2rem;
+	--size-18: 3.4rem;
 
-	--header1: var(--size-12);
-	--header2: var(--size-8); /* 3.2rem; */
-	--header3: var(--size-6); /* 2.6rem; */
-	--header4: var(--size-5); /* 2.4rem; */
-	--header5: var(--size-4); /* 2rem; */
-	--header6: var(--size-3); /* 1.6rem; */
+	--size-19: 3.6rem;
+	--size-20: 3.8rem;
+	--size-21: 4rem;
+	--size-22: 4.2rem;
+	--size-23: 4.4rem;
+	--size-24: 4.6rem;
+	--size-25: 4.8rem;
+	--size-26: 5rem;
+
+	--size-27: 5.2rem;
+	--size-28: 5.4rem;
+	--size-29: 5.6rem;
+	--size-30: 5.8rem;
+
+	--size-31: 6rem;
+	--size-32: 6.2rem;
+
+	--header1: var(--size-21);
+	--header2: var(--size-19); /* 3.2rem; */
+	--header3: var(--size-17); /* 2.6rem; */
+	--header4: var(--size-15); /* 2.4rem; */
+	--header5: var(--size-13); /* 2rem; */
+	--header6: var(--size-11); /* 1.6rem; */
 
 	--color-1-100: hsl(0, 0%, 100%); /* 	#ffffff	rgb(255, 255, 255) */
+	--color-1-100-95: hsl(0, 0%, 100%, 0.95);
 	--color-1-95: hsl(0, 0%, 95%); /* 	#f2f2f2	rgb(242, 242, 242) */
 	--color-1-90: hsl(0, 0%, 90%); /* 	#e6e6e6	rgb(230, 230, 230) */
 	--color-1-85: hsl(0, 0%, 85%); /* 	#d9d9d9	rgb(217, 217, 217) */
@@ -66,6 +84,7 @@
 	--color-1-15: hsl(0, 0%, 15%); /* 	#262626	rgb(38, 38, 38) */
 	--color-1-10: hsl(0, 0%, 10%); /* 	#1a1a1a	rgb(26, 26, 26) */
 	--color-1-5: hsl(0, 0%, 5%); /* 	#0d0d0d	rgb(13, 13, 13) */
+	--color-1-0-95: hsl(0, 0%, 0%, 0.95);
 	--color-1-0: hsl(0, 0%, 0%); /* 	#000000	rgb(0, 0, 0) */
 
 	--color-2-100: hsl(300, 100%, 100%); /* #ffffff	rgb(255, 255, 255) */
@@ -90,75 +109,10 @@
 	--color-2-5: hsl(300, 100%, 5%); /* #1a001a	rgb(26, 0, 26) */
 	--color-2-0: hsl(300, 100%, 0%); /* #000000	rgb(0, 0, 0) */
 
-	--main-color-1-100: var(--color-1-100);
-	--main-color-1-95: var(--color-1-95);
-	--main-color-1-90: var(--color-1-90);
-	--main-color-1-85: var(--color-1-85);
-	--main-color-1-80: var(--color-1-80);
-	--main-color-1-75: var(--color-1-75);
-	--main-color-1-70: var(--color-1-70);
-	--main-color-1-65: var(--color-1-65);
-	--main-color-1-60: var(--color-1-60);
-	--main-color-1-55: var(--color-1-55);
-	--main-color-1-50: var(--color-1-50);
-	--main-color-1-45: var(--color-1-45);
-	--main-color-1-40: var(--color-1-40);
-	--main-color-1-35: var(--color-1-35);
-	--main-color-1-30: var(--color-1-30);
-	--main-color-1-25: var(--color-1-25);
-	--main-color-1-20: var(--color-1-20);
-	--main-color-1-15: var(--color-1-15);
-	--main-color-1-10: var(--color-1-10);
-	--main-color-1-5: var(--color-1-5);
-	--main-color-1-0: var(--color-1-0);
-
-	--main-color-2-100: var(--color-2-100);
-	--main-color-2-95: var(--color-2-95);
-	--main-color-2-90: var(--color-2-90);
-	--main-color-2-85: var(--color-2-85);
-	--main-color-2-80: var(--color-2-80);
-	--main-color-2-75: var(--color-2-75);
-	--main-color-2-70: var(--color-2-70);
-	--main-color-2-65: var(--color-2-65);
-	--main-color-2-60: var(--color-2-60);
-	--main-color-2-55: var(--color-2-55);
-	--main-color-2-50: var(--color-2-50);
-	--main-color-2-45: var(--color-2-45);
-	--main-color-2-40: var(--color-2-40);
-	--main-color-2-35: var(--color-2-35);
-	--main-color-2-30: var(--color-2-30);
-	--main-color-2-25: var(--color-2-25);
-	--main-color-2-20: var(--color-2-20);
-	--main-color-2-15: var(--color-2-15);
-	--main-color-2-10: var(--color-2-10);
-	--main-color-2-5: var(--color-2-5);
-	--main-color-2-0: var(--color-2-0);
-
-	--main-color-3-100: var(--color-2-100);
-	--main-color-3-95: var(--color-2-95);
-	--main-color-3-90: var(--color-2-90);
-	--main-color-3-85: var(--color-2-85);
-	--main-color-3-80: var(--color-2-80);
-	--main-color-3-75: var(--color-2-75);
-	--main-color-3-70: var(--color-2-70);
-	--main-color-3-65: var(--color-2-65);
-	--main-color-3-60: var(--color-2-60);
-	--main-color-3-55: var(--color-2-55);
-	--main-color-3-50: var(--color-2-50);
-	--main-color-3-45: var(--color-2-45);
-	--main-color-3-40: var(--color-2-40);
-	--main-color-3-35: var(--color-2-35);
-	--main-color-3-30: var(--color-2-30);
-	--main-color-3-25: var(--color-2-25);
-	--main-color-3-20: var(--color-2-20);
-	--main-color-3-15: var(--color-2-15);
-	--main-color-3-10: var(--color-2-10);
-	--main-color-3-5: var(--color-2-5);
-	--main-color-3-0: var(--color-2-0);
-
-	--current-font-size: var(--size-4);
+	--current-font-size: var(--size-10);
 
 	--main-bg-color-0: var(--color-1-100);
+	--main-bg-color-0-95: var(--color-1-100-95);
 	--main-bg-color-1: var(--color-1-95);
 	--main-bg-color-2: var(--color-1-75);
 	--main-bg-color-3: var(--color-1-55);
@@ -167,26 +121,26 @@
 
 	--main-font-color-1: var(--color-1-15);
 	--main-font-color-2: var(--color-1-25);
-	--main-font-color-3: var(--color-1-55);
+	--main-font-color-3: var(--color-1-70);
 	--main-font-color-4: var(--color-1-75);
 	--main-font-color-5: var(--color-1-95);
 
 	--main-special-bg-color-1: var(--color-2-95);
 	--main-special-bg-color-2: var(--color-2-75);
-	--main-special-bg-color-3: var(--color-2-50);
+	--main-special-bg-color-3: var(--color-2-35);
 	--main-special-bg-color-4: var(--color-2-20);
-	--main-special-bg-color-5: var(--color-2-15);
+	--main-special-bg-color-5: var(--color-2-10);
 
 	--main-special-font-color-1: var(--color-1-15);
 	--main-special-font-color-2: var(--color-1-25);
-	--main-special-font-color-3: var(--color-1-60);
+	--main-special-font-color-3: var(--color-1-70);
 	--main-special-font-color-4: var(--color-1-90);
 	--main-special-font-color-5: var(--color-1-95);
 
 	--main-special-2-bg-color-0: var(--color-1-100);
 	--main-special-2-bg-color-1: var(--color-1-15);
 	--main-special-2-bg-color-2: var(--color-1-25);
-	--main-special-2-bg-color-3: var(--color-1-55);
+	--main-special-2-bg-color-3: var(--color-1-60);
 	--main-special-2-bg-color-4: var(--color-1-75);
 	--main-special-2-bg-color-5: var(--color-1-90);
 
@@ -195,26 +149,31 @@
 	--main-special-2-font-color-3: var(--color-1-55);
 	--main-special-2-font-color-4: var(--color-1-25);
 	--main-special-2-font-color-5: var(--color-1-15);
+
+	--wrapper-box-shadow-length: 1rem;
 }
 
 ::selection {
-	color: var(--main-bg-color-1);
-	background: var(--main-font-color-1);
+	color: var(--main-special-bg-color-3);
+	background: var(--main-special-font-color-3);
 }
 
 body.dark {
-	--main-bg-color-0: var(--color-1-5);
-	--main-bg-color-1: var(--color-1-15);
-	--main-bg-color-2: var(--color-1-25);
+	--main-bg-color-0: var(--color-1-0);
+	--main-bg-color-0-95: var(--color-1-0-95);
+	--main-bg-color-1: var(--color-1-5);
+	--main-bg-color-2: var(--color-1-20);
 	--main-bg-color-3: var(--color-1-55);
 	--main-bg-color-4: var(--color-1-75);
-	--main-bg-color-5: var(--color-1-95);
+	--main-bg-color-5: var(--color-1-100);
 
-	--main-font-color-1: var(--color-1-95);
+	--main-font-color-1: var(--color-1-100);
 	--main-font-color-2: var(--color-1-75);
 	--main-font-color-3: var(--color-1-55);
-	--main-font-color-4: var(--color-1-25);
-	--main-font-color-5: var(--color-1-15);
+	--main-font-color-4: var(--color-1-20);
+	--main-font-color-5: var(--color-1-5);
+
+	--wrapper-box-shadow-length: 0.25rem;
 }
 
 #main-intro {
@@ -293,13 +252,6 @@ body.dark {
 	}
 }
 
-.main-section {
-	width: 95%;
-	/* height: 100%; */
-	margin: auto;
-	background-color: var(--main-bg-color-light);
-}
-
 *,
 *::before,
 *::after {
@@ -319,6 +271,7 @@ body {
 	min-height: 100vh;
 	max-width: 200rem;
 	margin: auto;
+	font-family: 'Roboto', cursive, sans-serif;
 }
 
 #__next {
@@ -335,11 +288,17 @@ body {
 .body,
 #__next {
 	background: var(--main-bg-color-2);
+	color: var(--main-font-color-1);
 }
 
-.body,
-#__next {
-	color: var(--main-font-color-1);
+/* main#main */
+.main {
+	max-width: 100%;
+	width: 100%;
+	min-height: 100vh;
+	border-radius: 0.2rem;
+	margin: 1em auto;
+	padding: 1em;
 }
 
 body,
@@ -349,10 +308,11 @@ a {
 	font-size: var(--current-font-size);
 }
 
+/* a,
+button,
 svg {
-	font-size: calc(var(--current-font-size) * 1.2);
-	color: inherit;
-}
+	font-size: calc(var(--current-font-size) * 1.05);
+} */
 
 h1 {
 	font-size: var(--header1);
@@ -398,11 +358,14 @@ span {
 	font-size: inherit;
 }
 
-a {
+/* a, */
+button,
+svg {
 	/* color: var(--main-font-color); */
 	color: inherit;
 }
 
+a,
 a:hover,
 a:link,
 a:active,
@@ -429,16 +392,6 @@ button:disabled {
 	cursor: not-allowed;
 }
 
-/* main#main */
-.main {
-	max-width: 100%;
-	width: 100%;
-	min-height: 100vh;
-	border-radius: 0.2rem;
-	margin: 1em auto;
-	padding: 1em;
-}
-
 .disable {
 	pointer-events: none;
 	filter: grayscale(1);
@@ -446,21 +399,33 @@ button:disabled {
 	cursor: not-allowed;
 }
 
-.text-glow-special {
-	color: var(--main-special-bg-color-5);
-	text-shadow: 0rem 0rem 0.1rem var(--main-special-bg-color-3);
+.text-glow-special,
+a.text-glow-special,
+button.text-glow-special,
+svg.text-glow-special {
+	--color: var(--main-special-bg-color-5);
+	--color-focus: var(--main-special-bg-color-5);
+	--color-hover: var(--main-special-bg-color-5);
+	color: var(--color);
+	text-shadow: 0rem 0rem 0.1rem var(--color);
 	transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 .text-glow-special:hover {
-	color: var(--main-special-bg-color-5);
-	text-shadow: 0rem 0rem 0.8rem var(--main-special-bg-color-4);
+	color: var(--color-hover);
+	text-shadow: 0rem 0rem 0.8rem var(--color-hover);
 }
 .text-glow-special:focus-within,
 .text-glow-special:active,
 .text-glow-special:visited {
-	color: var(--main-special-bg-color-5);
-	text-shadow: 0rem 0rem 0rem var(--main-special-bg-color-5);
+	color: var(--color-focus);
+	text-shadow: 0rem 0rem 0rem var(--color-focus);
 	font-weight: 600;
+}
+
+body.dark .text-glow-special {
+	--color: var(--main-special-bg-color-3);
+	--color-focus: var(--main-special-bg-color-3);
+	--color-hover: var(--main-special-bg-color-3);
 }
 
 .cursor-pointer {
@@ -478,14 +443,5 @@ button:disabled {
 @media screen and (max-width: 400px) {
 	:root {
 		font-size: 55.5%;
-		/* --header1: var(--size-10); */
-		/* --header2: var(--size-7); */
-
-		--header1: calc(var(--size-12) - 0.5rem);
-		--header2: calc(var(--size-8) - 0.5rem);
-		--header3: calc(var(--size-6) - 0.5rem);
-		--header4: calc(var(--size-5) - 0.5rem);
-		--header5: calc(var(--size-4) - 0.5rem);
-		--header6: calc(var(--size-3) - 0.5rem);
 	}
 }

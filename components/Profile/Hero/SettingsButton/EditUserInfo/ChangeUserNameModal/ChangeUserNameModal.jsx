@@ -74,7 +74,7 @@ const ChangeUserNameModal = ({
 			)}
 		>
 			<Fragment key='header'>
-				<h1>Change Your Basic Info</h1>
+				<h1>Change Your First {'&/Or'} Last Name</h1>
 			</Fragment>
 			<Fragment key='body'>
 				<Form

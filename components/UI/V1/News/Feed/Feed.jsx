@@ -6,8 +6,8 @@ import NewsContext from '@store/NewsContext';
 import { handleLoadMoreNewsItems } from '@store/NewsContext/actions';
 import { handleAllClasses } from '../../utils/index';
 
-import Container from '@components/UI/V1/News/Container';
 import Wrapper from '@components/UI/V1/Wrapper';
+import Container from '@components/UI/V1/News/Container';
 
 const Feed = ({
 	defaultClasses = 'feed',
@@ -41,13 +41,16 @@ const Feed = ({
 	return (
 		<section {...feedProps}>
 			{state.news.map((item, index) => (
-				<Container
+				<Wrapper
 					key={`Feed-${index}-${item.news_id}`}
-					newsItem={item}
-					detailsType='description'
-					modalOnClick
-					className={classes['news-container']}
-				/>
+				>
+					<Container
+						newsItem={item}
+						detailsType='description'
+						modalOnClick
+						className={classes['news-container']}
+					/>
+				</Wrapper>
 			))}
 			{!state.hit_news_items_limit && (
 				<Wrapper

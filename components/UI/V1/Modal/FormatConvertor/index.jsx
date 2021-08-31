@@ -19,14 +19,19 @@ const FormatConvertorModal = ({
 			maxWidth: 'unset',
 		},
 		'modal-container': {
-			background: 'rgba(255, 255, 255)',
+			// background: 'var(--main-bg-color-2)',
+			background: 'var(--main-bg-color-1)',
 			height: '100%',
 			display: 'flex',
 			flexDirection: 'column',
 			alignItems: 'stretch',
 			justifyContent: 'stretch',
 		},
-		'modal-body': { height: '50%', width: '100%' },
+		'modal-body': {
+			minHeight: '50%',
+			width: '100%',
+			// background: 'var(--main-bg-color-1)',
+		},
 	};
 
 	return (
