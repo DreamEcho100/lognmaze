@@ -19,7 +19,6 @@ const UpdateUserPicture = ({
 	ModalHeader = () => {
 		return <></>;
 	},
-	// ...props
 }) => {
 	const { dispatch: userDispatch, state: userState } = useContext(UserContext);
 
@@ -70,7 +69,6 @@ const UpdateUserPicture = ({
 
 	return (
 		<Modal
-			// DynamicModal
 			showModal={showModal}
 			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (
@@ -83,10 +81,7 @@ const UpdateUserPicture = ({
 				<ModalHeader />
 			</Fragment>
 			<Fragment key='body'>
-				<Form
-					// extraClasses={`${BoxShadowClasses['box-shadow']}`}
-					onSubmit={submitHandler}
-				>
+				<Form onSubmit={submitHandler}>
 					<FormControl>
 						<Label htmlFor='url-input'>Or Enter A URL:</Label>
 						<Input
@@ -98,17 +93,9 @@ const UpdateUserPicture = ({
 						/>
 					</FormControl>
 
-					<div // className={classes.warning}
-					>
-						{AfterFormSubmitMessage}
-					</div>
+					<div>{AfterFormSubmitMessage}</div>
 
-					<Button
-						title='Submit'
-						disabled={buttonsDisabled}
-						type='submit'
-						// className={classes.submitBtn}
-					>
+					<Button title='Submit' disabled={buttonsDisabled} type='submit'>
 						Submit
 					</Button>
 				</Form>

@@ -77,7 +77,6 @@ const ChangeUserEmailModal = ({
 
 	return (
 		<Modal
-			// DynamicModal
 			showModal={showModal}
 			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (

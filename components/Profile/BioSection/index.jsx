@@ -1,5 +1,4 @@
 import { Fragment, useContext, useState } from 'react';
-// import dynamic from 'next/dynamic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
@@ -62,7 +61,6 @@ const BioSection = ({ bio = '', visitorIdentity }) => {
 					</Button>
 				)}
 				<Modal
-					// DynamicModal
 					showModal={showBioEditModal}
 					click={() => setShowBioEditModal(false)}
 					CloseButtonElement={(props) => (

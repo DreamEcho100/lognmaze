@@ -12,8 +12,6 @@
 	position: absolute;
 	top: 100%;
 	right: 0;
-	/* border: 0.1rem solid black; */
-	/* border-radius: 0.5rem; */
 	background-color: var(--main-bg-color-2);
 	height: 0;
 	overflow-y: hidden;

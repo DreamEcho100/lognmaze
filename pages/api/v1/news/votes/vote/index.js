@@ -1,5 +1,5 @@
 import { handleIsAuthorized } from '@lib/v1/auth';
-import { pool /*, QueryBuilder */ } from '@lib/v1/pg';
+import { pool } from '@lib/v1/pg';
 
 export default async (req, res) => {
 	if (
@@ -14,13 +14,6 @@ export default async (req, res) => {
 	}
 	try {
 		if (req.method === 'GET') {
-			// const isAuthorized = await handleIsAuthorized(
-			// 	res,
-			// 	req.headers.authorization
-			// );
-
-			// if (!isAuthorized.id) return;
-
 			const { news_id, voter_id } = req.query;
 
 			const data = await pool
@@ -161,7 +154,7 @@ export default async (req, res) => {
             WHERE news_id = ($1) and voter_id = ($2)
             RETURNING voter_id
 					`,
-					[news_id, isAuthorized.id /*, vote_type*/]
+					[news_id, isAuthorized.id]
 				)
 				.then((response) => response.rows[0]);
 

@@ -255,8 +255,8 @@ const reducer = (state, action) => {
 									: undefined;
 
 								const replies = comment.replies
-									? [...comment.replies, ...data.comments /*.reverse()*/]
-									: data.comments; /*.reverse()*/
+									? [...comment.replies, ...data.comments]
+									: data.comments;
 
 								return {
 									...comment,
@@ -356,9 +356,7 @@ const reducer = (state, action) => {
 						return {
 							...newsItem,
 							comments: newsItem.comments.map((comment) => {
-								if (
-									comment.news_comment_id === parent_data_id // props.parent_data.news_comment_id
-								) {
+								if (comment.news_comment_id === parent_data_id) {
 									return {
 										...comment,
 										replies: comment.replies.map((reply) => {

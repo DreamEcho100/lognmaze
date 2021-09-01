@@ -2,8 +2,6 @@ import { useContext, useEffect } from 'react';
 
 import Head from 'next/head';
 
-// import classes from './index.module.css';
-
 import NewsContext from '@store/NewsContext';
 
 import Container from '@components/UI/V1/News/Container';
@@ -86,19 +84,9 @@ const OneNewsContent = ({ newsItem }) => {
 					</>
 				)}
 			</Head>
-			{/* <section
-				style={{
-					width: '100%',
-					maxWidth: '100rem',
-					margin: 'auto',
-				}}
-			>  */}
-			{/* <NewsContextProvider> */}
 			<Wrapper>
 				<Container {...articleProps} />
 			</Wrapper>
-			{/* </NewsContextProvider> */}
-			{/* </section> */}
 		</main>
 	);
 };
@@ -119,9 +107,6 @@ const NewsContextWrapper = ({ newsItem }) => {
 			newsItem={item}
 		/>
 	));
-	// return (
-	// 	<OneNewsContent newsItem={state.news.length !== 0 ? state.news[0] : {}} />
-	// );
 };
 
 export default NewsContextWrapper;

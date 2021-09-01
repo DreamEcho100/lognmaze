@@ -80,7 +80,6 @@ const Comment = ({ comment, newsItem, ...props }) => {
 		setEditBtnsDisabled(true);
 
 		const bodyObj = {
-			// type: comment.type,
 			content: values.content,
 			news_comment_id: comment.news_comment_id,
 		};
@@ -244,11 +243,8 @@ const Comment = ({ comment, newsItem, ...props }) => {
 						</p>
 					</div>
 				</nav>
-				{userState.user.id === comment.author_id /*&& showContent*/ && (
-					<DropdownMenu
-						// DynamicDropdownMenu
-						items={items}
-					/>
+				{userState.user.id === comment.author_id && (
+					<DropdownMenu items={items} />
 				)}
 			</header>
 			{showContent && (
@@ -313,7 +309,6 @@ const Comment = ({ comment, newsItem, ...props }) => {
 			{comment.type === 'comment_main' &&
 				parseInt(comment.replies_counter) !== 0 &&
 				!showReplies && (
-					// !comment.hit_replies_limit &&
 					<button
 						title={`${
 							parseInt(comment.replies_counter) === 1 ? 'Reply' : 'Replies'
@@ -351,7 +346,6 @@ const Comment = ({ comment, newsItem, ...props }) => {
 							type: 'comment_main_reply',
 							news_id: newsItem.news_id,
 							content: values.comment_reply,
-							// reply_to_comment_id: null, // comment.news_id,
 							reply_to_user_id: comment.author_id,
 						};
 

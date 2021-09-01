@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-// import classes from './index.module.css';
-
 import Button from '@components/UI/V1/Button';
 
 const ButtonModalShower = ({ buttonText, ModalElement, ModelProps }) => {

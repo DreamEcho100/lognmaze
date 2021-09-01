@@ -237,7 +237,7 @@ export default async (req, res) => {
 
 			if (!isAuthorized.id) return;
 
-			const { /*type, */ content, news_comment_id } = req.body;
+			const { content, news_comment_id } = req.body;
 
 			const data = await pool
 				.query(
@@ -258,26 +258,6 @@ export default async (req, res) => {
 					isAuthorized: true,
 				});
 			}
-
-			// if (type === 'comment_main') {
-			// 	await pool.query(
-			// 		`
-			// 			UPDATE news_comment
-			// 			SET content = ($1)
-			// 			WHERE news_comment_id = ($2)
-			// 		`,
-			// 		[content, data.news_id]
-			// 	);
-			// } else if (type === 'comment_main_reply') {
-			// 	await pool.query(
-			// 		`
-			// 			UPDATE news_comment_reply
-			// 			SET content = ($1)
-			// 			WHERE news_comment_reply_id = ($2)
-			// 		`,
-			// 		[content, data.news_id]
-			// 	);
-			// }
 
 			return res.status(200).json({
 				status: 'success',

@@ -3,10 +3,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-// import Image from 'next/image';
 
-// import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
-// import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 const SyntaxHighlighterDynamic = dynamic(() => import('./SyntaxHighlighter'));
 
 import Image from '@components/UI/V1/Image';

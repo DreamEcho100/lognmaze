@@ -6,7 +6,6 @@ import classes from './index.module.css';
 import { dateToHumanReadableDate } from '@lib/v1/time';
 import { NewsContextProvider } from '@store/NewsContext';
 
-// import CreateNewsButton from '@components/UI/V1/Button/CreateNews';
 import CreateNewsButton from './CreateNewsButton/CreateNewsButton';
 
 import Wrapper from '@components/UI/V1/Wrapper';

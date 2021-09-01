@@ -43,16 +43,18 @@ const Accordion = ({
 			}`}
 		>
 			<div className={`${classes['accordion-header']} accordion-header`}>
-				<div className={classes['container']}>{findByKey('header')}</div>
-				<button
-					title='toggle accordion body'
-					className={`${classes['toggle-accordion-body']} ${
-						hideAccordion ? classes['toggle'] : ''
-					}`}
-					onClick={() => useHideAccordion((prop) => !prop)}
-				>
-					<div className={classes['arrow-container']}></div>
-				</button>
+				<div className={classes['container']}>
+					{findByKey('header')}
+					<button
+						title='toggle accordion body'
+						className={`${classes['toggle-accordion-body']} ${
+							hideAccordion ? classes['toggle'] : ''
+						}`}
+						onClick={() => useHideAccordion((prop) => !prop)}
+					>
+						<div className={classes['arrow-container']}></div>
+					</button>
+				</div>
 			</div>
 			<div
 				className={`${classes['accordion-body']} ${

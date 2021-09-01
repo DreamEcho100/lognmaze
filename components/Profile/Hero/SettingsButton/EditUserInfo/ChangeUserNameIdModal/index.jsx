@@ -64,7 +64,6 @@ const ChangeUserNameIdModal = ({
 
 	return (
 		<Modal
-			// DynamicModal
 			showModal={showModal}
 			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (
@@ -105,7 +104,6 @@ const ChangeUserNameIdModal = ({
 					</FormControl>
 
 					<div
-					// className={classes.warning}
 					>
 						{AfterFormSubmitMessage}
 					</div>
@@ -114,7 +112,6 @@ const ChangeUserNameIdModal = ({
 						title='Submit'
 						disabled={btnsDisabled}
 						type='submit'
-						// className={classes.submitBtn}
 					>
 						Submit
 					</Button>

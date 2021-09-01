@@ -1,6 +1,3 @@
-// import classes from './index.module.css';
-
-// import Wrapper from '@components/UI/V1/Wrapper';
 import NewsHeader from '@components/UI/V1/News/Header/Header';
 import Details from '@components/UI/V1/News/Details/Details';
 import NewsFooter from '@components/UI/V1/News/Footer';
@@ -13,19 +10,9 @@ const ContainerItems = ({
 	setIsLoadingContent,
 	isLoadingContent,
 	isLoadingUserVote,
-	// props.hideHeaderSettings,
 	...props
 }) => {
 	return (
-		// <Wrapper
-		// 	style={{
-		// 		width: '100%',
-		// 		maxWidth: '100rem',
-		// 		marginLeft: 'auto',
-		// 		marginRight: 'auto',
-		// 	}}
-		// 	extraClasses='full-width'
-		// >
 		<article {...articleProps}>
 			<NewsHeader
 				newsItem={newsItem}
@@ -41,7 +28,6 @@ const ContainerItems = ({
 				isLoadingContent={isLoadingContent}
 			/>
 			<NewsFooter newsItem={newsItem} isLoadingUserVote={isLoadingUserVote} />
-			{/* </Wrapper> */}
 		</article>
 	);
 };

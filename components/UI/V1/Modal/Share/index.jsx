@@ -1,13 +1,7 @@
 import { Fragment, useState } from 'react';
-// import dynamic from 'next/dynamic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
-
-// const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
-// const DynamicSocialMediaShareLink = dynamic(() =>
-// 	import('@components/UI/V1/SocialMediaShareLink')
-// );
 
 import Modal from '@components/UI/V1/Modal';
 import SocialMediaShareLink from '@components/UI/V1/SocialMediaShareLink';
@@ -49,16 +43,11 @@ const ShareModel = ({
 	}
 
 	const copyToClipboard = (element) => {
-		// Select the text field
 		element.select();
-		// For mobile devices
 		element.setSelectionRange(0, 99999);
 
-		// Copy the text inside the text field
 		navigator.clipboard.writeText(element.value);
 
-		// Alert the copied text
-		// alert(`Copied the text:  ${element.value}`);
 		setInputCopiedToClipboard(true);
 	};
 
@@ -76,7 +65,6 @@ const ShareModel = ({
 
 	return (
 		<Modal
-			// DynamicModal
 			showModal={showShareModel}
 			setShowShareModel={setShowShareModel}
 			click={() => setShowShareModel(false)}
@@ -98,7 +86,6 @@ const ShareModel = ({
 						>
 							<SocialMediaShareLink
 								title='Share it on facebook'
-								// DynamicSocialMediaShareLink
 								type='facebook'
 								url={url}
 								quote={quote}
@@ -116,7 +103,6 @@ const ShareModel = ({
 						>
 							<SocialMediaShareLink
 								title='Share it on linkedin'
-								// DynamicSocialMediaShareLink
 								type='linkedin'
 								url={url}
 								title={title}
@@ -135,7 +121,6 @@ const ShareModel = ({
 						>
 							<SocialMediaShareLink
 								title='Share it on reddit'
-								// DynamicSocialMediaShareLink
 								type='reddit'
 								url={url}
 								title={title}
@@ -152,7 +137,6 @@ const ShareModel = ({
 						>
 							<SocialMediaShareLink
 								title='Share it on telegram'
-								// DynamicSocialMediaShareLink
 								type='telegram'
 								url={url}
 								title={title}
@@ -169,7 +153,6 @@ const ShareModel = ({
 						>
 							<SocialMediaShareLink
 								title='Share it on tumblr'
-								// DynamicSocialMediaShareLink
 								type='tumblr'
 								url={url}
 								title={title}
@@ -188,7 +171,6 @@ const ShareModel = ({
 						>
 							<SocialMediaShareLink
 								title='Share it on twitter'
-								// DynamicSocialMediaShareLink
 								type='twitter'
 								url={url}
 								text={title}
@@ -206,7 +188,6 @@ const ShareModel = ({
 						>
 							<SocialMediaShareLink
 								title='Share it on whatsapp'
-								// DynamicSocialMediaShareLink
 								type='whatsapp'
 								url={url}
 								title={title}

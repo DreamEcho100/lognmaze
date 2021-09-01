@@ -116,7 +116,6 @@ const ChangeUserPasswordModal = ({
 
 	return (
 		<Modal
-			// DynamicModal
 			showModal={showModal}
 			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (

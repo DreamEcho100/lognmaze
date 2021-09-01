@@ -1,15 +1,5 @@
 import types from './types';
 
-// const fetcher = async ({ bodyObj, token, method = 'POST' }) =>
-// await fetch(`/api/v1/data`, {
-// 	method,
-// 	body: JSON.stringify(bodyObj),
-// 	headers: {
-// 		'Content-Type': 'application/json',
-// 		authorization: `Bearer ${token}`,
-// 	},
-// });
-
 export const handleLoadingNewsItemContent = async ({ dispatch, news_id }) => {
 	dispatch({
 		type: types.SET_IS_LOADING_CONTENT_IN_NEWS_ITEM,
@@ -173,15 +163,11 @@ export const handleUpdatingUserNewsItem = async ({
 		const removedTags = [];
 		const addedTags = [];
 
-		const oldTags = oldValues.tags.filter(
-			(item) => /*!item || */ item.length !== 0
-		);
+		const oldTags = oldValues.tags.filter((item) => item.length !== 0);
 		const newTags = newValues.tags;
 
 		if (oldTags.length <= newTags.length) {
 			newTags.forEach((item, index) => {
-				// if (oldTags.includes(item)) return;
-
 				if (!oldTags.includes(item) && item.length !== 0) {
 					addedTags.push(item);
 				}
@@ -194,8 +180,6 @@ export const handleUpdatingUserNewsItem = async ({
 			});
 		} else if (oldTags.length > newTags.length) {
 			oldTags.forEach((item, index) => {
-				// if (oldTags.includes(item)) return;
-
 				if (!newTags.includes(item) && item.length !== 0) {
 					removedTags.push(item);
 				}
@@ -329,8 +313,6 @@ export const handleDeletingUserNewsItem = async ({
 };
 
 export const handleLoadingNewsItemComments = async ({ dispatch, newsItem }) => {
-	// setLoadingComments(true);
-
 	let fetchInput = `/api/v1/news/comments/comment/?type=comment_main&news_id=${newsItem.news_id}`;
 
 	if (newsItem.last_comment_created_at) {
@@ -348,7 +330,6 @@ export const handleLoadingNewsItemComments = async ({ dispatch, newsItem }) => {
 	);
 
 	if (!status || (status && status === 'error')) {
-		// setLoadingComments(false);
 		console.error(message);
 
 		return {
@@ -375,7 +356,6 @@ export const handleLoadingNewsItemComments = async ({ dispatch, newsItem }) => {
 		!dataToAdd.comments
 	) {
 		dataToAdd.hit_comments_limit = true;
-		// setHitCommentsLimit(true);
 	}
 
 	dispatch({

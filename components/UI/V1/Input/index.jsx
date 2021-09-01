@@ -50,10 +50,6 @@ const Input = ({
 		...props,
 	};
 
-	// const handleUseElement = () => {
-	// 	useElement(inputRef.current);
-	// }
-
 	useEffect(() => {
 		if (useElement) {
 			useElementIn(inputRef.current);

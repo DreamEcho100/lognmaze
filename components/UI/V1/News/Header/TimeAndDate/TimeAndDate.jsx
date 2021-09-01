@@ -1,5 +1,3 @@
-// import classes from './TimeAndDate.module.css';
-
 import { dateToHumanReadableDate } from '@lib/v1/time';
 
 const TimeAndDate = ({ setShowModal, created_at, updated_on }) => (

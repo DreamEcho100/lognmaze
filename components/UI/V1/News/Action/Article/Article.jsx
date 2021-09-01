@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import classes from './Article.module.css';
-// import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 
 import ISO639_1LanguageCodes from '@data/ISO639_1LanguageCodes.json';
 import ISOCountryCodesCountriesISOCode from '@data/ISOCountryCodesCountriesISOCode.json';
@@ -51,7 +50,6 @@ const Article = ({
 
 	const resetInputs = () => {
 		setValues({
-			// format_type: 'normal',
 			title: '',
 			slug: '',
 			iso_language: 'en',
@@ -84,7 +82,6 @@ const Article = ({
 			closeModal();
 		}
 		return result;
-		// setFormMessage(error.message);
 	};
 
 	const sharedInputProps = (

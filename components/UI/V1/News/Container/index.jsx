@@ -1,8 +1,6 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
-// import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';
-// import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 import BorderClasses from '@components/UI/V1/Border.module.css';
 
 import NewsContext from '@store/NewsContext';
@@ -13,7 +11,6 @@ import {
 import UserContext from '@store/UserContext';
 import { handleAllClasses } from '../../utils/index';
 
-// const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
 
 import Modal from '@components/UI/V1/Modal';
 import ContainerItems from './ContainerItems';
@@ -41,9 +38,7 @@ const Container = ({
 
 	const allClasses = handleAllClasses({
 		classes,
-		defaultClasses: `${defaultClasses}${
-			props.containerType !== 'sub' ? ' container-max-width' : ''
-		}`,
+		defaultClasses,
 		extraClasses,
 		className,
 	});
@@ -51,21 +46,20 @@ const Container = ({
 	if (newsItem.type === 'article')
 		articleProps.lang = `${newsItem.iso_language}-${newsItem.iso_country}`;
 
-	useEffect(async () => {
+	useEffect(() => {
 		if (
 			showModal &&
 			!newsItem.content &&
 			newsItem?.news_id
-			// && props.containerType === 'sub'
 		) {
-			await handleLoadingNewsItemContent({
+			handleLoadingNewsItemContent({
 				dispatch,
 				news_id: newsItem.news_id,
 			});
 		}
 	}, [showModal]);
 
-	useEffect(async () => {
+	useEffect(() => {
 		if (
 			isLoadingUserVote &&
 			userState.userExist &&
@@ -74,7 +68,7 @@ const Container = ({
 				parseInt(newsItem.down_votes_counter) !== 0)
 		) {
 			if (!isLoadingUserVote) setIsLoadingUserVote(true);
-			await HandleLoadingUserVote({
+			HandleLoadingUserVote({
 				dispatch,
 				news_id: newsItem.news_id,
 				user: userState.user,
@@ -94,9 +88,7 @@ const Container = ({
 				newsItem={newsItem}
 				setShowModal={setShowModal}
 				detailsType={detailsType}
-				// setIsLoadingContent={setIsLoadingContent}
 				isLoadingUserVote={isLoadingUserVote}
-				// isLoadingContent={isLoadingContent}
 			/>
 
 			{props.modalOnClick && (
@@ -124,10 +116,6 @@ const Container = ({
 							articleProps={articleProps}
 							newsItem={newsItem}
 							setShowModal={setShowModal}
-							// isLoadingUserVote={isLoadingUserVote}
-							// isContainerContentOnView={showModal}
-							// setIsLoadingContent={setIsLoadingContent}
-							// isLoadingContent={isLoadingContent && showModal}
 							detailsType='content'
 						/>
 					</Fragment>

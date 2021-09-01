@@ -6,21 +6,15 @@ import classes from './index.module.css';
 const DynamicSignUp = dynamic(() => import('./SignUp/SignUp'));
 const DynamicSignIn = dynamic(() => import('./SignIn/SignIn'));
 
-// import SignIn from './SignIn/SignIn';
-// import SignUp from './SignUp/SignUp';
 import Button from '@components/UI/V1/Button';
 
 const Auth = ({
 	UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN,
-	// signType,
 	...props
 }) => {
 	const [signType, setSignType] = useState('');
 
 	useEffect(() => {
-		// if (signType === 'up') {
-		// 	setSignInComponent(false);
-		// }
 		setSignType(props.signType || 'in');
 	}, []);
 

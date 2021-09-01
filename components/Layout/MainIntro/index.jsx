@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 
-// import classes from './index.module.css';
+import classes from './index.module.css';
 
 import UserContext from '@store/UserContext';
 
@@ -34,16 +34,15 @@ const MainIntro = () => {
 	return (
 		<div
 			ref={introRef}
-			id='main-intro'
 			className={`${
 				!userState.isVerifyingUserLoading && animationEnd
-					? 'verifying-credentials-finished'
+					? classes['verifying-credentials-finished']
 					: ''
-			}
-			${!introHorizontal ? 'setVertical' : ''}
+			} 
+			${!introHorizontal ? classes['setVertical'] : ''} ${classes['main-intro']}
 			`}
 		>
-			<div className='svg-container'>
+			<div className={classes['svg-container']}>
 				<LogNMazeSignature setAnimationEnd={setAnimationEnd} />
 			</div>
 		</div>

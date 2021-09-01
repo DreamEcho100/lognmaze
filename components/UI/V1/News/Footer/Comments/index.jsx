@@ -1,7 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
 
-// import classes from './index.module.css';
-
 import {
 	handleLoadingNewsItemComments,
 	handlePostingCommentToNewsItem,

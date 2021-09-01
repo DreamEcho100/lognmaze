@@ -1,5 +1,5 @@
 import { handleIsAuthorized } from '@lib/v1/auth';
-import { pool, QueryBuilder /*, queryBuilder */ } from '@lib/v1/pg';
+import { pool } from '@lib/v1/pg';
 
 export default async (req, res) => {
 	if (
@@ -271,7 +271,7 @@ export default async (req, res) => {
 
 			if (!isAuthorized.id) return;
 
-			const { type /*, ...news_data*/ } = req.body;
+			const { type } = req.body;
 			const cte = [
 				`
 				update_item_1 AS (

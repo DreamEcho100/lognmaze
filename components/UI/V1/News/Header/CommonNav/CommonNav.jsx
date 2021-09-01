@@ -17,8 +17,6 @@ const CommonNav = ({
 			<a
 				title={`author ${newsItem.author_user_name_id} profile`}
 				className={classes.author_profile_link}
-				// target='_blank'
-				// rel='noopener noreferrer'
 			>
 				<Image
 					src={newsItem.author_profile_picture}

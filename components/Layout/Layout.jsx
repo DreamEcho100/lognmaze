@@ -1,14 +1,12 @@
-// import classes from './Layout.module.css';
-
 import { UserContextProvider } from '@store/UserContext';
 
 import MainNavigation from './MainNavigation/MainNavigation';
 import MainIntro from './MainIntro';
 
-const Layout = ({ children /*, isAuthenticated*/ }) => {
+const Layout = ({ children }) => {
 	return (
 		<UserContextProvider>
-			<MainNavigation /*isAuthenticated={isAuthenticated}*/ />
+			<MainNavigation />
 			{children}
 			<MainIntro />
 		</UserContextProvider>

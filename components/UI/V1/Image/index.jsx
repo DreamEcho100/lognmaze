@@ -1,16 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-// import classes from './index.module.css';
 
-// import { handleAllClasses } from '../utils/index';
-
-const Image = ({
-	// defaultClasses = 'button',
-	// extraClasses = '',
-	className = '',
-	alt = '',
-	loading = 'lazy',
-	...props
-}) => {
+const Image = ({ className = '', alt = '', loading = 'lazy', ...props }) => {
 	const imageRef = useRef();
 
 	const [src, setSrc] = useState('');
@@ -25,7 +15,6 @@ const Image = ({
 					entries.forEach((entry) => {
 						if (entry.isIntersecting /*  && !entry.isVisible */) {
 							setSrc(props.src);
-							// observer.unobserve(imageRef.current);
 							observer.disconnect();
 						}
 					});

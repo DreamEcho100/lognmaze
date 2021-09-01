@@ -11,7 +11,6 @@ const DeleteNews = ({
 	const [actionNewsData, setActionNewsData] = useState({
 		type: newsItem.type,
 		action: 'delete',
-		// isDataOwner,
 		newsItem: newsItem,
 	});
 
@@ -30,13 +29,6 @@ const DeleteNews = ({
 
 	useEffect(() => {
 		if (JSON.stringify(newsItem) !== JSON.stringify(actionNewsData.newsItem)) {
-			// setActionNewsData({
-			// 	type: newsItem.type,
-			// 	action: 'delete',
-			// 	isDataOwner,
-			// 	newsItem: newsItem,
-			// });
-
 			setActionNewsData((prev) => ({
 				...prev,
 				type: newsItem.type,

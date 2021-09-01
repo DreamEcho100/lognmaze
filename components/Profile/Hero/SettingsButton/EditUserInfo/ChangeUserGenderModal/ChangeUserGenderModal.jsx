@@ -29,7 +29,7 @@ const ChangeUserGenderModal = ({
 		event.preventDefault();
 
 		setBtnsDisabled(true);
-		/*const { status, message } =*/ await handleUpdateUserData({
+		const { status, message } = await handleUpdateUserData({
 			dispatch: userDispatch,
 			userData: user,
 			values: {
@@ -37,32 +37,26 @@ const ChangeUserGenderModal = ({
 			},
 			password,
 			token,
-		})
-			.then(({ status, message }) => {
-				if (status === 'error') {
-					setBtnsDisabled(false);
-					console.error(message);
-					setAfterFormSubmitMessage(message);
-					return { status, message };
-				}
+		}).catch((error) => {
+			return { status: 'error', message: error.message };
+		});
 
-				setPassword('');
-				setBtnsDisabled(false);
+		if (status === 'error') {
+			setBtnsDisabled(false);
+			console.error(message);
+			setAfterFormSubmitMessage(message);
+			return { status, message };
+		}
 
-				setShowModal(false);
-				return { status, message };
-			})
-			.catch((error) => {
-				setBtnsDisabled(false);
-				console.error(error);
-				setAfterFormSubmitMessage(error.message);
-				return { status: 'error', message: error.message };
-			});
+		setPassword('');
+		setBtnsDisabled(false);
+
+		setShowModal(false);
+		return { status, message };
 	};
 
 	return (
 		<Modal
-			// DynamicModal
 			showModal={showModal}
 			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (

@@ -47,7 +47,6 @@ const Settings = ({
 						if (!focusCommentTextarea) setFocusCommentTextarea(true);
 					}}
 				>
-					{/* Comment */}
 					<FontAwesomeIcon icon={['fas', 'comment']} />
 				</button>
 			</div>

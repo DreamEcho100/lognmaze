@@ -1,9 +1,4 @@
 import { Fragment, useState } from 'react';
-// import dynamic from 'next/dynamic';
-
-// import classes from './SettingsButton.module.css';
-
-// const DynamicModal = dynamic(() => import('@components/UI/V1/Modal'));
 
 import Modal from '@components/UI/V1/Modal';
 import EditUserInfo from './EditUserInfo/EditUserInfo';
@@ -20,7 +15,6 @@ const SettingsButton = () => {
 			</Button>
 
 			<Modal
-				// DynamicModal
 				showModal={showModal}
 				click={() => setShowModal(false)}
 				CloseButtonElement={(props) => (

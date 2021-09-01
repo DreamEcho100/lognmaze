@@ -120,20 +120,6 @@ export const setDataFirstTime = async ({ dispatch }) => {
 };
 
 export const handleSignOut = async ({ dispatch }) => {
-	// if (
-	// 	checkCookie({
-	// 		cookieName: 'user_data',
-	// 		cookieString: document.cookie,
-	// 	}) ||
-	// 	checkCookie({
-	// 		cookieName: 'user_token',
-	// 		cookieString: document.cookie,
-	// 	}) ||
-	// 	checkCookie({
-	// 		cookieName: 'user_expiry_deadline',
-	// 		cookieString: document.cookie,
-	// 	})
-	// ) {
 	deleteCookie({
 		cookieName: 'user_data',
 	});
@@ -145,7 +131,6 @@ export const handleSignOut = async ({ dispatch }) => {
 	deleteCookie({
 		cookieName: 'user_expiry_deadline',
 	});
-	// }
 
 	new Promise((resolve, reject) => {
 		const handleDeleteCookie = () => {

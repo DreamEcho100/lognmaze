@@ -3,19 +3,15 @@
 	justify-content: space-evenly;
 }
 
-.section-1,
-.section-2 {
-	min-width: fit-content;
-}
-
 .section-1 {
+	max-width: 70%;
 	min-width: 70%;
-	flex: 1 1 70%;
 	margin-right: 1em;
 }
 
 .section-2 {
-	flex: 1 1 25%;
+	max-width: 25%;
+	width: fit-content;
 	min-width: 25%;
 }
 
@@ -33,6 +29,7 @@
 		align-items: center;
 		justify-content: center;
 		width: 100%;
+		max-width: 100%;
 		margin-bottom: 1em;
 	}
 }

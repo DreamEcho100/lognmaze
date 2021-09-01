@@ -1,19 +1,10 @@
-import {
-	// useEffect, useRef,
-	useState,
-} from 'react';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
 
 const DropdownMenu = ({ items = [], children }) => {
-	// const ulRef = useRef();
-
 	const [showSettingsMenu, setShowSettingsMenu] = useState(false);
-
-	// useEffect(() => {
-	// 	if (showSettingsMenu) ulRef.current.focus();
-	// }, [showSettingsMenu]);
 
 	return (
 		<div className={classes['settings-wrapper']}>
@@ -23,13 +14,9 @@ const DropdownMenu = ({ items = [], children }) => {
 				</strong>
 			</button>
 			<ul
-				// ref={ulRef}
 				className={`${classes['settings-menu']} ${
 					showSettingsMenu ? classes['show-settings-menu'] : ''
 				}`}
-				// onBlur={(event) => {
-				// 	if (showSettingsMenu) setShowSettingsMenu((prev) => !prev);
-				// }}
 			>
 				{items.map(
 					(

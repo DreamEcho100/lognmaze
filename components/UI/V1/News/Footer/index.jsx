@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-// import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';
-
-// const DynamicComments = dynamic(() => import('./Comments'));
 
 import Comments from './Comments';
 import Settings from './Settings';
@@ -49,7 +46,6 @@ const Footer = ({ newsItem, isLoadingUserVote }) => {
 			/>
 			{showComments && (
 				<Comments
-					// DynamicComments
 					newsItem={newsItem}
 					comments={newsItem.comments}
 					className={classes.comments}

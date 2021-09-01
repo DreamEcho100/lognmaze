@@ -27,11 +27,6 @@ const Modal = ({
 
 		if (event.target.classList.contains('modal-close')) {
 			click();
-			// return new Promise((resolve, reject) => {
-			// 	document.body.style.overflowY = 'auto';
-			// 	resolve();
-			// });
-			// .then(() => (document.body.style.overflowY = 'auto'));
 		}
 	};
 
@@ -41,11 +36,6 @@ const Modal = ({
 		extraClasses,
 		className,
 	});
-
-	// useEffect(() => {
-	// 	modalWrapperRef.current.scrollIntoView();
-	// 	document.body.style.overflowY = 'hidden';
-	// }, []);
 
 	useEffect(() => {
 		if (showModal) {
@@ -103,7 +93,6 @@ const Modal = ({
 				</div>
 			</div>
 		</div>,
-		// document.getElementsByTagName('body')[0]
 		document.getElementById('__next')
 	);
 };

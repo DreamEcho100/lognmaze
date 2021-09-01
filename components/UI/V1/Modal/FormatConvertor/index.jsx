@@ -19,7 +19,6 @@ const FormatConvertorModal = ({
 			maxWidth: 'unset',
 		},
 		'modal-container': {
-			// background: 'var(--main-bg-color-2)',
 			background: 'var(--main-bg-color-1)',
 			height: '100%',
 			display: 'flex',
@@ -30,13 +29,11 @@ const FormatConvertorModal = ({
 		'modal-body': {
 			minHeight: '50%',
 			width: '100%',
-			// background: 'var(--main-bg-color-1)',
 		},
 	};
 
 	return (
 		<Modal
-			// DynamicModal
 			hideScrollOnView={false}
 			showModal={showModal}
 			setShowModal={setShowModal}

@@ -13,11 +13,7 @@ const NavOnSmallScreens = ({ user, isVerifyingUserLoading, handleSignOut }) => {
 		<>
 			<nav className={NavOnSmallScreensClasses['nav']}>
 				<div className={MainNavigationClasses['logo']}>
-					<Link
-						href={
-							'/' /*!isVerifyingUserLoading && user.id ? '/posts/all' : '/'*/
-						}
-					>
+					<Link href={'/'}>
 						<a
 							title='LogNMaze | Home Page'
 							className={MainNavigationClasses.logo_anchor}

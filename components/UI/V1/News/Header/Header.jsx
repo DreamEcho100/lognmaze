@@ -2,10 +2,6 @@ import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-// import classes from './Header.module.css';
-
-// import { dateToHumanReadableDate } from '@lib/v1/time';
-
 import UserContext from '@store/UserContext';
 
 import CommonNav from './CommonNav/CommonNav';
@@ -55,10 +51,7 @@ const Header = ({
 					<div className=''>
 						{!router.query.slug && newsItem.type === 'article' ? (
 							<Link href={`/article/${newsItem.slug}`}>
-								<a
-									title={`${newsItem.type} | ${newsItem.title}`}
-									// target='_blank' rel='noopener noreferrer'
-								>
+								<a title={`${newsItem.type} | ${newsItem.title}`}>
 									<h1>{newsItem.title}</h1>
 								</a>
 							</Link>

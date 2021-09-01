@@ -1,7 +1,5 @@
 import { useContext } from 'react';
 
-// import classes from './EditUserSecurity.module.css';
-
 import UserContext from '@store/UserContext';
 import {
 	handleUpdateUserData,

@@ -1,7 +1,4 @@
-import {
-	handleIsAuthorized,
-	// , verifyJwtToken
-} from '@lib/v1/auth';
+import { handleIsAuthorized } from '@lib/v1/auth';
 
 export default async (req, res) => {
 	if (req.method === 'POST') {
@@ -10,12 +7,6 @@ export default async (req, res) => {
 				res,
 				req.headers.authorization
 			);
-
-			// if (!isAuthorized.id) return;
-
-			// const token = req.headers.authorization.split(' ')[1];
-
-			// const isAuthorized = await verifyJwtToken(token);
 
 			if (!isAuthorized.id) {
 				return res.status(401).json({

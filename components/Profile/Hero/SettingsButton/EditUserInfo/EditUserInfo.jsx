@@ -1,7 +1,5 @@
 import { useContext } from 'react';
 
-// import classes from './EditUserInfo.module.css';
-
 import AccordionSettingsShower from '../UI/AccordionSettingsShower';
 import ButtonModalShower from '../UI/ButtonModalShower';
 

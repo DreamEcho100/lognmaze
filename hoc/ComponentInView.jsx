@@ -13,8 +13,6 @@ const WrapperComponent = (Component) => (props) => {
 		});
 	}, options);
 
-	// observer.observe(wrapperElementRef.current);
-
 	useEffect(() => observer.observe(wrapperElementRef.current), []);
 
 	console.log(enterViewCounter);
