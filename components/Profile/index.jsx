@@ -1,4 +1,5 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 
 import classes from './index.module.css';
@@ -10,7 +11,7 @@ import CreateNewsButton from './CreateNewsButton/CreateNewsButton';
 
 import Wrapper from '@components/UI/V1/Wrapper';
 import Hero from './Hero';
-import Feed from '@components/UI/V1/News/Feed/Feed';
+const DynamicFeed = dynamic(() => import('@components/UI/V1/News/Feed/Feed'));
 import Accordion from '@components/UI/V1/Accordion';
 
 import BioSection from './BioSection';
@@ -31,7 +32,7 @@ const Profile = ({
 		if (!dynamicComponentReady && setDynamicComponentReady) {
 			setDynamicComponentReady(true);
 		}
-	}, []);
+	}, [dynamicComponentReady, setDynamicComponentReady]);
 
 	if (!dynamicComponentReady) {
 		return <p>Loading...</p>;
@@ -119,7 +120,12 @@ const Profile = ({
 				/>
 				<section className={classes['main-section']}>
 					<section className={classes['section-1']}>
-						<Feed news={news} newsFetchRouteQuery={newsFetchRouteQuery} />
+						{news.length !== 0 && (
+							<DynamicFeed
+								news={news}
+								newsFetchRouteQuery={newsFetchRouteQuery}
+							/>
+						)}
 						<Wrapper>
 							<time>
 								<span>

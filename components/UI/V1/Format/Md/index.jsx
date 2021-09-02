@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+// const DynamicReactMarkdown = dynamic(() => import('react-markdown'));
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -8,7 +9,7 @@ const SyntaxHighlighterDynamic = dynamic(() => import('./SyntaxHighlighter'));
 
 import Image from '@components/UI/V1/Image';
 
-const Details = ({ content }) => {
+const Md = ({ content }) => {
 	const [hasError, setHasError] = useState(false);
 
 	const customRenderers = {
@@ -158,6 +159,7 @@ const Details = ({ content }) => {
 	try {
 		return (
 			<ReactMarkdown
+				// DynamicReactMarkdown
 				children={content}
 				components={customRenderers}
 				remarkPlugins={[remarkGfm]}
@@ -168,4 +170,4 @@ const Details = ({ content }) => {
 	}
 };
 
-export default Details;
+export default Md;

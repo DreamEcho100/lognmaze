@@ -86,11 +86,9 @@ const Details = ({ detailsType, setShowModal, newsItem }) => {
 						<>
 							{!showFullDetails && (
 								<>
-									<DynamicMd
-										content={newsItem.content
-											.slice(0, 150)
-											.replace(/\s\w+\s?$/, '')}
-									/>
+									<p>
+										{newsItem.content.slice(0, 150).replace(/\s\w+\s?$/, '')}
+									</p>
 									<button
 										className='text-glow-special display-inline'
 										title='see more'
@@ -102,7 +100,7 @@ const Details = ({ detailsType, setShowModal, newsItem }) => {
 							)}
 							{showFullDetails && (
 								<>
-									<DynamicMd content={newsItem.content} />
+									<p>{newsItem.content}</p>
 									<button
 										className='text-glow-special display-inline'
 										title='see less'

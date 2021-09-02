@@ -102,4 +102,5 @@ const obj = (phase) => {
 // });
 
 // module.exports = withBundleAnalyzer([withPlugins], obj);
+// module.exports = withBundleAnalyzer(obj);
 module.exports = obj;

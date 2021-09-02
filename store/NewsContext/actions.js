@@ -51,9 +51,7 @@ export const handleLoadMoreNewsItems = async ({
 			? `/?last_news_item_created_at=${last_news_item_created_at}`
 			: `${newsFetchRouteQuery}&last_news_item_created_at=${last_news_item_created_at}`;
 
-	const { message, status, data } = await fetch(
-		`${process.env.FRONT_END_ROOT_URL}/api/v1/news${query}`
-	)
+	const { message, status, data } = await fetch(`/api/v1/news${query}`)
 		.then((response) => response.json())
 		.catch((error) => {
 			console.error(error.message);

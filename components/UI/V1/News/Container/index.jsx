@@ -1,4 +1,5 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';
 import BorderClasses from '@components/UI/V1/Border.module.css';
@@ -11,9 +12,8 @@ import {
 import UserContext from '@store/UserContext';
 import { handleAllClasses } from '../../utils/index';
 
-
 import Modal from '@components/UI/V1/Modal';
-import ContainerItems from './ContainerItems';
+const DynamicContainerItems = dynamic(() => import('./ContainerItems'));
 import Button from '@components/UI/V1/Button';
 
 const Container = ({
@@ -47,11 +47,7 @@ const Container = ({
 		articleProps.lang = `${newsItem.iso_language}-${newsItem.iso_country}`;
 
 	useEffect(() => {
-		if (
-			showModal &&
-			!newsItem.content &&
-			newsItem?.news_id
-		) {
+		if (showModal && !newsItem.content && newsItem?.news_id) {
 			handleLoadingNewsItemContent({
 				dispatch,
 				news_id: newsItem.news_id,
@@ -80,7 +76,7 @@ const Container = ({
 
 	return (
 		<>
-			<ContainerItems
+			<DynamicContainerItems
 				articleProps={{
 					...articleProps,
 					className: `${allClasses} ${articleProps.className}`,
@@ -111,7 +107,7 @@ const Container = ({
 				>
 					<Fragment key='header'>{/* <Header /> */}</Fragment>
 					<Fragment key='body'>
-						<ContainerItems
+						<DynamicContainerItems
 							className={`${BorderClasses['border-2']}`}
 							articleProps={articleProps}
 							newsItem={newsItem}

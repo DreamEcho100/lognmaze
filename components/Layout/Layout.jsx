@@ -1,14 +1,18 @@
+import dynamic from 'next/dynamic';
+
 import { UserContextProvider } from '@store/UserContext';
 
-import MainNavigation from './MainNavigation/MainNavigation';
-import MainIntro from './MainIntro';
+const DynamicMainNavigation = dynamic(() =>
+	import('./MainNavigation/MainNavigation')
+);
+const DynamicMainIntro = dynamic(() => import('./MainIntro'));
 
 const Layout = ({ children }) => {
 	return (
 		<UserContextProvider>
-			<MainNavigation />
+			<DynamicMainNavigation />
 			{children}
-			<MainIntro />
+			<DynamicMainIntro />
 		</UserContextProvider>
 	);
 };

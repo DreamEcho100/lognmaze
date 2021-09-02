@@ -15,7 +15,7 @@ const Home = ({
 		if (!dynamicComponentReady && setDynamicComponentReady) {
 			setDynamicComponentReady(true);
 		}
-	}, []);
+	}, [dynamicComponentReady, setDynamicComponentReady]);
 
 	if (!dynamicComponentReady) {
 		return <p>Loading...</p>;
