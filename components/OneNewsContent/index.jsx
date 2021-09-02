@@ -7,13 +7,27 @@ import NewsContext from '@store/NewsContext';
 import Container from '@components/UI/V1/News/Container';
 import Wrapper from '@components/UI/V1/Wrapper';
 
-const OneNewsContent = ({ newsItem }) => {
+const OneNewsContent = ({
+	newsItem,
+	dynamicComponentReady = true,
+	setDynamicComponentReady,
+}) => {
 	const articleProps = {
 		newsItem: newsItem,
 		detailsType: 'content',
 		loadingUserVote: true,
 		isContainerContentOnView: true,
 	};
+
+	useEffect(() => {
+		if (!dynamicComponentReady && setDynamicComponentReady) {
+			setDynamicComponentReady(true);
+		}
+	}, []);
+
+	if (!dynamicComponentReady) {
+		return <p>Loading...</p>;
+	}
 
 	return (
 		<main className='main'>

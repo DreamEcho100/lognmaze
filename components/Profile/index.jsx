@@ -19,12 +19,24 @@ const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
 const Profile = ({
+	dynamicComponentReady = true,
+	setDynamicComponentReady,
 	userData = {},
 	visitorIdentity = GUEST,
 	userExist,
 	news = [],
 	newsFetchRouteQuery,
 }) => {
+	useEffect(() => {
+		if (!dynamicComponentReady && setDynamicComponentReady) {
+			setDynamicComponentReady(true);
+		}
+	}, []);
+
+	if (!dynamicComponentReady) {
+		return <p>Loading...</p>;
+	}
+
 	if (!userData.id) {
 		return (
 			<div className=''>

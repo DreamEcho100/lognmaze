@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 
 import UserContext from '@store/UserContext';
 
-import Auth from '@components/Auth/';
+// import Auth from '@components/Auth';
+const DynamicAuth = dynamic(() => import('@components/Auth'));
 
 import Button from '@components/UI/V1/Button';
 
@@ -15,29 +17,16 @@ const AuthPage = ({
 	const { dispatch: userDispatch, state: userState } = useContext(UserContext);
 
 	const [isLoading, setIsLoading] = useState(true);
-	const [isSigned, setIsSigned] = useState(false);
+	const [dynamicComponentReady, setDynamicComponentReady] = useState(false);
 
 	const [signType, setSignType] = useState('in');
 
 	useEffect(() => {
-		if (!userState.isVerifyingUserLoading) {
-			if (userState.userExist) {
-				if (!isSigned) setIsSigned(true);
-				setTimeout(() => router.replace('/'), 0);
-			} else {
-				if (isSigned) setIsSigned(false);
-			}
-		}
-		setIsLoading(false);
-	}, [userState.userExist, userState.isVerifyingUserLoading]);
+		if (userState.isVerifyingUserLoading) return;
 
-	useEffect(() => {
-		if (userState.userExist) {
-			setIsSigned(true);
-		} else {
-			isSigned && setIsSigned(false);
-		}
-	}, []);
+		if (userState.userExist) router.replace('/');
+		else if (isLoading) setIsLoading(false);
+	}, [userState.userExist, userState.isVerifyingUserLoading]);
 
 	useEffect(() => {
 		const params = new URLSearchParams(window.location.search);
@@ -47,11 +36,11 @@ const AuthPage = ({
 		}
 	}, []);
 
-	if (isLoading || userState.isVerifyingUserLoading) {
+	if (isLoading) {
 		return <p>Loading...</p>;
 	}
 
-	if (isSigned) {
+	if (userState.userExist) {
 		return (
 			<>
 				<p>You Are Already Signed!</p>
@@ -71,7 +60,9 @@ const AuthPage = ({
 
 	return (
 		<>
-			<Auth
+			<DynamicAuth
+				dynamicComponentReady={dynamicComponentReady}
+				setDynamicComponentReady={setDynamicComponentReady}
 				signType={signType}
 				UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
 					UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN

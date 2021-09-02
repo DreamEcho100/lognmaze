@@ -1,10 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
+
 import { getCookie } from '@lib/v1/cookie';
 
 import UserContext from '@store/UserContext';
 
-import Profile from '@components/Profile';
+// import Profile from '@components/Profile';
+const DynamicProfile = dynamic(() => import('@components/Profile'));
 
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
@@ -48,6 +51,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 	const [identity, setIdentity] = useState(user.visitorIdentity || GUEST);
 	const [userData, setUserData] = useState(user.data);
 
+	const [dynamicComponentReady, setDynamicComponentReady] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
@@ -148,20 +152,15 @@ const ProfilePage = ({ user = {}, ...props }) => {
 		}
 	}, [userState.userExist, userState.isVerifyingUserLoading]);
 
-	if (userState.isVerifyingUserLoading || isLoading) {
+	if (isLoading) {
 		return <p>Loading...</p>;
 	}
 
-	if (!userData.id) {
-		return (
-			<div className=''>
-				<p>No User found!</p>
-			</div>
-		);
-	}
-
 	return (
-		<Profile
+		<DynamicProfile
+			dynamicComponentReady={dynamicComponentReady}
+			setDynamicComponentReady={setDynamicComponentReady}
+			isLoading={isLoading}
 			userData={
 				userState.user?.user_name_id === router.query.user_name_id
 					? userState.user
