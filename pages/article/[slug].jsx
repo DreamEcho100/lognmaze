@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import { pool } from '@lib/v1/pg';
 
 import { NewsContextProvider } from '@store/NewsContext';
 
-import OneNewsContent from '@components/OneNewsContent';
+const DynamicOneNewsContent = dynamic(() =>
+	import('@components/OneNewsContent')
+);
 
 const ArticlePage = ({ data }) => {
 	const router = useRouter();
@@ -12,9 +16,13 @@ const ArticlePage = ({ data }) => {
 		return <div>Loading...</div>;
 	}
 
+	const [dynamicComponentReady, setDynamicComponentReady] = useState(false);
+
 	return (
 		<NewsContextProvider>
-			<OneNewsContent
+			<DynamicOneNewsContent
+				dynamicComponentReady={dynamicComponentReady}
+				setDynamicComponentReady={setDynamicComponentReady}
 				newsItem={typeof data === 'string' ? JSON.parse(data) : data}
 			/>
 		</NewsContextProvider>
