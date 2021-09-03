@@ -72,7 +72,7 @@ const UpdateUserPicture = ({
 			showModal={showModal}
 			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (
-				<Button title='Close' {...props}>
+				<Button title='Close Modal' {...props}>
 					Close
 				</Button>
 			)}
@@ -95,7 +95,7 @@ const UpdateUserPicture = ({
 
 					<div>{AfterFormSubmitMessage}</div>
 
-					<Button title='Submit' disabled={buttonsDisabled} type='submit'>
+					<Button title='Submit Form' disabled={buttonsDisabled} type='submit'>
 						Submit
 					</Button>
 				</Form>

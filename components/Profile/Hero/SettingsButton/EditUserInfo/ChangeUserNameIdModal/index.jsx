@@ -67,7 +67,7 @@ const ChangeUserNameIdModal = ({
 			showModal={showModal}
 			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (
-				<Button title='Close' {...props}>
+				<Button title='Close Modal' {...props}>
 					Close
 				</Button>
 			)}
@@ -103,16 +103,9 @@ const ChangeUserNameIdModal = ({
 						/>
 					</FormControl>
 
-					<div
-					>
-						{AfterFormSubmitMessage}
-					</div>
+					<div>{AfterFormSubmitMessage}</div>
 
-					<Button
-						title='Submit'
-						disabled={btnsDisabled}
-						type='submit'
-					>
+					<Button title='Submit Form' disabled={btnsDisabled} type='submit'>
 						Submit
 					</Button>
 				</Form>

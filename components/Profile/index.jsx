@@ -7,12 +7,16 @@ import classes from './index.module.css';
 import { dateToHumanReadableDate } from '@lib/v1/time';
 import { NewsContextProvider } from '@store/NewsContext';
 
-import CreateNewsButton from './CreateNewsButton/CreateNewsButton';
+const DynamicCreateNewsButton = dynamic(() =>
+	import('./CreateNewsButton/CreateNewsButton')
+);
 
 import Wrapper from '@components/UI/V1/Wrapper';
 import Hero from './Hero';
 const DynamicFeed = dynamic(() => import('@components/UI/V1/News/Feed/Feed'));
-import Accordion from '@components/UI/V1/Accordion';
+const DynamicSensitiveDataAccordion = dynamic(() =>
+	import('./SensitiveDataAccordion')
+);
 
 import BioSection from './BioSection';
 
@@ -145,32 +149,10 @@ const Profile = ({
 					</section>
 					<section className={classes['section-2']}>
 						<Wrapper>
-							{visitorIdentity === OWNER && <CreateNewsButton />}
+							{visitorIdentity === OWNER && <DynamicCreateNewsButton />}
 
 							{visitorIdentity === OWNER && (
-								<Accordion>
-									<Fragment key='header'>
-										<h2>Sensitive Data</h2>
-									</Fragment>
-									<Fragment key='body'>
-										<div>
-											<p>{userData.role}</p>
-
-											<p>{userData.state_of_birth}</p>
-											<p>{userData.country_of_birth}</p>
-											<p>{userData.city_of_birth}</p>
-
-											<p>{userData.address_of_resident}</p>
-
-											<p>{userData.date_of_birth}</p>
-
-											<p>{userData.email}</p>
-											<p>{userData.email_verified}</p>
-
-											<p>{userData.last_sign_in}</p>
-										</div>
-									</Fragment>
-								</Accordion>
+								<DynamicSensitiveDataAccordion userData={userData} />
 							)}
 							<BioSection
 								bio={userData.bio}

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import dynamic from 'next/dynamic';
 
 import classes from './Settings.module.css';
@@ -10,11 +10,12 @@ import DropdownMenu from '@components/UI/V1/DropdownMenu';
 const ActionDynamic = dynamic(() =>
 	import('@components/UI/V1/News/Action/Action')
 );
-
-import ShareModel from '@components/UI/V1/Modal/Share';
-import UpdateNews from './UpdateNews';
-import DeleteNews from './DeleteNews';
-import ShareNews from './ShareNews';
+const DynamicUpdateNews = dynamic(() => import('./UpdateNews'));
+const DynamicDeleteNews = dynamic(() => import('./DeleteNews'));
+const DynamicShareModel = dynamic(() =>
+	import('@components/UI/V1/Modal/Share')
+);
+const DynamicShareNews = dynamic(() => import('./ShareNews'));
 
 const Settings = ({ isDataOwner, newsItem }) => {
 	const { dispatch } = useContext(NewsContext);
@@ -24,7 +25,7 @@ const Settings = ({ isDataOwner, newsItem }) => {
 			{isDataOwner && (
 				<>
 					<li className={`${classes['settings-item-for-newsItem-owner']}`}>
-						<UpdateNews
+						<DynamicUpdateNews
 							ActionDynamic={ActionDynamic}
 							newsItem={newsItem}
 							handleLoadingNewsItemContent={handleLoadingNewsItemContent}
@@ -32,7 +33,7 @@ const Settings = ({ isDataOwner, newsItem }) => {
 						/>
 					</li>
 					<li className={`${classes['settings-item-for-newsItem-owner']}`}>
-						<DeleteNews
+						<DynamicDeleteNews
 							ActionDynamic={ActionDynamic}
 							newsItem={newsItem}
 							handleLoadingNewsItemContent={handleLoadingNewsItemContent}
@@ -42,7 +43,7 @@ const Settings = ({ isDataOwner, newsItem }) => {
 				</>
 			)}
 			<li>
-				<ShareNews ShareModel={ShareModel} newsItem={newsItem} />
+				<DynamicShareNews ShareModel={DynamicShareModel} newsItem={newsItem} />
 			</li>
 		</DropdownMenu>
 	);

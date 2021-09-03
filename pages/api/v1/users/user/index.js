@@ -17,15 +17,31 @@ export default async (req, res) => {
 		let user_name_id;
 		// let visitorIdentity = GUEST;
 		try {
-			user_name_id = req.query.user_name_id;
+			const filterBy = {};
+			let withSensitiveInfo = false;
+
+			if (req.query.user_name_id) {
+				user_name_id = req.query.user_name_id;
+				filterBy.user_name_id = req.query.user_name_id;
+			}
+
+			if (req.query.filter_by_user_id) {
+				const isAuthorized = await handleIsAuthorized(
+					res,
+					req.headers.authorization
+				);
+
+				if (!isAuthorized.id) return;
+
+				filterBy.user_profile_id = isAuthorized.id;
+
+				withSensitiveInfo = true;
+			}
 
 			const user = await getUserData({
-				filterBy: {
-					// 'user_profile.user_name_id': user_name_id,
-					user_name_id,
-				},
+				filterBy,
 				withPassword: false,
-				withSensitiveInfo: false,
+				withSensitiveInfo,
 			});
 
 			if (!user && !user.id) {
@@ -45,7 +61,7 @@ export default async (req, res) => {
 
 			return res.status(200).json({
 				status: 'success',
-				message: 'User exist!',
+				message: 'User exist!, and it is data retrieved successfully!',
 				data: user,
 				// visitorIdentity,
 			});
@@ -85,7 +101,7 @@ export default async (req, res) => {
 					requirePassword: true,
 				},
 			};
- 
+
 			const user_accountTable = {
 				email: {
 					requirePassword: true,

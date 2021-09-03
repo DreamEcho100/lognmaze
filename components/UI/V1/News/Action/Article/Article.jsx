@@ -332,7 +332,7 @@ const Article = ({
 				</div>
 			)}
 			<FormControl>
-				<Button title='Submit' disabled={btnsDisabled} type='submit'>
+				<Button title='Submit Form' disabled={btnsDisabled} type='submit'>
 					submit
 				</Button>
 			</FormControl>

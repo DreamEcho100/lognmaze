@@ -60,7 +60,7 @@ const ChangeUserNameModal = ({
 			showModal={showModal}
 			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (
-				<Button title='Close' {...props}>
+				<Button title='Close Modal' {...props}>
 					Close
 				</Button>
 			)}
@@ -113,7 +113,7 @@ const ChangeUserNameModal = ({
 						</div>
 					)}
 					<Button
-						title='Submit'
+						title='Submit Form'
 						disabled={btnsDisabled}
 						type='submit'
 						className={classes.submitBtn}

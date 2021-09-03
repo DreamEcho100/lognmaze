@@ -1,0 +1,12 @@
+.fieldset {
+	padding: 0.5em;
+}
+
+.notes-header {
+	text-decoration: underline;
+}
+
+.notes {
+	list-style: square;
+	margin-left: 1em;
+}

@@ -9,7 +9,7 @@ const NewsModal = ({ setCloseModal, detailsType, data }) => {
 		<Modal
 			click={() => setCloseModal(true)}
 			CloseButtonElement={(props) => (
-				<Button title='Close' {...props}>
+				<Button title='Close Modal' {...props}>
 					Close
 				</Button>
 			)}

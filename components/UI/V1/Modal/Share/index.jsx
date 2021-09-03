@@ -69,7 +69,7 @@ const ShareModel = ({
 			setShowShareModel={setShowShareModel}
 			click={() => setShowShareModel(false)}
 			CloseButtonElement={(props) => (
-				<Button title='Close' {...props}>
+				<Button title='Close Modal' {...props}>
 					Close
 				</Button>
 			)}

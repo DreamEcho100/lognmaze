@@ -114,7 +114,7 @@ export const setDataFirstTime = async ({ dispatch }) => {
 	});
 
 	return {
-		status: 'succuss',
+		status: 'success',
 		message: '',
 	};
 };
@@ -307,7 +307,42 @@ export const handleUpdateUserPassword = async ({ bodyObj, token }) => {
 	}
 
 	return {
-		status: 'succuss',
+		status: 'success',
 		message: 'Password changed successfully!',
+	};
+};
+
+export const handleUpdateUserDataToTheLatest = async ({ dispatch, token }) => {
+	const result = await fetch(`/api/v1/users/user/?filter_by_user_id=true`, {
+		headers: {
+			'Content-Type': 'application/json',
+			authorization: token ? `Bearer ${token}` : undefined,
+		},
+	})
+		.then((response) => response.json())
+		.catch((error) => {
+			console.error(error.message);
+			return { status: 'error', message: error.message };
+		});
+
+	if (
+		!result.status ||
+		(result.status && result.status === 'error') ||
+		Object.keys(result.data).length === 0
+	) {
+		return {
+			status: 'error',
+			message: result.message,
+		};
+	}
+
+	dispatch({
+		type: types.UPDATE_USER_DATA_TO_THE_LATEST,
+		payload: { latestData: result.data },
+	});
+
+	return {
+		status: result.status,
+		message: result.message,
 	};
 };

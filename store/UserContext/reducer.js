@@ -45,6 +45,18 @@ const reducer = (state, action) => {
 			},
 		};
 	}
+
+	if (action.type === types.UPDATE_USER_DATA_TO_THE_LATEST) {
+		const { latestData } = action.payload;
+
+		return {
+			...state,
+			user: {
+				...state.user,
+				...latestData,
+			},
+		};
+	}
 };
 
 export default reducer;

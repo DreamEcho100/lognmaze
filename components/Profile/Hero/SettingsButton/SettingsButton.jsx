@@ -10,7 +10,10 @@ const SettingsButton = () => {
 
 	return (
 		<>
-			<Button title='User Settings' onClick={() => setShowModal(true)}>
+			<Button
+				title='Show User Settings Modal'
+				onClick={() => setShowModal(true)}
+			>
 				Settings
 			</Button>
 
@@ -18,7 +21,7 @@ const SettingsButton = () => {
 				showModal={showModal}
 				click={() => setShowModal(false)}
 				CloseButtonElement={(props) => (
-					<Button title='Close' type='button' {...props}>
+					<Button title='Close Modal' type='button' {...props}>
 						Close
 					</Button>
 				)}

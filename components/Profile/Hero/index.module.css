@@ -80,3 +80,7 @@
 .profile_picture-container:focus-within .edit-button {
 	opacity: 1;
 }
+
+.buttons > button:not(:last-child) {
+	margin-right: 0.5em;
+}

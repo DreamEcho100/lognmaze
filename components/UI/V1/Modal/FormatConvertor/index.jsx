@@ -39,7 +39,7 @@ const FormatConvertorModal = ({
 			setShowModal={setShowModal}
 			click={() => setShowModal(false)}
 			CloseButtonElement={(props) => (
-				<Button title='Close' {...props}>
+				<Button title='Close Modal' {...props}>
 					Close
 				</Button>
 			)}

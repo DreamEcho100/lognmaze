@@ -1,13 +1,17 @@
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
 
-import SettingsButton from './SettingsButton/SettingsButton';
 import Wrapper from '@/components/UI/V1/Wrapper';
 import Image from '@components/UI/V1/Image';
 import Button from '@/components/UI/V1/Button';
 import UpdateUserPictureModal from '@components/UI/V1/Modal/UpdateUserPicture';
+const SettingsButton = dynamic(() => import('./SettingsButton/SettingsButton'));
+const LoadYourLatestDataButton = dynamic(() =>
+	import('./LoadYourLatestDataButton')
+);
 
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
@@ -94,7 +98,12 @@ const Hero = ({ userData, userExist, visitorIdentity }) => {
 				<p>{userData.country_of_resident}</p>
 				<p>{userData.city_of_resident}</p>
 			</div>
-			{visitorIdentity === OWNER && <SettingsButton />}
+			{visitorIdentity === OWNER && (
+				<div className={classes.buttons}>
+					<SettingsButton />
+					<LoadYourLatestDataButton user_id={userData.id} />
+				</div>
+			)}
 		</Wrapper>
 	);
 };

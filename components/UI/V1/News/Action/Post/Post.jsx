@@ -86,7 +86,7 @@ const Post = ({ closeModal, createNews, updateNews, actionType, newsItem }) => {
 				</div>
 			)}
 			<FormControl className={classes['form-control']}>
-				<Button title='Submit' disabled={btnsDisabled} type='submit'>
+				<Button title='Submit Form' disabled={btnsDisabled} type='submit'>
 					submit
 				</Button>
 			</FormControl>
