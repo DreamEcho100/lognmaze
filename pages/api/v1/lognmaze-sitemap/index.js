@@ -1,11 +1,25 @@
 // Credit to https://tuomokankaanpaa.com/blog/nextjs-seo-how-to-add-sitemap-and-robots-txt
 
+const path = require('path');
+const fs = require('fs');
+
 import { getAllArticlesSlugs, getAllUsersNameId } from '@lib/v1/pg';
 const { SitemapStream, streamToPromise } = require('sitemap');
 const { Readable } = require('stream');
 
 export default async (req, res) => {
 	try {
+		if (req.method !== 'POST') return res.status(404).end();
+
+		if (
+			req.headers['lognmaze-sitemap-token'] !==
+			process.env.LOGNMAZE_SITEMAP_TOKEN
+		) {
+			return res.status(400).json({
+				status: 'error',
+				message: 'Wrong token!',
+			});
+		}
 		// An array with your links
 		const links = [];
 
@@ -30,7 +44,7 @@ export default async (req, res) => {
 		});
 
 		// Add other pages
-		const pages = ['/auth', '/post', '/'];
+		const pages = ['/', '/auth'];
 		pages.map((url) => {
 			links.push({
 				url,
@@ -52,8 +66,21 @@ export default async (req, res) => {
 			Readable.from(links).pipe(stream)
 		).then((data) => data.toString());
 
-		res.end(xmlString);
-	} catch (e) {
-		res.send(JSON.stringify(e));
+		fs.writeFile(
+			path.join(process.cwd(), 'public', 'sitemap.xml'),
+			xmlString,
+			function (err) {
+				if (err) throw err;
+				console.log('Replaced!');
+			}
+		);
+
+		return res.end(xmlString);
+	} catch (error) {
+		console.error(`Error, ${error.message}`);
+		res.status(500).json({
+			status: 'error',
+			message: error.message,
+		});
 	}
 };

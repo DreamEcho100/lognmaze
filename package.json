@@ -1,6 +1,6 @@
 {
 	"name": "lognmaze",
-	"version": "1.0.15",
+	"version": "1.0.16",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
@@ -8,7 +8,8 @@
 		"start": "next start",
 		"analyze": "cross-env ANALYZE=true next build",
 		"analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
-		"analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
+		"analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build",
+		"build:sitemap": "node build-sitemap.js"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^1.2.36",
