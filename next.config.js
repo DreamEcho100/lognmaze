@@ -1,6 +1,8 @@
 const path = require('path');
+// import path from 'path';
 // const Dotenv = require('dotenv-webpack');
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
+// import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
 
 // const withPlugins = require("next-compose-plugins");
 // const withTypescript = require('@zeit/next-typescript');

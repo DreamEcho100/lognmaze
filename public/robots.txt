@@ -1,3 +1,5 @@
 # Allow all user agents.
 User-agent: *
 Allow: /
+
+Sitemap: https://lognmaze.com/api/v1/lognmaze-sitemap

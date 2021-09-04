@@ -1,7 +1,7 @@
 // import { useState } from 'react';
 import { useRouter } from 'next/router';
 // import dynamic from 'next/dynamic';
-import { pool } from '@lib/v1/pg';
+import { pool, getAllArticlesSlugs } from '@lib/v1/pg';
 
 import { NewsContextProvider } from '@store/NewsContext';
 
@@ -117,9 +117,7 @@ export const getStaticProps = async (context) => {
 
 export const getStaticPaths = async () => {
 	try {
-		const result = await pool
-			.query('SELECT slug FROM news_article')
-			.then(async (response) => response.rows);
+		const result = await getAllArticlesSlugs();
 
 		const paths = result.map((post) => ({
 			params: { slug: post.slug },
