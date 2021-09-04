@@ -9,17 +9,6 @@ const { Readable } = require('stream');
 
 export default async (req, res) => {
 	try {
-		if (req.method !== 'POST') return res.status(404).end();
-
-		if (
-			req.headers['lognmaze-sitemap-token'] !==
-			process.env.LOGNMAZE_SITEMAP_TOKEN
-		) {
-			return res.status(400).json({
-				status: 'error',
-				message: 'Wrong token!',
-			});
-		}
 		// An array with your links
 		const links = [];
 
@@ -55,9 +44,9 @@ export default async (req, res) => {
 
 		// Create a stream to write to
 		const stream = new SitemapStream({
-			hostname:
-				process.env.FRONT_END_DOMAIN ||
-				`https://${'lognmaze' || req.headers.host}`,
+			hostname: 'https://lognmaze.com',
+			// process.env.FRONT_END_DOMAIN ||
+			// `https://${'lognmaze' || req.headers.host}`,
 		});
 
 		res.writeHead(200, {
@@ -68,14 +57,19 @@ export default async (req, res) => {
 			Readable.from(links).pipe(stream)
 		).then((data) => data.toString());
 
-		fs.writeFile(
-			path.join(process.cwd(), 'public', 'sitemap.xml'),
-			xmlString,
-			function (err) {
-				if (err) throw err;
-				console.log('Replaced!');
-			}
-		);
+		if (process.env.NODE_ENV !== 'production') {
+			fs.writeFile(
+				path.join(process.cwd(), 'public', 'sitemap.xml'),
+				xmlString,
+				function (err) {
+					if (err) throw err;
+					console.log('Replaced!');
+				}
+			);
+		} else {
+			console.log('process.cwd()', process.cwd());
+			console.log('__dirname', __dirname);
+		}
 
 		return res.end(xmlString);
 	} catch (error) {
