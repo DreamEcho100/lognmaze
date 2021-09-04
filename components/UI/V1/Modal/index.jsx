@@ -1,100 +1,38 @@
-import { useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
+import { useEffect } from 'react';
+import dynamic from 'next/dynamic';
 
-import classes from './index.module.css';
+const DynamicModal = dynamic(() => import('./Modal'));
 
-import { handleAllClasses } from '../utils/index';
-
-const Modal = ({
-	defaultClasses = `modal-mask modal-close`,
-	extraClasses = '',
-	className = '',
-	modelClasses = {},
-	children,
+const ModalHOC = ({
 	click,
 	CloseButtonElement,
 	showModal,
 	hideScrollOnView = true,
+	...props
 }) => {
-	const modalWrapperRef = useRef();
-
-	const findByKey = (name) => {
-		return children.filter((child) => child.key === name);
-	};
-
-	const closeModal = (event) => {
-		event.stopPropagation();
-
-		if (event.target.classList.contains('modal-close')) {
-			click();
-		}
-	};
-
-	const allClasses = handleAllClasses({
-		classes,
-		defaultClasses,
-		extraClasses,
-		className,
-	});
-
 	useEffect(() => {
+		if (!hideScrollOnView) return;
 		if (showModal) {
-			modalWrapperRef.current.scrollIntoView();
-			if (hideScrollOnView) document.body.style.overflowY = 'hidden';
+			document.body.style.overflowY = 'hidden';
 		} else {
 			click();
-			if (hideScrollOnView) document.body.style.overflowY = 'auto';
+			document.body.style.overflowY = 'auto';
 		}
 	}, [showModal]);
+
+	const ModalProps = {
+		...props,
+		click,
+		CloseButtonElement,
+		showModal,
+		hideScrollOnView,
+	};
 
 	if (!showModal) {
 		return <></>;
 	}
 
-	return createPortal(
-		<div
-			className={`${allClasses} modal-close`}
-			style={modelClasses['modal-mask']}
-			onClick={closeModal}
-		>
-			<div
-				className={`${classes['modal-wrapper']}`}
-				style={modelClasses['modal-wrapper']}
-				ref={modalWrapperRef}
-			>
-				<div
-					className={`${classes['modal-container']}`}
-					style={modelClasses['modal-container']}
-				>
-					<div
-						className={`${classes['modal-header']}`}
-						style={modelClasses['modal-header']}
-					>
-						{findByKey('header')}
-					</div>
-					<div
-						className={`${classes['modal-body']}`}
-						style={modelClasses['modal-body']}
-					>
-						{findByKey('body')}
-					</div>
-					<div
-						className={`${classes['modal-footer']}`}
-						style={modelClasses['modal-footer']}
-					>
-						{CloseButtonElement && (
-							<CloseButtonElement
-								className='modal-close'
-								onClick={closeModal}
-							/>
-						)}
-						{findByKey('footer')}
-					</div>
-				</div>
-			</div>
-		</div>,
-		document.getElementById('__next')
-	);
+	return <DynamicModal {...ModalProps} />;
 };
 
-export default Modal;
+export default ModalHOC;

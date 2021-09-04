@@ -16,7 +16,7 @@ const LoadYourLatestDataButton = dynamic(() =>
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
-const Hero = ({ userData, userExist, visitorIdentity }) => {
+const Hero = ({ userData, visitorIdentity }) => {
 	const [
 		showUpdateUserProfilePictureModalModal,
 		setShowUpdateUserProfilePictureModalModal,
@@ -41,7 +41,7 @@ const Hero = ({ userData, userExist, visitorIdentity }) => {
 							className={classes['cover_photo']}
 						/>
 					</div>{' '}
-					{userExist && (
+					{visitorIdentity === OWNER && (
 						<Button
 							className={classes['edit-button']}
 							title='Edit'
@@ -69,7 +69,7 @@ const Hero = ({ userData, userExist, visitorIdentity }) => {
 							className={classes['profile_picture']}
 						/>
 					</div>{' '}
-					{userExist && (
+					{visitorIdentity === OWNER && (
 						<Button
 							className={classes['edit-button']}
 							title='Edit'

@@ -1,13 +1,14 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useRouter } from 'next/router';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import { pool } from '@lib/v1/pg';
 
 import { NewsContextProvider } from '@store/NewsContext';
 
-const DynamicOneNewsContent = dynamic(() =>
-	import('@components/OneNewsContent')
-);
+// const DynamicOneNewsContent = dynamic(() =>
+// 	import('@components/OneNewsContent')
+// );
+import OneNewsContent from '@components/OneNewsContent';
 
 const ArticlePage = ({ data }) => {
 	const router = useRouter();
@@ -16,13 +17,14 @@ const ArticlePage = ({ data }) => {
 		return <div>Loading...</div>;
 	}
 
-	const [dynamicComponentReady, setDynamicComponentReady] = useState(false);
+	// const [dynamicComponentReady, setDynamicComponentReady] = useState(false);
 
 	return (
 		<NewsContextProvider>
-			<DynamicOneNewsContent
-				dynamicComponentReady={dynamicComponentReady}
-				setDynamicComponentReady={setDynamicComponentReady}
+			<OneNewsContent
+				// DynamicOneNewsContent
+				// dynamicComponentReady={dynamicComponentReady}
+				// setDynamicComponentReady={setDynamicComponentReady}
 				newsItem={typeof data === 'string' ? JSON.parse(data) : data}
 			/>
 		</NewsContextProvider>

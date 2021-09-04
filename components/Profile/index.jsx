@@ -1,4 +1,3 @@
-import { Fragment, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 
@@ -13,7 +12,8 @@ const DynamicCreateNewsButton = dynamic(() =>
 
 import Wrapper from '@components/UI/V1/Wrapper';
 import Hero from './Hero';
-const DynamicFeed = dynamic(() => import('@components/UI/V1/News/Feed/Feed'));
+// const DynamicFeed = dynamic(() => import('@components/UI/V1/News/Feed/Feed'));
+import Feed from '@components/UI/V1/News/Feed/Feed';
 const DynamicSensitiveDataAccordion = dynamic(() =>
 	import('./SensitiveDataAccordion')
 );
@@ -24,23 +24,22 @@ const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
 const Profile = ({
-	dynamicComponentReady = true,
-	setDynamicComponentReady,
+	// dynamicComponentReady = true,
+	// setDynamicComponentReady,
 	userData = {},
 	visitorIdentity = GUEST,
-	userExist,
 	news = [],
 	newsFetchRouteQuery,
 }) => {
-	useEffect(() => {
-		if (!dynamicComponentReady && setDynamicComponentReady) {
-			setDynamicComponentReady(true);
-		}
-	}, [dynamicComponentReady, setDynamicComponentReady]);
+	// useEffect(() => {
+	// 	if (!dynamicComponentReady && setDynamicComponentReady) {
+	// 		setDynamicComponentReady(true);
+	// 	}
+	// }, [dynamicComponentReady, setDynamicComponentReady]);
 
-	if (!dynamicComponentReady) {
-		return <p>Loading...</p>;
-	}
+	// if (!dynamicComponentReady && setDynamicComponentReady) {
+	// 	return <p>Loading...</p>;
+	// }
 
 	if (!userData.id) {
 		return (
@@ -54,7 +53,6 @@ const Profile = ({
 		<NewsContextProvider>
 			<main className={`${classes.profile} main`}>
 				<Head>
-					<meta name='robots' content='index,follow' />
 					<meta property='og:locale' content='en_US' />
 					<meta property='og:type' content='profile' />
 					<meta property='profile:first_name' content={userData.first_name} />
@@ -117,18 +115,11 @@ const Profile = ({
 					/>
 					<title>{userData.user_name_id} | LogNMaze</title>
 				</Head>
-				<Hero
-					userData={userData}
-					userExist={userExist}
-					visitorIdentity={visitorIdentity}
-				/>
+				<Hero userData={userData} visitorIdentity={visitorIdentity} />
 				<section className={classes['main-section']}>
 					<section className={classes['section-1']}>
 						{news.length !== 0 && (
-							<DynamicFeed
-								news={news}
-								newsFetchRouteQuery={newsFetchRouteQuery}
-							/>
+							<Feed news={news} newsFetchRouteQuery={newsFetchRouteQuery} />
 						)}
 						<Wrapper>
 							<time>

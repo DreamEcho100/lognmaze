@@ -64,7 +64,6 @@ const SignIn = () => {
 			onSubmit={submitHandler}
 		>
 			<Head>
-				<meta name='robots' content='index,follow' />
 				<meta property='og:url' content={`https://lognmaze.com/auth/`} />
 				<meta name='twitter:url' content={`https://lognmaze.com/auth/`} />
 

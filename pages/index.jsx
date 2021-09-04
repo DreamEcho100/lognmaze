@@ -1,16 +1,16 @@
 import { useContext, useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 
 import UserContext from '@store/UserContext';
 
-// import Home from '@components/Home';
-const DynamicHome = dynamic(() => import('@components/Home'));
+// const DynamicHome = dynamic(() => import('@components/Home'));
+import Home from '@components/Home';
 
 const HomePage = () => {
 	const { state: userState } = useContext(UserContext);
 
 	const [isLoading, setIsLoading] = useState(true);
-	const [dynamicComponentReady, setDynamicComponentReady] = useState(false);
+	// const [dynamicComponentReady, setDynamicComponentReady] = useState(false);
 	const [newsFetchRouteQuery, setNewsFetchRouteQuery] = useState('');
 	const [news, setNews] = useState([]);
 
@@ -71,10 +71,11 @@ const HomePage = () => {
 	}
 
 	return (
-		<DynamicHome
-			dynamicComponentReady={dynamicComponentReady}
-			setDynamicComponentReady={setDynamicComponentReady}
-			isLoading={isLoading}
+		<Home
+			// DynamicHome
+			// dynamicComponentReady={dynamicComponentReady}
+			// setDynamicComponentReady={setDynamicComponentReady}
+			// isLoading={isLoading}
 			user={userState.user}
 			userExist={userState.userExist}
 			news={news}

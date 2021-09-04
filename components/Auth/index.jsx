@@ -1,10 +1,12 @@
-import { useContext, useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
+// import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';
 
-const DynamicSignUp = dynamic(() => import('./SignUp/SignUp'));
-const DynamicSignIn = dynamic(() => import('./SignIn/SignIn'));
+// const DynamicSignUp = dynamic(() => import('./SignUp/SignUp'));
+// const DynamicSignIn = dynamic(() => import('./SignIn/SignIn'));
+import SignUp from './SignUp/SignUp';
+import SignIn from './SignIn/SignIn';
 
 import Button from '@components/UI/V1/Button';
 
@@ -50,9 +52,14 @@ const Auth = ({
 					</ul>
 				</nav>
 			</header>
-			{signType === 'in' && <DynamicSignIn />}
+			{signType === 'in' && (
+				<SignIn
+				//DynamicSignIn
+				/>
+			)}
 			{signType === 'up' && (
-				<DynamicSignUp
+				<SignUp
+					// DynamicSignUp
 					UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
 						UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN
 					}
