@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lognmaze.com/api/v1/lognmaze-sitemap
+Sitemap: https://lognmaze.com/sitemap.xml
