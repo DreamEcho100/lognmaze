@@ -10,7 +10,6 @@ export default async (req, res) => {
 		const links = [];
 
 		await getAllArticlesSlugs().then((articles) => {
-			console.log('articles', articles);
 			articles.map((article) => {
 				links.push({
 					url: `/article/${article.slug}`,
@@ -21,7 +20,6 @@ export default async (req, res) => {
 		});
 
 		await getAllUsersNameId().then((profiles) => {
-			console.log('profiles', profiles);
 			profiles.map((profile) => {
 				links.push({
 					url: `/profile/${profile.user_name_id}`,
@@ -56,7 +54,6 @@ export default async (req, res) => {
 
 		res.end(xmlString);
 	} catch (e) {
-		console.log(e);
 		res.send(JSON.stringify(e));
 	}
 };
