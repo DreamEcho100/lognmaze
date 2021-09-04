@@ -55,7 +55,9 @@ export default async (req, res) => {
 
 		// Create a stream to write to
 		const stream = new SitemapStream({
-			hostname: `https://${req.headers.host}`,
+			hostname:
+				process.env.FRONT_END_DOMAIN ||
+				`https://${'lognmaze' || req.headers.host}`,
 		});
 
 		res.writeHead(200, {
