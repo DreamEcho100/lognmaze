@@ -1,18 +1,19 @@
-// Credit to https://tuomokankaanpaa.com/blog/nextjs-seo-how-to-add-sitemap-and-robots-txt
-
-const path = require('path');
-const fs = require('fs');
+// Credit to:
+// https://tuomokankaanpaa.com/blog/nextjs-seo-how-to-add-sitemap-and-robots-txt
+// https://cheatcode.co/tutorials/how-to-generate-a-dynamic-sitemap-with-next-js
 
 import { getAllArticlesSlugs, getAllUsersNameId } from '@lib/v1/pg';
 const { SitemapStream, streamToPromise } = require('sitemap');
 const { Readable } = require('stream');
 
-export default async (req, res) => {
+const Sitemap = () => {};
+
+export const getServerSideProps = async ({ res, req }) => {
 	try {
 		// An array with your links
 		const links = [];
 
-		await getAllArticlesSlugs().then((articles) => {
+		await getAllArticlesSlugs().then((articles = []) => {
 			articles.map((article) => {
 				links.push({
 					url: `/article/${article.slug}`,
@@ -22,7 +23,7 @@ export default async (req, res) => {
 			});
 		});
 
-		await getAllUsersNameId().then((profiles) => {
+		await getAllUsersNameId().then((profiles = []) => {
 			profiles.map((profile) => {
 				links.push({
 					url: `/profile/${profile.user_name_id}`,
@@ -44,9 +45,8 @@ export default async (req, res) => {
 
 		// Create a stream to write to
 		const stream = new SitemapStream({
-			hostname: 'https://lognmaze.com',
-			// process.env.FRONT_END_DOMAIN ||
-			// `https://${'lognmaze' || req.headers.host}`,
+			hostname: `https://${req.headers.host}`,
+			//'https://lognmaze.com',
 		});
 
 		res.writeHead(200, {
@@ -57,26 +57,19 @@ export default async (req, res) => {
 			Readable.from(links).pipe(stream)
 		).then((data) => data.toString());
 
-		if (process.env.NODE_ENV !== 'production') {
-			fs.writeFile(
-				path.join(process.cwd(), 'public', 'sitemap.xml'),
-				xmlString,
-				function (err) {
-					if (err) throw err;
-					console.log('Replaced!');
-				}
-			);
-		} else {
-			console.log('process.cwd()', process.cwd());
-			console.log('__dirname', __dirname);
-		}
+		res.write(xmlString);
+		res.end();
 
-		return res.end(xmlString);
+		return {
+			props: {},
+		};
 	} catch (error) {
 		console.error(`Error, ${error.message}`);
-		res.status(500).json({
-			status: 'error',
-			message: error.message,
-		});
+
+		return {
+			props: {},
+		};
 	}
 };
+
+export default Sitemap;
