@@ -9,10 +9,10 @@ const { Readable } = require('stream');
 const Sitemap = () => {};
 
 export const getServerSideProps = async ({ res, req }) => {
-	try {
-		// An array with your links
-		const links = [];
+	// An array with your links
+	const links = [];
 
+	try {
 		await getAllArticlesSlugs().then((articles = []) => {
 			articles.map((article) => {
 				links.push({
@@ -32,44 +32,40 @@ export const getServerSideProps = async ({ res, req }) => {
 				});
 			});
 		});
-
-		// Add other pages
-		const pages = ['/', '/auth'];
-		pages.map((url) => {
-			links.push({
-				url,
-				changefreq: 'daily',
-				priority: 0.9,
-			});
-		});
-
-		// Create a stream to write to
-		const stream = new SitemapStream({
-			hostname: `https://${req.headers.host}`,
-			//'https://lognmaze.com',
-		});
-
-		res.writeHead(200, {
-			'Content-Type': 'application/xml',
-		});
-
-		const xmlString = await streamToPromise(
-			Readable.from(links).pipe(stream)
-		).then((data) => data.toString());
-
-		res.write(xmlString);
-		res.end();
-
-		return {
-			props: {},
-		};
 	} catch (error) {
 		console.error(`Error, ${error.message}`);
-
-		return {
-			props: {},
-		};
 	}
+
+	// Add other pages
+	const pages = ['/auth'];
+	pages.map((url) => {
+		links.push({
+			url,
+			changefreq: 'daily',
+			priority: 0.9,
+		});
+	});
+
+	// Create a stream to write to
+	const stream = new SitemapStream({
+		hostname: `https://${req.headers.host}`,
+		//'https://lognmaze.com',
+	});
+
+	res.writeHead(200, {
+		'Content-Type': 'application/xml',
+	});
+
+	const xmlString = await streamToPromise(
+		Readable.from(links).pipe(stream)
+	).then((data) => data.toString());
+
+	res.write(xmlString);
+	res.end();
+
+	return {
+		props: {},
+	};
 };
 
 export default Sitemap;
