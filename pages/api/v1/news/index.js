@@ -314,7 +314,7 @@ export default async (req, res) => {
 				const tagsToUpdateFrom = [];
 
 				const tagsToRemove = [];
-				const tagsToInsert = [];
+				let tagsToInsert = [];
 
 				if (tags?.added?.length !== 0 || tags?.removed?.length !== 0) {
 					tags.removed.forEach((tag, index) => {
@@ -377,17 +377,23 @@ export default async (req, res) => {
 							tagsToInsertLocation.push(`$${params.length}`);
 						});
 
-						cte.push(`
+						if (tagsToInsertLocation.length !== 0) {
+							cte.push(`
 							insert_news_tag AS (
 								INSERT INTO news_tag (news_id, name)
 								VALUES ($1,${tagsToInsertLocation.join('),($1,')})
 								RETURNING news_tag_id
 							)
 						`);
-						cteNames.push('insert_news_tag');
+							cteNames.push('insert_news_tag');
+						}
 					}
 
-					cte.push(`
+					if (
+						tagsToInsertLocation.length !== 0 ||
+						tagsToUpdateTotLocation.length !== 0
+					) {
+						cte.push(`
 							upsert_tag AS (
 								INSERT INTO tag (name) 
 								VALUES (${[...tagsToInsertLocation, ...tagsToUpdateTotLocation].join('),(')})
@@ -396,9 +402,14 @@ export default async (req, res) => {
 								RETURNING tag.name
 							)
 					`);
-					cteNames.push('upsert_tag');
+						cteNames.push('upsert_tag');
+					}
 
-					cte.push(`
+					if (
+						tagsToRemoveLocation.length !== 0 ||
+						tagsToUpdateFromLocation.length !== 0
+					) {
+						cte.push(`
 							update_tag AS (
 								UPDATE tag
 								SET counter = tag.counter - 1
@@ -408,7 +419,8 @@ export default async (req, res) => {
 								RETURNING tag.name
 							)
 					`);
-					cteNames.push('update_tag');
+						cteNames.push('update_tag');
+					}
 				}
 			} else if (type === 'post') {
 				const newsDataToUpdate = [];

@@ -217,6 +217,11 @@ export const handleUpdatingUserNewsItem = async ({
 		}
 	}
 
+	// return {
+	// 	status: 'error',
+	// 	message: 'There no change in the data!',
+	// };
+	
 	if (!dataChanged) {
 		return {
 			status: 'error',
