@@ -11,6 +11,7 @@ import Image from '@components/UI/V1/Image';
 
 const Md = ({ content }) => {
 	const [hasError, setHasError] = useState(false);
+	const [headCounter, setHheadCounter] = useState(1);
 
 	const customRenderers = {
 		img(image) {
@@ -99,7 +100,12 @@ const Md = ({ content }) => {
 		h1: ({ children, ...props }) => (
 			<h1
 				id={`h1_${
-					children && /* children[0] && */ children[0].replace(/[^\w]/g, '-')
+					children && children[0]
+						? children[0].replace(/[^\w]/g, '-')
+						: () => {
+								setHheadCounter((prev) => prev + 1);
+								return headCounter;
+						  }
 				}`}
 			>
 				{children}
@@ -108,7 +114,12 @@ const Md = ({ content }) => {
 		h2: ({ children, ...props }) => (
 			<h2
 				id={`h2_${
-					children && /* children[0] && */ children[0].replace(/[^\w]/g, '-')
+					children && children[0]
+						? children[0].replace(/[^\w]/g, '-')
+						: () => {
+								setHheadCounter((prev) => prev + 1);
+								return headCounter;
+						  }
 				}`}
 			>
 				{children}
@@ -117,7 +128,12 @@ const Md = ({ content }) => {
 		h3: ({ children, ...props }) => (
 			<h3
 				id={`h3_${
-					children && /* children[0] && */ children[0].replace(/[^\w]/g, '-')
+					children && children[0]
+						? children[0].replace(/[^\w]/g, '-')
+						: () => {
+								setHheadCounter((prev) => prev + 1);
+								return headCounter;
+						  }
 				}`}
 			>
 				{children}
@@ -126,7 +142,12 @@ const Md = ({ content }) => {
 		h4: ({ children, ...props }) => (
 			<h4
 				id={`h4_${
-					children && /* children[0] && */ children[0].replace(/[^\w]/g, '-')
+					children && children[0]
+						? children[0].replace(/[^\w]/g, '-')
+						: () => {
+								setHheadCounter((prev) => prev + 1);
+								return headCounter;
+						  }
 				}`}
 			>
 				{children}
@@ -135,7 +156,12 @@ const Md = ({ content }) => {
 		h5: ({ children, ...props }) => (
 			<h5
 				id={`h5_${
-					children && /* children[0] && */ children[0].replace(/[^\w]/g, '-')
+					children && children[0]
+						? children[0].replace(/[^\w]/g, '-')
+						: () => {
+								setHheadCounter((prev) => prev + 1);
+								return headCounter;
+						  }
 				}`}
 			>
 				{children}
@@ -144,7 +170,12 @@ const Md = ({ content }) => {
 		h6: ({ children, ...props }) => (
 			<h6
 				id={`h6_${
-					children && /* children[0] && */ children[0].replace(/[^\w]/g, '-')
+					children && children[0]
+						? children[0].replace(/[^\w]/g, '-')
+						: () => {
+								setHheadCounter((prev) => prev + 1);
+								return headCounter;
+						  }
 				}`}
 			>
 				{children}

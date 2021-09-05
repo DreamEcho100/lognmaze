@@ -8,7 +8,7 @@ description: Start studying Vocabulary Workshop Level F Grade 11  Unit 1, Learn 
 
 ## Vocabulary grade 11 Unit 1
 
-**_Approbation_**
+### _Approbation_
 
 > (n) the expression of approval or favorable opinion, praise; official approval.
 
@@ -26,7 +26,7 @@ description: Start studying Vocabulary Workshop Level F Grade 11  Unit 1, Learn 
 
 7. He gave her his hand without looking at her, as if her approbation did not greatly gratify him.
 
-**_Assuage_**
+### _Assuage_
 
 > (v) to make easier or milder, relieve; to quiet, calm; to put an end to, appease, satisfy, quench.
 
@@ -44,7 +44,7 @@ description: Start studying Vocabulary Workshop Level F Grade 11  Unit 1, Learn 
 
 7. Or assuage the guilt for abandoning that traditional ideal.
 
-**_coalition_**
+### _coalition_
 
 > (n) a combination, union, or merger for some specific purpose.
 
@@ -62,7 +62,7 @@ description: Start studying Vocabulary Workshop Level F Grade 11  Unit 1, Learn 
 
 7. He was working in coalition with other Unionist leaders.
 
-**_decadence_**
+### _decadence_
 
 > (n) decline, decay, or deterioration; a condition or period of decline or decay; excessive self-indulgence.
 
@@ -78,7 +78,7 @@ description: Start studying Vocabulary Workshop Level F Grade 11  Unit 1, Learn 
 
 6. By the 15th century, dereliction and decadence had taken hold.
 
-**_elicit_**
+### _elicit_
 
 > (v) to draw forth, bring out from some source (such as another person).
 
@@ -98,7 +98,7 @@ description: Start studying Vocabulary Workshop Level F Grade 11  Unit 1, Learn 
 
 8. Short questions are more likely to elicit a response.
 
-**_expostulate_**
+### _expostulate_
 
 > (v) to attempt to dissuade someone from some course or decision by earnest reasoning.
 
@@ -114,7 +114,7 @@ description: Start studying Vocabulary Workshop Level F Grade 11  Unit 1, Learn 
 
 6. He wanted to plunge in and expostulate with her.
 
-**_hackneyed_**
+### _hackneyed_
 
 > (adj) used so often as to lack freshness or originality.
 
@@ -132,7 +132,7 @@ description: Start studying Vocabulary Workshop Level F Grade 11  Unit 1, Learn 
 
 7. "Everybody thinks it's hackneyed,"
 
-**_hiatus_**
+### _hiatus_
 
 > (n) a gap, opening, break (in sense of having an element missing).
 
@@ -150,7 +150,7 @@ description: Start studying Vocabulary Workshop Level F Grade 11  Unit 1, Learn 
 
 7. Gumbel responded by taking a three-day hiatus.
 
-**_innuendo_**
+### _innuendo_
 
 > (n) a hint, indirect suggestion, or reference (often in a derogatory sense).
 
@@ -166,7 +166,7 @@ description: Start studying Vocabulary Workshop Level F Grade 11  Unit 1, Learn 
 
 6. There's always an element of sexual innuendo in our conversations.
 
-**_intercede_**
+### _intercede_
 
 > (v) to plead on behalf of someone else; to serve as a third party or go-between in a disagreement.
 
@@ -184,7 +184,7 @@ description: Start studying Vocabulary Workshop Level F Grade 11  Unit 1, Learn 
 
 7. The saints watch and protect us; they intercede for us.
 
-**_jaded_**
+### _jaded_
 
 > (adj) wearied, worn-out, dulled (in a sense of being satiated by excessive indulgence).
 
@@ -204,7 +204,7 @@ description: Start studying Vocabulary Workshop Level F Grade 11  Unit 1, Learn 
 
 8. New York musicians are jaded and tough.
 
-**_lurid_**
+### _lurid_
 
 > (adj) causing shock, horror or revulsion; sensational; pale or sallow in color; terrible or passionate in intensity or lack of restraint.
 
@@ -224,7 +224,7 @@ description: Start studying Vocabulary Workshop Level F Grade 11  Unit 1, Learn 
 
 8. He told me in lurid detail what would happen to me.
 
-**_meritorious_**
+### _meritorious_
 
 > (adj) worthy, deserving recognition and praise.
 
@@ -262,7 +262,7 @@ description: Start studying Vocabulary Workshop Level F Grade 11  Unit 1, Learn 
 
 8. He frowned, and the handsome face clouded momentarily, petulant as a child's.
 
-**_prerogative_**
+### _prerogative_
 
 > (n) a special right or privilege; a special quality showing excellence.
 
@@ -282,7 +282,7 @@ description: Start studying Vocabulary Workshop Level F Grade 11  Unit 1, Learn 
 
 8. The Prime Minister exercised his prerogative to decide when to call an election.
 
-**_provincial_**
+### _provincial_
 
 > (adj) pertaining to an outlying area; local; narrow in mind or outlook, countrified in the sense of being limited and backward; of a simple, plain design that originated in the countryside.
 
@@ -304,7 +304,7 @@ description: Start studying Vocabulary Workshop Level F Grade 11  Unit 1, Learn 
 
 9. He decided to revamp the company's provincial image.
 
-**_simulate_**
+### _simulate_
 
 to make a pretense of, imitate; to show the outer signs of:
 
@@ -322,7 +322,7 @@ to make a pretense of, imitate; to show the outer signs of:
 
 7. They have to do with the plasticity of pigment simulating flesh.
 
-**_transcend_**
+### _transcend_
 
 > (v) to rise above or beyond, exceed.
 
@@ -340,7 +340,7 @@ to make a pretense of, imitate; to show the outer signs of:
 
 7. A tube top and shorts transcend sportswear when the shorts are beaded.
 
-**_umbrage_**
+### _umbrage_
 
 > (n) shade cast by trees; foliage giving shade; an overshadowing influence or power; offense, resentment; a vague suspicion.
 
@@ -360,7 +360,7 @@ to make a pretense of, imitate; to show the outer signs of:
 
 8. She took umbrage at his remarks, but made no attempt to get her figure back.
 
-**_unctuous_**
+### _unctuous_
 
 > (adj) excessively smooth or smug; trying too hard to give an impression of earnestness, sincerity, or piety; fatty, oily; pliable.
 
