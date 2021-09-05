@@ -51,3 +51,29 @@
 	margin-left: 1.5em;
 	list-style: circle;
 }
+
+.format-md ul li {
+	list-style: circle;
+}
+
+.format-md ol li {
+	list-style: auto;
+}
+
+.format-md blockquote {
+	background-color: var(--main-special-bg-color-2);
+	padding: 0.1em 0.5em;
+	color: black;
+	position: relative;
+	padding-left: 1.25em;
+}
+
+.format-md blockquote::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 0.5em;
+	background-color: var(--main-special-bg-color-5);
+	height: 100%;
+}

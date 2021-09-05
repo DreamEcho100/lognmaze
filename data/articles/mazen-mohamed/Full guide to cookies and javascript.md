@@ -1,6 +1,6 @@
 ---
 title: Full guide to cookies and JavaScript (clint-side)
-tags: cookies, javascript
+tags: cookies javascript
 image_alt: cookies and JavaScript
 image_src: https://i.morioh.com/2021/08/02/1f0e3c44.webp
 description: cookies are data, stored in small text files, on your computer, and JavaScript has the ability to create, read, update, delete it on the client-side. we will take about cookies and how to CRUD them with JavaScript.
