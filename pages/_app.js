@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
 // import App from 'next/app';
 import Head from 'next/head';
+import { YMInitializer } from 'react-yandex-metrika';
 import { config, library } from '@fortawesome/fontawesome-svg-core';
 import {
 	faUser,
@@ -83,7 +83,7 @@ const MyApp = ({ Component, pageProps }) => {
 				<meta name='robots' content='index,follow' />
 				<meta name='viewport' content='width=device-width, initial-scale=1.0' />
 
-				{'<!-- Yandex.Metrika counter -->'}
+				{/* {'<!-- Yandex.Metrika counter -->'}
 				<script
 					type='text/javascript'
 					dangerouslySetInnerHTML={{
@@ -101,7 +101,7 @@ const MyApp = ({ Component, pageProps }) => {
 					`,
 					}}
 				></script>
-				{'<!-- /Yandex.Metrika counter -->'}
+				{'<!-- /Yandex.Metrika counter -->'} */}
 
 				{/* <!-- Yandex.Metrika counter -->
 				<script type="text/javascript" >
@@ -177,7 +177,7 @@ const MyApp = ({ Component, pageProps }) => {
 					// rel='preload'
 				/>
 			</Head>
-			<noscript>
+			{/* <noscript>
 				<div>
 					<img
 						src='https://mc.yandex.ru/watch/85004128'
@@ -185,7 +185,8 @@ const MyApp = ({ Component, pageProps }) => {
 						alt=''
 					/>
 				</div>
-			</noscript>
+			</noscript> */}
+			<YMInitializer accounts={[85004128]} />
 			<Layout isAuthenticated={pageProps.isAuthenticated}>
 				<Component {...pageProps} />
 			</Layout>
