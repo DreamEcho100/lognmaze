@@ -30,8 +30,8 @@ const Accordion = ({
 		<div
 			{...props}
 			style={{
-				'--toggltButtonSize': toggltButtonSize ? toggltButtonSize : '1',
-				'--accordionContainerBorderBottomSize':
+				['--toggltButtonSize']: toggltButtonSize ? toggltButtonSize : '1',
+				['--accordionContainerBorderBottomSize']:
 					accordionContainerBorderBottomSize
 						? accordionContainerBorderBottomSize
 						: '1',
