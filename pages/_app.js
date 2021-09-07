@@ -72,8 +72,32 @@ library.add(
 import '@styles/_globals.css';
 
 import Layout from '@components/Layout/Layout';
+import { useEffect } from 'react';
 
 const MyApp = ({ Component, pageProps }) => {
+	useEffect(() => {
+		(function (m, e, t, r, i, k, a) {
+			m[i] =
+				m[i] ||
+				function () {
+					(m[i].a = m[i].a || []).push(arguments);
+				};
+			m[i].l = 1 * new Date();
+			(k = e.createElement(t)),
+				(a = e.getElementsByTagName(t)[0]),
+				(k.async = 1),
+				(k.src = r),
+				a.parentNode.insertBefore(k, a);
+		})(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+		ym(85004128, 'init', {
+			clickmap: true,
+			trackLinks: true,
+			accurateTrackBounce: true,
+			webvisor: true,
+		});
+	}, []);
+
 	return (
 		<>
 			<Head>
@@ -82,7 +106,7 @@ const MyApp = ({ Component, pageProps }) => {
 				<meta name='robots' content='index,follow' />
 				<meta name='viewport' content='width=device-width, initial-scale=1.0' />
 
-				{/* <!-- Yandex.Metrika counter --> */}
+				{/* <!-- Yandex.Metrika counter -->
 				<script type="text/javascript" >
 					(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
 					m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
@@ -96,7 +120,7 @@ const MyApp = ({ Component, pageProps }) => {
 					});
 				</script>
 				<noscript><div><img src="https://mc.yandex.ru/watch/85004128" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-				{/* <!-- /Yandex.Metrika counter --> */}
+				<!-- /Yandex.Metrika counter --> */}
 
 				<meta property='og:locale' content='en_US' />
 				<meta property='og:type' content='website' />
