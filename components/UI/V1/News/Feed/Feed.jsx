@@ -41,7 +41,12 @@ const Feed = ({
 	return (
 		<section {...feedProps}>
 			{state.news.map((item, index) => (
-				<Wrapper key={`Feed-${index}-${item.news_id}`}>
+				<Wrapper
+					key={`Feed-${index}-${item.news_id}`}
+					style={{
+						padding: '1em',
+					}}
+				>
 					<Container
 						newsItem={item}
 						detailsType='description'

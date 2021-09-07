@@ -27,6 +27,7 @@ const reducer = (state, action) => {
 				? news[news.length - 1].created_at
 				: undefined,
 			isLoadingMoreNewsItems: false,
+			hit_news_items_limit: news.length < 10 ? true : false,
 		};
 	}
 

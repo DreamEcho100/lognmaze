@@ -156,7 +156,7 @@
 
 ::selection {
 	color: var(--main-special-bg-color-3);
-	background: var(--main-special-font-color-3);
+	background: var(--main-special-font-color-4);
 }
 
 body.dark {
