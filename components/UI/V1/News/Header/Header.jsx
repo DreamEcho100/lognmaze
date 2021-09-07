@@ -50,7 +50,7 @@ const Header = ({
 					/>
 					<div className=''>
 						{!router.query.slug && newsItem.type === 'article' ? (
-							<Link href={`/article/${newsItem.slug}`}>
+							<Link href={`/article/${newsItem.slug}`} prefetch={false}>
 								<a title={`${newsItem.type} | ${newsItem.title}`}>
 									<h1>{newsItem.title}</h1>
 								</a>

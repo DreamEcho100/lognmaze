@@ -71,7 +71,7 @@ const Md = ({ content }) => {
 			}
 
 			return (
-				<Link href={href}>
+				<Link href={href} prefetch={false}>
 					<a
 						className='text-glow-special'
 						title={node.children[0].value}

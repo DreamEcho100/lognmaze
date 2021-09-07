@@ -13,7 +13,7 @@ const CommonNav = ({
 	hideSettings,
 }) => (
 	<nav className={classes.nav}>
-		<Link href={`/profile/${newsItem.author_user_name_id}`}>
+		<Link href={`/profile/${newsItem.author_user_name_id}`} prefetch={false}>
 			<a
 				title={`author ${newsItem.author_user_name_id} profile`}
 				className={classes.author_profile_link}
