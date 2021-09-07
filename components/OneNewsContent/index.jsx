@@ -64,9 +64,13 @@ const OneNewsContent = ({ newsItem }) => {
 						<meta name='description' content={newsItem.description} />
 						<meta
 							property='og:title'
-							content={`${newsItem.title} | LogNMaze`}
+							content={`${newsItem.title} | LogNMaze | Create blogs, articles using Markdown & share them in
+							your social media`}
 						/>
-						<title>{newsItem.title} | LogNMaze</title>
+						<title>
+							{newsItem.title} | LogNMaze | Create blogs, articles using
+							Markdown {'&'} share them in your social media
+						</title>
 					</>
 				) : (
 					<>

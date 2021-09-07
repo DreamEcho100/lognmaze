@@ -25,7 +25,8 @@ const Home = ({
 	return (
 		<main className='main'>
 			<Head>
-				<title>Home | LogNMaze</title>
+				<title>Home | LogNMaze | Create blogs, articles using Markdown {'&'} share them in
+					your social media</title>
 			</Head>
 			{/* <Hero user={user} /> */ ''}
 			<Section1

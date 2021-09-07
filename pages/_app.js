@@ -109,7 +109,10 @@ const MyApp = ({ Component, pageProps }) => {
 				/>
 				<meta name='twitter:title' content='LogNMaze' />
 				<meta property='og:title' content='LogNMaze' />
-				<title>LogNMaze</title>
+				<title>
+					LogNMaze | Create blogs, articles using Markdown {'&'} share them in
+					your social media
+				</title>
 				<link
 					rel='preconnect'
 					// rel='preload'

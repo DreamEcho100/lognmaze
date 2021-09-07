@@ -243,7 +243,7 @@ const SignUp = ({
 			onSubmit={submitHandler}
 		>
 			<Head>
-				<meta name="robots" content="index,follow" />
+				<meta name='robots' content='index,follow' />
 				<meta
 					property='og:url'
 					content={`https://lognmaze.com/auth/?sign-type=up`}
@@ -253,10 +253,25 @@ const SignUp = ({
 					content={`https://lognmaze.com/auth/?sign-type=up`}
 				/>
 
-				<meta property='og:description' content='Sign up to LogNMaze' />
-				<meta name='description' content='Sign up to LogNMaze' />
-				<meta property='og:title' content='Sign up | LogNMaze' />
-				<title>Sign up | LogNMaze</title>
+				<meta
+					property='og:description'
+					content='Sign up to LogNMaze | Create blogs, articles using Markdown & share them in
+					your social media'
+				/>
+				<meta
+					name='description'
+					content='Sign up to LogNMaze | Create blogs, articles using Markdown & share them in
+					your social media'
+				/>
+				<meta
+					property='og:title'
+					content='Sign up | LogNMaze | Create blogs, articles using Markdown & share them in
+					your social media'
+				/>
+				<title>
+					Sign up | LogNMaze | Create blogs, articles using Markdown {'&'} share
+					them in your social media
+				</title>
 			</Head>
 			<FormControls>
 				<FormControl extraClasses='align-center'>

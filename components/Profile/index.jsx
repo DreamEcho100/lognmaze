@@ -74,11 +74,17 @@ const Profile = ({
 						''
 					)}
 
-					{userData.bio && userData.bio.length > 20 ? (
+					{userData.bio && userData.bio.length > 25 ? (
 						<>
-							<meta property='og:description' content={userData.bio} />
-							<meta name='description' content={userData.bio} />
-							<meta name='twitter:description' content={userData.bio} />
+							<meta
+								property='og:description'
+								content={userData.bio.slice(1, 150)}
+							/>
+							<meta name='description' content={userData.bio.slice(1, 150)} />
+							<meta
+								name='twitter:description'
+								content={userData.bio.slice(1, 150)}
+							/>
 						</>
 					) : (
 						''
@@ -93,14 +99,19 @@ const Profile = ({
 					/>
 					<meta
 						name='twitter:title'
-						content={`${userData.user_name_id} | LogNMaze`}
+						content={`${userData.user_name_id} | LogNMaze | Create blogs, articles using Markdown & share them in
+						your social media`}
 					/>
 
 					<meta
 						property='og:title'
-						content={`${userData.user_name_id} | LogNMaze`}
+						content={`${userData.user_name_id} | LogNMaze | Create blogs, articles using Markdown & share them in
+						your social media`}
 					/>
-					<title>{userData.user_name_id} | LogNMaze</title>
+					<title>
+						{userData.user_name_id} | LogNMaze | Create blogs, articles using
+						Markdown {'&'} share them in your social media
+					</title>
 				</Head>
 				<Hero userData={userData} visitorIdentity={visitorIdentity} />
 				<section className={classes['main-section']}>

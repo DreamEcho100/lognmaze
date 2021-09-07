@@ -71,6 +71,8 @@ const EditBioButton = ({ setValues, values }) => {
 								id='bio'
 								setValues={setValues}
 								value={values.bio}
+								minLength={25}
+								maxLength={150}
 							/>
 						</FormControl>
 						<Button title='Submit Form' disabled={DisableBtns} type='submit'>

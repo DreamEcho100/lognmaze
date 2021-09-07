@@ -9,12 +9,14 @@ const NavOnBigScreens = ({ user, isVerifyingUserLoading, handleSignOut }) => {
 		<nav className={NavOnBigScreensClasses['nav-on-big-screens']}>
 			<div className={MainNavigationClasses.logo}>
 				<Link href={'/'}>
-					<a
-						title='LogNMaze | Home Page'
-						className={MainNavigationClasses.logo_anchor}
-					>
-						LogNMaze
-					</a>
+					<strong>
+						<a
+							title='LogNMaze | Home Page'
+							className={MainNavigationClasses.logo_anchor}
+						>
+							LogNMaze
+						</a>
+					</strong>
 				</Link>
 			</div>
 			<ul className={MainNavigationClasses.ul}>

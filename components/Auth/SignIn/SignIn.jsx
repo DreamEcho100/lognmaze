@@ -67,10 +67,25 @@ const SignIn = () => {
 				<meta property='og:url' content={`https://lognmaze.com/auth/`} />
 				<meta name='twitter:url' content={`https://lognmaze.com/auth/`} />
 
-				<meta property='og:description' content='Sign in to LogNMaze' />
-				<meta name='description' content='Sign in to LogNMaze' />
-				<meta property='og:title' content='Sign in | LogNMaze' />
-				<title>Sign in | LogNMaze</title>
+				<meta
+					property='og:description'
+					content='Sign in to LogNMaze | Create blogs, articles using Markdown & share them in
+					your social media'
+				/>
+				<meta
+					name='description'
+					content='Sign in to LogNMaze | Create blogs, articles using Markdown & share them in
+					your social media'
+				/>
+				<meta
+					property='og:title'
+					content='Sign in | LogNMaze | Create blogs, articles using Markdown & share them in
+					your social media'
+				/>
+				<title>
+					Sign in | LogNMaze | Create blogs, articles using Markdown {'&'} share
+					them in your social media
+				</title>
 			</Head>
 			<FormControl extraClasses='align-center' className={classes.control}>
 				<Label htmlFor='email'>Your Email</Label>
