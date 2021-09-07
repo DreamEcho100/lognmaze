@@ -12,7 +12,6 @@ const DynamicCreateNewsButton = dynamic(() =>
 
 import Wrapper from '@components/UI/V1/Wrapper';
 import Hero from './Hero';
-// const DynamicFeed = dynamic(() => import('@components/UI/V1/News/Feed/Feed'));
 import Feed from '@components/UI/V1/News/Feed/Feed';
 const DynamicSensitiveDataAccordion = dynamic(() =>
 	import('./SensitiveDataAccordion')
@@ -24,23 +23,11 @@ const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
 const Profile = ({
-	// dynamicComponentReady = true,
-	// setDynamicComponentReady,
 	userData = {},
 	visitorIdentity = GUEST,
 	news = [],
 	newsFetchRouteQuery,
 }) => {
-	// useEffect(() => {
-	// 	if (!dynamicComponentReady && setDynamicComponentReady) {
-	// 		setDynamicComponentReady(true);
-	// 	}
-	// }, [dynamicComponentReady, setDynamicComponentReady]);
-
-	// if (!dynamicComponentReady && setDynamicComponentReady) {
-	// 	return <p>Loading...</p>;
-	// }
-
 	if (!userData.id) {
 		return (
 			<div className=''>

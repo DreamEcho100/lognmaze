@@ -1,13 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-// import dynamic from 'next/dynamic';
 
 import { getCookie } from '@lib/v1/cookie';
 
 import UserContext from '@store/UserContext';
 
 import Profile from '@components/Profile';
-// const DynamicProfile = dynamic(() => import('@components/Profile'));
 
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
@@ -51,21 +49,15 @@ const ProfilePage = ({ user = {}, ...props }) => {
 	const [identity, setIdentity] = useState(user.visitorIdentity || GUEST);
 	const [userData, setUserData] = useState(user.data);
 
-	// const [dynamicComponentReady, setDynamicComponentReady] = useState(false);
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		(async () => {
-			if (userState.isVerifyingUserLoading || !router.query.user_name_id)
-				return;
+			if (userState.isVerifyingUserLoading || !router.isReady) return;
 
-			setIsLoading(true);
 			let userProfileData;
 
-			if (
-				router.query.user_name_id &&
-				router.query.user_name_id !== userData?.user_name_id
-			) {
+			if (userData?.user_name_id !== router.query.user_name_id) {
 				setIsLoading(true);
 
 				if (userState.user?.user_name_id === router.query.user_name_id) {
@@ -132,12 +124,14 @@ const ProfilePage = ({ user = {}, ...props }) => {
 
 			if (isLoading) setIsLoading(false);
 		})();
-	}, [userState.isVerifyingUserLoading, router.query.user_name_id]);
+	}, [
+		userState.isVerifyingUserLoading,
+		router.query.user_name_id,
+		router.isReady,
+	]);
 
 	useEffect(() => {
-		if (userState.isVerifyingUserLoading) return;
-
-		if (!userState.userExist) {
+		if (userState.isVerifyingUserLoading || !userState.userExist) {
 			if (handleIsAuthorized) setHandleIsAuthorized(false);
 			if (identity !== GUEST) setIdentity(GUEST);
 		} else {
@@ -150,7 +144,11 @@ const ProfilePage = ({ user = {}, ...props }) => {
 				if (handleIsAuthorized) setHandleIsAuthorized(false);
 			}
 		}
-	}, [userState.userExist, userState.isVerifyingUserLoading]);
+	}, [
+		userState.userExist,
+		router.query.user_name_id,
+		userState.isVerifyingUserLoading,
+	]);
 
 	if (isLoading) {
 		return <p>Loading...</p>;
@@ -158,10 +156,6 @@ const ProfilePage = ({ user = {}, ...props }) => {
 
 	return (
 		<Profile
-			// DynamicProfile
-			// dynamicComponentReady={dynamicComponentReady}
-			// setDynamicComponentReady={setDynamicComponentReady}
-			// isLoading={isLoading}
 			userData={
 				userState.user?.user_name_id === router.query.user_name_id
 					? userState.user

@@ -1,25 +1,13 @@
-// import { useState } from 'react';
-// import dynamic from 'next/dynamic';
 import { pool } from '@lib/v1/pg';
 
 import { NewsContextProvider } from '@store/NewsContext';
 
-// const DynamicOneNewsContent = dynamic(() =>
-// 	import('@components/OneNewsContent')
-// );
 import OneNewsContent from '@components/OneNewsContent';
 
 const PostPage = ({ data }) => {
-	// const [dynamicComponentReady, setDynamicComponentReady] = useState(false);
-
 	return (
 		<NewsContextProvider>
-			<OneNewsContent
-				//	DynamicOneNewsContent
-				// dynamicComponentReady={dynamicComponentReady}
-				// setDynamicComponentReady={setDynamicComponentReady}
-				newsItem={data ? JSON.parse(data) : {}}
-			/>
+			<OneNewsContent newsItem={data ? JSON.parse(data) : {}} />
 		</NewsContextProvider>
 	);
 };
