@@ -83,26 +83,6 @@ const MyApp = ({ Component, pageProps }) => {
 				<meta name='robots' content='index,follow' />
 				<meta name='viewport' content='width=device-width, initial-scale=1.0' />
 
-				{/* {'<!-- Yandex.Metrika counter -->'}
-				<script
-					type='text/javascript'
-					dangerouslySetInnerHTML={{
-						__html: `
-						(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-						m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-						(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-						ym(85004128, "init", {
-									clickmap:true,
-									trackLinks:true,
-									accurateTrackBounce:true,
-									webvisor:true
-						});
-					`,
-					}}
-				></script>
-				{'<!-- /Yandex.Metrika counter -->'} */}
-
 				{/* <!-- Yandex.Metrika counter -->
 				<script type="text/javascript" >
 					(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -123,6 +103,55 @@ const MyApp = ({ Component, pageProps }) => {
 						<img
 							src='https://mc.yandex.ru/watch/85004128'
 							style='position:absolute; left:-9999px;'
+							alt=''
+						/>
+					</div>
+				</noscript> */}
+
+				{'<!-- Clarity tracking code for https://lognmaze.com/ -->'}
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `
+							(function (c, l, a, r, i, t, y) {
+								c[a] =
+									c[a] ||
+									function () {
+										(c[a].q = c[a].q || []).push(arguments);
+									};
+								t = l.createElement(r);
+								t.async = 1;
+								t.src = 'https://www.clarity.ms/tag/' + i + '?ref=bwt';
+								y = l.getElementsByTagName(r)[0];
+								y.parentNode.insertBefore(t, y);
+							})(window, document, 'clarity', 'script', '8co4gbipfa');
+						`,
+					}}
+				/>
+
+				{/* {'<!-- Yandex.Metrika counter -->'}
+				<script
+					type='text/javascript'
+					dangerouslySetInnerHTML={{
+						__html: `
+					 (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+					 m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+					 (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+					 ym(85004128, "init", {
+								 clickmap:true,
+								 trackLinks:true,
+								 accurateTrackBounce:true,
+								 webvisor:true
+					 });
+				 `,
+					}}
+				/>
+				{'<!-- /Yandex.Metrika counter -->'}
+				<noscript>
+					<div>
+						<img
+							src='https://mc.yandex.ru/watch/85004128'
+							style={{ position: 'absolute', left: '-9999px' }}
 							alt=''
 						/>
 					</div>
@@ -153,10 +182,18 @@ const MyApp = ({ Component, pageProps }) => {
 					name='description'
 					content='Create articles in Markdown and share them in your different social media platform'
 				/>
-				<meta name='twitter:title' content='LogNMaze' />
-				<meta property='og:title' content='LogNMaze' />
+				<meta
+					name='twitter:title'
+					content='LogNMaze | Create blogs, articles using Markdown and share them in
+					your social media'
+				/>
+				<meta
+					property='og:title'
+					content='LogNMaze | Create blogs, articles using Markdown and share them in
+					your social media'
+				/>
 				<title>
-					LogNMaze | Create blogs, articles using Markdown {'&'} share them in
+					LogNMaze | Create blogs, articles using Markdown and share them in
 					your social media
 				</title>
 				<link

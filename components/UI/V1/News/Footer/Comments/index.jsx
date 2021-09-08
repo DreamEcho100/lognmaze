@@ -92,7 +92,7 @@ const Comments = ({
 					))}
 			</div>
 			{loadingComments && <p>Loading...</p>}
-			<div>
+			<div className='buttons-holder-padding-half-em'>
 				{!newsItem.hit_comments_limit && (
 					<button
 						title='Load More'

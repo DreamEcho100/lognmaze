@@ -1,5 +1,4 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';
 import BorderClasses from '@components/UI/V1/Border.module.css';
@@ -13,7 +12,7 @@ import UserContext from '@store/UserContext';
 import { handleAllClasses } from '../../utils/index';
 
 import Modal from '@components/UI/V1/Modal';
-const DynamicContainerItems = dynamic(() => import('./ContainerItems'));
+import ContainerItems from './ContainerItems';
 import Button from '@components/UI/V1/Button';
 
 const Container = ({
@@ -76,7 +75,7 @@ const Container = ({
 
 	return (
 		<>
-			<DynamicContainerItems
+			<ContainerItems
 				articleProps={{
 					...articleProps,
 					className: `${allClasses} ${articleProps.className}`,
@@ -85,6 +84,7 @@ const Container = ({
 				setShowModal={setShowModal}
 				detailsType={detailsType}
 				isLoadingUserVote={isLoadingUserVote}
+				hideFooterSettings={props.hideFooterSettings}
 			/>
 
 			{props.modalOnClick && (
@@ -107,12 +107,13 @@ const Container = ({
 				>
 					<Fragment key='header'>{/* <Header /> */}</Fragment>
 					<Fragment key='body'>
-						<DynamicContainerItems
+						<ContainerItems
 							className={`${BorderClasses['border-2']}`}
 							articleProps={articleProps}
 							newsItem={newsItem}
 							setShowModal={setShowModal}
 							detailsType='content'
+							hideFooterSettings={props.hideFooterSettings}
 						/>
 					</Fragment>
 				</Modal>

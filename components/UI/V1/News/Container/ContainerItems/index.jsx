@@ -8,6 +8,7 @@ const ContainerItems = ({
 	detailsType,
 	setShowModal,
 	setIsLoadingContent,
+	hideFooterSettings,
 	isLoadingContent,
 	isLoadingUserVote,
 	...props
@@ -27,7 +28,7 @@ const ContainerItems = ({
 				setShowModal={setShowModal}
 				isLoadingContent={isLoadingContent}
 			/>
-			<NewsFooter newsItem={newsItem} isLoadingUserVote={isLoadingUserVote} />
+			<NewsFooter hideFooterSettings={hideFooterSettings} newsItem={newsItem} isLoadingUserVote={isLoadingUserVote} />
 		</article>
 	);
 };

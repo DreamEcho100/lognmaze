@@ -84,9 +84,8 @@ const Article = ({
 		return result;
 	};
 
-	const sharedInputProps = (
-		{ minLength, maxLength } = { minLength: false, maxLength: false }
-	) => {
+	const sharedInputProps = (elementProps = {}) => {
+		const { minLength = false, maxLength = false } = elementProps;
 		const props = {
 			extraClasses: classes.input,
 			className: classes['input'],
@@ -97,9 +96,8 @@ const Article = ({
 		return props;
 	};
 
-	const sharedTextareaProps = (
-		{ minLength, maxLength } = { minLength: false, maxLength: false }
-	) => {
+	const sharedTextareaProps = (elementProps = {}) => {
+		const { minLength = false, maxLength = false } = elementProps;
 		const props = {
 			extraClasses: classes.textarea,
 			className: classes['textarea'],
@@ -285,7 +283,8 @@ const Article = ({
 						}))
 					}
 					{...sharedTextareaProps({
-						minLength: 50,
+						minLength: 25,
+						maxLength: 160,
 					})}
 					className={classes['width-100-percent']}
 				/>

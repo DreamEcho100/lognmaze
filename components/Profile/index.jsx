@@ -99,19 +99,14 @@ const Profile = ({
 					/>
 					<meta
 						name='twitter:title'
-						content={`${userData.user_name_id} | LogNMaze | Create blogs, articles using Markdown & share them in
-						your social media`}
+						content={`${userData.user_name_id} | LogNMaze`}
 					/>
 
 					<meta
 						property='og:title'
-						content={`${userData.user_name_id} | LogNMaze | Create blogs, articles using Markdown & share them in
-						your social media`}
+						content={`${userData.user_name_id} | LogNMaze`}
 					/>
-					<title>
-						{userData.user_name_id} | LogNMaze | Create blogs, articles using
-						Markdown {'&'} share them in your social media
-					</title>
+					<title>{userData.user_name_id} | LogNMaze</title>
 				</Head>
 				<Hero userData={userData} visitorIdentity={visitorIdentity} />
 				<section className={classes['main-section']}>

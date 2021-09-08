@@ -60,17 +60,19 @@ const OneNewsContent = ({ newsItem }) => {
 							content={`https://lognmaze.com/article/${newsItem.slug}`}
 						/>
 
+						<meta name='twitter:description' content={newsItem.description} />
 						<meta property='og:description' content={newsItem.description} />
 						<meta name='description' content={newsItem.description} />
+
+						<meta
+							name='twitter:title'
+							content={`${newsItem.title} | LogNMaze`}
+						/>
 						<meta
 							property='og:title'
-							content={`${newsItem.title} | LogNMaze | Create blogs, articles using Markdown & share them in
-							your social media`}
+							content={`${newsItem.title} | LogNMaze`}
 						/>
-						<title>
-							{newsItem.title} | LogNMaze | Create blogs, articles using
-							Markdown {'&'} share them in your social media
-						</title>
+						<title>{newsItem.title} | LogNMaze</title>
 					</>
 				) : (
 					<>

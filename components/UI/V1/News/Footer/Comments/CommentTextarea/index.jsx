@@ -24,18 +24,20 @@ const CommentTextarea = ({
 				onChange={onChange}
 				value={value}
 			/>
-			<Button title='Submit Form' type='submit' disabled={disableSubmitBtn}>
-				Send
-			</Button>
-			{closeBtn && (
-				<Button
-					title='Close Modal'
-					disabled={disableSubmitBtn}
-					onClick={onClickingCloseBtn}
-				>
-					Close
+			<div className='buttons-holder-padding-half-em'>
+				<Button title='Submit Form' type='submit' disabled={disableSubmitBtn}>
+					Send
 				</Button>
-			)}
+				{closeBtn && (
+					<Button
+						title='Close Modal'
+						disabled={disableSubmitBtn}
+						onClick={onClickingCloseBtn}
+					>
+						Close
+					</Button>
+				)}
+			</div>
 		</Form>
 	);
 };

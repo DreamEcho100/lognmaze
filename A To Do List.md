@@ -2,36 +2,36 @@
 
 ## To dos
 
-- Adding a to do list (optional). [ ]
+- [ ] Adding a to do list (optional).
 
 ## Done
 
-- Adding a counter to track the amount of article and posts per user. [x]
+- [x] Adding a counter to track the amount of article and posts per user.
 
-- Fixing some bugs like: [x]
+- [x] Fixing some bugs like:
 
-  - Remove adding comment to news when there is no user. [x]
+  - [x] Remove adding comment to news when there is no user.
 
-  - Updating user update route from many to one route. [x]
+  - [x] Updating user update route from many to one route.
 
-  - Fixing a bug in the comment (main & replies) settings. [x]
+  - [x] Fixing a bug in the comment (main & replies) settings.
 
-  - Adding some styles to the profile page when there is no profile picture or a cover photo. [x]
+  - [x] Adding some styles to the profile page when there is no profile picture or a cover photo.
 
-  - Adding a loading and disable textarea when loading the content news in update news modal. [x]
+  - [x] Adding a loading and disable textarea when loading the content news in update news modal.
 
-- Refactoring UserContext to use useReducer. [x]
+- [x] Refactoring UserContext to use useReducer.
 
-- Adding an alt to an image article in (sql table, concerning routes, UI, ...). [x]
+- [x] Adding an alt to an image article in (sql table, concerning routes, UI, ...).
 
-- Adding a limit to news description and read more. [x]
+- [x] Adding a limit to news description and read more.
 
-- Changing "Reading More ->" to an icon + "Full Article". [x]
+- [x] Changing "Reading More ->" to an icon + "Full Article".
 
-- Changing the intro in screen sizes where width is smaller than height. [x]
+- [x] Changing the intro in screen sizes where width is smaller than height.
 
-- Adding a title to a links. [x]
+- [x] Adding a title to a links.
 
-- DELETE phone_number and phone_verified from user_account [x]
+- [x] DELETE phone_number and phone_verified from user_account
 
-- In the front-end adding the UI to change the user user_name_id.
+- [x] In the front-end adding the UI to change the user user_name_id.

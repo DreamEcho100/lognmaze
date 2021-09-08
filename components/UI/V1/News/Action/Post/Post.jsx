@@ -44,9 +44,8 @@ const Post = ({ closeModal, createNews, updateNews, actionType, newsItem }) => {
 		return result;
 	};
 
-	const sharedTextareaProps = (
-		{ minLength, maxLength } = { minLength: false, maxLength: false }
-	) => {
+	const sharedTextareaProps = (elementProps = {}) => {
+		const { minLength = false, maxLength = false } = elementProps;
 		const props = {
 			extraClasses: classes.textarea,
 			className: classes['textarea'],
