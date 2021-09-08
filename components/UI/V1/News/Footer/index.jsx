@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
+import dynamic from 'next/dynamic';
+
 import classes from './index.module.css';
 
-import Comments from './Comments';
+const DynamicComments = dynamic(() => import('./Comments'));
 import Settings from './Settings';
 import Status from './Status';
 
-const Footer = ({ newsItem, isLoadingUserVote }) => {
+const Footer = ({ hideFooterSettings, newsItem, isLoadingUserVote }) => {
 	if (!newsItem?.news_id) {
 		return <></>;
 	}
@@ -34,18 +36,20 @@ const Footer = ({ newsItem, isLoadingUserVote }) => {
 				showComments={showComments}
 				setShowComments={setShowComments}
 			/>
-			<Settings
-				newsItem={newsItem}
-				comments={newsItem.comments}
-				user_vote_type={newsItem.user_vote_type}
-				setShowComments={setShowComments}
-				setFocusCommentTextarea={setFocusCommentTextarea}
-				showComments={showComments}
-				focusCommentTextarea={focusCommentTextarea}
-				isLoadingUserVote={isLoadingUserVote}
-			/>
+			{!hideFooterSettings && (
+				<Settings
+					newsItem={newsItem}
+					comments={newsItem.comments}
+					user_vote_type={newsItem.user_vote_type}
+					setShowComments={setShowComments}
+					setFocusCommentTextarea={setFocusCommentTextarea}
+					showComments={showComments}
+					focusCommentTextarea={focusCommentTextarea}
+					isLoadingUserVote={isLoadingUserVote}
+				/>
+			)}
 			{showComments && (
-				<Comments
+				<DynamicComments
 					newsItem={newsItem}
 					comments={newsItem.comments}
 					className={classes.comments}

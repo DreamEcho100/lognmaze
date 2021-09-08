@@ -362,6 +362,13 @@ body.dark .text-glow-special {
 	display: inline;
 }
 
+.buttons-holder-padding-half-em > button {
+	margin-right: 1em;
+}
+.buttons-holder-padding-half-em > button:last-child {
+	margin-right: 0;
+}
+
 .font-size-inherit {
 	font-size: inherit !important;
 }

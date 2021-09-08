@@ -384,43 +384,45 @@ const Comment = ({ comment, newsItem, ...props }) => {
 
 			{loadingReplies && <p>Loading...</p>}
 
-			{showReplies &&
-				comment.type === 'comment_main' &&
-				!comment.hit_replies_limit &&
-				parseInt(comment.replies_counter) !== 0 &&
-				parseInt(comment.replies_counter) !== comment?.replies?.length && (
+			<div className='buttons-holder-padding-half-em'>
+				{showReplies &&
+					comment.type === 'comment_main' &&
+					!comment.hit_replies_limit &&
+					parseInt(comment.replies_counter) !== 0 &&
+					parseInt(comment.replies_counter) !== comment?.replies?.length && (
+						<button
+							title='Load More'
+							disabled={loadingReplies}
+							onClick={() => {
+								if (
+									comment.replies &&
+									comment.replies.length !== 0 &&
+									!showReplies
+								)
+									setShowReplies(true);
+								if (
+									(comment.replies &&
+										comment.replies.length !== comment.replies_counter) ||
+									!comment.hit_replies_limit
+								) {
+									loadRepliesHandler(comment.news_comment_id, newsItem.news_id);
+								}
+							}}
+						>
+							Load More
+						</button>
+					)}
+
+				{showReplies && (
 					<button
-						title='Load More'
+						title='Hide Replies'
 						disabled={loadingReplies}
-						onClick={() => {
-							if (
-								comment.replies &&
-								comment.replies.length !== 0 &&
-								!showReplies
-							)
-								setShowReplies(true);
-							if (
-								(comment.replies &&
-									comment.replies.length !== comment.replies_counter) ||
-								!comment.hit_replies_limit
-							) {
-								loadRepliesHandler(comment.news_comment_id, newsItem.news_id);
-							}
-						}}
+						onClick={() => setShowReplies(false)}
 					>
-						Load More
+						Hide Replies
 					</button>
 				)}
-
-			{showReplies && (
-				<button
-					title='Hide Replies'
-					disabled={loadingReplies}
-					onClick={() => setShowReplies(false)}
-				>
-					Hide Replies
-				</button>
-			)}
+			</div>
 		</div>
 	);
 };

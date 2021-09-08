@@ -25,7 +25,7 @@ const HomePage = () => {
 					setNewsFetchRouteQuery(linkQuery);
 				}
 
-				const { status, message, data } = await fetch(
+				const newsResult /*{ status, message, data }*/ = await fetch(
 					`/api/v1/news${linkQuery}`
 				)
 					.then((response) => response.json())
@@ -38,11 +38,11 @@ const HomePage = () => {
 						};
 					});
 
-				if (!status || (status && status === 'error')) {
-					console.error(message);
+				if (newsResult?.status === 'error') {
+					console.error(newsResult.message);
 					return;
 				}
-				const formattedData = data.news.map((obj) => {
+				const formattedData = newsResult.data.news.map((obj) => {
 					const formattedItem = {};
 					let itemA;
 					for (itemA in obj) {

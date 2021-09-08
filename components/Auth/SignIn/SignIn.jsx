@@ -69,21 +69,21 @@ const SignIn = () => {
 
 				<meta
 					property='og:description'
-					content='Sign in to LogNMaze | Create blogs, articles using Markdown & share them in
+					content='Sign in to LogNMaze | Create blogs, articles using Markdown and share them in
 					your social media'
 				/>
 				<meta
 					name='description'
-					content='Sign in to LogNMaze | Create blogs, articles using Markdown & share them in
+					content='Sign in to LogNMaze | Create blogs, articles using Markdown and share them in
 					your social media'
 				/>
 				<meta
 					property='og:title'
-					content='Sign in | LogNMaze | Create blogs, articles using Markdown & share them in
+					content='Sign in | LogNMaze | Create blogs, articles using Markdown and share them in
 					your social media'
 				/>
 				<title>
-					Sign in | LogNMaze | Create blogs, articles using Markdown {'&'} share
+					Sign in | LogNMaze | Create blogs, articles using Markdown and share
 					them in your social media
 				</title>
 			</Head>

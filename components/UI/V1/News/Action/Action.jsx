@@ -138,7 +138,7 @@ const Action = ({
 				<Fragment key='header'>
 					<header>
 						<h2>Are you sure you want to delete it?</h2>
-						<div>
+						<div className='buttons-holder-padding-half-em'>
 							<Button
 								title='Yes'
 								onClick={() =>
@@ -165,6 +165,7 @@ const Action = ({
 						hideHeaderSettings={true}
 						action='delete'
 						setIsLoadingContent={props.setIsLoadingContent}
+						hideFooterSettings={true}
 						// isLoadingUserVote={isLoadingUserVote}
 						// isLoadingContent={isLoadingContent}
 					/>

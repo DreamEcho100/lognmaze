@@ -6,7 +6,7 @@ export const handleLoadingNewsItemContent = async ({ dispatch, news_id }) => {
 		payload: { news_id: news_id, isLoadingContent: true },
 	});
 
-	const { message, status, data } = await fetch(
+	const newsResult = await fetch(
 		`/api/v1/news/articles/article/content/${news_id}`
 	)
 		.then((response) => response.json())
@@ -18,22 +18,26 @@ export const handleLoadingNewsItemContent = async ({ dispatch, news_id }) => {
 			};
 		});
 
-	if (!status || (status && status === 'error')) {
-		console.error(message);
+	if (newsResult?.status === 'error') {
+		console.error(newsResult.message);
 		return {
 			status: 'error',
-			message,
+			message: newsResult.message,
 		};
 	}
 
 	dispatch({
 		type: types.ADD_CONTENT_TO_NEWS_ITEM,
-		payload: { content: data.content, news_id, isLoadingContent: false },
+		payload: {
+			content: newsResult.data.content,
+			news_id,
+			isLoadingContent: false,
+		},
 	});
 
 	return {
-		status,
-		message,
+		status: newsResult.status,
+		message: newsResult.message,
 	};
 };
 export const handleLoadMoreNewsItems = async ({
@@ -51,7 +55,7 @@ export const handleLoadMoreNewsItems = async ({
 			? `/?last_news_item_created_at=${last_news_item_created_at}`
 			: `${newsFetchRouteQuery}&last_news_item_created_at=${last_news_item_created_at}`;
 
-	const { message, status, data } = await fetch(`/api/v1/news${query}`)
+	const newsResult = await fetch(`/api/v1/news${query}`)
 		.then((response) => response.json())
 		.catch((error) => {
 			console.error(error.message);
@@ -61,30 +65,30 @@ export const handleLoadMoreNewsItems = async ({
 			};
 		});
 
-	if (!status || (status && status === 'error')) {
-		console.error(message);
+	if (newsResult?.status === 'error') {
+		console.error(newsResult.message);
 		return {
 			status: 'error',
-			message,
+			message: newsResult.message,
 		};
 	}
 
 	dispatch({
 		type: types.ADD_MORE_NEWS_ITEM,
 		payload: {
-			newNewsItem: data.news.map((item) => ({
+			newNewsItem: newsResult.data.news.map((item) => ({
 				...item,
 				...item.type_data,
 				type_data: undefined,
 			})),
-			hit_news_items_limit: data.hit_news_items_limit,
+			hit_news_items_limit: newsResult.data.hit_news_items_limit,
 			isLoadingMoreNewsItems: false,
 		},
 	});
 
 	return {
-		status,
-		message,
+		status: newsResult.status,
+		message: newsResult.message,
 	};
 };
 export const handleCreatingNewsItem = async ({
@@ -102,7 +106,7 @@ export const handleCreatingNewsItem = async ({
 		...newsValues,
 	};
 
-	const { message, status, data } = await fetch('/api/v1/news', {
+	const newsResult = await fetch('/api/v1/news', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -119,22 +123,22 @@ export const handleCreatingNewsItem = async ({
 			};
 		});
 
-	if (!status || (status && status === 'error')) {
-		console.error(message);
+	if (newsResult?.status === 'error') {
+		console.error(newsResult.message);
 		return {
 			status: 'error',
-			message,
+			message: newsResult.message,
 		};
 	}
 
 	dispatch({
 		type: types.ADDING_USER_ONE_NEWS_ITEM_TO_NEWS,
-		payload: { user, data, newsValues, newsType },
+		payload: { user, data: newsResult.data, newsValues, newsType },
 	});
 
 	return {
-		status,
-		message,
+		status: newsResult.status,
+		message: newsResult.message,
 	};
 };
 export const handleUpdatingUserNewsItem = async ({
@@ -221,7 +225,7 @@ export const handleUpdatingUserNewsItem = async ({
 	// 	status: 'error',
 	// 	message: 'There no change in the data!',
 	// };
-	
+
 	if (!dataChanged) {
 		return {
 			status: 'error',
@@ -229,14 +233,17 @@ export const handleUpdatingUserNewsItem = async ({
 		};
 	}
 
-	const /* { message, status, data } */ result = await fetch('/api/v1/news', {
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json',
-				authorization: token ? `Bearer ${token}` : undefined,
-			},
-			body: JSON.stringify(bodyObj),
-		})
+	const /* { message, status, data } */ newsResult = await fetch(
+			'/api/v1/news',
+			{
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+					authorization: token ? `Bearer ${token}` : undefined,
+				},
+				body: JSON.stringify(bodyObj),
+			}
+		)
 			.then((response) => response.json())
 			.catch((error) => {
 				console.error(error.message);
@@ -246,11 +253,11 @@ export const handleUpdatingUserNewsItem = async ({
 				};
 			});
 
-	if (result?.status === 'error') {
-		console.error(result.message);
+	if (newsResult?.status === 'error') {
+		console.error(newsResult.message);
 		return {
 			status: 'error',
-			message: result.message,
+			message: newsResult.message,
 		};
 	}
 
@@ -266,8 +273,8 @@ export const handleUpdatingUserNewsItem = async ({
 	});
 
 	return {
-		status: result.status,
-		message: result.message,
+		status: newsResult.status,
+		message: newsResult.message,
 	};
 };
 export const handleDeletingUserNewsItem = async ({
@@ -277,7 +284,7 @@ export const handleDeletingUserNewsItem = async ({
 	newsType,
 	tags,
 }) => {
-	const { message, status, data } = await fetch('/api/v1/news', {
+	const newsResult = await fetch('/api/v1/news', {
 		method: 'DELETE',
 		headers: {
 			'Content-Type': 'application/json',
@@ -294,11 +301,11 @@ export const handleDeletingUserNewsItem = async ({
 			};
 		});
 
-	if (!status || (status && status === 'error')) {
-		console.error(message);
+	if (newsResult?.status === 'error') {
+		console.error(newsResult.message);
 		return {
 			status: 'error',
-			message,
+			message: newsResult.message,
 		};
 	}
 
@@ -310,8 +317,8 @@ export const handleDeletingUserNewsItem = async ({
 	});
 
 	return {
-		status,
-		message,
+		status: newsResult.status,
+		message: newsResult.message,
 	};
 };
 
@@ -328,32 +335,34 @@ export const handleLoadingNewsItemComments = async ({ dispatch, newsItem }) => {
 		)}`;
 	}
 
-	const { status, message, data } = await fetch(fetchInput).then((response) =>
+	const newsResult = await fetch(fetchInput).then((response) =>
 		response.json()
 	);
 
-	if (!status || (status && status === 'error')) {
-		console.error(message);
+	if (newsResult?.status === 'error') {
+		console.error(newsResult.message);
 
 		return {
 			status: 'error',
-			message,
+			message: newsResult.message,
 		};
 	}
 
 	const dataToAdd = {};
 
-	if (data?.comments.length > 0) {
-		dataToAdd.last_comment_created_at = data.comments[data.comments.length - 1]
-			? data.comments[data.comments.length - 1].created_at
-			: data.comments[data.comments.length - 1].created_at
-			? data.comments[data.comments.length - 1].created_at
+	if (newsResult?.data?.comments.length > 0) {
+		dataToAdd.last_comment_created_at = newsResult.data.comments[
+			newsResult.data.comments.length - 1
+		]
+			? newsResult.data.comments[newsResult.data.comments.length - 1].created_at
+			: newsResult.data.comments[newsResult.data.comments.length - 1].created_at
+			? newsResult.data.comments[newsResult.data.comments.length - 1].created_at
 			: undefined;
-		dataToAdd.comments = [...newsItem.comments, ...data.comments];
+		dataToAdd.comments = [...newsItem.comments, ...newsResult.data.comments];
 	}
 
 	if (
-		data.hit_comments_limit ||
+		newsResult.data.hit_comments_limit ||
 		(dataToAdd.comments &&
 			dataToAdd.comments.length === newsItem.comments_counter) ||
 		!dataToAdd.comments
@@ -367,8 +376,8 @@ export const handleLoadingNewsItemComments = async ({ dispatch, newsItem }) => {
 	});
 
 	return {
-		status,
-		message,
+		status: newsResult.status,
+		message: newsResult.message,
 	};
 };
 export const handlePostingCommentToNewsItem = async ({
@@ -385,11 +394,7 @@ export const handlePostingCommentToNewsItem = async ({
 		news_id: news_id,
 	});
 
-	const {
-		status,
-		message,
-		data: comment,
-	} = await fetch('/api/v1/news/comments/comment', {
+	const commentResult = await fetch('/api/v1/news/comments/comment', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -402,22 +407,22 @@ export const handlePostingCommentToNewsItem = async ({
 			return { status: 'error', message: error.message, data: {} };
 		});
 
-	if (!status || (status && status === 'error')) {
-		console.error(message);
+	if (commentResult?.status === 'error') {
+		console.error(commentResult.message);
 		return {
 			status: 'error',
-			message,
+			message: commentResult.message,
 		};
 	}
 
 	dispatch({
 		type: types.ADD_COMMENT_TO_NEWS_ITEM_AFTER_POSTING,
-		payload: { user, news_id, comment, commentContent },
+		payload: { user, news_id, comment: commentResult.data, commentContent },
 	});
 
 	return {
-		status,
-		message,
+		status: commentResult.status,
+		message: commentResult.message,
 	};
 };
 export const handleLoadingCommentRepliesInNewsItem = async ({
@@ -438,26 +443,26 @@ export const handleLoadingCommentRepliesInNewsItem = async ({
 		)}`;
 	}
 
-	const { status, message, data } = await fetch(fetchInput).then((response) =>
+	const repliesResult = await fetch(fetchInput).then((response) =>
 		response.json()
 	);
 
-	if (!status || (status && status === 'error')) {
-		console.error(message);
+	if (repliesResult?.status === 'error') {
+		console.error(repliesResult.message);
 		return {
 			status: 'error',
-			message,
+			message: repliesResult.message,
 		};
 	}
 
 	dispatch({
 		type: types.LOADING_COMMENT_REPLIES_IN_A_NEWS_ITEM,
-		payload: { news_id, data, parent_id },
+		payload: { news_id, data: repliesResult.data, parent_id },
 	});
 
 	return {
-		status,
-		message,
+		status: repliesResult.status,
+		message: repliesResult.message,
 	};
 };
 export const handleReplyingToMainOrReplyCommentInNewsItem = async ({
@@ -466,38 +471,39 @@ export const handleReplyingToMainOrReplyCommentInNewsItem = async ({
 	token,
 	bodyObj,
 }) => {
-	const { status, message, data } = await fetch(
-		'/api/v1/news/comments/comment',
-		{
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				authorization: token ? `Bearer ${token}` : undefined,
-			},
-			body: JSON.stringify(bodyObj),
-		}
-	)
+	const replyResult = await fetch('/api/v1/news/comments/comment', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			authorization: token ? `Bearer ${token}` : undefined,
+		},
+		body: JSON.stringify(bodyObj),
+	})
 		.then((response) => response.json())
 		.catch((error) => {
 			return { status: 'error', message: error.message };
 		});
 
-	if (!status || (status && status === 'error')) {
-		console.error(message);
+	if (replyResult?.status === 'error') {
+		console.error(replyResult.message);
 		return {
 			status: 'error',
-			message,
+			message: replyResult.message,
 		};
 	}
 
 	dispatch({
 		type: types.ADDING_REPLY_TO_A_MAIN_COMMENT_OR_A_REPLY_TO_A_COMMENT_IN_A_NEWS_ITEM,
-		payload: { user, bodyObj, news_comment_id: data.news_comment_id },
+		payload: {
+			user,
+			bodyObj,
+			news_comment_id: replyResult.data.news_comment_id,
+		},
 	});
 
 	return {
-		status,
-		message,
+		status: replyResult.status,
+		message: replyResult.message,
 	};
 };
 export const handleUpdatingMainOrReplyCommentInNewsItem = async ({
@@ -508,27 +514,24 @@ export const handleUpdatingMainOrReplyCommentInNewsItem = async ({
 	news_id,
 	parent_data_id,
 }) => {
-	const { status, message, data } = await fetch(
-		'/api/v1/news/comments/comment',
-		{
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json',
-				authorization: token ? `Bearer ${token}` : undefined,
-			},
-			body: JSON.stringify(bodyObj),
-		}
-	)
+	const result = await fetch('/api/v1/news/comments/comment', {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json',
+			authorization: token ? `Bearer ${token}` : undefined,
+		},
+		body: JSON.stringify(bodyObj),
+	})
 		.then((response) => response.json())
 		.catch((error) => {
 			return { status: 'error', message: error.message };
 		});
 
-	if (!status || (status && status === 'error')) {
-		console.error(message);
+	if (result?.status === 'error') {
+		console.error(result.message);
 		return {
 			status: 'error',
-			message,
+			message: result.message,
 		};
 	}
 
@@ -538,8 +541,8 @@ export const handleUpdatingMainOrReplyCommentInNewsItem = async ({
 	});
 
 	return {
-		status,
-		message,
+		status: result.status,
+		message: result.message,
 	};
 };
 export const handleDeletingMainOrReplyCommentInNewsItem = async ({
@@ -549,27 +552,24 @@ export const handleDeletingMainOrReplyCommentInNewsItem = async ({
 	news_id,
 	comment,
 }) => {
-	const { status, message, data } = await fetch(
-		'/api/v1/news/comments/comment',
-		{
-			method: 'DELETE',
-			headers: {
-				'Content-Type': 'application/json',
-				authorization: token ? `Bearer ${token}` : undefined,
-			},
-			body: JSON.stringify(bodyObj),
-		}
-	)
+	const result = await fetch('/api/v1/news/comments/comment', {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+			authorization: token ? `Bearer ${token}` : undefined,
+		},
+		body: JSON.stringify(bodyObj),
+	})
 		.then((response) => response.json())
 		.catch((error) => {
 			return { status: 'error', message: error.message };
 		});
 
-	if (!status || (status && status === 'error')) {
-		console.error(message);
+	if (result?.status === 'error') {
+		console.error(result.message);
 		return {
 			status: 'error',
-			message,
+			message: result.message,
 		};
 	}
 
@@ -579,8 +579,8 @@ export const handleDeletingMainOrReplyCommentInNewsItem = async ({
 	});
 
 	return {
-		status,
-		message,
+		status: result.status,
+		message: result.message,
 	};
 };
 
@@ -590,7 +590,7 @@ export const HandleAddingUserVote = async ({
 	news_id,
 	vote_type,
 }) => {
-	const { status, message, data } = await fetch('/api/v1/news/votes/vote', {
+	const voteResult = await fetch('/api/v1/news/votes/vote', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -606,11 +606,11 @@ export const HandleAddingUserVote = async ({
 			return { status: 'error', message: error.message };
 		});
 
-	if (!status || (status && status === 'error')) {
-		console.error(message);
+	if (voteResult?.status === 'error') {
+		console.error(voteResult.message);
 		return {
 			status: 'error',
-			message,
+			message: voteResult.message,
 		};
 	}
 
@@ -620,8 +620,8 @@ export const HandleAddingUserVote = async ({
 	});
 
 	return {
-		status,
-		message,
+		status: voteResult.status,
+		message: voteResult.message,
 	};
 };
 
@@ -631,7 +631,7 @@ export const HandleDeletingUserVote = async ({
 	news_id,
 	vote_type,
 }) => {
-	const { status, message, data } = await fetch('/api/v1/news/votes/vote', {
+	const voteResult = await fetch('/api/v1/news/votes/vote', {
 		method: 'DELETE',
 		headers: {
 			'Content-Type': 'application/json',
@@ -647,11 +647,11 @@ export const HandleDeletingUserVote = async ({
 			return { status: 'error', message: error.message };
 		});
 
-	if (!status || (status && status === 'error')) {
-		console.error(message);
+	if (voteResult?.status === 'error') {
+		console.error(voteResult.message);
 		return {
 			status: 'error',
-			message,
+			message: voteResult.message,
 		};
 	}
 
@@ -661,8 +661,8 @@ export const HandleDeletingUserVote = async ({
 	});
 
 	return {
-		status,
-		message,
+		status: voteResult.status,
+		message: voteResult.message,
 	};
 };
 
@@ -673,7 +673,7 @@ export const HandleChangingUserVote = async ({
 	old_vote_type,
 	new_vote_type,
 }) => {
-	const { status, message, data } = await fetch('/api/v1/news/votes/vote', {
+	const voteResult = await fetch('/api/v1/news/votes/vote', {
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json',
@@ -690,11 +690,11 @@ export const HandleChangingUserVote = async ({
 			return { status: 'error', message: error.message };
 		});
 
-	if (!status || (status && status === 'error')) {
-		console.error(message);
+	if (voteResult?.status === 'error') {
+		console.error(voteResult.message);
 		return {
 			status: 'error',
-			message,
+			message: voteResult.message,
 		};
 	}
 
@@ -704,8 +704,8 @@ export const HandleChangingUserVote = async ({
 	});
 
 	return {
-		status,
-		message,
+		status: voteResult.status,
+		message: voteResult.message,
 	};
 };
 
@@ -726,29 +726,27 @@ export const HandleLoadingUserVote = async ({
 	let query = `news_id=${news_id}`;
 	if (user.id) query += `&voter_id=${user.id}`;
 
-	const { status, message, data } = await fetch(
-		`/api/v1/news/votes/vote/?${query}`
-	)
+	const voteResult = await fetch(`/api/v1/news/votes/vote/?${query}`)
 		.then((response) => response.json())
 		.catch((error) => {
 			return { status: 'error', message: error.message };
 		});
 
-	if (!status || (status && status === 'error')) {
-		console.error(message);
+	if (voteResult?.status === 'error') {
+		console.error(voteResult.message);
 		return {
 			status: 'error',
-			message,
+			message: voteResult.message,
 		};
 	}
 
 	dispatch({
 		type: types.LOAD_USER_VOTE_FOR_NEWS_ITEM,
-		payload: { news_id, user_vote_type: data.user_vote_type },
+		payload: { news_id, user_vote_type: voteResult.data.user_vote_type },
 	});
 
 	return {
-		status,
-		message,
+		status: voteResult.status,
+		message: voteResult.message,
 	};
 };

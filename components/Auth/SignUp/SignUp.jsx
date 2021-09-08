@@ -255,21 +255,21 @@ const SignUp = ({
 
 				<meta
 					property='og:description'
-					content='Sign up to LogNMaze | Create blogs, articles using Markdown & share them in
+					content='Sign up to LogNMaze | Create blogs, articles using Markdown and share them in
 					your social media'
 				/>
 				<meta
 					name='description'
-					content='Sign up to LogNMaze | Create blogs, articles using Markdown & share them in
+					content='Sign up to LogNMaze | Create blogs, articles using Markdown and share them in
 					your social media'
 				/>
 				<meta
 					property='og:title'
-					content='Sign up | LogNMaze | Create blogs, articles using Markdown & share them in
+					content='Sign up | LogNMaze | Create blogs, articles using Markdown and share them in
 					your social media'
 				/>
 				<title>
-					Sign up | LogNMaze | Create blogs, articles using Markdown {'&'} share
+					Sign up | LogNMaze | Create blogs, articles using Markdown and share
 					them in your social media
 				</title>
 			</Head>
