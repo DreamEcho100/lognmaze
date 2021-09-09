@@ -1,0 +1,35 @@
+.main-section {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.section-1 {
+	max-width: 70%;
+	min-width: 70%;
+	margin-right: 1em;
+}
+
+.section-2 {
+	max-width: 25%;
+	width: fit-content;
+	min-width: 25%;
+}
+
+@media screen and (max-width: 700px) {
+	.main-section {
+		flex-direction: column-reverse;
+	}
+
+	.section-1,
+	.section-2 {
+		margin: auto;
+		flex: unset;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		max-width: 100%;
+		margin-bottom: 1em;
+	}
+}

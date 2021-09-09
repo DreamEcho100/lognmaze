@@ -1,0 +1,93 @@
+.accordion {
+	--toggltButtonSize: 1;
+	--accordionContainerBorderBottomSize: 1;
+}
+
+.accordion-container {
+	border-bottom: calc(0.5rem * var(--accordionContainerBorderBottomSize)) solid
+		var(--main-special-bg-color-2);
+	padding-bottom: 0.25em;
+	margin: 0.25em auto;
+	padding: 0.25em;
+}
+
+.accordion-container.toggle {
+	border: calc(0.5rem * var(--accordionContainerBorderBottomSize) * 0.95) solid
+		var(--main-special-bg-color-3);
+	border-bottom: calc(0.5rem * var(--accordionContainerBorderBottomSize)) solid
+		var(--main-special-bg-color-5);
+	border-top-left-radius: 0.5rem;
+	border-top-right-radius: 0.5rem;
+}
+
+.accordion-header {
+	position: relative;
+}
+
+.accordion-header .container {
+	margin-right: calc(2em + 1rem);
+}
+
+.toggle-accordion-body {
+	background-color: var(--main-special-bg-color-1);
+	outline-color: var(--main-special-bg-color-1);
+	border-color: transparent;
+	width: calc(3rem * var(--toggltButtonSize));
+	height: calc(3rem * var(--toggltButtonSize));
+	border-radius: 50%;
+	overflow: hidden;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	transition: all 0.6s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+.toggle-accordion-body.toggle {
+	transform: rotate(180deg);
+}
+
+.arrow-container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.arrow-container::before,
+.arrow-container::after {
+	content: '';
+	width: 100%;
+	height: 20%;
+	background-color: var(--main-special-bg-color-5);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+
+.arrow-container::before {
+	transform: translate(-80%, 20%) rotate(-50deg);
+}
+
+.arrow-container::after {
+	transform: translate(-20%, 20%) rotate(50deg);
+}
+
+.accordion-body {
+	overflow: hidden;
+	height: 0;
+	transition: all 0.6s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+	max-height: 0;
+	min-height: 0;
+}
+
+.accordion-body.toggle {
+	overflow-y: auto;
+	height: auto;
+	max-height: fit-content;
+	min-height: fit-content;
+}
+
+@media screen and (max-width: 400px) {
+	.accordion {
+		--reduce: 0.6;
+	}
+}
