@@ -12,7 +12,7 @@ export const getServerSideProps = async ({ res, req }) => {
 	// An array with your links
 	const links = [
 		{
-			url,
+			url: '/auth',
 			lastmod: new Date().toISOString(),
 			changefreq: 'monthly',
 			priority: 1,
