@@ -1,0 +1,26 @@
+main.auth {
+	margin: 1em auto;
+	max-width: 95%;
+	width: fit-content;
+	min-height: unset;
+	background-color: var(--main-bg-color-0);
+	border-radius: 0.75rem;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.header,
+.header nav,
+.header nav ul {
+	width: 100%;
+}
+
+.header nav ul {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}

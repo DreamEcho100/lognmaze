@@ -1,0 +1,56 @@
+.comment {
+	margin: 0.5em auto;
+}
+
+.comment:first-child {
+	margin-top: 0em;
+}
+
+.comment:last-child {
+	margin-bottom: 0em;
+}
+
+.type-comment_main_reply {
+	margin-left: 0.5em;
+}
+
+.header {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.nav {
+	display: flex;
+	align-items: center;
+}
+
+.profile_picture {
+	width: 4rem;
+	height: 4rem;
+	border-radius: 50%;
+	margin-right: 0.25em;
+}
+
+.author-info {
+}
+
+.author_name {
+	font-weight: bold;
+}
+
+.footer {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.comments_counter {
+	margin: 0 0.25em;
+}
+
+.comment_content {
+	padding: 0.25em 0.125em;
+}

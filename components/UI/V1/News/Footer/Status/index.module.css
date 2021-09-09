@@ -1,0 +1,35 @@
+.status {
+	display: flex;
+	align-items: center;
+	margin: 0.5em 0;
+}
+
+.status-item {
+	margin: 0 0.25em;
+}
+
+.status-item:first-child {
+	margin-left: 0;
+}
+
+.status-item:last-child {
+	margin-right: 0;
+}
+
+.votes {
+	display: flex;
+	align-items: center;
+}
+
+.vote {
+	margin: 0 0.125em;
+	cursor: default;
+}
+
+.vote:first-child {
+	margin-left: 0;
+}
+
+.vote:last-child {
+	margin-right: 0;
+}

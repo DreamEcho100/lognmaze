@@ -1,0 +1,18 @@
+.nav {
+	width: 100%;
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+
+.author_profile_picture {
+	width: 6rem;
+	height: 6rem;
+	border-radius: 100%;
+	margin-right: 0.5em;
+}
+
+.author_profile_link {
+	display: flex;
+	align-items: flex-start;
+}

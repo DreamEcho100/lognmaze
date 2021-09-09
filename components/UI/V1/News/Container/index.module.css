@@ -1,0 +1,25 @@
+.container {
+	width: 70%;
+	min-width: 50%;
+	width: 100%;
+	transition: all 0.25s ease-in-out;
+
+	max-width: 100rem;
+	margin: auto;
+}
+
+.modal-wrapper {
+	width: 90%;
+	max-width: 200rem;
+}
+
+.modal-container {
+	background: var(--main-color-1-100);
+}
+
+@media screen and (max-width: 700px) {
+	.container {
+		width: fit-content;
+		width: 100%;
+	}
+}

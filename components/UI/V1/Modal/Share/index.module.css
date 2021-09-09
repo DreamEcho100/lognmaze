@@ -1,0 +1,168 @@
+.social-platform {
+	--border-color: black;
+	--bg-color: purple;
+	--outline-color: var(--bg-color);
+	--font-color: white;
+
+	--border-color-hover: var(--border-color);
+	--bg-color-hover: var(--bg-color);
+	--outline-color: var(--bg-color-hover);
+	--font-color-hover: var(--font-color);
+
+	--border-color-focus: var(--border-color);
+	--bg-color-focus: var(--bg-color);
+	--outline-color: var(--bg-color-focus);
+	--font-color-focus: var(--font-color);
+
+	border: 0.1rem ridge var(--border-color);
+	background-color: var(--bg-color);
+	color: var(--font-color);
+
+	border-radius: 0.35rem;
+	padding: 0.5em;
+	margin: 0.5em;
+}
+.social-platform:hover {
+	border: 0.1rem ridge var(--border-color-hover);
+	background-color: var(--bg-color-hover);
+	color: var(--font-color-hover);
+}
+.social-platform:focus-within {
+	border: 0.1rem ridge var(--border-color-focus);
+	background-color: var(--bg-color-focus);
+	color: var(--font-color-focus);
+}
+
+.social-platform > a {
+	outline-color: var(--bg-color);
+	margin: 0 0.25em;
+	display: flex;
+	align-items: center;
+}
+
+.social-platform > a .link-text {
+	margin: 0 0.25em;
+}
+
+.social-platform.facebook {
+	--border-color: hsl(250deg 85% 30%);
+	--bg-color: hsl(250deg 85% 30%);
+	--font-color: hsl(250deg 85% 100%);
+}
+.social-platform.facebook:hover {
+	--border-color: hsl(250deg 85% 35%);
+	--bg-color: hsl(250deg 85% 35%);
+	--font-color: hsl(250deg 0% 100%);
+}
+.social-platform.facebook:focus-within {
+	--border-color: hsl(250deg 85% 25%);
+	--bg-color: hsl(250deg 85% 25%);
+	--font-color: hsl(250deg 85% 100%);
+}
+
+.social-platform.linkedin {
+	--border-color: hsl(210deg 85% 30%);
+	--bg-color: hsl(210deg 85% 30%);
+	--font-color: hsl(210deg 85% 100%);
+}
+.social-platform.linkedin:hover {
+	--border-color: hsl(210deg 85% 35%);
+	--bg-color: hsl(210deg 85% 35%);
+	--font-color: hsl(210deg 0% 100%);
+}
+.social-platform.linkedin:focus-within {
+	--border-color: hsl(210deg 85% 25%);
+	--bg-color: hsl(210deg 85% 25%);
+	--font-color: hsl(210deg 85% 100%);
+}
+
+.social-platform.reddit {
+	--border-color: hsl(20deg 86% 50%);
+	--bg-color: hsl(20deg 86% 50%);
+	--font-color: hsl(210deg 85% 100%);
+}
+.social-platform.reddit:hover {
+	--border-color: hsl(20deg 86% 55%);
+	--bg-color: hsl(20deg 86% 55%);
+	--font-color: hsl(210deg 0% 100%);
+}
+.social-platform.reddit:focus-within {
+	--border-color: hsl(20deg 86% 45%);
+	--bg-color: hsl(20deg 86% 45%);
+	--font-color: hsl(210deg 85% 100%);
+}
+
+.social-platform.telegram {
+	--border-color: hsl(215deg 86% 50%);
+	--bg-color: hsl(215deg 86% 50%);
+	--font-color: hsl(210deg 85% 100%);
+}
+.social-platform.telegram:hover {
+	--border-color: hsl(215deg 86% 55%);
+	--bg-color: hsl(215deg 86% 55%);
+	--font-color: hsl(210deg 0% 100%);
+}
+.social-platform.telegram:focus-within {
+	--border-color: hsl(215deg 86% 45%);
+	--bg-color: hsl(215deg 86% 45%);
+	--font-color: hsl(210deg 85% 100%);
+}
+
+.social-platform.tumblr {
+	--border-color: hsl(215deg 25% 50%);
+	--bg-color: hsl(215deg 25% 50%);
+	--font-color: hsl(210deg 85% 100%);
+}
+.social-platform.tumblr:hover {
+	--border-color: hsl(215deg 25% 55%);
+	--bg-color: hsl(215deg 25% 55%);
+	--font-color: hsl(210deg 0% 100%);
+}
+.social-platform.tumblr:focus-within {
+	--border-color: hsl(215deg 25% 45%);
+	--bg-color: hsl(215deg 25% 45%);
+	--font-color: hsl(210deg 85% 100%);
+}
+
+.social-platform.twitter {
+	--border-color: hsl(230deg 86% 50%);
+	--bg-color: hsl(230deg 86% 50%);
+	--font-color: hsl(210deg 85% 100%);
+}
+.social-platform.twitter:hover {
+	--border-color: hsl(230deg 86% 55%);
+	--bg-color: hsl(230deg 86% 55%);
+	--font-color: hsl(210deg 0% 100%);
+}
+.social-platform.twitter:focus-within {
+	--border-color: hsl(230deg 86% 45%);
+	--bg-color: hsl(230deg 86% 45%);
+	--font-color: hsl(210deg 85% 100%);
+}
+
+.social-platform.whatsapp {
+	--border-color: hsl(130deg 86% 50%);
+	--bg-color: hsl(130deg 86% 50%);
+	--font-color: hsl(210deg 85% 100%);
+}
+.social-platform.whatsapp:hover {
+	--border-color: hsl(130deg 86% 55%);
+	--bg-color: hsl(130deg 86% 55%);
+	--font-color: hsl(210deg 0% 100%);
+}
+.social-platform.whatsapp:focus-within {
+	--border-color: hsl(130deg 86% 45%);
+	--bg-color: hsl(130deg 86% 45%);
+	--font-color: hsl(210deg 85% 100%);
+}
+
+.form-control {
+	flex-direction: row;
+	justify-content: flex-start;
+	margin: 0.5em auto;
+}
+
+.form-input {
+	width: 90%;
+	margin-right: 5%;
+}

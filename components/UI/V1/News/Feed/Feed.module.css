@@ -1,0 +1,12 @@
+.feed {
+	margin: auto;
+	width: 100%;
+	transform: translateZ(2rem);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.news-container {
+}

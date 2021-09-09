@@ -1,0 +1,26 @@
+import classes from './FormControls.module.css';
+
+import { handleAllClasses } from '../utils/index';
+
+const FormControls = ({
+	defaultClasses = 'form-controls-2',
+	extraClasses = '',
+	className = '',
+	children,
+	...props
+}) => {
+	const allClasses = handleAllClasses({
+		classes,
+		defaultClasses,
+		extraClasses,
+		className,
+	});
+
+	return (
+		<div {...props} className={allClasses}>
+			{children}
+		</div>
+	);
+};
+
+export default FormControls;
