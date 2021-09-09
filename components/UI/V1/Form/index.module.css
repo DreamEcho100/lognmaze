@@ -1,9 +1,0 @@
-.default-form {
-	width: 99%;
-	border: 0.5rem solid var(--main-special-bg-color-5);
-	border-radius: 0.5rem;
-	padding: 0.5em;
-	margin: 1em auto;
-	transition: all ease-in 0.6s,
-		box-shadow 0.6s cubic-bezier(0.455, 0.03, 0.515, 0.955);
-}
