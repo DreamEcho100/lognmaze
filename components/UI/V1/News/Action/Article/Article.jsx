@@ -86,13 +86,22 @@ const Article = ({
 
 		if (values.image_alt.trim().replace(/\s{2,}/g, '').length < 3)
 			fieldsCheck.push('Image title is less than 3 characters.');
+<<<<<<< HEAD
 		else if (values.image_alt.trim().replace(/\s{2,}/g, '').length > 150)
 			fieldsCheck.push('Image title is more than 150 characters.');
+=======
+		else if (values.image_alt.trim().replace(/\s{2,}/g, '').length > 10)
+			fieldsCheck.push('Image title is more than 100 characters.');
+>>>>>>> 62e8277f278da96b0489101572ea1eb437573fa7
 
 		if (values.image_src.replace(/\s/g, '').length === 0)
 			fieldsCheck.push('There is no image source.');
 		if (!values.image_src.replace(/\s/g, '').startsWith('https'))
+<<<<<<< HEAD
 			fieldsCheck.push("Image source doesn't start with (https).");
+=======
+			fieldsCheck.push("Image source doesn't start with https.");
+>>>>>>> 62e8277f278da96b0489101572ea1eb437573fa7
 
 		if (values.description.trim().replace(/\s{2,}/g, '').length < 25)
 			fieldsCheck.push('Description is less than 25 characters.');
