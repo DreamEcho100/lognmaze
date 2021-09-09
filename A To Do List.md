@@ -35,3 +35,11 @@
 - [x] DELETE phone_number and phone_verified from user_account
 
 - [x] In the front-end adding the UI to change the user user_name_id.
+
+- [x] Adding a custom 404 & 500 pages.
+
+- [x] Adding validation for inputs and textarea field that needs validation.
+
+- [x] In getStaticPaths In /article/[slug] dynamic page changing fallback from true to 'blocking'.
+
+- [x] In getStaticProps In /article/[slug] dynamic page Adding (notFound: true) to the return.
