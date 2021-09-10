@@ -89,7 +89,13 @@ const OneNewsContent = ({ newsItem }) => {
 					</>
 				)}
 			</Head>
-			<Wrapper>
+			<Wrapper
+				style={{
+					borderRadius: '1rem',
+					width: 'fit-content',
+					maxWidth: '100%',
+				}}
+			>
 				<Container {...articleProps} />
 			</Wrapper>
 		</main>
