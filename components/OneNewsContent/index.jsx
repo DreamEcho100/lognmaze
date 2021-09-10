@@ -94,6 +94,7 @@ const OneNewsContent = ({ newsItem }) => {
 					borderRadius: '1rem',
 					width: 'fit-content',
 					maxWidth: '100%',
+					padding: '1em',
 				}}
 			>
 				<Container {...articleProps} />
