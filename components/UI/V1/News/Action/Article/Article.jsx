@@ -143,7 +143,7 @@ const Article = ({
 		if (maxLength) props.maxLength = maxLength;
 
 		if (minLength || maxLength) {
-			props.pattern = `{${minLength || ''},${maxLength || ''}}`;
+			props.pattern = `.{${minLength || ''},${maxLength || ''}}`;
 		}
 
 		return props;
@@ -160,7 +160,7 @@ const Article = ({
 		if (maxLength) props.maxLength = maxLength;
 
 		if (minLength || maxLength) {
-			props.pattern = `{${minLength || ''},${maxLength || ''}}`;
+			props.pattern = `.{${minLength || ''},${maxLength || ''}}`;
 		}
 
 		return props;
