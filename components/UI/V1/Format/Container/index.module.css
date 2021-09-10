@@ -76,3 +76,12 @@
 	background-color: var(--main-special-bg-color-5);
 	height: 100%;
 }
+
+.format-md code {
+	display: inline-block;
+	background: var(--main-font-color-3);
+	color: var(--main-bg-color-3);
+	padding: 0.25em;
+	margin: 0.1em 0;
+	border-radius: 0.25em;
+}

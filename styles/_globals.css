@@ -115,8 +115,8 @@
 	--main-bg-color-0-95: var(--color-1-100-95);
 	--main-bg-color-1: var(--color-1-95);
 	--main-bg-color-2: var(--color-1-75);
-	--main-bg-color-3: var(--color-1-55);
-	--main-bg-color-4: var(--color-1-25);
+	--main-bg-color-3: var(--color-1-25);
+	--main-bg-color-4: var(--color-1-20);
 	--main-bg-color-5: var(--color-1-15);
 
 	--main-font-color-0: var(--color-1-0);
@@ -171,7 +171,7 @@ body.dark {
 	--main-font-color-0: var(--color-1-100);
 	--main-font-color-1: var(--color-1-100);
 	--main-font-color-2: var(--color-1-75);
-	--main-font-color-3: var(--color-1-55);
+	--main-font-color-3: var(--color-1-25);
 	--main-font-color-4: var(--color-1-20);
 	--main-font-color-5: var(--color-1-5);
 
