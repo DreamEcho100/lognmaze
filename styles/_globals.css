@@ -126,7 +126,7 @@
 	--main-font-color-4: var(--color-1-85);
 	--main-font-color-5: var(--color-1-95);
 
-	--main-special-bg-color-1: var(--color-2-95);
+	/* --main-special-bg-color-1: var(--color-2-95);
 	--main-special-bg-color-2: var(--color-2-75);
 	--main-special-bg-color-3: var(--color-2-35);
 	--main-special-bg-color-4: var(--color-2-20);
@@ -136,20 +136,7 @@
 	--main-special-font-color-2: var(--color-1-25);
 	--main-special-font-color-3: var(--color-1-70);
 	--main-special-font-color-4: var(--color-1-90);
-	--main-special-font-color-5: var(--color-1-95);
-
-	/* --main-special-2-bg-color-0: var(--color-1-100);
-	--main-special-2-bg-color-1: var(--color-1-15);
-	--main-special-2-bg-color-2: var(--color-1-25);
-	--main-special-2-bg-color-3: var(--color-1-60);
-	--main-special-2-bg-color-4: var(--color-1-75);
-	--main-special-2-bg-color-5: var(--color-1-90);
-
-	--main-special-2-font-color-1: var(--color-1-95);
-	--main-special-2-font-color-2: var(--color-1-75);
-	--main-special-2-font-color-3: var(--color-1-55);
-	--main-special-2-font-color-4: var(--color-1-25);
-	--main-special-2-font-color-5: var(--color-1-15); */
+	--main-special-font-color-5: var(--color-1-95); */
 
 	--main-special-bg-color-0: var(--color-1-100);
 	--main-special-bg-color-0-95: var(--color-1-100-95);
@@ -165,6 +152,19 @@
 	--main-special-font-color-3: var(--color-1-70);
 	--main-special-font-color-4: var(--color-1-85);
 	--main-special-font-color-5: var(--color-1-95);
+
+	--main-special-2-bg-color-0: var(--color-1-100);
+	--main-special-2-bg-color-1: var(--color-1-15);
+	--main-special-2-bg-color-2: var(--color-1-25);
+	--main-special-2-bg-color-3: var(--color-1-60);
+	--main-special-2-bg-color-4: var(--color-1-75);
+	--main-special-2-bg-color-5: var(--color-1-90);
+
+	--main-special-2-font-color-1: var(--color-1-95);
+	--main-special-2-font-color-2: var(--color-1-75);
+	--main-special-2-font-color-3: var(--color-1-55);
+	--main-special-2-font-color-4: var(--color-1-25);
+	--main-special-2-font-color-5: var(--color-1-15);
 
 	--wrapper-box-shadow-length: 1rem;
 }
