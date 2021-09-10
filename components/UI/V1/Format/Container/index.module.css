@@ -40,6 +40,7 @@
 }
 
 .format-md p {
+	display: inline-block;
 	margin: 1em 0;
 }
 
