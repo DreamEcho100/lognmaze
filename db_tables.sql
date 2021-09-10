@@ -1,15 +1,17 @@
 CREATE extension IF NOT EXISTS "uuid-ossp";
 
--- user Table
+-- user_account Table
 CREATE TABLE user_account (
   user_account_id uuid DEFAULT uuid_generate_v4(),
-  email TEXT NOT NULL UNIQUE,
+  email TEXT NOT NULL,
   email_verified BOOLEAN DEFAULT FALSE,
   password TEXT NOT NULL,
   role TEXT DEFAULT 'user', 
   user_prefrences JSONB,
 
-  PRIMARY KEY (user_account_id)
+  PRIMARY KEY (user_account_id),
+
+  UNIQUE(email)
 );
 
 -- user_profile Table
@@ -34,7 +36,9 @@ CREATE TABLE user_profile (
   last_sign_in TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
   PRIMARY KEY (user_profile_id),
+
   FOREIGN KEY (user_profile_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE,
+
   UNIQUE(user_name_id),
 
   CONSTRAINT check_news_post_counter_min CHECK (news_post_counter >= 0),
@@ -75,38 +79,8 @@ CREATE TABLE user_address (
   FOREIGN KEY (user_address_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE
 );
 
-/*
--- user_activity Table
-CREATE TABLE user_activity (
-  user_activity_id uuid DEFAULT uuid_generate_v4(),
-  user_account_id uuid NOT NULL,
-
-  PRIMARY KEY (user_activity_id),
-  FOREIGN KEY (user_account_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE
-);
-*/
-
-/*
--- user_education Table
-CREATE TABLE user_experience (
-  user_experience_id uuid NOT NULL,
-
-  experience TEXT,
-  show_experience BOOLEAN DEFAULT TRUE,
-
-  education TEXT,
-  show_education BOOLEAN DEFAULT TRUE,
-
-  licenses_and_certifications TEXT,
-  show_licenses_and_certifications BOOLEAN DEFAULT TRUE,
-
-  skills_and_endorsements TEXT,
-  show_skills_and_endorsements BOOLEAN DEFAULT TRUE,
-
-  PRIMARY KEY (user_experience_id),
-  FOREIGN KEY (user_experience_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE
-);
-*/
+-- CREATE TABLE user_activity ();
+-- CREATE TABLE user_experience ();
 
 -- news Table
 CREATE TABLE news (
@@ -176,7 +150,7 @@ CREATE TABLE news_article (
   news_article_id uuid NOT NULL,
 
   title TEXT NOT NULL,
-  slug TEXT UNIQUE NOT NULL,
+  slug TEXT NOT NULL,
   iso_language TEXT NOT NULL,
   iso_country TEXT NOT NULL,
   image_alt TEXT NOT NULL,
@@ -186,8 +160,10 @@ CREATE TABLE news_article (
   content TEXT NOT NULL,
 
   PRIMARY KEY (news_article_id),
-  FOREIGN KEY (news_article_id) REFERENCES news (news_id) ON DELETE CASCADE
 
+  FOREIGN KEY (news_article_id) REFERENCES news (news_id) ON DELETE CASCADE,
+
+  UNIQUE(slug)
 );
 
 -- news_vote Table
@@ -254,11 +230,74 @@ CREATE TABLE news_comment_main_reply (
   FOREIGN KEY (reply_to_user_id) REFERENCES user_account (user_account_id) ON DELETE SET NULL
 );
 
+-- news_test TABLE
+CREATE TABLE news_test (
+  news_test_id uuid NOT NULL,
 
+  title TEXT NOT NULL, -- (Length > 3),
 
+  description TEXT NOT NULL, -- (Length > 25),
 
+  allowed for TEXT NOT NULL, -- IN (anyone || any user || groups),
 
+  star rating BIGINT DEFAULT 0,
 
+  date_of_start TIMESTAMP WITH TIME,
+
+  duration BIGINT, -- 'numbers_in_seconds',
+
+  date_of_end TIMESTAMP WITH TIME,
+
+  content JSONB DEFAULT '{}'::jsonb,
+
+  PRIMARY KEY (news_test_id),
+  FOREIGN KEY (news_test_id) REFERENCES news (news_id) ON DELETE CASCADE
+);
+
+-- group TABLE
+CREATE TABLE group (
+  group_id uuid DEFAULT uuid_generate_v4(),
+  created_by_id uuid NOT NULL,
+  owner_id uuid NOT NULL,
+
+  title TEXT NOT NULL,
+  slug TEXT NOT NULL,
+  description TEXT NOT NULL,
+  status TEXT NOT NULL, -- public/private
+
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updated_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+  PRIMARY KEY (group_id),
+
+  FOREIGN KEY (created_by_id) REFERENCES user_account (user_account_id) ON DELETE SET NULL,
+  FOREIGN KEY (owner_id) REFERENCES user_account (user_account_id) ON DELETE SET NULL,
+
+  UNIQUE(owner_id, slug)
+);
+
+-- news_test_group TABLE
+CREATE TABLE news_test_group (
+  -- news_test_group_id uuid DEFAULT uuid_generate_v4(),
+  news_test_id uuid NOT NULL,
+  group_id uuid NOT NULL,
+
+  PRIMARY KEY (news_test_id, group_id),
+
+  FOREIGN KEY (news_test_id) REFERENCES news_test (news_test_id) ON DELETE SET NULL,
+  FOREIGN KEY (group_id) REFERENCES group (group_id) ON DELETE SET NULL
+);
+
+-- news_test_group_member TABLE
+CREATE TABLE news_test_group_member (
+  member_id uuid NOT NULL,
+  group_id uuid NOT NULL,
+
+  PRIMARY KEY (member_id, group_id),
+
+  FOREIGN KEY (member_id) REFERENCES news_test (member_id) ON DELETE SET NULL,
+  FOREIGN KEY (group_id) REFERENCES news_test_group (group_id) ON DELETE SET NULL
+);
 
 
 

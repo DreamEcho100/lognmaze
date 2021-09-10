@@ -65,7 +65,7 @@ CREATE TABLE user_profile (
   email TEXT NOT NULL UNIQUE,
   phone_number TEXT NOT NULL,
   password TEXT NOT NULL,
-  extra `JSONB`
+  extra JSONB DEFAULT '{}'::jsonb
 );
 
 INSERT INTO user_profile (id, first_name, last_name, user_name_id, email, phone_number, password, extra)

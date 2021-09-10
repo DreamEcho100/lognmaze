@@ -173,7 +173,6 @@ const MyApp = ({ Component, pageProps }) => {
 				<meta property='og:url' content='https://lognmaze.com/' />
 				<meta name='twitter:url' content='https://lognmaze.com/' />
 
-				<meta name='twitter:url' content='https://lognmaze.com/' />
 				<meta
 					property='og:description'
 					content='Create articles in Markdown and share them in your different social media platform'
@@ -184,17 +183,14 @@ const MyApp = ({ Component, pageProps }) => {
 				/>
 				<meta
 					name='twitter:title'
-					content='LogNMaze | Create blogs, articles using Markdown and share them in
-					your social media'
+					content='LogNMaze | Create articles using Markdown and share to the world'
 				/>
 				<meta
 					property='og:title'
-					content='LogNMaze | Create blogs, articles using Markdown and share them in
-					your social media'
+					content='LogNMaze | Create articles using Markdown and share to the world'
 				/>
 				<title>
-					LogNMaze | Create blogs, articles using Markdown and share them in
-					your social media
+					LogNMaze | Create articles using Markdown and share to the world
 				</title>
 				<link
 					rel='preconnect'

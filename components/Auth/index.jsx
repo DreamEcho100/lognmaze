@@ -38,23 +38,32 @@ const Auth = ({
 				<meta name='twitter:url' content={`https://lognmaze.com/auth/`} />
 
 				<meta
+					property='twitter:description'
+					content='Sign in/up to LogNMaze | Create blogs, articles using Markdown and share them in
+				your social media'
+				/>
+				<meta
 					property='og:description'
 					content='Sign in/up to LogNMaze | Create blogs, articles using Markdown and share them in
 				your social media'
 				/>
 				<meta
 					name='description'
-					content='Sign in/up to LogNMaze | Create blogs, articles using Markdown and share them in
+					content='Sign in/up to | LogNMaze | Create blogs, articles using Markdown and share them in
 				your social media'
+				/>
+
+				<meta
+					property='twitter:title'
+					content='Sign in/up | LogNMaze | Create articles using Markdown and share to the world'
 				/>
 				<meta
 					property='og:title'
-					content='Sign in/up | LogNMaze | Create blogs, articles using Markdown and share them in
-				your social media'
+					content='Sign in/up | LogNMaze | Create articles using Markdown and share to the world'
 				/>
 				<title>
-					Sign in/up | LogNMaze | Create blogs, articles using Markdown and
-					share them in your social media
+					Sign in/up | LogNMaze | Create articles using Markdown and share to
+					the world
 				</title>
 			</Head>
 			<header className={classes.header}>
