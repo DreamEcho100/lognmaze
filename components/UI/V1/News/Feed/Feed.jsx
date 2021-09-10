@@ -55,7 +55,7 @@ const Feed = ({
 					/>
 				</Wrapper>
 			))}
-			{!state.hit_news_items_limit && (
+			{news.length !== 0 && !state.hit_news_items_limit && (
 				<Wrapper
 					style={{
 						width: '100%',

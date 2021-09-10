@@ -112,7 +112,13 @@ const Profile = ({
 				<section className={classes['main-section']}>
 					<section className={classes['section-1']}>
 						{news.length !== 0 && (
-							<Feed news={news} newsFetchRouteQuery={newsFetchRouteQuery} />
+							<Feed
+								style={{
+									width: 'fit-content',
+								}}
+								news={news}
+								newsFetchRouteQuery={newsFetchRouteQuery}
+							/>
 						)}
 						<Wrapper>
 							<time>
