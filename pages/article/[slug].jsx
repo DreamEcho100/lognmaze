@@ -16,11 +16,26 @@ const ArticlePage = ({ data }) => {
 
 export default ArticlePage;
 
-export const getStaticProps = async ({ params: { slug }, res }) => {
+export const getStaticProps = async ({ params, res }) => {
 	// const {
 	// 	params: { slug },
 	// 	res,
 	// } = context;
+
+	const slug =
+		params.slug === 'basic-guide-to-jsonb-in-postgresql'
+			? 'basic-guide-to-json-in-postgresql-jsonb'
+			: params.slug;
+
+	// if (slug === 'basic-guide-to-jsonb-in-postgresql') {
+	//   return {
+	//     redirect: {
+	//       destination: '/article/basic-guide-to-json-in-postgresql-jsonb',
+	//       permanent: false,
+	//     },
+	//   }
+	// 	// https://lognmaze.com/article/basic-guide-to-json-in-postgresql-jsonb
+	// }
 
 	try {
 		if (!slug) {
