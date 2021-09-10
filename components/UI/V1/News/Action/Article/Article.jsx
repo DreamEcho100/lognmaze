@@ -199,14 +199,17 @@ const Article = ({
 						return setValues((prev) => ({
 							...prev,
 							[event.target.name]: event.target.value,
-							slug: event.target.value
-								.toLowerCase()
-								.replace(/[^\w\s-\_]/gi, '')
-								.split(/[\s-]+/)
-								.join('-')
-								.replace(/(\_{2,})/gi, '_')
-								.replace(/^[^\w]/gi, '')
-								.replace(/-$/, ''),
+							slug:
+								actionType === 'create'
+									? event.target.value
+											.toLowerCase()
+											.replace(/[^\w\s-\_]/gi, '')
+											.split(/[\s-]+/)
+											.join('-')
+											.replace(/(\_{2,})/gi, '_')
+											.replace(/^[^\w]/gi, '')
+											.replace(/-$/, '')
+									: prev.slug,
 						}));
 					}}
 					{...sharedInputProps({

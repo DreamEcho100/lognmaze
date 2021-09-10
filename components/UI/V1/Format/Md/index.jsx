@@ -94,7 +94,7 @@ const Md = ({ content }) => {
 					{...props}
 				/>
 			) : (
-				<code className={className} {...props}>
+				<code className={className} {...props} data-code-inline='true' >
 					{children}
 				</code>
 			);

@@ -35,8 +35,8 @@ import {
 	faTwitter,
 	faWhatsapp,
 } from '@fortawesome/free-brands-svg-icons';
-import '@fortawesome/fontawesome-svg-core/styles.css';
-// import '../node_modules/@fortawesome/fontawesome-svg-core/styles.css';
+// import '@fortawesome/fontawesome-svg-core/styles.css';
+import '@/node_modules/@fortawesome/fontawesome-svg-core/styles.css';
 config.autoAddCss = false;
 library.add(
 	faUser,

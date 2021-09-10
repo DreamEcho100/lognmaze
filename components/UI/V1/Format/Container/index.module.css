@@ -77,7 +77,7 @@
 	height: 100%;
 }
 
-.format-md code {
+.format-md code[data-code-inline='true'] {
 	display: inline-block;
 	background: var(--main-font-color-3);
 	color: var(--main-bg-color-3);

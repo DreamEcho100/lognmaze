@@ -1,24 +1,44 @@
 # news_quiz
 
-title TEXT NOT NULL (Length > 3)
+news_quiz_id,
 
-description TEXT NOT NULL (Length > 25)
+title TEXT NOT NULL (Length > 3),
 
-allowed_for TEXT NOT NULL IN (anyone || any_user || groups)
+description TEXT NOT NULL (Length > 25),
 
-date_of_start TIMESTAMP WITH TIME 'start'
+allowed_for TEXT NOT NULL IN (anyone || any_user || groups),
 
-duration BIGINT 'numbers_in_seconds'
+star_rating BIGINT DEFAULT 0,
 
-date_of_end TIMESTAMP WITH TIME 'end'
+date_of_start TIMESTAMP WITH TIME 'start',
+
+duration BIGINT 'numbers_in_seconds',
+
+date_of_end TIMESTAMP WITH TIME 'end',
 
 content: {
 
-}
+},
 
 > **if** (allowed_for === groups) {
 
-- _TABLE_ news_quiz_group || (groups: [group\_??, ...])
+_TABLE_ news_quiz_group (
+
+news_quiz_group_id,
+
+news_quiz_id REFERENCE,
+
+_TABLE_ news_quiz_group_member (
+
+news_quiz_group_member === user_account_id,
+
+news_quiz_group_id REFERENCE,
+
+)
+
+)
+
+<!-- - || (groups: [group\_??, ...]) -->
 
 }
 
