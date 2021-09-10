@@ -23,7 +23,8 @@ export const getStaticProps = async ({ params, res }) => {
 	// } = context;
 
 	const slug =
-		params.slug === 'basic-guide-to-jsonb-in-postgresql'
+		params.slug === 'basic-guide-to-jsonb-in-postgresql' ||
+		'basic-guide-to-json-in-postgresql'
 			? 'basic-guide-to-json-in-postgresql-jsonb'
 			: params.slug;
 
