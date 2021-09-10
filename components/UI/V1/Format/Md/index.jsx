@@ -94,7 +94,9 @@ const Md = ({ content }) => {
 					{...props}
 				/>
 			) : (
-				<code className={className} {...props} />
+				<code className={className} {...props}>
+					{children}
+				</code>
 			);
 		},
 		h1: ({ children, ...props }) => (
