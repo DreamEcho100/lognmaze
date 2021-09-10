@@ -1,20 +1,24 @@
 # news_quiz
 
-news_quiz_id,
+news quiz id _PRIMARY KEY_,
 
-title TEXT NOT NULL (Length > 3),
+title _TEXT_ NOT NULL (Length > 3),
 
-description TEXT NOT NULL (Length > 25),
+description _TEXT_ NOT NULL (Length > 25),
 
-allowed_for TEXT NOT NULL IN (anyone || any_user || groups),
+allowed for _TEXT_ NOT NULL IN (anyone || any user || groups),
 
-star_rating BIGINT DEFAULT 0,
+star rating _BIGINT_ DEFAULT 0,
 
-date_of_start TIMESTAMP WITH TIME 'start',
+date of start _TIMESTAMP WITH TIME_,
 
-duration BIGINT 'numbers_in_seconds',
+duration _BIGINT_ 'numbers_in_seconds',
 
-date_of_end TIMESTAMP WITH TIME 'end',
+date of end _TIMESTAMP WITH TIME_,
+
+created at _TIMESTAMP WITH TIME_,
+
+updated on _TIMESTAMP WITH TIME_,
 
 content: {
 
@@ -24,21 +28,21 @@ content: {
 
 _TABLE_ news_quiz_group (
 
-news_quiz_group_id,
+news quiz group id _PRIMARY KEY_,
 
-news_quiz_id REFERENCE,
+news_quiz_id === news_quiz REFERENCE,
 
 _TABLE_ news_quiz_group_member (
 
-news_quiz_group_member === user_account_id,
+news quiz group member id === user account id REFERENCE,
 
-news_quiz_group_id REFERENCE,
-
-)
+news quiz group id === news quiz group id REFERENCE,
 
 )
 
-<!-- - || (groups: [group\_??, ...]) -->
+)
+
+<!-- - || (groups: [group ??, ...]) -->
 
 }
 

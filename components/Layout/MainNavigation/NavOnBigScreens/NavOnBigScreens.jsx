@@ -8,7 +8,7 @@ const NavOnBigScreens = ({ user, isVerifyingUserLoading, handleSignOut }) => {
 	return (
 		<nav className={NavOnBigScreensClasses['nav-on-big-screens']}>
 			<div className={MainNavigationClasses.logo}>
-				<Link href={'/'}>
+				<Link href='/'>
 					<strong>
 						<a
 							title='LogNMaze | Home Page'

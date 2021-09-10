@@ -13,7 +13,7 @@ const NavOnSmallScreens = ({ user, isVerifyingUserLoading, handleSignOut }) => {
 		<>
 			<nav className={NavOnSmallScreensClasses['nav']}>
 				<div className={MainNavigationClasses['logo']}>
-					<Link href={'/'}>
+					<Link href='/'>
 						<strong>
 							<a
 								title='LogNMaze | Home Page'

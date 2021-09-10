@@ -114,16 +114,16 @@
 	--main-bg-color-0: var(--color-1-100);
 	--main-bg-color-0-95: var(--color-1-100-95);
 	--main-bg-color-1: var(--color-1-95);
-	--main-bg-color-2: var(--color-1-75);
+	--main-bg-color-2: var(--color-1-85);
 	--main-bg-color-3: var(--color-1-25);
 	--main-bg-color-4: var(--color-1-20);
 	--main-bg-color-5: var(--color-1-15);
 
 	--main-font-color-0: var(--color-1-0);
-	--main-font-color-1: var(--color-1-15);
-	--main-font-color-2: var(--color-1-25);
+	--main-font-color-1: var(--color-1-5);
+	--main-font-color-2: var(--color-1-15);
 	--main-font-color-3: var(--color-1-70);
-	--main-font-color-4: var(--color-1-75);
+	--main-font-color-4: var(--color-1-85);
 	--main-font-color-5: var(--color-1-95);
 
 	--main-special-bg-color-1: var(--color-2-95);
@@ -138,7 +138,7 @@
 	--main-special-font-color-4: var(--color-1-90);
 	--main-special-font-color-5: var(--color-1-95);
 
-	--main-special-2-bg-color-0: var(--color-1-100);
+	/* --main-special-2-bg-color-0: var(--color-1-100);
 	--main-special-2-bg-color-1: var(--color-1-15);
 	--main-special-2-bg-color-2: var(--color-1-25);
 	--main-special-2-bg-color-3: var(--color-1-60);
@@ -149,7 +149,22 @@
 	--main-special-2-font-color-2: var(--color-1-75);
 	--main-special-2-font-color-3: var(--color-1-55);
 	--main-special-2-font-color-4: var(--color-1-25);
-	--main-special-2-font-color-5: var(--color-1-15);
+	--main-special-2-font-color-5: var(--color-1-15); */
+
+	--main-special-bg-color-0: var(--color-1-100);
+	--main-special-bg-color-0-95: var(--color-1-100-95);
+	--main-special-bg-color-1: var(--color-1-95);
+	--main-special-bg-color-2: var(--color-1-85);
+	--main-special-bg-color-3: var(--color-1-25);
+	--main-special-bg-color-4: var(--color-1-20);
+	--main-special-bg-color-5: var(--color-1-15);
+
+	--main-special-font-color-0: var(--color-1-0);
+	--main-special-font-color-1: var(--color-1-5);
+	--main-special-font-color-2: var(--color-1-15);
+	--main-special-font-color-3: var(--color-1-70);
+	--main-special-font-color-4: var(--color-1-85);
+	--main-special-font-color-5: var(--color-1-95);
 
 	--wrapper-box-shadow-length: 1rem;
 }
@@ -163,16 +178,15 @@ body.dark {
 	--main-bg-color-0: var(--color-1-0);
 	--main-bg-color-0-95: var(--color-1-0-95);
 	--main-bg-color-1: var(--color-1-5);
-	--main-bg-color-2: var(--color-1-20);
+	--main-bg-color-2: var(--color-1-15);
 	--main-bg-color-3: var(--color-1-55);
-	--main-bg-color-4: var(--color-1-75);
+	--main-bg-color-4: var(--color-1-85);
 	--main-bg-color-5: var(--color-1-100);
 
-	--main-font-color-0: var(--color-1-100);
-	--main-font-color-1: var(--color-1-100);
-	--main-font-color-2: var(--color-1-75);
+	--main-font-color-1: var(--color-1-85);
+	--main-font-color-2: var(--color-1-85);
 	--main-font-color-3: var(--color-1-25);
-	--main-font-color-4: var(--color-1-20);
+	--main-font-color-4: var(--color-1-15);
 	--main-font-color-5: var(--color-1-5);
 
 	--wrapper-box-shadow-length: 0.25rem;
@@ -285,8 +299,8 @@ span {
 
 /* a, */
 button,
+select,
 svg {
-	/* color: var(--main-font-color); */
 	color: inherit;
 }
 
@@ -315,6 +329,11 @@ button {
 
 button:disabled {
 	cursor: not-allowed;
+}
+
+input[type='radio'],
+input[type='checkbox'] {
+	accent-color: var(--main-special-bg-color-5);
 }
 
 .disable {

@@ -113,7 +113,7 @@ Now, What happened?
 
 Congratulations now if you start your development server by typing `npm run dev` and in your browser and go to `localhost:3000/sitemap.xml` you will get the following:
 
-```js
+```xml
 <urlset
 	xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'
 	xmlns:news='http://www.google.com/schemas/sitemap-news/0.9'
@@ -287,7 +287,7 @@ export default Sitemap;
 
 And now when we visit `localhost:3000/sitemap.xml` in the browser we get:
 
-```js
+```xml
 <urlset
 	xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'
 	xmlns:news='http://www.google.com/schemas/sitemap-news/0.9'
