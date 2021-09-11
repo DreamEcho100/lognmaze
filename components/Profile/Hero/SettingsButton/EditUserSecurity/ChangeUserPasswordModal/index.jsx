@@ -43,7 +43,7 @@ const ChangeUserPasswordModal = ({
 		}
 
 		if (newPasswordAgain !== newPassword) {
-			setAfterFormSubmitMessage(() => <p>New password doesn't match!</p>);
+			setAfterFormSubmitMessage(() => <p>New password doesn&apos;t match!</p>);
 			setBtnsDisabled(false);
 			return;
 		}

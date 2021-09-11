@@ -156,57 +156,64 @@ const Comment = ({ comment, newsItem, ...props }) => {
 						newsItem,
 						deleteBtnsDisabled,
 					},
-					Element: ({
+					Element: function Element({
 						handleDeleteComment,
 						comment,
 						newsItem,
 						deleteBtnsDisabled,
-					}) => (
-						<button
-							title='Delete Comment'
-							disabled={deleteBtnsDisabled}
-							onClick={() => {
-								let bodyObj = {};
-								if (comment.type === 'comment_main') {
-									bodyObj = {
-										type: comment.type,
-										news_comment_id: comment.news_comment_id,
-										parent_id: newsItem.news_id,
-									};
-								} else if (comment.type === 'comment_main_reply') {
-									bodyObj = {
-										type: comment.type,
-										news_comment_id: comment.news_comment_id,
-										parent_id: props.parent_data.news_comment_id,
-									};
+					}) {
+						return (
+							<button
+								title='Delete Comment'
+								disabled={deleteBtnsDisabled}
+								onClick={() => {
+									let bodyObj = {};
+									if (comment.type === 'comment_main') {
+										bodyObj = {
+											type: comment.type,
+											news_comment_id: comment.news_comment_id,
+											parent_id: newsItem.news_id,
+										};
+									} else if (comment.type === 'comment_main_reply') {
+										bodyObj = {
+											type: comment.type,
+											news_comment_id: comment.news_comment_id,
+											parent_id: props.parent_data.news_comment_id,
+										};
 
-									if (comment.reply_to_comment_id)
-										bodyObj.reply_to_comment_id = comment.reply_to_comment_id;
-								}
+										if (comment.reply_to_comment_id)
+											bodyObj.reply_to_comment_id = comment.reply_to_comment_id;
+									}
 
-								handleDeleteComment(bodyObj);
-							}}
-						>
-							Delete
-						</button>
-					),
+									handleDeleteComment(bodyObj);
+								}}
+							>
+								Delete
+							</button>
+						);
+					},
 				},
 				{
 					props: {
 						setShowContent,
 						setFocusCommentTextarea,
 					},
-					Element: ({ setShowContent, setFocusCommentTextarea }) => (
-						<button
-							title='Edit Comment'
-							onClick={() => {
-								setShowContent(false);
-								setFocusCommentTextarea(true);
-							}}
-						>
-							Edit
-						</button>
-					),
+					Element: function Element({
+						setShowContent,
+						setFocusCommentTextarea,
+					}) {
+						return (
+							<button
+								title='Edit Comment'
+								onClick={() => {
+									setShowContent(false);
+									setFocusCommentTextarea(true);
+								}}
+							>
+								Edit
+							</button>
+						);
+					},
 				},
 			]);
 		} else {
@@ -299,7 +306,6 @@ const Comment = ({ comment, newsItem, ...props }) => {
 				{userState.userExist && (
 					<button
 						title='Reply To A Comment'
-						title='Comment'
 						onClick={() => setShowReplyTextarea((prev) => !prev)}
 					>
 						Reply

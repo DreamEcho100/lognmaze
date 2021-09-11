@@ -120,7 +120,6 @@ const Action = ({
 			<Modal
 				showModal={showModal}
 				setShowModal={setShowModal}
-				showModal={showModal}
 				click={() => closeModal(true)}
 				CloseButtonElement={(props) => (
 					<Button title='button' {...props}>

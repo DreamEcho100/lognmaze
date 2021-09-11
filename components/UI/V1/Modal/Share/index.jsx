@@ -51,10 +51,10 @@ const ShareModel = ({
 		setInputCopiedToClipboard(true);
 	};
 
-	let setTimeoutId;
-
 	useEffect(() => {
 		if (inputCopiedToClipboard) {
+			let setTimeoutId;
+
 			clearTimeout(setTimeoutId);
 
 			setTimeoutId = setTimeout(() => {
@@ -85,7 +85,7 @@ const ShareModel = ({
 							className={`${classes['social-platform']} ${classes.facebook}`}
 						>
 							<SocialMediaShareLink
-								title='Share it on facebook'
+								// title='Share it on facebook'
 								type='facebook'
 								url={url}
 								quote={quote}
@@ -102,7 +102,7 @@ const ShareModel = ({
 							className={`${classes['social-platform']} ${classes.linkedin}`}
 						>
 							<SocialMediaShareLink
-								title='Share it on linkedin'
+								// title='Share it on linkedin'
 								type='linkedin'
 								url={url}
 								title={title}
@@ -120,7 +120,7 @@ const ShareModel = ({
 							className={`${classes['social-platform']} ${classes.reddit}`}
 						>
 							<SocialMediaShareLink
-								title='Share it on reddit'
+								// title='Share it on reddit'
 								type='reddit'
 								url={url}
 								title={title}
@@ -136,7 +136,7 @@ const ShareModel = ({
 							className={`${classes['social-platform']} ${classes.telegram}`}
 						>
 							<SocialMediaShareLink
-								title='Share it on telegram'
+								// title='Share it on telegram'
 								type='telegram'
 								url={url}
 								title={title}
@@ -152,7 +152,7 @@ const ShareModel = ({
 							className={`${classes['social-platform']} ${classes.tumblr}`}
 						>
 							<SocialMediaShareLink
-								title='Share it on tumblr'
+								// title='Share it on tumblr'
 								type='tumblr'
 								url={url}
 								title={title}
@@ -170,7 +170,7 @@ const ShareModel = ({
 							className={`${classes['social-platform']} ${classes.twitter}`}
 						>
 							<SocialMediaShareLink
-								title='Share it on twitter'
+								// title='Share it on twitter'
 								type='twitter'
 								url={url}
 								text={title}
@@ -187,7 +187,7 @@ const ShareModel = ({
 							className={`${classes['social-platform']} ${classes.whatsapp}`}
 						>
 							<SocialMediaShareLink
-								title='Share it on whatsapp'
+								// title='Share it on whatsapp'
 								type='whatsapp'
 								url={url}
 								title={title}
@@ -200,9 +200,9 @@ const ShareModel = ({
 					<FormControl className={classes['form-control']}>
 						<Input
 							className={classes['form-input']}
-							useElementIn={(element) => copyToClipboard(element)}
+							elementUseIn={(element) => copyToClipboard(element)}
 							useElement={useInput}
-							setUseElement={setUseInput}
+							setElementUseIn={setUseInput}
 							value={url}
 						/>
 						<Button

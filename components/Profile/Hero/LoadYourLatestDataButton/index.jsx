@@ -93,8 +93,8 @@ const LoadYourLatestDataButton = () => {
 									<li>
 										<p>
 											<strong>
-												It's advisable to do this if you have updated your user
-												data in another place and it's not shown here.
+												It&apos;s advisable to do this if you have updated your
+												user data in another place and it&apos;s not shown here.
 											</strong>
 										</p>
 									</li>

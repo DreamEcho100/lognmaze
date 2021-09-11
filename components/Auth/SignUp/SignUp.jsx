@@ -19,13 +19,6 @@ import Button from '@components/UI/V1/Button';
 const SignUp = ({
 	UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN,
 }) => {
-	if (!UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN) {
-		return (
-			<section>
-				<h2>We're facing some technical problems, please try again later :(</h2>
-			</section>
-		);
-	}
 	const router = useRouter();
 
 	const { dispatch: userDispatch } = useContext(UserContext);
@@ -272,8 +265,9 @@ const SignUp = ({
 	};
 
 	useEffect(() => {
+		if (!UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN) return;
 		handleGetCountries();
-	}, []);
+	}, [UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN]);
 
 	useEffect(() => {
 		if (!values.country) return;
@@ -281,6 +275,14 @@ const SignUp = ({
 			(countryObj) => countryObj.country_name === values.country
 		);
 	}, [values.country]);
+
+	if (!UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN) {
+		return (
+			<section>
+				<h2>We're facing some technical problems, please try again later :(</h2>
+			</section>
+		);
+	}
 
 	return (
 		<Form

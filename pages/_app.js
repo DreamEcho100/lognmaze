@@ -86,74 +86,6 @@ const MyApp = ({ Component, pageProps }) => {
 				<meta name='robots' content='index,follow' />
 				<meta name='viewport' content='width=device-width, initial-scale=1.0' />
 
-				{'<!-- Yandex.Metrika counter -->'}
-				<script
-					type='text/javascript'
-					dangerouslySetInnerHTML={{
-						__html: `
-							(function (m, e, t, r, i, k, a) {
-								m[i] =
-									m[i] ||
-									function () {
-										(m[i].a = m[i].a || []).push(arguments);
-									};
-								m[i].l = 1 * new Date();
-								(k = e.createElement(t)),
-									(a = e.getElementsByTagName(t)[0]),
-									(k.async = 1),
-									(k.src = r),
-									a.parentNode.insertBefore(k, a);
-							})(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
-					
-							ym(85004128, 'init', {
-								clickmap: true,
-								trackLinks: true,
-								accurateTrackBounce: true,
-								webvisor: true,
-							});
-						`,
-					}}
-				></script>
-
-				{'<!-- Clarity tracking code for https://lognmaze.com/ -->'}
-				<script
-					dangerouslySetInnerHTML={{
-						__html: `
-							(function (c, l, a, r, i, t, y) {
-								c[a] =
-									c[a] ||
-									function () {
-										(c[a].q = c[a].q || []).push(arguments);
-									};
-								t = l.createElement(r);
-								t.async = 1;
-								t.src = 'https://www.clarity.ms/tag/' + i + '?ref=bwt';
-								y = l.getElementsByTagName(r)[0];
-								y.parentNode.insertBefore(t, y);
-							})(window, document, 'clarity', 'script', '8co4gbipfa');
-						`,
-					}}
-				/>
-
-				{'<!-- Google Tag Manager -->'}
-				<script
-					dangerouslySetInnerHTML={{
-						__html: `
-							(function (w, d, s, l, i) {
-								w[l] = w[l] || [];
-								w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-								var f = d.getElementsByTagName(s)[0],
-									j = d.createElement(s),
-									dl = l != 'dataLayer' ? '&l=' + l : '';
-								j.async = true;
-								j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-								f.parentNode.insertBefore(j, f);
-							})(window, document, 'script', 'dataLayer', 'GTM-N45HP9S');
-						`,
-					}}
-				/>
-				{'<!-- End Google Tag Manager -->'}
-
 				<meta property='og:locale' content='en_US' />
 				<meta property='og:type' content='website' />
 				<meta property='og:site_name' content='LogNMaze' />
@@ -194,24 +126,6 @@ const MyApp = ({ Component, pageProps }) => {
 				<title>
 					LogNMaze | Create articles using Markdown and share to the world
 				</title>
-
-				<link
-					rel='preconnect'
-					// rel='preload'
-					href='https://fonts.googleapis.com'
-				/>
-				<link
-					rel='preconnect'
-					// rel='preload'
-					href='https://fonts.gstatic.com'
-					// crossorigin
-					crossOrigin='true'
-				/>
-				<link
-					href='https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap'
-					rel='stylesheet'
-					// rel='preload'
-				/>
 			</Head>
 			<Layout isAuthenticated={pageProps.isAuthenticated}>
 				<Component {...pageProps} />

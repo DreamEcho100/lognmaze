@@ -16,10 +16,10 @@ const Input = ({
 	onChange,
 	setValues,
 	useElement = false,
-	setUseElement = () => {
+	setElementUseIn = () => {
 		return;
 	},
-	useElementIn = () => {
+	elementUseIn = () => {
 		return;
 	},
 	...props
@@ -52,8 +52,8 @@ const Input = ({
 
 	useEffect(() => {
 		if (useElement) {
-			useElementIn(inputRef.current);
-			setUseElement(false);
+			elementUseIn(inputRef.current);
+			setElementUseIn(false);
 		}
 	}, [useElement]);
 

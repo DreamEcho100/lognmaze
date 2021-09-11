@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
+		"lint": "next lint",
 		"build": "next build",
 		"start": "next start",
 		"analyze": "cross-env ANALYZE=true next build",
@@ -30,8 +31,11 @@
 		"react-dom": "^17.0.2",
 		"react-markdown": "^7.0.1",
 		"react-syntax-highlighter": "^15.4.4",
-		"react-yandex-metrika": "^2.6.0",
 		"remark-gfm": "^2.0.0",
 		"sitemap": "^7.0.0"
+	},
+	"devDependencies": {
+		"eslint": "7.32.0",
+		"eslint-config-next": "11.1.2"
 	}
 }

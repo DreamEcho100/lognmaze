@@ -71,7 +71,7 @@ const Md = ({ content }) => {
 			}
 
 			return (
-				<Link href={href} prefetch={false}>
+				<Link href={href} prefetch={false} passHref>
 					<a
 						className='text-glow-special'
 						title={node.children[0].value}
@@ -87,12 +87,9 @@ const Md = ({ content }) => {
 			const match = /language-(\w+)/.exec(className || '');
 
 			return !inline && match ? (
-				<SyntaxHighlighterDynamic
-					language={match[1]}
-					PreTag='div'
-					children={String(children).replace(/\n$/, '')}
-					{...props}
-				/>
+				<SyntaxHighlighterDynamic language={match[1]} PreTag='div' {...props}>
+					{String(children).replace(/\n$/, '')}
+				</SyntaxHighlighterDynamic>
 			) : (
 				<code className={className} {...props} data-code-inline='true'>
 					{children}
@@ -193,10 +190,11 @@ const Md = ({ content }) => {
 		return (
 			<ReactMarkdown
 				// DynamicReactMarkdown
-				children={content}
 				components={customRenderers}
 				remarkPlugins={[remarkGfm]}
-			/>
+			>
+				{content}
+			</ReactMarkdown>
 		);
 	} catch (error) {
 		setHasError(error.message);

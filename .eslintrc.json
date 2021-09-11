@@ -1,0 +1,12 @@
+{
+	"extends": ["next/core-web-vitals", "next/babel"]
+}
+
+// .babelrc
+
+// {
+// 	"parser": "babel-eslint",
+// 	// "presets": [["next/babel"]],
+// 	"presets": ["next/babel"],
+// 	"plugins": []
+// }

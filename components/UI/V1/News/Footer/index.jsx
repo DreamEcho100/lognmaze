@@ -8,11 +8,7 @@ const DynamicComments = dynamic(() => import('./Comments'));
 import Settings from './Settings';
 import Status from './Status';
 
-const Footer = ({ hideFooterSettings, newsItem, isLoadingUserVote }) => {
-	if (!newsItem?.news_id) {
-		return <></>;
-	}
-
+const Footer = ({ hideFooterSettings, newsItem = {}, isLoadingUserVote }) => {
 	const footerRef = useRef();
 
 	const [showComments, setShowComments] = useState(false);
@@ -20,6 +16,8 @@ const Footer = ({ hideFooterSettings, newsItem, isLoadingUserVote }) => {
 	const [focusCommentTextarea, setFocusCommentTextarea] = useState(false);
 
 	useEffect(() => {
+		if (!newsItem.news_id) return;
+
 		if (!showComments) {
 			setShowCommentsCounter((prev) => prev + 1);
 
@@ -27,7 +25,11 @@ const Footer = ({ hideFooterSettings, newsItem, isLoadingUserVote }) => {
 
 			footerRef.current.scrollIntoView();
 		}
-	}, [showComments]);
+	}, [showComments, newsItem.news_id]);
+
+	if (!newsItem.news_id) {
+		return <></>;
+	}
 
 	return (
 		<footer ref={footerRef}>

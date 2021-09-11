@@ -13,15 +13,13 @@ const NavOnSmallScreens = ({ user, isVerifyingUserLoading, handleSignOut }) => {
 		<>
 			<nav className={NavOnSmallScreensClasses['nav']}>
 				<div className={MainNavigationClasses['logo']}>
-					<Link href='/'>
-						<strong>
-							<a
-								title='LogNMaze | Home Page'
-								className={MainNavigationClasses.logo_anchor}
-							>
-								LogNMaze
-							</a>
-						</strong>
+					<Link href='/' passHref>
+						<a
+							title='LogNMaze | Home Page'
+							className={MainNavigationClasses.logo_anchor}
+						>
+							<strong>LogNMaze</strong>
+						</a>
 					</Link>
 				</div>
 				<button
@@ -57,7 +55,7 @@ const NavOnSmallScreens = ({ user, isVerifyingUserLoading, handleSignOut }) => {
 					{!isVerifyingUserLoading && user.id && (
 						<li>
 							<span onClick={() => setShowNavOnSmallScreens(false)}>
-								<Link href={`/profile/${user.user_name_id}`}>
+								<Link href={`/profile/${user.user_name_id}`} passHref>
 									<a title={`${user.user_name_id} profile`}>
 										<FontAwesomeIcon icon={['fas', 'user']} /> Profile
 									</a>
