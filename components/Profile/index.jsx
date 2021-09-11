@@ -36,10 +36,39 @@ const Profile = ({
 		);
 	}
 
+	const schemaOrg = (() => {
+		const schemaBasic = {
+			'@context': 'http://schema.org',
+			'@type': 'ProfilePage',
+			mainEntity: {
+				'@type': 'Person',
+				name: userData.user_name_id,
+				givenName: userData.first_name,
+				familyName: userData.last_name,
+				email: userData.email,
+				url: `https://lognmaze.com/profile/${userData.user_name_id}`,
+				gender: userData.gender,
+			},
+		};
+
+		if (userData.profile_picture)
+			schemaBasic.mainEntity.image = userData.profile_picture;
+		if (userData.bio) schemaBasic.mainEntity.about = userData.bio;
+
+		return schemaBasic;
+	})();
+
 	return (
 		<NewsContextProvider>
 			<main className={`${classes.profile} main`}>
 				<Head>
+					<script
+						type='application/ld+json'
+						dangerouslySetInnerHTML={{
+							__html: JSON.stringify(schemaOrg),
+						}}
+					/>
+
 					<meta property='og:locale' content='en_US' />
 					<meta property='og:type' content='profile' />
 					<meta property='profile:first_name' content={userData.first_name} />
@@ -157,3 +186,47 @@ const Profile = ({
 };
 
 export default Profile;
+
+// telephone: '9195555555',
+// jobTitle: 'Partner',
+
+// worksFor: {
+// 	'@type': 'Organization',
+// 	name: 'Example Law Firm',
+// 	url: 'https://www.examplelaw.com/',
+// 	address: {
+// 		'@type': 'PostalAddress',
+// 		addressLocality: 'Raleigh',
+// 		addressRegion: 'NC',
+// 		postalCode: '27604',
+// 		streetAddress: '100 Main Street, Suite 201',
+// 		addressCountry: 'USA',
+// 	},
+// },
+
+// alumniOf: [
+// 	{
+// 		'@type': 'CollegeOrUniversity',
+// 		name: 'University of North Carolina at Chapel Hill',
+// 	},
+// 	{
+// 		'@type': 'CollegeOrUniversity',
+// 		name: 'University of North Carolina School of Law',
+// 	},
+// ],
+// memberOf: [
+// 	'North Carolina State Bar',
+// 	'Wake County Bar',
+// 	'North Carolina Board Certified Family Law Specialist',
+// 	'Certified Parenting Coordinator',
+// 	'NCDRC Certified Family Financial Mediator',
+// ],
+// award: [
+// 	'North Carolina Super Lawyers, Rising Star 2018',
+// 	'Business Leader Magazine, North Carolina Top Family Lawyer',
+// ],
+// sameAs: [
+// 	'https://www.facebook.com/JaneDoeAttorney/',
+// 	'https://www.linkedin.com/in/jane-doe-attorney',
+// 	'https://twitter.com/janedoeattorney',
+// ],

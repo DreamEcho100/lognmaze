@@ -28,7 +28,7 @@ import {
 	// fab,
 	faFacebook,
 	faLinkedin,
-	faReadme,
+	// faReadme,
 	faReddit,
 	faTelegram,
 	faTumblr,
@@ -154,45 +154,16 @@ const MyApp = ({ Component, pageProps }) => {
 				/>
 				{'<!-- End Google Tag Manager -->'}
 
-				{/* {'<!-- Yandex.Metrika counter -->'}
-				<script
-					type='text/javascript'
-					dangerouslySetInnerHTML={{
-						__html: `
-					 (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-					 m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-					 (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-					 ym(85004128, "init", {
-								 clickmap:true,
-								 trackLinks:true,
-								 accurateTrackBounce:true,
-								 webvisor:true
-					 });
-				 `,
-					}}
-				/>
-				{'<!-- /Yandex.Metrika counter -->'}
-				<noscript>
-					<div>
-						<img
-							src='https://mc.yandex.ru/watch/85004128'
-							style={{ position: 'absolute', left: '-9999px' }}
-							alt=''
-						/>
-					</div>
-				</noscript> 
-				<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N45HP9S"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->*/}
-
 				<meta property='og:locale' content='en_US' />
 				<meta property='og:type' content='website' />
 				<meta property='og:site_name' content='LogNMaze' />
 
-				{/* <!-- icon created by ColourCreatype at https://freeicons.io/profile/5790 --> */}
-				{/* <!-- Icon by 106171237606937156455 (https://freeicons.io/profile/5790) on freeicons.io (https://freeicons.io/) --> */}
+				{
+					'<!-- icon created by ColourCreatype at https://freeicons.io/profile/5790 -->'
+				}
+				{
+					'<!-- Icon by 106171237606937156455 (https://freeicons.io/profile/5790) on freeicons.io (https://freeicons.io/) -->'
+				}
 
 				<link rel='icon' href='/favicon.ico' size='any' />
 				<link rel='icon' href='/favicon.svg' type='image/svg+xml' />
@@ -223,6 +194,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				<title>
 					LogNMaze | Create articles using Markdown and share to the world
 				</title>
+
 				<link
 					rel='preconnect'
 					// rel='preload'
@@ -241,17 +213,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 					// rel='preload'
 				/>
 			</Head>
-			{/* <noscript>
-				<div>
-					<img
-						src='https://mc.yandex.ru/watch/85004128'
-						style={{ position: 'absolute', left: '-9999px' }}
-						alt=''
-					/>
-				</div>
-			</noscript> */}
-
-			{/* <YMInitializer accounts={[85004128]} /> */}
 			<Layout isAuthenticated={pageProps.isAuthenticated}>
 				<Component {...pageProps} />
 			</Layout>

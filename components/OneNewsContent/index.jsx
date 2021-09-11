@@ -39,6 +39,43 @@ const OneNewsContent = ({ newsItem }) => {
 
 				{newsItem.type === 'article' ? (
 					<>
+						<script
+							type='application/ld+json'
+							dangerouslySetInnerHTML={{
+								__html: JSON.stringify({
+									'@context': 'http://schema.org',
+									'@type': 'Article',
+									headline: newsItem.title,
+									alternativeHeadline: newsItem.slug,
+									image: newsItem.image,
+									author: newsItem.author_user_name_id,
+									// award: 'Best article ever written',
+									// editor: 'Craig Mount',
+									genre: newsItem.tags.join(' '),
+									keywords: newsItem.tags.join(' '),
+									wordcount: newsItem.content.length,
+									publisher: {
+										'@type': 'Organization',
+										name: 'LogNMaze',
+										logo: {
+											'@type': 'ImageObject',
+											url: 'https://lognmaze.com/favicon.ico',
+										},
+									},
+									url: `http://lognmaze.com/article/${newsItem.slug}`,
+									mainEntityOfPage: {
+										'@type': 'WebPage',
+										'@id': 'https://google.com/article',
+									},
+									datePublished: newsItem.created_at,
+									dateCreated: newsItem.created_at,
+									dateModified: newsItem.updated_on,
+									description: newsItem.description,
+									articleBody: newsItem.content,
+								}),
+							}}
+						/>
+
 						<meta property='article:tag' content={newsItem.tags.join(',')} />
 
 						<meta name='keywords' content={newsItem.tags.join(',')} />
