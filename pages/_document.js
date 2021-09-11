@@ -5,7 +5,7 @@ class MyDocument extends Document {
 		return (
 			<Html lang='en'>
 				<Head>
-					{'<!-- Yandex.Metrika counter -->'}
+					{/* {'<!-- Yandex.Metrika counter -->'} */}
 					<script
 						type='text/javascript'
 						dangerouslySetInnerHTML={{
@@ -34,7 +34,7 @@ class MyDocument extends Document {
 						}}
 					></script>
 
-					{'<!-- Clarity tracking code for https://lognmaze.com/ -->'}
+					{/* {'<!-- Clarity tracking code for https://lognmaze.com/ -->'} */}
 					<script
 						dangerouslySetInnerHTML={{
 							__html: `
@@ -54,7 +54,7 @@ class MyDocument extends Document {
 						}}
 					/>
 
-					{'<!-- Google Tag Manager -->'}
+					{/* {'<!-- Google Tag Manager -->'} */}
 					<script
 						dangerouslySetInnerHTML={{
 							__html: `
@@ -71,7 +71,7 @@ class MyDocument extends Document {
 						`,
 						}}
 					/>
-					{'<!-- End Google Tag Manager -->'}
+					{/* {'<!-- End Google Tag Manager -->'} */}
 
 					<link
 						rel='preconnect'
