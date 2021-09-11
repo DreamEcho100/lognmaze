@@ -16,27 +16,18 @@ const ArticlePage = ({ data }) => {
 
 export default ArticlePage;
 
-export const getStaticProps = async ({ params, res }) => {
+export const getStaticProps = async ({ params: { slug }, res }) => {
 	// const {
 	// 	params: { slug },
 	// 	res,
 	// } = context;
 
-	const slug =
-		params.slug === 'basic-guide-to-jsonb-in-postgresql' ||
-		'basic-guide-to-json-in-postgresql'
-			? 'basic-guide-to-json-in-postgresql-jsonb'
-			: params.slug;
-
-	// if (slug === 'basic-guide-to-jsonb-in-postgresql') {
-	//   return {
-	//     redirect: {
-	//       destination: '/article/basic-guide-to-json-in-postgresql-jsonb',
-	//       permanent: false,
-	//     },
-	//   }
-	// 	// https://lognmaze.com/article/basic-guide-to-json-in-postgresql-jsonb
-	// }
+	const slugsToReplace = {
+		'basic-guide-to-jsonb-in-postgresql':
+			'basic-guide-to-json-in-postgresql-jsonb',
+		'basic-guide-to-json-in-postgresql':
+			'basic-guide-to-json-in-postgresql-jsonb',
+	};
 
 	try {
 		if (!slug) {
@@ -89,7 +80,7 @@ export const getStaticProps = async ({ params, res }) => {
 						WHERE news_article.slug = $1
 						;
 					`,
-				[slug]
+				[slugsToReplace[slug] || slug]
 			)
 			.then((response) => response.rows[0]);
 
