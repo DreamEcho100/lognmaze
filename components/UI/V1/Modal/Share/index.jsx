@@ -19,14 +19,15 @@ const ShareModel = ({
 	const [useInput, setUseInput] = useState(false);
 	const [inputCopiedToClipboard, setInputCopiedToClipboard] = useState(false);
 
-	let url = `${process.env.FRONT_END_ROOT_URL}/`;
+	let url = 'https://lognmaze.com'; // `${process.env.FRONT_END_ROOT_URL}/`;
 	let quote = '';
 	let hashtag = [];
 	let title = '';
 	let summary = '';
-	let source = `https://${
-		'lognmaze.vercel.app' || process.env.FRONT_END_ROOT_URL
-	}`;
+	let source = 'https://lognmaze.com';
+	// `https://${
+	// 	'lognmaze.vercel.app' || process.env.FRONT_END_ROOT_URL
+	// }`;
 
 	if (data.type === 'article') {
 		url += `article/${data.slug}`;

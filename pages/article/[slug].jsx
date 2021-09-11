@@ -27,6 +27,7 @@ export const getStaticProps = async ({ params: { slug }, res }) => {
 			'basic-guide-to-json-in-postgresql-jsonb',
 		'basic-guide-to-json-in-postgresql':
 			'basic-guide-to-json-in-postgresql-jsonb',
+			'full-guide-to-cookies-and-javascript-clint-side': 'full-guide-to-cookies-and-javascript-client-side'
 	};
 
 	try {

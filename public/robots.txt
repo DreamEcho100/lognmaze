@@ -5,5 +5,6 @@ Disallow: /404
 Disallow: /500
 Disallow: /article/basic-guide-to-jsonb-in-postgresql
 Disallow: /article/basic-guide-to-json-in-postgresql
+Disallow: /article/full-guide-to-cookies-and-javascript-client-side
 
 Sitemap: https://lognmaze.com/sitemap.xml
