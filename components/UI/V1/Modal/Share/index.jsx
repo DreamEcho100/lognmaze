@@ -19,7 +19,9 @@ const ShareModel = ({
 	const [useInput, setUseInput] = useState(false);
 	const [inputCopiedToClipboard, setInputCopiedToClipboard] = useState(false);
 
-	let url = 'https://lognmaze.com'; // `${process.env.FRONT_END_ROOT_URL}/`;
+	let url =
+		// 'https://lognmaze.com/';
+		`${process.env.FRONT_END_ROOT_URL}/`;
 	let quote = '';
 	let hashtag = [];
 	let title = '';
