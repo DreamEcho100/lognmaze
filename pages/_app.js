@@ -1,6 +1,6 @@
 // import App from 'next/app';
 import Head from 'next/head';
-import { YMInitializer } from 'react-yandex-metrika';
+// import { YMInitializer } from 'react-yandex-metrika';
 import { config, library } from '@fortawesome/fontawesome-svg-core';
 import {
 	faUser,
@@ -75,6 +75,9 @@ import '@styles/_globals.css';
 import Layout from '@components/Layout/Layout';
 
 const MyApp = ({ Component, pageProps }) => {
+	{
+	}
+
 	return (
 		<>
 			<Head>
@@ -83,30 +86,34 @@ const MyApp = ({ Component, pageProps }) => {
 				<meta name='robots' content='index,follow' />
 				<meta name='viewport' content='width=device-width, initial-scale=1.0' />
 
-				{/* <!-- Yandex.Metrika counter -->
-				<script type="text/javascript" >
-					(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-					m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-					(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-					ym(85004128, "init", {
-								clickmap:true,
-								trackLinks:true,
-								accurateTrackBounce:true,
-								webvisor:true
-					});
-				</script>
-				<noscript><div><img src="https://mc.yandex.ru/watch/85004128" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-				<!-- /Yandex.Metrika counter -->
-				<noscript>
-					<div>
-						<img
-							src='https://mc.yandex.ru/watch/85004128'
-							style='position:absolute; left:-9999px;'
-							alt=''
-						/>
-					</div>
-				</noscript> */}
+				{'<!-- Yandex.Metrika counter -->'}
+				<script
+					type='text/javascript'
+					dangerouslySetInnerHTML={{
+						__html: `
+							(function (m, e, t, r, i, k, a) {
+								m[i] =
+									m[i] ||
+									function () {
+										(m[i].a = m[i].a || []).push(arguments);
+									};
+								m[i].l = 1 * new Date();
+								(k = e.createElement(t)),
+									(a = e.getElementsByTagName(t)[0]),
+									(k.async = 1),
+									(k.src = r),
+									a.parentNode.insertBefore(k, a);
+							})(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+					
+							ym(85004128, 'init', {
+								clickmap: true,
+								trackLinks: true,
+								accurateTrackBounce: true,
+								webvisor: true,
+							});
+						`,
+					}}
+				></script>
 
 				{'<!-- Clarity tracking code for https://lognmaze.com/ -->'}
 				<script
@@ -127,6 +134,25 @@ const MyApp = ({ Component, pageProps }) => {
 						`,
 					}}
 				/>
+
+				{'<!-- Google Tag Manager -->'}
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `
+							(function (w, d, s, l, i) {
+								w[l] = w[l] || [];
+								w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+								var f = d.getElementsByTagName(s)[0],
+									j = d.createElement(s),
+									dl = l != 'dataLayer' ? '&l=' + l : '';
+								j.async = true;
+								j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+								f.parentNode.insertBefore(j, f);
+							})(window, document, 'script', 'dataLayer', 'GTM-N45HP9S');
+						`,
+					}}
+				/>
+				{'<!-- End Google Tag Manager -->'}
 
 				{/* {'<!-- Yandex.Metrika counter -->'}
 				<script
@@ -155,7 +181,11 @@ const MyApp = ({ Component, pageProps }) => {
 							alt=''
 						/>
 					</div>
-				</noscript> */}
+				</noscript> 
+				<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N45HP9S"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->*/}
 
 				<meta property='og:locale' content='en_US' />
 				<meta property='og:type' content='website' />
@@ -166,6 +196,7 @@ const MyApp = ({ Component, pageProps }) => {
 
 				<link rel='icon' href='/favicon.ico' size='any' />
 				<link rel='icon' href='/favicon.svg' type='image/svg+xml' />
+				<link rel='icon' href='/favicon.ico' type='image/png' />
 				<link rel='apple-touch-icon' href='/apple-touch-icon.png' />
 
 				<meta name='twitter:card' content='summary' />
@@ -219,7 +250,8 @@ const MyApp = ({ Component, pageProps }) => {
 					/>
 				</div>
 			</noscript> */}
-			<YMInitializer accounts={[85004128]} />
+
+			{/* <YMInitializer accounts={[85004128]} /> */}
 			<Layout isAuthenticated={pageProps.isAuthenticated}>
 				<Component {...pageProps} />
 			</Layout>
