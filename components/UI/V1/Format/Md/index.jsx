@@ -10,8 +10,8 @@ const SyntaxHighlighterDynamic = dynamic(() => import('./SyntaxHighlighter'));
 import Image from '@components/UI/V1/Image';
 
 const Md = ({ content }) => {
-	const [hasError, setHasError] = useState(false);
-	const [headCounter, setHheadCounter] = useState(1);
+	const [hasError, setHasError] = useState('');
+	const [headCounter, setHeadCounter] = useState(1);
 
 	const customRenderers = {
 		img(image) {
@@ -94,7 +94,7 @@ const Md = ({ content }) => {
 					{...props}
 				/>
 			) : (
-				<code className={className} {...props} data-code-inline='true' >
+				<code className={className} {...props} data-code-inline='true'>
 					{children}
 				</code>
 			);
@@ -105,7 +105,7 @@ const Md = ({ content }) => {
 					children && children[0]?.replace
 						? children[0].replace(/[^\w]/g, '-')
 						: () => {
-								setHheadCounter((prev) => prev + 1);
+								setHeadCounter((prev) => prev + 1);
 								return headCounter;
 						  }
 				}`}
@@ -119,7 +119,7 @@ const Md = ({ content }) => {
 					children && children[0]?.replace
 						? children[0].replace(/[^\w]/g, '-')
 						: () => {
-								setHheadCounter((prev) => prev + 1);
+								setHeadCounter((prev) => prev + 1);
 								return headCounter;
 						  }
 				}`}
@@ -133,7 +133,7 @@ const Md = ({ content }) => {
 					children && children[0]?.replace
 						? children[0].replace(/[^\w]/g, '-')
 						: () => {
-								setHheadCounter((prev) => prev + 1);
+								setHeadCounter((prev) => prev + 1);
 								return headCounter;
 						  }
 				}`}
@@ -147,7 +147,7 @@ const Md = ({ content }) => {
 					children && children[0]?.replace
 						? children[0].replace(/[^\w]/g, '-')
 						: () => {
-								setHheadCounter((prev) => prev + 1);
+								setHeadCounter((prev) => prev + 1);
 								return headCounter;
 						  }
 				}`}
@@ -161,7 +161,7 @@ const Md = ({ content }) => {
 					children && children[0]?.replace
 						? children[0].replace(/[^\w]/g, '-')
 						: () => {
-								setHheadCounter((prev) => prev + 1);
+								setHeadCounter((prev) => prev + 1);
 								return headCounter;
 						  }
 				}`}
@@ -175,7 +175,7 @@ const Md = ({ content }) => {
 					children && children[0]?.replace
 						? children[0].replace(/[^\w]/g, '-')
 						: () => {
-								setHheadCounter((prev) => prev + 1);
+								setHeadCounter((prev) => prev + 1);
 								return headCounter;
 						  }
 				}`}
@@ -186,7 +186,7 @@ const Md = ({ content }) => {
 	};
 
 	if (hasError) {
-		return <>Error</>;
+		return <p>{hasError}</p>;
 	}
 
 	try {
@@ -199,7 +199,7 @@ const Md = ({ content }) => {
 			/>
 		);
 	} catch (error) {
-		setHasError(true);
+		setHasError(error.message);
 	}
 };
 
