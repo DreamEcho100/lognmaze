@@ -34,6 +34,23 @@ const Auth = ({
 	return (
 		<main className={`${classes.auth} main`}>
 			<Head>
+				<script
+					type='application/ld+json'
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify({
+							'@context': 'http://schema.org',
+							'@type': 'WebPage',
+							name: 'Sign in/up',
+							description:
+								'Sign in/up to LogNMaze | Create blogs, articles using Markdown and share them in your social media',
+							publisher: {
+								'@type': 'ProfilePage',
+								name: 'LogNMaze Website',
+							},
+						}),
+					}}
+				/>
+
 				<meta property='og:url' content={`https://lognmaze.com/auth/`} />
 				<meta name='twitter:url' content={`https://lognmaze.com/auth/`} />
 
