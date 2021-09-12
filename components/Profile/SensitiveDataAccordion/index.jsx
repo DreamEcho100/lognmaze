@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 
-import Accordion from '@/components/UI/V1/Accordion';
+import Accordion from '@components/UI/V1/Accordion';
 
 const SensitiveDataAccordion = ({ userData }) => {
 	return (

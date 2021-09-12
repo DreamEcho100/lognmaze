@@ -3,7 +3,7 @@ import Head from 'next/head';
 
 import classes from './index.module.css';
 
-import { XMLCharactersEncoding } from '@/lib/v1/regex';
+import { XMLCharactersEncoding } from '@lib/v1/regex';
 import { dateToHumanReadableDate } from '@lib/v1/time';
 import { NewsContextProvider } from '@store/NewsContext';
 

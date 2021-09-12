@@ -1,13 +1,58 @@
+import { useState } from 'react';
+import Head from 'next/head';
+
 import { pool } from '@lib/v1/pg';
+import { XMLCharactersEncoding } from '@lib/v1/regex';
 
 import { NewsContextProvider } from '@store/NewsContext';
 
 import OneNewsContent from '@components/OneNewsContent';
 
 const PostPage = ({ data }) => {
+	const [data, setData] = useState(
+		typeof props.data === 'string' ? JSON.parse(props.data) : props.data
+	);
+
+	const descriptionWithXMLCharactersEncoding =
+		data?.type === 'article'
+			? XMLCharactersEncoding(data.description)
+			: data?.type === 'post'
+			? XMLCharactersEncoding(data.content)
+			: undefined;
+
 	return (
 		<NewsContextProvider>
-			<OneNewsContent newsItem={data ? JSON.parse(data) : {}} />
+			<Head>
+				<meta property='og:type' content='article' />
+				<meta property='article:publisher' content={data.author_user_name_id} />
+				<meta property='article:author' content={data.author_user_name_id} />
+				<meta property='article:published_time' content={data.created_at} />
+				{data.created_at !== data.updated_on && (
+					<meta property='article:modified_time' content={data.updated_on} />
+				)}
+
+				<meta
+					property='og:url'
+					content={`https://lognmaze.com/post/${newsItem.news_id}`}
+				/>
+				<meta
+					name='twitter:url'
+					content={`https://lognmaze.com/post/${newsItem.news_id}`}
+				/>
+				<meta
+					property='twitter:description'
+					content={descriptionWithXMLCharactersEncoding}
+				/>
+				<meta
+					property='og:description'
+					content={descriptionWithXMLCharactersEncoding}
+				/>
+				<meta
+					name='description'
+					content={descriptionWithXMLCharactersEncoding}
+				/>
+			</Head>
+			<OneNewsContent newsItem={data} />
 		</NewsContextProvider>
 	);
 };

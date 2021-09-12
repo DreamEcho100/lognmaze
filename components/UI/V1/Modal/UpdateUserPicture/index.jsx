@@ -1,7 +1,7 @@
 import { Fragment, useContext, useState } from 'react';
 
-import UserContext from '@/store/UserContext';
-import { handleUpdateUserData } from '@/store/UserContext/actions';
+import UserContext from '@store/UserContext';
+import { handleUpdateUserData } from '@store/UserContext/actions';
 
 import Modal from '@components/UI/V1/Modal';
 import Form from '@components/UI/V1/Form';

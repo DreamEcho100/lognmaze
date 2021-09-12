@@ -1,26 +1,7 @@
-const path = require('path');
-// import path from 'path';
-// const Dotenv = require('dotenv-webpack');
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
-// import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
-
-// const withPlugins = require("next-compose-plugins");
-// const withTypescript = require('@zeit/next-typescript');
-// const withSass = require('@zeit/next-sass');
-
-// module.exports = withPlugins(
-//    [
-//       withTypescript,
-//       withSass
-//    ],
-//    { /* nextConfig options here */ }
-// );
 
 const obj = (phase) => {
 	let env = {};
-	// const baseUrl = `${
-	// 	process.env.NODE_ENV !== 'production' ? 'http' : 'https'
-	// }://${ctx.req.headers.host}`;
 
 	if (phase === PHASE_DEVELOPMENT_SERVER) {
 		env = {
@@ -71,37 +52,16 @@ const obj = (phase) => {
 	};
 
 	return {
-		images: {
-			domains: [
-				'external-content.duckduckgo.com',
-				'miro.medium.com',
-				'*',
-				'*.com',
-			],
-			deviceSizes: [400, 800, 1200, 1600, 2000], // [640, 750, 828, 1080, 1200, 1920, 2048, 3840]
-		},
-		sassOptions: {
-			includePaths: [path.join(__dirname, 'styles')],
-		},
-		webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-			config.resolve.alias['@'] = path.resolve(__dirname);
-			// config.plugins.push(new Dotenv({ silent: true }));
-
-			// if (config.mode === 'production') {
-			// 	if (Array.isArray(config.optimization.minimizer)) {
-			// 		config.optimization.minimizer.push(new OptimizeCSSAssetsPlugin({}));
-			// 	}
-			// }
-			return config;
-		},
+		// images: {
+		// 	domains: [
+		// 		'external-content.duckduckgo.com',
+		// 		'miro.medium.com',
+		// 		'*',
+		// 		'*.com',
+		// 	],
+		// 	deviceSizes: [400, 800, 1200, 1600, 2000], // [640, 750, 828, 1080, 1200, 1920, 2048, 3840]
+		// },
 		env,
-		// plugins: ['babel-plugin-emotion'],
-		// exportPathMap: async function() {
-		// 	const paths = {
-		// 		'/': { page: '/' }
-		// 	};
-		// 	return paths;
-		// }
 		eslint: {
 			// Warning: This allows production builds to successfully complete even if
 			// your project has ESLint errors.
@@ -110,7 +70,6 @@ const obj = (phase) => {
 	};
 };
 
-// const withPlugins = require('next-compose-plugins');
 // const withBundleAnalyzer = require('@next/bundle-analyzer')({
 // 	enabled: process.env.ANALYZE === 'true',
 // });

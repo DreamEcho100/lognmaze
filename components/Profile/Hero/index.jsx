@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
 
-import Wrapper from '@/components/UI/V1/Wrapper';
+import Wrapper from 'components/UI/V1/Wrapper';
 import Image from '@components/UI/V1/Image';
-import Button from '@/components/UI/V1/Button';
+import Button from '@components/UI/V1/Button';
 import UpdateUserPictureModal from '@components/UI/V1/Modal/UpdateUserPicture';
 const SettingsButton = dynamic(() => import('./SettingsButton/SettingsButton'));
 const LoadYourLatestDataButton = dynamic(() =>

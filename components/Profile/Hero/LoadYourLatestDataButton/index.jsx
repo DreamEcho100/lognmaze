@@ -2,14 +2,14 @@ import { Fragment, useContext, useEffect, useState } from 'react';
 
 import classes from './index.module.css';
 
-import UserContext from '@/store/UserContext';
-import { handleUpdateUserDataToTheLatest } from '@/store/UserContext/actions';
-import { checkCookie, setCookie } from '@/lib/v1/cookie';
+import UserContext from '@store/UserContext';
+import { handleUpdateUserDataToTheLatest } from '@store/UserContext/actions';
+import { checkCookie, setCookie } from '@lib/v1/cookie';
 
-import Button from '@/components/UI/V1/Button';
-import Modal from '@/components/UI/V1/Modal';
-import Form from '@/components/UI/V1/Form';
-import FormControl from '@/components/UI/V1/FormControl';
+import Button from '@components/UI/V1/Button';
+import Modal from '@components/UI/V1/Modal';
+import Form from '@components/UI/V1/Form';
+import FormControl from '@components/UI/V1/FormControl';
 
 const LoadYourLatestDataButton = () => {
 	const { dispatch: userDispatch, state: userState } = useContext(UserContext);
