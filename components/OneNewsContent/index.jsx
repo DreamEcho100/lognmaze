@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
-
 import Head from 'next/head';
 
+import { XMLCharactersEncoding } from '@/lib/v1/regex';
 import NewsContext from '@store/NewsContext';
 
 import Container from '@components/UI/V1/News/Container';
@@ -14,6 +14,13 @@ const OneNewsContent = ({ newsItem }) => {
 		loadingUserVote: true,
 		isContainerContentOnView: true,
 	};
+
+	const descriptionWithXMLCharactersEncoding =
+		newsItem.type === 'article'
+			? XMLCharactersEncoding(newsItem.description)
+			: newsItem.type === 'post'
+			? XMLCharactersEncoding(newsItem.content)
+			: undefined;
 
 	return (
 		<main className='main'>
@@ -97,9 +104,18 @@ const OneNewsContent = ({ newsItem }) => {
 							content={`https://lognmaze.com/article/${newsItem.slug}`}
 						/>
 
-						<meta name='twitter:description' content={newsItem.description} />
-						<meta property='og:description' content={newsItem.description} />
-						<meta name='description' content={newsItem.description} />
+						<meta
+							name='twitter:description'
+							content={descriptionWithXMLCharactersEncoding}
+						/>
+						<meta
+							property='og:description'
+							content={descriptionWithXMLCharactersEncoding}
+						/>
+						<meta
+							name='description'
+							content={descriptionWithXMLCharactersEncoding}
+						/>
 
 						<meta
 							name='twitter:title'
@@ -121,8 +137,18 @@ const OneNewsContent = ({ newsItem }) => {
 							name='twitter:url'
 							content={`https://lognmaze.com/post/${newsItem.news_id}`}
 						/>
-						<meta property='og:description' content={newsItem.content} />
-						<meta name='description' content={newsItem.content} />
+						<meta
+							property='twitter:description'
+							content={descriptionWithXMLCharactersEncoding}
+						/>
+						<meta
+							property='og:description'
+							content={descriptionWithXMLCharactersEncoding}
+						/>
+						<meta
+							name='description'
+							content={descriptionWithXMLCharactersEncoding}
+						/>
 					</>
 				)}
 			</Head>

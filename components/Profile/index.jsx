@@ -3,6 +3,7 @@ import Head from 'next/head';
 
 import classes from './index.module.css';
 
+import { XMLCharactersEncoding } from '@/lib/v1/regex';
 import { dateToHumanReadableDate } from '@lib/v1/time';
 import { NewsContextProvider } from '@store/NewsContext';
 
@@ -58,6 +59,11 @@ const Profile = ({
 		return schemaBasic;
 	})();
 
+	const descriptionWithXMLCharactersEncoding =
+		userData?.bio?.length > 25
+			? XMLCharactersEncoding(userData.bio)
+			: undefined;
+
 	return (
 		<NewsContextProvider>
 			<main className={`${classes.profile} main`}>
@@ -103,16 +109,19 @@ const Profile = ({
 						''
 					)}
 
-					{userData.bio && userData.bio.length > 25 ? (
+					{descriptionWithXMLCharactersEncoding ? (
 						<>
 							<meta
 								property='og:description'
-								content={userData.bio.slice(1, 150)}
+								content={descriptionWithXMLCharactersEncoding.slice(1, 150)}
 							/>
-							<meta name='description' content={userData.bio.slice(1, 150)} />
+							<meta
+								name='description'
+								content={descriptionWithXMLCharactersEncoding.slice(1, 150)}
+							/>
 							<meta
 								name='twitter:description'
-								content={userData.bio.slice(1, 150)}
+								content={descriptionWithXMLCharactersEncoding.slice(1, 150)}
 							/>
 						</>
 					) : (

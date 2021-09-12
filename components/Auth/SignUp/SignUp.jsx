@@ -279,7 +279,9 @@ const SignUp = ({
 	if (!UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN) {
 		return (
 			<section>
-				<h2>We're facing some technical problems, please try again later :(</h2>
+				<h2>
+					We&apos;re facing some technical problems, please try again later :(
+				</h2>
 			</section>
 		);
 	}

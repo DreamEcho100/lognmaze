@@ -13,7 +13,7 @@ const Accordion = ({
 	accordionContainerBorderBottomSize,
 	...props
 }) => {
-	const [hideAccordion, useHideAccordion] = useState(false);
+	const [hideAccordion, setHideAccordion] = useState(false);
 
 	const allClasses = handleAllClasses({
 		classes,
@@ -50,7 +50,7 @@ const Accordion = ({
 						className={`${classes['toggle-accordion-body']} ${
 							hideAccordion ? classes['toggle'] : ''
 						}`}
-						onClick={() => useHideAccordion((prop) => !prop)}
+						onClick={() => setHideAccordion((prop) => !prop)}
 					>
 						<div className={classes['arrow-container']}></div>
 					</button>

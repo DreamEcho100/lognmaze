@@ -29,16 +29,18 @@ const AuthPage = ({
 	// }, [userState.userExist, userState.isVerifyingUserLoading]);
 
 	useEffect(() => {
-		const params = new URLSearchParams(window.location.search);
-		const signType = params.get('sign-type');
-		if (signType === 'up') {
-			setSignType(signType);
-		}
-		
-		if (userState.isVerifyingUserLoading) return;
+		(() => {
+			const params = new URLSearchParams(window.location.search);
+			const signType = params.get('sign-type');
+			if (signType === 'up') {
+				setSignType(signType);
+			}
 
-		if (userState.userExist) router.replace('/');
-		else if (isLoading) setIsLoading(false);
+			if (userState.isVerifyingUserLoading) return;
+
+			if (userState.userExist) router.replace('/');
+			else if (isLoading) setIsLoading(false);
+		})();
 	}, []);
 
 	if (isLoading) {

@@ -11,12 +11,12 @@ import Button from '@components/UI/V1/Button';
 const CreateNewsButton = () => {
 	const { state: userState } = useContext(UserContext);
 
+	const [showCreateNewsButtonModal, setShowCreateNewsButtonModal] =
+		useState(false);
+
 	if (!userState.userExist) {
 		return <></>;
 	}
-
-	const [showCreateNewsButtonModal, setShowCreateNewsButtonModal] =
-		useState(false);
 
 	return (
 		<>
