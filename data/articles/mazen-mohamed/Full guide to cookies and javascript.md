@@ -1,5 +1,5 @@
 ---
-title: Full guide to cookies and JavaScript (clint-side)
+title: Full guide to cookies and JavaScript (client-side)
 tags: cookies javascript
 image_alt: cookies and JavaScript
 image_src: https://i.morioh.com/2021/08/02/1f0e3c44.webp

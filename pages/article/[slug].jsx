@@ -9,9 +9,11 @@ import { NewsContextProvider } from '@store/NewsContext';
 import OneNewsContent from '@components/OneNewsContent';
 
 const ArticlePage = (props) => {
-	const [data, setData] = useState(
-		typeof props.data === 'string' ? JSON.parse(props.data) : props.data
-	);
+	// const [data, setData] = useState(
+	// 	typeof props.data === 'string' ? JSON.parse(props.data) : props.data
+	// );
+	const data =
+		typeof props.data === 'string' ? JSON.parse(props.data) : props.data;
 
 	const descriptionWithXMLCharactersEncoding =
 		data?.type === 'article'
