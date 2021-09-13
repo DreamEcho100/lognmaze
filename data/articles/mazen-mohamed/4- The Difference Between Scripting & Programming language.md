@@ -1,5 +1,5 @@
 ---
-title: What is he Difference Between Scripting and Programming language
+title: What is The Difference Between Scripting and Programming language
 tags:
 image_alt:
 image_src: https://
