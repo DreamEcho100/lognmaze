@@ -16,20 +16,17 @@ const obj = (phase) => {
 				process.env.DEVELOPMENT_PG_SUPABASE_CONNECTION_STRING,
 		};
 	} else {
+		//  process.env.VERCEL_URL
+		// 	? `https://${process.env.VERCEL_URL}`
+		// 	: 'https://lognmaze.com',
+		// MONGODB_USERNAME: process.env.MONGODB_PRODUCTION_USERNAME,
+		// MONGODB_PASSWORD: process.env.MONGODB_PRODUCTION_PASSWORD,
+		// MONGODB_CLUSTERNAME: process.env.MONGODB_PRODUCTION_CLUSTERNAME,
+		// MONGODB_MAZENEXTBLOG_DATABASE: process.env.MONGODB_PRODUCTION_DATABASE,
 		env = {
-			// MONGODB_USERNAME: process.env.MONGODB_PRODUCTION_USERNAME,
-			// MONGODB_PASSWORD: process.env.MONGODB_PRODUCTION_PASSWORD,
-			// MONGODB_CLUSTERNAME: process.env.MONGODB_PRODUCTION_CLUSTERNAME,
-			// MONGODB_MAZENEXTBLOG_DATABASE: process.env.MONGODB_PRODUCTION_DATABASE,
-			FRONT_END_ROOT_URL: process.env.VERCEL_URL
-				? `https://${process.env.VERCEL_URL}`
-				: 'https://lognmaze.com', // baseUrl, // process.env.PRODUCTION_FRONT_END_ROOT_URL,
-			BACK_END_ROOT_URL: process.env.VERCEL_URL
-				? `https://${process.env.VERCEL_URL}`
-				: 'https://lognmaze.com', // baseUrl, // process.env.PRODUCTION_BACK_END_ROOT_URL,
-			FRONT_END_DOMAIN: process.env.VERCEL_URL
-				? `https://${process.env.VERCEL_URL}`
-				: 'lognmaze.com', // baseUrl, // process.env.PRODUCTION_FRONT_END_DOMAIN,
+			FRONT_END_ROOT_URL: 'https://lognmaze.com',
+			BACK_END_ROOT_URL: 'https://lognmaze.com',
+			FRONT_END_DOMAIN: 'lognmaze.com',
 			PG_CONNECTION_STRING:
 				process.env.PRODUCTION_PG_SUPABASE_CONNECTION_STRING,
 		};
