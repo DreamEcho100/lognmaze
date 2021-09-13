@@ -3,7 +3,7 @@ title: What is a scripting language and the Difference Between it and programmin
 tags: scripting-language programming-language programming
 image_alt: What is a Scripting language
 image_src: https://vteams.com/wp-content/uploads/2021/01/scripting-languages.jpg
-description: A scripting language is a series of commands that are able to be executed without the need for compiling, it's interpreted line by line into machine code.
+description: A scripting language is a series of commands that can be executed without the need for compiling, it's interpreted line by line into machine code.
 ---
 
 ## Intro
@@ -64,6 +64,7 @@ There are not a whole lot of cons to using scripting languages.
 - Demand line-by-line conversion and require a host
 
 > Another point to be noted is that while classifying a language as a scripting language or programming language, the environment on which it would execute must be taken into consideration. The reason why this is important is that we can design an interpreter for C language and use it as a scripting language, and at the same time, we can design a compiler for JavaScript and use it as a non-scripting(compiled language). A live example of this is V8, the JavaScript engine of Google Chrome, which compiles the JavaScript code into machine code, rather than interpreting it.
+
 > source [geeksforgeeks](https://www.geeksforgeeks.org/whats-the-difference-between-scripting-and-programming-languages/)
 
 Some scripting languages traditionally used without an explicit compilation step are JavaScript, PHP, Python, VBScript.
