@@ -73,8 +73,8 @@ const Article = ({
 
 		if (values.title.trim().replace(/\s{2,}/g, '').length < 25)
 			fieldsCheck.push('Title is less than 25 characters.');
-		else if (values.title.trim().replace(/\s{2,}/g, '').length > 70)
-			fieldsCheck.push('Title is more than 70 characters.');
+		else if (values.title.trim().replace(/\s{2,}/g, '').length > 120)
+			fieldsCheck.push('Title is more than 120 characters.');
 
 		if (values.slug.trim().replace(/\s{2,}/g, '').length < 25)
 			fieldsCheck.push('Slug is less than 25 characters.');
