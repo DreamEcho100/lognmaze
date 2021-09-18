@@ -16,19 +16,13 @@ const Section1 = ({ news = [], userExist, newsFetchRouteQuery }) => {
 		<NewsContextProvider>
 			<main className={classes['main-section']}>
 				<section className={classes['section-1']}>
-					<Feed
-						style={{
-							width: 'fit-content',
-						}}
-						news={news}
-						newsFetchRouteQuery={newsFetchRouteQuery}
-					/>
+					<Feed news={news} newsFetchRouteQuery={newsFetchRouteQuery} />
 				</section>
 
 				<section className={classes['section-2']}>
 					<Wrapper style={{ width: '100%' }}>
 						<section>
-							<h2>Welcome</h2>
+							<h3>Welcome</h3>
 						</section>
 					</Wrapper>
 					<Wrapper style={{ width: '100%' }}>

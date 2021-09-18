@@ -15,9 +15,14 @@ const MainIntro = () => {
 	const [introHorizontal, setIntroHorizontal] = useState(true);
 
 	useEffect(() => {
-		const handleResize = () => {
-			const width = introRef.current.offsetWidth;
-			const height = introRef.current.offsetHeight;
+		const handleResize = (element) => {
+			if (!element?.offsetWidth) return;
+
+			const width = element.offsetWidth;
+			const height = element.offsetHeight;
+
+			// console.log('width', width);
+			// console.log('height', height);
 
 			if (width > height) {
 				if (!introHorizontal) setIntroHorizontal(true);
@@ -26,10 +31,15 @@ const MainIntro = () => {
 			}
 		};
 
-		handleResize();
+		handleResize(introRef.current);
+		const onResize = (event) => handleResize(introRef.current);
 
-		window.addEventListener('resize', handleResize);
-	}, []);
+		window.addEventListener('resize', onResize);
+
+		return () => window.removeEventListener('resize', onResize);
+	}, [introRef.current]);
+
+	// console.log('introHorizontal', introHorizontal);
 
 	return (
 		<div

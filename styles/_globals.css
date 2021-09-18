@@ -56,12 +56,12 @@
 	--size-31: 6rem;
 	--size-32: 6.2rem;
 
-	--header1: var(--size-21);
-	--header2: var(--size-19); /* 3.2rem; */
-	--header3: var(--size-17); /* 2.6rem; */
-	--header4: var(--size-15); /* 2.4rem; */
-	--header5: var(--size-13); /* 2rem; */
-	--header6: var(--size-11); /* 1.6rem; */
+	--header1: var(--size-25);
+	--header2: var(--size-22);
+	--header3: var(--size-20);
+	--header4: var(--size-18);
+	--header5: var(--size-16);
+	--header6: var(--size-14);
 
 	--color-1-100: hsl(0, 0%, 100%); /* 	#ffffff	rgb(255, 255, 255) */
 	--color-1-100-95: hsl(0, 0%, 100%, 0.95);
@@ -189,6 +189,9 @@ body.dark {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	border: 0;
+	vertical-align: baseline;
+	background: transparent;
 }
 
 html,
@@ -199,6 +202,7 @@ body {
 	max-width: 150rem;
 	margin: auto;
 	font-family: 'Roboto', cursive, sans-serif;
+	line-height: 1;
 }
 
 #__next {
@@ -226,7 +230,7 @@ body {
 	min-height: 100vh;
 	border-radius: 0.2rem;
 	margin: 1em auto;
-	padding: 1em;
+	padding: 0.5em;
 }
 
 body,
@@ -241,6 +245,59 @@ button,
 svg {
 	font-size: calc(var(--current-font-size) * 1.05);
 } */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+	display: block;
+}
+
+nav ul {
+	list-style: none;
+}
+
+a,
+li {
+	text-decoration: none;
+}
+
+blockquote,
+q {
+	quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: '';
+	content: none;
+}
+
+/* a, */
+button,
+select,
+svg {
+	color: inherit;
+}
+
+a {
+	vertical-align: baseline;
+	background: transparent;
+}
+
+input,
+select {
+	vertical-align: middle;
+}
 
 h1 {
 	font-size: var(--header1);
@@ -259,26 +316,6 @@ h5 {
 }
 h6 {
 	font-size: var(--header6);
-}
-
-ul {
-	list-style: none;
-}
-
-a,
-li {
-	text-decoration: none;
-}
-
-span {
-	font-size: inherit;
-}
-
-/* a, */
-button,
-select,
-svg {
-	color: inherit;
 }
 
 a,
@@ -368,19 +405,79 @@ body.dark .text-glow-special {
 	font-size: inherit !important;
 }
 
+@media screen and (max-width: 700px) {
+	:root {
+		font-size: 60%;
+
+		--header1: var(--size-22);
+		--header2: var(--size-20);
+		--header3: var(--size-18);
+		--header4: var(--size-16);
+		--header5: var(--size-14);
+		--header6: var(--size-12);
+
+		--current-font-size: var(--size-10);
+	}
+}
+
 @media screen and (max-width: 400px) {
 	:root {
-		font-size: 55.5%;
+		font-size: 55%;
+	}
+
+	h1 {
+		max-width: 100%;
+		overflow-x: auto;
+		overflow-y: hidden;
 	}
 }
 
 @media screen and (max-width: 250px) {
-	:root {
-		font-size: 50.5%;
-	}
-
-	h1,
 	h2 {
+		/* max-width: 100%; */
 		overflow-x: auto;
+		overflow-y: hidden;
 	}
 }
+
+/*
+
+
+ins {
+	background-color: #ff9;
+	color: #000;
+	text-decoration: none;
+}
+
+mark {
+	background-color: #ff9;
+	color: #000;
+	font-style: italic;
+	font-weight: bold;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+abbr[title],
+dfn[title] {
+	border-bottom: 1px dotted;
+	cursor: help;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #cccccc;
+	margin: 1em 0;
+	padding: 0;
+}
+
+*/

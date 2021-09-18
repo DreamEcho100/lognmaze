@@ -1,8 +1,10 @@
+import classes from './index.module.css';
+
 import { dateToHumanReadableDate } from '@lib/v1/time';
 
 const TimeAndDate = ({ setShowModal, created_at, updated_at }) => (
 	<div
-		className=''
+		className={classes.TimeAndDate}
 		onClick={() => {
 			if (setShowModal) setShowModal(true);
 		}}

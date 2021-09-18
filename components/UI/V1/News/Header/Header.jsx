@@ -10,6 +10,7 @@ import Image from '@components/UI/V1/Image';
 
 const Header = ({
 	newsItem,
+	detailsType,
 	setShowModal,
 	setIsLoadingContent,
 	isLoadingContent,
@@ -56,7 +57,11 @@ const Header = ({
 								passHref
 							>
 								<a title={`${newsItem.type} | ${newsItem.title}`}>
-									<h1>{newsItem.title}</h1>
+									{detailsType === 'description' ? (
+										<h2>{newsItem.title}</h2>
+									) : (
+										<h1>{newsItem.title}</h1>
+									)}
 								</a>
 							</Link>
 						) : (
@@ -65,7 +70,7 @@ const Header = ({
 						<Image
 							src={newsItem.image_src}
 							alt={newsItem.image_alt}
-							style={{ width: '100%' }}
+							style={{ width: '100%', margin: '0.5em 0' }}
 							loading='lazy'
 							onClick={() => {
 								if (setShowModal) setShowModal(true);

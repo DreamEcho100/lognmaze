@@ -23,7 +23,7 @@
 							// info_type ['info', 'break']
 							"type": "",
 							"header": "", // In Md format
-							"content": "", // In Md format
+							"items": "", // In Md format
 
 							// if (type in ['radio', 'select', "checkbox"]) choices = []
 							"choices": []

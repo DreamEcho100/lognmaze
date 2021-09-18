@@ -1,25 +1,31 @@
 -- news_test TABLE
 CREATE TABLE news_test (
   news_test_id uuid NOT NULL,
+  author_id uuid NOT NULL,
 
   title TEXT NOT NULL, -- (Length > 3),
 
+  -- slug TEXT NOT NULL,
+
   description TEXT NOT NULL, -- (Length > 25),
 
-  allowed for TEXT NOT NULL, -- IN (anyone || any user || groups),
+  allowed_for TEXT NOT NULL, -- IN (anyone || any user || groups),
 
-  star rating BIGINT DEFAULT 0,
+  star_rating BIGINT DEFAULT 0,
 
-  date_of_start TIMESTAMP WITH TIME DEFAULT CURRENT_TIMESTAMP,
+  date_of_start TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
   -- duration BIGINT, -- 'numbers_in_seconds',
 
-  date_of_end TIMESTAMP WITH TIME,
+  date_of_end TIMESTAMP WITH TIME ZONE,
 
   content JSONB NOT NULL, -- DEFAULT '{}'::jsonb,
 
   PRIMARY KEY (news_test_id),
-  FOREIGN KEY (news_test_id) REFERENCES news (news_id) ON DELETE CASCADE
+  FOREIGN KEY (news_test_id) REFERENCES news (news_id) ON DELETE CASCADE,
+  FOREIGN KEY (author_id) REFERENCES user_account (user_account_id),
+
+  CONSTRAINT unique_title_no_dubliqite_per_user UNIQUE (author_id, title)
 );
 
 -- group TABLE
