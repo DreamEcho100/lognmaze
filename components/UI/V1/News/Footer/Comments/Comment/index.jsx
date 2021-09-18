@@ -288,13 +288,13 @@ const Comment = ({ comment, newsItem, ...props }) => {
 							</em>
 						</small>
 					</span>
-					{comment.created_at !== comment.updated_on && (
+					{comment.created_at !== comment.updated_at && (
 						<span>
 							<small>
 								, <strong>Updated On:</strong>{' '}
 								<em>
 									{
-										dateToHumanReadableDate(comment.updated_on, {
+										dateToHumanReadableDate(comment.updated_at, {
 											withTime: true,
 										}).dateAndTimeString
 									}

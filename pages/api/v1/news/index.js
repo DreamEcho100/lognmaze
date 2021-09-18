@@ -74,7 +74,7 @@ export default async (req, res) => {
 						news.up_votes_counter,
 						news.down_votes_counter,
 						news.created_at,
-						news.updated_on,
+						news.updated_at,
 					
 						user_profile.user_profile_id AS author_id,
 						user_profile.user_name_id AS author_user_name_id,
@@ -275,7 +275,7 @@ export default async (req, res) => {
 			const cte = [
 				`
 				update_item_1 AS (
-					UPDATE news SET updated_on = ($3)
+					UPDATE news SET updated_at = ($3)
 					WHERE news_id = ($1) AND author_id = ($2)
 					RETURNING news_id
 				)

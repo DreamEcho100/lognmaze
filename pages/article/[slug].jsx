@@ -29,8 +29,8 @@ const ArticlePage = (props) => {
 				<meta property='article:publisher' content={data.author_user_name_id} />
 				<meta property='article:author' content={data.author_user_name_id} />
 				<meta property='article:published_time' content={data.created_at} />
-				{data.created_at !== data.updated_on && (
-					<meta property='article:modified_time' content={data.updated_on} />
+				{data.created_at !== data.updated_at && (
+					<meta property='article:modified_time' content={data.updated_at} />
 				)}
 
 				<script
@@ -63,7 +63,7 @@ const ArticlePage = (props) => {
 							},
 							datePublished: data.created_at,
 							dateCreated: data.created_at,
-							dateModified: data.updated_on,
+							dateModified: data.updated_at,
 							description: data.description,
 							articleBody: data.content,
 						}),
@@ -151,7 +151,7 @@ export const getStaticProps = async ({ params: { slug }, res }) => {
 							news.up_votes_counter,
 							news.down_votes_counter,
 							news.created_at,
-							news.updated_on,
+							news.updated_at,
 							
 							user_profile.user_profile_id AS author_id,
 							user_profile.user_name_id AS author_user_name_id,

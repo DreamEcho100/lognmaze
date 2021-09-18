@@ -12,9 +12,9 @@ const SensitiveDataAccordion = ({ userData }) => {
 				<div>
 					<p>{userData.role}</p>
 
-					<p>{userData.state_of_birth}</p>
+					{/* <p>{userData.state_of_birth}</p>
 					<p>{userData.country_of_birth}</p>
-					<p>{userData.city_of_birth}</p>
+					<p>{userData.city_of_birth}</p> */}
 
 					<p>{userData.address_of_resident}</p>
 

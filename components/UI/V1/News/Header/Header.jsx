@@ -46,7 +46,7 @@ const Header = ({
 					<TimeAndDate
 						setShowModal={setShowModal}
 						created_at={newsItem.created_at}
-						updated_on={newsItem.updated_on}
+						updated_at={newsItem.updated_at}
 					/>
 					<div className=''>
 						{!router.query.slug && newsItem.type === 'article' ? (
@@ -83,7 +83,7 @@ const Header = ({
 					<TimeAndDate
 						setShowModal={setShowModal}
 						created_at={newsItem.created_at}
-						updated_on={newsItem.updated_on}
+						updated_at={newsItem.updated_at}
 					/>
 				</section>
 			)}

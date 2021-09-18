@@ -1,6 +1,6 @@
 import { dateToHumanReadableDate } from '@lib/v1/time';
 
-const TimeAndDate = ({ setShowModal, created_at, updated_on }) => (
+const TimeAndDate = ({ setShowModal, created_at, updated_at }) => (
 	<div
 		className=''
 		onClick={() => {
@@ -20,13 +20,13 @@ const TimeAndDate = ({ setShowModal, created_at, updated_on }) => (
 					</em>
 				</small>
 			</span>
-			{created_at !== updated_on && (
+			{created_at !== updated_at && (
 				<span>
 					<small>
 						, <strong>Updated On:</strong>{' '}
 						<em>
 							{
-								dateToHumanReadableDate(updated_on, {
+								dateToHumanReadableDate(updated_at, {
 									withTime: true,
 								}).dateAndTimeString
 							}

@@ -102,7 +102,7 @@ const reducer = (state, action) => {
 					author_bio: user.bio,
 
 					created_at: new Date().toUTCString(),
-					updated_on: new Date().toUTCString(),
+					updated_at: new Date().toUTCString(),
 				},
 				...state.news,
 			],
@@ -113,7 +113,7 @@ const reducer = (state, action) => {
 
 		const toAdd = {
 			...bodyObj.news_data,
-			updated_on: new Date().toUTCString(),
+			updated_at: new Date().toUTCString(),
 		};
 
 		return {
@@ -221,7 +221,7 @@ const reducer = (state, action) => {
 								news_comment_id: comment.news_comment_id,
 								type: 'comment_main',
 								created_at: new Date().toUTCString(),
-								updated_on: new Date().toUTCString(),
+								updated_at: new Date().toUTCString(),
 							},
 							...newsItem.comments,
 						],
@@ -293,7 +293,7 @@ const reducer = (state, action) => {
 			author_id: user.id,
 			news_comment_id: news_comment_id,
 			created_at: new Date().toUTCString(),
-			updated_on: new Date().toUTCString(),
+			updated_at: new Date().toUTCString(),
 		};
 
 		return {
@@ -347,7 +347,7 @@ const reducer = (state, action) => {
 									return {
 										...comment,
 										content: bodyObj.content,
-										updated_on: new Date().toUTCString(),
+										updated_at: new Date().toUTCString(),
 									};
 								}
 								return comment;
@@ -365,7 +365,7 @@ const reducer = (state, action) => {
 												return {
 													...reply,
 													content: bodyObj.content,
-													updated_on: new Date().toUTCString(),
+													updated_at: new Date().toUTCString(),
 												};
 											}
 											return reply;

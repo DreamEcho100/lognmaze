@@ -93,9 +93,6 @@ export default async (req, res) => {
 								VALUES
 									( $1, $7, $8, $9 )
 								RETURNING
-									country_of_birth,
-									state_of_birth,
-									city_of_birth,
 									country_of_resident,
 									state_of_resident,
 									city_of_resident,

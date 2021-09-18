@@ -47,7 +47,7 @@ export default async (req, res) => {
 							news_comment.type,
 							news_comment.content,
 							news_comment.created_at,
-							news_comment.updated_on,
+							news_comment.updated_at,
 							
 							user_profile.user_profile_id AS author_id,
 							user_profile.user_name_id AS author_user_name_id,
@@ -110,7 +110,7 @@ export default async (req, res) => {
 								news_comment.type,
 								news_comment.content,
 								news_comment.created_at,
-								news_comment.updated_on,
+								news_comment.updated_at,
 								
 								user_profile.user_profile_id AS author_id,
 								user_profile.user_name_id AS author_user_name_id,
@@ -166,7 +166,7 @@ export default async (req, res) => {
 			const data = await pool
 				.query(
 					`
-						INSERT INTO news_comment (news_id, author_id, type, content, created_at, updated_on)
+						INSERT INTO news_comment (news_id, author_id, type, content, created_at, updated_at)
 						VALUES ($1, $2, $3, $4, $5, $5) RETURNING news_comment_id
           `,
 					[news_id, isAuthorized.id, type, content, new Date().toUTCString()]
@@ -243,7 +243,7 @@ export default async (req, res) => {
 				.query(
 					`
 						UPDATE news_comment
-						SET content = ($1), updated_on = ($2)
+						SET content = ($1), updated_at = ($2)
 						WHERE news_comment_id = ($3) AND author_id = ($4) RETURNING news_comment_id
 					`,
 					[content, new Date().toUTCString(), news_comment_id, isAuthorized.id]
