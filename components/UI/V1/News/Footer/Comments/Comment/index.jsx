@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-// import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';
 
@@ -13,9 +13,8 @@ import NewsContext from '@store/NewsContext';
 import UserContext from '@store/UserContext';
 import { dateToHumanReadableDate } from '@lib/v1/time';
 
-// const DynamicMd = dynamic(() => import('@components/UI/V1/Format/Md'));
+const DynamicMd = dynamic(() => import('@components/UI/V1/Format/Md'));
 
-import Md from '@components/UI/V1/Format/Md';
 import FormatterContainer from '@components/UI/V1/Format/Container';
 
 import DropdownMenu from '@components/UI/V1/DropdownMenu';
@@ -256,7 +255,7 @@ const Comment = ({ comment, newsItem, ...props }) => {
 			</header>
 			{showContent && (
 				<FormatterContainer className={classes.comment_content}>
-					<Md content={comment.content} />
+					<DynamicMd content={comment.content} />
 				</FormatterContainer>
 			)}
 			{!showContent && (

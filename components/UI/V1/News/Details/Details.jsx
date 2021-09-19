@@ -1,16 +1,12 @@
 import { useState } from 'react';
-// import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './Details.module.css';
 
-// const Md = dynamic(() => import('@components/UI/V1/Format/Md'));
-// const FormatterContainer = dynamic(() =>
-// 	import('@components/UI/V1/Format/Container')
-// );
-
-import Md from '@components/UI/V1/Format/Md';
 import FormatterContainer from '@components/UI/V1/Format/Container';
+
+const DynamicMd = dynamic(() => import('@components/UI/V1/Format/Md'));
 
 const Details = ({ detailsType, setShowModal, newsItem }) => {
 	const [showFullDetails, setShowFullDetails] = useState(false);
@@ -121,7 +117,7 @@ const Details = ({ detailsType, setShowModal, newsItem }) => {
 	} else if (detailsType === 'content') {
 		return (
 			<FormatterContainer className={classes.details}>
-				<Md content={newsItem.content} />
+				<DynamicMd content={newsItem.content} />
 			</FormatterContainer>
 		);
 	}
