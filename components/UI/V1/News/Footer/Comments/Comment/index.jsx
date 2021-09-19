@@ -18,7 +18,7 @@ import { dateToHumanReadableDate } from '@lib/v1/time';
 // 	import('@components/UI/V1/Format/Container')
 // );
 
-import Md from '@components/UI/V1/Format/Md/Dynamic';
+import Md from '@components/UI/V1/Format/Md';
 import FormatterContainer from '@components/UI/V1/Format/Container';
 
 import DropdownMenu from '@components/UI/V1/DropdownMenu';

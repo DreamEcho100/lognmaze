@@ -8,7 +8,7 @@ import classes from './index.module.css';
 // 	import('@components/UI/V1/Format/Container')
 // );
 
-import Md from '@components/UI/V1/Format/Md/Dynamic';
+import Md from '@components/UI/V1/Format/Md';
 import FormatterContainer from '@components/UI/V1/Format/Container';
 
 import Textarea from '@components/UI/V1/Textarea';
