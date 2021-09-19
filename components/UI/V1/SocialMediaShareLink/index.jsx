@@ -33,7 +33,7 @@ const SocialMediaShareLink = ({
 			href: `${link}/?${linkPramsArr.join('&')}`,
 			title,
 		}));
-	}, useEffectDependencyList);
+	}, [props, title, type]);
 
 	return (
 		<a {...anchorProps} target='_blank' rel='noopener noreferrer'>

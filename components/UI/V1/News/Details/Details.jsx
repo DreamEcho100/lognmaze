@@ -1,13 +1,16 @@
 import { useState } from 'react';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './Details.module.css';
 
-const DynamicMd = dynamic(() => import('@components/UI/V1/Format/Md'));
-const DynamicContainer = dynamic(() =>
-	import('@components/UI/V1/Format/Container')
-);
+// const DynamicMd = dynamic(() => import('@components/UI/V1/Format/Md'));
+// const DynamicContainer = dynamic(() =>
+// 	import('@components/UI/V1/Format/Container')
+// );
+
+import Md from '@components/UI/V1/Format/Md';
+import FormatterContainer from '@components/UI/V1/Format/Container';
 
 const Details = ({ detailsType, setShowModal, newsItem }) => {
 	const [showFullDetails, setShowFullDetails] = useState(false);
@@ -33,7 +36,7 @@ const Details = ({ detailsType, setShowModal, newsItem }) => {
 			return (
 				<>
 					<section className={classes.details}>
-						<DynamicContainer>
+						<FormatterContainer>
 							{newsItem.description.replace(/\s\w+\s?$/, '').length < 150 ? (
 								newsItem.description
 							) : (
@@ -66,7 +69,7 @@ const Details = ({ detailsType, setShowModal, newsItem }) => {
 									)}
 								</>
 							)}
-						</DynamicContainer>
+						</FormatterContainer>
 					</section>
 					<button
 						className='text-glow-special display-inline'
@@ -79,7 +82,7 @@ const Details = ({ detailsType, setShowModal, newsItem }) => {
 			);
 		} else if (newsItem.type === 'post') {
 			return (
-				<DynamicContainer>
+				<FormatterContainer>
 					{newsItem.content.replace(/\s\w+\s?$/, '').length < 150 ? (
 						newsItem.content
 					) : (
@@ -112,14 +115,14 @@ const Details = ({ detailsType, setShowModal, newsItem }) => {
 							)}
 						</>
 					)}
-				</DynamicContainer>
+				</FormatterContainer>
 			);
 		}
 	} else if (detailsType === 'content') {
 		return (
-			<DynamicContainer className={classes.details}>
-				<DynamicMd content={newsItem.content} />
-			</DynamicContainer>
+			<FormatterContainer className={classes.details}>
+				<Md content={newsItem.content} />
+			</FormatterContainer>
 		);
 	}
 
