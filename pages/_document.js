@@ -107,6 +107,7 @@ class MyDocument extends Document {
 					{/* <!-- Google Tag Manager (noscript) --> */}
 					<noscript>
 						<iframe
+							rel='preconnect'
 							src='https://www.googletagmanager.com/ns.html?id=GTM-N45HP9S'
 							height='0'
 							width='0'
