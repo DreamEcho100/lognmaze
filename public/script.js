@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+	/*
 	const noscriptElement = document.createElement('noscript');
 	noscriptElement.innerHTML = `
 		<div>
@@ -23,27 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.body.append(noscriptElement);
 	document.body.append(noscriptElement2);
 
-	/*
-	<noscript>
-		<div>
-			<img
-				src='https://mc.yandex.ru/watch/85004128'
-				style={{ position: 'absolute', left: '-9999px' }}
-				alt=''
-			/>
-		</div>
-	</noscript>
-
-	<noscript>
-		<iframe
-			src='https://www.googletagmanager.com/ns.html?id=GTM-N45HP9S'
-			height='0'
-			width='0'
-			style={{ display: 'none', visibility: 'hidden' }}
-		></iframe>
-	</noscript>
-	*/
-
 	(function (w, d, s, l, i) {
 		w[l] = w[l] || [];
 		w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
@@ -54,19 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
 		f.parentNode.insertBefore(j, f);
 	})(window, document, 'script', 'dataLayer', 'GTM-N45HP9S');
-
-	(function (c, l, a, r, i, t, y) {
-		c[a] =
-			c[a] ||
-			function () {
-				(c[a].q = c[a].q || []).push(arguments);
-			};
-		t = l.createElement(r);
-		t.async = 1;
-		t.src = 'https://www.clarity.ms/tag/' + i + '?ref=bwt';
-		y = l.getElementsByTagName(r)[0];
-		y.parentNode.insertBefore(t, y);
-	})(window, document, 'clarity', 'script', '8co4gbipfa');
 
 	(function (m, e, t, r, i, k, a) {
 		m[i] =
@@ -88,4 +55,18 @@ document.addEventListener('DOMContentLoaded', () => {
 		accurateTrackBounce: true,
 		webvisor: true,
 	});
+	*/
+
+	(function (c, l, a, r, i, t, y) {
+		c[a] =
+			c[a] ||
+			function () {
+				(c[a].q = c[a].q || []).push(arguments);
+			};
+		t = l.createElement(r);
+		t.async = 1;
+		t.src = 'https://www.clarity.ms/tag/' + i + '?ref=bwt';
+		y = l.getElementsByTagName(r)[0];
+		y.parentNode.insertBefore(t, y);
+	})(window, document, 'clarity', 'script', '8co4gbipfa');
 });
