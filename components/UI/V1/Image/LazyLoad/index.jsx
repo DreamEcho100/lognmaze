@@ -13,9 +13,9 @@ const LazyLoadImageComponent = ({
 		loading: 'lazy',
 	};
 
-	if (props.height) LazyLoadImageProps.height = height;
-	if (props.width) LazyLoadImageProps.width = width;
-	if (props.effect) LazyLoadImageProps.effect = effect;
+	if (props.height) LazyLoadImageProps.height = props.height;
+	if (props.width) LazyLoadImageProps.width = props.width;
+	if (props.effect) LazyLoadImageProps.effect = props.effect;
 
 	return <LazyLoadImage className={className} {...LazyLoadImageProps} />;
 };
