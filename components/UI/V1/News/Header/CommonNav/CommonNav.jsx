@@ -3,7 +3,7 @@ import Link from 'next/link';
 import classes from './CommonNav.module.css';
 
 import Settings from './Settings/Settings';
-import Image from '@components/UI/V1/Image';
+import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
 
 const CommonNav = ({
 	isDataOwner,
@@ -22,7 +22,7 @@ const CommonNav = ({
 				title={`author ${newsItem.author_user_name_id} profile`}
 				className={classes.author_profile_link}
 			>
-				<Image
+				<LazyLoadImage
 					src={newsItem.author_profile_picture}
 					alt=''
 					className={classes.author_profile_picture}

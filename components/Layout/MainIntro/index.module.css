@@ -10,16 +10,18 @@
 	background-color: var(--main-special-bg-color-5);
 	transition: all 0.7s ease-in-out, opacity 0.2s ease-in-out 0.5s;
 	z-index: 9999;
+	display: flex;
 }
 
 .svg-container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 80rem;
+	width: fit-content;
+	height: fit-content;
+	min-width: 90%;
 	max-width: 90%;
 	margin: auto;
-	height: 100%;
 	background-color: transparent;
 }
 
@@ -55,23 +57,27 @@
 	transform: translateY(-100%);
 }
 
+.main-intro.setVertical .svg-container {
+	transform: rotate(90deg);
+}
+
 .main-intro.setVertical svg {
-	transform: rotate(90deg) scale(1.1);
+	transform: scale(1.1);
 	width: min(100%, 100vh);
 }
 
 .main-intro.setVertical.verifying-credentials-finished .svg-container svg {
-	transform: translateY(60%) rotate(0deg) scale(0.4);
+	transform: translateX(110%) rotate(-90deg) scale(0.4);
 }
 
 @media screen and (max-height: 600px) {
 	.main-intro.setVertical svg {
-		transform: rotate(90deg) scale(1);
+		transform: scale(1);
 	}
 }
 
 @media screen and (max-height: 500px) {
 	.main-intro.setVertical svg {
-		transform: rotate(90deg) scale(0.7);
+		transform: scale(0.7);
 	}
 }

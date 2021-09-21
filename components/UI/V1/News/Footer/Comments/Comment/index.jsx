@@ -23,7 +23,7 @@ import FormatterContainer from '@components/UI/V1/Format/Container';
 
 import DropdownMenu from '@components/UI/V1/DropdownMenu';
 import CommentTextarea from '../CommentTextarea';
-import Image from '@components/UI/V1/Image';
+import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
 
 const Replies = ({ replies, newsItem, parent_data }) =>
 	replies
@@ -239,11 +239,9 @@ const Comment = ({ comment, newsItem, ...props }) => {
 		<div className={`${classes.comment} ${classes[`type-${comment.type}`]}`}>
 			<header className={classes.header}>
 				<nav className={classes.nav}>
-					<Image
-						className={classes.profile_picture}
-						src={comment.author_profile_picture}
-						alt=''
-					/>
+					<LazyLoadImage className={classes.profile_picture}
+					src={comment.author_profile_picture}
+					alt='' />
 					<div className={classes['author-info']}>
 						<p className={classes.author_name}>
 							{comment.author_first_name} {comment.author_last_name}

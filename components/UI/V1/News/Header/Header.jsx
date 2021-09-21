@@ -2,11 +2,13 @@ import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
+import classes from './index.module.css';
+
 import UserContext from '@store/UserContext';
 
 import CommonNav from './CommonNav/CommonNav';
 import TimeAndDate from './TimeAndDate/TimeAndDate';
-import Image from '@components/UI/V1/Image';
+import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
 
 const Header = ({
 	newsItem,
@@ -67,10 +69,10 @@ const Header = ({
 						) : (
 							<h1>{newsItem.title}</h1>
 						)}
-						<Image
+						<LazyLoadImage
 							src={newsItem.image_src}
 							alt={newsItem.image_alt}
-							style={{ width: '100%', margin: '0.5em 0' }}
+							className={classes.img}
 							loading='lazy'
 							onClick={() => {
 								if (setShowModal) setShowModal(true);

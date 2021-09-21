@@ -7,7 +7,7 @@ import remarkGfm from 'remark-gfm';
 
 const SyntaxHighlighterDynamic = dynamic(() => import('./SyntaxHighlighter'));
 
-import Image from '@components/UI/V1/Image';
+import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
 
 const Md = ({ content }) => {
 	const [hasError, setHasError] = useState('');
@@ -16,10 +16,9 @@ const Md = ({ content }) => {
 	const customRenderers = {
 		img(image) {
 			return (
-				<Image
+				<LazyLoadImage
 					src={image.src}
 					alt={image.alt}
-					style={{ width: '100%', maxWidth: '50rem', maxHeight: '30rem' }}
 					loading='lazy'
 				/>
 			);
@@ -42,7 +41,7 @@ const Md = ({ content }) => {
 
 				return (
 					<div className={classes.image}>
-						<Image
+						<LazyLoadImage
 							src={image.properties.src}
 							alt=''
 							style={{ width: '100%', maxWidth: '50rem', maxHeight: '30rem' }}

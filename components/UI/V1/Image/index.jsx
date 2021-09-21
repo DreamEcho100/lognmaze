@@ -13,7 +13,7 @@ const Image = ({ className = '', alt = '', loading = 'lazy', ...props }) => {
 			setObserver(
 				new IntersectionObserver((entries, observer) => {
 					entries.forEach((entry) => {
-						if (entry.isIntersecting /*  && !entry.isVisible */) {
+						if (entry.isIntersecting) {
 							setSrc(props.src);
 							observer.disconnect();
 						}

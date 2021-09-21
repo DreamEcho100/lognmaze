@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classes from './index.module.css';
 
 import Wrapper from 'components/UI/V1/Wrapper';
-import Image from '@components/UI/V1/Image';
+import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
 import Button from '@components/UI/V1/Button';
 import UpdateUserPictureModal from '@components/UI/V1/Modal/UpdateUserPicture';
 const SettingsButton = dynamic(() => import('./SettingsButton/SettingsButton'));
@@ -35,7 +35,7 @@ const Hero = ({ userData, visitorIdentity }) => {
 			<div className={classes['cover_photo-outer-container']}>
 				<div className={classes['cover_photo-container']}>
 					<div className={classes['cover_photo-inner-container']}>
-						<Image
+						<LazyLoadImage
 							src={userData.cover_photo}
 							alt=''
 							className={classes['cover_photo']}
@@ -63,7 +63,7 @@ const Hero = ({ userData, visitorIdentity }) => {
 			<div className={classes['profile_picture-outer-container']}>
 				<div className={classes['profile_picture-container']}>
 					<div className={classes['profile_picture-inner-container']}>
-						<Image
+						<LazyLoadImage
 							src={userData.profile_picture}
 							alt=''
 							className={classes['profile_picture']}
