@@ -39,6 +39,7 @@ const Hero = ({ userData, visitorIdentity }) => {
 							src={userData.cover_photo}
 							alt=''
 							className={classes['cover_photo']}
+							effect='blur'
 						/>
 					</div>{' '}
 					{visitorIdentity === OWNER && (
@@ -67,6 +68,7 @@ const Hero = ({ userData, visitorIdentity }) => {
 							src={userData.profile_picture}
 							alt=''
 							className={classes['profile_picture']}
+							effect='blur'
 						/>
 					</div>{' '}
 					{visitorIdentity === OWNER && (

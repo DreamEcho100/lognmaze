@@ -10,18 +10,14 @@ const LazyLoadImageComponent = ({
 	const LazyLoadImageProps = {
 		src,
 		alt,
+		loading: 'lazy',
 	};
 
 	if (props.height) LazyLoadImageProps.height = height;
 	if (props.width) LazyLoadImageProps.width = width;
+	if (props.effect) LazyLoadImageProps.effect = effect;
 
-	return (
-		<LazyLoadImage
-			className={className}
-			effect='blur'
-			{...LazyLoadImageProps}
-		/>
-	);
+	return <LazyLoadImage className={className} {...LazyLoadImageProps} />;
 };
 
 export default LazyLoadImageComponent;

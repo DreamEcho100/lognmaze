@@ -26,7 +26,7 @@ const CommonNav = ({
 					src={newsItem.author_profile_picture}
 					alt=''
 					className={classes.author_profile_picture}
-					loading='lazy'
+					effect='blur'
 				/>
 				<p className={classes.author_user_name_id}>
 					<strong>{newsItem.author_user_name_id}</strong>

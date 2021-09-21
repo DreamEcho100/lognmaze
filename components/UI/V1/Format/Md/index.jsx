@@ -15,13 +15,7 @@ const Md = ({ content }) => {
 
 	const customRenderers = {
 		img(image) {
-			return (
-				<LazyLoadImage
-					src={image.src}
-					alt={image.alt}
-					loading='lazy'
-				/>
-			);
+			return <LazyLoadImage src={image.src} alt={image.alt} effect='blur' />;
 		},
 
 		/*
@@ -45,7 +39,7 @@ const Md = ({ content }) => {
 							src={image.properties.src}
 							alt=''
 							style={{ width: '100%', maxWidth: '50rem', maxHeight: '30rem' }}
-							loading='lazy'
+							effect='blur'
 						/>
 					</div>
 				);

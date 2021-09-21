@@ -73,7 +73,7 @@ const Header = ({
 							src={newsItem.image_src}
 							alt={newsItem.image_alt}
 							className={classes.img}
-							loading='lazy'
+							effect='blur'
 							onClick={() => {
 								if (setShowModal) setShowModal(true);
 							}}

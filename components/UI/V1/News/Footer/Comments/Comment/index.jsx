@@ -241,7 +241,8 @@ const Comment = ({ comment, newsItem, ...props }) => {
 				<nav className={classes.nav}>
 					<LazyLoadImage className={classes.profile_picture}
 					src={comment.author_profile_picture}
-					alt='' />
+						alt=''
+						effect='blur'/>
 					<div className={classes['author-info']}>
 						<p className={classes.author_name}>
 							{comment.author_first_name} {comment.author_last_name}
