@@ -1,22 +1,36 @@
+import { useContext } from 'react';
 import { useRouter } from 'next/router';
 
 import classes from './index.module.css';
 
+import { handleAddingLoadingSkeletonClass } from '@/lib/v1/className';
 import { NewsContextProvider } from '@store/NewsContext';
+import UserContext from '@store/UserContext';
 
 import Feed from '@components/UI/V1/News/Feed/Feed';
 import Wrapper from '@components/UI/V1/Wrapper';
 import Button from '@components/UI/V1/Button';
 import CreateNewsButton from '@components/UI/V1/Button/CreateNews';
 
-const Section1 = ({ news = [], userExist, newsFetchRouteQuery }) => {
+const Section1 = ({
+	isLoadingSkeleton,
+	news = [],
+	userExist,
+	newsFetchRouteQuery,
+}) => {
 	const router = useRouter();
+
+	const { state: userState } = useContext(UserContext);
 
 	return (
 		<NewsContextProvider>
 			<main className={classes['main-section']}>
 				<section className={classes['section-1']}>
-					<Feed news={news} newsFetchRouteQuery={newsFetchRouteQuery} />
+					<Feed
+						isLoadingSkeleton={isLoadingSkeleton}
+						news={news}
+						newsFetchRouteQuery={newsFetchRouteQuery}
+					/>
 				</section>
 
 				<section className={classes['section-2']}>
@@ -25,7 +39,14 @@ const Section1 = ({ news = [], userExist, newsFetchRouteQuery }) => {
 							<h3>Welcome</h3>
 						</section>
 					</Wrapper>
-					<Wrapper style={{ width: '100%' }}>
+					<Wrapper
+						className={handleAddingLoadingSkeletonClass(
+							isLoadingSkeleton && userState.isVerifyingUserLoading,
+							classes,
+							classes.wrapper
+						)}
+						style={{ width: '100%' }}
+					>
 						{!userExist && (
 							<section>
 								<Button title='Sign In' onClick={() => router.replace('/auth')}>

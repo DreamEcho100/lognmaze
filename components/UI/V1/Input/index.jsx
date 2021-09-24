@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import classes from './index.module.css';
 import BorderClasses from '../Border.module.css';
 
-import { handleAllClasses } from '../utils/index';
+import { handleAllClasses } from '@/lib/v1/className';
 import { useEffect } from 'react';
 
 const Input = ({

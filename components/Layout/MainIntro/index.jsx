@@ -12,6 +12,7 @@ const MainIntro = () => {
 	const { state: userState } = useContext(UserContext);
 
 	const [animationEnd, setAnimationEnd] = useState(false);
+	const [forceAnimationEnd, setForceAnimationEnd] = useState(false);
 	const [introHorizontal, setIntroHorizontal] = useState(true);
 
 	useEffect(() => {
@@ -42,20 +43,37 @@ const MainIntro = () => {
 	// console.log('introHorizontal', introHorizontal);
 
 	return (
-		<div
+		<section
 			ref={introRef}
 			className={`${
-				!userState.isVerifyingUserLoading && animationEnd
+				forceAnimationEnd || (!userState.isVerifyingUserLoading && animationEnd)
 					? classes['verifying-credentials-finished']
 					: ''
 			} 
 			${!introHorizontal ? classes['setVertical'] : ''} ${classes['main-intro']}
 			`}
 		>
-			<div className={classes['svg-container']}>
-				<LogNMazeSignature setAnimationEnd={setAnimationEnd} />
+			<div className={classes.container}>
+				<div className={classes['close-main-intro-button-container']}>
+					<button
+						title='Forcibly close the main intro'
+						className={
+							forceAnimationEnd ||
+							(!userState.isVerifyingUserLoading && animationEnd)
+								? classes.disappear
+								: ''
+						}
+						onClick={() => setForceAnimationEnd(true)}
+					>
+						<span></span>
+						<span></span>
+					</button>
+				</div>
+				<div className={classes['svg-container']}>
+					<LogNMazeSignature setAnimationEnd={setAnimationEnd} />
+				</div>
 			</div>
-		</div>
+		</section>
 	);
 };
 

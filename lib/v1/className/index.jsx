@@ -1,3 +1,15 @@
+export const handleAddingLoadingSkeletonClass = (
+	isLoadingSkeleton,
+	classes = {},
+	defaultClass = ''
+) => {
+	return `${classes} ${
+		isLoadingSkeleton
+			? `${defaultClass} ${classes.isLoadingSkeleton} skeleton-loading`
+			: defaultClass
+	}`;
+};
+
 export const handleAllClasses = ({
 	classes,
 	defaultClasses = '',

@@ -17,12 +17,18 @@ const DynamicShareModel = dynamic(() =>
 );
 const DynamicShareNews = dynamic(() => import('./ShareNews'));
 
-const Settings = ({ isDataOwner, newsItem }) => {
+const Settings = ({ isLoadingSkeleton, isDataOwner, newsItem }) => {
 	const { dispatch } = useContext(NewsContext);
 
 	return (
-		<DropdownMenu>
-			{isDataOwner && (
+		<DropdownMenu
+			className={
+				isLoadingSkeleton
+					? `${classes['settings-button']} ${classes.isLoadingSkeleton} skeleton-loading`
+					: ''
+			}
+		>
+			{!isLoadingSkeleton && isDataOwner && (
 				<>
 					<li className={`${classes['settings-item-for-newsItem-owner']}`}>
 						<DynamicUpdateNews
@@ -42,9 +48,14 @@ const Settings = ({ isDataOwner, newsItem }) => {
 					</li>
 				</>
 			)}
-			<li>
-				<DynamicShareNews ShareModel={DynamicShareModel} newsItem={newsItem} />
-			</li>
+			{!isLoadingSkeleton && (
+				<li>
+					<DynamicShareNews
+						ShareModel={DynamicShareModel}
+						newsItem={newsItem}
+					/>
+				</li>
+			)}
 		</DropdownMenu>
 	);
 };

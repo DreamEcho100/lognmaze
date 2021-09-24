@@ -12,6 +12,7 @@ import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
 
 const Header = ({
 	newsItem,
+	isLoadingSkeleton,
 	detailsType,
 	setShowModal,
 	setIsLoadingContent,
@@ -25,10 +26,7 @@ const Header = ({
 	const [isDataOwner, setIsDataOwner] = useState(false);
 
 	useEffect(() => {
-		if (
-			userState.user &&
-			userState.user.user_name_id === newsItem.author_user_name_id
-		) {
+		if (userState?.user?.user_name_id === newsItem?.author_user_name_id) {
 			setIsDataOwner(true);
 		} else if (isDataOwner) {
 			setIsDataOwner(false);
@@ -40,60 +38,87 @@ const Header = ({
 			<CommonNav
 				isDataOwner={isDataOwner}
 				newsItem={newsItem}
+				isLoadingSkeleton={isLoadingSkeleton}
 				setIsLoadingContent={setIsLoadingContent}
 				isLoadingContent={isLoadingContent}
 				hideSettings={hideHeaderSettings}
 			/>
-			{newsItem.type === 'article' && (
-				<section>
-					<TimeAndDate
-						setShowModal={setShowModal}
-						created_at={newsItem.created_at}
-						updated_at={newsItem.updated_at}
-					/>
-					<div className=''>
-						{!router.query.slug && newsItem.type === 'article' ? (
-							<Link
-								href={`/article/${newsItem.slug}`}
-								prefetch={false}
-								passHref
-							>
-								<a title={`${newsItem.type} | ${newsItem.title}`}>
-									{detailsType === 'description' ? (
-										<h2>{newsItem.title}</h2>
-									) : (
-										<h1>{newsItem.title}</h1>
-									)}
-								</a>
-							</Link>
-						) : (
-							<h1>{newsItem.title}</h1>
-						)}
-						<LazyLoadImage
-							src={newsItem.image_src}
-							alt={newsItem.image_alt}
-							className={classes.img}
-							effect='blur'
-							onClick={() => {
-								if (setShowModal) setShowModal(true);
-							}}
-						/>
-						<p>
-							<strong>Tags:</strong> {newsItem.tags.join(', ')}
-						</p>
-					</div>
-				</section>
-			)}
+			<section>
+				<TimeAndDate
+					setShowModal={setShowModal}
+					created_at={newsItem?.created_at}
+					updated_at={newsItem?.updated_at}
+					isLoadingSkeleton={isLoadingSkeleton}
+				/>
 
-			{newsItem.type === 'post' && (
-				<section>
-					<TimeAndDate
-						setShowModal={setShowModal}
-						created_at={newsItem.created_at}
-						updated_at={newsItem.updated_at}
-					/>
-				</section>
-			)}
+				{(isLoadingSkeleton || newsItem?.type === 'article') && (
+					<>
+						<div className=''>
+							{!router.query.slug && newsItem?.type === 'article' ? (
+								<Link
+									href={`/article/${newsItem?.slug}`}
+									prefetch={false}
+									passHref
+								>
+									<a
+										title={`${newsItem?.type} | ${newsItem?.title}`}
+										className={`${classes.title} ${
+											isLoadingSkeleton
+												? `${classes.isLoadingSkeleton} skeleton-loading`
+												: ''
+										}`}
+									>
+										{detailsType === 'description' ? (
+											<h2>{newsItem?.title}</h2>
+										) : (
+											<h1>{newsItem?.title}</h1>
+										)}
+									</a>
+								</Link>
+							) : (
+								<h1
+									className={`${classes.title} ${
+										isLoadingSkeleton
+											? `${classes.isLoadingSkeleton} skeleton-loading`
+											: ''
+									}`}
+								>
+									{newsItem?.title}
+								</h1>
+							)}
+							<div
+								className={`${classes.img_wrapper} ${
+									isLoadingSkeleton
+										? `${classes.isLoadingSkeleton} skeleton-loading`
+										: ''
+								}`}
+							>
+								<LazyLoadImage
+									src={newsItem?.image_src}
+									alt={newsItem?.image_alt}
+									effect='blur'
+									onClick={() => {
+										if (setShowModal) setShowModal(true);
+									}}
+								/>
+							</div>
+							<p
+								className={`${classes.tags} ${
+									isLoadingSkeleton
+										? `${classes.isLoadingSkeleton} skeleton-loading`
+										: ''
+								}`}
+							>
+								{newsItem && (
+									<>
+										<strong>Tags:</strong> {newsItem.tags.join(', ')}
+									</>
+								)}
+							</p>
+						</div>
+					</>
+				)}
+			</section>
 		</header>
 	);
 };

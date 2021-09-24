@@ -12,22 +12,32 @@ import classes from './Details.module.css';
 import Md from '@components/UI/V1/Format/Md';
 import FormatterContainer from '@components/UI/V1/Format/Container';
 
-const Details = ({ detailsType, setShowModal, newsItem }) => {
+const Details = ({
+	isLoadingSkeleton,
+	detailsType,
+	setShowModal,
+	newsItem,
+}) => {
 	const [showFullDetails, setShowFullDetails] = useState(false);
 
-	if (!newsItem?.news_id) {
+	if (!isLoadingSkeleton && !newsItem?.news_id) {
 		return <h2>Not Found</h2>;
 	}
 
 	if (
-		newsItem.type === 'article' &&
-		detailsType === 'content' &&
-		newsItem.isLoadingContent
+		isLoadingSkeleton ||
+		(newsItem.type === 'article' &&
+			detailsType === 'content' &&
+			newsItem.isLoadingContent)
 	) {
 		return (
-			<section className={classes.details}>
-				<p>Loading...</p>
-			</section>
+			<section
+				className={`${classes.details} ${
+					isLoadingSkeleton
+						? `${classes.isLoadingSkeleton} skeleton-loading`
+						: ''
+				}`}
+			></section>
 		);
 	}
 

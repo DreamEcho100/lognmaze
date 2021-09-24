@@ -2,6 +2,8 @@ import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { handleAddingLoadingSkeletonClass } from '@/lib/v1/className';
+
 import classes from './index.module.css';
 
 import Wrapper from 'components/UI/V1/Wrapper';
@@ -16,7 +18,7 @@ const LoadYourLatestDataButton = dynamic(() =>
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
-const Hero = ({ userData, visitorIdentity }) => {
+const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 	const [
 		showUpdateUserProfilePictureModalModal,
 		setShowUpdateUserProfilePictureModalModal,
@@ -34,36 +36,48 @@ const Hero = ({ userData, visitorIdentity }) => {
 		<Wrapper>
 			<div className={classes['cover_photo-outer-container']}>
 				<div className={classes['cover_photo-container']}>
-					<div className={classes['cover_photo-inner-container']}>
+					<div
+						className={handleAddingLoadingSkeletonClass(
+							isLoadingSkeleton,
+							classes,
+							classes['cover_photo-inner-container']
+						)}
+					>
 						<LazyLoadImage
 							src={userData.cover_photo}
 							alt=''
 							className={classes['cover_photo']}
-							effect='blur'
+							// effect='blur'
+						/>
+						{visitorIdentity === OWNER && (
+							<Button
+								className={classes['edit-button']}
+								title='Edit'
+								onClick={() => setShowUpdateUserCoverPhotoModalModal(true)}
+							>
+								<FontAwesomeIcon icon={['fas', 'edit']} />
+							</Button>
+						)}
+						<UpdateUserPictureModal
+							showModal={showUpdateUserCoverPhotoModalModal}
+							setShowModal={setShowUpdateUserCoverPhotoModalModal}
+							values={values}
+							setValues={setValues}
+							name='cover_photo'
+							ModalHeader={() => <h1>Change Your Cover Photo</h1>}
 						/>
 					</div>{' '}
-					{visitorIdentity === OWNER && (
-						<Button
-							className={classes['edit-button']}
-							title='Edit'
-							onClick={() => setShowUpdateUserCoverPhotoModalModal(true)}
-						>
-							<FontAwesomeIcon icon={['fas', 'edit']} />
-						</Button>
-					)}
-					<UpdateUserPictureModal
-						showModal={showUpdateUserCoverPhotoModalModal}
-						setShowModal={setShowUpdateUserCoverPhotoModalModal}
-						values={values}
-						setValues={setValues}
-						name='cover_photo'
-						ModalHeader={() => <h1>Change Your Cover Photo</h1>}
-					/>
 				</div>
 			</div>
 			<div className={classes['profile_picture-outer-container']}>
 				<div className={classes['profile_picture-container']}>
-					<div className={classes['profile_picture-inner-container']}>
+					<div
+						className={handleAddingLoadingSkeletonClass(
+							isLoadingSkeleton,
+							classes,
+							classes['profile_picture-inner-container']
+						)}
+					>
 						<LazyLoadImage
 							src={userData.profile_picture}
 							alt=''
@@ -91,14 +105,24 @@ const Hero = ({ userData, visitorIdentity }) => {
 				</div>
 			</div>
 			<div className={classes['basic-data']}>
-				<h3>{userData.user_name_id}</h3>
-				<h4>
+				<h3 className={handleAddingLoadingSkeletonClass(isLoadingSkeleton, classes)}>
+					{userData.user_name_id}
+				</h3>
+				<h4 className={handleAddingLoadingSkeletonClass(isLoadingSkeleton, classes)}>
 					{userData.first_name} {userData.last_name}
 				</h4>
-				<p>{userData.gender}</p>
-				<p>{userData.state_of_resident}</p>
-				<p>{userData.country_of_resident}</p>
-				<p>{userData.city_of_resident}</p>
+				<p className={handleAddingLoadingSkeletonClass(isLoadingSkeleton, classes)}>
+					{userData.gender}
+				</p>
+				<p className={handleAddingLoadingSkeletonClass(isLoadingSkeleton, classes)}>
+					{userData.state_of_resident}
+				</p>
+				<p className={handleAddingLoadingSkeletonClass(isLoadingSkeleton, classes)}>
+					{userData.country_of_resident}
+				</p>
+				<p className={handleAddingLoadingSkeletonClass(isLoadingSkeleton, classes)}>
+					{userData.city_of_resident}
+				</p>
 			</div>
 			{visitorIdentity === OWNER && (
 				<div className={classes.buttons}>

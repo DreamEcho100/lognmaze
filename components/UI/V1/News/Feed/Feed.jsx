@@ -4,7 +4,7 @@ import classes from './Feed.module.css';
 
 import NewsContext from '@store/NewsContext';
 import { handleLoadMoreNewsItems } from '@store/NewsContext/actions';
-import { handleAllClasses } from '../../utils/index';
+import { handleAllClasses } from '@/lib/v1/className';
 
 import Wrapper from '@components/UI/V1/Wrapper';
 import Container from '@components/UI/V1/News/Container';
@@ -13,6 +13,7 @@ const Feed = ({
 	defaultClasses = 'feed',
 	extraClasses = '',
 	className = '',
+	isLoadingSkeleton,
 	news = [],
 	newsFetchRouteQuery,
 	...props
@@ -20,11 +21,17 @@ const Feed = ({
 	const { state, dispatch, types } = useContext(NewsContext);
 
 	useEffect(() => {
-		dispatch({
-			type: types.INIT_STATE,
-			payload: { news, newsType: types.ALL },
-		});
-	}, []);
+		const AddNews = () => {
+			if (news.length !== 0) {
+				dispatch({
+					type: types.INIT_STATE,
+					payload: { news, newsType: types.ALL },
+				});
+			}
+		};
+
+		AddNews();
+	}, [news]);
 
 	const allClasses = handleAllClasses({
 		classes,
@@ -40,22 +47,37 @@ const Feed = ({
 
 	return (
 		<section {...feedProps}>
-			{state.news.map((item, index) => (
-				<Wrapper
-					key={`Feed-${index}-${item.news_id}`}
-					style={{
-						padding: '1em',
-					}}
-				>
-					<Container
-						newsItem={item}
-						detailsType='description'
-						modalOnClick
-						className={classes['news-container']}
-					/>
-				</Wrapper>
-			))}
-			{news.length !== 0 && !state.hit_news_items_limit && (
+			{isLoadingSkeleton &&
+				new Array(10).fill().map((item, index) => (
+					<Wrapper key={index}>
+						<Container
+							isLoadingSkeleton={isLoadingSkeleton}
+							newsItem={item}
+							detailsType='description'
+							modalOnClick
+							className={classes['news-container']}
+						/>
+					</Wrapper>
+				))}
+
+			{!isLoadingSkeleton &&
+				news.length !== 0 &&
+				state.news.map((item, index) => (
+					<Wrapper
+						key={`Feed-${index}-${item.news_id}`}
+						style={{
+							padding: '1em',
+						}}
+					>
+						<Container
+							newsItem={item}
+							detailsType='description'
+							modalOnClick
+							className={classes['news-container']}
+						/>
+					</Wrapper>
+				))}
+			{!isLoadingSkeleton && news.length !== 0 && !state.hit_news_items_limit && (
 				<Wrapper
 					style={{
 						width: '100%',

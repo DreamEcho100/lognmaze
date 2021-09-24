@@ -1,6 +1,6 @@
 import classes from './index.module.css';
 
-import { handleAllClasses } from '../utils/index';
+import { handleAllClasses } from '@/lib/v1/className';
 
 const Wrapper = ({
 	defaultClasses = 'wrapper',

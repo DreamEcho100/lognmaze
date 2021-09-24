@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 
 import classes from './index.module.css';
 
-import { handleAllClasses } from '../../utils/index';
+import { handleAllClasses } from '@/lib/v1/className';
 
 const Modal = ({
 	defaultClasses = `modal-mask modal-close`,

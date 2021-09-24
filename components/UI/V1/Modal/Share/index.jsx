@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
@@ -8,7 +8,6 @@ import SocialMediaShareLink from '@components/UI/V1/SocialMediaShareLink';
 import Button from '@components/UI/V1/Button';
 import Input from '@components/UI/V1/Input';
 import FormControl from '@components/UI/V1/FormControl';
-import { useEffect } from 'react';
 
 const ShareModel = ({
 	data,
@@ -56,13 +55,14 @@ const ShareModel = ({
 
 	useEffect(() => {
 		if (inputCopiedToClipboard) {
-			let setTimeoutId;
+			setInputCopiedToClipboard(false);
 
-			clearTimeout(setTimeoutId);
+			// let setTimeoutId;
 
-			setTimeoutId = setTimeout(() => {
-				setInputCopiedToClipboard(false);
-			}, 3000);
+			// clearTimeout(setTimeoutId);
+
+			// setTimeoutId = setTimeout(() => {
+			// }, 3000);
 		}
 	}, [inputCopiedToClipboard]);
 

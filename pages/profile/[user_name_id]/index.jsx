@@ -150,9 +150,9 @@ const ProfilePage = ({ user = {}, ...props }) => {
 		userState.isVerifyingUserLoading,
 	]);
 
-	if (isLoading) {
-		return <p>Loading...</p>;
-	}
+	// if (isLoading) {
+	// 	return <p>Loading...</p>;
+	// }
 
 	return (
 		<Profile
@@ -161,6 +161,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 					? userState.user
 					: userData
 			}
+			isLoadingSkeleton={isLoading}
 			visitorIdentity={identity}
 			news={posts}
 			newsFetchRouteQuery={newsFetchRouteQuery}

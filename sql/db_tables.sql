@@ -6,8 +6,7 @@ CREATE TABLE user_account (
   email TEXT NOT NULL,
   email_verified BOOLEAN DEFAULT FALSE,
   password TEXT NOT NULL,
-  role TEXT DEFAULT 'user', 
-  user_prefrences JSONB,
+  role TEXT DEFAULT 'user',
 
   PRIMARY KEY (user_account_id),
 
@@ -31,6 +30,8 @@ CREATE TABLE user_profile (
 
   news_post_counter BIGINT DEFAULT 0,
   news_article_counter BIGINT DEFAULT 0,
+
+  user_preferences JSONB DEFAULT '{}'::jsonb,
 
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   last_sign_in TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,

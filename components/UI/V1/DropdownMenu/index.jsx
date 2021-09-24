@@ -1,13 +1,28 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { handleAllClasses } from '@/lib/v1/className';
+
 import classes from './index.module.css';
 
-const DropdownMenu = ({ items = [], children }) => {
+const DropdownMenu = ({
+	defaultClasses = 'settings-wrapper',
+	extraClasses = '',
+	className = '',
+	items = [],
+	children,
+}) => {
 	const [showSettingsMenu, setShowSettingsMenu] = useState(false);
 
+	const allClasses = handleAllClasses({
+		classes,
+		defaultClasses,
+		extraClasses,
+		className,
+	});
+
 	return (
-		<div className={classes['settings-wrapper']}>
+		<div className={allClasses}>
 			<button title='dropdown menu' className={classes['seeting-btn']}>
 				<strong onClick={() => setShowSettingsMenu((prev) => !prev)}>
 					<FontAwesomeIcon icon={['fas', 'ellipsis-v']} />

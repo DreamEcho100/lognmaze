@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		<div>
 			<img
 				src='https://mc.yandex.ru/watch/85004128'
-				style={{ position: 'absolute', left: '-9999px' }}
+				style=" position: 'absolute';left: '-9999px';"
 				alt=''
 			/>
 		</div>
@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			src='https://www.googletagmanager.com/ns.html?id=GTM-N45HP9S'
 			height='0'
 			width='0'
-			style={{ display: 'none', visibility: 'hidden' }}
+			style=" display: 'none';visibility: 'hidden';"
+			loading="lazy"
 		></iframe>
 	`;
 

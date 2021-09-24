@@ -9,7 +9,7 @@ import {
 	HandleLoadingUserVote,
 } from '@store/NewsContext/actions';
 import UserContext from '@store/UserContext';
-import { handleAllClasses } from '../../utils/index';
+import { handleAllClasses } from '@/lib/v1/className';
 
 import Modal from '@components/UI/V1/Modal';
 import ContainerItems from './ContainerItems';
@@ -21,6 +21,7 @@ const Container = ({
 	className = '',
 	detailsType = 'description',
 	newsItem,
+	isLoadingSkeleton,
 	...props
 }) => {
 	const { state: userState } = useContext(UserContext);
@@ -42,11 +43,11 @@ const Container = ({
 		className,
 	});
 
-	if (newsItem.type === 'article')
+	if (newsItem?.type === 'article')
 		articleProps.lang = `${newsItem.iso_language}-${newsItem.iso_country}`;
 
 	useEffect(() => {
-		if (showModal && !newsItem.content && newsItem?.news_id) {
+		if (showModal && !newsItem?.content && newsItem?.news_id) {
 			handleLoadingNewsItemContent({
 				dispatch,
 				news_id: newsItem.news_id,
@@ -80,6 +81,7 @@ const Container = ({
 					...articleProps,
 					className: `${allClasses} ${articleProps.className}`,
 				}}
+				isLoadingSkeleton={isLoadingSkeleton}
 				newsItem={newsItem}
 				setShowModal={setShowModal}
 				detailsType={detailsType}
@@ -87,7 +89,7 @@ const Container = ({
 				hideFooterSettings={props.hideFooterSettings}
 			/>
 
-			{props.modalOnClick && (
+			{!isLoadingSkeleton && props.modalOnClick && (
 				<Modal
 					showModal={showModal}
 					setShowModal={setShowModal}

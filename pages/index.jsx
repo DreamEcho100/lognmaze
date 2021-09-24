@@ -1,16 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
-// import dynamic from 'next/dynamic';
 
 import UserContext from '@store/UserContext';
 
-// const DynamicHome = dynamic(() => import('@components/Home'));
 import Home from '@components/Home';
 
 const HomePage = () => {
 	const { state: userState } = useContext(UserContext);
 
 	const [isLoading, setIsLoading] = useState(true);
-	// const [dynamicComponentReady, setDynamicComponentReady] = useState(false);
 	const [newsFetchRouteQuery, setNewsFetchRouteQuery] = useState('');
 	const [news, setNews] = useState([]);
 
@@ -66,16 +63,9 @@ const HomePage = () => {
 		}
 	}, [userState.isVerifyingUserLoading]);
 
-	if (isLoading) {
-		return <p>Loading...</p>;
-	}
-
 	return (
 		<Home
-			// DynamicHome
-			// dynamicComponentReady={dynamicComponentReady}
-			// setDynamicComponentReady={setDynamicComponentReady}
-			// isLoading={isLoading}
+			isLoadingSkeleton={isLoading}
 			user={userState.user}
 			userExist={userState.userExist}
 			news={news}

@@ -8,7 +8,12 @@ const DynamicComments = dynamic(() => import('./Comments'));
 import Settings from './Settings';
 import Status from './Status';
 
-const Footer = ({ hideFooterSettings, newsItem = {}, isLoadingUserVote }) => {
+const Footer = ({
+	isLoadingSkeleton,
+	hideFooterSettings,
+	newsItem = {},
+	isLoadingUserVote,
+}) => {
 	const footerRef = useRef();
 
 	const [showComments, setShowComments] = useState(false);
@@ -27,18 +32,25 @@ const Footer = ({ hideFooterSettings, newsItem = {}, isLoadingUserVote }) => {
 		}
 	}, [showComments, newsItem.news_id]);
 
-	if (!newsItem.news_id) {
+	if (!isLoadingSkeleton && !newsItem.news_id) {
 		return <></>;
 	}
 
 	return (
-		<footer ref={footerRef}>
-			<Status
-				newsItem={newsItem}
-				showComments={showComments}
-				setShowComments={setShowComments}
-			/>
-			{!hideFooterSettings && (
+		<footer
+			className={`${classes.footer} ${
+				isLoadingSkeleton ? `${classes.isLoadingSkeleton} skeleton-loading` : ''
+			}`}
+			ref={footerRef}
+		>
+			{!isLoadingSkeleton && (
+				<Status
+					newsItem={newsItem}
+					showComments={showComments}
+					setShowComments={setShowComments}
+				/>
+			)}
+			{!isLoadingSkeleton && !hideFooterSettings && (
 				<Settings
 					newsItem={newsItem}
 					comments={newsItem.comments}
@@ -50,7 +62,7 @@ const Footer = ({ hideFooterSettings, newsItem = {}, isLoadingUserVote }) => {
 					isLoadingUserVote={isLoadingUserVote}
 				/>
 			)}
-			{showComments && (
+			{!isLoadingSkeleton && showComments && (
 				<DynamicComments
 					newsItem={newsItem}
 					comments={newsItem.comments}

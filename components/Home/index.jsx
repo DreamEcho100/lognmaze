@@ -2,7 +2,12 @@ import Head from 'next/head';
 
 import Section1 from '@components/Home/Section1';
 
-const Home = ({ userExist = false, news, newsFetchRouteQuery }) => {
+const Home = ({
+	isLoadingSkeleton,
+	userExist = false,
+	news,
+	newsFetchRouteQuery,
+}) => {
 	return (
 		<main className='main'>
 			<Head>
@@ -52,6 +57,7 @@ const Home = ({ userExist = false, news, newsFetchRouteQuery }) => {
 			</Head>
 			<Section1
 				news={news}
+				isLoadingSkeleton={isLoadingSkeleton}
 				userExist={userExist}
 				newsFetchRouteQuery={newsFetchRouteQuery}
 			/>

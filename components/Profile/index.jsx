@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 
@@ -5,7 +6,9 @@ import classes from './index.module.css';
 
 import { XMLCharactersEncoding } from '@lib/v1/regex';
 import { dateToHumanReadableDate } from '@lib/v1/time';
+import { handleAddingLoadingSkeletonClass } from '@/lib/v1/className';
 import { NewsContextProvider } from '@store/NewsContext';
+import UserContext from '@store/UserContext';
 
 const DynamicCreateNewsButton = dynamic(() =>
 	import('./CreateNewsButton/CreateNewsButton')
@@ -24,12 +27,15 @@ const GUEST = 'GUEST';
 const OWNER = 'OWNER';
 
 const Profile = ({
-	userData = {},
+	userData,
+	isLoadingSkeleton,
 	visitorIdentity = GUEST,
 	news = [],
 	newsFetchRouteQuery,
 }) => {
-	if (!userData.id) {
+	const { state: userState } = useContext(UserContext);
+
+	if (!userData?.id) {
 		return (
 			<div className=''>
 				<p>No User found!</p>
@@ -43,25 +49,25 @@ const Profile = ({
 			'@type': 'ProfilePage',
 			mainEntity: {
 				'@type': 'Person',
-				name: userData.user_name_id,
-				givenName: userData.first_name,
-				familyName: userData.last_name,
-				email: userData.email,
-				url: `https://lognmaze.com/profile/${userData.user_name_id}`,
-				gender: userData.gender,
+				name: userData?.user_name_id,
+				givenName: userData?.first_name,
+				familyName: userData?.last_name,
+				email: userData?.email,
+				url: `https://lognmaze.com/profile/${userData?.user_name_id}`,
+				gender: userData?.gender,
 			},
 		};
 
-		if (userData.profile_picture)
-			schemaBasic.mainEntity.image = userData.profile_picture;
-		if (userData.bio) schemaBasic.mainEntity.about = userData.bio;
+		if (userData?.profile_picture)
+			schemaBasic.mainEntity.image = userData?.profile_picture;
+		if (userData?.bio) schemaBasic.mainEntity.about = userData?.bio;
 
 		return schemaBasic;
 	})();
 
 	const descriptionWithXMLCharactersEncoding =
 		userData?.bio?.length > 25
-			? XMLCharactersEncoding(userData.bio)
+			? XMLCharactersEncoding(userData?.bio)
 			: undefined;
 
 	return (
@@ -77,33 +83,33 @@ const Profile = ({
 
 					<meta property='og:locale' content='en_US' />
 					<meta property='og:type' content='profile' />
-					<meta property='profile:first_name' content={userData.first_name} />
-					<meta property='profile:last_name' content={userData.last_name} />
-					<meta property='profile:username' content={userData.user_name_id} />
-					<meta property='profile:gender' content={userData.gender} />
+					<meta property='profile:first_name' content={userData?.first_name} />
+					<meta property='profile:last_name' content={userData?.last_name} />
+					<meta property='profile:username' content={userData?.user_name_id} />
+					<meta property='profile:gender' content={userData?.gender} />
 					<meta
 						property='og:title'
-						content={`${userData.user_name_id} | LogNMaze`}
+						content={`${userData?.user_name_id} | LogNMaze`}
 					/>
 					<meta
 						property='og:url'
-						content={`https://lognmaze.com/profile/${userData.user_name_id}`}
+						content={`https://lognmaze.com/profile/${userData?.user_name_id}`}
 					/>
 					<meta
 						name='twitter:url'
-						content={`https://lognmaze.com/profile/${userData.user_name_id}`}
+						content={`https://lognmaze.com/profile/${userData?.user_name_id}`}
 					/>
 
 					{userData?.profile_picture?.length !== 0 ? (
 						<>
-							<meta property='og:image' content={userData.profile_picture} />
+							<meta property='og:image' content={userData?.profile_picture} />
 							<meta property='og:image:width' content='250' />
 							<meta property='og:image:height' content='250' />
 							<meta
 								property='og:image:alt'
-								content={`${userData.user_name_id} profile picture`}
+								content={`${userData?.user_name_id} profile picture`}
 							/>
-							<meta name='twitter:image' content={userData.profile_picture} />
+							<meta name='twitter:image' content={userData?.profile_picture} />
 						</>
 					) : (
 						''
@@ -129,55 +135,81 @@ const Profile = ({
 					)}
 					<meta
 						property='og:url'
-						content={`https://lognmaze.com/profile/${userData.user_name_id}`}
+						content={`https://lognmaze.com/profile/${userData?.user_name_id}`}
 					/>
 					<meta
 						name='twitter:url'
-						content={`https://lognmaze.com/profile/${userData.user_name_id}`}
+						content={`https://lognmaze.com/profile/${userData?.user_name_id}`}
 					/>
 					<meta
 						name='twitter:title'
-						content={`${userData.user_name_id} | LogNMaze`}
+						content={`${userData?.user_name_id} | LogNMaze`}
 					/>
 
 					<meta
 						property='og:title'
-						content={`${userData.user_name_id} | LogNMaze`}
+						content={`${userData?.user_name_id} | LogNMaze`}
 					/>
-					<title>{userData.user_name_id} | LogNMaze</title>
+					<title>{userData?.user_name_id} | LogNMaze</title>
 				</Head>
-				<Hero userData={userData} visitorIdentity={visitorIdentity} />
+				<Hero
+					isLoadingSkeleton={isLoadingSkeleton}
+					userData={userData}
+					visitorIdentity={visitorIdentity}
+				/>
 				<section className={classes['main-section']}>
 					<section className={classes['section-1']}>
 						{news.length !== 0 && (
-							<Feed news={news} newsFetchRouteQuery={newsFetchRouteQuery} />
+							<Feed
+								isLoadingSkeleton={isLoadingSkeleton}
+								news={news}
+								newsFetchRouteQuery={newsFetchRouteQuery}
+							/>
 						)}
-						<Wrapper>
-							<time>
-								<span>
-									<small>
-										<strong>Account Created At:</strong>{' '}
-										<em>
-											{
-												dateToHumanReadableDate(userData.created_at, {
-													withTime: true,
-												}).dateAndTimeString
-											}
-										</em>
-									</small>
-								</span>
-							</time>
+						<Wrapper
+							className={handleAddingLoadingSkeletonClass(
+								isLoadingSkeleton,
+								classes,
+								classes.wrapper
+							)}
+						>
+							<div>
+								{userData?.created_at && (
+									<time>
+										<span>
+											<small>
+												<strong>Account Created At:</strong>{' '}
+												<em>
+													{
+														dateToHumanReadableDate(userData.created_at, {
+															withTime: true,
+														}).dateAndTimeString
+													}
+												</em>
+											</small>
+										</span>
+									</time>
+								)}
+							</div>
 						</Wrapper>
 					</section>
 					<section className={classes['section-2']}>
-						<Wrapper>
-							{visitorIdentity === OWNER && <DynamicCreateNewsButton />}
+						<Wrapper
+							className={handleAddingLoadingSkeletonClass(
+								isLoadingSkeleton && userState.isVerifyingUserLoading,
+								classes,
+								classes.wrapper
+							)}
+						>
+							{!isLoadingSkeleton && visitorIdentity === OWNER && (
+								<DynamicCreateNewsButton />
+							)}
 
-							{visitorIdentity === OWNER && (
+							{!isLoadingSkeleton && visitorIdentity === OWNER && (
 								<DynamicSensitiveDataAccordion userData={userData} />
 							)}
 							<BioSection
-								bio={userData.bio}
+								bio={userData?.bio}
 								visitorIdentity={visitorIdentity}
 							/>
 						</Wrapper>

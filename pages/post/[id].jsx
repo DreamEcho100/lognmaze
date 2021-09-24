@@ -12,6 +12,7 @@ const PostPage = (props) => {
 	// const [data, setData] = useState(
 	// 	typeof props.data === 'string' ? JSON.parse(props.data) : props.data
 	// );
+
 	const data =
 		typeof props.data === 'string' ? JSON.parse(props.data) : props.data;
 
@@ -35,11 +36,11 @@ const PostPage = (props) => {
 
 				<meta
 					property='og:url'
-					content={`https://lognmaze.com/post/${newsItem.news_id}`}
+					content={`https://lognmaze.com/post/${data.news_id}`}
 				/>
 				<meta
 					name='twitter:url'
-					content={`https://lognmaze.com/post/${newsItem.news_id}`}
+					content={`https://lognmaze.com/post/${data.news_id}`}
 				/>
 				<meta
 					property='twitter:description'

@@ -1,4 +1,19 @@
-.img {
+.img_wrapper {
 	width: 100%;
 	margin: 0.5em 0;
+}
+
+.title .isLoadingSkeleton {
+	--skeleton-loading-width: 95%;
+	--skeleton-loading-height: 1.5rem;
+}
+
+.img_wrapper.isLoadingSkeleton {
+	--skeleton-loading-height: min(50vh, 20rem);
+	min-height: 10rem;
+}
+
+.tags.isLoadingSkeleton {
+	--skeleton-loading-width: 60%;
+	--skeleton-loading-height: 1.5rem;
 }

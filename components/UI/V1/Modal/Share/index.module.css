@@ -156,13 +156,14 @@
 	--font-color: hsl(210deg 85% 100%);
 }
 
-.form-control {
+section .form-control {
 	flex-direction: row;
-	justify-content: flex-start;
+	justify-content: center;
+	align-items: flex-end;
 	margin: 0.5em auto;
 }
 
-.form-input {
+section .form-input {
 	width: 90%;
 	margin-right: 5%;
 }

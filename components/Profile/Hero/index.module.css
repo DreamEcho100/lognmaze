@@ -1,3 +1,18 @@
+h3.isLoadingSkeleton {
+	--skeleton-loading-width: 60%;
+	--skeleton-loading-height: 3.5rem;
+}
+
+h4.isLoadingSkeleton {
+	--skeleton-loading-width: 55%;
+	--skeleton-loading-height: 3rem;
+}
+
+p.isLoadingSkeleton {
+	--skeleton-loading-width: 40%;
+	--skeleton-loading-height: 1.5rem;
+}
+
 .cover_photo-outer-container,
 .profile_picture-outer-container {
 	width: 100%;
@@ -29,11 +44,12 @@
 	right: 0;
 }
 
+.profile_picture-container .edit-button,
 .cover_photo-container .edit-button {
 	position: absolute;
 	bottom: 0;
 	right: 0;
-	opacity: 0;
+	opacity: 0.4;
 	z-index: 9;
 }
 
@@ -67,17 +83,16 @@
 	height: 105%;
 }
 
-.profile_picture-container .edit-button {
-	position: absolute;
-	bottom: 0;
-	right: 0;
-	opacity: 0;
-	z-index: 9;
-}
-
 .profile_picture-container:hover .edit-button,
 .profile_picture-container:focus-within .edit-button {
 	opacity: 1;
+}
+
+.basic-data > * {
+	margin: 0.25em 0;
+}
+.basic-data > *:first-child {
+	margin-top: 0;
 }
 
 .buttons > button:not(:last-child) {
