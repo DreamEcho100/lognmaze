@@ -2,17 +2,17 @@ import { useContext, useEffect, useRef, useState } from 'react';
 
 import classes from './index.module.css';
 
-import UserContext from '@store/UserContext';
+// import UserContext from '@store/UserContext';
 
 import LogNMazeSignature from '@svg/LogNMazeSignature';
 
 const MainIntro = () => {
 	const introRef = useRef();
 
-	const { state: userState } = useContext(UserContext);
+	// const { state: userState } = useContext(UserContext);
 
 	const [animationEnd, setAnimationEnd] = useState(false);
-	const [forceAnimationEnd, setForceAnimationEnd] = useState(false);
+	// const [forceAnimationEnd, setForceAnimationEnd] = useState(false);
 	const [introHorizontal, setIntroHorizontal] = useState(true);
 
 	useEffect(() => {
@@ -45,16 +45,12 @@ const MainIntro = () => {
 	return (
 		<section
 			ref={introRef}
-			className={`${
-				forceAnimationEnd || animationEnd // (!userState.isVerifyingUserLoading && animationEnd)
-					? classes['verifying-credentials-finished']
-					: ''
-			} 
+			className={`
 			${!introHorizontal ? classes['setVertical'] : ''} ${classes['main-intro']}
 			`}
 		>
 			<div className={classes.container}>
-				<div className={classes['close-main-intro-button-container']}>
+				{/* <div className={classes['close-main-intro-button-container']}>
 					<button
 						title='Forcibly close the main intro'
 						className={
@@ -68,7 +64,7 @@ const MainIntro = () => {
 						<span></span>
 						<span></span>
 					</button>
-				</div>
+				</div> */}
 				<div className={classes['svg-container']}>
 					<LogNMazeSignature setAnimationEnd={setAnimationEnd} />
 				</div>

@@ -1,4 +1,5 @@
 .main-intro {
+	--svg-animation-duration: 2s;
 	user-select: none;
 	position: fixed;
 	top: 0;
@@ -8,8 +9,12 @@
 	width: 100%;
 	height: 100%;
 	background-color: var(--main-special-bg-color-5);
-	transition: all 0.7s ease-in-out, opacity 0.2s ease-in-out 0.5s;
 	z-index: 9999;
+	animation: removeMainIntroInHorizontal 0.7s ease-in-out
+		var(--svg-animation-duration) forwards;
+	transition: all 0.7s ease-in-out,
+		opacity calc(var(--svg-animation-duration) + 1) ease-in-out 0.5s,
+		animation var(--svg-animation-duration) ease-in-out;
 }
 
 .container {
@@ -40,29 +45,30 @@
 	stroke-dasharray: 40477;
 	stroke-dashoffset: 40477;
 	opacity: 0.5;
-	animation: sign 1.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.3s forwards;
+	animation: sign var(--svg-animation-duration)
+		cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
 	transition: all 0.3s ease-in-out;
 }
 
-.main-intro.verifying-credentials-finished {
-	transform: translateX(-100%);
+/* .main-intro.verifying-credentials-finished {
+transform: translateX(-100%);
 	pointer-events: none;
 	opacity: 0;
-}
+} */
 
-.main-intro.verifying-credentials-finished .svg-container svg {
-	transform: translateX(60%) rotate(90deg) scale(0.4);
-}
+/* .main-intro.verifying-credentials-finished .svg-container svg {
+transform: translateX(60%) rotate(90deg) scale(0.4);
+} */
 
-@keyframes sign {
-	to {
-		stroke-dashoffset: 0;
-		opacity: 1;
-	}
-}
+/**/
 
-.main-intro.setVertical.verifying-credentials-finished {
-	transform: translateY(-100%);
+/* .main-intro.setVertical.verifying-credentials-finished {
+transform: translateY(-100%);
+} */
+
+.main-intro.setVertical {
+	animation: removeMainIntroInVertically 0.7s ease-in-out
+		var(--svg-animation-duration) forwards;
 }
 
 .main-intro.setVertical .svg-container {
@@ -75,10 +81,37 @@
 	width: min(100%, 100vh);
 }
 
-.main-intro.setVertical.verifying-credentials-finished .svg-container svg {
-	transform: translateX(110%) rotate(-90deg) scale(0.4);
+/* .main-intro.setVertical.verifying-credentials-finished .svg-container svg {
+transform: translateX(110%) rotate(-90deg) scale(0.4);
+} */
+
+@keyframes sign {
+	to {
+		stroke-dashoffset: 0;
+		opacity: 1;
+	}
 }
 
+@keyframes removeMainIntroInHorizontal {
+	to {
+		transform: translateX(-100%);
+		pointer-events: none;
+		opacity: 0;
+	}
+}
+@keyframes removeMainIntroInVertically {
+	to {
+		transform: translateY(-100%);
+		pointer-events: none;
+		opacity: 0;
+	}
+}
+
+/**/
+/**/
+/**/
+
+/*
 .close-main-intro-button-container {
 	position: absolute;
 	top: 0%;
@@ -150,3 +183,4 @@
 		transform: scale(0.7);
 	}
 }
+*/
