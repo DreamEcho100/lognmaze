@@ -11,7 +11,7 @@
 	background-color: var(--main-special-bg-color-5);
 	z-index: 9999;
 	animation: removeMainIntroInHorizontal 0.7s ease-in-out
-		var(--svg-animation-duration) forwards;
+		calc(var(--svg-animation-duration) + 0.2) forwards;
 	transition: all 0.7s ease-in-out,
 		opacity calc(var(--svg-animation-duration) + 1) ease-in-out 0.5s,
 		animation var(--svg-animation-duration) ease-in-out;
@@ -68,7 +68,7 @@ transform: translateY(-100%);
 
 .main-intro.setVertical {
 	animation: removeMainIntroInVertically 0.7s ease-in-out
-		var(--svg-animation-duration) forwards;
+		calc(var(--svg-animation-duration) + 0.2) forwards;
 }
 
 .main-intro.setVertical .svg-container {
