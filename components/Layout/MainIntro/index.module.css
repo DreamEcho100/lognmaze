@@ -45,7 +45,7 @@
 	stroke-dasharray: 40477;
 	stroke-dashoffset: 40477;
 	opacity: 0.5;
-	animation: sign var(--svg-animation-duration)
+	animation: sign calc(var(--svg-animation-duration) - 0.2)
 		cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
 	transition: all 0.3s ease-in-out;
 }
