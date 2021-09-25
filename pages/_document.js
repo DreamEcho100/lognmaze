@@ -23,7 +23,7 @@ class MyDocument extends Document {
 						// rel='preload'
 					/>
 					<script
-						dataAdClient='ca-pub-8030984398568253'
+						data-ad-client='ca-pub-8030984398568253'
 						async
 						src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
 					></script>

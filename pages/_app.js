@@ -1,4 +1,8 @@
-// import App from 'next/app';
+import { useEffect } from 'react';
+import Script from 'next/script';
+import { useRouter } from 'next/router';
+import * as gtag from '../lib/gtag';
+
 import Head from 'next/head';
 // import { YMInitializer } from 'react-yandex-metrika';
 import { config, library } from '@fortawesome/fontawesome-svg-core';
@@ -75,8 +79,16 @@ import '@styles/_globals.css';
 import Layout from '@components/Layout/Layout';
 
 const MyApp = ({ Component, pageProps }) => {
-	{
-	}
+	const router = useRouter();
+	useEffect(() => {
+		const handleRouteChange = (url) => {
+			gtag.pageview(url);
+		};
+		router.events.on('routeChangeComplete', handleRouteChange);
+		return () => {
+			router.events.off('routeChangeComplete', handleRouteChange);
+		};
+	}, [router.events]);
 
 	return (
 		<>
@@ -127,6 +139,28 @@ const MyApp = ({ Component, pageProps }) => {
 					LogNMaze | Create articles using Markdown and share to the world
 				</title>
 			</Head>
+			<script
+				data-ad-client='ca-pub-8030984398568253'
+				async
+				src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
+			></script>
+			<Script
+				strategy='afterInteractive'
+				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
+			/>
+			<Script
+				strategy='afterInteractive'
+				dangerouslySetInnerHTML={{
+					__html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${gtag.GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+          `,
+				}}
+			/>
 			<Layout isAuthenticated={pageProps.isAuthenticated}>
 				<Component {...pageProps} />
 			</Layout>
