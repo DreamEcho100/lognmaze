@@ -1,5 +1,4 @@
 .main-intro {
-	--svg-animation-duration: 2s;
 	user-select: none;
 	position: fixed;
 	top: 0;
@@ -10,11 +9,8 @@
 	height: 100%;
 	background-color: var(--main-special-bg-color-5);
 	z-index: 9999;
-	animation: removeMainIntroInHorizontal 0.7s ease-in-out
-		calc(var(--svg-animation-duration) + 0.2) forwards;
-	transition: all 0.7s ease-in-out,
-		opacity calc(var(--svg-animation-duration) + 1) ease-in-out 0.5s,
-		animation var(--svg-animation-duration) ease-in-out;
+	animation: removeMainIntroInHorizontal 0.7s ease-in-out 2s forwards;
+	transition: all 0.7s ease-in-out, animation 2s ease-in-out;
 }
 
 .container {
@@ -45,8 +41,7 @@
 	stroke-dasharray: 40477;
 	stroke-dashoffset: 40477;
 	opacity: 0.5;
-	animation: sign calc(var(--svg-animation-duration) - 0.2)
-		cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
+	animation: sign 1.8s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
 	transition: all 0.3s ease-in-out;
 }
 
@@ -67,8 +62,7 @@ transform: translateY(-100%);
 } */
 
 .main-intro.setVertical {
-	animation: removeMainIntroInVertically 0.7s ease-in-out
-		calc(var(--svg-animation-duration) + 0.2) forwards;
+	animation: removeMainIntroInVertically 0.7s ease-in-out 2s forwards;
 }
 
 .main-intro.setVertical .svg-container {
