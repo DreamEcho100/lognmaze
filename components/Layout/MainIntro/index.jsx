@@ -63,7 +63,7 @@ const MainIntro = () => {
 								? classes.disappear
 								: ''
 						}
-						onClick={() => setForceAnimationEnd(true)}
+						onClick={() => setForceAnimationEnd((prev) => !prev)}
 					>
 						<span></span>
 						<span></span>
