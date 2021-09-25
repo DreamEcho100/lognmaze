@@ -140,9 +140,15 @@ const MyApp = ({ Component, pageProps }) => {
 				</title>
 			</Head>
 			<script
+				id='ad-client-script'
 				data-ad-client='ca-pub-8030984398568253'
 				async
 				src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
+				dangerouslySetInnerHTML={{
+					__html: `
+					const ad-client document
+					`,
+				}}
 			></script>
 			<Script
 				strategy='afterInteractive'
