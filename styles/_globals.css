@@ -469,25 +469,21 @@ span.lazy-load-image-background.blur img {
 		--header5: var(--size-14);
 		--header6: var(--size-12);
 
-		--current-font-size: var(--size-10);
+		/* --current-font-size: var(--size-10); */
 	}
 }
 
 @media screen and (max-width: 400px) {
-	:root {
+	/* :root {
 		font-size: 55%;
-	}
+	} */
 
-	h1 {
-		max-width: 100%;
-		overflow-x: auto;
-		overflow-y: hidden;
-	}
-}
-
-@media screen and (max-width: 250px) {
-	h2 {
-		/* max-width: 100%; */
+	h1,
+	h2,
+	h3,
+	h4,
+	h6 {
+		max-width: 98%;
 		overflow-x: auto;
 		overflow-y: hidden;
 	}

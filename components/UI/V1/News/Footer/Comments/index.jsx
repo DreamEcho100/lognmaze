@@ -99,18 +99,18 @@ const Comments = ({
 						disabled={loadingComments}
 						onClick={async () => await LoadComments()}
 					>
-						<h3>Load More</h3>
+						<strong>Load More</strong>
 					</button>
 				)}
 				<button title='Hide Comments' disabled={loadingComments}>
-					<h3
+					<strong
 						onClick={() => {
 							if (showComments) setShowComments(false);
 							if (focusCommentTextarea) setFocusCommentTextarea(false);
 						}}
 					>
 						Hide Comments
-					</h3>
+					</strong>
 				</button>
 			</div>
 		</section>

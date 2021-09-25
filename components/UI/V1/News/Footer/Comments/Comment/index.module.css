@@ -26,11 +26,12 @@
 	align-items: center;
 }
 
-.profile_picture {
+.profile_picture-container {
 	width: 4rem;
 	height: 4rem;
 	border-radius: 50%;
 	margin-right: 0.25em;
+	overflow: hidden;
 }
 
 .author-info {

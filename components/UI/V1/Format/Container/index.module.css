@@ -21,17 +21,6 @@
 	line-height: 1;
 }
 
-.format-md h1,
-.format-md h2,
-.format-md h3,
-.format-md h4,
-.format-md h5,
-.format-md h6 {
-	max-width: 100%;
-	overflow-x: auto;
-	overflow-y: hidden;
-}
-
 .format-md h1 {
 	margin: 0.25em 0;
 }

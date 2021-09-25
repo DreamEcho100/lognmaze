@@ -239,10 +239,13 @@ const Comment = ({ comment, newsItem, ...props }) => {
 		<div className={`${classes.comment} ${classes[`type-${comment.type}`]}`}>
 			<header className={classes.header}>
 				<nav className={classes.nav}>
-					<LazyLoadImage className={classes.profile_picture}
-					src={comment.author_profile_picture}
-						alt=''
-						effect='blur'/>
+					<div className={classes['profile_picture-container']}>
+						<LazyLoadImage
+							src={comment.author_profile_picture}
+							alt=''
+							effect='blur'
+						/>
+					</div>
 					<div className={classes['author-info']}>
 						<p className={classes.author_name}>
 							{comment.author_first_name} {comment.author_last_name}
@@ -417,7 +420,7 @@ const Comment = ({ comment, newsItem, ...props }) => {
 								}
 							}}
 						>
-							Load More
+							<strong>Load More</strong>
 						</button>
 					)}
 
@@ -427,7 +430,7 @@ const Comment = ({ comment, newsItem, ...props }) => {
 						disabled={loadingReplies}
 						onClick={() => setShowReplies(false)}
 					>
-						Hide Replies
+						<strong>Hide Replies</strong>
 					</button>
 				)}
 			</div>
