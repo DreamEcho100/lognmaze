@@ -67,6 +67,7 @@
 
 .main-intro.setVertical .svg-container {
 	transform: rotate(90deg);
+	transition: transform 0s ease;
 }
 
 .main-intro.setVertical svg {
