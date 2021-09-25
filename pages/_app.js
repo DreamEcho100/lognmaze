@@ -142,6 +142,7 @@ const MyApp = ({ Component, pageProps }) => {
 			<script
 				id='ad-client-script'
 				data-ad-client='ca-pub-8030984398568253'
+				defer
 				async
 				src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
 				// dangerouslySetInnerHTML={{
@@ -156,6 +157,8 @@ const MyApp = ({ Component, pageProps }) => {
 			/>
 			<Script
 				strategy='afterInteractive'
+				defer
+				async
 				dangerouslySetInnerHTML={{
 					__html: `
             window.dataLayer = window.dataLayer || [];
