@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+	const adClientScript = document.getElementById('ad-client-script');
+	adClientScript.setAttribute('data-ad-client', 'ca-pub-8030984398568253');
+
 	/*
 	const noscriptElement = document.createElement('noscript');
 	noscriptElement.innerHTML = `
@@ -70,4 +73,16 @@ document.addEventListener('DOMContentLoaded', () => {
 		y = l.getElementsByTagName(r)[0];
 		y.parentNode.insertBefore(t, y);
 	})(window, document, 'clarity', 'script', '8co4gbipfa');
+
+	/*
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GYB2QBYV0D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GYB2QBYV0D');
+</script>
+	*/
 });
