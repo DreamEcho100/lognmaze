@@ -46,7 +46,7 @@ const MainIntro = () => {
 		<section
 			ref={introRef}
 			className={`${
-				forceAnimationEnd || (!userState.isVerifyingUserLoading && animationEnd)
+				forceAnimationEnd || animationEnd // (!userState.isVerifyingUserLoading && animationEnd)
 					? classes['verifying-credentials-finished']
 					: ''
 			} 
