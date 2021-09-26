@@ -38,11 +38,9 @@ const MainIntro = () => {
 
 			if (width > height) {
 				if (!introHorizontal) return setIntroHorizontal(true);
+			} else {
+				if (introHorizontal) setIntroHorizontal(false);
 			}
-
-			if (introHorizontal) setIntroHorizontal(false);
-
-			return;
 		};
 
 		handleResize(introRef.current);
