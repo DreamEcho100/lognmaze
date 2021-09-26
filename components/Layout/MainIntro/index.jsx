@@ -19,15 +19,16 @@ const MainIntro = () => {
 
 	useEffect(() => {
 		const handleResize = (element) => {
-			if (!element?.offsetWidth) {
-				if (typeof window !== 'undefined' && innerWidth > innerHeight) {
-					if (!introHorizontal) return setIntroHorizontal(true);
-				}
+			if (!element?.offsetWidth) return;
+			// {
+			// 	if (typeof window !== 'undefined' && innerWidth > innerHeight) {
+			// 		if (!introHorizontal) return setIntroHorizontal(true);
+			// 	}
 
-				if (introHorizontal) setIntroHorizontal(false);
+			// 	if (introHorizontal) setIntroHorizontal(false);
 
-				return;
-			}
+			// 	return;
+			// }
 
 			const width = element.offsetWidth;
 			const height = element.offsetHeight;
