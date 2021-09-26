@@ -43,8 +43,8 @@
 	stroke-dashoffset: 40477;
 	opacity: 0.5;
 	transition: all 0.3s ease-in-out;
-	animation: sign 1.8s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.2s forwards;
-	animation-delay: 0.2s;
+	animation: sign 1.8s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s forwards;
+	animation-delay: 0s;
 }
 
 /* .main-intro.verifying-credentials-finished {
