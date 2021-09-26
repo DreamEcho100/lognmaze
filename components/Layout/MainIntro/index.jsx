@@ -13,11 +13,21 @@ const MainIntro = () => {
 
 	const [animationEnd, setAnimationEnd] = useState(false);
 	// const [forceAnimationEnd, setForceAnimationEnd] = useState(false);
-	const [introHorizontal, setIntroHorizontal] = useState(true);
+	const [introHorizontal, setIntroHorizontal] = useState(
+		true // typeof window !== 'undefined' && innerWidth > innerHeight
+	);
 
 	useEffect(() => {
 		const handleResize = (element) => {
-			if (!element?.offsetWidth) return;
+			if (!element?.offsetWidth) {
+				if (typeof window !== 'undefined' && innerWidth > innerHeight) {
+					if (!introHorizontal) return setIntroHorizontal(true);
+				}
+
+				if (introHorizontal) setIntroHorizontal(false);
+
+				return;
+			}
 
 			const width = element.offsetWidth;
 			const height = element.offsetHeight;
@@ -26,10 +36,12 @@ const MainIntro = () => {
 			// console.log('height', height);
 
 			if (width > height) {
-				if (!introHorizontal) setIntroHorizontal(true);
-			} else {
-				if (introHorizontal) setIntroHorizontal(false);
+				if (!introHorizontal) return setIntroHorizontal(true);
 			}
+
+			if (introHorizontal) setIntroHorizontal(false);
+
+			return;
 		};
 
 		handleResize(introRef.current);
