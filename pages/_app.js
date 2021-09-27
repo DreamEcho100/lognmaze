@@ -151,10 +151,10 @@ const MyApp = ({ Component, pageProps }) => {
 				// {...adsbygoogleProps}
 				data-ad-client='ca-pub-8030984398568253'
 			/>
-			<Script
+			{/* <Script
 				strategy='afterInteractive'
 				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
-			/>
+			/> */}
 			<Script
 				strategy='afterInteractive'
 				// id='google-analytics-script'
