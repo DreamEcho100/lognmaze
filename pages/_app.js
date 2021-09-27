@@ -143,7 +143,7 @@ const MyApp = ({ Component, pageProps }) => {
 				id='ad-client-script'
 				data-ad-client='ca-pub-8030984398568253'
 				defer
-				async
+				// async
 				src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
 				// dangerouslySetInnerHTML={{
 				// 	__html: `
@@ -153,12 +153,14 @@ const MyApp = ({ Component, pageProps }) => {
 			></script>
 			<Script
 				strategy='afterInteractive'
+				defer
+				// async
 				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
 			/>
 			<Script
 				strategy='afterInteractive'
 				defer
-				async
+				// async
 				id='google-analytics-script'
 				dangerouslySetInnerHTML={{
 					__html: `
