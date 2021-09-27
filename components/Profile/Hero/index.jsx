@@ -33,7 +33,7 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 	});
 
 	return (
-		<Wrapper className={`${classes.x_wrapper}`}>
+		<Wrapper className={`${classes.wrapper}`}>
 			<div className={classes['cover_photo-outer-container']}>
 				<div className={classes['cover_photo-container']}>
 					<div

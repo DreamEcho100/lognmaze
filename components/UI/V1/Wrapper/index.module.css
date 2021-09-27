@@ -24,3 +24,9 @@
 .full-width {
 	width: 100%;
 }
+
+@media screen and (max-width: 700px) {
+	.wrapper {
+		margin: 0.5em auto;
+	}
+}

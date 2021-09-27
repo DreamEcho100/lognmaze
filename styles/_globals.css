@@ -473,6 +473,10 @@ span.lazy-load-image-background.blur img {
 
 		/* --current-font-size: var(--size-10); */
 	}
+
+	.main {
+		margin: 0.5em auto;
+	}
 }
 
 @media screen and (max-width: 400px) {
