@@ -29,7 +29,7 @@ class MyDocument extends Document {
 					<script
 						defer
 						// async
-						rel='preload'
+						// rel='preload'
 						src='/script.js'
 					/>
 				</body>
