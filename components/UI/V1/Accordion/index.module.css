@@ -27,7 +27,6 @@
 	display: flex;
 	align-items: flex-end;
 	justify-content: space-between;
-	overflow-y: auto;
 }
 
 .toggle-accordion-button-container {
