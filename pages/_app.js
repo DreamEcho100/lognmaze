@@ -159,6 +159,7 @@ const MyApp = ({ Component, pageProps }) => {
 				strategy='afterInteractive'
 				defer
 				async
+				id='google-analytics-script'
 				dangerouslySetInnerHTML={{
 					__html: `
             window.dataLayer = window.dataLayer || [];

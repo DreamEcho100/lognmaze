@@ -33,7 +33,7 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 	});
 
 	return (
-		<Wrapper>
+		<Wrapper className={`${classes.x_wrapper}`}>
 			<div className={classes['cover_photo-outer-container']}>
 				<div className={classes['cover_photo-container']}>
 					<div
@@ -105,22 +105,52 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 				</div>
 			</div>
 			<div className={classes['basic-data']}>
-				<h3 className={handleAddingLoadingSkeletonClass(isLoadingSkeleton, classes)}>
+				<h3
+					className={handleAddingLoadingSkeletonClass(
+						isLoadingSkeleton,
+						classes
+					)}
+				>
 					{userData.user_name_id}
 				</h3>
-				<h4 className={handleAddingLoadingSkeletonClass(isLoadingSkeleton, classes)}>
+				<h4
+					className={handleAddingLoadingSkeletonClass(
+						isLoadingSkeleton,
+						classes
+					)}
+				>
 					{userData.first_name} {userData.last_name}
 				</h4>
-				<p className={handleAddingLoadingSkeletonClass(isLoadingSkeleton, classes)}>
+				<p
+					className={handleAddingLoadingSkeletonClass(
+						isLoadingSkeleton,
+						classes
+					)}
+				>
 					{userData.gender}
 				</p>
-				<p className={handleAddingLoadingSkeletonClass(isLoadingSkeleton, classes)}>
+				<p
+					className={handleAddingLoadingSkeletonClass(
+						isLoadingSkeleton,
+						classes
+					)}
+				>
 					{userData.state_of_resident}
 				</p>
-				<p className={handleAddingLoadingSkeletonClass(isLoadingSkeleton, classes)}>
+				<p
+					className={handleAddingLoadingSkeletonClass(
+						isLoadingSkeleton,
+						classes
+					)}
+				>
 					{userData.country_of_resident}
 				</p>
-				<p className={handleAddingLoadingSkeletonClass(isLoadingSkeleton, classes)}>
+				<p
+					className={handleAddingLoadingSkeletonClass(
+						isLoadingSkeleton,
+						classes
+					)}
+				>
 					{userData.city_of_resident}
 				</p>
 			</div>

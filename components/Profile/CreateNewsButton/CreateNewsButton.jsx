@@ -2,7 +2,7 @@ import { useState } from 'react';
 import dynamic from 'next/dynamic';
 
 const CreateActionDynamic = dynamic(() =>
-	import('@components/UI/V1/News/Action/Action')
+	import('@components/UI/V1/News/Action')
 );
 
 import Button from '@components/UI/V1/Button';

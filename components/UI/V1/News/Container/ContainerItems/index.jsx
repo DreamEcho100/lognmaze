@@ -1,4 +1,4 @@
-import NewsHeader from '@components/UI/V1/News/Header/Header';
+import NewsHeader from '@components/UI/V1/News/Header';
 import Details from '@components/UI/V1/News/Details/Details';
 import NewsFooter from '@components/UI/V1/News/Footer';
 

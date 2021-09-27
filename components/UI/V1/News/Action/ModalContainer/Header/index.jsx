@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import classes from './Header.module.css';
+import classes from './index.module.css';
 
 import Button from '@components/UI/V1/Button';
 

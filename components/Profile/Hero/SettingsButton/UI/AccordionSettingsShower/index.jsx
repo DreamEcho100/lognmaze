@@ -6,7 +6,7 @@ import Accordion from '@components/UI/V1/Accordion';
 
 const AccordionSettingsShower = ({ headerText, bodyItems }) => {
 	return (
-		<Accordion>
+		<Accordion className={classes.accordion}>
 			<Fragment key='header'>
 				<h2>{headerText}</h2>
 			</Fragment>

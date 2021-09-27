@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from 'react';
 
 import Modal from '@components/UI/V1/Modal';
-import Header from './Header/Header';
+import Header from './Header';
 import Button from '@components/UI/V1/Button';
 
 const ModalContainer = ({ showModal, setShowModal, HeaderProps, children }) => {

@@ -3,9 +3,7 @@ import dynamic from 'next/dynamic';
 
 import UserContext from '@store/UserContext';
 
-const CreateAction = dynamic(() =>
-	import('@components/UI/V1/News/Action/Action')
-);
+const CreateAction = dynamic(() => import('@components/UI/V1/News/Action'));
 import Button from '@components/UI/V1/Button';
 
 const CreateNewsButton = () => {

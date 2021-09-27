@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import classes from './SignUp.module.css';
+import classes from './index.module.css';
+
 import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 
-import { validateEmail, validatePasswordStrength } from '@lib/v1/validate';
+// import { validateEmail, validatePasswordStrength } from '@lib/v1/validate';
 import { handleSignUp } from '@store/UserContext/actions';
 import UserContext from '@store/UserContext';
 

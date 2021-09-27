@@ -19,6 +19,7 @@ const EditUserInfo = () => {
 			headerText='Edit Your Basic Data'
 			bodyItems={[
 				<ButtonModalShower
+					key='1'
 					buttonText='Change Your First/Last Name'
 					ModalElement={ChangeUserNameModal}
 					ModelProps={{
@@ -29,6 +30,7 @@ const EditUserInfo = () => {
 					}}
 				/>,
 				<ButtonModalShower
+					key='2'
 					buttonText='Change Your Gender'
 					ModalElement={ChangeUserGenderModal}
 					ModelProps={{
@@ -39,6 +41,7 @@ const EditUserInfo = () => {
 					}}
 				/>,
 				<ButtonModalShower
+					key='3'
 					buttonText='Change Your User Name Id'
 					ModalElement={ChangeUserNameIdModal}
 					ModelProps={{

@@ -7,9 +7,7 @@ import NewsContext from '@store/NewsContext';
 import { handleLoadingNewsItemContent } from '@store/NewsContext/actions';
 
 import DropdownMenu from '@components/UI/V1/DropdownMenu';
-const ActionDynamic = dynamic(() =>
-	import('@components/UI/V1/News/Action/Action')
-);
+const ActionDynamic = dynamic(() => import('@components/UI/V1/News/Action'));
 const DynamicUpdateNews = dynamic(() => import('./UpdateNews'));
 const DynamicDeleteNews = dynamic(() => import('./DeleteNews'));
 const DynamicShareModel = dynamic(() =>

@@ -1,7 +1,7 @@
 .wrapper {
 	width: 100%;
 	padding: 0.5em;
-	margin: 0.5em auto;
+	margin: 1em auto;
 	border-radius: 1rem;
 	box-shadow: 0rem 0rem var(--wrapper-box-shadow-length)
 		var(--main-font-color-1);

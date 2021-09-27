@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import classes from './SignIn.module.css';
+import classes from './index.module.css';
 import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 
 import { validateEmail } from '@lib/v1/validate';

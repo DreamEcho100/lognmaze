@@ -6,8 +6,8 @@ import classes from './index.module.css';
 
 // const DynamicSignUp = dynamic(() => import('./SignUp/SignUp'));
 // const DynamicSignIn = dynamic(() => import('./SignIn/SignIn'));
-import SignUp from './SignUp/SignUp';
-import SignIn from './SignIn/SignIn';
+import SignUp from './SignUp';
+import SignIn from './SignIn';
 
 import Button from '@components/UI/V1/Button';
 

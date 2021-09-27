@@ -19,6 +19,7 @@ const EditUserSecurity = () => {
 			headerText='Edit Your Security'
 			bodyItems={[
 				<ButtonModalShower
+					key='1'
 					buttonText='Change Your Email'
 					ModalElement={ChangeUserEmailModal}
 					ModelProps={{
@@ -29,6 +30,7 @@ const EditUserSecurity = () => {
 					}}
 				/>,
 				<ButtonModalShower
+					key='2'
 					buttonText='Change Your Password'
 					ModalElement={ChangeUserPasswordModal}
 					ModelProps={{

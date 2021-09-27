@@ -1,5 +1,9 @@
 import { Fragment } from 'react';
 
+import classes from './index.module.css';
+
+import { dateToHumanReadableDate } from '@lib/v1/time';
+
 import Accordion from '@components/UI/V1/Accordion';
 
 const SensitiveDataAccordion = ({ userData }) => {
@@ -9,7 +13,7 @@ const SensitiveDataAccordion = ({ userData }) => {
 				<h2>Sensitive Data</h2>
 			</Fragment>
 			<Fragment key='body'>
-				<div>
+				<div className={classes['accordion-body']}>
 					<p>{userData.role}</p>
 
 					{/* <p>{userData.state_of_birth}</p>
@@ -18,12 +22,26 @@ const SensitiveDataAccordion = ({ userData }) => {
 
 					<p>{userData.address_of_resident}</p>
 
-					<p>{userData.date_of_birth}</p>
+					<p>
+						Date of birth:{' '}
+						{
+							dateToHumanReadableDate(userData.date_of_birth, {
+								withTime: true,
+							}).dateString
+						}
+					</p>
 
 					<p>{userData.email}</p>
 					<p>{userData.email_verified}</p>
 
-					<p>{userData.last_sign_in}</p>
+					<p>
+						Last time sign in:{' '}
+						{
+							dateToHumanReadableDate(userData.last_sign_in, {
+								withTime: true,
+							}).dateAndTimeString
+						}
+					</p>
 				</div>
 			</Fragment>
 		</Accordion>
