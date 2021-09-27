@@ -16,7 +16,7 @@
 	--skeleton-loading-height: 6rem;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 780px) {
 	.main-section {
 		flex-direction: column-reverse;
 	}

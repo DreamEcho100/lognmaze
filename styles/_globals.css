@@ -1,19 +1,22 @@
 /*----------------------------*/
 /* GLOBAL STYLES */
 /*----------------------------*/
-/* ::-webkit-scrollbar { */
-/* 	/* width: calc(1.5rem + 0.2vw); */
-/* } */
-/* ::-webkit-scrollbar-track { */
-/* 	background: var(--main-font-color); */
-/* } */
-/* ::-webkit-scrollbar-thumb { */
-/* 	background: var(--main-bg-color); */
-/* 	border-radius: 1rem; */
-/* } */
-/* ::-webkit-scrollbar-button { */
-/* 	background: var(--main-bg-color); */
-/* } */
+
+:-webkit-scrollbar {
+	width: 1rem;
+	height: 1rem;
+}
+::-webkit-scrollbar-button {
+	background: var(--main-special-bg-color-5);
+	width: 1rem;
+	height: 1rem;
+}
+::-webkit-scrollbar-thumb {
+	background: var(--main-special-bg-color-5);
+}
+::-webkit-scrollbar-track {
+	background: var(--main-bg-color-2);
+}
 
 /* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap'); */
 
@@ -460,7 +463,7 @@ span.lazy-load-image-background.blur img {
 	}
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 780px) {
 	:root {
 		font-size: 60%;
 
