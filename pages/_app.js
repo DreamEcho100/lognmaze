@@ -90,6 +90,10 @@ const MyApp = ({ Component, pageProps }) => {
 		};
 	}, [router.events]);
 
+	// const adsbygoogleProps = {
+	// 	['data-ad-client']: 'ca-pub-8030984398568253',
+	// };
+
 	return (
 		<>
 			<Head>
@@ -141,27 +145,19 @@ const MyApp = ({ Component, pageProps }) => {
 			</Head>
 			<script
 				id='ad-client-script'
-				data-ad-client='ca-pub-8030984398568253'
-				defer
-				// async
+				async
+				crossOrigin='anonymous'
 				src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
-				// dangerouslySetInnerHTML={{
-				// 	__html: `
-				// 	const ad-client document
-				// 	`,
-				// }}
-			></script>
+				// {...adsbygoogleProps}
+				data-ad-client='ca-pub-8030984398568253'
+			/>
 			<Script
 				strategy='afterInteractive'
-				defer
-				// async
 				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
 			/>
 			<Script
 				strategy='afterInteractive'
-				defer
-				// async
-				id='google-analytics-script'
+				// id='google-analytics-script'
 				dangerouslySetInnerHTML={{
 					__html: `
             window.dataLayer = window.dataLayer || [];

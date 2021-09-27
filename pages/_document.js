@@ -26,12 +26,12 @@ class MyDocument extends Document {
 				<body>
 					<Main />
 					<NextScript />
-					<script
+					{/* <script
 						defer
 						// async
 						// rel='preload'
 						src='/script.js'
-					/>
+					/> */}
 				</body>
 			</Html>
 		);

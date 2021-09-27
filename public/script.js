@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-	const adClientScript = document.getElementById('ad-client-script');
-	adClientScript.setAttribute('data-ad-client', 'ca-pub-8030984398568253');
+	// const adClientScript = document.getElementById('ad-client-script');
+	// adClientScript.setAttribute('data-ad-client', 'ca-pub-8030984398568253');
 
 	/*
 	const noscriptElement = document.createElement('noscript');
