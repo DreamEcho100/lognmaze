@@ -129,30 +129,32 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 				>
 					{userData.gender}
 				</p>
-				<p
-					className={handleAddingLoadingSkeletonClass(
-						isLoadingSkeleton,
-						classes
-					)}
-				>
-					{userData.state_of_resident}
-				</p>
-				<p
-					className={handleAddingLoadingSkeletonClass(
-						isLoadingSkeleton,
-						classes
-					)}
-				>
-					{userData.country_of_resident}
-				</p>
-				<p
-					className={handleAddingLoadingSkeletonClass(
-						isLoadingSkeleton,
-						classes
-					)}
-				>
-					{userData.city_of_resident}
-				</p>
+				<address>
+					<p
+						className={handleAddingLoadingSkeletonClass(
+							isLoadingSkeleton,
+							classes
+						)}
+					>
+						{userData.state_of_resident}
+					</p>
+					<p
+						className={handleAddingLoadingSkeletonClass(
+							isLoadingSkeleton,
+							classes
+						)}
+					>
+						{userData.country_of_resident}
+					</p>
+					<p
+						className={handleAddingLoadingSkeletonClass(
+							isLoadingSkeleton,
+							classes
+						)}
+					>
+						{userData.city_of_resident}
+					</p>
+				</address>
 			</div>
 			{visitorIdentity === OWNER && (
 				<div className={classes.buttons}>

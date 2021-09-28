@@ -501,28 +501,32 @@ const SignUp = ({
 				</FormControl>
 			)}
 
-			<FormControl extraClasses='align-center'>
-				<Input
-					type='radio'
-					name='gender'
-					id='gender-male'
-					value='male'
-					required
-					setValues={setValues}
-				/>
-				<Label htmlFor='gender-male'>Male</Label>
-			</FormControl>
-			<FormControl extraClasses='align-center'>
-				<Input
-					type='radio'
-					name='gender'
-					id='gender-female'
-					value='female'
-					required
-					setValues={setValues}
-				/>
-				<Label htmlFor='female'>Female</Label>
-			</FormControl>
+			<fieldset>
+				<legend>Choose your gender:</legend>
+				<FormControl extraClasses='align-center'>
+					<Input
+						type='radio'
+						name='gender'
+						id='gender-male'
+						value='male'
+						required
+						setValues={setValues}
+					/>
+					<Label htmlFor='gender-male'>Male</Label>
+				</FormControl>
+
+				<FormControl extraClasses='align-center'>
+					<Input
+						type='radio'
+						name='gender'
+						id='gender-female'
+						value='female'
+						required
+						setValues={setValues}
+					/>
+					<Label htmlFor='female'>Female</Label>
+				</FormControl>
+			</fieldset>
 
 			<div className={classes.warning}>{AfterFormSubmitMessage}</div>
 			<div className={classes.warning}>{AfterFormSubmitPasswordMessage}</div>

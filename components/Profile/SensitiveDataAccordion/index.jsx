@@ -16,32 +16,34 @@ const SensitiveDataAccordion = ({ userData }) => {
 				<div className={classes['accordion-body']}>
 					<p>{userData.role}</p>
 
-					{/* <p>{userData.state_of_birth}</p>
-					<p>{userData.country_of_birth}</p>
-					<p>{userData.city_of_birth}</p> */}
+					<address>
+						<p>Email: {userData.email}</p>
+						<p>{userData.address_of_resident}</p>
+					</address>
 
-					<p>{userData.address_of_resident}</p>
-
-					<p>
-						Date of birth:{' '}
-						{
-							dateToHumanReadableDate(userData.date_of_birth, {
-								withTime: true,
-							}).dateString
-						}
-					</p>
-
-					<p>{userData.email}</p>
 					<p>{userData.email_verified}</p>
 
-					<p>
-						Last time sign in:{' '}
-						{
-							dateToHumanReadableDate(userData.last_sign_in, {
-								withTime: true,
-							}).dateAndTimeString
-						}
-					</p>
+					<time>
+						<p>
+							Date of birth:{' '}
+							{
+								dateToHumanReadableDate(userData.date_of_birth, {
+									withTime: true,
+								}).dateString
+							}
+						</p>
+					</time>
+
+					<time>
+						<p>
+							Last time sign in:{' '}
+							{
+								dateToHumanReadableDate(userData.last_sign_in, {
+									withTime: true,
+								}).dateAndTimeString
+							}
+						</p>
+					</time>
 				</div>
 			</Fragment>
 		</Accordion>
