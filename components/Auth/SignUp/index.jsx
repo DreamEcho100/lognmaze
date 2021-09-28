@@ -403,7 +403,10 @@ const SignUp = ({
 				/>
 			</FormControl>
 
-			<FormControl extraClasses='align-center'>
+			<FormControl
+				className={classes['resident-FormControl']}
+				extraClasses='align-center'
+			>
 				<Label htmlFor='country'>Choose Your Country</Label>
 				<Select
 					name='country'
@@ -440,7 +443,10 @@ const SignUp = ({
 			</FormControl>
 
 			{Boolean(states && states.length) && (
-				<FormControl extraClasses='align-center'>
+				<FormControl
+					className={classes['resident-FormControl']}
+					extraClasses='align-center'
+				>
 					<Label htmlFor='state'>Choose Your State</Label>
 					<Select
 						name='state'
@@ -472,7 +478,10 @@ const SignUp = ({
 			)}
 
 			{Boolean(cities && cities.length) && (
-				<FormControl extraClasses='align-center'>
+				<FormControl
+					className={classes['resident-FormControl']}
+					extraClasses='align-center'
+				>
 					<Label htmlFor='city'>Choose Your City</Label>
 					<Select
 						name='city'
@@ -501,9 +510,12 @@ const SignUp = ({
 				</FormControl>
 			)}
 
-			<fieldset>
-				<legend>Choose your gender:</legend>
-				<FormControl extraClasses='align-center'>
+			<fieldset className={classes['gender-select-fieldset']}>
+				<legend className='text-align-center'>Choose your gender:</legend>
+				<FormControl
+					className={classes['gender-FormControl']}
+					extraClasses='align-center'
+				>
 					<Input
 						type='radio'
 						name='gender'
@@ -515,7 +527,10 @@ const SignUp = ({
 					<Label htmlFor='gender-male'>Male</Label>
 				</FormControl>
 
-				<FormControl extraClasses='align-center'>
+				<FormControl
+					className={classes['gender-FormControl']}
+					extraClasses='align-center'
+				>
 					<Input
 						type='radio'
 						name='gender'
@@ -531,7 +546,10 @@ const SignUp = ({
 			<div className={classes.warning}>{AfterFormSubmitMessage}</div>
 			<div className={classes.warning}>{AfterFormSubmitPasswordMessage}</div>
 
-			<FormControl extraClasses='align-center' className={classes.actions}>
+			<FormControl
+				extraClasses='align-center'
+				className={classes['submit-button-FormControl']}
+			>
 				<Button
 					title='Sign Up'
 					disabled={btnsDisabled}

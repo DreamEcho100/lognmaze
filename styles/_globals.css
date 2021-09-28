@@ -399,6 +399,10 @@ body.dark .text-glow-special {
 	display: inline;
 }
 
+.text-align-center {
+	text-align: center;
+}
+
 .buttons-holder-padding-half-em > button {
 	margin-right: 1em;
 }

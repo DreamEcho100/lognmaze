@@ -53,7 +53,7 @@ On some browsers (mainly on mobile devices) there will be a link to add the time
 </p>
 ```
 
-### It may represent one of the following:
+### It may represent one of the following
 
 - A time on a 24-hour clock.
 - A precise date in the [Gregorian calendar](https://en.wikipedia.org/wiki/Gregorian_calendar) (with optional time and timezone information).
@@ -69,11 +69,11 @@ You don’t always need the datetime attribute. If you’re just showing a time,
 
 It may include the datetime attribute to translate dates into machine-readable format, allowing for better search engine results or custom features such as reminders.
 
-Click [here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time#usage_notes) for more about it is usage and it is valid datetime values
+_Click [here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time#usage_notes) for more about it is usage and it is valid datetime values_
 
 ## Fieldset (`<fieldset></fieldset>`)
 
-Fieldset is a useful little attribute that you can add to your forms to logically group form elements. Once applied the `<fieldset>` tag draws a box around the elements within the fieldset.
+Fieldset is a useful little attribute that you can add to your forms to logically group form elements. Once applied the [`<fieldset>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset) tag draws a box around the elements within the fieldset.
 
 ```html
 <form>
@@ -88,11 +88,15 @@ Fieldset is a useful little attribute that you can add to your forms to logicall
 </form>
 ```
 
+> If you add `disabled` attribute to the [`<fieldset>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset) tag it will disable all form controls that are descendants of it, even though form elements inside the [`<legend>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/legend) element won't be disabled so be cations.
+
 ## Small (`<small></small>`)
 
-Before HTML5, the `<small>` element was only a presentational one, used to write words using a smaller font.
+`<small>` _the side comment element_.
 
-In HTML5 `<small>` has some semantic value. Now the `<small>` element represents text often found in small print like disclaimers, caveats, legal restrictions, or copyrights. An example of its use is shown below:
+Before HTML5, the [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) element was only a presentational one, used to write words using a smaller font.
+
+In HTML5 [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) has some semantic value. Now the [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) element represents text often found in small print like disclaimers, caveats, legal restrictions, or copyrights. An example of its use is shown below:
 
 ```html
 <p>
@@ -119,7 +123,9 @@ By default, content within the `<details>` tags are hidden, but can be shown by 
 
 ## acronym (`<acronym></acronym>`)
 
-The `<acronym>` tag is a way to define or further explain a group of words. When you hover over text that has the `<acronym>` tag used, a box appears below with the text from the title tag. For example:
+> Warning it is **deprecated**, as of why we include it it is because we will use to explain the [`<abbr>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr) tag.
+
+The [`<acronym>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/acronym) tag is a way to define or further explain a group of words. When you hover over text that has the [`<acronym>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/acronym) tag used, a box appears below with the text from the title tag. For example:
 
 ```html
 <p>
@@ -132,7 +138,7 @@ But there is other ways that could be better which we will take about next.
 
 ## Abbr (`<abbr></abbr>`)
 
-The `<abbr>` tag is much akin to the `<acronym>` tag, except the `<abbr>` tag is only used to define **abbreviated** words. Just like `<acronym>`, you define a title within the tag. When a visitor hovers over the **abbreviated** text, the full definition appears below.
+The [`<abbr>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr) tag is much akin to the [`<acronym>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/acronym) tag, except the [`<abbr>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr) tag is not only excluded to **acronym** it can also be used to define **abbreviated** words. Just like [`<acronym>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/acronym), the **optional** `title` attribute can provide an expansion or description for the abbreviation. If present, `title` must contain this full description and nothing else. When a visitor hovers over the **abbreviated** text, the full definition appears below.
 
 When the text is hovered over, it will show the full title.
 
@@ -141,6 +147,10 @@ An example for &lt;abbr&gt; tag in
 <abbr title="HyperText Markup Language">HTML</abbr>.
 ```
 
+### Usage notes for `<abbr>`
+
+> Each [`<abbr>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr) element you use is independent from all others; providing a title for one does not automatically attach the same expansion text to others with the same content text.
+
 And yes, we could do the same thing with a regular `<span>`.
 
 ```html
@@ -148,7 +158,16 @@ An example of doing it with &lt;span&gt; tag in
 <abbr title="HyperText Markup Language">HTML</abbr>.
 ```
 
-But using `<abbr>` can help the visually impaired, **who need text-to-speech software**. The text-to-speech tool is more easily able to tell that it’s an abbreviation this way.
+But using [`<abbr>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr) can help the visually impaired, **who need text-to-speech software**. The text-to-speech tool is more easily able to tell that it’s an abbreviation this way.
+
+> Accessibility concerns
+> Spelling out the acronym or abbreviation in full the first time it is used on a page is beneficial for helping people understand it, especially if the content is technical or industry jargon.
+
+_Click [here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr#usage_notes) for more about it is usage and it is valid datetime values_
+
+### Grammar considerations
+
+In languages with grammatical number (that is, languages where the number of items affects the grammar of a sentence), use the same grammatical number in your title attribute as inside your [`<abbr>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr) element. This is especially important in languages with more than two numbers, such as Arabic, but is also relevant in English.
 
 ## Cite (`<cite></cite>`)
 
