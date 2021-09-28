@@ -345,7 +345,6 @@ const Article = ({
 					}
 					{...sharedTextareaProps({
 						minLength: 25,
-						maxLength: 160,
 					})}
 					className={classes['width-100-percent']}
 				/>

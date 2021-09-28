@@ -3,7 +3,7 @@ title: Useful HTML Attribute you may not know
 tags:
 image_alt:
 image_src:
-description: .
+description:
 ---
 
 ## Resources and further reading
