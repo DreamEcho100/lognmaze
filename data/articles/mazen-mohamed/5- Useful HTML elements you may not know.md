@@ -14,7 +14,7 @@ But it is never to late to learn about the useful tags that get overlooked or mi
 
 ## Address(`<address></address>`)
 
-As the name implies, `<address>` allows you to semantically markup addresses in HTML.
+As the name implies, [`<address>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address) allows you to semantically markup addresses in HTML.
 
 It defines the contact information of the organization or person or the author of an article. The contact information can be anything; it can be the address, phone number, email, or website URL.
 
@@ -24,15 +24,26 @@ It will also italicize all of the data within the brackets, though the style can
 <p>Author contact info:</p>
 
 <address>
-	<a href="mailto: example@gmail.com">example@gmail.com</a>
+	<a href="mailto:jim@rock.com">jim@rock.com</a><br />
+	<a href="tel:+13115552368">(311) 555-2368</a>
 	<p>1234 Nasr St.</p>
 	<p>Cairo, Egypt</p>
 </address>
 ```
 
+### Usage notes for `<addres></addres>`
+
+- The [`<address>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address) element can only be used to represent the contact information for its nearest `<article>` or `<body>` element ancestor.
+
+- This element should not contain more information than the contact information, like a publication date (which belongs in a [`<time>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time) element).
+
+- Typically an [`<address>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address) element can be placed inside the `<footer>` element of the current section, if any.
+
+- Although it renders text with the same default styling as the <i> or <em> elements, it is more appropriate to use <address> when dealing with contact information, as it conveys additional semantic information.
+
 ## Time (`<time></time>`)
 
-The <time> tag tells the browser that the text refers to a time.
+The [`<time>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time) tag tells the browser that the text refers to a time.
 
 On some browsers (mainly on mobile devices) there will be a link to add the time to the calendar.
 
@@ -42,11 +53,23 @@ On some browsers (mainly on mobile devices) there will be a link to add the time
 </p>
 ```
 
-You don’t always need the datetime attribute. If you’re just showing a time, for example, then you can use `<time>` without the datetime, like so.
+### It may represent one of the following:
+
+- A time on a 24-hour clock.
+- A precise date in the [Gregorian calendar](https://en.wikipedia.org/wiki/Gregorian_calendar) (with optional time and timezone information).
+- [A valid time duration](https://www.w3.org/TR/2014/REC-html5-20141028/infrastructure.html#valid-duration-string).
+
+You don’t always need the datetime attribute. If you’re just showing a time, for example, then you can use [`<time>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time) without the datetime, like so.
 
 ```html
 <p>The meeting is at <time>19:00</time>.</p>
 ```
+
+### Usage notes for `<time></time>`
+
+It may include the datetime attribute to translate dates into machine-readable format, allowing for better search engine results or custom features such as reminders.
+
+Click [here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time#usage_notes) for more about it is usage and it is valid datetime values
 
 ## Fieldset (`<fieldset></fieldset>`)
 
@@ -241,7 +264,7 @@ So, if you want to indicate that a Fuel level is 50% remains, you can write:
 
 ## Resources and further reading
 
-- [\<meter\>: The HTML Meter element (developer.mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meter)
+> Note there is a lot of researching and resource gathered from MDN, and the links for them is provided in the tags name like in [`<address>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address).
 
 - [8 Rare and Useful HTML Tags You Probably Don’t Know (widgetcore.com)](https://widgetcore.com/8-rare-and-useful-html-tags-you-probably-dont-know/)
 

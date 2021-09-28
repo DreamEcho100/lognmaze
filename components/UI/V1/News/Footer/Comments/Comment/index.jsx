@@ -280,8 +280,8 @@ const Comment = ({ comment, newsItem, ...props }) => {
 				/>
 			)}
 			<footer className={classes.footer}>
-				<time>
-					<span>
+				<span datetime={comment.created_at}>
+					<time datetime={comment.created_at}>
 						<small>
 							<strong>Created At:</strong>{' '}
 							<em>
@@ -292,9 +292,9 @@ const Comment = ({ comment, newsItem, ...props }) => {
 								}
 							</em>
 						</small>
-					</span>
+					</time>
 					{comment.created_at !== comment.updated_at && (
-						<span>
+						<time datetime={comment.updated_at}>
 							<small>
 								, <strong>Updated On:</strong>{' '}
 								<em>
@@ -305,9 +305,9 @@ const Comment = ({ comment, newsItem, ...props }) => {
 									}
 								</em>
 							</small>
-						</span>
+						</time>
 					)}
-				</time>
+				</span>
 				{userState.userExist && (
 					<button
 						title='Reply To A Comment'
