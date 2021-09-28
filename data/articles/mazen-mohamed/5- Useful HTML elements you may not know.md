@@ -12,7 +12,7 @@ Since **semantic `HTML`** has become common, so many new tags are introduced. Bu
 
 But it's never too late to learn about the useful tags that get overlooked or misunderstood despite their benefit. So here in this blog, we will cover some rare and useful HTML tags that I think developers probably don’t know to help you discover the power of some under-used tags.
 
-## Address(`<address></address>`)
+## Address (\<address></address>)
 
 As the name implies, [`<address>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address) allows you to semantically markup addresses in HTML.
 
@@ -31,7 +31,7 @@ It will also italicize all of the data within the brackets, though the style can
 </address>
 ```
 
-### Usage notes for `<address></address>`
+### Usage notes for \<address></address>
 
 - The [`<address>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address) element can only be used to represent the contact information for its nearest [`<article>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article) or [`<body>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/body) element ancestor.
 
@@ -41,7 +41,7 @@ It will also italicize all of the data within the brackets, though the style can
 
 - Although it renders text with the same default styling as the [`<i>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/i) or [`<em>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/em) elements, it's more appropriate to use [`<address>`](<[`<address>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address)>) when dealing with contact information, as it conveys additional semantic information.
 
-## Time (`<time></time>`)
+## Time (\<time></time>)
 
 The [`<time>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time) tag tells the browser that the text refers to a time.
 
@@ -67,13 +67,13 @@ On some browsers (mainly on mobile devices) there will be a link to add the time
 <p>The meeting is at <time>19:00</time>.</p>
 ```
 
-### Usage notes for `<time></time>`
+### Usage notes for \<time></time>
 
 It may include the datetime attribute to translate dates into a machine-readable format, allowing for better search engine results or custom features such as reminders.
 
 _Click [here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time#usage_notes) for more about its usage and its **valid datetime values**_
 
-## Fieldset (`<fieldset></fieldset>`)
+## Fieldset (\<fieldset></fieldset>)
 
 Fieldset is a useful little attribute that you can add to your forms to logically group form elements. Once applied the [`<fieldset>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset) tag draws a box around the elements within the fieldset.
 
@@ -92,7 +92,7 @@ Fieldset is a useful little attribute that you can add to your forms to logicall
 
 > If you add `disabled` attribute to the [`<fieldset>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset) tag it will disable all form controls that are descendants of it, even though form elements inside the [`<legend>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/legend) element won't be disabled so be cations.
 
-## Small (`<small></small>`)
+## Small (\<small></small>)
 
 Before HTML5, the [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) element was only a presentational one, used to write words using a smaller font size.
 
@@ -108,7 +108,7 @@ In HTML5 [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/s
 > Quoting [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small#notes)
 > Although the [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) element, like the [`<b>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/b) and [`<i>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/i) elements, may be perceived to violate the principle of separation between structure and presentation, all three are valid in HTML5. Authors are encouraged to use their best judgment when determining whether to use [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) or CSS.
 
-## Details (`<details></details>`)
+## Details (\<details></details>)
 
 By default, content within the [`<details>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) tags are hidden but can be shown by clicking on it. Each element should display a summary of what it’s about when it’s hidden.
 
@@ -130,7 +130,7 @@ Using it looks something like this:
 
 You can use `CSS` to style the disclosure widget, and you can _programmatically_ open and close the widget by setting/removing its open attribute. **Unfortunately**, at this time there's no built-in way to animate the transition between open and closed.
 
-## acronym (`<acronym></acronym>`)
+## acronym (\<acronym></acronym>)
 
 > Warning it's **deprecated**, as of why we include it's because we will use to explain the [`<abbr>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr) tag.
 
@@ -145,7 +145,7 @@ The [`<acronym>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/acro
 
 But there is other ways that could be better which we will take about next.
 
-## Abbr (`<abbr></abbr>`)
+## Abbr (\<abbr></abbr>)
 
 The [`<abbr>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr) tag is much akin to the [`<acronym>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/acronym) tag, except the [`<abbr>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr) tag is not only excluded to **acronym** it can also be used to define **abbreviated** words. Just like [`<acronym>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/acronym), the **optional** `title` attribute can provide an expansion or description for the abbreviation. If present, `title` must contain this full description and nothing else. When a visitor hovers over the **abbreviated** text, the full definition appears below.
 
@@ -156,7 +156,7 @@ An example for &lt;abbr&gt; tag in
 <abbr title="HyperText Markup Language">HTML</abbr>.
 ```
 
-### Usage notes for `<abbr>`
+### Usage notes for \<abbr>
 
 > Each [`<abbr>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr) element you use is independent of all others; providing a title for one does not automatically attach the same expansion text to others with the same content text.
 
@@ -178,7 +178,7 @@ _Click [here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr#usa
 
 In languages with a grammatical numbers (that is, languages where the number of items affects the grammar of a sentence), use the same grammatical number in your title attribute as inside your [`<abbr>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr) element. This is especially important in languages with more than two numbers, such as Arabic, but is also relevant in English.
 
-## Cite (`<cite></cite>`)
+## Cite (\<cite></cite>)
 
 The [`<cite>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite) tag is really useful for citing bibliographic and other site references like describing a reference to a cited creative work and must include the title of that work. The reference may be in an abbreviated form according to context-appropriate conventions related to citation metadata.
 
@@ -191,7 +191,7 @@ It allows you to define the text inside of the element as a reference. Typically
 </p>
 ```
 
-### Usage notes for `<cite></cite>`
+### Usage notes for \<cite></cite>
 
 n the context of the [`<cite>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite) element, a creative work that might be cited could be, for example, one of the following:
 
@@ -205,7 +205,7 @@ n the context of the [`<cite>`](https://developer.mozilla.org/en-US/docs/Web/HTM
 
 - _Click [here](hthttps://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite#usage_notes) for more about it's usage_
 
-## Q (`<q></q>`)
+## Q (\<q></q>`)
 
 the [`<q>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/q) tag used to specify the quote, and we can use [`<cite>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite) for the source.
 
@@ -221,7 +221,7 @@ Note that until recently [`<cite>`](https://developer.mozilla.org/en-US/docs/Web
 </p>
 ```
 
-## Optgroup (`<optgroup></optgroup>`)
+## Optgroup (\<optgroup></optgroup>)
 
 The [`<optgroup>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/optgroup) tag is a great way to add a little definition between groups of options inside a select box. If you needed to group dinosaurs, for example, then it would look like this:
 
@@ -241,7 +241,7 @@ The [`<optgroup>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/opt
 </select>
 ```
 
-## Mark (`<mark></mark>`)
+## Mark (\<mark></mark>)
 
 The [`<mark>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark) tag defines the text that should be marked or highlighted to show the importance. This tag should not be confused with the [`<strong>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/strong) tag. As [`<strong>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/strong) tag indicates the span of the text of importance while [`<mark>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark) tag denotes content with a degree of relevance.
 
@@ -259,7 +259,7 @@ The [`<mark>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark) t
 <p><mark>LogNMaze</mark> is a community for creative writers.</p>
 ```
 
-## Meter (`<meter></meter>`)
+## Meter (\<meter></meter>)
 
 The [`<meter>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meter) tag defines either a scalar value within a known range or a fractional value.
 
