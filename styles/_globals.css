@@ -245,12 +245,6 @@ a {
 	font-size: var(--current-font-size);
 }
 
-/* a,
-button,
-svg {
-	font-size: calc(var(--current-font-size) * 1.05);
-} */
-
 article,
 aside,
 details,
