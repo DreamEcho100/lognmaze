@@ -18,7 +18,7 @@ const TimeAndDate = ({
 	>
 		{!isLoadingSkeleton && created_at && (
 			<span>
-				<time datetime={created_at}>
+				<time dateTime={created_at}>
 					<small>
 						<strong>Created At:</strong>{' '}
 						<em>
@@ -31,7 +31,7 @@ const TimeAndDate = ({
 					</small>
 				</time>
 				{created_at !== updated_at && (
-					<time datetime={updated_at}>
+					<time dateTime={updated_at}>
 						<small>
 							, <strong>Updated On:</strong>{' '}
 							<em>

@@ -203,7 +203,7 @@ n the context of the [`<cite>`](https://developer.mozilla.org/en-US/docs/Web/HTM
 
 - A poem
 
-- _Click [here](hthttps://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite#usage_notes) for more about it's usage_
+- _Click [here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite#usage_notes) for more about it's usage_
 
 ## Q (\<q></q>`)
 

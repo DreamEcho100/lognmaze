@@ -131,7 +131,7 @@ const Details = ({
 	} else if (detailsType === 'content') {
 		return (
 			<FormatterContainer className={classes.details}>
-				<Md content={newsItem.content} />
+				<Md content={newsItem.content} addInsideArticleAd={true} />
 			</FormatterContainer>
 		);
 	}

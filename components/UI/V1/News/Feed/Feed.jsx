@@ -1,10 +1,16 @@
-import { useContext, useEffect } from 'react';
+import { Fragment, useContext, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 
 import classes from './Feed.module.css';
 
 import NewsContext from '@store/NewsContext';
 import { handleLoadMoreNewsItems } from '@store/NewsContext/actions';
 import { handleAllClasses } from '@/lib/v1/className';
+
+const HorizontalPhotoAd1Dynamic = dynamic(
+	() => import('@components/UI/V1/AddsByGoogle/DisplayAd/Horizontal/PhotoAd1'),
+	{ ssr: false }
+);
 
 import Wrapper from '@components/UI/V1/Wrapper';
 import Container from '@components/UI/V1/News/Container';
@@ -62,21 +68,29 @@ const Feed = ({
 
 			{!isLoadingSkeleton &&
 				news.length !== 0 &&
-				state.news.map((item, index) => (
-					<Wrapper
-						key={`Feed-${index}-${item.news_id}`}
-						style={{
-							padding: '1em',
-						}}
-					>
-						<Container
-							newsItem={item}
-							detailsType='description'
-							modalOnClick
-							className={classes['news-container']}
-						/>
-					</Wrapper>
-				))}
+				state.news.map((item, index) => {
+					return (
+						<Fragment key={`Feed-${index}-${item.news_id}`}>
+							<Wrapper
+								style={{
+									padding: '1em',
+								}}
+							>
+								<Container
+									newsItem={item}
+									detailsType='description'
+									modalOnClick
+									className={classes['news-container']}
+								/>
+							</Wrapper>
+							{/* <Wrapper> */}
+							{(index % 2 === 0 || state.news.length === 1) && (
+								<HorizontalPhotoAd1Dynamic />
+							)}
+							{/* </Wrapper> */}
+						</Fragment>
+					);
+				})}
 			{!isLoadingSkeleton && news.length !== 0 && !state.hit_news_items_limit && (
 				<Wrapper
 					style={{

@@ -23,7 +23,7 @@ const SensitiveDataAccordion = ({ userData }) => {
 
 					<p>{userData.email_verified}</p>
 
-					<time datetime={userData.date_of_birth}>
+					<time dateTime={userData.date_of_birth}>
 						<p>
 							Date of birth:{' '}
 							{
@@ -34,7 +34,7 @@ const SensitiveDataAccordion = ({ userData }) => {
 						</p>
 					</time>
 
-					<time datetime={userData.last_sign_in}>
+					<time dateTime={userData.last_sign_in}>
 						<p>
 							Last time sign in:{' '}
 							{

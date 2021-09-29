@@ -6,73 +6,60 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 const SyntaxHighlighterDynamic = dynamic(() => import('./SyntaxHighlighter'));
+const InsideArticleAdDynamic = dynamic(
+	() => import('@components/UI/V1/AddsByGoogle/InsideArticleAd'),
+	{ ssr: false }
+);
 
 import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
 
-const Md = ({ content }) => {
+const Md = ({ content, addInsideArticleAd = false }) => {
 	const [hasError, setHasError] = useState('');
-	const [headCounter, setHeadCounter] = useState(1);
+	const [elementsCounter, setElementsCounter] = useState({
+		h1: 0,
+		h2: 0,
+		h3: 0,
+		h4: 0,
+		h5: 0,
+		h6: 0,
+		InsideArticleAdDynamic: 0,
+	});
 
 	const customRenderers = {
 		img(image) {
 			return <LazyLoadImage src={image.src} alt={image.alt} effect='blur' />;
 		},
 
-		/*
-		p({ children, node }) {
-			if (node.children[0].tagName === 'img') {
-				const image = node.children[0];
-				// let imgSrc;
-
-				// if (
-				// 	/^https:\/\//.test(image.properties.src) ||
-				// 	/^http:\/\//.test(image.properties.src)
-				// ) {
-				// 	imgSrc = image.properties.src;
-				// } else {
-				// 	imgSrc = `/images/News/${news.slug}/${image.properties.src}`;
-				// }
-
-				return (
-					<div className={classes.image}>
-						<LazyLoadImage
-							src={image.properties.src}
-							alt=''
-							style={{ width: '100%', maxWidth: '50rem', maxHeight: '30rem' }}
-							effect='blur'
-						/>
-					</div>
-				);
-			}
-
-			return <p>{children}</p>;
-		},
-		*/
-
 		a({ href, children, node }) {
-			if (href.startsWith('http://') || href.startsWith('https://')) {
+			// lognmaze.com
+
+			if (
+				href.startsWith('/') ||
+				// href.startsWith('http://lognmaze.com') ||
+				href.startsWith('https://lognmaze.com') ||
+				// href.startsWith('http://www.lognmaze.com') ||
+				href.startsWith('https://www.lognmaze.com') ||
+				href.startsWith('https://lognmaze.vercel.app')
+			) {
 				return (
-					<a
-						className='text-glow-special'
-						href={href}
-						title={node.children[0].value}
-						// target='_blank' rel='noopener noreferrer'
-					>
-						{children}
-					</a>
+					<Link href={href} prefetch={false} passHref>
+						<a className='text-glow-special' title={node.children[0].value}>
+							{children}
+						</a>
+					</Link>
 				);
 			}
 
 			return (
-				<Link href={href} prefetch={false} passHref>
-					<a
-						className='text-glow-special'
-						title={node.children[0].value}
-						// target='_blank' rel='noopener noreferrer'
-					>
-						{children}
-					</a>
-				</Link>
+				<a
+					className='text-glow-special'
+					href={href}
+					title={node.children[0].value}
+					target='_blank'
+					rel='noopener noreferrer'
+				>
+					{children}
+				</a>
 			);
 		},
 
@@ -89,85 +76,115 @@ const Md = ({ content }) => {
 				</code>
 			);
 		},
-		h1: ({ children, ...props }) => (
+		h1: ({ children }) => (
 			<h1
 				id={`h1_${
 					children && children[0]?.replace
 						? children[0].replace(/[^\w]/g, '-')
-						: () => {
-								setHeadCounter((prev) => prev + 1);
-								return headCounter;
-						  }
+						: (() => {
+								setElementsCounter((prev) => ({
+									...prev,
+									h1: prev.h1 + 1,
+								}));
+								return elementsCounter.h1;
+						  })()
 				}`}
 			>
 				{children}
 			</h1>
 		),
-		h2: ({ children, ...props }) => (
-			<h2
-				id={`h2_${
-					children && children[0]?.replace
-						? children[0].replace(/[^\w]/g, '-')
-						: () => {
-								setHeadCounter((prev) => prev + 1);
-								return headCounter;
-						  }
-				}`}
-			>
-				{children}
-			</h2>
-		),
-		h3: ({ children, ...props }) => (
+		h2: ({ children }) => {
+			const showInsideArticleAd =
+				addInsideArticleAd && elementsCounter.h2 % 2 === 0;
+
+			return (
+				<>
+					{/* <InsideArticleAdDynamic /> */}
+					{showInsideArticleAd && <InsideArticleAdDynamic />}
+					<h2
+						id={`h2_${
+							children && children[0]?.replace
+								? children[0].replace(/[^\w]/g, '-')
+								: (() => {
+										setElementsCounter((prev) => ({
+											...prev,
+											h2: prev.h2 + 1,
+											InsideArticleAdDynamic: showInsideArticleAd
+												? prev.InsideArticleAdDynamic + 1
+												: prev.InsideArticleAdDynamic,
+										}));
+										return elementsCounter.h2;
+								  })()
+						}`}
+					>
+						{children}
+					</h2>
+				</>
+			);
+		},
+		h3: ({ children }) => (
 			<h3
 				id={`h3_${
 					children && children[0]?.replace
 						? children[0].replace(/[^\w]/g, '-')
-						: () => {
-								setHeadCounter((prev) => prev + 1);
-								return headCounter;
-						  }
+						: (() => {
+								setElementsCounter((prev) => ({
+									...prev,
+									h3: prev.h3 + 1,
+								}));
+								return elementsCounter.h3;
+						  })()
 				}`}
 			>
 				{children}
 			</h3>
 		),
-		h4: ({ children, ...props }) => (
+		h4: ({ children }) => (
 			<h4
 				id={`h4_${
 					children && children[0]?.replace
 						? children[0].replace(/[^\w]/g, '-')
-						: () => {
-								setHeadCounter((prev) => prev + 1);
-								return headCounter;
-						  }
+						: (() => {
+								setElementsCounter((prev) => ({
+									...prev,
+									h4: prev.h4 + 1,
+								}));
+								return elementsCounter.h4;
+						  })()
 				}`}
 			>
 				{children}
 			</h4>
 		),
-		h5: ({ children, ...props }) => (
+		h5: ({ children }) => (
 			<h5
 				id={`h5_${
 					children && children[0]?.replace
 						? children[0].replace(/[^\w]/g, '-')
-						: () => {
-								setHeadCounter((prev) => prev + 1);
-								return headCounter;
-						  }
+						: (() => {
+								setElementsCounter((prev) => ({
+									...prev,
+									h5: prev.h5 + 1,
+								}));
+								return elementsCounter.h5;
+						  })()
 				}`}
 			>
 				{children}
 			</h5>
 		),
-		h6: ({ children, ...props }) => (
+		h6: ({ children }) => (
 			<h6
 				id={`h6_${
 					children && children[0]?.replace
 						? children[0].replace(/[^\w]/g, '-')
-						: () => {
-								setHeadCounter((prev) => prev + 1);
-								return headCounter;
-						  }
+						: (() => {
+								setElementsCounter((prev) => ({
+									...prev,
+									h6: prev.h6 + 1,
+								}));
+								return elementsCounter.h6;
+						  })()
 				}`}
 			>
 				{children}
@@ -181,13 +198,16 @@ const Md = ({ content }) => {
 
 	try {
 		return (
-			<ReactMarkdown
-				// DynamicReactMarkdown
-				components={customRenderers}
-				remarkPlugins={[remarkGfm]}
-			>
-				{content}
-			</ReactMarkdown>
+			<>
+				<ReactMarkdown
+					// DynamicReactMarkdown
+					components={customRenderers}
+					remarkPlugins={[remarkGfm]}
+				>
+					{content}
+				</ReactMarkdown>
+				{addInsideArticleAd && <InsideArticleAdDynamic />}
+			</>
 		);
 	} catch (error) {
 		setHasError(error.message);

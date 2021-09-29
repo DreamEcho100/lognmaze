@@ -39,7 +39,10 @@ const FormatConvertor = ({
 			<section>
 				{fromFormatType === 'txt' && toFormatType === 'md' && (
 					<FormatterContainer>
-						<Md content={props.values[name] || values[name]} />
+						<Md
+							content={props.values[name] || values[name]}
+							addInsideArticleAd={true}
+						/>
 					</FormatterContainer>
 				)}
 			</section>

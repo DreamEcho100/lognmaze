@@ -280,8 +280,8 @@ const Comment = ({ comment, newsItem, ...props }) => {
 				/>
 			)}
 			<footer className={classes.footer}>
-				<span datetime={comment.created_at}>
-					<time datetime={comment.created_at}>
+				<span dateTime={comment.created_at}>
+					<time dateTime={comment.created_at}>
 						<small>
 							<strong>Created At:</strong>{' '}
 							<em>
@@ -294,7 +294,7 @@ const Comment = ({ comment, newsItem, ...props }) => {
 						</small>
 					</time>
 					{comment.created_at !== comment.updated_at && (
-						<time datetime={comment.updated_at}>
+						<time dateTime={comment.updated_at}>
 							<small>
 								, <strong>Updated On:</strong>{' '}
 								<em>

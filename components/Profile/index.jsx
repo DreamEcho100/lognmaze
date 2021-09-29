@@ -175,7 +175,7 @@ const Profile = ({
 						>
 							<div>
 								{userData?.created_at && (
-									<time datetime={userData.created_at}>
+									<time dateTime={userData.created_at}>
 										<span>
 											<small>
 												<strong>Account Created At:</strong>{' '}
