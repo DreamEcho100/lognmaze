@@ -14,8 +14,17 @@ const InsideArticleAdDynamic = dynamic(
 import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
 
 const Md = ({ content, addInsideArticleAd = false }) => {
-	const [hasError, setHasError] = useState('');
-	const [elementsCounter, setElementsCounter] = useState({
+	// const [elementsCounter, setElementsCounter] = useState({
+	// 	h1: 0,
+	// 	h2: 0,
+	// 	h3: 0,
+	// 	h4: 0,
+	// 	h5: 0,
+	// 	h6: 0,
+	// 	InsideArticleAdDynamic: 0,
+	// });
+
+	const elementsCounter = {
 		h1: 0,
 		h2: 0,
 		h3: 0,
@@ -23,7 +32,7 @@ const Md = ({ content, addInsideArticleAd = false }) => {
 		h5: 0,
 		h6: 0,
 		InsideArticleAdDynamic: 0,
-	});
+	};
 
 	const customRenderers = {
 		img(image) {
@@ -76,45 +85,37 @@ const Md = ({ content, addInsideArticleAd = false }) => {
 				</code>
 			);
 		},
-		h1: ({ children }) => (
-			<h1
-				id={`h1_${
-					children && children[0]?.replace
-						? children[0].replace(/[^\w]/g, '-')
-						: (() => {
-								setElementsCounter((prev) => ({
-									...prev,
-									h1: prev.h1 + 1,
-								}));
-								return elementsCounter.h1;
-						  })()
-				}`}
-			>
-				{children}
-			</h1>
-		),
+		h1: ({ children }) => {
+			elementsCounter.h1++;
+
+			return (
+				<h1
+					id={`h1_${
+						children && children[0]?.replace
+							? children[0].replace(/[^\w_]/g, '-')
+							: elementsCounter.h1
+					}`}
+				>
+					{children}
+				</h1>
+			);
+		},
 		h2: ({ children }) => {
 			const showInsideArticleAd =
-				addInsideArticleAd && elementsCounter.h2 % 2 === 0;
+				elementsCounter.h2++ &&
+				addInsideArticleAd &&
+				(elementsCounter.h2 === 2 || elementsCounter.h2 % 3 === 0) &&
+				++elementsCounter.InsideArticleAdDynamic;
 
 			return (
 				<>
 					{/* <InsideArticleAdDynamic /> */}
-					{showInsideArticleAd && <InsideArticleAdDynamic />}
+					{showInsideArticleAd ? <InsideArticleAdDynamic /> : ''}
 					<h2
 						id={`h2_${
 							children && children[0]?.replace
-								? children[0].replace(/[^\w]/g, '-')
-								: (() => {
-										setElementsCounter((prev) => ({
-											...prev,
-											h2: prev.h2 + 1,
-											InsideArticleAdDynamic: showInsideArticleAd
-												? prev.InsideArticleAdDynamic + 1
-												: prev.InsideArticleAdDynamic,
-										}));
-										return elementsCounter.h2;
-								  })()
+								? children[0].replace(/[^\w_]/g, '-')
+								: elementsCounter.h2
 						}`}
 					>
 						{children}
@@ -122,96 +123,80 @@ const Md = ({ content, addInsideArticleAd = false }) => {
 				</>
 			);
 		},
-		h3: ({ children }) => (
-			<h3
-				id={`h3_${
-					children && children[0]?.replace
-						? children[0].replace(/[^\w]/g, '-')
-						: (() => {
-								setElementsCounter((prev) => ({
-									...prev,
-									h3: prev.h3 + 1,
-								}));
-								return elementsCounter.h3;
-						  })()
-				}`}
-			>
-				{children}
-			</h3>
-		),
-		h4: ({ children }) => (
-			<h4
-				id={`h4_${
-					children && children[0]?.replace
-						? children[0].replace(/[^\w]/g, '-')
-						: (() => {
-								setElementsCounter((prev) => ({
-									...prev,
-									h4: prev.h4 + 1,
-								}));
-								return elementsCounter.h4;
-						  })()
-				}`}
-			>
-				{children}
-			</h4>
-		),
-		h5: ({ children }) => (
-			<h5
-				id={`h5_${
-					children && children[0]?.replace
-						? children[0].replace(/[^\w]/g, '-')
-						: (() => {
-								setElementsCounter((prev) => ({
-									...prev,
-									h5: prev.h5 + 1,
-								}));
-								return elementsCounter.h5;
-						  })()
-				}`}
-			>
-				{children}
-			</h5>
-		),
-		h6: ({ children }) => (
-			<h6
-				id={`h6_${
-					children && children[0]?.replace
-						? children[0].replace(/[^\w]/g, '-')
-						: (() => {
-								setElementsCounter((prev) => ({
-									...prev,
-									h6: prev.h6 + 1,
-								}));
-								return elementsCounter.h6;
-						  })()
-				}`}
-			>
-				{children}
-			</h6>
-		),
+		h3: ({ children }) => {
+			elementsCounter.h3++;
+
+			return (
+				<h3
+					id={`h3_${
+						children && children[0]?.replace
+							? children[0].replace(/[^\w_]/g, '-')
+							: elementsCounter.h3
+					}`}
+				>
+					{children}
+				</h3>
+			);
+		},
+		h4: ({ children }) => {
+			elementsCounter.h4++;
+
+			return (
+				<h4
+					id={`h4_${
+						children && children[0]?.replace
+							? children[0].replace(/[^\w_]/g, '-')
+							: elementsCounter.h4
+					}`}
+				>
+					{children}
+				</h4>
+			);
+		},
+		h5: ({ children }) => {
+			elementsCounter.h5++;
+
+			return (
+				<h5
+					id={`h5_${
+						children && children[0]?.replace
+							? children[0].replace(/[^\w_]/g, '-')
+							: elementsCounter.h5
+					}`}
+				>
+					{children}
+				</h5>
+			);
+		},
+		h6: ({ children }) => {
+			elementsCounter.h6++;
+
+			return (
+				<h6
+					id={`h6_${
+						children && children[0]?.replace
+							? children[0].replace(/[^\w_]/g, '-')
+							: elementsCounter.h6
+					}`}
+				>
+					{children}
+				</h6>
+			);
+		},
 	};
 
-	if (hasError) {
-		return <p>{hasError}</p>;
-	}
-
-	try {
-		return (
-			<>
-				<ReactMarkdown
-					// DynamicReactMarkdown
-					components={customRenderers}
-					remarkPlugins={[remarkGfm]}
-				>
-					{content}
-				</ReactMarkdown>
-				{addInsideArticleAd && <InsideArticleAdDynamic />}
-			</>
-		);
-	} catch (error) {
-		setHasError(error.message);
-	}
+	return (
+		<>
+			<ReactMarkdown
+				// DynamicReactMarkdown
+				components={customRenderers}
+				remarkPlugins={[remarkGfm]}
+			>
+				{content}
+			</ReactMarkdown>
+			{addInsideArticleAd ? <InsideArticleAdDynamic /> : ''}
+		</>
+	);
 };
 
 export default Md;

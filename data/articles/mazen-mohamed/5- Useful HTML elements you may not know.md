@@ -1,7 +1,7 @@
 ---
 title: Useful HTML elements you may not know
 tags: html frontend-web-development semantic-markup tags
-image_alt: HTML stands for Hyper text Markup Language
+image_alt: HTML stands for Hyper Text Markup Language
 image_src: https://www.ravedigital.agency/wp-content/uploads/2015/06/html51.jpg
 description: As a web developer, HTML is one of the first languages we learn but it is tricky to learn everything about it and utilize its full potential since it has so many to offer and some of it you may never need and the demand to keep up and update your other skills like in CSS, JavaScript, any other languages, or frameworks/libraries you Know or want to learn
 ---
@@ -105,7 +105,8 @@ In HTML5 [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/s
 </p>
 ```
 
-> Quoting [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small#notes)
+### Quoting [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small#notes)
+
 > Although the [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) element, like the [`<b>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/b) and [`<i>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/i) elements, may be perceived to violate the principle of separation between structure and presentation, all three are valid in HTML5. Authors are encouraged to use their best judgment when determining whether to use [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) or CSS.
 
 ## Details (\<details></details>)
@@ -245,13 +246,12 @@ The [`<optgroup>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/opt
 
 The [`<mark>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark) tag defines the text that should be marked or highlighted to show the importance. This tag should not be confused with the [`<strong>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/strong) tag. As [`<strong>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/strong) tag indicates the span of the text of importance while [`<mark>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark) tag denotes content with a degree of relevance.
 
-> By default, the browsers display the mark element with a yellow background color.
+> - By default, the browsers display the mark element with a yellow background color.
+> - Don't use [`<mark>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark) for syntax highlighting purposes; instead, use the [`<span>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span) element with appropriate CSS applied to it.
 
-> Don't use [`<mark>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark) for syntax highlighting purposes; instead, use the [<span>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span) element with appropriate CSS applied to it.
+### Quoting [MDN](https://developer.mozilla.org/en-us/docs/web/html/element/mark#usage_notes)
 
-> Quoting [MDN][https://developer.mozilla.org/en-us/docs/web/html/element/mark#usage_notes]
->
-> - When used in a quotation ([<q>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/q)) or blockquote ([<blockquote>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote)), it generally indicates text which is of special interest but is not marked in the original source material or material which needs special scrutiny even though the original author didn't think it was of particular importance. Think of this like using a highlighter pen in a book to mark passages that you find of interest.
+> - When used in a quotation ([`<q>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/q)) or blockquote ([`<blockquote>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote)), it generally indicates text which is of special interest but is not marked in the original source material or material which needs special scrutiny even though the original author didn't think it was of particular importance. Think of this like using a highlighter pen in a book to mark passages that you find of interest.
 >
 > - Otherwise, [`<mark>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark) indicates a portion of the document's content that is likely to be relevant to the user's current activity. This might be used, for example, to indicate the words that matched a search operation.
 

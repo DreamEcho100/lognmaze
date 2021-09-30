@@ -9,9 +9,9 @@
 	height: 100%;
 	background-color: var(--main-special-bg-color-5);
 	z-index: 9999;
-	transition: all 0.7s ease-in-out;
-	animation: removeMainIntroInHorizontal 0.7s ease-in-out 1.5s forwards;
-	animation-delay: 1.5s;
+	transition: all 0.6s ease-in-out;
+	animation: removeMainIntroInHorizontal 0.7s ease-in-out 1s forwards;
+	animation-delay: 1s;
 }
 
 .container {
@@ -43,8 +43,7 @@
 	stroke-dashoffset: 40477;
 	opacity: 0.5;
 	transition: all 0.3s ease-in-out;
-	animation: sign 1.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.1s forwards;
-	animation-delay: 0.1s;
+	animation: sign 0.6s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.2s forwards;
 }
 
 /* .main-intro.verifying-credentials-finished {

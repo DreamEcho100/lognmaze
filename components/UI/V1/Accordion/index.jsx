@@ -43,7 +43,10 @@ const Accordion = ({
 			}`}
 		>
 			<div className={`${classes['accordion-header']} accordion-header`}>
-				<div className={classes['container']}>
+				<div
+					className={classes['container']}
+					onClick={() => setHideAccordion((prop) => !prop)}
+				>
 					<div className=''>{findByKey('header')}</div>
 					<span
 						className={`${classes['toggle-accordion-button-container']} ${
@@ -52,7 +55,6 @@ const Accordion = ({
 					>
 						<button
 							title={`${hideAccordion ? 'Show' : 'Hide'} accordion button`}
-							onClick={() => setHideAccordion((prop) => !prop)}
 							className={classes['toggle-accordion-button']}
 						></button>
 					</span>
