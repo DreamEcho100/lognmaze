@@ -6,15 +6,15 @@ image_src: https://www.ravedigital.agency/wp-content/uploads/2015/06/html51.jpg
 description: As a web developer, HTML is one of the first languages we learn but it is tricky to learn everything about it and utilize its full potential since it has so many to offer and some of it you may never need and the demand to keep up and update your other skills like in CSS, JavaScript, any other languages, or frameworks/libraries you Know or want to learn
 ---
 
-As a web developer `HTML` is one of the first languages we learn but it's tricky to learn everything about it and utilize its full potential since it has so many to offer and some of it you may never need and the demand to keep up and update your other skills like in `CSS`, `JavaScript`, any other languages, or **frameworks**_/_**libraries** you Know or want to learn.
+As a web developer **HTML** is one of the first languages we learn but it's tricky to learn everything about it and utilize its full potential since it has so many to offer and some of it you may never need and the demand to keep up and update your other skills like in `CSS`, `JavaScript`, any other languages, or **frameworks**_/_**libraries** you Know or want to learn.
 
-Since **semantic `HTML`** has become common, so many new tags are introduced. But we usually stick to the common ones like `<nav></nav>` `<header></header>` `<footer></footer>` etc... .
+Since **semantic HTML** has become common, so many new tags are introduced. But we usually stick to the common ones like `<nav></nav>` `<header></header>` `<footer></footer>` etc... .
 
-But it's never too late to learn about the useful tags that get overlooked or misunderstood despite their benefit. So here in this blog, we will cover some rare and useful HTML tags that I think developers probably don’t know to help you discover the power of some under-used tags.
+But it's never too late to learn about the useful tags that get overlooked or misunderstood despite their benefit. So here in this blog, we will cover some rare and useful **HTML** tags that I think developers probably don’t know to help you discover the power of some under-used tags.
 
 ## Address (\<address></address>)
 
-As the name implies, [`<address>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address) allows you to semantically markup addresses in HTML.
+As the name implies, [`<address>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address) allows you to semantically markup addresses in **HTML**.
 
 It defines the contact information of the organization or person or the author of an article. The contact information can be anything; it can be the address, phone number, email, or website URL.
 
@@ -94,9 +94,9 @@ Fieldset is a useful little attribute that you can add to your forms to logicall
 
 ## Small (\<small></small>)
 
-Before HTML5, the [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) element was only a presentational one, used to write words using a smaller font size.
+Before **HTML5**, the [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) element was only a presentational one, used to write words using a smaller font size.
 
-In HTML5 [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) has some semantic value. Now the [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) element represents text often found in small print like disclaimers, caveats, legal restrictions, or copyrights. An example of its use is shown below:
+In **HTML5** [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) has some semantic value. Now the [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) element represents text often found in small print like disclaimers, caveats, legal restrictions, or copyrights. An example of its use is shown below:
 
 ```html
 <p>
@@ -107,7 +107,7 @@ In HTML5 [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/s
 
 ### Quoting [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small#notes)
 
-> Although the [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) element, like the [`<b>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/b) and [`<i>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/i) elements, may be perceived to violate the principle of separation between structure and presentation, all three are valid in HTML5. Authors are encouraged to use their best judgment when determining whether to use [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) or CSS.
+> Although the [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) element, like the [`<b>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/b) and [`<i>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/i) elements, may be perceived to violate the principle of separation between structure and presentation, all three are valid in **HTML5**. Authors are encouraged to use their best judgment when determining whether to use [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/small) or CSS.
 
 ## Details (\<details></details>)
 
@@ -295,7 +295,7 @@ So, if you want to indicate that a Fuel level is 50% remains, you can write:
 
 ## In Conclusion
 
-In this article, we’ve discussed a number of HTML tags that are less used and often forgotten. I suggest you read the complete list of HTML tags available from [here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) or [here](https://html.spec.whatwg.org/multipage/#auto-toc-4) from time to time. In this way, you’ll refresh your knowledge of semantic elements
+In this article, we’ve discussed a number of **HTML** tags that are less used and often forgotten. I suggest you read the complete list of **HTML** tags available from [here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) or [here](https://html.spec.whatwg.org/multipage/#auto-toc-4) from time to time. In this way, you’ll refresh your knowledge of semantic elements
 
 ## Other tags to look and search for
 
@@ -329,12 +329,12 @@ In this article, we’ve discussed a number of HTML tags that are less used and 
 
 > Note there is a lot of researching and resource gathered from MDN, and the links for them is provided in the tags name like in [`<address>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address) feel free to check them to read more about the topic.
 
-- [8 Rare and Useful HTML Tags You Probably Don’t Know (widgetcore.com)](https://widgetcore.com/8-rare-and-useful-html-tags-you-probably-dont-know/)
+- [8 Rare and Useful **HTML** Tags You Probably Don’t Know (widgetcore.com)](https://widgetcore.com/8-rare-and-useful-html-tags-you-probably-dont-know/)
 
-- [10 HTML Tags You May Not Be Using (sitepoint.com)](https://www.sitepoint.com/10-html-tags-not-using/)
+- [10 **HTML** Tags You May Not Be Using (sitepoint.com)](https://www.sitepoint.com/10-html-tags-not-using/)
 
-- [Five Obscure but Useful HTML Tags (section.io)](https://www.section.io/engineering-education/obscure-html/)
+- [Five Obscure but Useful **HTML** Tags (section.io)](https://www.section.io/engineering-education/obscure-html/)
 
-- [10 Rare HTML Tags You Really Should Know (code.tutsplus.com)](https://code.tutsplus.com/articles/10-rare-html-tags-you-really-should-know--net-3908)
+- [10 Rare **HTML** Tags You Really Should Know (code.tutsplus.com)](https://code.tutsplus.com/articles/10-rare-html-tags-you-really-should-know--net-3908)
 
-- [10 HTML Elements You Didn't Know You Needed (dev.to)](https://dev.to/emmabostian/10-html-element-you-didnt-know-you-needed-3jo4)
+- [10 **HTML** Elements You Didn't Know You Needed (dev.to)](https://dev.to/emmabostian/10-html-element-you-didnt-know-you-needed-3jo4)

@@ -245,59 +245,6 @@ a {
 	font-size: var(--current-font-size);
 }
 
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-	display: block;
-}
-
-nav ul {
-	list-style: none;
-}
-
-a,
-li {
-	text-decoration: none;
-}
-
-blockquote,
-q {
-	quotes: none;
-}
-
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
-	content: '';
-	content: none;
-}
-
-/* a, */
-button,
-select,
-svg {
-	color: inherit;
-}
-
-a {
-	vertical-align: baseline;
-	background: transparent;
-}
-
-input,
-select {
-	vertical-align: middle;
-}
-
 h1 {
 	font-size: var(--header1);
 }
@@ -324,6 +271,32 @@ h4 *,
 h5 *,
 h6 * {
 	font-size: inherit;
+}
+
+p {
+	line-height: 1.25;
+}
+
+a,
+li {
+	text-decoration: none;
+}
+
+body li,
+body[dir='ltr'] li {
+	margin-left: 1.5em;
+}
+body[dir='rtl'] li {
+	margin-right: 1.5em;
+}
+
+nav ul {
+	list-style: none;
+}
+
+a {
+	vertical-align: baseline;
+	background: transparent;
 }
 
 a,
@@ -353,9 +326,79 @@ button:disabled {
 	cursor: not-allowed;
 }
 
+button,
+select,
+svg {
+	color: inherit;
+}
+
+input,
+select {
+	vertical-align: middle;
+}
+
 input[type='radio'],
 input[type='checkbox'] {
 	accent-color: var(--main-special-bg-color-5);
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+	display: block;
+}
+
+blockquote,
+q {
+	quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: '';
+	content: none;
+}
+
+blockquote {
+	background-color: var(--main-special-bg-color-2);
+	padding: 0.1em 0.5em;
+	color: black;
+	position: relative;
+	padding-left: 1.5em;
+	margin: 1em 0;
+}
+
+blockquote::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 0.5em;
+	background-color: var(--main-special-bg-color-5);
+	height: 100%;
+}
+
+code[data-code-inline='true'] {
+	vertical-align: bottom;
+	display: inline-block;
+	background: var(--main-font-color-3);
+	color: var(--main-bg-color-3);
+	padding: 0.05em 0.25em;
+	margin-top: 0.1em;
+	border-radius: 0.25em;
+	max-width: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
 }
 
 .disable {
@@ -363,6 +406,10 @@ input[type='checkbox'] {
 	filter: grayscale(1);
 	user-select: none;
 	cursor: not-allowed;
+}
+
+.margin-0 {
+	margin: 0;
 }
 
 .text-glow-special,
