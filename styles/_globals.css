@@ -148,7 +148,7 @@ body.dark {
 	--main-bg-color-0: var(--color-1-0);
 	--main-bg-color-0-95: var(--color-1-0-95);
 
-	--main-bg-color-1: var(--color-1-10);
+	--main-bg-color-1: var(--color-1-5);
 	--main-bg-color-2: var(--color-1-15);
 	--main-bg-color-3: var(--color-1-70);
 	--main-bg-color-4: var(--color-1-90);
@@ -282,8 +282,10 @@ li {
 	text-decoration: none;
 }
 
-body li,
-body[dir='ltr'] li {
+li {
+	margin: 1em 0;
+}
+body:not([dir='rtl']) li {
 	margin-left: 1.5em;
 }
 body[dir='rtl'] li {
@@ -292,6 +294,11 @@ body[dir='rtl'] li {
 
 nav ul {
 	list-style: none;
+}
+
+body:not([dir='rtl']) nav li,
+body[dir='rtl'] nav li {
+	margin: 0;
 }
 
 a {
@@ -304,7 +311,10 @@ a:hover,
 a:link,
 a:active,
 a:focus,
-a:visited {
+a:visited,
+strong,
+em,
+span {
 	color: inherit;
 }
 
@@ -374,18 +384,28 @@ blockquote {
 	padding: 0.1em 0.5em;
 	color: black;
 	position: relative;
-	padding-left: 1.5em;
 	margin: 1em 0;
+}
+body:not([dir='rtl']) blockquote {
+	padding-left: 1.5em;
+}
+body[dir='rtl'] blockquote {
+	padding-right: 1.5em;
 }
 
 blockquote::before {
 	content: '';
 	position: absolute;
 	top: 0;
-	left: 0;
 	padding: 0.5em;
 	background-color: var(--main-special-bg-color-5);
 	height: 100%;
+}
+body:not([dir='rtl']) blockquote::before {
+	left: 0;
+}
+body[dir='rtl'] blockquote::before {
+	right: 0;
 }
 
 code[data-code-inline='true'] {
@@ -453,11 +473,18 @@ body.dark .text-glow-special {
 	text-align: center;
 }
 
-.buttons-holder-padding-half-em > button {
+body:not([dir='rtl']) .buttons-holder-padding-half-em > button {
 	margin-right: 1em;
 }
-.buttons-holder-padding-half-em > button:last-child {
-	margin-right: 0;
+body:not([dir='rtl']) .buttons-holder-padding-half-em > button:last-child {
+	margin-right: 0em;
+}
+
+body[dir='rtl'] .buttons-holder-padding-half-em > button {
+	margin-left: 1em;
+}
+body[dir='rtl'] .buttons-holder-padding-half-em > button:last-child {
+	margin-left: 0em;
 }
 
 .font-size-inherit {
@@ -517,9 +544,9 @@ span.lazy-load-image-background.blur img {
 	}
 }
 
-@media screen and (max-width: 780px) {
+@media screen and (max-width: 700px) {
 	:root {
-		font-size: 60%;
+		/* font-size: 60%; */
 
 		--header1: var(--size-22);
 		--header2: var(--size-20);

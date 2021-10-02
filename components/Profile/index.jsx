@@ -17,9 +17,6 @@ const DynamicCreateNewsButton = dynamic(() =>
 import Wrapper from '@components/UI/V1/Wrapper';
 import Hero from './Hero';
 import Feed from '@components/UI/V1/News/Feed/Feed';
-const DynamicSensitiveDataAccordion = dynamic(() =>
-	import('./SensitiveDataAccordion')
-);
 
 import BioSection from './BioSection';
 
@@ -205,9 +202,6 @@ const Profile = ({
 								<DynamicCreateNewsButton />
 							)}
 
-							{!isLoadingSkeleton && visitorIdentity === OWNER && (
-								<DynamicSensitiveDataAccordion userData={userData} />
-							)}
 							<BioSection
 								bio={userData?.bio}
 								visitorIdentity={visitorIdentity}

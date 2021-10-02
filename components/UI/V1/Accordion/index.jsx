@@ -11,6 +11,7 @@ const Accordion = ({
 	children,
 	toggltButtonSize,
 	accordionContainerBorderBottomSize,
+	style = {},
 	...props
 }) => {
 	const [hideAccordion, setHideAccordion] = useState(false);
@@ -35,6 +36,7 @@ const Accordion = ({
 					accordionContainerBorderBottomSize
 						? accordionContainerBorderBottomSize
 						: '1',
+				...style,
 			}}
 			className={`${
 				classes['accordion-container']

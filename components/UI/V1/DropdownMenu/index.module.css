@@ -15,7 +15,6 @@
 .settings-menu {
 	position: absolute;
 	top: 100%;
-	right: 0;
 	background-color: var(--main-bg-color-2);
 	height: 0;
 	overflow-y: hidden;
@@ -24,13 +23,22 @@
 	border-radius: 1rem;
 }
 
+body:not([dir='rtl']) .settings-menu {
+	right: 0;
+}
+body[dir='rtl'] .settings-menu {
+	left: 0;
+}
+
 .show-settings-menu {
 	height: fit-content;
 	border: 0.3rem solid var(--main-bg-color-1);
 	overflow-y: auto;
 }
 
-.settings-menu > li {
+.settings-menu > li,
+body[dir='rtl'] .settings-menu li {
+	margin: 0 auto;
 	padding: 0.25em;
 	width: 100%;
 	min-width: max-content;

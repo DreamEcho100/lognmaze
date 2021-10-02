@@ -1,6 +1,7 @@
 .wrapper {
 	margin: 1.2em auto;
 	margin-top: 0;
+	--profile_picture-size: 15rem;
 }
 
 h3.isLoadingSkeleton {
@@ -53,9 +54,17 @@ p.isLoadingSkeleton {
 .cover_photo-container .edit-button {
 	position: absolute;
 	bottom: 0;
-	right: 0;
 	opacity: 0.4;
 	z-index: 9;
+}
+
+body:not([dir='rtl']) .profile_picture-container .edit-button,
+body:not([dir='rtl']) .cover_photo-container .edit-button {
+	right: 0;
+}
+body[dir='rtl'] .profile_picture-container .edit-button,
+body[dir='rtl'] .cover_photo-container .edit-button {
+	left: 0;
 }
 
 .cover_photo-container:hover .edit-button,
@@ -67,12 +76,13 @@ p.isLoadingSkeleton {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	transform: translateY(-50%);
+	margin-top: calc(var(--profile_picture-size) * -0.5);
+	margin-bottom: 0.5em;
 }
 
 .profile_picture-container {
-	width: 15rem;
-	height: 15rem;
+	width: var(--profile_picture-size);
+	height: var(--profile_picture-size);
 	margin: auto;
 	position: relative;
 }
@@ -93,13 +103,22 @@ p.isLoadingSkeleton {
 	opacity: 1;
 }
 
-.basic-data > * {
+.basic-data > *:not(address),
+.basic-data address > * {
 	margin: 0.25em 0;
 }
-.basic-data > *:first-child {
+.basic-data > *:first-child,
+.basic-data address > *:first-child {
 	margin-top: 0;
 }
+.basic-data > *:last-child,
+.basic-data address > *:last-child {
+	margin-bottom: 0;
+}
 
-.buttons > button:not(:last-child) {
+body:not([dir='rtl']) .buttons > button:not(:last-child) {
 	margin-right: 0.5em;
+}
+body[dir='rtl'] .buttons > button:not(:last-child) {
+	margin-left: 0.5em;
 }

@@ -23,8 +23,13 @@
 	width: 6rem;
 	height: 6rem;
 	border-radius: 100%;
-	margin-right: 0.5em;
 	background: var(--main-bg-color-3);
+}
+body:not([dir='rtl']) .author_profile_picture_wrapper {
+	margin-right: 0.5em;
+}
+body[dir='rtl'] .author_profile_picture_wrapper {
+	margin-left: 0.5em;
 }
 
 .author_profile_picture {

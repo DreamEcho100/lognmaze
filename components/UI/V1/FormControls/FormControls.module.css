@@ -9,7 +9,7 @@
 	transition: all ease-in 0.6s;
 }
 
-@media screen and (max-width: 780px) {
+@media screen and (max-width: 700px) {
 	.form-controls-2 {
 		flex-direction: column;
 		justify-content: center;

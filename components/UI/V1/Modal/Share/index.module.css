@@ -165,5 +165,10 @@ section .form-control {
 
 section .form-input {
 	width: 90%;
+}
+body:not([dir='rtl']) .form-input {
 	margin-right: 5%;
+}
+body[dir='rtl'] .form-input {
+	margin-left: 5%;
 }

@@ -10,8 +10,11 @@
 	margin-bottom: 0em;
 }
 
-.type-comment_main_reply {
+body:not([dir='rtl']) .type-comment_main_reply {
 	margin-left: 0.5em;
+}
+body[dir='rtl'] .type-comment_main_reply {
+	margin-right: 0.5em;
 }
 
 .header {
@@ -30,8 +33,13 @@
 	width: 4rem;
 	height: 4rem;
 	border-radius: 50%;
-	margin-right: 0.25em;
 	overflow: hidden;
+}
+body:not([dir='rtl']) .profile_picture-container {
+	margin-right: 0.25em;
+}
+body[dir='rtl'] .profile_picture-container {
+	margin-left: 0.25em;
 }
 
 .author-info {

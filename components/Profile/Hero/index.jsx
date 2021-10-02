@@ -10,9 +10,14 @@ import Wrapper from 'components/UI/V1/Wrapper';
 import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
 import Button from '@components/UI/V1/Button';
 import UpdateUserPictureModal from '@components/UI/V1/Modal/UpdateUserPicture';
-const SettingsButton = dynamic(() => import('./SettingsButton/SettingsButton'));
-const LoadYourLatestDataButton = dynamic(() =>
+const SettingsButtonDynamic = dynamic(() =>
+	import('./SettingsButton/SettingsButton')
+);
+const LoadYourLatestDataButtonDynamic = dynamic(() =>
 	import('./LoadYourLatestDataButton')
+);
+const SensitiveDataAccordionDynamic = dynamic(() =>
+	import('./SensitiveDataAccordion')
 );
 
 const GUEST = 'GUEST';
@@ -127,7 +132,7 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 						classes
 					)}
 				>
-					{userData.gender}
+					{userData.gender[0].toUpperCase() + userData.gender.slice(1)}
 				</p>
 				<address>
 					<p
@@ -157,10 +162,13 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 				</address>
 			</div>
 			{visitorIdentity === OWNER && (
-				<div className={classes.buttons}>
-					<SettingsButton />
-					<LoadYourLatestDataButton user_id={userData.id} />
-				</div>
+				<>
+					<SensitiveDataAccordionDynamic userData={userData} />
+					<div className={classes.buttons}>
+						<SettingsButtonDynamic />
+						<LoadYourLatestDataButtonDynamic user_id={userData.id} />
+					</div>
+				</>
 			)}
 		</Wrapper>
 	);

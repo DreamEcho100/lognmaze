@@ -1,7 +1,7 @@
 .wrapper {
 	width: 100%;
 	padding: 0.5em;
-	margin: 1em auto;
+	margin: 0.5em auto;
 	border-radius: 1rem;
 	box-shadow: 0rem 0rem var(--wrapper-box-shadow-length)
 		var(--main-font-color-1);
@@ -25,7 +25,7 @@
 	width: 100%;
 }
 
-@media screen and (max-width: 780px) {
+@media screen and (max-width: 700px) {
 	.wrapper {
 		margin: 0.5em auto;
 	}

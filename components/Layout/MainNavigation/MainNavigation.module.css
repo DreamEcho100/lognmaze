@@ -9,7 +9,7 @@
 	align-items: center;
 	position: sticky;
 	top: 0;
-	z-index: 9;
+	z-index: 10;
 }
 
 .ul,
@@ -25,6 +25,11 @@
 	margin: auto 0.25em;
 }
 
+.ul,
+.li {
+	list-style: none;
+}
+
 .header,
 .header .button {
 	color: var(--main-special-font-color-5);
@@ -36,10 +41,6 @@
 
 .logo a {
 	font-size: var(--size-16);
-}
-
-.li {
-	margin: 0 0.25em;
 }
 
 .li a,

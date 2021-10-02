@@ -5,7 +5,12 @@
 
 .section-1 {
 	width: 70%;
+}
+body:not([dir='rtl']) .section-1 {
 	margin-right: 1em;
+}
+body[dir='rtl'] .section-1 {
+	margin-left: 1em;
 }
 
 .section-2 {
@@ -16,7 +21,7 @@
 	--skeleton-loading-height: 6rem;
 }
 
-@media screen and (max-width: 780px) {
+@media screen and (max-width: 700px) {
 	.main-section {
 		flex-direction: column-reverse;
 	}

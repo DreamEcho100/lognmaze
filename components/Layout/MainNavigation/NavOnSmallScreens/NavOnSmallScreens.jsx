@@ -46,7 +46,7 @@ const NavOnSmallScreens = ({ user, isVerifyingUserLoading, handleSignOut }) => {
 				}`}
 				onClick={() => setShowNavOnSmallScreens(!showNavOnSmallScreens)}
 			></div>
-			<div
+			<nav
 				className={`${NavOnSmallScreensClasses['main-left-side-menu']} ${
 					showNavOnSmallScreens ? NavOnSmallScreensClasses['show-nav'] : ''
 				}`}
@@ -86,7 +86,7 @@ const NavOnSmallScreens = ({ user, isVerifyingUserLoading, handleSignOut }) => {
 						</li>
 					)}
 				</ul>
-			</div>
+			</nav>
 		</>
 	);
 };

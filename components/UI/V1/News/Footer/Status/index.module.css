@@ -8,11 +8,14 @@
 	margin: 0 0.25em;
 }
 
-.status-item:first-child {
+body:not([dir='rtl']) .status-item:first-child,
+body[dir='rtl'] .status-item:last-child {
 	margin-left: 0;
 }
-
-.status-item:last-child {
+body:not([dir='rtl'])
+	.status-item:last-child
+	body[dir='rtl']
+	.status-item:first-child {
 	margin-right: 0;
 }
 
@@ -26,10 +29,11 @@
 	cursor: default;
 }
 
-.vote:first-child {
+body:not([dir='rtl']) .vote:first-child,
+body[dir='rtl'] .vote:last-child {
 	margin-left: 0;
 }
-
-.vote:last-child {
+body:not([dir='rtl']) .vote:last-child,
+body[dir='rtl'] .vote:first-child {
 	margin-right: 0;
 }
