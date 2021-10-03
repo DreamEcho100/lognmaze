@@ -58,9 +58,8 @@ p.isLoadingSkeleton {
 	z-index: 9;
 }
 
-/*body:not([dir='rtl']) */
-.profile_picture-container .edit-button,
-/*body:not([dir='rtl']) */.cover_photo-container .edit-button {
+body:not([dir='rtl']) .profile_picture-container .edit-button,
+body:not([dir='rtl']) .cover_photo-container .edit-button {
 	right: 0;
 }
 body[dir='rtl'] .profile_picture-container .edit-button,
@@ -117,8 +116,7 @@ body[dir='rtl'] .cover_photo-container .edit-button {
 	margin-bottom: 0;
 }
 
-/*body:not([dir='rtl']) */
-.buttons > button:not(:last-child) {
+body:not([dir='rtl']) .buttons > button:not(:last-child) {
 	margin-right: 0.5em;
 }
 body[dir='rtl'] .buttons > button:not(:last-child) {

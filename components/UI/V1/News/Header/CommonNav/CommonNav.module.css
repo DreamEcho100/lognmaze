@@ -25,8 +25,7 @@
 	border-radius: 100%;
 	background: var(--main-bg-color-3);
 }
-/*body:not([dir='rtl']) */
-.author_profile_picture_wrapper {
+body:not([dir='rtl']) .author_profile_picture_wrapper {
 	margin-right: 0.5em;
 }
 body[dir='rtl'] .author_profile_picture_wrapper {

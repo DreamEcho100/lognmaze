@@ -10,8 +10,7 @@
 	margin-bottom: 0em;
 }
 
-/*body:not([dir='rtl']) */
-.type-comment_main_reply {
+body:not([dir='rtl']) .type-comment_main_reply {
 	margin-left: 0.5em;
 }
 body[dir='rtl'] .type-comment_main_reply {
@@ -36,8 +35,7 @@ body[dir='rtl'] .type-comment_main_reply {
 	border-radius: 50%;
 	overflow: hidden;
 }
-/*body:not([dir='rtl']) */
-.profile_picture-container {
+body:not([dir='rtl']) .profile_picture-container {
 	margin-right: 0.25em;
 }
 body[dir='rtl'] .profile_picture-container {

@@ -11,8 +11,7 @@
 	width: 70%;
 }
 
-/*body:not([dir='rtl']) */
-.section-1 {
+body:not([dir='rtl']) .section-1 {
 	margin-right: 1em;
 }
 body[dir='rtl'] .section-1 {
