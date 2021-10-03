@@ -115,6 +115,7 @@ body[dir='rtl'] .main-left-side-menu.show-nav {
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
+	margin: 0;
 }
 
 /*body:not([dir='rtl']) */
