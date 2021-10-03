@@ -52,7 +52,9 @@ const SignUp = ({
 
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
 
-	const handleGetCities = async (state) => {
+	const handleGetCities = async () => {
+		const state = values.state;
+
 		setValues((prev) => ({
 			...prev,
 			city: '',
@@ -89,12 +91,15 @@ const SignUp = ({
 		}
 	};
 
-	const handleGetStates = async (country) => {
+	const handleGetStates = async () => {
+		const country = values.country;
+
 		setValues((prev) => ({
 			...prev,
 			state: '',
 			city: '',
 		}));
+
 		try {
 			const response = await fetch(
 				`https://www.universal-tutorial.com/api/states/${country}`,
@@ -119,7 +124,6 @@ const SignUp = ({
 							...prev,
 							state: data[0].state_name,
 						}));
-						await handleGetCities(data[0].state_name);
 					}
 				});
 		} catch (error) {
@@ -162,7 +166,6 @@ const SignUp = ({
 						...prev,
 						country: data[0].country_name,
 					}));
-					await handleGetStates(data[0].country_name);
 				});
 		} catch (error) {
 			console.error(error);
@@ -276,6 +279,21 @@ const SignUp = ({
 			(countryObj) => countryObj.country_name === values.country
 		);
 	}, [values.country]);
+
+	useEffect(() => {
+		if (!values.country) return;
+
+		setStates([]);
+		setCities([]);
+		handleGetStates();
+	}, [values.country]);
+
+	useEffect(() => {
+		if (!values.state) return;
+
+		setCities([]);
+		handleGetCities();
+	}, [values.state]);
 
 	if (!UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN) {
 		return (
@@ -413,16 +431,12 @@ const SignUp = ({
 					id='country'
 					required
 					onChange={(event) => {
-						new Promise((resolve, reject) => {
-							setValues((prev) => ({
-								...prev,
-								[event.target.name]: event.target.value,
-							}));
-							setStates([]);
-							setCities([]);
-							resolve();
-							handleGetStates(event.target.value);
-						});
+						if (values.country === event.target.value) return;
+
+						setValues((prev) => ({
+							...prev,
+							[event.target.name]: event.target.value,
+						}));
 					}}
 					value={values.country}
 				>
@@ -453,15 +467,12 @@ const SignUp = ({
 						id='state'
 						required
 						onChange={(event) => {
-							new Promise((resolve, reject) => {
-								setValues((prev) => ({
-									...prev,
-									[event.target.name]: event.target.value,
-								}));
-								setCities([]);
-								handleGetCities(event.target.value);
-								resolve();
-							});
+							if (values.state === event.target.value) return;
+
+							setValues((prev) => ({
+								...prev,
+								[event.target.name]: event.target.value,
+							}));
 						}}
 						value={values.state}
 					>

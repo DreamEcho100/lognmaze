@@ -29,7 +29,10 @@ export default async (req, res) => {
 					comments_to_not_fetch: [],
 				};
 
-				if (req.query.comments_to_not_fetch) {
+				if (
+					typeof req.query.comments_to_not_fetch === 'string' &&
+					req.query.comments_to_not_fetch.length > 0
+				) {
 					req.query.comments_to_not_fetch.split(',').forEach((item) => {
 						queryParams.push(item);
 						WhereParamsIndex.comments_to_not_fetch.push(
@@ -92,7 +95,10 @@ export default async (req, res) => {
 					replies_to_not_fetch: [],
 				};
 
-				if (req.query.replies_to_not_fetch) {
+				if (
+					typeof req.query.replies_to_not_fetch === 'string' &&
+					req.query.replies_to_not_fetch.length > 0
+				) {
 					req.query.replies_to_not_fetch.split(',').forEach((item) => {
 						queryParams.push(item);
 						WhereParamsIndex.replies_to_not_fetch.push(
