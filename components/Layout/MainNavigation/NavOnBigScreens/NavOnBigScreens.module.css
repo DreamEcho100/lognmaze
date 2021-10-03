@@ -7,6 +7,22 @@
 	padding: 0.25em 0.5em;
 }
 
+/*body:not([dir='rtl']) */
+.ul .li {
+	margin-right: 0.5em;
+}
+/*body:not([dir='rtl']) */
+.ul .li:nth-last-child() {
+	margin-right: 0em;
+}
+
+body[dir='rtl'] .ul .li {
+	margin-left: 0.5em;
+}
+body[dir='rtl'] .ul .li:nth-last-child() {
+	margin-left: 0em;
+}
+
 @media screen and (max-width: 700px) {
 	.nav-on-big-screens {
 		display: none;

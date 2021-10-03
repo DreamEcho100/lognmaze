@@ -23,7 +23,8 @@
 	border-radius: 1rem;
 }
 
-body:not([dir='rtl']) .settings-menu {
+/*body:not([dir='rtl']) */
+.settings-menu {
 	right: 0;
 }
 body[dir='rtl'] .settings-menu {

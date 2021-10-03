@@ -285,7 +285,8 @@ li {
 li {
 	margin: 1em 0;
 }
-body:not([dir='rtl']) li {
+/*body:not([dir='rtl']) */
+li {
 	margin-left: 1.5em;
 }
 body[dir='rtl'] li {
@@ -296,7 +297,8 @@ nav ul {
 	list-style: none;
 }
 
-body:not([dir='rtl']) nav li,
+/*body:not([dir='rtl']) */
+nav li,
 body[dir='rtl'] nav li {
 	margin: 0;
 }
@@ -386,7 +388,8 @@ blockquote {
 	position: relative;
 	margin: 1em 0;
 }
-body:not([dir='rtl']) blockquote {
+/*body:not([dir='rtl']) */
+blockquote {
 	padding-left: 1.5em;
 }
 body[dir='rtl'] blockquote {
@@ -401,7 +404,8 @@ blockquote::before {
 	background-color: var(--main-special-bg-color-5);
 	height: 100%;
 }
-body:not([dir='rtl']) blockquote::before {
+/*body:not([dir='rtl']) */
+blockquote::before {
 	left: 0;
 }
 body[dir='rtl'] blockquote::before {
@@ -473,10 +477,12 @@ body.dark .text-glow-special {
 	text-align: center;
 }
 
-body:not([dir='rtl']) .buttons-holder-padding-half-em > button {
+/*body:not([dir='rtl']) */
+.buttons-holder-padding-half-em > button {
 	margin-right: 1em;
 }
-body:not([dir='rtl']) .buttons-holder-padding-half-em > button:last-child {
+/*body:not([dir='rtl']) */
+.buttons-holder-padding-half-em > button:last-child {
 	margin-right: 0em;
 }
 

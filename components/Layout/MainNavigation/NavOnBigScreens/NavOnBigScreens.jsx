@@ -17,9 +17,13 @@ const NavOnBigScreens = ({ user, isVerifyingUserLoading, handleSignOut }) => {
 					</a>
 				</Link>
 			</div>
-			<ul className={MainNavigationClasses.ul}>
+			<ul
+				className={`${MainNavigationClasses.ul} ${NavOnBigScreensClasses.ul}`}
+			>
 				{!isVerifyingUserLoading && user.id && (
-					<li className={MainNavigationClasses.li}>
+					<li
+						className={`${MainNavigationClasses.li} ${NavOnBigScreensClasses.li}`}
+					>
 						<Link href={`/profile/${user.user_name_id}`} passHref>
 							<a title={`${user.user_name_id} profile`}>
 								<FontAwesomeIcon icon={['fas', 'user']} />
@@ -28,12 +32,16 @@ const NavOnBigScreens = ({ user, isVerifyingUserLoading, handleSignOut }) => {
 					</li>
 				)}
 				{!isVerifyingUserLoading && !user.id && (
-					<li className={MainNavigationClasses.li}>
+					<li
+						className={`${MainNavigationClasses.li} ${NavOnBigScreensClasses.li}`}
+					>
 						<Link href='/auth'>Sign In/Up</Link>
 					</li>
 				)}
 				{!isVerifyingUserLoading && user.id && (
-					<li className={MainNavigationClasses.li}>
+					<li
+						className={`${MainNavigationClasses.li} ${NavOnBigScreensClasses.li}`}
+					>
 						<button
 							title='Sign Out'
 							className={MainNavigationClasses.button}

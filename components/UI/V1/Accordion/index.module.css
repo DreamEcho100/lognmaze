@@ -52,7 +52,8 @@
 	position: relative;
 }
 
-body:not([dir='rtl']) .toggle-accordion-button {
+/*body:not([dir='rtl']) */
+.toggle-accordion-button {
 	right: 0;
 }
 body[dir='rtl'] .toggle-accordion-button {
