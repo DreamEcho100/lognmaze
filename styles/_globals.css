@@ -241,6 +241,8 @@ body {
 body,
 button,
 p,
+select,
+input,
 a {
 	font-size: var(--current-font-size);
 }
