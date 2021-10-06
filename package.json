@@ -19,7 +19,7 @@
 		"@fortawesome/free-solid-svg-icons": "^5.15.4",
 		"@fortawesome/react-fontawesome": "^0.1.15",
 		"@next/bundle-analyzer": "^11.1.2",
-		"@types/react": "^17.0.20",
+		"@types/react": "^17.0.21",
 		"bcrypt": "^5.0.1",
 		"cross-env": "^7.0.3",
 		"jsonwebtoken": "^8.5.1",
