@@ -123,14 +123,14 @@ export const getStaticProps = async ({ params: { slug }, res }) => {
 	// 	res,
 	// } = context;
 
-	const slugsToReplace = {
-		'basic-guide-to-jsonb-in-postgresql':
-			'basic-guide-to-json-in-postgresql-jsonb',
-		'basic-guide-to-json-in-postgresql':
-			'basic-guide-to-json-in-postgresql-jsonb',
-		'full-guide-to-cookies-and-javascript-clint-side':
-			'full-guide-to-cookies-and-javascript-client-side',
-	};
+	// const slugsToReplace = {
+	// 	'basic-guide-to-jsonb-in-postgresql':
+	// 		'basic-guide-to-json-in-postgresql-jsonb',
+	// 	'basic-guide-to-json-in-postgresql':
+	// 		'basic-guide-to-json-in-postgresql-jsonb',
+	// 	'full-guide-to-cookies-and-javascript-clint-side':
+	// 		'full-guide-to-cookies-and-javascript-client-side',
+	// };
 
 	try {
 		if (!slug) {
@@ -143,6 +143,7 @@ export const getStaticProps = async ({ params: { slug }, res }) => {
 				notFound: true,
 			};
 		}
+
 		const result = await pool
 			.query(
 				`
@@ -183,7 +184,10 @@ export const getStaticProps = async ({ params: { slug }, res }) => {
 						WHERE news_article.slug = $1
 						;
 					`,
-				[slugsToReplace[slug] || slug]
+				[
+					// slugsToReplace[slug] ||
+					slug,
+				]
 			)
 			.then((response) => response.rows[0]);
 
