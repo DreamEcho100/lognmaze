@@ -33,6 +33,8 @@ const ArticlePage = (props) => {
 					<meta property='article:modified_time' content={data.updated_at} />
 				)}
 
+				{data.slug && <link rel='canonical' href={`article/${data.slug}`} />}
+
 				<script
 					type='application/ld+json'
 					dangerouslySetInnerHTML={{
