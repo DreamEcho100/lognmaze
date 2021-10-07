@@ -137,7 +137,7 @@ const Action = ({
 				<Fragment key='header'>
 					<header>
 						<h2>Are you sure you want to delete it?</h2>
-						<div className='buttons-holder-padding-half-em'>
+						<div className='buttons-holder'>
 							<Button
 								title='Yes'
 								onClick={() =>

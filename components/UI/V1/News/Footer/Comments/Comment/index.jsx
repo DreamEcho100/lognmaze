@@ -395,7 +395,7 @@ const Comment = ({ comment, newsItem, ...props }) => {
 
 			{loadingReplies && <p>Loading...</p>}
 
-			<div className='buttons-holder-padding-half-em'>
+			<div className='buttons-holder'>
 				{showReplies &&
 					comment.type === 'comment_main' &&
 					!comment.hit_replies_limit &&

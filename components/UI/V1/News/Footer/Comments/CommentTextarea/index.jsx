@@ -24,7 +24,7 @@ const CommentTextarea = ({
 				onChange={onChange}
 				value={value}
 			/>
-			<div className='buttons-holder-padding-half-em'>
+			<div className='buttons-holder'>
 				<Button title='Submit Form' type='submit' disabled={disableSubmitBtn}>
 					Send
 				</Button>

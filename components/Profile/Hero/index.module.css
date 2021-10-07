@@ -115,10 +115,3 @@ body[dir='rtl'] .cover_photo-container .edit-button {
 .basic-data address > *:last-child {
 	margin-bottom: 0;
 }
-
-body:not([dir='rtl']) .buttons > button:not(:last-child) {
-	margin-right: 0.5em;
-}
-body[dir='rtl'] .buttons > button:not(:last-child) {
-	margin-left: 0.5em;
-}

@@ -475,17 +475,21 @@ body.dark .text-glow-special {
 	text-align: center;
 }
 
-body:not([dir='rtl']) .buttons-holder-padding-half-em > button {
+.buttons-holder {
+	margin-top: 0.5em;
+}
+
+body:not([dir='rtl']) .buttons-holder > button {
 	margin-right: 1em;
 }
-body:not([dir='rtl']) .buttons-holder-padding-half-em > button:last-child {
+body:not([dir='rtl']) .buttons-holder > button:last-child {
 	margin-right: 0em;
 }
 
-body[dir='rtl'] .buttons-holder-padding-half-em > button {
+body[dir='rtl'] .buttons-holder > button {
 	margin-left: 1em;
 }
-body[dir='rtl'] .buttons-holder-padding-half-em > button:last-child {
+body[dir='rtl'] .buttons-holder > button:last-child {
 	margin-left: 0em;
 }
 

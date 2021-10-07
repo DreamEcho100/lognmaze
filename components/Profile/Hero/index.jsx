@@ -164,7 +164,7 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 			{visitorIdentity === OWNER && (
 				<>
 					<SensitiveDataAccordionDynamic userData={userData} />
-					<div className={classes.buttons}>
+					<div className='buttons-holder'>
 						<SettingsButtonDynamic />
 						<LoadYourLatestDataButtonDynamic user_id={userData.id} />
 					</div>

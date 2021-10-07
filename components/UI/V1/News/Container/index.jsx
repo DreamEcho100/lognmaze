@@ -1,7 +1,7 @@
-import { Fragment, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';
-import BorderClasses from '@components/UI/V1/Border.module.css';
 
 import NewsContext from '@store/NewsContext';
 import {
@@ -11,9 +11,10 @@ import {
 import UserContext from '@store/UserContext';
 import { handleAllClasses } from '@/lib/v1/className';
 
-import Modal from '@components/UI/V1/Modal';
+const DynamicDeleteNewsModal = dynamic(() =>
+	import('@components/UI/V1/Modal/DeleteNews')
+);
 import ContainerItems from './ContainerItems';
-import Button from '@components/UI/V1/Button';
 
 const Container = ({
 	defaultClasses = 'container',
@@ -90,35 +91,13 @@ const Container = ({
 			/>
 
 			{!isLoadingSkeleton && props.modalOnClick && (
-				<Modal
+				<DynamicDeleteNewsModal
 					showModal={showModal}
 					setShowModal={setShowModal}
-					click={() => setShowModal(false)}
-					CloseButtonElement={(props) => (
-						<Button title='Close Modal' {...props}>
-							Close
-						</Button>
-					)}
-					modelClasses={{
-						'modal-wrapper': { width: '90%', maxWidth: 'none' },
-						'modal-container': { background: 'var(--main-bg-color-2)' },
-						'modal-body': {
-							background: 'var(--main-bg-color-1)',
-						},
-					}}
-				>
-					<Fragment key='header'>{/* <Header /> */}</Fragment>
-					<Fragment key='body'>
-						<ContainerItems
-							className={`${BorderClasses['border-2']}`}
-							articleProps={articleProps}
-							newsItem={newsItem}
-							setShowModal={setShowModal}
-							detailsType='content'
-							hideFooterSettings={props.hideFooterSettings}
-						/>
-					</Fragment>
-				</Modal>
+					articleProps={articleProps}
+					newsItem={newsItem}
+					hideFooterSettings={props.hideFooterSettings}
+				/>
 			)}
 		</>
 	);
