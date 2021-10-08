@@ -2,6 +2,7 @@
 	display: flex;
 	align-items: center;
 	margin: 0.5em 0;
+	overflow-y: auto;
 }
 
 .status-item {

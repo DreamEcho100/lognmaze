@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 // const DynamicReactMarkdown = dynamic(() => import('react-markdown'));
@@ -6,14 +5,14 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 const SyntaxHighlighterDynamic = dynamic(() => import('./SyntaxHighlighter'));
-const InsideArticleAdDynamic = dynamic(
-	() => import('@components/UI/V1/AddsByGoogle/InsideArticleAd'),
+const DynamicHorizontalPhotoAd1 = dynamic(
+	() => import('@components/UI/V1/AddsByGoogle/DisplayAd/Horizontal/PhotoAd1'),
 	{ ssr: false }
 );
 
 import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
 
-const Md = ({ content, addInsideArticleAd = false }) => {
+const Md = ({ content, addHorizontalPhotoAd1 = false }) => {
 	// const [elementsCounter, setElementsCounter] = useState({
 	// 	h1: 0,
 	// 	h2: 0,
@@ -21,7 +20,7 @@ const Md = ({ content, addInsideArticleAd = false }) => {
 	// 	h4: 0,
 	// 	h5: 0,
 	// 	h6: 0,
-	// 	InsideArticleAdDynamic: 0,
+	// 	HorizontalPhotoAd1Dynamic: 0,
 	// });
 
 	const elementsCounter = {
@@ -31,7 +30,7 @@ const Md = ({ content, addInsideArticleAd = false }) => {
 		h4: 0,
 		h5: 0,
 		h6: 0,
-		InsideArticleAdDynamic: 0,
+		HorizontalPhotoAd1Dynamic: 0,
 	};
 
 	const customRenderers = {
@@ -101,16 +100,15 @@ const Md = ({ content, addInsideArticleAd = false }) => {
 			);
 		},
 		h2: ({ children }) => {
-			const showInsideArticleAd =
+			const showHorizontalPhotoAd1 =
 				elementsCounter.h2++ &&
-				addInsideArticleAd &&
+				addHorizontalPhotoAd1 &&
 				(elementsCounter.h2 === 2 || elementsCounter.h2 % 3 === 0) &&
-				++elementsCounter.InsideArticleAdDynamic;
+				++elementsCounter.HorizontalPhotoAd1Dynamic;
 
 			return (
 				<>
-					{/* <InsideArticleAdDynamic /> */}
-					{showInsideArticleAd ? <InsideArticleAdDynamic /> : ''}
+					{showHorizontalPhotoAd1 ? <DynamicHorizontalPhotoAd1 /> : ''}
 					<h2
 						id={`h2_${
 							children && children[0]?.replace
@@ -194,7 +192,7 @@ const Md = ({ content, addInsideArticleAd = false }) => {
 			>
 				{content}
 			</ReactMarkdown>
-			{addInsideArticleAd ? <InsideArticleAdDynamic /> : ''}
+			{addHorizontalPhotoAd1 ? <DynamicHorizontalPhotoAd1 /> : ''}
 		</>
 	);
 };

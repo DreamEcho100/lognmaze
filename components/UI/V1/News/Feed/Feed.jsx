@@ -7,7 +7,7 @@ import NewsContext from '@store/NewsContext';
 import { handleLoadMoreNewsItems } from '@store/NewsContext/actions';
 import { handleAllClasses } from '@/lib/v1/className';
 
-const HorizontalPhotoAd1Dynamic = dynamic(
+const DynamicHorizontalPhotoAd1 = dynamic(
 	() => import('@components/UI/V1/AddsByGoogle/DisplayAd/Horizontal/PhotoAd1'),
 	{ ssr: false }
 );
@@ -85,7 +85,7 @@ const Feed = ({
 							</Wrapper>
 							{/* <Wrapper> */}
 							{(index % 2 === 0 || state.news.length === 1) && (
-								<HorizontalPhotoAd1Dynamic />
+								<DynamicHorizontalPhotoAd1 />
 							)}
 							{/* </Wrapper> */}
 						</Fragment>

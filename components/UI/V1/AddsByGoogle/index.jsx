@@ -9,9 +9,10 @@ const AddsByGoogle = ({
 	format = 'auto',
 	layout = '',
 	responsive = 'false',
+	...props
 }) => {
 	useEffect(() => {
-    if (window) (window.adsbygoogle = window.adsbygoogle || []).push({});
+		if (window) (window.adsbygoogle = window.adsbygoogle || []).push({});
 	}, []);
 
 	return (
@@ -23,6 +24,7 @@ const AddsByGoogle = ({
 			data-ad-layout={layout}
 			data-ad-format={format}
 			data-full-width-responsive={responsive}
+			{...props}
 		/>
 	);
 };

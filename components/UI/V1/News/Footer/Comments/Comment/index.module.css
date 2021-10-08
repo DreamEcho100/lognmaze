@@ -34,19 +34,13 @@ body[dir='rtl'] .type-comment_main_reply {
 	height: 4rem;
 	border-radius: 50%;
 	overflow: hidden;
+	--lazy-load-image-background-height: 100%;
 }
 body:not([dir='rtl']) .profile_picture-container {
 	margin-right: 0.25em;
 }
 body[dir='rtl'] .profile_picture-container {
 	margin-left: 0.25em;
-}
-
-.author-info {
-}
-
-.author_name {
-	font-weight: bold;
 }
 
 .footer {

@@ -142,6 +142,7 @@
 	--main-special-2-font-color-5: var(--color-1-15);
 
 	--wrapper-box-shadow-length: 1rem;
+	--lazy-load-image-background-height: auto;
 }
 
 body.dark {
@@ -167,18 +168,23 @@ body.dark {
 	--main-special-bg-color-5: var(--color-2-20);
 }
 
-:-webkit-scrollbar {
+/*.special-scrollbar*/
+::-webkit-scrollbar {
 	width: 1rem;
 	height: 1rem;
 }
+/*.special-scrollbar*/
 ::-webkit-scrollbar-button {
 	background: var(--main-special-bg-color-5);
 	width: 1rem;
 	height: 1rem;
 }
+/*.special-scrollbar*/
 ::-webkit-scrollbar-thumb {
 	background: var(--main-special-bg-color-5);
+	border-radius: 1rem;
 }
+/*.special-scrollbar*/
 ::-webkit-scrollbar-track {
 	background: var(--main-bg-color-2);
 }
@@ -503,6 +509,7 @@ span.lazy-load-image-background.blur {
 	width: 100%;
 	position: unset;
 	display: block;
+	height: var(--lazy-load-image-background-height);
 }
 
 span.lazy-load-image-background img,

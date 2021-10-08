@@ -24,6 +24,7 @@
 	height: 6rem;
 	border-radius: 100%;
 	background: var(--main-bg-color-3);
+	--lazy-load-image-background-height: 100%;
 }
 body:not([dir='rtl']) .author_profile_picture_wrapper {
 	margin-right: 0.5em;

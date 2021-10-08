@@ -13,25 +13,36 @@ const InsideArticleAd = () => {
 	// }, []);
 
 	return (
-		<AddsByGoogle
-			// client='ca-pub-7292810486004926'
-			// slot='7806394673'
-			// style={{ display: 'block' }}
-			// layout='in-article'
-			// format='fluid'
-
-			className='adsbygoogle InsideArticleAd'
-			client='ca-pub-8030984398568253'
-			slot='8883547056'
+		<section
 			style={{
-				display: 'block',
-				// minHeight: 'min(25vh, 10rem)',
 				width: '100%',
-				textAlign: 'center',
+				overflowY: 'hidden',
+				overflowX: 'auto',
 			}}
-			layout='in-article'
-			format='fluid'
-		/>
+		>
+			<AddsByGoogle
+				// client='ca-pub-7292810486004926'
+				// slot='7806394673'
+				// style={{ display: 'block' }}
+				// layout='in-article'
+				// format='fluid'
+
+				className='adsbygoogle InsideArticleAd'
+				client='ca-pub-8030984398568253'
+				slot='8883547056'
+				style={{
+					display: 'block',
+					// minHeight: 'min(25vh, 10rem)',
+					width: '100%',
+					textAlign: 'center',
+				}}
+				layout='in-article'
+				format='fluid'
+				style={{
+					minWidth: '251px'
+				}}
+			/>
+		</section>
 	);
 
 	/*

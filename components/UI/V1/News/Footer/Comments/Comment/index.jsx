@@ -247,11 +247,15 @@ const Comment = ({ comment, newsItem, ...props }) => {
 						/>
 					</div>
 					<div className={classes['author-info']}>
-						<p className={classes.author_name}>
-							{comment.author_first_name} {comment.author_last_name}
+						<p>
+							<strong>{comment.author_user_name_id}</strong>
 						</p>
-						<p className={classes.user_name_id}>
-							{comment.author_user_name_id}
+						<p>
+							<em>
+								<small>
+									{comment.author_first_name} {comment.author_last_name}
+								</small>
+							</em>
 						</p>
 					</div>
 				</nav>
