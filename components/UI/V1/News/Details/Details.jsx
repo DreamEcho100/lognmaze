@@ -131,7 +131,11 @@ const Details = ({
 	} else if (detailsType === 'content') {
 		return (
 			<FormatterContainer className={classes.details}>
-				<Md content={newsItem.content} addHorizontalPhotoAd1={true} />
+				<Md
+					content={newsItem.content}
+					// addHorizontalPhotoAd1={true}
+					addHorizontalPhotoAd1={false}
+				/>
 			</FormatterContainer>
 		);
 	}

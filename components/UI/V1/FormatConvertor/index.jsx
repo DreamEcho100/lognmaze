@@ -41,7 +41,8 @@ const FormatConvertor = ({
 					<FormatterContainer>
 						<Md
 							content={props.values[name] || values[name]}
-							addHorizontalPhotoAd1={true}
+							// addHorizontalPhotoAd1={true}
+							addHorizontalPhotoAd1={false}
 						/>
 					</FormatterContainer>
 				)}
