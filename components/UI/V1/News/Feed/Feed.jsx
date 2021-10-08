@@ -84,7 +84,7 @@ const Feed = ({
 								/>
 							</Wrapper>
 							{/* <Wrapper> */}
-							{(index % 2 === 0 || state.news.length === 1) && (
+							{false && (index % 2 === 0 || state.news.length === 1) && (
 								<DynamicHorizontalPhotoAd1 />
 							)}
 							{/* </Wrapper> */}
