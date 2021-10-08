@@ -12,7 +12,7 @@ const DynamicHorizontalPhotoAd1 = dynamic(
 
 import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
 
-const Md = ({ content, addHorizontalPhotoAd1 = false }) => {
+const Md = ({ content, addHorizontalPhotoAd11 = false }) => {
 	// const [elementsCounter, setElementsCounter] = useState({
 	// 	h1: 0,
 	// 	h2: 0,
@@ -102,7 +102,7 @@ const Md = ({ content, addHorizontalPhotoAd1 = false }) => {
 		h2: ({ children }) => {
 			const showHorizontalPhotoAd1 =
 				elementsCounter.h2++ &&
-				addHorizontalPhotoAd1 &&
+				addHorizontalPhotoAd11 &&
 				(elementsCounter.h2 === 2 || elementsCounter.h2 % 3 === 0) &&
 				++elementsCounter.HorizontalPhotoAd1Dynamic;
 
@@ -192,7 +192,7 @@ const Md = ({ content, addHorizontalPhotoAd1 = false }) => {
 			>
 				{content}
 			</ReactMarkdown>
-			{addHorizontalPhotoAd1 ? <DynamicHorizontalPhotoAd1 /> : ''}
+			{addHorizontalPhotoAd11 ? <DynamicHorizontalPhotoAd1 /> : ''}
 		</>
 	);
 };
