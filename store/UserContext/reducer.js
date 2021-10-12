@@ -2,25 +2,25 @@ import types from './types';
 
 const reducer = (state, action) => {
 	if (action.type === types.SET_DATA_FIRST_TIME) {
-		const { user, token, userExist, isVerifyingUserLoading } = action.payload;
+		const { user, token, isVerifyingUserLoading } = action.payload;
 
 		return {
 			...state,
 			user,
 			token,
-			userExist,
+
 			isVerifyingUserLoading,
 		};
 	}
 
 	if (action.type === types.SET_DATA) {
-		const { user, token, userExist, isVerifyingUserLoading } = action.payload;
+		const { user, token, isVerifyingUserLoading } = action.payload;
 
 		return {
 			...state,
 			user,
 			token,
-			userExist,
+
 			isVerifyingUserLoading,
 		};
 	}
@@ -30,7 +30,6 @@ const reducer = (state, action) => {
 			...state,
 			user: {},
 			token: '',
-			userExist: false,
 		};
 	}
 

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 
-import UserContext from '@store/UserContext';
+import UserContext, { UserExistContext } from '@store/UserContext';
 
 // import Auth from '@components/Auth';
 const DynamicAuth = dynamic(() => import('@components/Auth'));
@@ -15,6 +15,7 @@ const AuthPage = ({
 	const router = useRouter();
 
 	const { dispatch: userDispatch, state: userState } = useContext(UserContext);
+	const { userExist } = useContext(UserExistContext);
 
 	const [isLoading, setIsLoading] = useState(true);
 	const [dynamicComponentReady, setDynamicComponentReady] = useState(false);
@@ -24,9 +25,9 @@ const AuthPage = ({
 	// useEffect(() => {
 	// 	if (userState.isVerifyingUserLoading) return;
 
-	// 	if (userState.userExist) router.replace('/');
+	// 	if (userExist) router.replace('/');
 	// 	else if (isLoading) setIsLoading(false);
-	// }, [userState.userExist, userState.isVerifyingUserLoading]);
+	// }, [userExist, userState.isVerifyingUserLoading]);
 
 	useEffect(() => {
 		const params = new URLSearchParams(window.location.search);
@@ -37,7 +38,7 @@ const AuthPage = ({
 
 		if (userState.isVerifyingUserLoading) return;
 
-		if (userState.userExist) router.replace('/');
+		if (userExist) router.replace('/');
 		else if (isLoading) setIsLoading(false);
 	}, []);
 
@@ -55,7 +56,7 @@ const AuthPage = ({
 		return <p>Loading...</p>;
 	}
 
-	if (userState.userExist) {
+	if (userExist) {
 		return (
 			<>
 				<p>You Are Already Signed!</p>

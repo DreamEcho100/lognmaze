@@ -5,7 +5,7 @@ import {
 	handlePostingCommentToNewsItem,
 } from '@store/NewsContext/actions';
 import NewsContext from '@store/NewsContext';
-import UserContext from '@store/UserContext';
+import UserContext, { UserExistContext } from '@store/UserContext';
 
 import Comment from './Comment';
 import CommentTextarea from './CommentTextarea';
@@ -20,6 +20,7 @@ const Comments = ({
 	focusCommentTextarea,
 }) => {
 	const { state: userState } = useContext(UserContext);
+	const { userExist } = useContext(UserExistContext);
 	const { dispatch } = useContext(NewsContext);
 
 	const [values, setValues] = useState({
@@ -70,7 +71,7 @@ const Comments = ({
 
 	return (
 		<section className={`${inheritedClasses}`}>
-			{userState.userExist && (
+			{userExist && (
 				<CommentTextarea
 					handleSubmit={handleSubmit}
 					focusTextarea={focusCommentTextarea}

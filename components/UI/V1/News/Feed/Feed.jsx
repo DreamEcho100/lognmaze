@@ -4,7 +4,10 @@ import dynamic from 'next/dynamic';
 import classes from './Feed.module.css';
 
 import NewsContext from '@store/NewsContext';
-import { handleLoadMoreNewsItems } from '@store/NewsContext/actions';
+import {
+	handleAddingNewsFirstTime,
+	handleLoadMoreNewsItems,
+} from '@store/NewsContext/actions';
 import { handleAllClasses } from '@/lib/v1/className';
 
 const DynamicHorizontalPhotoAd1 = dynamic(
@@ -27,16 +30,7 @@ const Feed = ({
 	const { state, dispatch, types } = useContext(NewsContext);
 
 	useEffect(() => {
-		const AddNews = () => {
-			if (news.length !== 0) {
-				dispatch({
-					type: types.INIT_STATE,
-					payload: { news, newsType: types.ALL },
-				});
-			}
-		};
-
-		AddNews();
+		handleAddingNewsFirstTime({ dispatch, news, newsType: 'ALL' });
 	}, [news]);
 
 	const allClasses = handleAllClasses({

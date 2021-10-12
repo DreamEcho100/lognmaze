@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import { getCookie } from '@lib/v1/cookie';
 
-import UserContext from '@store/UserContext';
+import UserContext, { UserExistContext } from '@store/UserContext';
 
 import Profile from '@components/Profile';
 
@@ -14,6 +14,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 	const router = useRouter();
 
 	const { state: userState } = useContext(UserContext);
+	const { userExist } = useContext(UserExistContext);
 
 	const [newsFetchRouteQuery, setNewsFetchRouteQuery] = useState(
 		props.newsFetchRouteQuery
@@ -131,7 +132,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 	]);
 
 	useEffect(() => {
-		if (userState.isVerifyingUserLoading || !userState.userExist) {
+		if (userState.isVerifyingUserLoading || !userExist) {
 			if (handleIsAuthorized) setHandleIsAuthorized(false);
 			if (identity !== GUEST) setIdentity(GUEST);
 		} else {
@@ -144,11 +145,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 				if (handleIsAuthorized) setHandleIsAuthorized(false);
 			}
 		}
-	}, [
-		userState.userExist,
-		router.query.user_name_id,
-		userState.isVerifyingUserLoading,
-	]);
+	}, [userExist, router.query.user_name_id, userState.isVerifyingUserLoading]);
 
 	// if (isLoading) {
 	// 	return <p>Loading...</p>;

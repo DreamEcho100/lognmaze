@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
 
-import UserContext from '@store/UserContext';
+import UserContext, { UserExistContext } from '@store/UserContext';
 
 import Home from '@components/Home';
 
 const HomePage = () => {
 	const { state: userState } = useContext(UserContext);
+	const { userExist } = useContext(UserExistContext);
 
 	const [isLoading, setIsLoading] = useState(true);
 	const [newsFetchRouteQuery, setNewsFetchRouteQuery] = useState('');
@@ -17,7 +18,7 @@ const HomePage = () => {
 				if (userState.isVerifyingUserLoading) return;
 
 				let linkQuery = '';
-				if (userState.userExist) {
+				if (userExist) {
 					linkQuery = `/?voter_id=${userState.user.id}`;
 					setNewsFetchRouteQuery(linkQuery);
 				}
@@ -67,7 +68,7 @@ const HomePage = () => {
 		<Home
 			isLoadingSkeleton={isLoading}
 			user={userState.user}
-			userExist={userState.userExist}
+			userExist={userExist}
 			news={news}
 			newsFetchRouteQuery={newsFetchRouteQuery}
 		/>

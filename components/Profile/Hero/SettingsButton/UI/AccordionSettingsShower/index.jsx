@@ -13,7 +13,11 @@ const AccordionSettingsShower = ({ headerText, bodyItems }) => {
 			<Fragment key='body'>
 				<ul>
 					{bodyItems.map((item, index) => (
-						<li key={index} className={classes['item-list']}>
+						<li
+							key={index}
+							className={classes['item-list']}
+							style={{ listStyle: 'none', marginLeft: '0', marginRight: '0' }}
+						>
 							{item}
 						</li>
 					))}

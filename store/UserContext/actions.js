@@ -63,14 +63,12 @@ const handleUserSign = async ({ dispatch, path, bodyObj }) => {
 	const payload = {
 		user: {},
 		token: '',
-		userExist: false,
 		isVerifyingUserLoading: false,
 	};
 
 	if (userResult.data?.jwt?.token && userResult.data?.user?.id) {
 		payload.user = userResult.data.user;
 		payload.token = userResult.data.jwt.token;
-		payload.userExist = true;
 	}
 
 	dispatch({
@@ -98,14 +96,12 @@ export const setDataFirstTime = async ({ dispatch }) => {
 	const payload = {
 		user: {},
 		token: '',
-		userExist: false,
 		isVerifyingUserLoading: false,
 	};
 
 	if (tokenCookie && userCookie) {
 		payload.user = JSON.parse(userCookie);
 		payload.token = tokenCookie;
-		payload.userExist = true;
 	}
 
 	dispatch({

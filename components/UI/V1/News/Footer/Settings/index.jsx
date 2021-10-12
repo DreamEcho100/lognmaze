@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
 
-import UserContext from '@store/UserContext';
+import UserContext, { UserExistContext } from '@store/UserContext';
 
 import Votes from './Votes';
 
@@ -16,31 +16,32 @@ const Settings = ({
 	isLoadingUserVote,
 }) => {
 	const { state: userState } = useContext(UserContext);
+	const { userExist } = useContext(UserExistContext);
 
 	const [commentBtnDisabled, setCommentBtnDisabled] = useState(
-		userState.userExist ? false : true
+		userExist ? false : true
 	);
 	commentBtnDisabled;
 	useEffect(() => {
-		if (userState.userExist && commentBtnDisabled) {
+		if (userExist && commentBtnDisabled) {
 			setCommentBtnDisabled(false);
-		} else if (!userState.userExist && !commentBtnDisabled) {
+		} else if (!userExist && !commentBtnDisabled) {
 			setCommentBtnDisabled(true);
 		}
-	}, [userState.userExist]);
+	}, [userExist]);
 
 	return (
 		<section className={classes.settings}>
 			<Votes
 				user={userState.user}
-				userExist={userState.userExist}
+				userExist={userExist}
 				newsItem={newsItem}
 				isLoadingUserVote={isLoadingUserVote}
 			/>
 			<div className={`${classes.comment} ${classes.item}`}>
 				<button
 					title={`Comment on this ${newsItem.type.toLowerCase()}`}
-					disabled={commentBtnDisabled && userState.userExist}
+					disabled={commentBtnDisabled && userExist}
 					onClick={() => {
 						if (commentBtnDisabled) return;
 						if (!showComments) setShowComments(true);

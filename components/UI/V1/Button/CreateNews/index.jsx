@@ -1,18 +1,18 @@
 import { useContext, useState } from 'react';
 import dynamic from 'next/dynamic';
 
-import UserContext from '@store/UserContext';
+import { UserExistContext } from '@store/UserContext';
 
 const CreateAction = dynamic(() => import('@components/UI/V1/News/Action'));
 import Button from '@components/UI/V1/Button';
 
 const CreateNewsButton = () => {
-	const { state: userState } = useContext(UserContext);
+	const { userExist } = useContext(UserExistContext);
 
 	const [showCreateNewsButtonModal, setShowCreateNewsButtonModal] =
 		useState(false);
 
-	if (!userState.userExist) {
+	if (!userExist) {
 		return <></>;
 	}
 

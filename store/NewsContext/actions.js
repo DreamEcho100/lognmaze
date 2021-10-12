@@ -1,5 +1,14 @@
 import types from './types';
 
+export const handleAddingNewsFirstTime = ({ dispatch, news, newsType }) => {
+	if (news.length !== 0) {
+		dispatch({
+			type: types.INIT_STATE,
+			payload: { news, newsType },
+		});
+	}
+};
+
 export const handleLoadingNewsItemContent = async ({ dispatch, news_id }) => {
 	dispatch({
 		type: types.SET_IS_LOADING_CONTENT_IN_NEWS_ITEM,

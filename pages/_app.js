@@ -78,6 +78,10 @@ import '@styles/_globals.css';
 
 import Layout from '@components/Layout/Layout';
 
+// export function reportWebVitals(metric) {
+//   console.log(metric)
+// }
+
 const MyApp = ({ Component, pageProps }) => {
 	const router = useRouter();
 	useEffect(() => {

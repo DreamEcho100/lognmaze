@@ -1,6 +1,5 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useMemo, useReducer } from 'react';
 
-import types from './types';
 import reducer from './reducer';
 
 const NewsContext = createContext({
@@ -17,14 +16,16 @@ const initialState = {
 export const NewsContextProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
-	const context = {
-		state,
-		dispatch,
-		types,
-	};
+	const stateContext = useMemo(
+		() => ({
+			state,
+			dispatch,
+		}),
+		[state, dispatch]
+	);
 
 	return (
-		<NewsContext.Provider value={context}>{children}</NewsContext.Provider>
+		<NewsContext.Provider value={stateContext}>{children}</NewsContext.Provider>
 	);
 };
 
