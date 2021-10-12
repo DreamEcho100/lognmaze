@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react';
 
 import NewsContext from '@store/NewsContext';
+import { handleAddingNewsFirstTime } from '@store/NewsContext/actions';
 
 import Container from '@components/UI/V1/News/Container';
 import Wrapper from '@components/UI/V1/Wrapper';
@@ -33,10 +34,7 @@ const NewsContextWrapper = ({ newsItem }) => {
 	const { state, dispatch, types } = useContext(NewsContext);
 
 	useEffect(() => {
-		dispatch({
-			type: types.INIT_STATE,
-			payload: { news: [newsItem], newsType: types.ONE },
-		});
+		handleAddingNewsFirstTime({ dispatch, news: [newsItem], newsType: 'ONE' });
 	}, []);
 
 	return state.news.map((item, index) => (
