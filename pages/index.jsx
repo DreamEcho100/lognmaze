@@ -1,46 +1,23 @@
 import { useContext, useEffect, useState } from 'react';
 
 import UserContext, { UserExistContext } from '@store/UserContext';
+import { getCookie } from '@lib/v1/cookie';
 
 import Home from '@components/Home';
 
-const HomePage = () => {
+const HomePage = ({ status, data }) => {
 	const { state: userState } = useContext(UserContext);
 	const { userExist } = useContext(UserExistContext);
 
-	const [isLoading, setIsLoading] = useState(true);
-	const [newsFetchRouteQuery, setNewsFetchRouteQuery] = useState('');
-	const [news, setNews] = useState([]);
-
-	useEffect(() => {
-		if (news.length === 0) {
-			(async () => {
-				if (userState.isVerifyingUserLoading) return;
-
-				let linkQuery = '';
-				if (userExist) {
-					linkQuery = `/?voter_id=${userState.user.id}`;
-					setNewsFetchRouteQuery(linkQuery);
-				}
-
-				const newsResult /*{ status, message, data }*/ = await fetch(
-					`/api/v1/news${linkQuery}`
-				)
-					.then((response) => response.json())
-					.catch((error) => {
-						console.error(error);
-						return {
-							status: 'error',
-							message: error.message,
-							data: [],
-						};
-					});
-
-				if (newsResult?.status === 'error') {
-					console.error(newsResult.message);
-					return;
-				}
-				const formattedData = newsResult.data.news.map((obj) => {
+	const [isLoading, setIsLoading] = useState(
+		status === 'succuss' ? false : true
+	);
+	const [newsFetchRouteQuery, setNewsFetchRouteQuery] = useState(
+		data.newsFetchRouteQuery
+	);
+	const [news, setNews] = useState(
+		data.news.length !== 0
+			? data.news.map((obj) => {
 					const formattedItem = {};
 					let itemA;
 					for (itemA in obj) {
@@ -55,14 +32,9 @@ const HomePage = () => {
 					}
 
 					return formattedItem;
-				});
-
-				setNews(formattedData);
-
-				setIsLoading(false);
-			})();
-		}
-	}, [userState.isVerifyingUserLoading]);
+			  })
+			: []
+	);
 
 	return (
 		<Home
@@ -77,26 +49,60 @@ const HomePage = () => {
 
 export default HomePage;
 
-/*export const getServerSideProps = async () => {
-	const news = await fetch(`${process.env.BACK_END_ROOT_URL}/api/v1/news`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
-		.then((response) => response.json())
-		.catch((error) => {
-			console.error(error);
+export const getServerSideProps = async ({ req, query }) => {
+	const fetcher = async (userCookieString, query) => {
+		let newsFetchRouteQuery = '';
+		if (userCookieString) {
+			newsFetchRouteQuery = `/?voter_id=${JSON.parse(userCookieString).id}`;
+		}
+
+		const newsResult /*{ status, message, data }*/ = await fetch(
+			`${process.env.BACK_END_ROOT_URL}/api/v1/news${newsFetchRouteQuery}`
+		)
+			.then((response) => response.json())
+			.then((result) => result.data)
+			.catch((error) => {
+				console.error(error);
+				return {
+					status: 'error',
+					message: error.message,
+					data: {
+						news: [],
+						newsFetchRouteQuery,
+					},
+				};
+			});
+
+		if (newsResult?.status === 'error') {
+			console.error(newsResult.message);
 			return {
 				status: 'error',
 				message: error.message,
-				data: [],
+				data: {
+					news: [],
+					newsFetchRouteQuery,
+				},
 			};
-		});
+		}
+
+		return {
+			status: 'succuss',
+			message: 'succuss',
+			data: {
+				...newsResult,
+				newsFetchRouteQuery,
+			},
+		};
+	};
+
+	const userCookieString = getCookie({
+		cookieName: 'user_data',
+		cookieString: req.headers.cookie,
+	});
+
+	const result = await fetcher(userCookieString, query);
 
 	return {
-		props: {
-			news,
+		props: result,
 	};
 };
-*/
