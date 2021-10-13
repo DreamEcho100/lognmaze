@@ -63,7 +63,7 @@ const Feed = ({
 				<Wrapper>
 					<Container
 						isLoadingSkeleton={isLoadingSkeleton}
-						newsItem={{}}
+						// newsItem={{}}
 						detailsType='description'
 						modalOnClick
 						className={classes['news-container']}
