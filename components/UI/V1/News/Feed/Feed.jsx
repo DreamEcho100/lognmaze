@@ -47,18 +47,19 @@ const Feed = ({
 
 	return (
 		<section {...feedProps}>
+			{/* {isLoadingSkeleton &&
+				new Array(10).fill().map((item, index) => (
+					<Wrapper key={index}>
+						<Container
+							isLoadingSkeleton={isLoadingSkeleton}
+							newsItem={item}
+							detailsType='description'
+							modalOnClick
+							className={classes['news-container']}
+						/>
+					</Wrapper>
+				))} */}
 			{isLoadingSkeleton && (
-				// new Array(10).fill().map((item, index) => (
-				// 	<Wrapper key={index}>
-				// 		<Container
-				// 			isLoadingSkeleton={isLoadingSkeleton}
-				// 			newsItem={item}
-				// 			detailsType='description'
-				// 			modalOnClick
-				// 			className={classes['news-container']}
-				// 		/>
-				// 	</Wrapper>
-				// )
 				<Wrapper key={index}>
 					<Container
 						isLoadingSkeleton={isLoadingSkeleton}
