@@ -9,9 +9,7 @@ const HomePage = ({ status, data }) => {
 	const { state: userState } = useContext(UserContext);
 	const { userExist } = useContext(UserExistContext);
 
-	const [isLoading, setIsLoading] = useState(
-		status === 'succuss' ? false : true
-	);
+	const [isLoading, setIsLoading] = useState(true);
 	const [newsFetchRouteQuery, setNewsFetchRouteQuery] = useState(
 		data.newsFetchRouteQuery
 	);
@@ -35,6 +33,12 @@ const HomePage = ({ status, data }) => {
 			  })
 			: []
 	);
+
+	useEffect(() => {
+		if (!isLoading) return;
+
+		if (news.length !== 0) setIsLoading(false);
+	}, [news]);
 
 	return (
 		<Home
