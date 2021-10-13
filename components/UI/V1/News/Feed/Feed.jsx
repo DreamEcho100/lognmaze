@@ -47,8 +47,8 @@ const Feed = ({
 
 	return (
 		<section {...feedProps}>
-			{isLoadingSkeleton &&
-				new Array(1).fill().map((item, index) => (
+			{/* {isLoadingSkeleton &&
+				new Array(10).fill().map((item, index) => (
 					<Wrapper key={index}>
 						<Container
 							isLoadingSkeleton={isLoadingSkeleton}
@@ -58,18 +58,18 @@ const Feed = ({
 							className={classes['news-container']}
 						/>
 					</Wrapper>
-				))}
-			{/* {isLoadingSkeleton && (
-				<Wrapper key={index}>
+				))} */}
+			{isLoadingSkeleton && (
+				<Wrapper>
 					<Container
 						isLoadingSkeleton={isLoadingSkeleton}
-						newsItem={item}
+						newsItem={{}}
 						detailsType='description'
 						modalOnClick
 						className={classes['news-container']}
 					/>
 				</Wrapper>
-			)} */}
+			)}
 
 			{!isLoadingSkeleton &&
 				news.length !== 0 &&
