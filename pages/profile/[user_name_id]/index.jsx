@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { getCookie } from '@lib/v1/cookie';
@@ -16,34 +16,34 @@ const ProfilePage = ({ user = {}, ...props }) => {
 	const { state: userState } = useContext(UserContext);
 	const { userExist } = useContext(UserExistContext);
 
-	const [newsFetchRouteQuery, setNewsFetchRouteQuery] = useState(
-		props.newsFetchRouteQuery
-	);
-
-	const [posts, setPosts] = useState(
-		props.posts.length !== 0
-			? (() => {
-					const formattedData = props.posts.map((obj) => {
-						const formattedItem = {};
-						let itemA;
-						for (itemA in obj) {
-							if (itemA !== 'type_data') {
-								formattedItem[itemA] = obj[itemA];
-							} else {
-								let itemB;
-								for (itemB in obj['type_data']) {
-									formattedItem[itemB] = obj.type_data[itemB];
+	const newsFetchRouteQuery = props.newsFetchRouteQuery;
+	const posts = useMemo(
+		() =>
+			props?.posts?.length !== 0
+				? (() => {
+						const formattedData = props.posts.map((obj) => {
+							const formattedItem = {};
+							let itemA;
+							for (itemA in obj) {
+								if (itemA !== 'type_data') {
+									formattedItem[itemA] = obj[itemA];
+								} else {
+									let itemB;
+									for (itemB in obj['type_data']) {
+										formattedItem[itemB] = obj.type_data[itemB];
+									}
 								}
 							}
-						}
 
-						return formattedItem;
-					});
+							return formattedItem;
+						});
 
-					return formattedData;
-			  })()
-			: []
+						return formattedData;
+				  })()
+				: [],
+		props.posts
 	);
+
 	const [handleIsAuthorized, setHandleIsAuthorized] = useState(
 		user.isAuthorized
 	);

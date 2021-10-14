@@ -1,37 +1,38 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
 import UserContext, { UserExistContext } from '@store/UserContext';
 import { getCookie } from '@lib/v1/cookie';
 
 import Home from '@components/Home';
 
-const HomePage = ({ status, data }) => {
+const HomePage = ({ data }) => {
 	const { state: userState } = useContext(UserContext);
 	const { userExist } = useContext(UserExistContext);
 
 	const [isLoading, setIsLoading] = useState(true);
-	const [newsFetchRouteQuery, setNewsFetchRouteQuery] = useState(
-		data.newsFetchRouteQuery
-	);
-	const [news, setNews] = useState(
-		data.news.length !== 0
-			? data.news.map((obj) => {
-					const formattedItem = {};
-					let itemA;
-					for (itemA in obj) {
-						if (itemA !== 'type_data') {
-							formattedItem[itemA] = obj[itemA];
-						} else {
-							let itemB;
-							for (itemB in obj['type_data']) {
-								formattedItem[itemB] = obj.type_data[itemB];
+
+	const newsFetchRouteQuery = data.newsFetchRouteQuery;
+	const news = useMemo(
+		() =>
+			data?.news?.length !== 0
+				? data.news.map((obj) => {
+						const formattedItem = {};
+						let itemA;
+						for (itemA in obj) {
+							if (itemA !== 'type_data') {
+								formattedItem[itemA] = obj[itemA];
+							} else {
+								let itemB;
+								for (itemB in obj['type_data']) {
+									formattedItem[itemB] = obj.type_data[itemB];
+								}
 							}
 						}
-					}
 
-					return formattedItem;
-			  })
-			: []
+						return formattedItem;
+				  })
+				: [],
+		data.news
 	);
 
 	useEffect(() => {

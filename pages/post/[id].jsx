@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Head from 'next/head';
 
 import { pool } from '@lib/v1/pg';
@@ -9,10 +8,6 @@ import { NewsContextProvider } from '@store/NewsContext';
 import OneNewsContent from '@components/OneNewsContent';
 
 const PostPage = (props) => {
-	// const [data, setData] = useState(
-	// 	typeof props.data === 'string' ? JSON.parse(props.data) : props.data
-	// );
-
 	const data =
 		typeof props.data === 'string' ? JSON.parse(props.data) : props.data;
 
