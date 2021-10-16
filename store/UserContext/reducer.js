@@ -10,11 +10,12 @@ const reducer = (state, action) => {
 			token,
 
 			isVerifyingUserLoading,
+			userExist: token && user?.id ? true : false,
 		};
 	}
 
 	if (action.type === types.SET_DATA) {
-		const { user, token, isVerifyingUserLoading } = action.payload;
+		const { user, token, isVerifyingUserLoading, userExist } = action.payload;
 
 		return {
 			...state,
@@ -22,6 +23,7 @@ const reducer = (state, action) => {
 			token,
 
 			isVerifyingUserLoading,
+			userExist,
 		};
 	}
 
@@ -30,6 +32,7 @@ const reducer = (state, action) => {
 			...state,
 			user: {},
 			token: '',
+			userExist: false,
 		};
 	}
 

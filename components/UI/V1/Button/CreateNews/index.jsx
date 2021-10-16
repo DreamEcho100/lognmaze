@@ -1,18 +1,18 @@
 import { useContext, useState } from 'react';
 import dynamic from 'next/dynamic';
 
-import { UserExistContext } from '@store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 
 const CreateAction = dynamic(() => import('@components/UI/V1/News/Action'));
 import Button from '@components/UI/V1/Button';
 
 const CreateNewsButton = () => {
-	const { userExist } = useContext(UserExistContext);
+	const [userState, userDispatch] = useUserSharedState();
 
 	const [showCreateNewsButtonModal, setShowCreateNewsButtonModal] =
 		useState(false);
 
-	if (!userExist) {
+	if (!userState.userExist) {
 		return <></>;
 	}
 

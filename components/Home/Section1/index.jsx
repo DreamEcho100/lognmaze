@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import classes from './index.module.css';
 
 import { handleAddingLoadingSkeletonClass } from '@/lib/v1/className';
-import UserContext from '@store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 
 import Feed from '@components/UI/V1/NewsV2/Feed/index';
 import Wrapper from '@components/UI/V1/Wrapper';
@@ -19,7 +19,7 @@ const Section1 = ({
 }) => {
 	const router = useRouter();
 
-	const { state: userState } = useContext(UserContext);
+	const [userState, userDispatch] = useUserSharedState();
 
 	return (
 		<>

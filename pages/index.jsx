@@ -1,13 +1,12 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
 
-import UserContext, { UserExistContext } from '@store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 import { getCookie } from '@lib/v1/cookie';
 
 import Home from '@components/Home';
 
 const HomePage = ({ data }) => {
-	const { state: userState } = useContext(UserContext);
-	const { userExist } = useContext(UserExistContext);
+	const [userState, userDispatch] = useUserSharedState();
 
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -45,7 +44,7 @@ const HomePage = ({ data }) => {
 		<Home
 			isLoadingSkeleton={isLoading}
 			user={userState.user}
-			userExist={userExist}
+			userExist={userState.userExist}
 			news={news}
 			newsFetchRouteQuery={newsFetchRouteQuery}
 		/>

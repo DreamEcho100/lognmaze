@@ -10,7 +10,7 @@ import {
 	handleUpdatingMainOrReplyCommentInNewsItem,
 } from '@store/NewsContext/actions';
 import NewsContext from '@store/NewsContext';
-import UserContext, { UserExistContext } from '@store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 import { dateToHumanReadableDate } from '@lib/v1/time';
 
 // const DynamicMd = dynamic(() => import('@components/UI/V1/Format/Md'));
@@ -39,8 +39,7 @@ const Replies = ({ replies, newsItem, parent_data }) =>
 
 const Comment = ({ comment, newsItem, ...props }) => {
 	const { dispatch } = useContext(NewsContext);
-	const { state: userState } = useContext(UserContext);
-	const { userExist } = useContext(UserExistContext);
+	const [userState, userDispatch] = useUserSharedState();
 
 	const [showContent, setShowContent] = useState(true);
 	const [showReplyTextarea, setShowReplyTextarea] = useState(false);
@@ -151,7 +150,7 @@ const Comment = ({ comment, newsItem, ...props }) => {
 	};
 
 	useEffect(() => {
-		if (userExist) {
+		if (userState.userExist) {
 			setItems([
 				{
 					props: {
@@ -223,7 +222,7 @@ const Comment = ({ comment, newsItem, ...props }) => {
 		} else {
 			if (items.length > 0) setItems([]);
 		}
-	}, [userExist]);
+	}, [userState.userExist]);
 
 	useEffect(() => {
 		if (
@@ -313,7 +312,7 @@ const Comment = ({ comment, newsItem, ...props }) => {
 						</time>
 					)}
 				</span>
-				{userExist && (
+				{userState.userExist && (
 					<button
 						title='Reply To A Comment'
 						onClick={() => setShowReplyTextarea((prev) => !prev)}
@@ -353,7 +352,7 @@ const Comment = ({ comment, newsItem, ...props }) => {
 						</p>
 					</button>
 				)}
-			{userExist && showReplyTextarea && (
+			{userState.userExist && showReplyTextarea && (
 				<CommentTextarea
 					handleSubmit={(event) => {
 						event.preventDefault();

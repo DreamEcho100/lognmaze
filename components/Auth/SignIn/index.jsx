@@ -6,7 +6,7 @@ import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 
 import { validateEmail } from '@lib/v1/validate';
 import { handleSignIn } from '@store/UserContext/actions';
-import UserContext from '@store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 
 import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl';
@@ -18,7 +18,7 @@ import Button from '@components/UI/V1/Button';
 const SignIn = () => {
 	const router = useRouter();
 
-	const { dispatch: userDispatch } = useContext(UserContext);
+	const [userState, userDispatch] = useUserSharedState();
 
 	const [values, setValues] = useState({
 		email: '',

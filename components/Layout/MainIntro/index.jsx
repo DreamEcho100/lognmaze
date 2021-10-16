@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 
 import classes from './index.module.css';
 
-// import UserContext from '@store/UserContext';
+// import { useUserSharedState } from '@store/UserContext';
 
 import LogNMazeSignature from '@svg/LogNMazeSignature';
 

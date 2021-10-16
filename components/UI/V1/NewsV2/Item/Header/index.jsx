@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 
-import UserContext from '@store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 import Nav from './Nav';
 import TimeAndDate from './TimeAndDate';
 import NewsArticleInfo from './NewsArticleInfo';
@@ -12,7 +12,7 @@ const NewsHeader = ({
 	setShowModal,
 	hideHeaderSettings,
 }) => {
-	const { state: userState } = useContext(UserContext);
+	const [userState, userDispatch] = useUserSharedState();
 
 	const [isDataOwner, setIsDataOwner] = useState(false);
 

@@ -2,7 +2,7 @@ import { Fragment, useContext, useEffect, useState } from 'react';
 
 import classes from './index.module.css';
 
-import UserContext from '@store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 import { handleUpdateUserDataToTheLatest } from '@store/UserContext/actions';
 import { checkCookie, setCookie } from '@lib/v1/cookie';
 
@@ -12,7 +12,7 @@ import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl';
 
 const LoadYourLatestDataButton = () => {
-	const { dispatch: userDispatch, state: userState } = useContext(UserContext);
+	const [userState, userDispatch] = useUserSharedState();
 
 	const [showModal, setShowModal] = useState(false);
 	const [disableButtons, setDisableButtons] = useState(true);

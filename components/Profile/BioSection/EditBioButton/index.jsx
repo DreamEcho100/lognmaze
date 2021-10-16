@@ -1,7 +1,7 @@
 import { Fragment, useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import UserContext from '@store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 import { handleUpdateUserData } from '@store/UserContext/actions';
 
 import Modal from '@components/UI/V1/Modal';
@@ -12,7 +12,7 @@ import Label from '@components/UI/V1/Label';
 import Textarea from '@components/UI/V1/Textarea';
 
 const EditBioButton = ({ setValues, values }) => {
-	const { dispatch: userDispatch, state: userState } = useContext(UserContext);
+	const [userState, userDispatch] = useUserSharedState();
 
 	const [showBioEditModal, setShowBioEditModal] = useState(false);
 

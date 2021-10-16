@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import AccordionSettingsShower from '../UI/AccordionSettingsShower';
 import ButtonModalShower from '../UI/ButtonModalShower';
 
-import UserContext from '@store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 
 import ChangeUserNameModal from './ChangeUserNameModal';
 import ChangeUserGenderModal from './ChangeUserGenderModal';
@@ -12,7 +12,7 @@ import ChangeUserNameIdModal from './ChangeUserNameIdModal';
 import { handleUpdateUserData } from '@store/UserContext/actions';
 
 const EditUserInfo = () => {
-	const { dispatch: userDispatch, state: userState } = useContext(UserContext);
+	const [userState, userDispatch] = useUserSharedState();
 
 	return (
 		<AccordionSettingsShower

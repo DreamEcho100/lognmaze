@@ -8,7 +8,7 @@ import { XMLCharactersEncoding } from '@lib/v1/regex';
 import { dateToHumanReadableDate } from '@lib/v1/time';
 import { handleAddingLoadingSkeletonClass } from '@/lib/v1/className';
 import { NewsContextProvider } from '@store/NewsContext';
-import UserContext from '@store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 
 const DynamicCreateNewsButton = dynamic(() =>
 	import('./CreateNewsButton/CreateNewsButton')
@@ -31,7 +31,7 @@ const Profile = ({
 	news = [],
 	newsFetchRouteQuery,
 }) => {
-	const { state: userState } = useContext(UserContext);
+	const [userState, userDispatch] = useUserSharedState();
 
 	if (!userData?.id) {
 		return (

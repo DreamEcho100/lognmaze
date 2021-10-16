@@ -1,6 +1,6 @@
 import { Fragment, useContext, useState } from 'react';
 
-import UserContext from '@store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 import { handleUpdateUserData } from '@store/UserContext/actions';
 
 import Modal from '@components/UI/V1/Modal';
@@ -20,7 +20,7 @@ const UpdateUserPicture = ({
 		return <></>;
 	},
 }) => {
-	const { dispatch: userDispatch, state: userState } = useContext(UserContext);
+	const [userState, userDispatch] = useUserSharedState();
 
 	const [AfterFormSubmitMessage, setAfterFormSubmitMessage] = useState(() => (
 		<></>

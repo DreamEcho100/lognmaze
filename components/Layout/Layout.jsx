@@ -1,19 +1,15 @@
-import dynamic from 'next/dynamic';
+import { UserContextSharedProvider } from '@store/UserContext';
 
-import { UserContextProvider } from '@store/UserContext';
-
-const DynamicMainNavigation = dynamic(() =>
-	import('./MainNavigation/MainNavigation')
-);
-const DynamicMainIntro = dynamic(() => import('./MainIntro'));
+import MainNavigation from './MainNavigation/MainNavigation';
+import MainIntro from './MainIntro';
 
 const Layout = ({ children }) => {
 	return (
-		<UserContextProvider>
-			<DynamicMainNavigation />
+		<UserContextSharedProvider>
+			<MainNavigation />
 			{children}
-			<DynamicMainIntro />
-		</UserContextProvider>
+			{/* <MainIntro /> */}
+		</UserContextSharedProvider>
 	);
 };
 

@@ -7,7 +7,7 @@ import BoxShadowClasses from '@components/UI/V1/BoxShadow.module.css';
 
 import { validateEmail, validatePasswordStrength } from '@lib/v1/validate';
 import { handleSignUp } from '@store/UserContext/actions';
-import UserContext from '@store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 
 import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl';
@@ -22,7 +22,7 @@ const SignUp = ({
 }) => {
 	const router = useRouter();
 
-	const { dispatch: userDispatch } = useContext(UserContext);
+	const [userState, userDispatch] = useUserSharedState();
 
 	const [values, setValues] = useState({
 		first_name: '',

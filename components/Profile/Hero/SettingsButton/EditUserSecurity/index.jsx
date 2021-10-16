@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import UserContext from '@store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 import {
 	handleUpdateUserData,
 	handleUpdateUserPassword,
@@ -12,7 +12,7 @@ import ChangeUserEmailModal from './ChangeUserEmailModal';
 import ChangeUserPasswordModal from './ChangeUserPasswordModal';
 
 const EditUserSecurity = () => {
-	const { dispatch: userDispatch, state: userState } = useContext(UserContext);
+	const [userState, userDispatch] = useUserSharedState();
 
 	return (
 		<AccordionSettingsShower

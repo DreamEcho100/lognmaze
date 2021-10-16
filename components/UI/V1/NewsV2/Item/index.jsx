@@ -5,7 +5,7 @@ import {
 	handleLoadingNewsItemContent,
 	HandleLoadingUserVote,
 } from '@store/NewsContext/actions';
-import UserContext, { UserExistContext } from '@store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 import { handleAllClasses } from '@/lib/v1/className';
 
 import classes from './index.module.css';
@@ -18,16 +18,12 @@ import Details from './Details';
 import Header from './Header';
 
 const NewsItem = ({
-	defaultClasses = 'container',
-	extraClasses = '',
-	className = '',
 	detailsType = 'description',
 	newsItemData = {},
 	isLoadingSkeleton,
 	// newsFetchRouteQuery,
 	loadingUserVote,
-	modalOnClick,
-	hideFooterSettings,
+	articleProps,
 	modal = {},
 	userCtx = {},
 	newsCtx = {},
@@ -41,35 +37,13 @@ const NewsItem = ({
 
 	const showModal = useMemo(() => modal.showModal, [modal.showModal]);
 	const setShowModal = modal.setShowModal;
-	// const { state: userState } = useContext(UserContext);
+	// const [userState, userDispatch] = useContext(UserContext);
 	// const { userExist } = useContext(UserExistContext);
 	// const { state, dispatch } = useContext(NewsContext);
 
 	// const [showModal, setShowModal] = useState(false);
 
 	const [isLoadingUserVote, setIsLoadingUserVote] = useState(!!loadingUserVote);
-
-	const allClasses = useMemo(
-		() =>
-			handleAllClasses({
-				classes,
-				defaultClasses,
-				extraClasses,
-				className,
-			}),
-		[defaultClasses, extraClasses, className]
-	);
-
-	const articleProps = useMemo(() => {
-		const obj = {
-			className: allClasses,
-		};
-
-		if (newsItemData?.type === 'article')
-			obj.lang = `${newsItemData.iso_language}-${newsItemData.iso_country}`;
-
-		return obj;
-	}, [newsItemData.type]);
 
 	useEffect(() => {
 		if (showModal && !newsItemData?.content && newsItemData?.news_id) {
@@ -101,6 +75,7 @@ const NewsItem = ({
 
 	return (
 		<section {...articleProps}>
+			{/* {Math.random()} */}
 			<Header
 				newsItemData={newsItemData}
 				detailsType={detailsType}
@@ -121,44 +96,77 @@ const NewsItem = ({
 				newsItemId={newsItemData.news_id}
 				isLoadingSkeleton={isLoadingSkeleton}
 				setShowModal={setShowModal}
-				setShowModal={setShowModal}
 				// isLoadingContent={isLoadingContent}
 			/>
 			<footer></footer>
-			{modalOnClick && (
-				<DynamicNewsItemModal
-					showModal={showModal}
-					setShowModal={setShowModal}
-					articleProps={articleProps}
-					newsItemData={newsItemData}
-					hideFooterSettings={hideFooterSettings}
-					detailsType='content'
-				/>
-			)}
 		</section>
 	);
 };
 
-const NewsItemParent = (props) => {
-	const { state: userState } = useContext(UserContext);
-	const { userExist } = useContext(UserExistContext);
+const NewsItemParent = ({
+	defaultClasses = 'container',
+	extraClasses = '',
+	className = '',
+	modalOnClick,
+	hideFooterSettings,
+	...props
+}) => {
+	const [userState, userDispatch] = useUserSharedState();
 	const { state, dispatch } = useContext(NewsContext);
 
 	const [showModal, setShowModal] = useState(false);
 
+	const allClasses = useMemo(
+		() =>
+			handleAllClasses({
+				classes,
+				defaultClasses,
+				extraClasses,
+				className,
+			}),
+		[defaultClasses, extraClasses, className]
+	);
+
+	const articleProps = useMemo(() => {
+		if (props?.newsItemData?.type) {
+			const obj = {
+				className: allClasses,
+			};
+
+			if (props.newsItemData?.type === 'article')
+				obj.lang = `${props.newsItemData.iso_language}-${props.newsItemData.iso_country}`;
+
+			return obj;
+		}
+		return {};
+	}, [props?.newsItemData?.type]);
+
 	return (
-		<NewsItem
-			{...props}
-			modal={{ showModal, setShowModal }}
-			userCtx={{
-				userState,
-				userExist,
-			}}
-			newsCtx={{
-				state,
-				dispatch,
-			}}
-		/>
+		<>
+			<NewsItem
+				{...props}
+				articleProps={articleProps}
+				modal={{ showModal, setShowModal }}
+				userCtx={{
+					userState,
+					userExist: userState.userExist,
+				}}
+				newsCtx={{
+					state,
+					dispatch,
+				}}
+			/>
+			{modalOnClick && (
+				<DynamicNewsItemModal
+					showModal={showModal}
+					setShowModal={setShowModal}
+					articleProps={props.articleProps}
+					newsItemData={props.newsItemData}
+					hideFooterSettings={props.hideFooterSettings}
+					detailsType='content'
+				/>
+			)}
+		</>
 	);
 };
 

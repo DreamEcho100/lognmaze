@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import { getCookie } from '@lib/v1/cookie';
 
-import UserContext, { UserExistContext } from '@store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 
 import Profile from '@components/Profile';
 
@@ -13,8 +13,7 @@ const OWNER = 'OWNER';
 const ProfilePage = ({ user = {}, ...props }) => {
 	const router = useRouter();
 
-	const { state: userState } = useContext(UserContext);
-	const { userExist } = useContext(UserExistContext);
+	const [userState, userDispatch] = useUserSharedState();
 
 	const newsFetchRouteQuery = props.newsFetchRouteQuery;
 	const posts = useMemo(
@@ -132,7 +131,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 	]);
 
 	useEffect(() => {
-		if (userState.isVerifyingUserLoading || !userExist) {
+		if (userState.isVerifyingUserLoading || !userState.userExist) {
 			if (handleIsAuthorized) setHandleIsAuthorized(false);
 			if (identity !== GUEST) setIdentity(GUEST);
 		} else {
@@ -145,7 +144,11 @@ const ProfilePage = ({ user = {}, ...props }) => {
 				if (handleIsAuthorized) setHandleIsAuthorized(false);
 			}
 		}
-	}, [userExist, router.query.user_name_id, userState.isVerifyingUserLoading]);
+	}, [
+		userState.userExist,
+		router.query.user_name_id,
+		userState.isVerifyingUserLoading,
+	]);
 
 	// if (isLoading) {
 	// 	return <p>Loading...</p>;

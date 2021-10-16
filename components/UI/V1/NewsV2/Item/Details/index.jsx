@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import classes from './index.module.css';
 
 import FormatterContainer from '@components/UI/V1/Format/Container';
@@ -28,42 +27,40 @@ const DetailsType_Map = {
 	),
 };
 
-const NewsItemDetails = memo(
-	({
-		details,
-		detailsType,
-		newsItemType,
-		newsItemId,
-		isLoadingSkeleton,
-		setShowModal,
-		isLoadingContent,
-	}) => {
-		if (!isLoadingSkeleton && !newsItemId) return <NotFound />;
+const NewsItemDetails = ({
+	details,
+	detailsType,
+	newsItemType,
+	newsItemId,
+	isLoadingSkeleton,
+	setShowModal,
+	isLoadingContent,
+}) => {
+	if (!isLoadingSkeleton && !newsItemId) return <NotFound />;
 
-		if (
-			isLoadingSkeleton ||
-			(newsItemType === 'article' &&
-				detailsType === 'content' &&
-				isLoadingContent)
-		) {
-			return <LoadingSkeleton isLoadingSkeleton={isLoadingSkeleton} />;
-		}
-
-		const DetailsType = DetailsType_Map[detailsType];
-		const detailsTypeProps = {
-			newsItemType,
-			details,
-		};
-
-		if (detailsType === 'description')
-			detailsTypeProps.setShowModal = setShowModal;
-
-		return (
-			<FormatterContainer className={classes.details}>
-				<DetailsType {...detailsTypeProps} />
-			</FormatterContainer>
-		);
+	if (
+		isLoadingSkeleton ||
+		(newsItemType === 'article' &&
+			detailsType === 'content' &&
+			isLoadingContent)
+	) {
+		return <LoadingSkeleton isLoadingSkeleton={isLoadingSkeleton} />;
 	}
-);
+
+	const DetailsType = DetailsType_Map[detailsType];
+	const detailsTypeProps = {
+		newsItemType,
+		details,
+	};
+
+	if (detailsType === 'description')
+		detailsTypeProps.setShowModal = setShowModal;
+
+	return (
+		<FormatterContainer className={classes.details}>
+			<DetailsType {...detailsTypeProps} />
+		</FormatterContainer>
+	);
+};
 
 export default NewsItemDetails;

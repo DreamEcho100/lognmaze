@@ -8,7 +8,7 @@ import {
 	handleLoadingNewsItemContent,
 	HandleLoadingUserVote,
 } from '@store/NewsContext/actions';
-import UserContext, { UserExistContext } from '@store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 import { handleAllClasses } from '@/lib/v1/className';
 
 const DynamicDeleteNewsModal = dynamic(() =>
@@ -25,8 +25,7 @@ const Container = ({
 	isLoadingSkeleton,
 	...props
 }) => {
-	const { state: userState } = useContext(UserContext);
-	const { userExist } = useContext(UserExistContext);
+	const [userState, userDispatch] = useUserSharedState();
 	const { state, dispatch } = useContext(NewsContext);
 
 	const [showModal, setShowModal] = useState(false);
@@ -60,7 +59,7 @@ const Container = ({
 	useEffect(() => {
 		if (
 			isLoadingUserVote &&
-			userExist &&
+			userState.userExist &&
 			newsItem?.news_id &&
 			(parseInt(newsItem.up_votes_counter) !== 0 ||
 				parseInt(newsItem.down_votes_counter) !== 0)
@@ -74,7 +73,7 @@ const Container = ({
 			});
 			if (isLoadingUserVote) setIsLoadingUserVote(false);
 		}
-	}, [isLoadingUserVote, userExist]);
+	}, [isLoadingUserVote, userState.userExist]);
 
 	return (
 		<>

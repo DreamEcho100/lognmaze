@@ -64,11 +64,13 @@ const handleUserSign = async ({ dispatch, path, bodyObj }) => {
 		user: {},
 		token: '',
 		isVerifyingUserLoading: false,
+		userExist: false,
 	};
 
 	if (userResult.data?.jwt?.token && userResult.data?.user?.id) {
 		payload.user = userResult.data.user;
 		payload.token = userResult.data.jwt.token;
+		payload.userExist = true;
 	}
 
 	dispatch({

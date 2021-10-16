@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import classes from './index.module.css';
 
-import UserContext from '@store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 
 import CommonNav from './CommonNav/CommonNav';
 import TimeAndDate from './TimeAndDate/TimeAndDate';
@@ -21,7 +21,7 @@ const Header = ({
 }) => {
 	const router = useRouter();
 
-	const { state: userState } = useContext(UserContext);
+	const [userState, userDispatch] = useUserSharedState();
 
 	const [isDataOwner, setIsDataOwner] = useState(false);
 
