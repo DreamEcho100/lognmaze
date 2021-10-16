@@ -2,10 +2,11 @@ import types from './types';
 
 const reducer = (state, action) => {
 	if (action.type === types.INIT_STATE) {
-		const { news = [] } = action.payload;
+		const { news = [], newsFetchRouteQuery } = action.payload;
 
 		return {
 			...state,
+			newsFetchRouteQuery,
 			newsType: action.payload.newsType,
 			news: news.map((newsItem) => {
 				const toAdd = {

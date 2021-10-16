@@ -46,7 +46,7 @@ const Action = ({
 		});
 
 		if (setShowModal && !showModal) setShowModal(false);
-		else document.body.style.overflowY = 'auto';
+		// else document.body.style.overflowY = 'auto';
 
 		return result;
 	};

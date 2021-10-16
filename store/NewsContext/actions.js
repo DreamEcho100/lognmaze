@@ -1,10 +1,15 @@
 import types from './types';
 
-export const handleAddingNewsFirstTime = ({ dispatch, news, newsType }) => {
+export const handleAddingNewsFirstTime = ({
+	dispatch,
+	news,
+	newsType,
+	newsFetchRouteQuery,
+}) => {
 	if (news.length !== 0) {
 		dispatch({
 			type: types.INIT_STATE,
-			payload: { news, newsType },
+			payload: { news, newsType, newsFetchRouteQuery },
 		});
 	}
 };

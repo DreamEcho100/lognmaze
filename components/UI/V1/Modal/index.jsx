@@ -14,10 +14,21 @@ const ModalHOC = ({
 		if (!hideScrollOnView) return;
 		if (showModal) {
 			document.body.style.overflowY = 'hidden';
-		} else {
+			return;
+		}
+
+		click();
+		document.body.style.overflowY = 'auto';
+
+		return () => {
+			if (!showModal) {
+				document.body.style.overflowY = 'hidden';
+				return;
+			}
+
 			click();
 			document.body.style.overflowY = 'auto';
-		}
+		};
 	}, [showModal]);
 
 	const ModalProps = {

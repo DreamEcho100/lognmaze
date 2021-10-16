@@ -4,10 +4,9 @@ import { useRouter } from 'next/router';
 import classes from './index.module.css';
 
 import { handleAddingLoadingSkeletonClass } from '@/lib/v1/className';
-import { NewsContextProvider } from '@store/NewsContext';
 import UserContext from '@store/UserContext';
 
-import Feed from '@components/UI/V1/News/Feed/Feed';
+import Feed from '@components/UI/V1/NewsV2/Feed/index';
 import Wrapper from '@components/UI/V1/Wrapper';
 import Button from '@components/UI/V1/Button';
 import CreateNewsButton from '@components/UI/V1/Button/CreateNews';
@@ -23,7 +22,7 @@ const Section1 = ({
 	const { state: userState } = useContext(UserContext);
 
 	return (
-		<NewsContextProvider>
+		<>
 			<main className={classes['main-section']}>
 				<section className={classes['section-1']}>
 					<Feed
@@ -65,7 +64,7 @@ const Section1 = ({
 					</Wrapper>
 				</section>
 			</main>
-		</NewsContextProvider>
+		</>
 	);
 };
 

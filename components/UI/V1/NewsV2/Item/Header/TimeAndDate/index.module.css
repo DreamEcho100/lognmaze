@@ -1,0 +1,8 @@
+.TimeAndDate {
+	margin: 0.5em 0;
+}
+
+.TimeAndDate.isLoadingSkeleton {
+	--skeleton-loading-width: 95%;
+	--skeleton-loading-height: 1.5rem;
+}
