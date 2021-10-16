@@ -107,7 +107,7 @@ const ArticlePage = (props) => {
 				<meta property='og:title' content={`${data.title} | LogNMaze`} />
 				<title>{data.title} | LogNMaze</title>
 			</Head>
-			<OneNewsContent newsItem={data} />
+			<OneNewsContent newsItemData={data} />
 		</NewsContextProvider>
 	);
 };

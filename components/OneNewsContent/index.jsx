@@ -6,9 +6,9 @@ import { handleAddingNewsFirstTime } from '@store/NewsContext/actions';
 import NewsItem from '@components/UI/V1/NewsV2/Item';
 import Wrapper from '@components/UI/V1/Wrapper';
 
-const OneNewsContent = ({ newsItem = {} }) => {
+const OneNewsContent = ({ newsItemData = {} }) => {
 	const articleProps = {
-		newsItem: newsItem,
+		newsItemData: newsItemData,
 		detailsType: 'content',
 		loadingUserVote: true,
 		isContainerContentOnView: true,
@@ -30,17 +30,21 @@ const OneNewsContent = ({ newsItem = {} }) => {
 	);
 };
 
-const NewsContextWrapper = ({ newsItem }) => {
+const NewsContextWrapper = ({ newsItemData }) => {
 	const { state, dispatch, types } = useContext(NewsContext);
 
 	useEffect(() => {
-		handleAddingNewsFirstTime({ dispatch, news: [newsItem], newsType: 'ONE' });
+		handleAddingNewsFirstTime({
+			dispatch,
+			news: [newsItemData],
+			newsType: 'ONE',
+		});
 	}, []);
 
 	return state.news.map((item, index) => (
 		<OneNewsContent
-			key={`OneNewsContent-${index}-${newsItem.news_id}`}
-			newsItem={item}
+			key={`OneNewsContent-${index}-${newsItemData.news_id}`}
+			newsItemData={item}
 		/>
 	));
 };

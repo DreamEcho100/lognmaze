@@ -50,7 +50,7 @@ const PostPage = (props) => {
 					content={descriptionWithXMLCharactersEncoding}
 				/>
 			</Head>
-			<OneNewsContent newsItem={data} />
+			<OneNewsContent newsItemData={data} />
 		</NewsContextProvider>
 	);
 };
