@@ -28,24 +28,19 @@ const NewsItem = ({
 	loadingUserVote,
 	modalOnClick,
 	hideFooterSettings,
-	// modal = {},
-	// userCtx = {},
-	// newsCtx = {},
+	modal = {},
+	userCtx = {},
+	newsCtx = {},
 }) => {
-	// const userState = useMemo(() => userCtx.userState, [userCtx.userState]);
-	// const userExist = useMemo(() => userCtx.userExist, [userCtx.userExist]);
-	// const { state, dispatch } = useMemo(
-	// 	() => ({ state: newsCtx.state, dispatch: newsCtx.dispatch }),
-	// 	[newsCtx.state, newsCtx.dispatch]
-	// );
+	const userState = useMemo(() => userCtx.userState, [userCtx.userState]);
+	const userExist = useMemo(() => userCtx.userExist, [userCtx.userExist]);
+	const { state, dispatch } = useMemo(
+		() => ({ state: newsCtx.state, dispatch: newsCtx.dispatch }),
+		[newsCtx.state, newsCtx.dispatch]
+	);
 
-	// const showModal = useMemo(() => modal.showModal, [modal.showModal]);
-	// const setShowModal = modal.setShowModal;
-	const { state: userState } = useContext(UserContext);
-	const { userExist } = useContext(UserExistContext);
-	const { state, dispatch } = useContext(NewsContext);
-
-	const [showModal, setShowModal] = useState(false);
+	const showModal = useMemo(() => modal.showModal, [modal.showModal]);
+	const setShowModal = modal.setShowModal;
 
 	const [isLoadingUserVote, setIsLoadingUserVote] = useState(!!loadingUserVote);
 
@@ -162,4 +157,4 @@ const NewsItemParent = (props) => {
 	);
 };
 
-export default NewsItem;
+export default NewsItemParent;
