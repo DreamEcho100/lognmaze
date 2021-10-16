@@ -55,7 +55,7 @@ const ArticlePage = (props) => {
 									url: 'https://lognmaze.com/favicon.ico',
 								},
 							},
-							url: `http://lognmaze.com/article/${data.slug}`,
+							url: `https://lognmaze.com/article/${data.slug}`,
 							mainEntityOfPage: {
 								'@type': 'WebPage',
 								'@id': 'https://google.com/article',

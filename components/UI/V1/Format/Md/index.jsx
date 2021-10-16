@@ -43,9 +43,9 @@ const Md = ({ content, addHorizontalPhotoAd11 = false }) => {
 
 			if (
 				href.startsWith('/') ||
-				// href.startsWith('http://lognmaze.com') ||
+				// href.startsWith('https://lognmaze.com') ||
 				href.startsWith('https://lognmaze.com') ||
-				// href.startsWith('http://www.lognmaze.com') ||
+				// href.startsWith('https://www.lognmaze.com') ||
 				href.startsWith('https://www.lognmaze.com') ||
 				href.startsWith('https://lognmaze.vercel.app')
 			) {
