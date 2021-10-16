@@ -14,8 +14,6 @@ const NewsItemsModal = ({
 	newsItemData,
 	hideFooterSettings,
 }) => {
-	console.log('showModal', showModal);
-
 	return (
 		<Modal
 			showModal={showModal}

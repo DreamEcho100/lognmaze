@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 
-import classes from './Feed.module.css';
+import classes from './index.module.css';
 
 import NewsContext from '@store/NewsContext';
 import {
