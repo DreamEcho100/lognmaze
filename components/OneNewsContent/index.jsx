@@ -3,7 +3,7 @@ import { useContext, useEffect } from 'react';
 import NewsContext from '@store/NewsContext';
 import { handleAddingNewsFirstTime } from '@store/NewsContext/actions';
 
-import Container from '@components/UI/V1/News/Container';
+import NewsItem from '@components/UI/V1/NewsV2/Item';
 import Wrapper from '@components/UI/V1/Wrapper';
 
 const OneNewsContent = ({ newsItem = {} }) => {
@@ -24,7 +24,7 @@ const OneNewsContent = ({ newsItem = {} }) => {
 					padding: '1em',
 				}}
 			>
-				<Container {...articleProps} />
+				<NewsItem {...articleProps} />
 			</Wrapper>
 		</main>
 	);
