@@ -9,7 +9,7 @@ const Nav = ({
 	isDataOwner,
 	newsItemData,
 	isLoadingSkeleton,
-	hideSettings,
+	hideHeaderSettings,
 }) => {
 	return (
 		<nav className={classes.nav}>
@@ -51,7 +51,7 @@ const Nav = ({
 				</a>
 			</Link>
 
-			{(isLoadingSkeleton || (!hideSettings && newsItemData.news_id)) && (
+			{(isLoadingSkeleton || (!hideHeaderSettings && newsItemData.news_id)) && (
 				<NewsItemNavSettings
 					isDataOwner={isDataOwner}
 					newsItemData={newsItemData}

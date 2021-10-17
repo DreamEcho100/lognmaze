@@ -23,6 +23,10 @@ export const NewsContextProvider = ({ children }) => {
 		}),
 		[state, dispatch]
 	);
+	// const stateContext = {
+	// 	state,
+	// 	dispatch,
+	// };
 
 	return (
 		<NewsContext.Provider value={stateContext}>{children}</NewsContext.Provider>

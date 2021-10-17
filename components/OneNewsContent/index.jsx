@@ -1,19 +1,12 @@
 import { useContext, useEffect } from 'react';
 
-import NewsContext from '@store/NewsContext';
+import NewsContext, { NewsContextProvider } from '@store/NewsContext';
 import { handleAddingNewsFirstTime } from '@store/NewsContext/actions';
 
 import NewsItem from '@components/UI/V1/NewsV2/Item';
 import Wrapper from '@components/UI/V1/Wrapper';
 
 const OneNewsContent = ({ newsItemData = {} }) => {
-	const articleProps = {
-		newsItemData: newsItemData,
-		detailsType: 'content',
-		loadingUserVote: true,
-		isContainerContentOnView: true,
-	};
-
 	return (
 		<main className='main'>
 			<Wrapper
@@ -24,7 +17,12 @@ const OneNewsContent = ({ newsItemData = {} }) => {
 					padding: '1em',
 				}}
 			>
-				<NewsItem {...articleProps} />
+				<NewsItem
+					newsItemData={newsItemData}
+					detailsType={'content'}
+					loadingUserVote={true}
+					isContainerContentOnView={true}
+				/>
 			</Wrapper>
 		</main>
 	);
@@ -49,4 +47,12 @@ const NewsContextWrapper = ({ newsItemData }) => {
 	));
 };
 
-export default NewsContextWrapper;
+const NewsContextWrapperParent = (props) => {
+	return (
+		<NewsContextProvider>
+			<NewsContextWrapper {...props} />
+		</NewsContextProvider>
+	);
+};
+
+export default NewsContextWrapperParent;

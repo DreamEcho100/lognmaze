@@ -4,9 +4,12 @@ import dynamic from 'next/dynamic';
 import NewsContext from '@store/NewsContext';
 import { handleLoadingNewsItemContent } from '@store/NewsContext/actions';
 
-const ActionDynamic = dynamic(() => import('@components/UI/V1/News/Action'), {
-	ssr: false,
-});
+const UpdateAction = dynamic(
+	() => import('@components/UI/V1/NewsV2/Action/Update'),
+	{
+		ssr: false,
+	}
+);
 
 const UpdateNews = ({ newsItemData }) => {
 	const { dispatch } = useContext(NewsContext);
@@ -31,13 +34,14 @@ const UpdateNews = ({ newsItemData }) => {
 			<button title='Edit News' onClick={() => setShowUpdateNewsModal(true)}>
 				Edit
 			</button>
-			<ActionDynamic
+			<UpdateAction
 				showModal={showUpdateNewsModal}
 				setShowModal={setShowUpdateNewsModal}
-				closeModal={() => setShowUpdateNewsModal(false)}
-				type={newsItemData.type}
-				action='update'
-				newsItem={newsItemData}
+				newsItemData={newsItemData}
+				// closeModal={() => setShowUpdateNewsModal(false)}
+				// type={newsItemData.type}
+				// action='update'
+				// newsItem={newsItemData}
 			/>
 		</>
 	);

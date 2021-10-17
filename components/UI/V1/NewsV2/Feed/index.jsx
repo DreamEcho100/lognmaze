@@ -2,13 +2,12 @@ import { useContext, useEffect } from 'react';
 
 import classes from './index.module.css';
 
-import NewsContext from '@store/NewsContext';
 import {
 	handleAddingNewsFirstTime,
 	handleLoadMoreNewsItems,
 } from '@store/NewsContext/actions';
 import { handleAllClasses } from '@/lib/v1/className';
-import { NewsContextProvider } from '@store/NewsContext';
+import NewsContext from '@store/NewsContext';
 
 import Wrapper from '@components/UI/V1/Wrapper';
 import NewsItem from '../Item';
@@ -72,7 +71,7 @@ const Feed = ({
 			)}
 
 			{!isLoadingSkeleton &&
-				news.length !== 0 &&
+				state?.length !== 0 &&
 				state.news.map((item, index) => {
 					return (
 						<Wrapper
@@ -121,10 +120,6 @@ const Feed = ({
 	);
 };
 
-const FeedNewsContextProvider = (props) => (
-	<NewsContextProvider>
-		<Feed {...props} />
-	</NewsContextProvider>
-);
+const FeedNewsContextProvider = (props) => <Feed {...props} />;
 
 export default FeedNewsContextProvider;

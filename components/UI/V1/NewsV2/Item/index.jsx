@@ -23,25 +23,14 @@ const NewsItem = ({
 	isLoadingSkeleton,
 	// newsFetchRouteQuery,
 	loadingUserVote,
+	hideHeaderSettings,
+	hideFooterSettings,
+	showModal,
+	setShowModal,
 	articleProps,
-	modal = {},
-	userCtx = {},
-	newsCtx = {},
 }) => {
-	const userState = useMemo(() => userCtx.userState, [userCtx.userState]);
-	const userExist = useMemo(() => userCtx.userExist, [userCtx.userExist]);
-	const { state, dispatch } = useMemo(
-		() => ({ state: newsCtx.state, dispatch: newsCtx.dispatch }),
-		[newsCtx.state, newsCtx.dispatch]
-	);
-
-	const showModal = useMemo(() => modal.showModal, [modal.showModal]);
-	const setShowModal = modal.setShowModal;
-	// const [userState, userDispatch] = useContext(UserContext);
-	// const { userExist } = useContext(UserExistContext);
-	// const { state, dispatch } = useContext(NewsContext);
-
-	// const [showModal, setShowModal] = useState(false);
+	const [userState, userDispatch] = useUserSharedState();
+	const { state, dispatch } = useContext(NewsContext);
 
 	const [isLoadingUserVote, setIsLoadingUserVote] = useState(!!loadingUserVote);
 
@@ -57,7 +46,7 @@ const NewsItem = ({
 	useEffect(() => {
 		if (
 			isLoadingUserVote &&
-			userExist &&
+			userState.userExist &&
 			newsItemData?.news_id &&
 			(parseInt(newsItemData.up_votes_counter) !== 0 ||
 				parseInt(newsItemData.down_votes_counter) !== 0)
@@ -71,7 +60,7 @@ const NewsItem = ({
 			});
 			if (isLoadingUserVote) setIsLoadingUserVote(false);
 		}
-	}, [isLoadingUserVote, userExist]);
+	}, [isLoadingUserVote, userState.userExist]);
 
 	return (
 		<section {...articleProps}>
@@ -81,6 +70,7 @@ const NewsItem = ({
 				detailsType={detailsType}
 				isLoadingSkeleton={isLoadingSkeleton}
 				setShowModal={setShowModal}
+				hideHeaderSettings={hideHeaderSettings}
 				// setIsLoadingContent={setIsLoadingContent}
 				// isLoadingContent={isLoadingContent}
 				// hideHeaderSettings={hideHeaderSettings}
@@ -96,6 +86,7 @@ const NewsItem = ({
 				newsItemId={newsItemData.news_id}
 				isLoadingSkeleton={isLoadingSkeleton}
 				setShowModal={setShowModal}
+				hideFooterSettings={hideFooterSettings}
 				// isLoadingContent={isLoadingContent}
 			/>
 			<footer></footer>
@@ -108,12 +99,8 @@ const NewsItemParent = ({
 	extraClasses = '',
 	className = '',
 	modalOnClick,
-	hideFooterSettings,
 	...props
 }) => {
-	const [userState, userDispatch] = useUserSharedState();
-	const { state, dispatch } = useContext(NewsContext);
-
 	const [showModal, setShowModal] = useState(false);
 
 	const allClasses = useMemo(
@@ -145,24 +132,17 @@ const NewsItemParent = ({
 		<>
 			<NewsItem
 				{...props}
+				showModal={showModal}
+				setShowModal={setShowModal}
 				articleProps={articleProps}
-				modal={{ showModal, setShowModal }}
-				userCtx={{
-					userState,
-					userExist: userState.userExist,
-				}}
-				newsCtx={{
-					state,
-					dispatch,
-				}}
 			/>
 			{modalOnClick && (
 				<DynamicNewsItemModal
 					showModal={showModal}
 					setShowModal={setShowModal}
-					articleProps={props.articleProps}
+					articleProps={articleProps}
 					newsItemData={props.newsItemData}
-					hideFooterSettings={props.hideFooterSettings}
+					// hideFooterSettings={props.hideFooterSettings}
 					detailsType='content'
 				/>
 			)}

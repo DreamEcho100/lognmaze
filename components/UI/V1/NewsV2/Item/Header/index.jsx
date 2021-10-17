@@ -30,7 +30,7 @@ const NewsHeader = ({
 				isDataOwner={isDataOwner}
 				newsItemData={newsItemData}
 				isLoadingSkeleton={isLoadingSkeleton}
-				hideSettings={hideHeaderSettings}
+				hideHeaderSettings={hideHeaderSettings}
 			/>
 			<section>
 				<TimeAndDate

@@ -1,12 +1,14 @@
 import { useContext } from 'react';
 import { useRouter } from 'next/router';
+import NewsContext, { NewsContextProvider } from '@store/NewsContext';
 
 import classes from './index.module.css';
 
 import { handleAddingLoadingSkeletonClass } from '@/lib/v1/className';
 import { useUserSharedState } from '@store/UserContext';
 
-import Feed from '@components/UI/V1/NewsV2/Feed/index';
+import Feed from '@components/UI/V1/NewsV2/Feed';
+// import Feed from '@components/UI/V1/News/Feed/Feed';
 import Wrapper from '@components/UI/V1/Wrapper';
 import Button from '@components/UI/V1/Button';
 import CreateNewsButton from '@components/UI/V1/Button/CreateNews';
@@ -22,7 +24,7 @@ const Section1 = ({
 	const [userState, userDispatch] = useUserSharedState();
 
 	return (
-		<>
+		<NewsContextProvider>
 			<main className={classes['main-section']}>
 				<section className={classes['section-1']}>
 					<Feed
@@ -64,7 +66,7 @@ const Section1 = ({
 					</Wrapper>
 				</section>
 			</main>
-		</>
+		</NewsContextProvider>
 	);
 };
 

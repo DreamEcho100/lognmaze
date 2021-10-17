@@ -36,20 +36,24 @@ const HandleShowFullDetailsButton = ({
 
 const Description = ({ description, newsItemType, setShowModal }) => {
 	const [showFullDetails, setShowFullDetails] = useState(false);
+	const isDescriptionLong = description.replace(/\s\w+\s?$/, '').length > 150;
+
 	return (
 		<>
 			<IsReturnedInP
 				newsItemType={newsItemType}
 				description={
-					description.replace(/\s\w+\s?$/, '').length > 150 && !showFullDetails
+					isDescriptionLong && !showFullDetails
 						? description.slice(0, 150).replace(/\s\w+\s?$/, '')
 						: description
 				}
 			/>
-			<HandleShowFullDetailsButton
-				setShowFullDetails={setShowFullDetails}
-				showFullDetails={showFullDetails}
-			/>{' '}
+			{isDescriptionLong && (
+				<HandleShowFullDetailsButton
+					setShowFullDetails={setShowFullDetails}
+					showFullDetails={showFullDetails}
+				/>
+			)}{' '}
 			<button
 				className='text-glow-special display-inline'
 				title='Keep Reading'

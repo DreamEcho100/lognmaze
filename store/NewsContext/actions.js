@@ -129,6 +129,9 @@ export const handleCreatingNewsItem = async ({
 		body: JSON.stringify(bodyObj),
 	})
 		.then((response) => response.json())
+		.then((data) => {
+			return data;
+		})
 		.catch((error) => {
 			console.error(error.message);
 			return {
@@ -145,6 +148,7 @@ export const handleCreatingNewsItem = async ({
 		};
 	}
 
+
 	dispatch({
 		type: types.ADDING_USER_ONE_NEWS_ITEM_TO_NEWS,
 		payload: { user, data: newsResult.data, newsValues, newsType },
@@ -160,8 +164,8 @@ export const handleUpdatingUserNewsItem = async ({
 	user,
 	token,
 	newsType,
-	oldValues,
 	newValues,
+	oldValues,
 }) => {
 	let bodyObj = {};
 	let dataChanged = false;
@@ -274,6 +278,7 @@ export const handleUpdatingUserNewsItem = async ({
 			message: newsResult.message,
 		};
 	}
+
 
 	dispatch({
 		type: types.UPDATING_USER_ONE_NEWS_ITEM_IN_NEWS,

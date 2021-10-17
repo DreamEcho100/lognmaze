@@ -3,10 +3,15 @@ import dynamic from 'next/dynamic';
 
 import { useUserSharedState } from '@store/UserContext';
 
-const CreateAction = dynamic(() => import('@components/UI/V1/News/Action'));
+const CreateAction = dynamic(
+	() => import('@components/UI/V1/NewsV2/Action/Create'),
+	{
+		ssr: false,
+	}
+);
 import Button from '@components/UI/V1/Button';
 
-const CreateNewsButton = () => {
+const CreateNewsButton = ({ newsItemData = {} }) => {
 	const [userState, userDispatch] = useUserSharedState();
 
 	const [showCreateNewsButtonModal, setShowCreateNewsButtonModal] =
@@ -25,11 +30,9 @@ const CreateNewsButton = () => {
 				Create A News
 			</Button>
 			<CreateAction
-				closeModal={() => setShowCreateNewsButtonModal(false)}
 				showModal={showCreateNewsButtonModal}
 				setShowModal={setShowCreateNewsButtonModal}
-				type='article'
-				action='create'
+				newsItemData={newsItemData}
 			/>
 		</>
 	);
