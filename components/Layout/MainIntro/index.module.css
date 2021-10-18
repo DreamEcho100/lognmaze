@@ -11,6 +11,7 @@
 	z-index: 9999;
 	transition: all 0.6s ease-in-out;
 	animation: removeMainIntroInHorizontally 0.7s ease-in-out 1s forwards;
+	animation-delay: 1s;
 }
 
 .container {
@@ -42,9 +43,9 @@
 	stroke-dasharray: 40477;
 	stroke-dashoffset: 40477;
 	opacity: 0.5;
+	transition: animation 0.7s ease-in-out 0.2;
 	animation: sign 0.7s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.2s forwards;
 	animation-delay: 0.2;
-	transition: animation 0.7s ease-in-out 0.2;
 }
 /* 
 .main-intro.verifying-credentials-finished {
@@ -61,6 +62,7 @@
 
 .main-intro.window-is-vertical {
 	animation: removeMainIntroInVertically 0.7s ease-in-out 1s forwards;
+	animation-delay: 1s;
 }
 
 .main-intro.window-is-vertical .svg-container svg {
