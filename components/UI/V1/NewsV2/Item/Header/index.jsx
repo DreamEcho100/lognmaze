@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useUserSharedState } from '@store/UserContext';
 import Nav from './Nav';

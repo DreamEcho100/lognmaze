@@ -3,8 +3,6 @@ import Head from 'next/head';
 import { pool } from '@lib/v1/pg';
 import { XMLCharactersEncoding } from '@lib/v1/regex';
 
-import { NewsContextProvider } from '@store/NewsContext';
-
 import OneNewsContent from '@components/OneNewsContent';
 
 const PostPage = (props) => {
@@ -19,7 +17,7 @@ const PostPage = (props) => {
 			: undefined;
 
 	return (
-		<NewsContextProvider>
+		<>
 			<Head>
 				<meta property='og:type' content='article' />
 				<meta property='article:publisher' content={data.author_user_name_id} />
@@ -51,7 +49,7 @@ const PostPage = (props) => {
 				/>
 			</Head>
 			<OneNewsContent newsItemData={data} />
-		</NewsContextProvider>
+		</>
 	);
 };
 

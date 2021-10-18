@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 
-import NewsContext from '@store/NewsContext';
+import { useNewsSharedState } from '@store/NewsContext';
 import { handleLoadingNewsItemContent } from '@store/NewsContext/actions';
 
 const UpdateAction = dynamic(
@@ -12,7 +12,7 @@ const UpdateAction = dynamic(
 );
 
 const UpdateNews = ({ newsItemData }) => {
-	const { dispatch } = useContext(NewsContext);
+	const [newsState, newsDispatch] = useNewsSharedState();
 
 	const [showUpdateNewsModal, setShowUpdateNewsModal] = useState(false);
 
@@ -20,7 +20,7 @@ const UpdateNews = ({ newsItemData }) => {
 		if (showUpdateNewsModal && !newsItemData.content) {
 			const loadContent = async () => {
 				await handleLoadingNewsItemContent({
-					dispatch,
+					newsDispatch,
 					news_id: newsItemData.news_id,
 				});
 			};

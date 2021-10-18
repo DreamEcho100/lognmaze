@@ -10,8 +10,7 @@
 	background-color: var(--main-special-bg-color-5);
 	z-index: 9999;
 	transition: all 0.6s ease-in-out;
-	animation: removeMainIntroInHorizontal 0.7s ease-in-out 1s forwards;
-	animation-delay: 1s;
+	animation: removeMainIntroInHorizontally 0.7s ease-in-out 1s forwards;
 }
 
 .container {
@@ -33,6 +32,7 @@
 	max-width: 90%;
 	margin: auto;
 	background-color: transparent;
+	transition-duration: 0s;
 }
 
 .main-intro svg {
@@ -42,25 +42,29 @@
 	stroke-dasharray: 40477;
 	stroke-dashoffset: 40477;
 	opacity: 0.5;
-	transition: all 0.3s ease-in-out;
-	animation: sign 0.6s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.2s forwards;
+	/* transition: all 0.3s ease-in-out; */
+	animation: sign 0.7s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.2s forwards;
 }
-
-/* .main-intro.verifying-credentials-finished {
-transform: translateX(-100%);
+/* 
+.main-intro.verifying-credentials-finished {
+	transform: translateX(-100%);
 	pointer-events: none;
 	opacity: 0;
 } */
 
-/* .main-intro.verifying-credentials-finished .svg-container svg {
-transform: translateX(60%) rotate(90deg) scale(0.4);
-} */
-
 /**/
 
-/* .main-intro.setVertical.verifying-credentials-finished {
-transform: translateY(-100%);
-} */
+.main-intro.window-is-vertical .svg-container {
+	transform: rotate(90deg);
+}
+
+.main-intro.window-is-vertical {
+	animation: removeMainIntroInVertically 0.7s ease-in-out 1s forwards;
+}
+
+.main-intro.window-is-vertical .svg-container svg {
+	transform: translateX(100%) rotate(90deg) scale(0.4);
+}
 
 @keyframes sign {
 	to {
@@ -69,9 +73,17 @@ transform: translateY(-100%);
 	}
 }
 
-@keyframes removeMainIntroInHorizontal {
+@keyframes removeMainIntroInHorizontally {
 	to {
 		transform: translateX(-100%);
+		pointer-events: none;
+		opacity: 0;
+	}
+}
+
+@keyframes removeMainIntroInVertically {
+	to {
+		transform: translateY(-100%);
 		pointer-events: none;
 		opacity: 0;
 	}

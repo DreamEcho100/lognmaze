@@ -1,5 +1,3 @@
-import { useContext } from 'react';
-
 import AccordionSettingsShower from '../UI/AccordionSettingsShower';
 import ButtonModalShower from '../UI/ButtonModalShower';
 

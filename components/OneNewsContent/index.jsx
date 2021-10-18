@@ -1,6 +1,9 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 
-import NewsContext, { NewsContextProvider } from '@store/NewsContext';
+import {
+	NewsContextSharedProvider,
+	useNewsSharedState,
+} from '@store/NewsContext';
 import { handleAddingNewsFirstTime } from '@store/NewsContext/actions';
 
 import NewsItem from '@components/UI/V1/NewsV2/Item';
@@ -29,17 +32,17 @@ const OneNewsContent = ({ newsItemData = {} }) => {
 };
 
 const NewsContextWrapper = ({ newsItemData }) => {
-	const { state, dispatch, types } = useContext(NewsContext);
+	const [newsState, newsDispatch] = useNewsSharedState();
 
 	useEffect(() => {
 		handleAddingNewsFirstTime({
-			dispatch,
+			newsDispatch,
 			news: [newsItemData],
 			newsType: 'ONE',
 		});
 	}, []);
 
-	return state.news.map((item, index) => (
+	return newsState.news.map((item, index) => (
 		<OneNewsContent
 			key={`OneNewsContent-${index}-${newsItemData.news_id}`}
 			newsItemData={item}
@@ -49,9 +52,9 @@ const NewsContextWrapper = ({ newsItemData }) => {
 
 const NewsContextWrapperParent = (props) => {
 	return (
-		<NewsContextProvider>
+		<NewsContextSharedProvider>
 			<NewsContextWrapper {...props} />
-		</NewsContextProvider>
+		</NewsContextSharedProvider>
 	);
 };
 

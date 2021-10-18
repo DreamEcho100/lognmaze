@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
 		<UserContextSharedProvider>
 			<MainNavigation />
 			{children}
-			{/* <MainIntro /> */}
+			<MainIntro />
 		</UserContextSharedProvider>
 	);
 };

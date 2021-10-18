@@ -4,8 +4,6 @@ import Head from 'next/head';
 import { XMLCharactersEncoding } from '@lib/v1/regex';
 import { pool, getAllArticlesSlugs } from '@lib/v1/pg';
 
-import { NewsContextProvider } from '@store/NewsContext';
-
 import OneNewsContent from '@components/OneNewsContent';
 
 const ArticlePage = (props) => {
@@ -20,7 +18,7 @@ const ArticlePage = (props) => {
 			: undefined;
 
 	return (
-		<NewsContextProvider>
+		<>
 			<Head>
 				<meta property='og:type' content='article' />
 				<meta property='article:publisher' content={data.author_user_name_id} />
@@ -108,7 +106,7 @@ const ArticlePage = (props) => {
 				<title>{data.title} | LogNMaze</title>
 			</Head>
 			<OneNewsContent newsItemData={data} />
-		</NewsContextProvider>
+		</>
 	);
 };
 

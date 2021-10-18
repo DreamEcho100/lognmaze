@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import classes from './index.module.css';
 
@@ -7,7 +7,7 @@ import {
 	handleLoadMoreNewsItems,
 } from '@store/NewsContext/actions';
 import { handleAllClasses } from '@/lib/v1/className';
-import NewsContext from '@store/NewsContext';
+import { useNewsSharedState } from '@store/NewsContext';
 
 import Wrapper from '@components/UI/V1/Wrapper';
 import NewsItem from '../Item';
@@ -21,11 +21,11 @@ const Feed = ({
 	newsFetchRouteQuery,
 	...props
 }) => {
-	const { state, dispatch, types } = useContext(NewsContext);
+	const [newsState, newsDispatch] = useNewsSharedState();
 
 	useEffect(() => {
 		handleAddingNewsFirstTime({
-			dispatch,
+			newsDispatch,
 			news,
 			newsType: 'ALL',
 			newsFetchRouteQuery,
@@ -71,8 +71,8 @@ const Feed = ({
 			)}
 
 			{!isLoadingSkeleton &&
-				state?.length !== 0 &&
-				state.news.map((item, index) => {
+				newsState?.length !== 0 &&
+				newsState.news.map((item, index) => {
 					return (
 						<Wrapper
 							key={`Feed-${index}-${item.news_id}`}
@@ -84,42 +84,43 @@ const Feed = ({
 						</Wrapper>
 					);
 				})}
-			{!isLoadingSkeleton && news.length !== 0 && !state.hit_news_items_limit && (
-				<Wrapper
-					style={{
-						width: '100%',
-						marginLeft: 'auto',
-						marginRight: 'auto',
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-					}}
-				>
-					<button
-						disabled={state.isLoadingMoreNewsItems}
-						onClick={() =>
-							handleLoadMoreNewsItems({
-								dispatch,
-								last_news_item_created_at: state.last_news_item_created_at,
-								newsFetchRouteQuery,
-							})
-						}
+			{!isLoadingSkeleton &&
+				news.length !== 0 &&
+				!newsState.hit_news_items_limit && (
+					<Wrapper
 						style={{
 							width: '100%',
-							height: '100%',
+							marginLeft: 'auto',
+							marginRight: 'auto',
 							display: 'flex',
 							alignItems: 'center',
 							justifyContent: 'center',
 						}}
 					>
-						<strong>Load More</strong>
-					</button>
-				</Wrapper>
-			)}
+						<button
+							disabled={newsState.isLoadingMoreNewsItems}
+							onClick={() =>
+								handleLoadMoreNewsItems({
+									newsDispatch,
+									last_news_item_created_at:
+										newsState.last_news_item_created_at,
+									newsFetchRouteQuery,
+								})
+							}
+							style={{
+								width: '100%',
+								height: '100%',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+							}}
+						>
+							<strong>Load More</strong>
+						</button>
+					</Wrapper>
+				)}
 		</section>
 	);
 };
 
-const FeedNewsContextProvider = (props) => <Feed {...props} />;
-
-export default FeedNewsContextProvider;
+export default Feed;

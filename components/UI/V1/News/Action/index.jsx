@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import {
 	handleCreatingNewsItem,
@@ -6,7 +6,6 @@ import {
 	handleUpdatingUserNewsItem,
 } from '@store/NewsContext/actions';
 import { useUserSharedState } from '@store/UserContext';
-import NewsContext from '@store/NewsContext';
 
 import ModalContainer from './ModalContainer/ModalContainer';
 import Article from './Article/Article';

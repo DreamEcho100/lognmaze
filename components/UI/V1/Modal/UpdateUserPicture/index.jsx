@@ -1,4 +1,4 @@
-import { Fragment, useContext, useState } from 'react';
+import { Fragment, useState } from 'react';
 
 import { useUserSharedState } from '@store/UserContext';
 import { handleUpdateUserData } from '@store/UserContext/actions';

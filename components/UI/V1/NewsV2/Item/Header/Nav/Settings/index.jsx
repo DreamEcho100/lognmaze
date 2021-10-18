@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';

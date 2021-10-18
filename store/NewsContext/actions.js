@@ -1,21 +1,21 @@
 import types from './types';
 
 export const handleAddingNewsFirstTime = ({
-	dispatch,
+	newsDispatch,
 	news,
 	newsType,
 	newsFetchRouteQuery,
 }) => {
 	if (news.length !== 0) {
-		dispatch({
+		newsDispatch({
 			type: types.INIT_STATE,
 			payload: { news, newsType, newsFetchRouteQuery },
 		});
 	}
 };
 
-export const handleLoadingNewsItemContent = async ({ dispatch, news_id }) => {
-	dispatch({
+export const handleLoadingNewsItemContent = async ({ newsDispatch, news_id }) => {
+	newsDispatch({
 		type: types.SET_IS_LOADING_CONTENT_IN_NEWS_ITEM,
 		payload: { news_id: news_id, isLoadingContent: true },
 	});
@@ -40,7 +40,7 @@ export const handleLoadingNewsItemContent = async ({ dispatch, news_id }) => {
 		};
 	}
 
-	dispatch({
+	newsDispatch({
 		type: types.ADD_CONTENT_TO_NEWS_ITEM,
 		payload: {
 			content: newsResult.data.content,
@@ -55,11 +55,11 @@ export const handleLoadingNewsItemContent = async ({ dispatch, news_id }) => {
 	};
 };
 export const handleLoadMoreNewsItems = async ({
-	dispatch,
+	newsDispatch,
 	last_news_item_created_at,
 	newsFetchRouteQuery,
 }) => {
-	dispatch({
+	newsDispatch({
 		type: types.SET_IS_LOADING_MORE_NEWS_ITEM,
 		payload: { isLoadingMoreNewsItems: true },
 	});
@@ -87,7 +87,7 @@ export const handleLoadMoreNewsItems = async ({
 		};
 	}
 
-	dispatch({
+	newsDispatch({
 		type: types.ADD_MORE_NEWS_ITEM,
 		payload: {
 			newNewsItem: newsResult.data.news.map((item) => ({
@@ -106,7 +106,7 @@ export const handleLoadMoreNewsItems = async ({
 	};
 };
 export const handleCreatingNewsItem = async ({
-	dispatch,
+	newsDispatch,
 	user,
 	token,
 	newsValues,
@@ -149,7 +149,7 @@ export const handleCreatingNewsItem = async ({
 	}
 
 
-	dispatch({
+	newsDispatch({
 		type: types.ADDING_USER_ONE_NEWS_ITEM_TO_NEWS,
 		payload: { user, data: newsResult.data, newsValues, newsType },
 	});
@@ -160,7 +160,7 @@ export const handleCreatingNewsItem = async ({
 	};
 };
 export const handleUpdatingUserNewsItem = async ({
-	dispatch,
+	newsDispatch,
 	user,
 	token,
 	newsType,
@@ -280,7 +280,7 @@ export const handleUpdatingUserNewsItem = async ({
 	}
 
 
-	dispatch({
+	newsDispatch({
 		type: types.UPDATING_USER_ONE_NEWS_ITEM_IN_NEWS,
 		payload: {
 			user,
@@ -297,7 +297,7 @@ export const handleUpdatingUserNewsItem = async ({
 	};
 };
 export const handleDeletingUserNewsItem = async ({
-	dispatch,
+	newsDispatch,
 	token,
 	news_id,
 	newsType,
@@ -328,7 +328,7 @@ export const handleDeletingUserNewsItem = async ({
 		};
 	}
 
-	dispatch({
+	newsDispatch({
 		type: types.DELETING_USER_ONE_NEWS_ITEM_IN_NEWS,
 		payload: {
 			news_id,
@@ -341,7 +341,7 @@ export const handleDeletingUserNewsItem = async ({
 	};
 };
 
-export const handleLoadingNewsItemComments = async ({ dispatch, newsItem }) => {
+export const handleLoadingNewsItemComments = async ({ newsDispatch, newsItem }) => {
 	let fetchInput = `/api/v1/news/comments/comment/?type=comment_main&news_id=${newsItem.news_id}`;
 
 	if (newsItem.last_comment_created_at) {
@@ -389,7 +389,7 @@ export const handleLoadingNewsItemComments = async ({ dispatch, newsItem }) => {
 		dataToAdd.hit_comments_limit = true;
 	}
 
-	dispatch({
+	newsDispatch({
 		type: types.ADD_COMMENTS_TO_NEWS_ITEM,
 		payload: { dataToAdd, news_id: newsItem.news_id },
 	});
@@ -400,7 +400,7 @@ export const handleLoadingNewsItemComments = async ({ dispatch, newsItem }) => {
 	};
 };
 export const handlePostingCommentToNewsItem = async ({
-	dispatch,
+	newsDispatch,
 	news_id,
 	commentType,
 	commentContent,
@@ -434,7 +434,7 @@ export const handlePostingCommentToNewsItem = async ({
 		};
 	}
 
-	dispatch({
+	newsDispatch({
 		type: types.ADD_COMMENT_TO_NEWS_ITEM_AFTER_POSTING,
 		payload: { user, news_id, comment: commentResult.data, commentContent },
 	});
@@ -445,7 +445,7 @@ export const handlePostingCommentToNewsItem = async ({
 	};
 };
 export const handleLoadingCommentRepliesInNewsItem = async ({
-	dispatch,
+	newsDispatch,
 	comment,
 	parent_id,
 	news_id,
@@ -474,7 +474,7 @@ export const handleLoadingCommentRepliesInNewsItem = async ({
 		};
 	}
 
-	dispatch({
+	newsDispatch({
 		type: types.LOADING_COMMENT_REPLIES_IN_A_NEWS_ITEM,
 		payload: { news_id, data: repliesResult.data, parent_id },
 	});
@@ -485,7 +485,7 @@ export const handleLoadingCommentRepliesInNewsItem = async ({
 	};
 };
 export const handleReplyingToMainOrReplyCommentInNewsItem = async ({
-	dispatch,
+	newsDispatch,
 	user,
 	token,
 	bodyObj,
@@ -511,7 +511,7 @@ export const handleReplyingToMainOrReplyCommentInNewsItem = async ({
 		};
 	}
 
-	dispatch({
+	newsDispatch({
 		type: types.ADDING_REPLY_TO_A_MAIN_COMMENT_OR_A_REPLY_TO_A_COMMENT_IN_A_NEWS_ITEM,
 		payload: {
 			user,
@@ -526,7 +526,7 @@ export const handleReplyingToMainOrReplyCommentInNewsItem = async ({
 	};
 };
 export const handleUpdatingMainOrReplyCommentInNewsItem = async ({
-	dispatch,
+	newsDispatch,
 	token,
 	bodyObj,
 	comment,
@@ -554,7 +554,7 @@ export const handleUpdatingMainOrReplyCommentInNewsItem = async ({
 		};
 	}
 
-	dispatch({
+	newsDispatch({
 		type: types.UPDATING_A_MAIN_OR_A__REPLY_COMMENT_IN_A_NEWS_ITEM,
 		payload: { bodyObj, news_id, comment, parent_data_id },
 	});
@@ -565,7 +565,7 @@ export const handleUpdatingMainOrReplyCommentInNewsItem = async ({
 	};
 };
 export const handleDeletingMainOrReplyCommentInNewsItem = async ({
-	dispatch,
+	newsDispatch,
 	token,
 	bodyObj,
 	news_id,
@@ -592,7 +592,7 @@ export const handleDeletingMainOrReplyCommentInNewsItem = async ({
 		};
 	}
 
-	dispatch({
+	newsDispatch({
 		type: types.DELETING_A_MAIN_OR_A__REPLY_COMMENT_IN_A_NEWS_ITEM,
 		payload: { bodyObj, news_id, comment },
 	});
@@ -604,7 +604,7 @@ export const handleDeletingMainOrReplyCommentInNewsItem = async ({
 };
 
 export const HandleAddingUserVote = async ({
-	dispatch,
+	newsDispatch,
 	token,
 	news_id,
 	vote_type,
@@ -633,7 +633,7 @@ export const HandleAddingUserVote = async ({
 		};
 	}
 
-	dispatch({
+	newsDispatch({
 		type: types.ADD_USER_VOTE_FOR_NEWS_ITEM,
 		payload: { news_id, vote_type },
 	});
@@ -645,7 +645,7 @@ export const HandleAddingUserVote = async ({
 };
 
 export const HandleDeletingUserVote = async ({
-	dispatch,
+	newsDispatch,
 	token,
 	news_id,
 	vote_type,
@@ -674,7 +674,7 @@ export const HandleDeletingUserVote = async ({
 		};
 	}
 
-	dispatch({
+	newsDispatch({
 		type: types.DELETE_USER_VOTE_FOR_NEWS_ITEM,
 		payload: { news_id, vote_type },
 	});
@@ -686,7 +686,7 @@ export const HandleDeletingUserVote = async ({
 };
 
 export const HandleChangingUserVote = async ({
-	dispatch,
+	newsDispatch,
 	token,
 	news_id,
 	old_vote_type,
@@ -717,7 +717,7 @@ export const HandleChangingUserVote = async ({
 		};
 	}
 
-	dispatch({
+	newsDispatch({
 		type: types.CHANGE_USER_VOTE_FOR_NEWS_ITEM,
 		payload: { news_id, old_vote_type, new_vote_type },
 	});
@@ -729,10 +729,9 @@ export const HandleChangingUserVote = async ({
 };
 
 export const HandleLoadingUserVote = async ({
-	dispatch,
+	newsDispatch,
 	news_id,
 	user,
-	state,
 }) => {
 	if (!user) {
 		console.error('No user been detected to retrieve his/her vote');
@@ -759,7 +758,7 @@ export const HandleLoadingUserVote = async ({
 		};
 	}
 
-	dispatch({
+	newsDispatch({
 		type: types.LOAD_USER_VOTE_FOR_NEWS_ITEM,
 		payload: { news_id, user_vote_type: voteResult.data.user_vote_type },
 	});

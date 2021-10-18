@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useUserSharedState } from '@store/UserContext';
-import NewsContext from '@store/NewsContext';
+import { useNewsSharedState } from '@store/NewsContext';
 import {
 	handleDeletingUserNewsItem,
 	handleLoadingNewsItemContent,
@@ -50,7 +50,7 @@ const ActionBody = ({ newsItemData }) => {
 
 const DeleteAction = ({ showModal, setShowModal, newsItemData }) => {
 	const [userState, userDispatch] = useUserSharedState();
-	const { dispatch: newsDispatch } = useContext(NewsContext);
+	const [newsState, newsDispatch] = useNewsSharedState();
 	const [disableButtons, setDisableButtons] = useState(false);
 
 	const deleteNews = async () => {
@@ -63,7 +63,7 @@ const DeleteAction = ({ showModal, setShowModal, newsItemData }) => {
 		setDisableButtons(true);
 
 		const result = await handleDeletingUserNewsItem({
-			dispatch: newsDispatch,
+			newsDispatch,
 			token: userState.token,
 			news_id: newsItemData.news_id,
 			newsType: newsItemData.type,

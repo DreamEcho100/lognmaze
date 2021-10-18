@@ -1,5 +1,3 @@
-import { useContext } from 'react';
-
 import { useUserSharedState } from '@store/UserContext';
 import {
 	handleUpdateUserData,

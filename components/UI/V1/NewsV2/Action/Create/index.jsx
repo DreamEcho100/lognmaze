@@ -1,8 +1,8 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 
 import { handleCreatingNewsItem } from '@store/NewsContext/actions';
 import { useUserSharedState } from '@store/UserContext';
-import NewsContext from '@store/NewsContext';
+import { useNewsSharedState } from '@store/NewsContext';
 
 import Button from '@components/UI/V1/Button';
 import ActionModal from '../UI/Modal';
@@ -57,12 +57,12 @@ const CreateActionBody = ({
 
 const CreateAction = ({ newsItemData = {}, showModal, setShowModal }) => {
 	const [userState, userDispatch] = useUserSharedState();
-	const { dispatch: newsDispatch } = useContext(NewsContext);
+	const [newsState, newsDispatch] = useNewsSharedState();
 	const [newsType, setNewsType] = useState('article');
 
 	const createNews = async ({ values }) => {
 		const result = await handleCreatingNewsItem({
-			dispatch: newsDispatch,
+			newsDispatch,
 			user: userState.user,
 			token: userState.token,
 			newsType,
