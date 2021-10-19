@@ -2,7 +2,7 @@ import { useState } from 'react';
 import dynamic from 'next/dynamic';
 
 const ActionDeleteDynamic = dynamic(
-	() => import('@components/UI/V1/NewsV2/Action/Delete'),
+	() => import('@components/UI/V1/News/Action/Delete'),
 	{
 		ssr: false,
 	}

@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from 'react';
-// import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';
 
@@ -12,11 +11,6 @@ import {
 import NewsContext from '@store/NewsContext';
 import { useUserSharedState } from '@store/UserContext';
 import { dateToHumanReadableDate } from '@lib/v1/time';
-
-// const DynamicMd = dynamic(() => import('@components/UI/V1/Format/Md'));
-// const DynamicContainer = dynamic(() =>
-// 	import('@components/UI/V1/Format/Container')
-// );
 
 import Md from '@components/UI/V1/Format/Md';
 import FormatterContainer from '@components/UI/V1/Format/Container';

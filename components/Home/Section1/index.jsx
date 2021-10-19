@@ -6,8 +6,7 @@ import { handleAddingLoadingSkeletonClass } from '@/lib/v1/className';
 import { useUserSharedState } from '@store/UserContext';
 import { NewsContextSharedProvider } from '@store/NewsContext';
 
-import Feed from '@components/UI/V1/NewsV2/Feed';
-// import Feed from '@components/UI/V1/News/Feed/Feed';
+import Feed from '@components/UI/V1/News/Feed';
 import Wrapper from '@components/UI/V1/Wrapper';
 import Button from '@components/UI/V1/Button';
 import CreateNewsButton from '@components/UI/V1/Button/CreateNews';

@@ -11,8 +11,11 @@ import {
 import { useUserSharedState } from '@store/UserContext';
 import { handleAllClasses } from '@/lib/v1/className';
 
-const DynamicDeleteNewsModal = dynamic(() =>
-	import('@components/UI/V1/Modal/DeleteNews')
+const DynamicDeleteNewsModal = dynamic(
+	() => import('@components/UI/V1/Modal/DeleteNews'),
+	{
+		ssr: false,
+	}
 );
 import ContainerItems from './ContainerItems';
 

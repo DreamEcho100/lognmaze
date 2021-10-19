@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 
-const DynamicModal = dynamic(() => import('./Modal'));
+const DynamicModal = dynamic(() => import('./Modal'), {
+	ssr: false,
+});
 
 const ModalHOC = ({
 	click,

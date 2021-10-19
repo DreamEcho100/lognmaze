@@ -15,8 +15,7 @@ const DynamicCreateNewsButton = dynamic(() =>
 
 import Wrapper from '@components/UI/V1/Wrapper';
 import Hero from './Hero';
-// import Feed from '@components/UI/V1/News/Feed/Feed';
-import Feed from '@components/UI/V1/NewsV2/Feed/index';
+import Feed from '@components/UI/V1/News/Feed/index';
 
 import BioSection from './BioSection';
 

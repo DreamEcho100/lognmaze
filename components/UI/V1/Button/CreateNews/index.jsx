@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { useUserSharedState } from '@store/UserContext';
 
 const CreateAction = dynamic(
-	() => import('@components/UI/V1/NewsV2/Action/Create'),
+	() => import('@components/UI/V1/News/Action/Create'),
 	{
 		ssr: false,
 	}

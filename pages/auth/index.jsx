@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import dynamic from 'next/dynamic';
 
 import { useUserSharedState } from '@store/UserContext';
 
 // import Auth from '@components/Auth';
-const DynamicAuth = dynamic(() => import('@components/Auth'));
+import Auth from '@components/Auth';
 
 import Button from '@components/UI/V1/Button';
 
@@ -75,7 +74,7 @@ const AuthPage = ({
 
 	return (
 		<>
-			<DynamicAuth
+			<Auth
 				dynamicComponentReady={dynamicComponentReady}
 				setDynamicComponentReady={setDynamicComponentReady}
 				signType={signType}

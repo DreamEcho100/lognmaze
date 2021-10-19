@@ -6,7 +6,7 @@ import {
 } from '@store/NewsContext';
 import { handleAddingNewsFirstTime } from '@store/NewsContext/actions';
 
-import NewsItem from '@components/UI/V1/NewsV2/Item';
+import NewsItem from '@components/UI/V1/News/Item';
 import Wrapper from '@components/UI/V1/Wrapper';
 
 const OneNewsContent = ({ newsItemData = {} }) => {

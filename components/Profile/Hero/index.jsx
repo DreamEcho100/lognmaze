@@ -10,14 +10,23 @@ import Wrapper from 'components/UI/V1/Wrapper';
 import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
 import Button from '@components/UI/V1/Button';
 import UpdateUserPictureModal from '@components/UI/V1/Modal/UpdateUserPicture';
-const SettingsButtonDynamic = dynamic(() =>
-	import('./SettingsButton/SettingsButton')
+const SettingsButtonDynamic = dynamic(
+	() => import('./SettingsButton/SettingsButton'),
+	{
+		ssr: false,
+	}
 );
-const LoadYourLatestDataButtonDynamic = dynamic(() =>
-	import('./LoadYourLatestDataButton')
+const LoadYourLatestDataButtonDynamic = dynamic(
+	() => import('./LoadYourLatestDataButton'),
+	{
+		ssr: false,
+	}
 );
-const SensitiveDataAccordionDynamic = dynamic(() =>
-	import('./SensitiveDataAccordion')
+const SensitiveDataAccordionDynamic = dynamic(
+	() => import('./SensitiveDataAccordion'),
+	{
+		ssr: false,
+	}
 );
 
 const GUEST = 'GUEST';

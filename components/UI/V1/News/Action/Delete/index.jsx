@@ -9,7 +9,7 @@ import {
 
 import Button from '@components/UI/V1/Button';
 import ActionModal from '../UI/Modal';
-import NewsItem from '@components/UI/V1/NewsV2/Item';
+import NewsItem from '@components/UI/V1/News/Item';
 
 const ActionHeader = ({ deleteNews, setShowModal, disableButtons }) => {
 	return (

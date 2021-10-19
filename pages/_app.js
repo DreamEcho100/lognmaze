@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-// import dynamic from 'next/dynamic';
 import Head from 'next/head';
 // import { YMInitializer } from 'react-yandex-metrika';
 import { config, library } from '@fortawesome/fontawesome-svg-core';

@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
-// import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';
 
-// const DynamicSignUp = dynamic(() => import('./SignUp/SignUp'));
-// const DynamicSignIn = dynamic(() => import('./SignIn/SignIn'));
 import SignUp from './SignUp';
 import SignIn from './SignIn';
 

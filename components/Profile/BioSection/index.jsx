@@ -3,7 +3,9 @@ import dynamic from 'next/dynamic';
 
 import classes from './index.module.css';
 
-const DynamicEditBioButton = dynamic(() => import('./EditBioButton'));
+const DynamicEditBioButton = dynamic(() => import('./EditBioButton'), {
+	ssr: false,
+});
 
 const GUEST = 'GUEST';
 const OWNER = 'OWNER';

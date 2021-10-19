@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 
-const CreateActionDynamic = dynamic(() =>
-	import('@components/UI/V1/News/Action')
+const CreateActionDynamic = dynamic(
+	() => import('@components/UI/V1/News/Action/Create'),
+	{
+		ssr: false,
+	}
 );
 
 import Button from '@components/UI/V1/Button';

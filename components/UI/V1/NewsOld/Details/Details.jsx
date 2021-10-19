@@ -1,13 +1,7 @@
 import { useState } from 'react';
-// import dynamic from 'next/dynamic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './Details.module.css';
-
-// const DynamicMd = dynamic(() => import('@components/UI/V1/Format/Md'));
-// const DynamicContainer = dynamic(() =>
-// 	import('@components/UI/V1/Format/Container')
-// );
 
 import Md from '@components/UI/V1/Format/Md';
 import FormatterContainer from '@components/UI/V1/Format/Container';

@@ -5,7 +5,7 @@ import { useNewsSharedState } from '@store/NewsContext';
 import { handleLoadingNewsItemContent } from '@store/NewsContext/actions';
 
 const UpdateAction = dynamic(
-	() => import('@components/UI/V1/NewsV2/Action/Update'),
+	() => import('@components/UI/V1/News/Action/Update'),
 	{
 		ssr: false,
 	}
