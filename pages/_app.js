@@ -89,8 +89,6 @@ const MyApp = ({ Component, pageProps }) => {
 		}, 5000);
 	}, []);
 
-	console.log('playingScripts', playingScripts);
-
 	return (
 		<>
 			<Head>
