@@ -1,15 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
 import * as gtag from '@lib/v1/gtag';
 
 const ExtraScripts = () => {
 	const router = useRouter();
-	const [playingScripts, isPlayingScripts] = useState(false);
 
 	useEffect(() => {
-		if (!playingScripts) return;
-
 		const handleRouteChange = (url) => {
 			gtag.pageview(url);
 		};
@@ -19,21 +16,9 @@ const ExtraScripts = () => {
 		};
 	}, [router.events, playingScripts]);
 
-	useEffect(() => {
-		setTimeout(() => {
-			isPlayingScripts(true);
-		}, 5000);
-	}, []);
-
-	console.log('playingScripts', playingScripts);
-
 	// const adsbygoogleProps = {
 	// 	['data-ad-client']: 'ca-pub-8030984398568253',
 	// };
-
-	if (!playingScripts) {
-		return <></>;
-	}
 
 	return (
 		<>

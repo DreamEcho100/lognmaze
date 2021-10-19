@@ -1,5 +1,5 @@
-import dynamic from 'next/dynamic';
-
+import { useEffect, useState } from 'react';
+// import dynamic from 'next/dynamic';
 import Head from 'next/head';
 // import { YMInitializer } from 'react-yandex-metrika';
 import { config, library } from '@fortawesome/fontawesome-svg-core';
@@ -73,17 +73,23 @@ library.add(
 
 import '@styles/_globals.css';
 
-const DynamicExtraScripts = dynamic(() => import('@/components/_app/ExtraScripts'), {
-	ssr: false
-});
-
 import Layout from '@components/Layout/Layout';
+import ExtraScripts from '@/components/_app/ExtraScripts';
 
 // export function reportWebVitals(metric) {
 //   console.log(metric)
 // }
 
 const MyApp = ({ Component, pageProps }) => {
+	const [playingScripts, isPlayingScripts] = useState(false);
+
+	useEffect(() => {
+		setTimeout(() => {
+			isPlayingScripts(true);
+		}, 5000);
+	}, []);
+
+	console.log('playingScripts', playingScripts);
 
 	return (
 		<>
@@ -134,7 +140,7 @@ const MyApp = ({ Component, pageProps }) => {
 					LogNMaze | Create articles using Markdown and share to the world
 				</title>
 			</Head>
-			<DynamicExtraScripts />
+			<ExtraScripts />
 			<Layout isAuthenticated={pageProps.isAuthenticated}>
 				<Component {...pageProps} />
 			</Layout>
