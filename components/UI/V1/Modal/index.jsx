@@ -15,8 +15,8 @@ const ModalHOC = ({
 
 		if (showModal) return (document.body.style.overflowY = 'hidden');
 
-		click();
 		document.body.style.overflowY = 'auto';
+		click();
 
 		// return () => {
 		// 	if (showModal) return (document.body.style.overflowY = 'auto');
