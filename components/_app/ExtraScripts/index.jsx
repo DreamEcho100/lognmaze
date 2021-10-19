@@ -14,7 +14,7 @@ const ExtraScripts = () => {
 		return () => {
 			router.events.off('routeChangeComplete', handleRouteChange);
 		};
-	}, [router.events, playingScripts]);
+	}, [router.events]);
 
 	// const adsbygoogleProps = {
 	// 	['data-ad-client']: 'ca-pub-8030984398568253',
