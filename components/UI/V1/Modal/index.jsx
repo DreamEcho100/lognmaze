@@ -17,11 +17,11 @@ const ModalHOC = ({
 		click();
 		document.body.style.overflowY = 'auto';
 
-		return () => {
-			if (showModal) return (document.body.style.overflowY = 'auto');
+		// return () => {
+		// 	if (showModal) return (document.body.style.overflowY = 'auto');
 
-			document.body.style.overflowY = 'hidden';
-		};
+		// 	document.body.style.overflowY = 'hidden';
+		// };
 	}, [showModal]);
 
 	const ModalProps = {
