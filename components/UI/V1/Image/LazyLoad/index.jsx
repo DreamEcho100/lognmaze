@@ -10,7 +10,7 @@ const LazyLoadImageComponent = ({
 	const LazyLoadImageProps = {
 		src,
 		alt,
-		loading: 'lazy',
+		// loading: 'lazy',
 	};
 
 	if (props.height) LazyLoadImageProps.height = props.height;
