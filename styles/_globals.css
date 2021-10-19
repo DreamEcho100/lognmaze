@@ -482,8 +482,8 @@ body.dark .text-glow-special {
 	text-align: center;
 }
 
-.buttons-holder {
-	margin-top: 0.5em;
+.buttons-holder > button {
+	margin: 0.25em 0;
 }
 
 body:not([dir='rtl']) .buttons-holder > button {
