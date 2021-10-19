@@ -48,7 +48,7 @@ const Section1 = ({
 						style={{ width: '100%' }}
 					>
 						{!userExist && (
-							<section>
+							<section className='button-holder'>
 								<Button title='Sign In' onClick={() => router.replace('/auth')}>
 									Sign In
 								</Button>{' '}

@@ -12,6 +12,7 @@ const ModalHOC = ({
 }) => {
 	useEffect(() => {
 		if (!hideScrollOnView) return;
+
 		if (showModal) return (document.body.style.overflowY = 'hidden');
 
 		click();
