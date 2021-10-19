@@ -10,8 +10,10 @@
 	background-color: var(--main-special-bg-color-5);
 	z-index: 9999;
 	transition: all 0.6s ease-in-out;
+}
+
+.main-intro.remove-intro {
 	animation: removeMainIntroInHorizontally 0.7s ease-in-out 1s forwards;
-	animation-delay: 1s;
 }
 
 .container {
@@ -43,38 +45,29 @@
 	stroke-dasharray: 40477;
 	stroke-dashoffset: 40477;
 	opacity: 0.5;
-	transition: animation 0.7s ease-in-out 0.2;
-	animation: sign 0.7s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.2s forwards;
-	animation-delay: 0.2;
+	transition: stroke-dashoffset 0.7s cubic-bezier(0.46, 0.7, 1, 0.69),
+		opacity 0.7s cubic-bezier(0.46, 0.03, 0.52, 0.96);
 }
-/* 
-.main-intro.verifying-credentials-finished {
-	transform: translateX(-100%);
-	pointer-events: none;
-	opacity: 0;
-} */
+
+.main-intro .svg-container.draw-signature svg {
+	opacity: 1;
+	stroke-dashoffset: 0;
+}
 
 /**/
 
 .main-intro.window-is-vertical .svg-container {
+	height: 20vh;
 	transform: rotate(90deg);
 }
 
-.main-intro.window-is-vertical {
+.main-intro.remove-intro.window-is-vertical {
 	animation: removeMainIntroInVertically 0.7s ease-in-out 1s forwards;
-	animation-delay: 1s;
 }
 
-.main-intro.window-is-vertical .svg-container svg {
+/* .main-intro.window-is-vertical .svg-container svg {
 	transform: translateX(100%) rotate(90deg) scale(0.4);
-}
-
-@keyframes sign {
-	to {
-		stroke-dashoffset: 0;
-		opacity: 1;
-	}
-}
+} */
 
 @keyframes removeMainIntroInHorizontally {
 	to {
