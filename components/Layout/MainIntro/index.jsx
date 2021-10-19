@@ -19,10 +19,6 @@ const MainIntro = () => {
 			const width = window.innerWidth;
 			const height = window.innerHeight;
 
-			console.log('width', width);
-			console.log('height', height);
-			console.log('isWindowVertical', isWindowVertical);
-
 			if (!isWindowVertical && width < height) return setIsWindowVertical(true);
 			if (isWindowVertical && width > height) return setIsWindowVertical(false);
 		};
