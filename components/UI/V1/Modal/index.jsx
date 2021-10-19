@@ -12,22 +12,15 @@ const ModalHOC = ({
 }) => {
 	useEffect(() => {
 		if (!hideScrollOnView) return;
-		if (showModal) {
-			document.body.style.overflowY = 'hidden';
-			return;
-		}
+		if (showModal) return (document.body.style.overflowY = 'hidden');
 
 		click();
 		document.body.style.overflowY = 'auto';
 
 		return () => {
-			if (!showModal) {
-				document.body.style.overflowY = 'hidden';
-				return;
-			}
+			if (showModal) return (document.body.style.overflowY = 'auto');
 
-			click();
-			document.body.style.overflowY = 'auto';
+			document.body.style.overflowY = 'hidden';
 		};
 	}, [showModal]);
 
