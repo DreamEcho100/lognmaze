@@ -140,10 +140,10 @@ const MyApp = ({ Component, pageProps }) => {
 					LogNMaze | Create articles using Markdown and share to the world
 				</title>
 			</Head>
-			<ExtraScripts />
 			<Layout isAuthenticated={pageProps.isAuthenticated}>
 				<Component {...pageProps} />
 			</Layout>
+			{playingScripts && <ExtraScripts />}
 		</>
 	);
 };
