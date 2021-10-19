@@ -1,7 +1,4 @@
-import { useEffect } from 'react';
-import Script from 'next/script';
-import { useRouter } from 'next/router';
-import * as gtag from '@lib/v1/gtag';
+import dynamic from 'next/dynamic';
 
 import Head from 'next/head';
 // import { YMInitializer } from 'react-yandex-metrika';
@@ -76,6 +73,10 @@ library.add(
 
 import '@styles/_globals.css';
 
+const DynamicExtraScripts = dynamic(() => import('@/components/_app/ExtraScripts'), {
+	ssr: false
+});
+
 import Layout from '@components/Layout/Layout';
 
 // export function reportWebVitals(metric) {
@@ -83,20 +84,6 @@ import Layout from '@components/Layout/Layout';
 // }
 
 const MyApp = ({ Component, pageProps }) => {
-	const router = useRouter();
-	useEffect(() => {
-		const handleRouteChange = (url) => {
-			gtag.pageview(url);
-		};
-		router.events.on('routeChangeComplete', handleRouteChange);
-		return () => {
-			router.events.off('routeChangeComplete', handleRouteChange);
-		};
-	}, [router.events]);
-
-	// const adsbygoogleProps = {
-	// 	['data-ad-client']: 'ca-pub-8030984398568253',
-	// };
 
 	return (
 		<>
@@ -147,33 +134,7 @@ const MyApp = ({ Component, pageProps }) => {
 					LogNMaze | Create articles using Markdown and share to the world
 				</title>
 			</Head>
-			{/* <script
-				id='ad-client-script'
-				async
-				crossOrigin='anonymous'
-				src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
-				// {...adsbygoogleProps}
-				data-ad-client='ca-pub-8030984398568253'
-				// data-checked-head={false}
-			/> */}
-			{/* <Script
-				strategy='afterInteractive'
-				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
-			/> */}
-			<Script
-				strategy='afterInteractive'
-				// id='google-analytics-script'
-				dangerouslySetInnerHTML={{
-					__html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${gtag.GA_TRACKING_ID}', {
-              page_path: window.location.pathname,
-            });
-          `,
-				}}
-			/>
+			<DynamicExtraScripts />
 			<Layout isAuthenticated={pageProps.isAuthenticated}>
 				<Component {...pageProps} />
 			</Layout>
