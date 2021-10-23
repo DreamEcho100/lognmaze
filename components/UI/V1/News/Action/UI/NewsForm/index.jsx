@@ -33,7 +33,12 @@ const NewsForm = ({
 	const [AfterFormSubmitMessage, setAfterFormSubmitMessage] = useState(() => (
 		<></>
 	));
-	const [isButtonsDisabled, setIsButtonsDisabled] = useState(false);
+	const [isLoadingContent, setIsLoadingContent] = useState(
+		!!newsItemData.isLoadingContent
+	);
+	const [isButtonsDisabled, setIsButtonsDisabled] = useState(
+		!!newsItemData.isLoadingContent
+	);
 	const [showFormatConvertorModal, setShowFormatConvertorModal] =
 		useState(false);
 
@@ -51,10 +56,6 @@ const NewsForm = ({
 		});
 	};
 
-	/* ******************************************** */
-	/* ******************************************** */
-	/* ******************************************** */
-	/* ******************************************** */
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		setAfterFormSubmitMessage(() => <></>);
@@ -135,6 +136,13 @@ const NewsForm = ({
 		if (isClosingModalAfterSubmit) setShowModal(false);
 	};
 
+	useEffect(() => {
+		if (isLoadingContent !== !!newsItemData.isLoadingContent) {
+			setIsLoadingContent(!!newsItemData.isLoadingContent);
+			setIsButtonsDisabled(!!newsItemData.isLoadingContent);
+		}
+	}, [newsItemData.isLoadingContent]);
+
 	/*
 	useEffect(() => {
 		if (newsItemData.type === 'article') {
@@ -182,6 +190,7 @@ const NewsForm = ({
 					//
 					values={values}
 					setValues={setValues}
+					isLoadingContent={isLoadingContent}
 					//
 					AfterFormSubmitMessage={AfterFormSubmitMessage}
 					setAfterFormSubmitMessage={setAfterFormSubmitMessage}

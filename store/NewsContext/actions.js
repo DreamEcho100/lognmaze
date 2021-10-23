@@ -14,7 +14,10 @@ export const handleAddingNewsFirstTime = ({
 	}
 };
 
-export const handleLoadingNewsItemContent = async ({ newsDispatch, news_id }) => {
+export const handleLoadingNewsItemContent = async ({
+	newsDispatch,
+	news_id,
+}) => {
 	newsDispatch({
 		type: types.SET_IS_LOADING_CONTENT_IN_NEWS_ITEM,
 		payload: { news_id: news_id, isLoadingContent: true },
@@ -45,7 +48,6 @@ export const handleLoadingNewsItemContent = async ({ newsDispatch, news_id }) =>
 		payload: {
 			content: newsResult.data.content,
 			news_id,
-			isLoadingContent: false,
 		},
 	});
 
@@ -147,7 +149,6 @@ export const handleCreatingNewsItem = async ({
 			message: newsResult.message,
 		};
 	}
-
 
 	newsDispatch({
 		type: types.ADDING_USER_ONE_NEWS_ITEM_TO_NEWS,
@@ -279,7 +280,6 @@ export const handleUpdatingUserNewsItem = async ({
 		};
 	}
 
-
 	newsDispatch({
 		type: types.UPDATING_USER_ONE_NEWS_ITEM_IN_NEWS,
 		payload: {
@@ -341,7 +341,10 @@ export const handleDeletingUserNewsItem = async ({
 	};
 };
 
-export const handleLoadingNewsItemComments = async ({ newsDispatch, newsItem }) => {
+export const handleLoadingNewsItemComments = async ({
+	newsDispatch,
+	newsItem,
+}) => {
 	let fetchInput = `/api/v1/news/comments/comment/?type=comment_main&news_id=${newsItem.news_id}`;
 
 	if (newsItem.last_comment_created_at) {

@@ -163,7 +163,7 @@ const reducer = (state, action) => {
 	}
 
 	if (action.type === types.ADD_CONTENT_TO_NEWS_ITEM) {
-		const { content, news_id, isLoadingContent } = action.payload;
+		const { content, news_id } = action.payload;
 
 		return {
 			...state,
@@ -172,7 +172,7 @@ const reducer = (state, action) => {
 					return {
 						...newsItem,
 						content,
-						isLoadingContent,
+						isLoadingContent: false,
 					};
 				}
 

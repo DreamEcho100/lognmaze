@@ -30,6 +30,7 @@ const NewsFormArticle = ({
 	//
 	values,
 	setValues,
+	isLoadingContent,
 	//
 	// AfterFormSubmitMessage,
 	setAfterFormSubmitMessage,
@@ -289,7 +290,7 @@ const NewsFormArticle = ({
 
 			<FormControl>
 				<Label htmlFor='content'>
-					{newsItemData?.isLoadingContent ? 'Loading' : ''} Content:{' '}
+					{isLoadingContent ? 'Loading' : ''} Content:{' '}
 				</Label>
 				<Textarea
 					name='content'
@@ -306,7 +307,7 @@ const NewsFormArticle = ({
 					})}
 					onClick={() => setShowFormatConvertorModal(true)}
 					className={`${classes['width-100-percent']} ${
-						newsItemData?.isLoadingContent ? 'disable' : ''
+						isLoadingContent ? 'disable' : ''
 					}`}
 				/>
 				<FormatConvertorModal

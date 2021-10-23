@@ -100,7 +100,6 @@ const NewsItem = ({
 				setShowModal={setShowModal}
 				hideHeaderSettings={hideHeaderSettings}
 				// setIsLoadingContent={setIsLoadingContent}
-				// isLoadingContent={isLoadingContent}
 				// hideHeaderSettings={hideHeaderSettings}
 			/>
 			<Details
@@ -115,7 +114,7 @@ const NewsItem = ({
 				isLoadingSkeleton={isLoadingSkeleton}
 				setShowModal={setShowModal}
 				hideFooterSettings={hideFooterSettings}
-				// isLoadingContent={isLoadingContent}
+				isLoadingContent={newsItemData.isLoadingContent}
 			/>
 			<footer></footer>
 			{modalOnClick && (

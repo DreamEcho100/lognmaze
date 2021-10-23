@@ -1,3 +1,5 @@
+import { memo, useEffect, useState } from 'react';
+
 import classes from './index.module.css';
 
 import FormatterContainer from '@components/UI/V1/Format/Container';
@@ -63,4 +65,14 @@ const NewsItemDetails = ({
 	);
 };
 
-export default NewsItemDetails;
+const newsDetailsPropsAreEqual = (prevNewsDetails, nextNewsDetails) => {
+	return (
+		prevNewsDetails.details === nextNewsDetails.details &&
+		prevNewsDetails.isLoadingSkeleton === nextNewsDetails.isLoadingSkeleton &&
+		prevNewsDetails.isLoadingContent === nextNewsDetails.isLoadingContent
+	);
+};
+
+const MemoizedNewsDetails = memo(NewsItemDetails, newsDetailsPropsAreEqual);
+
+export default MemoizedNewsDetails;

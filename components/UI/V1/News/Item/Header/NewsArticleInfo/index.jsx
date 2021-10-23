@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -76,4 +77,22 @@ const NewsArticleInfo = ({
 	);
 };
 
-export default NewsArticleInfo;
+// export default NewsArticleInfo;
+
+const newsArticleInfoPropsAreEqual = (
+	prevNewsArticleInfo,
+	nextNewsArticleInfo
+) => {
+	return (
+		prevNewsArticleInfo.isLoadingSkeleton ===
+			nextNewsArticleInfo.isLoadingSkeleton &&
+		prevNewsArticleInfo.updated_at === nextNewsArticleInfo.updated_at
+	);
+};
+
+const MemoizedNewsArticleInfo = memo(
+	NewsArticleInfo,
+	newsArticleInfoPropsAreEqual
+);
+
+export default MemoizedNewsArticleInfo;

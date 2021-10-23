@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import classes from './index.module.css';
 
 import { dateToHumanReadableDate } from '@lib/v1/time';
@@ -49,4 +51,13 @@ const TimeAndDate = ({
 	</div>
 );
 
-export default TimeAndDate;
+const timeAndDatePropsAreEqual = (prevTimeAndDate, nextTimeAndDate) => {
+	return (
+		prevTimeAndDate.updated_at === nextTimeAndDate.updated_at &&
+		prevTimeAndDate.isLoadingSkeleton === nextTimeAndDate.isLoadingSkeleton
+	);
+};
+
+const MemoizedTimeAndDate = memo(TimeAndDate, timeAndDatePropsAreEqual);
+
+export default MemoizedTimeAndDate;
