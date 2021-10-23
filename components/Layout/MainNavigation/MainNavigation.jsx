@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import MainNavigationClasses from './MainNavigation.module.css';
 
@@ -11,7 +11,12 @@ import NavOnSmallScreens from './NavOnSmallScreens/NavOnSmallScreens';
 const MainNavigation = () => {
 	const [userState, userDispatch] = useUserSharedState();
 
-	useEffect(() => setDataFirstTime({ dispatch: userDispatch }), []);
+	const CBSetDataFirstTime = useCallback(
+		() => setDataFirstTime({ dispatch: userDispatch }),
+		[]
+	);
+
+	useEffect(() => CBSetDataFirstTime(), [CBSetDataFirstTime]);
 
 	return (
 		<header className={MainNavigationClasses.header}>

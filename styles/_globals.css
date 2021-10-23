@@ -483,18 +483,18 @@ body.dark .text-glow-special {
 }
 
 .buttons-holder > button {
-	margin: 0.25em 0;
+	margin: 0.5em 0;
 }
 
 body:not([dir='rtl']) .buttons-holder > button {
-	margin-right: 1em;
+	margin-right: 0.5em;
 }
 body:not([dir='rtl']) .buttons-holder > button:last-child {
 	margin-right: 0em;
 }
 
 body[dir='rtl'] .buttons-holder > button {
-	margin-left: 1em;
+	margin-left: 0.5em;
 }
 body[dir='rtl'] .buttons-holder > button:last-child {
 	margin-left: 0em;

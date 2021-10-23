@@ -16,39 +16,32 @@ const AuthPage = ({
 	const [userState, userDispatch] = useUserSharedState();
 
 	const [isLoading, setIsLoading] = useState(true);
-	const [dynamicComponentReady, setDynamicComponentReady] = useState(false);
 
 	const [signType, setSignType] = useState('in');
 
-	// useEffect(() => {
-	// 	if (userState.isVerifyingUserLoading) return;
-
-	// 	if (userState.userExist) router.replace('/');
-	// 	else if (isLoading) setIsLoading(false);
-	// }, [userState.userExist, userState.isVerifyingUserLoading]);
-
 	useEffect(() => {
 		const params = new URLSearchParams(window.location.search);
-		const signType = params.get('sign-type');
-		if (signType === 'up') {
-			setSignType(signType);
+		const querySignType = params.get('sign-type');
+		if (querySignType === 'up') {
+			setSignType(querySignType);
 		}
-
-		if (userState.isVerifyingUserLoading) return;
-
-		if (userState.userExist) router.replace('/');
-		else if (isLoading) setIsLoading(false);
 	}, []);
 
 	useEffect(() => {
+		if (!isLoading) return;
+
 		if (!userState.isVerifyingUserLoading) {
 			if (isLoading) setIsLoading(false);
 			return;
-		}
+		} // else if (userState.userExist) router.replace('/');
 
-		if (!isLoading) setIsLoading(true);
-		return;
-	}, [userState.isVerifyingUserLoading]);
+		// if (!isLoading) return setIsLoading(true);
+	}, [
+		isLoading,
+		userState.isVerifyingUserLoading,
+		// userState.userExist,
+		// router,
+	]);
 
 	if (isLoading) {
 		return <p>Loading...</p>;
@@ -57,7 +50,7 @@ const AuthPage = ({
 	if (userState.userExist) {
 		return (
 			<>
-				<p>You Are Already Signed!</p>
+				<p>You Are Already Signed In!</p>
 				<Button title='Return To Home Page' onClick={() => router.replace('/')}>
 					Return To Home Page
 				</Button>{' '}
@@ -75,8 +68,7 @@ const AuthPage = ({
 	return (
 		<>
 			<Auth
-				dynamicComponentReady={dynamicComponentReady}
-				setDynamicComponentReady={setDynamicComponentReady}
+				setSignType={setSignType}
 				signType={signType}
 				UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
 					UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN
@@ -122,110 +114,3 @@ export const getStaticProps = async (ctx) => {
 };
 
 export default AuthPage;
-
-/*
-let countriesData = [];
-
-new Promise(async (resolve, reject) => {
-new Promise(async (resolve, reject) => {
-  await fetch(
-    'https://www.universal-tutorial.com/api/getaccesstoken',
-    {
-      method: 'GET',
-      Accept: 'application/json',
-      headers: {
-        'Content-Type': 'application/json',
-				'api-token':
-					process.env
-						.UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_API_TOKEN,
-				'user-email':
-					process.env
-						.UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_USER_EMAIL,
-      },
-    }
-  )
-    .then((response) => response.json())
-    .then((data) => resolve(data))
-    .catch(error => {
-      console.error(error);
-      resolve('');
-    })
-})
-.then(async ({auth_token}) => {
-  if (!auth_token && auth_token.length === 0) return [];
-  let countries = [];
-
-  countries = await fetch(
-    'https://www.universal-tutorial.com/api/countries/',
-    {
-      method: 'GET',
-      headers: {
-        'authorization': `Bearer ${auth_token}`,
-      },
-    }
-  ).then((response) => response.json())
-    .catch((error) => {
-      console.error(error);
-      countriesData = [];
-    });
-  
-    countries.forEach(async (country) => {
-      country.states = [];
-      new Promise(async(resolve, reject) => {
-        await fetch(
-        `https://www.universal-tutorial.com/api/states/${country.country_name}`,
-        {
-          method: 'GET',
-          headers: {
-            'authorization': `Bearer ${auth_token}`,
-          },
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          resolve(data);
-        })
-        .catch((error) => {
-          console.error(error);
-          reject(data);
-        });
-      })
-      .then( data => {
-        country.states = data;
-        country.states.forEach((state, stateIndex) => {
-          country.states[stateIndex].cities = [];
-          new Promise(async (resolve, reject) => {
-            await fetch(
-                `https://www.universal-tutorial.com/api/states/${country.country_name}`,
-                {
-                  method: 'GET',
-                  headers: {
-                    'authorization': `Bearer ${auth_token}`,
-                  },
-                }
-              )
-                .then((response) => response.json())
-                .then((data) => {
-                  resolve(data);
-                })
-                .catch((error) => {
-                  console.error(error);
-                  reject(data);
-                });
-          })
-          .then(data => {
-            country.states[stateIndex].cities = data;
-          });
-
-        });
-      });
-
-    });
-
-  countriesData = countries;
-
-})
-.then(() => resolve());
-
-});
-*/

@@ -5,7 +5,7 @@ import {
 	checkUserExistAndReturnPasswordById,
 } from '@lib/v1/pg';
 
-export default async (req, res) => {
+const api = async (req, res) => {
 	if (req.method !== 'GET' && req.method !== 'PATCH') {
 		return res.end();
 	}
@@ -230,3 +230,5 @@ export default async (req, res) => {
 		}
 	}
 };
+
+export default api;

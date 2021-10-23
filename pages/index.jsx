@@ -31,14 +31,14 @@ const HomePage = ({ data }) => {
 						return formattedItem;
 				  })
 				: [],
-		data.news
+		[data.news]
 	);
 
 	useEffect(() => {
 		if (!isLoading) return;
 
 		if (news.length !== 0) setIsLoading(false);
-	}, [news]);
+	}, [news, isLoading]);
 
 	return (
 		<Home

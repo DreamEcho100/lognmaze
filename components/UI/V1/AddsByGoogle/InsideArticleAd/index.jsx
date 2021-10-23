@@ -35,12 +35,10 @@ const InsideArticleAd = () => {
 					// minHeight: 'min(25vh, 10rem)',
 					width: '100%',
 					textAlign: 'center',
+					minWidth: '251px',
 				}}
 				layout='in-article'
 				format='fluid'
-				style={{
-					minWidth: '251px'
-				}}
 			/>
 		</section>
 	);

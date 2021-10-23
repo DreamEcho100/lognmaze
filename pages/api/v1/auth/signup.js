@@ -1,7 +1,7 @@
 import { hashPassword, jwtGenerator } from '@lib/v1/auth';
 import { pool } from '@lib/v1/pg';
 
-export default async (req, res) => {
+const api = async (req, res) => {
 	if (req.method !== 'POST') {
 		return;
 	}
@@ -134,3 +134,5 @@ export default async (req, res) => {
 		}
 	}
 };
+
+export default api;

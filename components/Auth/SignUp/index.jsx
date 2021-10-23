@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import classes from './index.module.css';
@@ -52,86 +52,92 @@ const SignUp = ({
 
 	const [btnsDisabled, setBtnsDisabled] = useState(false);
 
-	const handleGetCities = async () => {
-		const state = values.state;
+	const handleGetCities = useCallback(
+		async (state) => {
+			// const state = values.state;
 
-		setValues((prev) => ({
-			...prev,
-			city: '',
-		}));
-		try {
-			const response = await fetch(
-				`https://www.universal-tutorial.com/api/cities/${state}`,
-				{
-					method: 'GET',
-					headers: {
-						authorization: `Bearer ${UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN}`,
-					},
-				}
-			)
-				.then((response) => response.json())
-				.then((data) => {
-					return data;
-				})
-				.then((data) => {
-					setCities(data);
-					return data;
-				})
-				.then((data) => {
-					setCities(data);
-					if (data[0]) {
-						setValues((prev) => ({
-							...prev,
-							city: data[0].city_name,
-						}));
+			setValues((prev) => ({
+				...prev,
+				city: '',
+			}));
+			try {
+				const response = await fetch(
+					`https://www.universal-tutorial.com/api/cities/${state}`,
+					{
+						method: 'GET',
+						headers: {
+							authorization: `Bearer ${UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN}`,
+						},
 					}
-				});
-		} catch (error) {
-			console.error(error);
-		}
-	};
+				)
+					.then((response) => response.json())
+					.then((data) => {
+						return data;
+					})
+					.then((data) => {
+						setCities(data);
+						return data;
+					})
+					.then((data) => {
+						setCities(data);
+						if (data[0]) {
+							setValues((prev) => ({
+								...prev,
+								city: data[0].city_name,
+							}));
+						}
+					});
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		[UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN]
+	);
 
-	const handleGetStates = async () => {
-		const country = values.country;
+	const handleGetStates = useCallback(
+		async (country) => {
+			// const country = values.country;
 
-		setValues((prev) => ({
-			...prev,
-			state: '',
-			city: '',
-		}));
+			setValues((prev) => ({
+				...prev,
+				state: '',
+				city: '',
+			}));
 
-		try {
-			const response = await fetch(
-				`https://www.universal-tutorial.com/api/states/${country}`,
-				{
-					method: 'GET',
-					headers: {
-						authorization: `Bearer ${UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN}`,
-					},
-				}
-			)
-				.then((response) => response.json())
-				.then((data) => {
-					return data;
-				})
-				.then((data) => {
-					setStates(data);
-					return data;
-				})
-				.then(async (data) => {
-					if (data[0]) {
-						setValues((prev) => ({
-							...prev,
-							state: data[0].state_name,
-						}));
+			try {
+				const response = await fetch(
+					`https://www.universal-tutorial.com/api/states/${country}`,
+					{
+						method: 'GET',
+						headers: {
+							authorization: `Bearer ${UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN}`,
+						},
 					}
-				});
-		} catch (error) {
-			console.error(error);
-		}
-	};
+				)
+					.then((response) => response.json())
+					.then((data) => {
+						return data;
+					})
+					.then((data) => {
+						setStates(data);
+						return data;
+					})
+					.then(async (data) => {
+						if (data[0]) {
+							setValues((prev) => ({
+								...prev,
+								state: data[0].state_name,
+							}));
+						}
+					});
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		[UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN]
+	);
 
-	const handleGetCountries = async () => {
+	const handleGetCountries = useCallback(async () => {
 		if (
 			!UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN ||
 			UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN.length === 0
@@ -170,7 +176,7 @@ const SignUp = ({
 		} catch (error) {
 			console.error(error);
 		}
-	};
+	}, [UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN]);
 
 	const submitHandler = async (event) => {
 		event.preventDefault();
@@ -271,29 +277,26 @@ const SignUp = ({
 	useEffect(() => {
 		if (!UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN) return;
 		handleGetCountries();
-	}, [UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN]);
-
-	useEffect(() => {
-		if (!values.country) return;
-		const targetedCountry = countries.find(
-			(countryObj) => countryObj.country_name === values.country
-		);
-	}, [values.country]);
+	}, [
+		UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN,
+		,
+		handleGetCountries,
+	]);
 
 	useEffect(() => {
 		if (!values.country) return;
 
 		setStates([]);
 		setCities([]);
-		handleGetStates();
-	}, [values.country]);
+		handleGetStates(values.country);
+	}, [values.country, , handleGetStates]);
 
 	useEffect(() => {
 		if (!values.state) return;
 
 		setCities([]);
-		handleGetCities();
-	}, [values.state]);
+		handleGetCities(values.state);
+	}, [values.state, , handleGetCities]);
 
 	if (!UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN) {
 		return (

@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import Head from 'next/head';
 
 import classes from './index.module.css';
@@ -9,25 +8,10 @@ import SignIn from './SignIn';
 import Button from '@components/UI/V1/Button';
 
 const Auth = ({
+	signType,
+	setSignType,
 	UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN,
-	dynamicComponentReady,
-	setDynamicComponentReady,
-	...props
 }) => {
-	const [signType, setSignType] = useState('');
-
-	useEffect(() => {
-		setSignType(props.signType || 'in');
-
-		if (!dynamicComponentReady && setDynamicComponentReady) {
-			setDynamicComponentReady(true);
-		}
-	}, []);
-
-	if (!dynamicComponentReady) {
-		return <p>Loading...</p>;
-	}
-
 	return (
 		<main className={`${classes.auth} main`}>
 			<Head>

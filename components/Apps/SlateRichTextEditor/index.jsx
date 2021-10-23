@@ -74,7 +74,7 @@ const SlateRichTextEditor = ({
 					<Slate
 						editor={editor}
 						value={value}
-						onChange={(newValue) => setValue(newValue)}
+						// onChange={(newValue) => setValue(newValue)}
 						onChange={(value) => {
 							setValue(value);
 

@@ -1,6 +1,6 @@
 import { handleIsAuthorized } from '@lib/v1/auth';
 
-export default async (req, res) => {
+const api = async (req, res) => {
 	if (req.method === 'POST') {
 		try {
 			const isAuthorized = await handleIsAuthorized(
@@ -37,3 +37,5 @@ export default async (req, res) => {
 		}
 	}
 };
+
+export default api;

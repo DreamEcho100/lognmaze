@@ -49,12 +49,12 @@ const LoadYourLatestDataButton = () => {
 					cookieString: document.cookie,
 				})
 			) {
-				if (!disableButtons) setDisableButtons(true);
+				setDisableButtons(true);
 			} else {
-				if (disableButtons) setDisableButtons(false);
+				setDisableButtons(false);
 			}
 		}
-	}, [showModal]);
+	}, [showModal, userState.token]);
 
 	return (
 		<>

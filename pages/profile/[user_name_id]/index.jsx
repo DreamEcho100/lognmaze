@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 
 import { getCookie } from '@lib/v1/cookie';
 
+import { useAppSharedState } from '@store/AppContext';
+import AppTypes from '@store/AppContext/types';
 import { useUserSharedState } from '@store/UserContext';
 
 import Profile from '@components/Profile';
@@ -13,12 +15,25 @@ const OWNER = 'OWNER';
 const ProfilePage = ({ user = {}, ...props }) => {
 	const router = useRouter();
 
+	const [appState, appDispatch] = useAppSharedState();
 	const [userState, userDispatch] = useUserSharedState();
 
-	const newsFetchRouteQuery = props.newsFetchRouteQuery;
-	const posts = useMemo(
+	const [newsFetchRouteQuery, setNewsFetchRouteQuery] = useState(
+		props.newsFetchRouteQuery
+	);
+	const [posts, setPosts] = useState(props.posts);
+
+	const [handleIsAuthorized, setHandleIsAuthorized] = useState(
+		user.isAuthorized
+	);
+	const [identity, setIdentity] = useState(user.visitorIdentity || GUEST);
+	const [userData, setUserData] = useState(user.data);
+
+	const [isLoading, setIsLoading] = useState(true);
+
+	const postsFormatted = useMemo(
 		() =>
-			props?.posts?.length !== 0
+			posts?.length !== 0
 				? (() => {
 						const formattedData = props.posts.map((obj) => {
 							const formattedItem = {};
@@ -40,26 +55,32 @@ const ProfilePage = ({ user = {}, ...props }) => {
 						return formattedData;
 				  })()
 				: [],
-		props.posts
+		[posts]
 	);
-
-	const [handleIsAuthorized, setHandleIsAuthorized] = useState(
-		user.isAuthorized
-	);
-	const [identity, setIdentity] = useState(user.visitorIdentity || GUEST);
-	const [userData, setUserData] = useState(user.data);
-
-	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
+		if (appState.routerStage === AppTypes.INIT) return setIsLoading(false);
+
+		if (
+			userState.isVerifyingUserLoading ||
+			appState.routerStage !== AppTypes.ROUTER_CHANGE_Complete
+		)
+			return;
+
+		if (
+			userData?.user_name_id === router.query.user_name_id &&
+			posts[0] &&
+			posts[0].author_user_name_id === userData?.user_name_id
+		) {
+			if (isLoading) setIsLoading(false);
+			return;
+		}
+
+		setIsLoading(true);
+
 		(async () => {
-			if (userState.isVerifyingUserLoading || !router.isReady) return;
-
 			let userProfileData;
-
 			if (userData?.user_name_id !== router.query.user_name_id) {
-				setIsLoading(true);
-
 				if (userState.user?.user_name_id === router.query.user_name_id) {
 					userProfileData = userState.user;
 				} else {
@@ -75,16 +96,22 @@ const ProfilePage = ({ user = {}, ...props }) => {
 						setUserData({});
 						setPosts([]);
 						setIsLoading(false);
-						if (handleIsAuthorized) setHandleIsAuthorized(false);
-						if (identity !== GUEST) setIdentity(GUEST);
+						setHandleIsAuthorized(false);
+						setIdentity(GUEST);
 						return;
 					}
 
 					userProfileData = userResult.data;
+					setUserData(userProfileData);
 				}
+			} else {
+				userProfileData = userData;
+			}
 
-				setUserData(userProfileData);
-
+			if (
+				!posts[0] ||
+				posts[0].author_user_name_id !== userProfileData?.user_name_id
+			) {
 				let postInputQuery = '/?filter_by_user_id=';
 				postInputQuery += userProfileData.id;
 
@@ -118,16 +145,18 @@ const ProfilePage = ({ user = {}, ...props }) => {
 						};
 					})
 				);
-
-				setIsLoading(false);
 			}
-
-			if (isLoading) setIsLoading(false);
 		})();
+
+		setIsLoading(false);
 	}, [
+		appState.routerStage,
 		userState.isVerifyingUserLoading,
 		router.query.user_name_id,
 		router.isReady,
+		isLoading,
+		userData?.user_name_id,
+		userState.user,
 	]);
 
 	useEffect(() => {
@@ -137,22 +166,19 @@ const ProfilePage = ({ user = {}, ...props }) => {
 		} else {
 			if (router.query.user_name_id === userState.user.user_name_id) {
 				setUserData(userState.user);
-				if (identity !== OWNER) setIdentity(OWNER);
-				if (!handleIsAuthorized) setHandleIsAuthorized(true);
+				setIdentity(OWNER);
+				setHandleIsAuthorized(true);
 			} else if (router.query.user_name_id !== userState.user.user_name_id) {
-				if (identity !== GUEST) setIdentity(GUEST);
-				if (handleIsAuthorized) setHandleIsAuthorized(false);
+				setIdentity(GUEST);
+				setHandleIsAuthorized(false);
 			}
 		}
 	}, [
 		userState.userExist,
 		router.query.user_name_id,
 		userState.isVerifyingUserLoading,
+		userState.user.user_name_id,
 	]);
-
-	// if (isLoading) {
-	// 	return <p>Loading...</p>;
-	// }
 
 	return (
 		<Profile
@@ -163,7 +189,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 			}
 			isLoadingSkeleton={isLoading}
 			visitorIdentity={identity}
-			news={posts}
+			news={postsFormatted}
 			newsFetchRouteQuery={newsFetchRouteQuery}
 		/>
 	);
@@ -171,11 +197,6 @@ const ProfilePage = ({ user = {}, ...props }) => {
 
 export const getServerSideProps = async ({ req, res, query }) => {
 	let newsFetchRouteQuery = '';
-	/*
-		const baseUrl = `${
-			process.env.NODE_ENV !== 'production' ? 'http' : 'https'
-		}://${ctx.req.headers.host}`;
-	*/
 	const fetcher = async (tokenCookieString, userCookieString, user_name_id) => {
 		const input = `${process.env.BACK_END_ROOT_URL}/api/v1/users/user/?user_name_id=${user_name_id}`;
 

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import {
 	NewsContextSharedProvider,
@@ -34,13 +34,19 @@ const OneNewsContent = ({ newsItemData = {} }) => {
 const NewsContextWrapper = ({ newsItemData }) => {
 	const [newsState, newsDispatch] = useNewsSharedState();
 
+	const CBHandleAddingNewsFirstTime = useCallback(
+		() =>
+			handleAddingNewsFirstTime({
+				newsDispatch,
+				news: [newsItemData],
+				newsType: 'ONE',
+			}),
+		[]
+	);
+
 	useEffect(() => {
-		handleAddingNewsFirstTime({
-			newsDispatch,
-			news: [newsItemData],
-			newsType: 'ONE',
-		});
-	}, []);
+		CBHandleAddingNewsFirstTime;
+	}, [CBHandleAddingNewsFirstTime]);
 
 	return newsState.news.map((item, index) => (
 		<OneNewsContent

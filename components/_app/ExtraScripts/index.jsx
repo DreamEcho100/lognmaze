@@ -37,7 +37,7 @@ const ExtraScripts = () => {
 			/>
 			<Script
 				strategy='afterInteractive'
-				// id='google-analytics-script'
+				id='google-analytics-script'
 				dangerouslySetInnerHTML={{
 					__html: `
           window.dataLayer = window.dataLayer || [];

@@ -55,7 +55,10 @@ const Input = ({
 			elementUseIn(inputRef.current);
 			setElementUseIn(false);
 		}
-	}, [useElement]);
+	}, [
+		useElement,
+		// elementUseIn, setElementUseIn
+	]);
 
 	return (
 		<input
