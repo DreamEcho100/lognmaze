@@ -10,28 +10,6 @@ import NewsItem from '@components/UI/V1/News/Item';
 import Wrapper from '@components/UI/V1/Wrapper';
 
 const OneNewsContent = ({ newsItemData = {} }) => {
-	return (
-		<main className='main'>
-			<Wrapper
-				style={{
-					borderRadius: '1rem',
-					width: 'fit-content',
-					maxWidth: '100%',
-					padding: '1em',
-				}}
-			>
-				<NewsItem
-					newsItemData={newsItemData}
-					detailsType={'content'}
-					loadingUserVote={true}
-					isContainerContentOnView={true}
-				/>
-			</Wrapper>
-		</main>
-	);
-};
-
-const NewsContextWrapper = ({ newsItemData }) => {
 	const [newsState, newsDispatch] = useNewsSharedState();
 
 	const CBHandleAddingNewsFirstTime = useCallback(
@@ -45,23 +23,37 @@ const NewsContextWrapper = ({ newsItemData }) => {
 	);
 
 	useEffect(() => {
-		CBHandleAddingNewsFirstTime;
+		CBHandleAddingNewsFirstTime();
 	}, [CBHandleAddingNewsFirstTime]);
 
 	return newsState.news.map((item, index) => (
-		<OneNewsContent
-			key={`OneNewsContent-${index}-${newsItemData.news_id}`}
-			newsItemData={item}
-		/>
+		<main className='main'>
+			<Wrapper
+				style={{
+					borderRadius: '1rem',
+					width: 'fit-content',
+					maxWidth: '100%',
+					padding: '1em',
+				}}
+			>
+				<NewsItem
+					key={`OneNewsContent-${index}-${newsItemData.news_id}`}
+					newsItemData={newsItemData}
+					detailsType={'content'}
+					loadingUserVote={true}
+					isContainerContentOnView={true}
+				/>
+			</Wrapper>
+		</main>
 	));
 };
 
-const NewsContextWrapperParent = (props) => {
+const NewsContextWrapper = (props) => {
 	return (
 		<NewsContextSharedProvider>
-			<NewsContextWrapper {...props} />
+			<OneNewsContent {...props} />
 		</NewsContextSharedProvider>
 	);
 };
 
-export default NewsContextWrapperParent;
+export default NewsContextWrapper;
