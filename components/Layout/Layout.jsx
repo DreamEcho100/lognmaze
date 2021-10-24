@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import types from '@store/AppContext/types';
@@ -12,6 +12,10 @@ const Layout = ({ children }) => {
 	const router = useRouter();
 
 	const [appState, appDispatch] = useAppSharedState();
+
+	const [isWindowVertical, setIsWindowVertical] = useState(
+		!!(typeof window !== 'undefined' && window.innerHeight > window.innerWidth)
+	);
 
 	useEffect(() => {
 		const handleRouteChangeStart = (url, { shallow }) => {
@@ -53,7 +57,7 @@ const Layout = ({ children }) => {
 			{/* {Math.random()} */}
 			<MainNavigation />
 			{children}
-			<MainIntro />
+			<MainIntro isWindowVertical={isWindowVertical} />
 		</>
 	);
 };

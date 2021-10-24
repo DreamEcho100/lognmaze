@@ -9,13 +9,13 @@ import NewsFormArticle from './Article';
 import NewsFormPost from './Post';
 
 const NewsForm = ({
+	newsType,
+	actionType,
 	newsItemData,
 	setShowModal,
 	actionOnSubmit,
 	isResettingInputsAfterSubmit, // = false,
 	isClosingModalAfterSubmit, // = true,
-	newsType,
-	actionType,
 }) => {
 	const [values, setValues] = useState({
 		title: newsItemData?.title ? newsItemData.title : '',
@@ -109,22 +109,10 @@ const NewsForm = ({
 
 		let result = {};
 
-		// if (actionType === 'create') {
-		// 	result = await createNews(values, 'article');
-		// } else if (actionType === 'update') {
-		// 	result = await updateNews(newsItemData.type, newsItemData, values);
-		// }
-
 		result =
 			actionType === 'create'
 				? await actionOnSubmit({ values })
 				: await actionOnSubmit({ oldValues: newsItemData, newValues: values });
-
-		// 	await (async () => {
-		// 	if (actionType === 'create') return await actionOnSubmit({ values });
-		// 	if (actionType === 'update')
-		// 		return await actionOnSubmit({ oldValues: newsItemData, newValues: values });
-		// })();
 
 		setIsButtonsDisabled(false);
 
@@ -181,6 +169,7 @@ const NewsForm = ({
 			{newsType === 'article' && (
 				<NewsFormArticle
 					newsItemData={newsItemData}
+					actionType={actionType}
 					setShowModal={setShowModal}
 					actionOnSubmit={actionOnSubmit}
 					isResettingInputsAfterSubmit={isResettingInputsAfterSubmit}
@@ -207,6 +196,7 @@ const NewsForm = ({
 			{newsType === 'post' && (
 				<NewsFormPost
 					newsItemData={newsItemData}
+					actionType={actionType}
 					setShowModal={setShowModal}
 					actionOnSubmit={actionOnSubmit}
 					isResettingInputsAfterSubmit={isResettingInputsAfterSubmit}

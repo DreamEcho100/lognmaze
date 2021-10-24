@@ -7,7 +7,7 @@ import classes from './index.module.css';
 import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
 
 const NewsArticleInfo = ({
-	newsItemData,
+	newsItemData = {},
 	isLoadingSkeleton,
 	detailsType,
 	setShowModal,
@@ -86,7 +86,8 @@ const newsArticleInfoPropsAreEqual = (
 	return (
 		prevNewsArticleInfo.isLoadingSkeleton ===
 			nextNewsArticleInfo.isLoadingSkeleton &&
-		prevNewsArticleInfo.updated_at === nextNewsArticleInfo.updated_at
+		prevNewsArticleInfo.newsItemData.updated_at ===
+			nextNewsArticleInfo.newsItemData.updated_at
 	);
 };
 
