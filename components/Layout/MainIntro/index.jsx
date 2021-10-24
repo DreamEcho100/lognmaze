@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useLayoutEffect, useState } from 'react';
 
 import classes from './index.module.css';
 
@@ -22,7 +22,7 @@ const MainIntro = () => {
 		if (isWindowVertical && width > height) return setIsWindowVertical(false);
 	}, []);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		onResize();
 
 		document.body.addEventListener('resize', onResize);
