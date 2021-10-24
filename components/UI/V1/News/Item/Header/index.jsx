@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 import { useUserSharedState } from '@store/UserContext';
 import Nav from './Nav';
@@ -14,15 +14,14 @@ const NewsHeader = ({
 }) => {
 	const [userState, userDispatch] = useUserSharedState();
 
-	const [isDataOwner, setIsDataOwner] = useState(false);
+	const isDataOwner = useMemo(() => {
+		return (
+			!isLoadingSkeleton &&
+			userState.user?.user_name_id === newsItemData?.author_user_name_id
+		);
+	}, [isLoadingSkeleton, userState?.user?.user_name_id]);
 
-	useEffect(() => {
-		if (userState?.user?.user_name_id === newsItemData?.author_user_name_id) {
-			setIsDataOwner(true);
-		} else if (isDataOwner) {
-			setIsDataOwner(false);
-		}
-	}, [userState.user]);
+	console.log('isDataOwner', isDataOwner);
 
 	return (
 		<header>
