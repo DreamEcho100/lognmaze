@@ -12,6 +12,9 @@ const MainIntro = () => {
 			? true
 			: false
 	);
+	const isStartingIntro = true;
+
+	/*
 	const [isStartingIntro, setIsStartingIntro] = useState(false);
 
 	const onResize = useCallback(() => {
@@ -31,6 +34,7 @@ const MainIntro = () => {
 
 		return () => document.body.removeEventListener('resize', onResize);
 	}, []);
+	*/
 
 	return (
 		<section
