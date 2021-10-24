@@ -10,7 +10,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin: 1.25em auto;
+	margin: 1.25em auto 0em auto;
 	width: fit-content;
 }
 

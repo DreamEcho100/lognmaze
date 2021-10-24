@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 
 import classes from './index.module.css';
-import BorderClasses from '../Border.module.css';
+// import BorderClasses from '../Border.module.css';
 
 import { handleAllClasses } from '@/lib/v1/className';
 import { useEffect } from 'react';
@@ -37,7 +37,7 @@ const Input = ({
 		ref: inputRef,
 		type: type,
 		placeholder,
-		className: `${allClasses} ${BorderClasses['border-bottom']}`,
+		className: allClasses,
 		onChange: (event) => {
 			if (setValues) {
 				return setValues((prev) => ({
@@ -60,14 +60,7 @@ const Input = ({
 		// elementUseIn, setElementUseIn
 	]);
 
-	return (
-		<input
-			{...inputProps}
-			className={`${allClasses} ${BorderClasses['border-bottom']}`}
-		>
-			{children}
-		</input>
-	);
+	return <input {...inputProps}>{children}</input>;
 };
 
 export default Input;

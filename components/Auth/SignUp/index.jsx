@@ -530,7 +530,8 @@ const SignUp = ({
 					className={classes['gender-FormControl']}
 					extraClasses='align-center'
 				>
-					<Input
+					<Label htmlFor='gender-male'>Male</Label>
+					<input
 						type='radio'
 						name='gender'
 						id='gender-male'
@@ -538,14 +539,14 @@ const SignUp = ({
 						required
 						setValues={setValues}
 					/>
-					<Label htmlFor='gender-male'>Male</Label>
 				</FormControl>
 
 				<FormControl
 					className={classes['gender-FormControl']}
 					extraClasses='align-center'
 				>
-					<Input
+					<Label htmlFor='gender-female'>Female</Label>
+					<input
 						type='radio'
 						name='gender'
 						id='gender-female'
@@ -553,7 +554,6 @@ const SignUp = ({
 						required
 						setValues={setValues}
 					/>
-					<Label htmlFor='female'>Female</Label>
 				</FormControl>
 			</fieldset>
 

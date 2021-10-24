@@ -50,8 +50,8 @@ const Section1 = ({
 							<section className='buttons-holder'>
 								<Button title='Sign In' onClick={() => router.replace('/auth')}>
 									Sign In
-								</Button>{' '}
-								or{' '}
+								</Button>
+								/
 								<Button
 									title='Sign Up'
 									onClick={() => router.replace('/auth?sign-type=up')}
