@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useState } from 'react';
+// import { useCallback, useLayoutEffect, useState } from 'react';
 
 import classes from './index.module.css';
 
@@ -6,15 +6,19 @@ import LogNMazeSignature from '@svg/LogNMazeSignature';
 
 const MainIntro = () => {
 	// const [animationEnd, setAnimationEnd] = useState(false);
+	const isWindowVertical =
+		typeof window !== 'undefined' && window.innerHeight > window.innerWidth
+			? true
+			: false;
+	const isStartingIntro = true;
+
+	/*
 	const [isWindowVertical, setIsWindowVertical] = useState(
 		true ||
 			(typeof window !== 'undefined' && window.innerHeight > window.innerWidth)
 			? true
 			: false
 	);
-	const isStartingIntro = true;
-
-	/*
 	const [isStartingIntro, setIsStartingIntro] = useState(false);
 
 	const onResize = useCallback(() => {
