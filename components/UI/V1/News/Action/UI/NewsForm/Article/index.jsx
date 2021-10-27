@@ -21,7 +21,6 @@ const iso_countriesKeys = (() => {
 
 const NewsFormArticle = ({
 	newsItemData,
-	actionType,
 	setShowModal,
 	isResettingInputsAfterSubmit, // = false,
 	isClosingModalAfterSubmit, // = true,
@@ -141,7 +140,7 @@ const NewsFormArticle = ({
 						return setValues((prev) => ({
 							...prev,
 							[event.target.name]: event.target.value,
-							slug: actionType === 'update' ? prev.slug : event.target.value
+							slug: event.target.value
 								.toLowerCase()
 								.replace(/[^\w\s-\_]/gi, '')
 								.split(/[\s-]+/)

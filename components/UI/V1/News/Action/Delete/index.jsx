@@ -48,11 +48,10 @@ const ActionBody = ({ newsItemData }) => {
 	);
 };
 
-const DeleteAction = ({ showModal, setShowModal, ...props }) => {
+const DeleteAction = ({ showModal, setShowModal, newsItemData }) => {
 	const [userState, userDispatch] = useUserSharedState();
 	const [newsState, newsDispatch] = useNewsSharedState();
 	const [disableButtons, setDisableButtons] = useState(false);
-	const [newsItemData, setNewsItemData] = useState(props.newsItemData);
 
 	const deleteNews = async () => {
 		// return {

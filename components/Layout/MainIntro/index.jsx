@@ -1,9 +1,26 @@
+// import { useCallback, useLayoutEffect, useState } from 'react';
+
 import classes from './index.module.css';
 
 import LogNMazeSignature from '@svg/LogNMazeSignature';
 
-const MainIntro = ({ isWindowVertical }) => {
+const MainIntro = () => {
+	// const [animationEnd, setAnimationEnd] = useState(false);
+	const isWindowVertical =
+		typeof window !== 'undefined' && window.innerHeight > window.innerWidth
+			? true
+			: false;
+	const isStartingIntro = true;
+
 	/*
+	const [isWindowVertical, setIsWindowVertical] = useState(
+		true ||
+			(typeof window !== 'undefined' && window.innerHeight > window.innerWidth)
+			? true
+			: false
+	);
+	const [isStartingIntro, setIsStartingIntro] = useState(false);
+
 	const onResize = useCallback(() => {
 		const width = window.innerWidth;
 		const height = window.innerHeight;
@@ -28,12 +45,14 @@ const MainIntro = ({ isWindowVertical }) => {
 			className={`${classes['main-intro']} ${
 				isWindowVertical ? classes['window-is-vertical'] : ''
 			}
-				${classes['remove-intro']}
+				${isStartingIntro ? classes['remove-intro'] : ''}
 			`}
 		>
 			<div className={classes.container}>
 				<div
-					className={`${classes['svg-container']} ${classes['draw-signature']}`}
+					className={`${classes['svg-container']} ${
+						isStartingIntro ? classes['draw-signature'] : ''
+					}`}
 				>
 					<LogNMazeSignature
 					// setAnimationEnd={setAnimationEnd}

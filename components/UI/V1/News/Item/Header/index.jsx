@@ -21,6 +21,8 @@ const NewsHeader = ({
 		);
 	}, [isLoadingSkeleton, userState?.user?.user_name_id]);
 
+	console.log('isDataOwner', isDataOwner);
+
 	return (
 		<header>
 			<Nav
@@ -32,8 +34,8 @@ const NewsHeader = ({
 			<section>
 				<TimeAndDate
 					setShowModal={setShowModal}
-					created_at={newsItemData.created_at}
-					updated_at={newsItemData.updated_at}
+					created_at={newsItemData?.created_at}
+					updated_at={newsItemData?.updated_at}
 					isLoadingSkeleton={isLoadingSkeleton}
 				/>
 				{newsItemData.type === 'article' && (
