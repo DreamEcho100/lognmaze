@@ -64,9 +64,6 @@ const obj = (phase) => {
 			// your project has ESLint errors.
 			ignoreDuringBuilds: true,
 		},
-		experimental: {
-			esmExternals: true,
-		},
 	};
 };
 
