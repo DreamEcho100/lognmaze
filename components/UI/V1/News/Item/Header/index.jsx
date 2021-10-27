@@ -21,6 +21,8 @@ const NewsHeader = ({
 		);
 	}, [isLoadingSkeleton, userState?.user?.user_name_id]);
 
+	console.log('isDataOwner', isDataOwner);
+
 	return (
 		<header>
 			<Nav
