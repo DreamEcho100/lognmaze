@@ -65,7 +65,7 @@ const obj = (phase) => {
 			ignoreDuringBuilds: true,
 		},
 		experimental: {
-			esmExternals: false
+			esmExternals: true,
 		},
 	};
 };
