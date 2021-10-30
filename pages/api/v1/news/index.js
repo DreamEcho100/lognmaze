@@ -310,10 +310,13 @@ const api = async (req, res) => {
 
 				const { tags } = req.body;
 
-				const tagsAdded = tags?.added?.length ? [...new Set(tags.added)] : [];
-				const tagsRemoved = tags?.removed?.length
+				const tagsAdded = tags?.added?.length !== 0 ? [...new Set(tags.added)] : [];
+				const tagsRemoved = tags?.removed?.length !== 0
 					? [...new Set(tags.removed)]
 					: [];
+
+					console.log('tagsAdded', tagsAdded);
+					console.log('tagsRemoved', tagsRemoved);
 
 				let startIndex = 0;
 

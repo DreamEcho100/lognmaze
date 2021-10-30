@@ -119,7 +119,7 @@ export const handleCreatingNewsItem = async ({
 	bodyObj = {
 		type: newsType,
 		author_user_name_id: user.user_name_id,
-		...newsValues,
+		...{ ...newsValues, tags: [...new Set(newsValues.tags)] },
 	};
 
 	const newsResult = await fetch('/api/v1/news', {
@@ -232,6 +232,8 @@ export const handleUpdatingUserNewsItem = async ({
 			added: addedTags,
 		};
 	}
+
+	console.log('tags', tags);
 
 	for (let item in newValues) {
 		if (item !== 'tags') {
