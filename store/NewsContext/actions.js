@@ -184,10 +184,11 @@ export const handleUpdatingUserNewsItem = async ({
 		const removedTags = [];
 		const addedTags = [];
 
-		const oldTags = [
-			...new Set([oldValues.tags.filter((item) => item.length !== 0)]),
-		];
-		const newTags = [...new Set([newValues.tags])];
+		const oldTags = [...new Set([oldValues.tags])];
+		const newTags =
+			newValues.tags.length !== 0
+				? [...new Set([newValues.tags.filter((item) => item.length !== 0)])]
+				: [];
 
 		if (oldTags.length <= newTags.length) {
 			newTags.forEach((item, index) => {
@@ -234,6 +235,7 @@ export const handleUpdatingUserNewsItem = async ({
 	}
 
 	console.log('tags', tags);
+	console.log('bodyObj.tags', bodyObj.tags);
 
 	for (let item in newValues) {
 		if (item !== 'tags') {
