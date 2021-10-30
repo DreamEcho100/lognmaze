@@ -184,12 +184,13 @@ export const handleUpdatingUserNewsItem = async ({
 		const removedTags = [];
 		const addedTags = [];
 
-		const oldTags = [...new Set([oldValues.tags])];
+		const oldTags = [...new Set([...oldValues.tags])];
 		const newTags =
 			newValues.tags.length !== 0
-				? [...new Set([newValues.tags.filter((item) => item.length !== 0)])]
+				? [...new Set([...newValues.tags.filter((item) => item.length !== 0)])]
 				: [];
 
+		console.log('newValues.tags', newValues.tags);
 		if (oldTags.length <= newTags.length) {
 			newTags.forEach((item, index) => {
 				if (!oldTags.includes(item) && item.length !== 0) {
@@ -223,7 +224,7 @@ export const handleUpdatingUserNewsItem = async ({
 			...addedTags,
 		];
 
-		if (tags?.added?.length !== 0 || tags?.removed?.length !== 0) {
+		if (removedTags.length !== 0 || addedTags.length !== 0) {
 			if (!tagsChanged) tagsChanged = true;
 			if (!dataChanged) dataChanged = true;
 		}
