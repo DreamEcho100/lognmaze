@@ -187,7 +187,8 @@ const api = async (req, res) => {
 							news_data.content,
 						];
 
-						const tagsToInsert = news_data.tags;
+						const tagsToInsert =
+							news_data.tags?.length !== 0 ? [...new Set(news_data.tags)] : [];
 						let tagsToInsertStringValue = [];
 
 						let i;
@@ -308,6 +309,12 @@ const api = async (req, res) => {
 				}
 
 				const { tags } = req.body;
+
+				const tagsAdded = tags?.added?.length ? [...new Set(tags.added)] : [];
+				const tagsRemoved = tags?.removed?.length
+					? [...new Set(tags.removed)]
+					: [];
+
 				let startIndex = 0;
 
 				const tagsToUpdateTo = [];
@@ -316,10 +323,10 @@ const api = async (req, res) => {
 				const tagsToRemove = [];
 				let tagsToInsert = [];
 
-				if (tags?.added?.length !== 0 || tags?.removed?.length !== 0) {
-					tags.removed.forEach((tag, index) => {
-						if (index < tags.added.length) {
-							tagsToUpdateTo.push(tags.added[index]);
+				if (tagsAdded.length !== 0 || tagsRemoved.length !== 0) {
+					tagsRemoved.forEach((tag, index) => {
+						if (index < tagsAdded.length) {
+							tagsToUpdateTo.push(tagsAdded[index]);
 							tagsToUpdateFrom.push(tag);
 
 							startIndex = index + 1;
@@ -368,8 +375,8 @@ const api = async (req, res) => {
 					}
 
 					let tagsToInsertLocation = [];
-					if (startIndex < tags.added.length) {
-						tagsToInsert = tags.added.slice(startIndex);
+					if (startIndex < tagsAdded.length) {
+						tagsToInsert = tagsAdded.slice(startIndex);
 
 						tagsToInsert.forEach((tag, index) => {
 							params.push(tag);

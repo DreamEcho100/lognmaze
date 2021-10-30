@@ -12,35 +12,39 @@
 	--size-3: 0.6rem;
 	--size-4: 0.8rem;
 	--size-5: 1rem;
+
 	--size-6: 1.2rem;
-	--size-8: 1.4rem;
-	--size-9: 1.6rem;
-	--size-10: 1.8rem;
-	--size-11: 2rem;
-	--size-12: 2.2rem;
-	--size-13: 2.4rem;
-	--size-14: 2.6rem;
-	--size-15: 2.8rem;
-	--size-16: 3rem;
-	--size-17: 3.2rem;
-	--size-18: 3.4rem;
+	--size-6: 1.4rem;
+	--size-8: 1.6rem;
+	--size-9: 1.8rem;
+	--size-10: 2rem;
 
-	--size-19: 3.6rem;
-	--size-20: 3.8rem;
-	--size-21: 4rem;
-	--size-22: 4.2rem;
-	--size-23: 4.4rem;
-	--size-24: 4.6rem;
-	--size-25: 4.8rem;
-	--size-26: 5rem;
+	--size-11: 2.2rem;
+	--size-12: 2.4rem;
+	--size-13: 2.6rem;
+	--size-14: 2.8rem;
+	--size-15: 3rem;
 
-	--size-27: 5.2rem;
-	--size-28: 5.4rem;
-	--size-29: 5.6rem;
-	--size-30: 5.8rem;
+	--size-16: 3.2rem;
+	--size-17: 3.4rem;
+	--size-18: 3.6rem;
+	--size-19: 3.8rem;
+	--size-20: 4rem;
 
-	--size-31: 6rem;
-	--size-32: 6.2rem;
+	--size-21: 4.2rem;
+	--size-22: 4.4rem;
+	--size-23: 4.6rem;
+	--size-24: 4.8rem;
+	--size-25: 5rem;
+
+	--size-26: 5.2rem;
+	--size-27: 5.4rem;
+	--size-28: 5.6rem;
+	--size-29: 5.8rem;
+	--size-30: 6rem;
+
+	--size-31: 6.2rem;
+	--size-32: 6.4rem;
 
 	--header1: var(--size-25);
 	--header2: var(--size-22);
