@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 // const DynamicReactMarkdown = dynamic(() => import('react-markdown'));
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from 'react-markdown/index.js';
 import remarkGfm from 'remark-gfm';
 
 const SyntaxHighlighterDynamic = dynamic(() => import('./SyntaxHighlighter'));
