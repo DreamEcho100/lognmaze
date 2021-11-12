@@ -1,7 +1,5 @@
-import {
-	useReducer,
-} from 'react';
-import { createContainer } from 'react-tracked';
+import { useReducer } from 'react';
+import { createContainer } from '@lib/v1/react-tracked';
 
 // import types from './types';
 import reducer from './reducer';
