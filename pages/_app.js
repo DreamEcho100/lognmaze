@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
 // import { YMInitializer } from 'react-yandex-metrika';
+import LogRocket from 'logrocket';
 import { config, library } from '@fortawesome/fontawesome-svg-core';
 import {
 	faUser,
@@ -88,6 +89,8 @@ const MyApp = ({ Component, pageProps }) => {
 		setTimeout(() => {
 			isPlayingScripts(true);
 		}, 5000);
+
+		LogRocket.init('06wr0z/lognmaze');
 	}, []);
 
 	return (
