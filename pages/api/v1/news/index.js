@@ -315,8 +315,8 @@ const api = async (req, res) => {
 					? [...new Set(tags.removed)]
 					: [];
 
-					console.log('tagsAdded', tagsAdded);
-					console.log('tagsRemoved', tagsRemoved);
+					// console.log('tagsAdded', tagsAdded);
+					// console.log('tagsRemoved', tagsRemoved);
 
 				let startIndex = 0;
 

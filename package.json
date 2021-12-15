@@ -17,29 +17,27 @@
 		"@fortawesome/free-brands-svg-icons": "^5.15.4",
 		"@fortawesome/free-regular-svg-icons": "^5.15.4",
 		"@fortawesome/free-solid-svg-icons": "^5.15.4",
-		"@fortawesome/react-fontawesome": "^0.1.15",
-		"@next/bundle-analyzer": "^11.1.2",
-		"@types/react": "^17.0.27",
+		"@fortawesome/react-fontawesome": "^0.1.16",
+		"@next/bundle-analyzer": "^12.0.7",
+		"@types/react": "^17.0.37",
 		"bcrypt": "^5.0.1",
 		"cross-env": "^7.0.3",
 		"jsonwebtoken": "^8.5.1",
-		"next": "^12.0.4",
+		"next": "^12.0.7",
 		"next-compose-plugins": "^2.2.1",
 		"next-connect": "^0.11.0",
 		"pg": "^8.7.1",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
 		"react-lazy-load-image-component": "^1.5.1",
-		"react-markdown": "^7.1.0",
+		"react-markdown": "^7.1.1",
 		"react-syntax-highlighter": "^15.4.5",
-		"react-tracked": "https://pkg.csb.dev/dai-shi/react-tracked/commit/49f9418d/react-tracked",
+		"react-tracked": "^1.7.5",
 		"remark-gfm": "^3.0.1",
-		"sitemap": "^7.0.0",
-		"slate": "^0.70.0",
-		"slate-react": "^0.70.0"
+		"sitemap": "^7.0.0"
 	},
 	"devDependencies": {
-		"eslint": "^7.32.0",
-		"eslint-config-next": "^11.1.2"
+		"eslint": "^8.4.1",
+		"eslint-config-next": "^12.0.7"
 	}
 }
