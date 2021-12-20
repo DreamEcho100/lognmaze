@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import classes from './index.module.css';
 // import BorderClasses from '../Border.module.css';
 
-import { handleAllClasses } from '@/lib/v1/className';
+import { handleAllClasses } from '@lib/v1/className';
 import { useEffect } from 'react';
 
 const Input = ({
@@ -16,6 +16,8 @@ const Input = ({
 	onChange,
 	setValues,
 	useElement = false,
+	focus,
+	setFocus = () => {},
 	setElementUseIn = () => {
 		return;
 	},
@@ -55,10 +57,14 @@ const Input = ({
 			elementUseIn(inputRef.current);
 			setElementUseIn(false);
 		}
-	}, [
-		useElement,
-		// elementUseIn, setElementUseIn
-	]);
+	}, [useElement, elementUseIn, setElementUseIn]);
+
+	useEffect(() => {
+		if (focus) {
+			inputRef.current.focus();
+			setFocus(false);
+		}
+	}, [focus, setFocus]);
 
 	return <input {...inputProps}>{children}</input>;
 };

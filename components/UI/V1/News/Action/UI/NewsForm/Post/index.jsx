@@ -4,7 +4,7 @@ import ISO639_1LanguageCodes from '@data/ISO639_1LanguageCodes.json';
 import ISOCountryCodesCountriesISOCode from '@data/ISOCountryCodesCountriesISOCode.json';
 
 import FormControls from '@components/UI/V1/FormControls/FormControls';
-import FormControl from '@/components/UI/V1/FormControl';
+import FormControl from '@components/UI/V1/FormControl';
 import Label from '@components/UI/V1/Label';
 import Input from '@components/UI/V1/Input';
 import Select from '@components/UI/V1/Select/Select';
@@ -21,9 +21,9 @@ const iso_countriesKeys = (() => {
 
 const NewsFormArticle = ({
 	newsItemData,
-	setShowModal,
-	isResettingInputsAfterSubmit, // = false,
-	isClosingModalAfterSubmit, // = true,
+	// setShowModal,
+	// isResettingInputsAfterSubmit, // = false,
+	// isClosingModalAfterSubmit, // = true,
 
 	//
 	classes,
@@ -43,13 +43,19 @@ const NewsFormArticle = ({
 }) => {
 	useEffect(() => {
 		setValues({
-			content: newsItemData?.content ? newsItemData.content : '',
+			content: newsItemData?.content || '',
 		});
 
 		setAfterFormSubmitMessage(() => <></>);
 		setIsButtonsDisabled(false);
 		setShowFormatConvertorModal(false);
-	}, []);
+	}, [
+		setValues,
+		newsItemData.content,
+		setAfterFormSubmitMessage,
+		setIsButtonsDisabled,
+		setShowFormatConvertorModal,
+	]);
 
 	const resetInputs = () => {
 		setValues({

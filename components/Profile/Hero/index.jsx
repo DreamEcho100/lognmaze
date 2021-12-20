@@ -2,12 +2,12 @@ import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { handleAddingLoadingSkeletonClass } from '@/lib/v1/className';
+import { handleAddingLoadingSkeletonClass } from '@lib/v1/className';
 
 import classes from './index.module.css';
 
 import Wrapper from 'components/UI/V1/Wrapper';
-import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
+import CustomImage from '@components/UI/V1/Image';
 import Button from '@components/UI/V1/Button';
 import UpdateUserPictureModal from '@components/UI/V1/Modal/UpdateUserPicture';
 const SettingsButtonDynamic = dynamic(
@@ -57,7 +57,7 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 							classes['cover_photo-inner-container']
 						)}
 					>
-						<LazyLoadImage
+						<CustomImage
 							src={userData.cover_photo}
 							alt=''
 							className={classes['cover_photo']}
@@ -65,7 +65,7 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 						/>
 						{visitorIdentity === OWNER && (
 							<Button
-								className={classes['edit-button']}
+								className={`${classes['edit-button']} d-flex flex-xy-center`}
 								title='Edit'
 								onClick={() => setShowUpdateUserCoverPhotoModalModal(true)}
 							>
@@ -92,7 +92,7 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 							classes['profile_picture-inner-container']
 						)}
 					>
-						<LazyLoadImage
+						<CustomImage
 							src={userData.profile_picture}
 							alt=''
 							className={classes['profile_picture']}
@@ -101,7 +101,7 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 					</div>{' '}
 					{visitorIdentity === OWNER && (
 						<Button
-							className={classes['edit-button']}
+							className={`${classes['edit-button']} d-flex flex-xy-center`}
 							title='Edit'
 							onClick={() => setShowUpdateUserProfilePictureModalModal(true)}
 						>

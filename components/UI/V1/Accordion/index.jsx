@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import classes from './index.module.css';
 
-import { handleAllClasses } from '@/lib/v1/className';
+import { handleAllClasses } from '@lib/v1/className';
 
 const Accordion = ({
 	defaultClasses = 'accordion',

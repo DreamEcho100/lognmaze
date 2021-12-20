@@ -19,7 +19,11 @@ const NewsHeader = ({
 			!isLoadingSkeleton &&
 			userState.user?.user_name_id === newsItemData?.author_user_name_id
 		);
-	}, [isLoadingSkeleton, userState?.user?.user_name_id]);
+	}, [
+		isLoadingSkeleton,
+		userState?.user?.user_name_id,
+		newsItemData?.author_user_name_id,
+	]);
 
 	return (
 		<header>

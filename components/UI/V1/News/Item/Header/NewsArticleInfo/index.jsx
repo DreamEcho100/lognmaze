@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import classes from './index.module.css';
 
-import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
+import CustomImage from '@components/UI/V1/Image';
 
 const NewsArticleInfo = ({
 	newsItemData,
@@ -44,22 +44,27 @@ const NewsArticleInfo = ({
 					{newsItemData?.title}
 				</h1>
 			)}
-			<div
+			{/* <div
 				className={`${classes.img_wrapper} ${
 					isLoadingSkeleton
 						? `${classes.isLoadingSkeleton} skeleton-loading`
 						: ''
 				}`}
-			>
-				<LazyLoadImage
-					src={newsItemData?.image_src}
-					alt={newsItemData?.image_alt}
-					effect='blur'
-					onClick={() => {
-						if (setShowModal) setShowModal(true);
-					}}
-				/>
-			</div>
+			> */}
+			<CustomImage
+				src={newsItemData?.image_src}
+				alt={newsItemData?.image_alt}
+				effect='blur'
+				className={`${classes.img_wrapper} ${
+					isLoadingSkeleton
+						? `${classes.isLoadingSkeleton} skeleton-loading`
+						: ''
+				}`}
+				onClick={() => {
+					if (setShowModal) setShowModal(true);
+				}}
+			/>
+			{/* </div> */}
 			<p
 				className={`${classes.tags} ${
 					isLoadingSkeleton

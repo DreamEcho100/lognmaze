@@ -27,7 +27,12 @@ const UpdateNews = ({ newsItemData }) => {
 
 			loadContent();
 		}
-	}, [showUpdateNewsModal]);
+	}, [
+		showUpdateNewsModal,
+		newsDispatch,
+		newsItemData.content,
+		newsItemData.news_id,
+	]);
 
 	return (
 		<>

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { getCookie } from '@lib/v1/cookie';
@@ -33,7 +33,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 
 	const postsFormatted = useMemo(
 		() =>
-			posts?.length !== 0
+			props?.posts?.length !== 0
 				? (() => {
 						const formattedData = props.posts.map((obj) => {
 							const formattedItem = {};
@@ -55,8 +55,29 @@ const ProfilePage = ({ user = {}, ...props }) => {
 						return formattedData;
 				  })()
 				: [],
-		[posts]
+		[props.posts]
 	);
+
+	const handleVisitorCredentials = useCallback(() => {
+		if (userState.isVerifyingUserLoading || !userState.userExist) {
+			setHandleIsAuthorized(false);
+			setIdentity(GUEST);
+		} else {
+			if (router.query.user_name_id === userState.user.user_name_id) {
+				setUserData(userState.user);
+				setIdentity(OWNER);
+				setHandleIsAuthorized(true);
+			} else if (router.query.user_name_id !== userState.user.user_name_id) {
+				setIdentity(GUEST);
+				setHandleIsAuthorized(false);
+			}
+		}
+	}, [
+		userState.user,
+		router.query.user_name_id,
+		userState.isVerifyingUserLoading,
+		userState.userExist,
+	]);
 
 	useEffect(() => {
 		if (appState.routerStage === AppTypes.INIT) return setIsLoading(false);
@@ -154,30 +175,20 @@ const ProfilePage = ({ user = {}, ...props }) => {
 		userState.isVerifyingUserLoading,
 		router.query.user_name_id,
 		router.isReady,
-		isLoading,
-		userData?.user_name_id,
 		userState.user,
+		isLoading,
+		userData,
+		posts,
 	]);
 
 	useEffect(() => {
-		if (userState.isVerifyingUserLoading || !userState.userExist) {
-			if (handleIsAuthorized) setHandleIsAuthorized(false);
-			if (identity !== GUEST) setIdentity(GUEST);
-		} else {
-			if (router.query.user_name_id === userState.user.user_name_id) {
-				setUserData(userState.user);
-				setIdentity(OWNER);
-				setHandleIsAuthorized(true);
-			} else if (router.query.user_name_id !== userState.user.user_name_id) {
-				setIdentity(GUEST);
-				setHandleIsAuthorized(false);
-			}
-		}
+		handleVisitorCredentials();
 	}, [
 		userState.userExist,
 		router.query.user_name_id,
 		userState.isVerifyingUserLoading,
 		userState.user.user_name_id,
+		handleVisitorCredentials,
 	]);
 
 	return (

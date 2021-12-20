@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { handleAllClasses } from '@/lib/v1/className';
+import { handleAllClasses } from '@lib/v1/className';
 
 import classes from './index.module.css';
 

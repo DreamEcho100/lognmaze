@@ -9,7 +9,7 @@ import {
 	HandleLoadingUserVote,
 } from '@store/NewsContext/actions';
 import { useUserSharedState } from '@store/UserContext';
-import { handleAllClasses } from '@/lib/v1/className';
+import { handleAllClasses } from '@lib/v1/className';
 
 const DynamicDeleteNewsModal = dynamic(
 	() => import('@components/UI/V1/Modal/DeleteNews'),

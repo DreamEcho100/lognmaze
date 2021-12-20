@@ -213,9 +213,6 @@ button {
 	border-color: transparent;
 	outline-color: rgba(255, 255, 255, 0.1);
 	user-select: none;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
 	/* min-width: 48px;
 	min-height: 24px; */
 }

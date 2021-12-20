@@ -6,7 +6,7 @@ import {
 	handleAddingNewsFirstTime,
 	handleLoadMoreNewsItems,
 } from '@store/NewsContext/actions';
-import { handleAllClasses } from '@/lib/v1/className';
+import { handleAllClasses } from '@lib/v1/className';
 import { useNewsSharedState } from '@store/NewsContext';
 
 import Wrapper from '@components/UI/V1/Wrapper';
@@ -30,7 +30,7 @@ const Feed = ({
 			newsType: 'ALL',
 			newsFetchRouteQuery,
 		});
-	}, [news]);
+	}, [news, newsDispatch, newsFetchRouteQuery]);
 
 	const allClasses = handleAllClasses({
 		classes,

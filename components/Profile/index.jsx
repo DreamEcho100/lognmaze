@@ -5,7 +5,7 @@ import classes from './index.module.css';
 
 import { XMLCharactersEncoding } from '@lib/v1/regex';
 import { dateToHumanReadableDate } from '@lib/v1/time';
-import { handleAddingLoadingSkeletonClass } from '@/lib/v1/className';
+import { handleAddingLoadingSkeletonClass } from '@lib/v1/className';
 import { NewsContextSharedProvider } from '@store/NewsContext';
 import { useUserSharedState } from '@store/UserContext';
 

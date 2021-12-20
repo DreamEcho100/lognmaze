@@ -19,7 +19,7 @@ const OneNewsContent = ({ newsItemData = {} }) => {
 				news: [newsItemData],
 				newsType: 'ONE',
 			}),
-		[]
+		[newsDispatch, newsItemData]
 	);
 
 	useEffect(() => {
@@ -27,7 +27,10 @@ const OneNewsContent = ({ newsItemData = {} }) => {
 	}, [CBHandleAddingNewsFirstTime]);
 
 	return newsState.news.map((item, index) => (
-		<main className='main'>
+		<main
+			className='main'
+			key={`OneNewsContent-${index}-${newsItemData.news_id}`}
+		>
 			<Wrapper
 				style={{
 					borderRadius: '1rem',
@@ -37,7 +40,6 @@ const OneNewsContent = ({ newsItemData = {} }) => {
 				}}
 			>
 				<NewsItem
-					key={`OneNewsContent-${index}-${newsItemData.news_id}`}
 					newsItemData={newsItemData}
 					detailsType={'content'}
 					loadingUserVote={true}

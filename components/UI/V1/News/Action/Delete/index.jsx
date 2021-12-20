@@ -79,14 +79,14 @@ const DeleteAction = ({ showModal, setShowModal, newsItemData }) => {
 		if (showModal && !newsItemData.content) {
 			const loadContent = async () => {
 				await handleLoadingNewsItemContent({
-					dispatch,
+					newsDispatch,
 					news_id: newsItemData.news_id,
 				});
 			};
 
 			loadContent();
 		}
-	}, []);
+	}, [newsDispatch, newsItemData.content, newsItemData.news_id, showModal]);
 
 	return (
 		<ActionModal

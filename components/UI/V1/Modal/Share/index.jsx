@@ -15,8 +15,8 @@ const ShareModel = ({
 	showShareModel,
 	setShowShareModel,
 }) => {
-	const [useInput, setUseInput] = useState(false);
-	const [inputCopiedToClipboard, setInputCopiedToClipboard] = useState(false);
+	const [useInput, setUseInput] = useState(true);
+	const [inputCopiedToClipboard, setInputCopiedToClipboard] = useState(true);
 
 	let url =
 		// 'https://lognmaze.com/';
@@ -45,6 +45,7 @@ const ShareModel = ({
 	}
 
 	const copyToClipboard = (element) => {
+		element.focus();
 		element.select();
 		element.setSelectionRange(0, 99999);
 
@@ -214,6 +215,7 @@ const ShareModel = ({
 									? 'Copied to clipboard!'
 									: 'Or copy the link!'
 							}
+							className='d-flex flex-xy-center'
 							onClick={() => setUseInput(true)}
 						>
 							<FontAwesomeIcon icon={['fas', 'copy']} />

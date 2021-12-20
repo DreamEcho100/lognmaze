@@ -13,10 +13,12 @@ const MainNavigation = () => {
 
 	const CBSetDataFirstTime = useCallback(
 		() => setDataFirstTime({ dispatch: userDispatch }),
-		[]
+		[userDispatch]
 	);
 
-	useEffect(() => CBSetDataFirstTime(), [CBSetDataFirstTime]);
+	useEffect(() => {
+		CBSetDataFirstTime();
+	}, [CBSetDataFirstTime]);
 
 	return (
 		<header className={MainNavigationClasses.header}>

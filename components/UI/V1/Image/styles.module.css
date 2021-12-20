@@ -1,4 +1,14 @@
 .img-container.layout-fill {
 	position: relative;
 	overflow: hidden;
+	display: block;
+}
+
+.img-container.layout-fill img {
+	object-fit: cover;
+	object-position: center;
+}
+
+.img-container span {
+	width: 100%;
 }

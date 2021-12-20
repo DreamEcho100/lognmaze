@@ -4,7 +4,7 @@ import ISO639_1LanguageCodes from '@data/ISO639_1LanguageCodes.json';
 import ISOCountryCodesCountriesISOCode from '@data/ISOCountryCodesCountriesISOCode.json';
 
 import FormControls from '@components/UI/V1/FormControls/FormControls';
-import FormControl from '@/components/UI/V1/FormControl';
+import FormControl from '@components/UI/V1/FormControl';
 import Label from '@components/UI/V1/Label';
 import Input from '@components/UI/V1/Input';
 import Select from '@components/UI/V1/Select/Select';
@@ -21,9 +21,9 @@ const iso_countriesKeys = (() => {
 
 const NewsFormArticle = ({
 	newsItemData,
-	setShowModal,
-	isResettingInputsAfterSubmit, // = false,
-	isClosingModalAfterSubmit, // = true,
+	// setShowModal,
+	// isResettingInputsAfterSubmit, // = false,
+	// isClosingModalAfterSubmit, // = true,
 
 	//
 	classes,
@@ -44,25 +44,39 @@ const NewsFormArticle = ({
 }) => {
 	useEffect(() => {
 		setValues({
-			title: newsItemData?.title ? newsItemData.title : '',
-			slug: newsItemData?.slug ? newsItemData.slug : '',
-			iso_language: newsItemData?.iso_language
-				? newsItemData.iso_language
-				: 'en',
-			iso_country: newsItemData?.iso_country ? newsItemData.iso_country : 'US',
+			title: newsItemData?.title || '',
+			slug: newsItemData?.slug || '',
+			iso_language: newsItemData?.iso_language || 'en',
+			iso_country: newsItemData?.iso_country || 'US',
 			tags:
 				newsItemData?.tags && newsItemData.tags.length ? newsItemData.tags : [],
-			image_alt: newsItemData?.image_alt ? newsItemData.image_alt : '',
-			image_src: newsItemData?.image_src ? newsItemData.image_src : '',
-			description: newsItemData?.description ? newsItemData.description : '',
-			content: newsItemData?.content ? newsItemData.content : '',
+			image_alt: newsItemData?.image_alt || '',
+			image_src: newsItemData?.image_src || '',
+			description: newsItemData?.description || '',
+			content: newsItemData?.content || '',
 		});
 
 		setAfterFormSubmitMessage(() => <></>);
 		setIsButtonsDisabled(false);
 		setShowFormatConvertorModal(false);
-	}, []);
+	}, [
+		setValues,
+		setAfterFormSubmitMessage,
+		setIsButtonsDisabled,
+		setShowFormatConvertorModal,
 
+		newsItemData.title,
+		newsItemData.slug,
+		newsItemData.iso_language,
+		newsItemData.iso_country,
+		newsItemData.tags,
+		newsItemData.image_alt,
+		newsItemData.image_src,
+		newsItemData.description,
+		newsItemData.content,
+	]);
+
+	/*
 	const resetInputs = () => {
 		setValues({
 			title: '',
@@ -76,6 +90,7 @@ const NewsFormArticle = ({
 			content: '',
 		});
 	};
+	*/
 
 	const sharedInputProps = (elementProps = {}) => {
 		const { minLength = false, maxLength = false } = elementProps;
@@ -126,7 +141,7 @@ const NewsFormArticle = ({
 			description: newsItemData?.description ? newsItemData.description : '',
 			content: newsItemData?.content ? newsItemData.content : '',
 		});
-	}, [newsItemData]);
+	}, [setValues, newsItemData]);
 
 	return (
 		<>

@@ -76,7 +76,7 @@ import '@styles/_globals.css';
 import '@styles/_helpers.css';
 
 import Layout from '@components/Layout/Layout';
-import ExtraScripts from '@/components/_app/ExtraScripts';
+import ExtraScripts from '@components/_app/ExtraScripts';
 
 // export function reportWebVitals(metric) {
 //   console.log(metric)

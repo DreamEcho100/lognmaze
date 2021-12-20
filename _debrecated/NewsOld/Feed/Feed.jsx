@@ -8,7 +8,7 @@ import {
 	handleAddingNewsFirstTime,
 	handleLoadMoreNewsItems,
 } from '@store/NewsContext/actions';
-import { handleAllClasses } from '@/lib/v1/className';
+import { handleAllClasses } from '@lib/v1/className';
 
 const DynamicHorizontalPhotoAd1 = dynamic(
 	() => import('@components/UI/V1/AddsByGoogle/DisplayAd/Horizontal/PhotoAd1'),

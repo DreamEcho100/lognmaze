@@ -37,7 +37,7 @@ const Layout = ({ children }) => {
 			router.events.off('routeChangeStart', handleRouteChangeStart);
 			router.events.off('routeChangeComplete', handleRouteChangeComplete);
 		};
-	}, []);
+	}, [router.events, appDispatch]);
 
 	useEffect(() => {
 		if (appState.isReady === router.isReady) return;
@@ -46,7 +46,7 @@ const Layout = ({ children }) => {
 			type: types.ROUTER_IS_READY,
 			payload: { routerIsReady: router.isReady },
 		});
-	}, [router.isReady]);
+	}, [router.isReady, appState.isReady, appDispatch]);
 
 	return (
 		<>

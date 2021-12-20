@@ -44,10 +44,7 @@ p.isLoadingSkeleton {
 
 .cover_photo {
 	width: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
+	height: 100%;
 }
 
 .profile_picture-container .edit-button,

@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 
 import classes from './index.module.css';
 
-import { handleAddingLoadingSkeletonClass } from '@/lib/v1/className';
+import { handleAddingLoadingSkeletonClass } from '@lib/v1/className';
 import { useUserSharedState } from '@store/UserContext';
 import { NewsContextSharedProvider } from '@store/NewsContext';
 

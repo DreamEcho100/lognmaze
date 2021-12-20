@@ -73,7 +73,11 @@ const EditBioButton = ({ setValues, values }) => {
 
 	return (
 		<>
-			<Button title='Edit Bio' onClick={() => setShowBioEditModal(true)}>
+			<Button
+				title='Edit Bio'
+				onClick={() => setShowBioEditModal(true)}
+				className='d-flex flex-xy-center'
+			>
 				<FontAwesomeIcon icon={['fas', 'edit']} />
 			</Button>
 

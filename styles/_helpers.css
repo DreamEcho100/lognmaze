@@ -19,6 +19,14 @@
 	padding: 0.5em;
 }
 
+.d-flex {
+	display: flex;
+}
+.flex-xy-center {
+	align-items: center;
+	justify-content: center;
+}
+
 .disable {
 	pointer-events: none;
 	filter: grayscale(1);

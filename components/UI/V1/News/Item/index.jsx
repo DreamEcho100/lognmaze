@@ -7,7 +7,7 @@ import {
 	handleLoadingNewsItemContent,
 	HandleLoadingUserVote,
 } from '@store/NewsContext/actions';
-import { handleAllClasses } from '@/lib/v1/className';
+import { handleAllClasses } from '@lib/v1/className';
 
 import classes from './index.module.css';
 
@@ -61,7 +61,12 @@ const NewsItem = ({
 			return obj;
 		}
 		return {};
-	}, [newsItemData?.type]);
+	}, [
+		newsItemData?.type,
+		allClasses,
+		newsItemData.iso_country,
+		newsItemData.iso_language,
+	]);
 
 	useEffect(() => {
 		if (showModal && !newsItemData?.content && newsItemData?.news_id) {
@@ -70,7 +75,7 @@ const NewsItem = ({
 				news_id: newsItemData.news_id,
 			});
 		}
-	}, [showModal]);
+	}, [showModal, newsDispatch, newsItemData?.content, newsItemData.news_id]);
 
 	useEffect(() => {
 		if (
@@ -88,7 +93,15 @@ const NewsItem = ({
 			});
 			if (isLoadingUserVote) setIsLoadingUserVote(false);
 		}
-	}, [isLoadingUserVote, userState.userExist]);
+	}, [
+		isLoadingUserVote,
+		userState.userExist,
+		newsDispatch,
+		newsItemData.down_votes_counter,
+		newsItemData.news_id,
+		newsItemData.up_votes_counter,
+		userState.user,
+	]);
 
 	return (
 		<section {...articleProps}>

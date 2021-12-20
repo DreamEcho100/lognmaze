@@ -10,7 +10,9 @@ const DynamicHorizontalPhotoAd1 = dynamic(
 	{ ssr: false }
 );
 
-import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
+import CustomImage from '@components/UI/V1/Image';
+
+import classes from './styles.module.css';
 
 const Md = ({ content, addHorizontalPhotoAd11 = false }) => {
 	// const [elementsCounter, setElementsCounter] = useState({
@@ -35,7 +37,24 @@ const Md = ({ content, addHorizontalPhotoAd11 = false }) => {
 
 	const customRenderers = {
 		img(image) {
-			return <LazyLoadImage src={image.src} alt={image.alt} effect='blur' />;
+			return (
+				<div className={classes['img-container']}>
+					<CustomImage
+						src={image.src}
+						alt={image.alt}
+						effect='blur'
+						style={{
+							position: 'relative',
+							width: '100%',
+							height: 'revert',
+							minWidth: 'revert',
+							maxWidth: 'revert',
+							minHeight: 'revert',
+							maxHeight: 'revert',
+						}}
+					/>
+				</div>
+			);
 		},
 
 		a({ href, children, node }) {

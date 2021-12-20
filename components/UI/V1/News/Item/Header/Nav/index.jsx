@@ -3,7 +3,7 @@ import Link from 'next/link';
 import classes from './index.module.css';
 
 import NewsItemNavSettings from './Settings';
-import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
+import CustomImage from '@components/UI/V1/Image';
 
 const Nav = ({
 	isDataOwner,
@@ -32,7 +32,7 @@ const Nav = ({
 								: ''
 						}`}
 					>
-						<LazyLoadImage
+						<CustomImage
 							src={newsItemData?.author_profile_picture}
 							alt=''
 							className={classes.author_profile_picture}

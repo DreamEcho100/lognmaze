@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import SocialMediaLinksData from './SocialMediaLinksData/index';
 
@@ -12,32 +12,32 @@ const SocialMediaShareLink = ({
 }) => {
 	const [anchorProps, setAnchorProps] = useState(anchorExtraProps);
 
-	useEffect(() => {
-		const buildingAnchorLinkProps = () => {
-			const { link, linkPrams } = SocialMediaLinksData(props)[type];
+	const buildingAnchorLinkProps = useCallback(() => {
+		const { link, linkPrams } = SocialMediaLinksData(props)[type];
 
-			const linkPramsArr = [];
+		const linkPramsArr = [];
 
-			let linkPram;
-			for (linkPram in linkPrams) {
-				if (linkPrams[linkPram]) {
-					linkPramsArr.push(
-						`${encodeURIComponent(linkPram)}=${encodeURIComponent(
-							linkPrams[linkPram]
-						)}`
-					);
-				}
+		let linkPram;
+		for (linkPram in linkPrams) {
+			if (linkPrams[linkPram]) {
+				linkPramsArr.push(
+					`${encodeURIComponent(linkPram)}=${encodeURIComponent(
+						linkPrams[linkPram]
+					)}`
+				);
 			}
+		}
 
-			setAnchorProps((prev) => ({
-				...prev,
-				href: `${link}/?${linkPramsArr.join('&')}`,
-				title,
-			}));
-		};
+		setAnchorProps((prev) => ({
+			...prev,
+			href: `${link}/?${linkPramsArr.join('&')}`,
+			title,
+		}));
+	}, [props, title, type]);
 
+	useEffect(() => {
 		buildingAnchorLinkProps();
-	}, []);
+	}, [buildingAnchorLinkProps]);
 
 	return (
 		<a {...anchorProps} target='_blank' rel='noopener noreferrer'>

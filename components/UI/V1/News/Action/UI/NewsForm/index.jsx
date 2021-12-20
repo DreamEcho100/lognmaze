@@ -141,7 +141,7 @@ const NewsForm = ({
 			setIsLoadingContent(!!newsItemData.isLoadingContent);
 			setIsButtonsDisabled(!!newsItemData.isLoadingContent);
 		}
-	}, [newsItemData.isLoadingContent]);
+	}, [isLoadingContent, newsItemData.isLoadingContent]);
 
 	/*
 	useEffect(() => {
