@@ -100,7 +100,7 @@ const ChangeUserNameIdModal = ({
 			)}
 		>
 			<Fragment key='header'>
-				<h1>Change Your User Name Id</h1>
+				<h2>Change Your User Name Id</h2>
 			</Fragment>
 			<Fragment key='body'>
 				<Form

@@ -118,7 +118,7 @@ const ChangeUserPasswordModal = ({
 			)}
 		>
 			<Fragment key='header'>
-				<h1>Change Your Password</h1>
+				<h2>Change Your Password</h2>
 			</Fragment>
 			<Fragment key='body'>
 				<Form onSubmit={handleSubmit}>

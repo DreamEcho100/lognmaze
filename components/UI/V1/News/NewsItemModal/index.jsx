@@ -25,7 +25,7 @@ const NewsItemsModal = ({
 				</Button>
 			)}
 			modelClasses={{
-				'modal-wrapper': { width: '90%', maxWidth: 'none' },
+				'modal-wrapper': { width: '95%', maxWidth: 'none' },
 				'modal-container': { background: 'var(--main-bg-color-2)' },
 				'modal-body': {
 					background: 'var(--main-bg-color-1)',

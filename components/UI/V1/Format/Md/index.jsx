@@ -25,15 +25,15 @@ const Md = ({ content, addHorizontalPhotoAd11 = false }) => {
 	// 	HorizontalPhotoAd1Dynamic: 0,
 	// });
 
-	const elementsCounter = {
-		h1: 0,
-		h2: 0,
-		h3: 0,
-		h4: 0,
-		h5: 0,
-		h6: 0,
-		HorizontalPhotoAd1Dynamic: 0,
-	};
+	// const elementsCounter = {
+	// 	h1: 0,
+	// 	h2: 0,
+	// 	h3: 0,
+	// 	h4: 0,
+	// 	h5: 0,
+	// 	h6: 0,
+	// 	HorizontalPhotoAd1Dynamic: 0,
+	// };
 
 	const customRenderers = {
 		img(image) {
@@ -70,7 +70,7 @@ const Md = ({ content, addHorizontalPhotoAd11 = false }) => {
 			) {
 				return (
 					<Link href={href} prefetch={false} passHref>
-						<a className='text-glow-special' title={node.children[0].value}>
+						<a className='text-glow-special'>
 							{children}
 						</a>
 					</Link>
@@ -81,7 +81,6 @@ const Md = ({ content, addHorizontalPhotoAd11 = false }) => {
 				<a
 					className='text-glow-special'
 					href={href}
-					title={node.children[0].value}
 					target='_blank'
 					rel='noopener noreferrer'
 				>
@@ -103,6 +102,7 @@ const Md = ({ content, addHorizontalPhotoAd11 = false }) => {
 				</code>
 			);
 		},
+		/*
 		h1: ({ children }) => {
 			elementsCounter.h1++;
 
@@ -200,6 +200,7 @@ const Md = ({ content, addHorizontalPhotoAd11 = false }) => {
 				</h6>
 			);
 		},
+		*/
 	};
 
 	return (

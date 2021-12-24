@@ -46,7 +46,7 @@ const FormatConvertorModal = ({
 			modelClasses={modelClasses}
 		>
 			<Fragment key='header'>
-				<h2>Convertor</h2>
+				<h2 className='heading-2'>Convertor</h2>
 			</Fragment>
 			<Fragment key='body'>
 				<FormatConvertor {...formatConvertorProps} />

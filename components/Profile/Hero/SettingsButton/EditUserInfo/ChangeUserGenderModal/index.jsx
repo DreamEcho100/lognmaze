@@ -96,7 +96,7 @@ const ChangeUserGenderModal = ({
 			)}
 		>
 			<Fragment key='header'>
-				<h1>Change Your Gender</h1>
+				<h2>Ch2nge Your Gender</h2>
 			</Fragment>
 			<Fragment key='body'>
 				<Form

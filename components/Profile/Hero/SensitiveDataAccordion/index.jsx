@@ -10,7 +10,7 @@ const SensitiveDataAccordion = ({ userData }) => {
 	return (
 		<Accordion className={classes.accordion}>
 			<Fragment key='header'>
-				<h2>Sensitive Data</h2>
+				<h2 className='heading-2'>Sensitive Data</h2>
 			</Fragment>
 			<Fragment key='body'>
 				<div className={classes['accordion-body']}>

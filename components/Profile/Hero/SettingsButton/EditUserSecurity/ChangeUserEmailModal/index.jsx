@@ -85,7 +85,7 @@ const ChangeUserEmailModal = ({
 			)}
 		>
 			<Fragment key='header'>
-				<h1>Change Your Email</h1>
+				<h2>Change Your Email</h2>
 			</Fragment>
 			<Fragment key='body'>
 				<Form onSubmit={handleSubmit}>

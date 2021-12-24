@@ -78,7 +78,7 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 							values={values}
 							setValues={setValues}
 							name='cover_photo'
-							ModalHeader={() => <h1>Change Your Cover Photo</h1>}
+							ModalHeader={() => <h2>Change Your Cover Photo</h2>}
 						/>
 					</div>{' '}
 				</div>
@@ -114,27 +114,28 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 						values={values}
 						setValues={setValues}
 						name='profile_picture'
-						ModalHeader={() => <h1>Change Your Profile Picture</h1>}
+						ModalHeader={() => <h2>Change Your Profile Picture</h2>}
 					/>
 				</div>
 			</div>
 			<div className={classes['basic-data']}>
-				<h3
+				<p
 					className={handleAddingLoadingSkeletonClass(
 						isLoadingSkeleton,
-						classes
+						classes,
+						'heading-3'
 					)}
 				>
 					{userData.user_name_id}
-				</h3>
-				<h4
+				</p>
+				<p
 					className={handleAddingLoadingSkeletonClass(
 						isLoadingSkeleton,
-						classes
-					)}
+						classes,
+						'heading-4')}
 				>
 					{userData.first_name} {userData.last_name}
-				</h4>
+				</p>
 				<p
 					className={handleAddingLoadingSkeletonClass(
 						isLoadingSkeleton,

@@ -75,13 +75,13 @@ const LoadYourLatestDataButton = () => {
 				)}
 			>
 				<Fragment key='header'>
-					<h2>Load Your Latest Data</h2>
+					<p  className='heading-2'>Load Your Latest Data</p>
 				</Fragment>
 				<Fragment key='body'>
 					<Form onSubmit={handleSubmit}>
 						<fieldset className={classes.fieldset}>
 							<legend>
-								<h3>Load Your latest Data</h3>
+								<p className='heading-3'>Load Your latest Data</p>
 							</legend>
 							<FormControl>
 								<p className={classes['notes-header']}>

@@ -27,7 +27,7 @@ const SettingsButton = () => {
 				)}
 			>
 				<Fragment key='header'>
-					<h2>Settings</h2>
+					<p className='heading-2'>Settings</p>
 				</Fragment>
 				<Fragment key='body'>
 					<EditUserInfo />

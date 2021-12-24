@@ -11,9 +11,10 @@ import { handleAllClasses } from '@lib/v1/className';
 
 import classes from './index.module.css';
 
-const DynamicNewsItemModal = dynamic(() => import('../NewsItemModal'), {
-	ssr: false,
-});
+// const DynamicNewsItemModal = dynamic(() => import('../NewsItemModal'), {
+// 	ssr: false,
+// });
+import NewsItemModal from '../NewsItemModal';
 
 import Details from './Details';
 import Header from './Header';
@@ -131,7 +132,7 @@ const NewsItem = ({
 			/>
 			<footer></footer>
 			{modalOnClick && (
-				<DynamicNewsItemModal
+				<NewsItemModal
 					showModal={showModal}
 					setShowModal={setShowModal}
 					articleProps={articleProps}

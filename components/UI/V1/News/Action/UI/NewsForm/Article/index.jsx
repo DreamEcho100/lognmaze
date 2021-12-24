@@ -32,6 +32,8 @@ const NewsFormArticle = ({
 	setValues,
 	isLoadingContent,
 	//
+	actionType,
+	//
 	// AfterFormSubmitMessage,
 	setAfterFormSubmitMessage,
 	//
@@ -155,14 +157,16 @@ const NewsFormArticle = ({
 						return setValues((prev) => ({
 							...prev,
 							[event.target.name]: event.target.value,
-							slug: event.target.value
+							slug: actionType !== 'update' ?
+								event.target.value
 								.toLowerCase()
 								.replace(/[^\w\s-\_]/gi, '')
 								.split(/[\s-]+/)
 								.join('-')
 								.replace(/(\_{2,})/gi, '_')
 								.replace(/^[^\w]/gi, '')
-								.replace(/-$/, ''),
+								.replace(/-$/, '') :
+								prev.slug,
 						}));
 					}}
 					{...sharedInputProps({

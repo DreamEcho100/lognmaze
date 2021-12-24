@@ -64,22 +64,22 @@ const NewsForm = ({
 		const fieldsCheck = [];
 
 		if (newsItemData.type === 'article') {
-			if (values.title.trim().replace(/\s{2,}/g, '').length < 25)
+			if (values.title.replace(/\s{2,}/g, '').length < 20)
 				fieldsCheck.push('Title is less than 25 characters.');
-			else if (values.title.trim().replace(/\s{2,}/g, '').length > 120)
+			else if (values.title.replace(/\s{2,}/g, '').length > 120)
 				fieldsCheck.push('Title is more than 120 characters.');
 
-			if (values.slug.trim().replace(/\s{2,}/g, '').length < 25)
-				fieldsCheck.push('Slug is less than 25 characters.');
+			// if (values.slug.replace(/\s{2,}/g, '').length < 25)
+			// 	fieldsCheck.push('Slug is less than 25 characters.');
 
 			if (values.tags.length < 2)
 				fieldsCheck.push('At least there should be 2 tags.');
 			else if (values.tags.length > 10)
 				fieldsCheck.push("Tags shouldn't be more than 10.");
 
-			if (values.image_alt.trim().replace(/\s{2,}/g, '').length < 3)
+			if (values.image_alt.replace(/\s{2,}/g, '').length < 3)
 				fieldsCheck.push('Image title is less than 3 characters.');
-			else if (values.image_alt.trim().replace(/\s{2,}/g, '').length > 150)
+			else if (values.image_alt.replace(/\s{2,}/g, '').length > 150)
 				fieldsCheck.push('Image title is more than 150 characters.');
 
 			if (values.image_src.replace(/\s/g, '').length === 0)
@@ -87,15 +87,15 @@ const NewsForm = ({
 			if (!values.image_src.replace(/\s/g, '').startsWith('https'))
 				fieldsCheck.push("Image source doesn't start with https.");
 
-			if (values.description.trim().replace(/\s{2,}/g, '').length < 25)
+			if (values.description.replace(/\s{2,}/g, '').length < 25)
 				fieldsCheck.push('Description is less than 25 characters.');
 			// else if (values.description.length > 160)
 			// 	fieldsCheck.push('Description is more than 160 characters.');
 
-			if (values.content.trim().replace(/\s{2,}/g, '').length < 25)
+			if (values.content.replace(/\s{2,}/g, '').length < 25)
 				fieldsCheck.push('Content is less than 25 characters.');
 		} else {
-			if (values.content.trim().replace(/\s{2,}/g, '').length < 2)
+			if (values.content.replace(/\s{2,}/g, '').length < 2)
 				fieldsCheck.push('Content is less than 2 characters.');
 		}
 
@@ -115,10 +115,21 @@ const NewsForm = ({
 		// 	result = await updateNews(newsItemData.type, newsItemData, values);
 		// }
 
+		const formattedValues = {
+			...values,
+			title: values.title.trim(),
+			image_alt: values.image_alt.trim(),
+			// description: values.description,
+			// content: values.content,
+		};
+
 		result =
 			actionType === 'create'
-				? await actionOnSubmit({ values })
-				: await actionOnSubmit({ oldValues: newsItemData, newValues: values });
+				? await actionOnSubmit({ values: formattedValues })
+				: await actionOnSubmit({
+						oldValues: newsItemData,
+						newValues: formattedValues,
+				  });
 
 		// 	await (async () => {
 		// 	if (actionType === 'create') return await actionOnSubmit({ values });
@@ -191,6 +202,8 @@ const NewsForm = ({
 					values={values}
 					setValues={setValues}
 					isLoadingContent={isLoadingContent}
+					//
+					actionType={actionType}
 					//
 					AfterFormSubmitMessage={AfterFormSubmitMessage}
 					setAfterFormSubmitMessage={setAfterFormSubmitMessage}

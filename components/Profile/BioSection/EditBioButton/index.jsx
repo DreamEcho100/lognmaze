@@ -91,7 +91,7 @@ const EditBioButton = ({ setValues, values }) => {
 				)}
 			>
 				<Fragment key='header'>
-					<h2>Edit Bio</h2>
+					<p className='heading-2'>Edit Bio</p>
 				</Fragment>
 				<Fragment key='body'>
 					<Form onSubmit={handleSubmit}>

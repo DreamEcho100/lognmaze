@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useReducer, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { getCookie } from '@lib/v1/cookie';
@@ -9,205 +9,235 @@ import { useUserSharedState } from '@store/UserContext';
 
 import Profile from '@components/Profile';
 
-const GUEST = 'GUEST';
-const OWNER = 'OWNER';
-
 const ProfilePage = ({ user = {}, ...props }) => {
 	const router = useRouter();
 
-	const [appState, appDispatch] = useAppSharedState();
+	const INIT = 'INIT';
+	const IS_LOADING = 'IS_LOADING';
+	const IS_NOT_LOADING = 'IS_NOT_LOADING';
+	const SETTING_USER_AND_POSTS_DATA = 'SETTING_USER_AND_POSTS_DATA';
+	const SETTING_AUTHORIZATION_AND_IDENTITY =
+		'SETTING_AUTHORIZATION_AND_IDENTITY';
+
+	const GUEST = 'GUEST';
+	const OWNER = 'OWNER';
+
+	const profileInitialState = {
+		userData: {},
+		formattedPosts: [],
+		newsFetchRouteQuery: '',
+		visitorIdentity: 'Guest',
+		isAuthorized: false,
+		isLoading: true,
+	};
+
+	const profileReducer = (state, action) => {
+		switch (action.type) {
+			case INIT: {
+				return profileInitialState;
+			}
+
+			case IS_LOADING: {
+				if (!state.isLoading)
+					return {
+						...state,
+						isLoading: true,
+					};
+
+				return state;
+			}
+
+			case IS_NOT_LOADING: {
+				if (state.isLoading)
+					return {
+						...state,
+						isLoading: false,
+					};
+
+				return state;
+			}
+
+			case SETTING_USER_AND_POSTS_DATA: {
+				const {
+					userData,
+					newsFetchRouteQuery,
+					formattedPosts,
+					visitorIdentity,
+					isAuthorized,
+				} = action.payload;
+
+				if (
+					state.userData.id !== userData.id ||
+					state.newsFetchRouteQuery !== newsFetchRouteQuery ||
+					state.formattedPosts.reduce(
+						(currString, currPost) => currString + currPost.updated_at,
+						''
+					) !==
+						formattedPosts.reduce(
+							(currString, currPost) => currString + currPost.updated_at,
+							''
+						) ||
+					state.visitorIdentity !== visitorIdentity ||
+					state.isAuthorized !== isAuthorized
+				)
+					return {
+						...state,
+						userData,
+						newsFetchRouteQuery,
+						formattedPosts,
+						visitorIdentity,
+						isAuthorized,
+						isLoading: false,
+					};
+
+				return state;
+			}
+
+			case SETTING_AUTHORIZATION_AND_IDENTITY: {
+				const { visitorIdentity, isAuthorized } = action.payload;
+
+				if (
+					state.visitorIdentity !== visitorIdentity ||
+					state.isAuthorized !== isAuthorized
+				)
+					return {
+						...state,
+						visitorIdentity,
+						isAuthorized,
+					};
+
+				return state;
+			}
+
+			default: {
+				return state;
+			}
+		}
+	};
+
+	const [profileState, profileDispatch] = useReducer(
+		profileReducer,
+		profileInitialState
+	);
 	const [userState, userDispatch] = useUserSharedState();
 
-	const [newsFetchRouteQuery, setNewsFetchRouteQuery] = useState(
-		props.newsFetchRouteQuery
-	);
-	const [posts, setPosts] = useState(props.posts);
-
-	const [handleIsAuthorized, setHandleIsAuthorized] = useState(
-		user.isAuthorized
-	);
-	const [identity, setIdentity] = useState(user.visitorIdentity || GUEST);
-	const [userData, setUserData] = useState(user.data);
-
-	const [isLoading, setIsLoading] = useState(true);
-
-	const postsFormatted = useMemo(
-		() =>
-			props?.posts?.length !== 0
-				? (() => {
-						const formattedData = props.posts.map((obj) => {
-							const formattedItem = {};
-							let itemA;
-							for (itemA in obj) {
-								if (itemA !== 'type_data') {
-									formattedItem[itemA] = obj[itemA];
-								} else {
-									let itemB;
-									for (itemB in obj['type_data']) {
-										formattedItem[itemB] = obj.type_data[itemB];
-									}
-								}
-							}
-
-							return formattedItem;
-						});
-
-						return formattedData;
-				  })()
-				: [],
-		[props.posts]
-	);
-
-	const handleVisitorCredentials = useCallback(() => {
-		if (userState.isVerifyingUserLoading || !userState.userExist) {
-			setHandleIsAuthorized(false);
-			setIdentity(GUEST);
-		} else {
-			if (router.query.user_name_id === userState.user.user_name_id) {
-				setUserData(userState.user);
-				setIdentity(OWNER);
-				setHandleIsAuthorized(true);
-			} else if (router.query.user_name_id !== userState.user.user_name_id) {
-				setIdentity(GUEST);
-				setHandleIsAuthorized(false);
-			}
-		}
-	}, [
-		userState.user,
-		router.query.user_name_id,
-		userState.isVerifyingUserLoading,
-		userState.userExist,
-	]);
-
-	useEffect(() => {
-		if (appState.routerStage === AppTypes.INIT) return setIsLoading(false);
+	const handleSettingAuthorizationAndIdentity = useCallback(() => {
+		const payload = {
+			visitorIdentity: GUEST,
+			isAuthorized: false,
+		};
 
 		if (
-			userState.isVerifyingUserLoading ||
-			appState.routerStage !== AppTypes.ROUTER_CHANGE_Complete
-		)
-			return;
-
-		if (
-			userData?.user_name_id === router.query.user_name_id &&
-			posts[0] &&
-			posts[0].author_user_name_id === userData?.user_name_id
+			userState.userExist &&
+			router.query.user_name_id === userState.user.user_name_id
 		) {
-			if (isLoading) setIsLoading(false);
-			return;
+			payload.visitorIdentity = OWNER;
+			payload.isAuthorized = true;
 		}
 
-		setIsLoading(true);
-
-		(async () => {
-			let userProfileData;
-			if (userData?.user_name_id !== router.query.user_name_id) {
-				if (userState.user?.user_name_id === router.query.user_name_id) {
-					userProfileData = userState.user;
-				} else {
-					const userResult = await fetch(
-						`/api/v1/users/user/?user_name_id=${router.query.user_name_id}`
-					).then((response) => response.json());
-
-					if (
-						!userResult.data ||
-						!userResult.data.user_name_id ||
-						(userResult.status && userResult.status === 'error')
-					) {
-						setUserData({});
-						setPosts([]);
-						setIsLoading(false);
-						setHandleIsAuthorized(false);
-						setIdentity(GUEST);
-						return;
-					}
-
-					userProfileData = userResult.data;
-					setUserData(userProfileData);
-				}
-			} else {
-				userProfileData = userData;
-			}
-
-			if (
-				!posts[0] ||
-				posts[0].author_user_name_id !== userProfileData?.user_name_id
-			) {
-				let postInputQuery = '/?filter_by_user_id=';
-				postInputQuery += userProfileData.id;
-
-				if (userState.user?.id)
-					postInputQuery += `&voter_id=${userState.user.id}`;
-
-				setNewsFetchRouteQuery(postInputQuery);
-
-				const postsResult = await fetch(`/api/v1/news${postInputQuery}`, {
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				})
-					.then((response) => response.json())
-					.catch((error) => {
-						console.error(error);
-						return {
-							status: 'error',
-							message: error.message || 'Something went wrong!',
-							data: [],
-						};
-					});
-
-				setPosts(
-					postsResult.data.news.map((item) => {
-						return {
-							...item,
-							...item.type_data,
-							type_data: {},
-						};
-					})
-				);
-			}
-		})();
-
-		setIsLoading(false);
+		profileDispatch({
+			type: SETTING_AUTHORIZATION_AND_IDENTITY,
+			payload,
+		});
 	}, [
-		appState.routerStage,
-		userState.isVerifyingUserLoading,
-		router.query.user_name_id,
-		router.isReady,
+		profileDispatch,
 		userState.user,
-		isLoading,
-		userData,
-		posts,
+		router.query.user_name_id,
+		userState.userExist,
+	]);
+
+	const handleSettingUserAndPostsData = useCallback(() => {
+		const userData = user?.data?.id ? user.data : {};
+		const newsFetchRouteQuery = props.newsFetchRouteQuery || '';
+		const formattedPosts = [];
+		const visitorIdentity =
+			!userState.userExist ||
+			router.query.user_name_id !== userState.user?.user_name_id
+				? GUEST
+				: OWNER;
+		const isAuthorized =
+			!userState.userExist ||
+			router.query.user_name_id !== userState.user?.user_name_id
+				? false
+				: true;
+
+		if (props?.posts?.length !== 0) {
+			props.posts.forEach((obj) => {
+				const formattedItem = {};
+				let itemA;
+				for (itemA in obj) {
+					if (itemA !== 'type_data') {
+						formattedItem[itemA] = obj[itemA];
+					} else {
+						let itemB;
+						for (itemB in obj['type_data']) {
+							formattedItem[itemB] = obj.type_data[itemB];
+						}
+					}
+				}
+
+				formattedPosts.push(formattedItem);
+			});
+
+			profileDispatch({
+				type: SETTING_USER_AND_POSTS_DATA,
+				payload: {
+					userData,
+					newsFetchRouteQuery,
+					formattedPosts,
+					visitorIdentity,
+					isAuthorized,
+				},
+			});
+		}
+	}, [
+		profileDispatch,
+		userState.user?.user_name_id,
+		user.data,
+		props.newsFetchRouteQuery,
+		userState.userExist,
+		router.query.user_name_id,
+		props?.posts,
 	]);
 
 	useEffect(() => {
-		handleVisitorCredentials();
+		if (!router.isReady && userState.isVerifyingUserLoading) return;
+
+		handleSettingUserAndPostsData();
+	}, [
+		router.isReady,
+		handleSettingUserAndPostsData,
+		userState.isVerifyingUserLoading,
+	]);
+
+	useEffect(() => {
+		if (userState.isVerifyingUserLoading) return;
+
+		handleSettingAuthorizationAndIdentity();
 	}, [
 		userState.userExist,
 		router.query.user_name_id,
 		userState.isVerifyingUserLoading,
-		userState.user.user_name_id,
-		handleVisitorCredentials,
+		userState.user?.user_name_id,
+		handleSettingAuthorizationAndIdentity,
 	]);
 
 	return (
 		<Profile
-			userData={
-				userState.user?.user_name_id === router.query.user_name_id
-					? userState.user
-					: userData
-			}
-			isLoadingSkeleton={isLoading}
-			visitorIdentity={identity}
-			news={postsFormatted}
-			newsFetchRouteQuery={newsFetchRouteQuery}
+			userData={profileState.userData}
+			isLoadingSkeleton={profileState.isLoading}
+			visitorIdentity={profileState.visitorIdentity}
+			news={profileState.formattedPosts}
+			newsFetchRouteQuery={profileState.newsFetchRouteQuery}
 		/>
 	);
 };
 
 export const getServerSideProps = async ({ req, res, query }) => {
+	const GUEST = 'GUEST';
+	const OWNER = 'OWNER';
 	let newsFetchRouteQuery = '';
+
 	const fetcher = async (tokenCookieString, userCookieString, user_name_id) => {
 		const input = `${process.env.BACK_END_ROOT_URL}/api/v1/users/user/?user_name_id=${user_name_id}`;
 
@@ -234,7 +264,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 				};
 			});
 
-		if (!user?.data?.id || (user && user.status === 'error')) {
+		if (!user?.data?.id || user?.status === 'error') {
 			return {
 				user,
 				posts: {

@@ -6,7 +6,7 @@ import FormatterContainer from '@components/UI/V1/Format/Container';
 import Content from './Content';
 import Description from './Description';
 
-const NotFound = () => <h2>Not Found</h2>;
+const NotFound = () => <p className='heading-2'>Not Found</p>;
 
 const LoadingSkeleton = ({ isLoadingSkeleton }) => (
 	<section

@@ -113,6 +113,7 @@ body {
 	font-family: sans-serif;
 	line-height: 1.15;
 	-webkit-text-size-adjust: 100%;
+	font-size: var(--current-font-size);
 }
 
 body {
@@ -120,7 +121,7 @@ body {
 	overflow-x: hidden;
 }
 
-body,
+/* body,
 button,
 p,
 select,
@@ -128,44 +129,62 @@ input,
 li,
 a {
 	font-size: var(--current-font-size);
-}
+} */
 
+.heading-1,
 h1 {
 	font-size: var(--header1);
 }
+.heading-2,
 h2 {
 	font-size: var(--header2);
 }
+.heading-3,
 h3 {
 	font-size: var(--header3);
 }
+.heading-4,
 h4 {
 	font-size: var(--header4);
 }
+.heading-5,
 h5 {
 	font-size: var(--header5);
 }
+.heading-6,
 h6 {
 	font-size: var(--header6);
 }
 
+.heading-1,
 h1,
+.heading-2,
 h2,
+.heading-3,
 h3,
+.heading-4,
 h4,
+.heading-5,
 h5,
+.heading-6,
 h6 {
 	font-weight: bold;
+	color: inherit;
+  /* font-size: 1em; */
+  line-height: inherit;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
 }
 
-h1 *,
+/* h1 *,
 h2 *,
 h3 *,
 h4 *,
 h5 *,
 h6 * {
 	font-size: inherit;
-}
+} */
 
 ol,
 ul {

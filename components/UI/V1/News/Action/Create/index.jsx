@@ -11,7 +11,7 @@ import ActionNewsForm from '../UI/NewsForm';
 const CreateActionHeader = ({ newsType, setNewsType }) => {
 	return (
 		<header>
-			<h2>Create News</h2>
+			<p className='heading-2'>Create News</p>
 			<div className='buttons-holder'>
 				<Button
 					onClick={() => {

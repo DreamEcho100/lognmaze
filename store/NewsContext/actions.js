@@ -168,14 +168,12 @@ export const handleUpdatingUserNewsItem = async ({
 	newValues,
 	oldValues,
 }) => {
-	let bodyObj = {};
-	let dataChanged = false;
-
-	bodyObj = {
+	const bodyObj = {
 		type: newsType,
 		news_id: oldValues.news_id,
 		news_data: {},
 	};
+	let dataChanged = false;
 
 	let tagsChanged = false;
 	let tags;
@@ -190,7 +188,6 @@ export const handleUpdatingUserNewsItem = async ({
 				? [...new Set([...newValues.tags.filter((item) => item.length !== 0)])]
 				: [];
 
-		// console.log('newValues.tags', newValues.tags);
 		if (oldTags.length <= newTags.length) {
 			newTags.forEach((item, index) => {
 				if (!oldTags.includes(item) && item.length !== 0) {
@@ -239,8 +236,6 @@ export const handleUpdatingUserNewsItem = async ({
 		};
 	}
 
-	// console.log('tags', tags);
-	// console.log('bodyObj.tags', bodyObj.tags);
 
 	for (let item in newValues) {
 		if (item !== 'tags') {

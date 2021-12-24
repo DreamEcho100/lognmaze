@@ -10,6 +10,7 @@ const ImageComponent = ({
 	alt = '',
 	placeholder = 'empty',
 	blurDataURL,
+	role = 'img',
 	...props
 }) => {
 	if(!src) {
@@ -20,19 +21,20 @@ const ImageComponent = ({
 		className: `${className} ${classes['img-container']} ${classes['layout-fill']}`,
 	};
 	const imageProps = (() => {
-		const temp = {
+		const imhProps = {
 			unoptimized,
 			layout,
 			src,
 			placeholder,
+			role,
 			...props,
 		};
 
 		if (placeholder !== 'empty') {
-			temp.blurDataURL = blurDataURL ? blurDataURL : src;
+			imhProps.blurDataURL = blurDataURL ? blurDataURL : src;
 		}
 
-		return temp;
+		return imhProps;
 	})();
 
 	return (

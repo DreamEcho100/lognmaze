@@ -8,7 +8,7 @@ const AccordionSettingsShower = ({ headerText, bodyItems }) => {
 	return (
 		<Accordion className={classes.accordion}>
 			<Fragment key='header'>
-				<h2>{headerText}</h2>
+				<h2 className='heading-2'>{headerText}</h2>
 			</Fragment>
 			<Fragment key='body'>
 				<ul>
