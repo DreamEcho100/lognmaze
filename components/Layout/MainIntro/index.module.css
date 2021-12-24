@@ -11,7 +11,7 @@
 	left: 0;
 	width: min(75vw, 30rem);
 	height: min(calc(25vh + 1rem), 15rem);
-	background-color: va(--main-special-bg-color-5);
+	background-color: var(--main-special-bg-color-5);
 	z-index: 10;
 	transition: all 0.6s ease-in-out;
 }
@@ -49,8 +49,8 @@
 	stroke-dasharray: 40477;
 	stroke-dashoffset: 40477;
 	opacity: 0.5;
-	transition: stroke-dashoffset 0.7s cubic-bezier(0.46, 0.7, 1, 0.69),
-		opacity 0.7s cubic-bezier(0.46, 0.03, 0.52, 0.96);
+	transition: stroke-dashoffset 0.7s cubic-bezier(0.46, 0.7, 1, 0.69) 0.1s,
+		opacity 0.7s cubic-bezier(0.46, 0.03, 0.52, 0.96) 0.1s;
 }
 
 .main-intro .svg-container.draw-signature svg {
@@ -65,9 +65,9 @@
 	transform: rotate(90deg);
 }
 
-.main-intro.remove-intro.window-is-vertical {
+/* .main-intro.remove-intro.window-is-vertical {
 	animation: removeMainIntroInVertically 0.5s ease-in-out 0.9s forwards;
-}
+} */
 
 /* .main-intro.window-is-vertical .svg-container svg {
 	transform: translateX(100%) rotate(90deg) scale(0.4);
@@ -81,10 +81,10 @@
 	}
 }
 
-@keyframes removeMainIntroInVertically {
+/* @keyframes removeMainIntroInVertically {
 	to {
 		transform: translateY(-100%);
 		pointer-events: none;
 		opacity: 0;
 	}
-}
+} */
