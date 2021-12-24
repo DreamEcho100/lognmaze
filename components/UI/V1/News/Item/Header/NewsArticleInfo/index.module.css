@@ -1,7 +1,27 @@
 .img_wrapper {
 	width: 100%;
-	min-height: min(50vh, 20rem);
+	/* min-height: min(50vh, 20rem); */
+	max-height: min(50vh, 30rem);
 	margin: 0.5em 0;
+}
+
+.img_wrapper span {
+	width: 100% !important;
+	position: revert !important;
+	height: revert !important;
+	max-height: revert!important;
+}
+
+.img_wrapper .styles_img-container__ZbBRr.styles_layout-fill__zecOa img {
+	object-fit: revert;
+	object-position: center;
+	position: revert !important;
+	width: revert !important;
+	height: revert !important;
+	min-width: revert !important;
+	max-width: 100% !important;
+	min-height: revert !important;
+	max-height: 100% !important;
 }
 
 .title .isLoadingSkeleton {

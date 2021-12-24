@@ -1,4 +1,0 @@
-This is a Brave Rewards publisher verification file.
-
-Domain: lognmaze.com
-Token: 90f707126ce854fed5e084fc250a53b17f897bb1d8ae011ff7b91b2f94a646b9
