@@ -12,7 +12,7 @@
 	max-height: revert!important;
 }
 
-.img_wrapper .styles_img-container__ZbBRr.styles_layout-fill__zecOa img {
+.img_wrapper span img {
 	object-fit: revert;
 	object-position: center;
 	position: revert !important;
