@@ -1,7 +1,7 @@
 import UpdateNews from './UpdateNews';
 import DeleteNews from './DeleteNews';
 
-const DynamicDropdownMenuOwnerItems = ({ newsItemData }) => {
+const DropdownMenuOwnerItems = ({ newsItemData }) => {
 	return (
 		<>
 			<li>
@@ -14,4 +14,4 @@ const DynamicDropdownMenuOwnerItems = ({ newsItemData }) => {
 	);
 };
 
-export default DynamicDropdownMenuOwnerItems;
+export default DropdownMenuOwnerItems;

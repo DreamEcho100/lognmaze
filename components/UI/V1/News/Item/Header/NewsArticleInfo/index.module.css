@@ -1,7 +1,7 @@
 .img_wrapper {
 	width: 100%;
 	/* min-height: min(50vh, 20rem); */
-	max-height: min(50vh, 30rem);
+	/* max-height: min(50vh, 30rem); */
 	margin: 0.5em 0;
 }
 
@@ -21,7 +21,7 @@
 	min-width: revert !important;
 	max-width: 100% !important;
 	min-height: revert !important;
-	max-height: 100% !important;
+	max-height: 75vh !important;
 }
 
 .title .isLoadingSkeleton {
