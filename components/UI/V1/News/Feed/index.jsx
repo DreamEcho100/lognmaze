@@ -1,11 +1,6 @@
-import { useEffect } from 'react';
-
 import classes from './index.module.css';
 
-import {
-	handleAddingNewsFirstTime,
-	handleLoadMoreNewsItems,
-} from '@store/NewsContext/actions';
+import { handleLoadMoreNewsItems } from '@store/NewsContext/actions';
 import { handleAllClasses } from '@lib/v1/className';
 import { useNewsSharedState } from '@store/NewsContext';
 
@@ -17,20 +12,11 @@ const Feed = ({
 	extraClasses = '',
 	className = '',
 	isLoadingSkeleton,
-	news = [],
+	// newsState,
 	newsFetchRouteQuery,
 	...props
 }) => {
 	const [newsState, newsDispatch] = useNewsSharedState();
-
-	useEffect(() => {
-		handleAddingNewsFirstTime({
-			newsDispatch,
-			news,
-			newsType: 'ALL',
-			newsFetchRouteQuery,
-		});
-	}, [news, newsDispatch, newsFetchRouteQuery]);
 
 	const allClasses = handleAllClasses({
 		classes,
@@ -85,7 +71,7 @@ const Feed = ({
 					);
 				})}
 			{!isLoadingSkeleton &&
-				news.length !== 0 &&
+				newsState.news.length !== 0 &&
 				!newsState.hit_news_items_limit && (
 					<Wrapper
 						style={{

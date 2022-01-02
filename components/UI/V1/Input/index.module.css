@@ -20,7 +20,8 @@
 	min-height: 3rem;
 	font-size: calc(var(--current-font-size) + 0.2rem);
 	padding: 0.125em 0.25em;
-	margin: 0.5em auto;
+	margin-top: 0.25em;
+	margin-bottom: 0.25em;
 	background-color: var(--main-special-bg-color-1);
 
 	border-bottom: 0.45rem solid var(--main-special-bg-color-4);

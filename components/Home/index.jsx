@@ -1,4 +1,8 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
+
+import { handleAddingNewsFirstTime } from '@store/NewsContext/actions';
+import { useNewsSharedState } from '@store/NewsContext';
 
 import Section1 from '@components/Home/Section1';
 
@@ -8,6 +12,17 @@ const Home = ({
 	news,
 	newsFetchRouteQuery,
 }) => {
+	const [newsState, newsDispatch] = useNewsSharedState();
+
+	useEffect(() => {
+		handleAddingNewsFirstTime({
+			newsDispatch,
+			news,
+			newsType: 'ALL',
+			newsFetchRouteQuery,
+		});
+	}, [news, newsDispatch, newsFetchRouteQuery]);
+
 	return (
 		<main className='main'>
 			<Head>

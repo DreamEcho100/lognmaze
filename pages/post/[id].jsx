@@ -1,55 +1,56 @@
 import Head from 'next/head';
 
+import { NewsContextSharedProvider } from '@store/NewsContext';
 import { pool } from '@lib/v1/pg';
 import { XMLCharactersEncoding } from '@lib/v1/regex';
 
 import OneNewsContent from '@components/OneNewsContent';
 
+const PostHeader = ({ data }) => {
+	const descriptionWithXMLCharactersEncoding = XMLCharactersEncoding(
+		data.content
+	);
+
+	return (
+		<Head>
+			<meta property='og:type' content='article' />
+			<meta property='article:publisher' content={data.author_user_name_id} />
+			<meta property='article:author' content={data.author_user_name_id} />
+			<meta property='article:published_time' content={data.created_at} />
+			{data.created_at !== data.updated_at && (
+				<meta property='article:modified_time' content={data.updated_at} />
+			)}
+
+			<meta
+				property='og:url'
+				content={`https://lognmaze.com/post/${data.news_id}`}
+			/>
+			<meta
+				name='twitter:url'
+				content={`https://lognmaze.com/post/${data.news_id}`}
+			/>
+			<meta
+				property='twitter:description'
+				content={descriptionWithXMLCharactersEncoding}
+			/>
+			<meta
+				property='og:description'
+				content={descriptionWithXMLCharactersEncoding}
+			/>
+			<meta name='description' content={descriptionWithXMLCharactersEncoding} />
+		</Head>
+	);
+};
+
 const PostPage = (props) => {
 	const data =
 		typeof props.data === 'string' ? JSON.parse(props.data) : props.data;
 
-	const descriptionWithXMLCharactersEncoding =
-		data?.type === 'article'
-			? XMLCharactersEncoding(data.description)
-			: data?.type === 'post'
-			? XMLCharactersEncoding(data.content)
-			: undefined;
-
 	return (
-		<>
-			<Head>
-				<meta property='og:type' content='article' />
-				<meta property='article:publisher' content={data.author_user_name_id} />
-				<meta property='article:author' content={data.author_user_name_id} />
-				<meta property='article:published_time' content={data.created_at} />
-				{data.created_at !== data.updated_at && (
-					<meta property='article:modified_time' content={data.updated_at} />
-				)}
-
-				<meta
-					property='og:url'
-					content={`https://lognmaze.com/post/${data.news_id}`}
-				/>
-				<meta
-					name='twitter:url'
-					content={`https://lognmaze.com/post/${data.news_id}`}
-				/>
-				<meta
-					property='twitter:description'
-					content={descriptionWithXMLCharactersEncoding}
-				/>
-				<meta
-					property='og:description'
-					content={descriptionWithXMLCharactersEncoding}
-				/>
-				<meta
-					name='description'
-					content={descriptionWithXMLCharactersEncoding}
-				/>
-			</Head>
-			<OneNewsContent newsItemData={data} />
-		</>
+		<NewsContextSharedProvider>
+			<PostHeader data={data} />
+			<OneNewsContent newsItemData={data} newsHeader={PostHeader} />
+		</NewsContextSharedProvider>
 	);
 };
 

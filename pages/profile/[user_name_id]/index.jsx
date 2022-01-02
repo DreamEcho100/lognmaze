@@ -3,9 +3,10 @@ import { useRouter } from 'next/router';
 
 import { getCookie } from '@lib/v1/cookie';
 
-import { useAppSharedState } from '@store/AppContext';
-import AppTypes from '@store/AppContext/types';
+// import { useAppSharedState } from '@store/AppContext';
+// import AppTypes from '@store/AppContext/types';
 import { useUserSharedState } from '@store/UserContext';
+import { NewsContextSharedProvider } from '@store/NewsContext';
 
 import Profile from '@components/Profile';
 import pg from '@lib/v1/pg';
@@ -13,9 +14,6 @@ import pg from '@lib/v1/pg';
 const ProfilePage = ({ user = {}, ...props }) => {
 	const router = useRouter();
 
-	const INIT = 'INIT';
-	const IS_LOADING = 'IS_LOADING';
-	const IS_NOT_LOADING = 'IS_NOT_LOADING';
 	const SETTING_USER_AND_POSTS_DATA = 'SETTING_USER_AND_POSTS_DATA';
 	const SETTING_AUTHORIZATION_AND_IDENTITY =
 		'SETTING_AUTHORIZATION_AND_IDENTITY';
@@ -34,30 +32,6 @@ const ProfilePage = ({ user = {}, ...props }) => {
 
 	const profileReducer = (state, action) => {
 		switch (action.type) {
-			case INIT: {
-				return profileInitialState;
-			}
-
-			case IS_LOADING: {
-				if (!state.isLoading)
-					return {
-						...state,
-						isLoading: true,
-					};
-
-				return state;
-			}
-
-			case IS_NOT_LOADING: {
-				if (state.isLoading)
-					return {
-						...state,
-						isLoading: false,
-					};
-
-				return state;
-			}
-
 			case SETTING_USER_AND_POSTS_DATA: {
 				const {
 					userData,
@@ -88,7 +62,6 @@ const ProfilePage = ({ user = {}, ...props }) => {
 						formattedPosts,
 						visitorIdentity,
 						isAuthorized,
-						isLoading: false,
 					};
 
 				return state;
@@ -116,10 +89,36 @@ const ProfilePage = ({ user = {}, ...props }) => {
 		}
 	};
 
-	const [profileState, profileDispatch] = useReducer(
-		profileReducer,
-		profileInitialState
-	);
+	const [profileState, profileDispatch] = useReducer(profileReducer, {
+		...profileInitialState,
+		userData: user?.data?.id ? user.data : {},
+		formattedPosts: (() => {
+			const formattedPosts = [];
+
+			if (props?.posts?.length !== 0) {
+				props.posts.forEach((obj) => {
+					const formattedItem = {};
+					let itemA;
+					for (itemA in obj) {
+						if (itemA !== 'type_data') {
+							formattedItem[itemA] = obj[itemA];
+						} else {
+							let itemB;
+							for (itemB in obj['type_data']) {
+								formattedItem[itemB] = obj.type_data[itemB];
+							}
+						}
+					}
+
+					formattedPosts.push(formattedItem);
+				});
+			}
+
+			return formattedPosts;
+		})(),
+		newsFetchRouteQuery: props.newsFetchRouteQuery || '',
+		isLoading: false,
+	});
 	const [userState, userDispatch] = useUserSharedState();
 
 	const handleSettingAuthorizationAndIdentity = useCallback(() => {
@@ -147,75 +146,12 @@ const ProfilePage = ({ user = {}, ...props }) => {
 		userState.userExist,
 	]);
 
-	const handleSettingUserAndPostsData = useCallback(() => {
-		const userData = user?.data?.id ? user.data : {};
-		const newsFetchRouteQuery = props.newsFetchRouteQuery || '';
-		const formattedPosts = [];
-		const visitorIdentity =
-			!userState.userExist ||
-			router.query.user_name_id !== userState.user?.user_name_id
-				? GUEST
-				: OWNER;
-		const isAuthorized =
-			!userState.userExist ||
-			router.query.user_name_id !== userState.user?.user_name_id
-				? false
-				: true;
-
-		if (props?.posts?.length !== 0) {
-			props.posts.forEach((obj) => {
-				const formattedItem = {};
-				let itemA;
-				for (itemA in obj) {
-					if (itemA !== 'type_data') {
-						formattedItem[itemA] = obj[itemA];
-					} else {
-						let itemB;
-						for (itemB in obj['type_data']) {
-							formattedItem[itemB] = obj.type_data[itemB];
-						}
-					}
-				}
-
-				formattedPosts.push(formattedItem);
-			});
-
-			profileDispatch({
-				type: SETTING_USER_AND_POSTS_DATA,
-				payload: {
-					userData,
-					newsFetchRouteQuery,
-					formattedPosts,
-					visitorIdentity,
-					isAuthorized,
-				},
-			});
-		}
-	}, [
-		profileDispatch,
-		userState.user?.user_name_id,
-		user.data,
-		props.newsFetchRouteQuery,
-		userState.userExist,
-		router.query.user_name_id,
-		props?.posts,
-	]);
-
 	useEffect(() => {
 		if (!router.isReady && userState.isVerifyingUserLoading) return;
 
-		handleSettingUserAndPostsData();
-	}, [
-		router.isReady,
-		handleSettingUserAndPostsData,
-		userState.isVerifyingUserLoading,
-	]);
-
-	useEffect(() => {
-		if (userState.isVerifyingUserLoading) return;
-
 		handleSettingAuthorizationAndIdentity();
 	}, [
+		router.isReady,
 		userState.userExist,
 		router.query.user_name_id,
 		userState.isVerifyingUserLoading,
@@ -224,13 +160,15 @@ const ProfilePage = ({ user = {}, ...props }) => {
 	]);
 
 	return (
-		<Profile
-			userData={profileState.userData}
-			isLoadingSkeleton={profileState.isLoading}
-			visitorIdentity={profileState.visitorIdentity}
-			news={profileState.formattedPosts}
-			newsFetchRouteQuery={profileState.newsFetchRouteQuery}
-		/>
+		<NewsContextSharedProvider>
+			<Profile
+				userData={profileState.userData?.id === userState.user?.id ? userState.user : profileState.userData}
+				isLoadingSkeleton={profileState.isLoading}
+				visitorIdentity={profileState.visitorIdentity}
+				news={profileState.formattedPosts}
+				newsFetchRouteQuery={profileState.newsFetchRouteQuery}
+			/>
+		</NewsContextSharedProvider>
 	);
 };
 

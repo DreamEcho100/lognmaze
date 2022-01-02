@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
+import { NewsContextSharedProvider } from '@store/NewsContext';
 import { useUserSharedState } from '@store/UserContext';
 import { getCookie } from '@lib/v1/cookie';
 
@@ -8,7 +9,7 @@ import Home from '@components/Home';
 const HomePage = ({ data }) => {
 	const [userState, userDispatch] = useUserSharedState();
 
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const newsFetchRouteQuery = data.newsFetchRouteQuery;
 	const news = useMemo(
@@ -34,20 +35,16 @@ const HomePage = ({ data }) => {
 		[data.news]
 	);
 
-	useEffect(() => {
-		if (!isLoading) return;
-
-		if (news.length !== 0) setIsLoading(false);
-	}, [news, isLoading]);
-
 	return (
-		<Home
-			isLoadingSkeleton={isLoading}
-			user={userState.user}
-			userExist={userState.userExist}
-			news={news}
-			newsFetchRouteQuery={newsFetchRouteQuery}
-		/>
+		<NewsContextSharedProvider>
+			<Home
+				isLoadingSkeleton={isLoading}
+				user={userState.user}
+				userExist={userState.userExist}
+				news={news}
+				newsFetchRouteQuery={newsFetchRouteQuery}
+			/>
+		</NewsContextSharedProvider>
 	);
 };
 
