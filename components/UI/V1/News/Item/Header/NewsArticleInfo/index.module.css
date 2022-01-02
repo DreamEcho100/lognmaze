@@ -16,7 +16,7 @@
 	object-fit: revert;
 	object-position: center;
 	position: revert !important;
-	width: revert !important;
+	width: 100% !important;
 	height: revert !important;
 	min-width: revert !important;
 	max-width: 100% !important;

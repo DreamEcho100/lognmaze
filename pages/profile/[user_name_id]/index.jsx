@@ -8,6 +8,7 @@ import AppTypes from '@store/AppContext/types';
 import { useUserSharedState } from '@store/UserContext';
 
 import Profile from '@components/Profile';
+import pg from '@lib/v1/pg';
 
 const ProfilePage = ({ user = {}, ...props }) => {
 	const router = useRouter();
@@ -250,19 +251,39 @@ export const getServerSideProps = async ({ req, res, query }) => {
 			if (userCookieObj?.id) visitor_id = userCookieObj.id;
 		}
 
-		user = await fetch(input)
-			.then((response) => response.json())
-			.catch((error) => {
-				console.error(error);
-				return {
-					status: 'error',
-					message: error.message,
-					data: {},
-					isAuthorized: false,
-					visitorIdentity:
-						userCookieObj.user_name_id === user_name_id ? OWNER : GUEST,
-				};
-			});
+		try {
+			user = await pg.users
+				.get({
+					filterBy: [
+						[
+							{
+								name: 'user_name_id',
+								value: user_name_id,
+								// priority: 'AND',
+							},
+						],
+					],
+				})
+				.then((data) => {
+					data[0].last_sign_in = '' + data[0].last_sign_in;
+					data[0].created_at = '' + data[0].created_at;
+
+					return {
+						status: 'succuss',
+						data: data[0],
+					};
+				});
+		} catch (error) {
+			console.error(error);
+			return {
+				status: 'error',
+				message: error.message,
+				data: {},
+				isAuthorized: false,
+				visitorIdentity:
+					userCookieObj.user_name_id === user_name_id ? OWNER : GUEST,
+			};
+		}
 
 		if (!user?.data?.id || user?.status === 'error') {
 			return {
