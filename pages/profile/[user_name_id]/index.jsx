@@ -204,8 +204,10 @@ export const getServerSideProps = async ({ req, res, query }) => {
 					],
 				})
 				.then((data) => {
-					data[0].last_sign_in = '' + data[0].last_sign_in;
-					data[0].created_at = '' + data[0].created_at;
+					if (data[0]) {
+						data[0].last_sign_in = '' + data[0].last_sign_in;
+						data[0].created_at = '' + data[0].created_at;
+					}
 
 					return {
 						status: 'succuss',
