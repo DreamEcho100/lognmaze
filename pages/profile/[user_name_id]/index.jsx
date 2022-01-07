@@ -1,10 +1,7 @@
 import { useCallback, useEffect, useReducer, useState } from 'react';
 import { useRouter } from 'next/router';
-
 import { getCookie } from '@lib/v1/cookie';
-
-// import { useAppSharedState } from '@store/AppContext';
-// import AppTypes from '@store/AppContext/types';
+import { getNews } from '@lib/v1/pg/news';
 import { useUserSharedState } from '@store/UserContext';
 import { NewsContextSharedProvider } from '@store/NewsContext';
 
@@ -78,9 +75,13 @@ const ProfilePage = ({ user = {}, ...props }) => {
 						...state,
 						visitorIdentity,
 						isAuthorized,
+						isLoading: false
 					};
 
-				return state;
+				return {
+					...state,
+					isLoading: false
+				};
 			}
 
 			default: {
@@ -94,7 +95,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 		userData: user?.data?.id ? user.data : {},
 		formattedPosts: (() => {
 			const formattedPosts = [];
-
+	
 			if (props?.posts?.length !== 0) {
 				props.posts.forEach((obj) => {
 					const formattedItem = {};
@@ -109,15 +110,15 @@ const ProfilePage = ({ user = {}, ...props }) => {
 							}
 						}
 					}
-
+	
 					formattedPosts.push(formattedItem);
 				});
 			}
-
+	
 			return formattedPosts;
 		})(),
 		newsFetchRouteQuery: props.newsFetchRouteQuery || '',
-		isLoading: false,
+		isLoading: true,
 	});
 	const [userState, userDispatch] = useUserSharedState();
 
@@ -234,45 +235,57 @@ export const getServerSideProps = async ({ req, res, query }) => {
 			};
 		}
 
-		if (user?.data?.id)
-			newsFetchRouteQuery += `/?filter_by_user_id=${user.data.id}`;
-		else if (userCookieObj?.id && userCookieObj?.user_name_id === user_name_id)
-			newsFetchRouteQuery += `/?filter_by_user_id=${userCookieObj.id}`;
+		const filters = {};
 
-		if (visitor_id) {
-			if (newsFetchRouteQuery.length !== 0)
-				newsFetchRouteQuery += `&voter_id=${visitor_id}`;
-			else newsFetchRouteQuery += `/?voter_id=${visitor_id}`;
+		if (user?.data?.id) {
+			filters.newsByUserId = user.data.id;
+			newsFetchRouteQuery += `/?newsByUserId=${filters.newsByUserId}`;
+		}
+		else if (userCookieObj?.id && userCookieObj?.user_name_id === user_name_id) {
+			filters.newsByUserId = userCookieObj.id;
+			newsFetchRouteQuery += `/?newsByUserId=${filters.newsByUserId}`;
 		}
 
-		const posts = await fetch(
-			`${process.env.BACK_END_ROOT_URL}/api/v1/news${newsFetchRouteQuery}`,
-			{
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-				},
+		if (visitor_id) {
+			if (newsFetchRouteQuery.length !== 0) {
+				filters.newsVotedByUser = visitor_id;
+				newsFetchRouteQuery += `&newsVotedByUser=${filters.newsVotedByUser}`;
 			}
-		)
-			.then((response) => response.json())
-			.catch((error) => {
-				console.error(error);
-				return {
-					status: 'error',
-					message: error.message || 'Something went wrong!',
-					data: [],
-				};
+			else {
+				filters.newsVotedByUser = visitor_id;
+				newsFetchRouteQuery += `/?newsVotedByUser=${filters.newsVotedByUser}`;
+			}
+		}
+		
+		try {
+			const posts = await getNews(filters);
+
+			posts.news.forEach((item, index) => {
+				item.updated_at = '' + item.updated_at;
+				item.created_at = '' + item.created_at;
 			});
 
-		return {
-			user: {
-				...user,
-				isAuthorized: user.data.user_name_id === user_name_id ? true : false,
-				visitorIdentity:
-					user.data.user_name_id === user_name_id ? OWNER : GUEST,
-			},
-			posts,
-		};
+			return {
+				user: {
+					...user,
+					isAuthorized: user.data.user_name_id === user_name_id ? true : false,
+					visitorIdentity:
+						user.data.user_name_id === user_name_id ? OWNER : GUEST,
+				},
+				posts,
+			};
+		} catch (error) {
+			console.error(error.message);
+			return {
+				user: {
+					...user,
+					isAuthorized: user.data.user_name_id === user_name_id ? true : false,
+					visitorIdentity:
+						user.data.user_name_id === user_name_id ? OWNER : GUEST,
+				},
+				posts: [],
+			};
+		}
 	};
 
 	let tokenCookieString = '';
@@ -297,7 +310,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 	return {
 		props: {
 			user: data.user ? data.user : {},
-			posts: data?.posts?.data?.news ? data.posts.data.news : [],
+			posts: data?.posts?.news ? data.posts.news : [],
 			newsFetchRouteQuery,
 		},
 	};

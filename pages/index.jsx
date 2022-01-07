@@ -1,15 +1,19 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import { NewsContextSharedProvider } from '@store/NewsContext';
 import { useUserSharedState } from '@store/UserContext';
 import { getCookie } from '@lib/v1/cookie';
+import { getNews } from '@lib/v1/pg/news';
 
 import Home from '@components/Home';
 
 const HomePage = ({ data }) => {
+	const router = useRouter();
+
 	const [userState, userDispatch] = useUserSharedState();
 
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 
 	const newsFetchRouteQuery = data.newsFetchRouteQuery;
 	const news = useMemo(
@@ -35,6 +39,11 @@ const HomePage = ({ data }) => {
 		[data.news]
 	);
 
+	useEffect(() => {
+		if (!router.isReady) return;
+		setIsLoading(false);
+	}, [router.isReady]);
+
 	return (
 		<NewsContextSharedProvider>
 			<Home
@@ -52,30 +61,33 @@ export default HomePage;
 
 export const getServerSideProps = async ({ req, query }) => {
 	const fetcher = async (userCookieString, query) => {
+		// const newsResult;
+		const filters = {};
 		let newsFetchRouteQuery = '';
+
 		if (userCookieString) {
-			newsFetchRouteQuery = `/?voter_id=${JSON.parse(userCookieString).id}`;
+			filters.newsVotedByUser = JSON.parse(userCookieString).id
+			newsFetchRouteQuery = `/?newsVotedByUser=${filters.newsVotedByUser}`;
 		}
 
-		const newsResult /*{ status, message, data }*/ = await fetch(
-			`${process.env.BACK_END_ROOT_URL}/api/v1/news${newsFetchRouteQuery}`
-		)
-			.then((response) => response.json())
-			.then((result) => result.data)
-			.catch((error) => {
-				console.error(error);
-				return {
-					status: 'error',
-					message: error.message,
-					data: {
-						news: [],
-						newsFetchRouteQuery,
-					},
-				};
+		try {
+			const newsResult = await getNews(filters);
+
+			newsResult.news.forEach((item, index) => {
+				item.updated_at = '' + item.updated_at;
+				item.created_at = '' + item.created_at;
 			});
 
-		if (newsResult?.status === 'error') {
-			console.error(newsResult.message);
+			return {
+				status: 'succuss',
+				message: 'succuss', 
+				data: {
+					...newsResult,
+					newsFetchRouteQuery,
+				},
+			};
+		} catch (error) {
+			console.error(error.message);
 			return {
 				status: 'error',
 				message: error.message,
@@ -85,15 +97,6 @@ export const getServerSideProps = async ({ req, query }) => {
 				},
 			};
 		}
-
-		return {
-			status: 'succuss',
-			message: 'succuss',
-			data: {
-				...newsResult,
-				newsFetchRouteQuery,
-			},
-		};
 	};
 
 	const userCookieString = getCookie({
