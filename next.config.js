@@ -1,14 +1,14 @@
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 
 const nextConfig = (phase) => {
-	const env = {
+	let env = {
 		JWT_SECRET: process.env.JWT_SECRET,
-		CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
-		CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
-		CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
-		CLOUDINARY_API_ENVIROMENT_VARIABLE:
-			process.env.CLOUDINARY_API_ENVIROMENT_VARIABLE,
-		CLOUDINARY_UPLOAD_PRESET_KEY: process.env.CLOUDINARY_UPLOAD_PRESET_KEY,
+		// CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+		// CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+		// CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+		// CLOUDINARY_API_ENVIROMENT_VARIABLE:
+		// 	process.env.CLOUDINARY_API_ENVIROMENT_VARIABLE,
+		// CLOUDINARY_UPLOAD_PRESET_KEY: process.env.CLOUDINARY_UPLOAD_PRESET_KEY,
 		UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_API_TOKEN:
 			process.env.UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_API_TOKEN,
 		UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_USER_EMAIL:
@@ -17,20 +17,26 @@ const nextConfig = (phase) => {
 	};
 
 	if (phase === PHASE_DEVELOPMENT_SERVER) {
-		env.FRONT_END_ROOT_URL = 'http://localhost:3000'; // baseUrl; // process.env.DEVELOPMENT_FRONT_END_ROOT_URL;
-		env.BACK_END_ROOT_URL = 'http://localhost:3000'; // baseUrl; // process.env.DEVELOPMENT_BACK_END_ROOT_URL;
-		env.FRONT_END_DOMAIN = 'localhost'; // baseUrl; // process.env.DEVELOPMENT_FRONT_END_DOMAIN;
-		env.PG_CONNECTION_STRING =
-			process.env.DEVELOPMENT_PG_SUPABASE_CONNECTION_STRING;
+		env = {
+			...env,
+			FRONT_END_ROOT_URL: 'http://localhost:3000', // baseUrl, // process.env.DEVELOPMENT_FRONT_END_ROOT_URL,
+			BACK_END_ROOT_URL: 'http://localhost:3000', // baseUrl, // process.env.DEVELOPMENT_BACK_END_ROOT_URL,
+			FRONT_END_DOMAIN: 'localhost', // baseUrl, // process.env.DEVELOPMENT_FRONT_END_DOMAIN,
+			PG_CONNECTION_STRING:
+				process.env.DEVELOPMENT_PG_SUPABASE_CONNECTION_STRING,
+		}
 	} else {
 		//  process.env.VERCEL_URL
 		// 	? `https://${process.env.VERCEL_URL}`
-		// 	: 'https://lognmaze.com';
-		env.FRONT_END_ROOT_URL = 'https://lognmaze.com';
-		env.BACK_END_ROOT_URL = 'https://lognmaze.com';
-		env.FRONT_END_DOMAIN = 'lognmaze.com';
-		env.PG_CONNECTION_STRING =
-			process.env.PRODUCTION_PG_SUPABASE_CONNECTION_STRING;
+		// 	: 'https://lognmaze.com',
+		env = {
+			...env,
+			FRONT_END_ROOT_URL: 'https://lognmaze.com',
+			BACK_END_ROOT_URL: 'https://lognmaze.com',
+			FRONT_END_DOMAIN: 'lognmaze.com',
+			PG_CONNECTION_STRING:
+				process.env.PRODUCTION_PG_SUPABASE_CONNECTION_STRING,
+		}
 	}
 
 	return {
@@ -49,7 +55,7 @@ const nextConfig = (phase) => {
 			// your project has ESLint errors.
 			ignoreDuringBuilds: true,
 		},
-		// swcMinify: true,
+		swcMinify: true,
 	};
 };
 
