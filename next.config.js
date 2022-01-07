@@ -60,6 +60,7 @@ const obj = (phase) => {
 			// your project has ESLint errors.
 			ignoreDuringBuilds: true,
 		},
+		swcMinify: true
 	};
 };
 
