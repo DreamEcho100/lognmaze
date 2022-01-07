@@ -9,6 +9,7 @@ import Profile from '@components/Profile';
 import pg from '@lib/v1/pg';
 
 const ProfilePage = ({ user = {}, ...props }) => {
+	console.log('user', user);
 	const router = useRouter();
 
 	const SETTING_USER_AND_POSTS_DATA = 'SETTING_USER_AND_POSTS_DATA';
