@@ -211,6 +211,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 					],
 				})
 				.then((result) => {
+					console.log('result', result);
 					if (result[0]) {
 						data.user.data = result[0];
 						data.user.data.last_sign_in = '' + data.user.data.last_sign_in;
@@ -278,11 +279,12 @@ export const getServerSideProps = async ({ req, res, query }) => {
 		userCookieString,
 		query.user_name_id
 	);
+	console.log('data', data);
 
 	return {
 		props: {
-			user: data.user?.data ? data.user : {},
-			posts: data?.posts?.news ? data.posts.news : [],
+			user: data.user,
+			posts: data.posts.news,
 			newsFetchRouteQuery,
 		},
 	};
