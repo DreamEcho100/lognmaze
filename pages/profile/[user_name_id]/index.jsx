@@ -185,6 +185,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 				// isAuthorized: user.data.user_name_id === user_name_id ? true : false,
 				// visitorIdentity:
 				// 	user.data.user_name_id === user_name_id ? OWNER : GUEST,
+				data: {}
 			},
 			posts: [],
 		};
