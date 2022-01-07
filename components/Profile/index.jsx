@@ -33,14 +33,9 @@ const Profile = ({
 	const [userState, userDispatch] = useUserSharedState();
 	const [newsState, newsDispatch] = useNewsSharedState();
 
-	if (isLoadingSkeleton && !userData.id) {
-		return (
-			<div className=''>
-				<p>No User found!</p>
-			</div>
-		);
-	}
 	useEffect(() => {
+		if (news.length === 0) return
+
 		handleAddingNewsFirstTime({
 			newsDispatch,
 			news,
@@ -48,6 +43,14 @@ const Profile = ({
 			newsFetchRouteQuery,
 		});
 	}, [news, newsDispatch, newsFetchRouteQuery]);
+
+	if (isLoadingSkeleton && !userData.id) {
+		return (
+			<div className=''>
+				<p>No User found!</p>
+			</div>
+		);
+	}
 
 	const schemaOrg = (() => {
 		const schemaBasic = {

@@ -1,39 +1,7 @@
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 
-const obj = (phase) => {
-	let env = {};
-
-	if (phase === PHASE_DEVELOPMENT_SERVER) {
-		env = {
-			// MONGODB_USERNAME: process.env.MONGODB_DEVELOPMENT_USERNAME, // 'maximilian',
-			// MONGODB_PASSWORD: process.env.MONGODB_DEVELOPMENT_PASSWORD, // '2YkcXq43KyPk0vqp',
-			// MONGODB_CLUSTERNAME: process.env.MONGODB_DEVELOPMENT_CLUSTERNAME, // 'cluster0',
-			// MONGODB_MAZENEXTBLOG_DATABASE: process.env.MONGODB_DEVELOPMENT_DATABASE, // 'my-site-dev',
-			FRONT_END_ROOT_URL: 'http://localhost:3000', // baseUrl, // process.env.DEVELOPMENT_FRONT_END_ROOT_URL,
-			BACK_END_ROOT_URL: 'http://localhost:3000', // baseUrl, // process.env.DEVELOPMENT_BACK_END_ROOT_URL,
-			FRONT_END_DOMAIN: 'localhost', // baseUrl, // process.env.DEVELOPMENT_FRONT_END_DOMAIN,
-			PG_CONNECTION_STRING:
-				process.env.DEVELOPMENT_PG_SUPABASE_CONNECTION_STRING,
-		};
-	} else {
-		//  process.env.VERCEL_URL
-		// 	? `https://${process.env.VERCEL_URL}`
-		// 	: 'https://lognmaze.com',
-		// MONGODB_USERNAME: process.env.MONGODB_PRODUCTION_USERNAME,
-		// MONGODB_PASSWORD: process.env.MONGODB_PRODUCTION_PASSWORD,
-		// MONGODB_CLUSTERNAME: process.env.MONGODB_PRODUCTION_CLUSTERNAME,
-		// MONGODB_MAZENEXTBLOG_DATABASE: process.env.MONGODB_PRODUCTION_DATABASE,
-		env = {
-			FRONT_END_ROOT_URL: 'https://lognmaze.com',
-			BACK_END_ROOT_URL: 'https://lognmaze.com',
-			FRONT_END_DOMAIN: 'lognmaze.com',
-			PG_CONNECTION_STRING:
-				process.env.PRODUCTION_PG_SUPABASE_CONNECTION_STRING,
-		};
-	}
-
-	env = {
-		...env,
+const nextConfig = (phase) => {
+	const env = {
 		JWT_SECRET: process.env.JWT_SECRET,
 		CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
 		CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
@@ -47,6 +15,23 @@ const obj = (phase) => {
 			process.env.UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_USER_EMAIL,
 		LOGNMAZE_SITEMAP_TOKEN: process.env.LOGNMAZE_SITEMAP_TOKEN,
 	};
+
+	if (phase === PHASE_DEVELOPMENT_SERVER) {
+		env.FRONT_END_ROOT_URL = 'http://localhost:3000'; // baseUrl; // process.env.DEVELOPMENT_FRONT_END_ROOT_URL;
+		env.BACK_END_ROOT_URL = 'http://localhost:3000'; // baseUrl; // process.env.DEVELOPMENT_BACK_END_ROOT_URL;
+		env.FRONT_END_DOMAIN = 'localhost'; // baseUrl; // process.env.DEVELOPMENT_FRONT_END_DOMAIN;
+		env.PG_CONNECTION_STRING =
+			process.env.DEVELOPMENT_PG_SUPABASE_CONNECTION_STRING;
+	} else {
+		//  process.env.VERCEL_URL
+		// 	? `https://${process.env.VERCEL_URL}`
+		// 	: 'https://lognmaze.com';
+		env.FRONT_END_ROOT_URL = 'https://lognmaze.com';
+		env.BACK_END_ROOT_URL = 'https://lognmaze.com';
+		env.FRONT_END_DOMAIN = 'lognmaze.com';
+		env.PG_CONNECTION_STRING =
+			process.env.PRODUCTION_PG_SUPABASE_CONNECTION_STRING;
+	}
 
 	return {
 		// images: {
@@ -64,13 +49,14 @@ const obj = (phase) => {
 			// your project has ESLint errors.
 			ignoreDuringBuilds: true,
 		},
+		swcMinify: true,
 	};
 };
 
-// const withBundleAnalyzer = require('@next/bundle-analyzer')({
-// 	enabled: process.env.ANALYZE === 'true',
-// });
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+	enabled: process.env.ANALYZE === 'true',
+});
 
-// module.exports = withBundleAnalyzer([withPlugins], obj);
-// module.exports = withBundleAnalyzer(obj);
-module.exports = obj;
+// module.exports = withBundleAnalyzer([withPlugins], nextConfig);
+module.exports = withBundleAnalyzer(nextConfig);
+// module.exports = nextConfig;
