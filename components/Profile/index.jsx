@@ -44,7 +44,7 @@ const Profile = ({
 		});
 	}, [news, newsDispatch, newsFetchRouteQuery]);
 
-	if (isLoadingSkeleton && !userData.id) {
+	if (isLoadingSkeleton && (!userData.id || userData.id.length === 0)) {
 		return (
 			<div className=''>
 				<p>No User found!</p>

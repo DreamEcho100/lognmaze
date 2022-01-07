@@ -136,14 +136,17 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 				>
 					{userData.first_name} {userData.last_name}
 				</p>
-				<p
-					className={handleAddingLoadingSkeletonClass(
-						isLoadingSkeleton,
-						classes
-					)}
-				>
-					{userData.gender[0].toUpperCase() + userData.gender.slice(1)}
-				</p>
+				{
+					userData.gender && 
+					<p
+						className={handleAddingLoadingSkeletonClass(
+							isLoadingSkeleton,
+							classes
+						)}
+					>
+						{userData.gender[0].toUpperCase() + userData.gender.slice(1)}
+					</p>
+				}
 				<address>
 					<p
 						className={handleAddingLoadingSkeletonClass(

@@ -179,19 +179,25 @@ export const getServerSideProps = async ({ req, res, query }) => {
 	let newsFetchRouteQuery = '';
 
 	const fetcher = async (tokenCookieString, userCookieString, user_name_id) => {
-		const input = `${process.env.BACK_END_ROOT_URL}/api/v1/users/user/?user_name_id=${user_name_id}`;
-
-		let user;
+		const data = {
+			user: {
+				// isAuthorized: user.data.user_name_id === user_name_id ? true : false,
+				// visitorIdentity:
+				// 	user.data.user_name_id === user_name_id ? OWNER : GUEST,
+			},
+			posts: [],
+		};
 		let userCookieObj;
 		let visitor_id;
 
-		if (tokenCookieString.length !== 0 && userCookieString.length !== 0) {
-			userCookieObj = JSON.parse(userCookieString);
-			if (userCookieObj?.id) visitor_id = userCookieObj.id;
-		}
 
 		try {
-			user = await pg.users
+			if (tokenCookieString.length !== 0 && userCookieString.length !== 0) {
+				userCookieObj = JSON.parse(userCookieString);
+				if (userCookieObj?.id) visitor_id = userCookieObj.id;
+			}
+
+			await pg.users
 				.get({
 					filterBy: [
 						[
@@ -203,91 +209,54 @@ export const getServerSideProps = async ({ req, res, query }) => {
 						],
 					],
 				})
-				.then((data) => {
-					if (data[0]) {
-						data[0].last_sign_in = '' + data[0].last_sign_in;
-						data[0].created_at = '' + data[0].created_at;
-					}
+				.then((result) => {
+					if (result[0]) {
+						data.user.data = result[0];
+						data.user.data.last_sign_in = '' + data.user.data.last_sign_in;
+						data.user.data.created_at = '' + data.user.data.created_at;
 
-					return {
-						status: 'succuss',
-						data: data[0],
-					};
+					}
 				});
+
+				const filters = {};
+
+				if (data.user.data.id) {
+					filters.newsByUserId = data.user.data.id;
+					newsFetchRouteQuery += `/?newsByUserId=${filters.newsByUserId}`;
+					if (visitor_id) {
+						if (newsFetchRouteQuery.length !== 0) {
+							filters.newsVotedByUser = visitor_id;
+							newsFetchRouteQuery += `&newsVotedByUser=${filters.newsVotedByUser}`;
+						}
+						else {
+							filters.newsVotedByUser = visitor_id;
+							newsFetchRouteQuery += `/?newsVotedByUser=${filters.newsVotedByUser}`;
+						}
+					}
+					
+					data.posts = await getNews(filters);
+			
+					data.posts.news.forEach((item, index) => {
+						item.updated_at = '' + item.updated_at;
+						item.created_at = '' + item.created_at;
+					});
+				}
+				// else if (userCookieObj?.id && userCookieObj?.user_name_id === user_name_id) {
+				// 	filters.newsByUserId = userCookieObj.id;
+				// 	newsFetchRouteQuery += `/?newsByUserId=${filters.newsByUserId}`;
+				// }
 		} catch (error) {
-			console.error(error);
+			console.error(error.message);
 			return {
 				status: 'error',
 				message: error.message,
 				data: {},
 				isAuthorized: false,
-				visitorIdentity:
-					userCookieObj.user_name_id === user_name_id ? OWNER : GUEST,
+				visitorIdentity: GUEST,
 			};
-		}
-
-		if (!user?.data?.id || user?.status === 'error') {
-			return {
-				user,
-				posts: {
-					status: 'error',
-					message: "Can't get the posts!",
-					data: { news: undefined },
-				},
-			};
-		}
-
-		const filters = {};
-
-		if (user?.data?.id) {
-			filters.newsByUserId = user.data.id;
-			newsFetchRouteQuery += `/?newsByUserId=${filters.newsByUserId}`;
-		}
-		else if (userCookieObj?.id && userCookieObj?.user_name_id === user_name_id) {
-			filters.newsByUserId = userCookieObj.id;
-			newsFetchRouteQuery += `/?newsByUserId=${filters.newsByUserId}`;
-		}
-
-		if (visitor_id) {
-			if (newsFetchRouteQuery.length !== 0) {
-				filters.newsVotedByUser = visitor_id;
-				newsFetchRouteQuery += `&newsVotedByUser=${filters.newsVotedByUser}`;
-			}
-			else {
-				filters.newsVotedByUser = visitor_id;
-				newsFetchRouteQuery += `/?newsVotedByUser=${filters.newsVotedByUser}`;
-			}
 		}
 		
-		try {
-			const posts = await getNews(filters);
-
-			posts.news.forEach((item, index) => {
-				item.updated_at = '' + item.updated_at;
-				item.created_at = '' + item.created_at;
-			});
-
-			return {
-				user: {
-					...user,
-					isAuthorized: user.data.user_name_id === user_name_id ? true : false,
-					visitorIdentity:
-						user.data.user_name_id === user_name_id ? OWNER : GUEST,
-				},
-				posts,
-			};
-		} catch (error) {
-			console.error(error.message);
-			return {
-				user: {
-					...user,
-					isAuthorized: user.data.user_name_id === user_name_id ? true : false,
-					visitorIdentity:
-						user.data.user_name_id === user_name_id ? OWNER : GUEST,
-				},
-				posts: [],
-			};
-		}
+		return data;
 	};
 
 	let tokenCookieString = '';
@@ -311,7 +280,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 
 	return {
 		props: {
-			user: data.user ? data.user : {},
+			user: data.user?.data ? data.user : {},
 			posts: data?.posts?.news ? data.posts.news : [],
 			newsFetchRouteQuery,
 		},
