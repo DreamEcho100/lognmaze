@@ -201,6 +201,8 @@ export const getServerSideProps = async ({ req, res, query }) => {
 				if (userCookieObj?.id) visitor_id = userCookieObj.id;
 			}
 
+			console.log('process.env.PG_CONNECTION_STRING', process.env.PG_CONNECTION_STRING);
+
 			await pg.users
 				.get({
 					filterBy: [
