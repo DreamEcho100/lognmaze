@@ -187,7 +187,9 @@ export const getServerSideProps = async ({ req, res, query }) => {
 				// 	user.data.user_name_id === user_name_id ? OWNER : GUEST,
 				data: {}
 			},
-			posts: [],
+			posts: {
+				news: []
+			},
 		};
 		let userCookieObj;
 		let visitor_id;
@@ -239,10 +241,12 @@ export const getServerSideProps = async ({ req, res, query }) => {
 					
 					data.posts = await getNews(filters);
 			
-					data.posts.news.forEach((item, index) => {
-						item.updated_at = '' + item.updated_at;
-						item.created_at = '' + item.created_at;
-					});
+					if (data?.posts?.news) {
+						data.posts.news.forEach((item, index) => {
+							item.updated_at = '' + item.updated_at;
+							item.created_at = '' + item.created_at;
+						});
+					}
 				}
 				// else if (userCookieObj?.id && userCookieObj?.user_name_id === user_name_id) {
 				// 	filters.newsByUserId = userCookieObj.id;
