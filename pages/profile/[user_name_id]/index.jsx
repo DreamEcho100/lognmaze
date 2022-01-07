@@ -249,14 +249,8 @@ export const getServerSideProps = async ({ req, res, query }) => {
 				// }
 		} catch (error) {
 			console.error(error.message);
-			return {
-				status: 'error',
-				message: error.message,
-				data: {},
-				isAuthorized: false,
-				visitorIdentity: GUEST,
-			};
 		}
+		console.log('data', data);
 		
 		return data;
 	};
