@@ -1,7 +1,7 @@
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 
 const nextConfig = (phase) => {
-	let env = {
+	const env = {
 		JWT_SECRET: process.env.JWT_SECRET,
 		CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
 		CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
@@ -17,24 +17,18 @@ const nextConfig = (phase) => {
 	};
 
 	if (phase === PHASE_DEVELOPMENT_SERVER) {
-		env = {
-			...env,
-			FRONT_END_ROOT_URL: 'http://localhost:3000',
-			BACK_END_ROOT_URL: 'http://localhost:3000',
-			FRONT_END_DOMAIN: 'localhost',
-			PG_CONNECTION_STRING: process.env.DEVELOPMENT_PG_SUPABASE_CONNECTION_STRING,
-		}
+		env.FRONT_END_ROOT_URL = 'http://localhost:3000';
+		env.BACK_END_ROOT_URL = 'http://localhost:3000';
+		env.FRONT_END_DOMAIN = 'localhost';
+		env.PG_CONNECTION_STRING = process.env.DEVELOPMENT_PG_SUPABASE_CONNECTION_STRING;
 	} else {
 		//  process.env.VERCEL_URL
 		// 	? `https://${process.env.VERCEL_URL}`
 		// 	: 'https://lognmaze.com',
-		env = {
-			...env,
-			FRONT_END_ROOT_URL: 'https://lognmaze.com',
-			BACK_END_ROOT_URL: 'https://lognmaze.com',
-			FRONT_END_DOMAIN: 'lognmaze.com',
-			PG_CONNECTION_STRING: process.env.PRODUCTION_PG_SUPABASE_CONNECTION_STRING,
-		}
+		env.FRONT_END_ROOT_URL = 'https://lognmaze.com';
+		env.BACK_END_ROOT_URL = 'https://lognmaze.com';
+		env.FRONT_END_DOMAIN = 'lognmaze.com';
+		env.PG_CONNECTION_STRING = process.env.PRODUCTION_PG_SUPABASE_CONNECTION_STRING;
 	}
 
 	return {
