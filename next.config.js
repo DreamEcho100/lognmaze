@@ -49,7 +49,7 @@ const nextConfig = (phase) => {
 			// your project has ESLint errors.
 			ignoreDuringBuilds: true,
 		},
-		swcMinify: true,
+		// swcMinify: true,
 	};
 };
 
