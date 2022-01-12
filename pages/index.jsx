@@ -9,7 +9,6 @@ import { getNews } from '@lib/v1/pg/news';
 import Home from '@components/Home';
 
 const HomePage = ({ data }) => {
-	console.log('data', data);
 	const router = useRouter();
 
 	const [userState, userDispatch] = useUserSharedState();

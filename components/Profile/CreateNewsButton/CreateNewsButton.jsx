@@ -17,10 +17,10 @@ const CreateNewsButton = () => {
 	return (
 		<>
 			<Button
-				title='Create A News'
+				title='Create News'
 				onClick={() => setShowCreateNewsButtonModal(true)}
 			>
-				Create A News
+				Create News
 			</Button>
 			<CreateActionDynamic
 				closeModal={() => setShowCreateNewsButtonModal(false)}

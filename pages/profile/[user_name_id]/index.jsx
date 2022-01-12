@@ -9,7 +9,6 @@ import Profile from '@components/Profile';
 import pg from '@lib/v1/pg';
 
 const ProfilePage = ({ user = {}, ...props }) => {
-	console.log('user', user);
 	const router = useRouter();
 
 	const SETTING_USER_AND_POSTS_DATA = 'SETTING_USER_AND_POSTS_DATA';
@@ -201,7 +200,6 @@ export const getServerSideProps = async ({ req, res, query }) => {
 				if (userCookieObj?.id) visitor_id = userCookieObj.id;
 			}
 
-			console.log('process.env.PG_CONNECTION_STRING', process.env.PG_CONNECTION_STRING);
 
 			await pg.users
 				.get({
@@ -216,7 +214,6 @@ export const getServerSideProps = async ({ req, res, query }) => {
 					],
 				})
 				.then((result) => {
-					console.log('result', result);
 					if (result[0]) {
 						data.user.data = result[0];
 						data.user.data.last_sign_in = '' + data.user.data.last_sign_in;
@@ -257,7 +254,6 @@ export const getServerSideProps = async ({ req, res, query }) => {
 		} catch (error) {
 			console.error(error.message);
 		}
-		console.log('data', data);
 		
 		return data;
 	};
@@ -280,7 +276,6 @@ export const getServerSideProps = async ({ req, res, query }) => {
 		userCookieString,
 		query.user_name_id
 	);
-	console.log('data', data);
 
 	return {
 		props: {

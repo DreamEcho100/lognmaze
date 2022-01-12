@@ -24,10 +24,10 @@ const CreateNewsButton = ({ newsItemData = {} }) => {
 	return (
 		<>
 			<Button
-				title='Create A News'
+				title='Create News'
 				onClick={() => setShowCreateNewsButtonModal(true)}
 			>
-				Create A News
+				Create News
 			</Button>
 			<CreateAction
 				showModal={showCreateNewsButtonModal}
