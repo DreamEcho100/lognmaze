@@ -71,6 +71,10 @@ library.add(
 	faWhatsapp
 );
 
+// import DefaultSEOProps from '../next-seo.config';
+// import { DefaultSeo } from 'next-seo';
+// import NextSeo from 'next-seo';
+
 import '@styles/_global.css';
 import '@styles/_globals.css';
 import '@styles/_helpers.css';
@@ -93,7 +97,14 @@ const MyApp = ({ Component, pageProps }) => {
 
 	return (
 		<>
+			{/* <DefaultSeo {...DefaultSEOProps} /> */}
 			<Head>
+				{
+					'<!-- icon created by ColourCreatype at https://freeicons.io/profile/5790 -->'
+				}
+				{
+					'<!-- Icon by 106171237606937156455 (https://freeicons.io/profile/5790) on freeicons.io (https://freeicons.io/) -->'
+				}
 				<meta charSet='UTF-8' />
 				<meta httpEquiv='X-UA-Compatible' content='IE=edge' />
 				<meta name='robots' content='index,follow' />
@@ -102,13 +113,6 @@ const MyApp = ({ Component, pageProps }) => {
 				<meta property='og:locale' content='en_US' />
 				<meta property='og:type' content='website' />
 				<meta property='og:site_name' content='LogNMaze' />
-
-				{
-					'<!-- icon created by ColourCreatype at https://freeicons.io/profile/5790 -->'
-				}
-				{
-					'<!-- Icon by 106171237606937156455 (https://freeicons.io/profile/5790) on freeicons.io (https://freeicons.io/) -->'
-				}
 
 				<link rel='icon' href='/favicon.ico' size='any' />
 				<link rel='icon' href='/favicon.svg' type='image/svg+xml' />
@@ -119,26 +123,6 @@ const MyApp = ({ Component, pageProps }) => {
 
 				<meta property='og:url' content='https://lognmaze.com/' />
 				<meta name='twitter:url' content='https://lognmaze.com/' />
-
-				<meta
-					property='og:description'
-					content='Create blogs in Markdown and share them in your different social media platform'
-				/>
-				<meta
-					name='description'
-					content='Create blogs in Markdown and share them in your different social media platform'
-				/>
-				<meta
-					name='twitter:title'
-					content='LogNMaze | Create blogs using Markdown and share to the world'
-				/>
-				<meta
-					property='og:title'
-					content='LogNMaze | Create blogs using Markdown and share to the world'
-				/>
-				<title>
-					LogNMaze | Create blogs using Markdown and share to the world
-				</title>
 			</Head>
 			<Layout isAuthenticated={pageProps.isAuthenticated}>
 				<Component {...pageProps} />

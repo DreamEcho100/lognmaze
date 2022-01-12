@@ -28,7 +28,7 @@ const BlogHead = ({ data = {} }) => {
 				dangerouslySetInnerHTML={{
 					__html: JSON.stringify({
 						'@context': 'http://schema.org',
-						'@type': 'Blog',
+						'@type': 'BlogPosting',
 						headline: data.title,
 						alternativeHeadline: data.slug,
 						image: data.image,
