@@ -274,9 +274,12 @@ abbr[title] {
 	text-decoration: underline dotted; /* 2 */
 }
 
-b,
 strong {
 	font-weight: bolder;
+}
+
+em {
+	font-style: italic;
 }
 
 small {
