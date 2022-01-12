@@ -42,7 +42,7 @@ const NewsItemDetails = ({
 
 	if (
 		isLoadingSkeleton ||
-		(newsItemType === 'article' &&
+		(newsItemType === 'blog' &&
 			detailsType === 'content' &&
 			isLoadingContent)
 	) {

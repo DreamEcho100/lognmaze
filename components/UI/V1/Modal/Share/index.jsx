@@ -30,8 +30,8 @@ const ShareModel = ({
 	// 	'lognmaze.vercel.app' || process.env.FRONT_END_ROOT_URL
 	// }`;
 
-	if (data.type === 'article') {
-		url += `article/${data.slug}`;
+	if (data.type === 'blog') {
+		url += `blog/${data.slug}`;
 		title = data.title;
 		summary = data.description;
 		quote = data.description;

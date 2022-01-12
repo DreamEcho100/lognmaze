@@ -9,7 +9,7 @@ import ContainerItems from '@components/UI/V1/News/Container/ContainerItems';
 const DeleteNewsModal = ({
 	showModal,
 	setShowModal,
-	articleProps,
+	blogProps,
 	newsItem,
 	hideFooterSettings,
 }) => {
@@ -35,7 +35,7 @@ const DeleteNewsModal = ({
 			<Fragment key='body'>
 				<ContainerItems
 					className={`${BorderClasses['border-2']}`}
-					articleProps={articleProps}
+					blogProps={blogProps}
 					newsItem={newsItem}
 					setShowModal={setShowModal}
 					detailsType='content'

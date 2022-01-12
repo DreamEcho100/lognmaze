@@ -3,7 +3,7 @@ import Details from '@components/UI/V1/News/Details/Details';
 import NewsFooter from '@components/UI/V1/News/Footer';
 
 const ContainerItems = ({
-	articleProps = {},
+	blogProps = {},
 	newsItem,
 	isLoadingSkeleton,
 	detailsType,
@@ -15,7 +15,7 @@ const ContainerItems = ({
 	...props
 }) => {
 	return (
-		<article {...articleProps}>
+		<blog {...blogProps}>
 			<NewsHeader
 				newsItem={newsItem}
 				isLoadingSkeleton={isLoadingSkeleton}
@@ -38,7 +38,7 @@ const ContainerItems = ({
 				isLoadingSkeleton={isLoadingSkeleton}
 				isLoadingUserVote={isLoadingUserVote}
 			/>
-		</article>
+		</blog>
 	);
 };
 

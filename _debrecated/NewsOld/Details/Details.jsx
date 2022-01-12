@@ -20,7 +20,7 @@ const Details = ({
 
 	if (
 		isLoadingSkeleton ||
-		(newsItem.type === 'article' &&
+		(newsItem.type === 'blog' &&
 			detailsType === 'content' &&
 			newsItem.isLoadingContent)
 	) {
@@ -36,7 +36,7 @@ const Details = ({
 	}
 
 	if (detailsType === 'description') {
-		if (newsItem.type === 'article') {
+		if (newsItem.type === 'blog') {
 			return (
 				<>
 					<section className={classes.details}>

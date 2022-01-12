@@ -15,12 +15,12 @@ const CreateActionHeader = ({ newsType, setNewsType }) => {
 			<div className='buttons-holder'>
 				<Button
 					onClick={() => {
-						if (newsType !== 'article') {
-							setNewsType('article');
+						if (newsType !== 'blog') {
+							setNewsType('blog');
 						}
 					}}
 				>
-					Article
+					Blog
 				</Button>
 				<Button
 					onClick={() => {
@@ -58,7 +58,7 @@ const CreateActionBody = ({
 const CreateAction = ({ newsItemData = {}, showModal, setShowModal }) => {
 	const [userState, userDispatch] = useUserSharedState();
 	const [newsState, newsDispatch] = useNewsSharedState();
-	const [newsType, setNewsType] = useState('article');
+	const [newsType, setNewsType] = useState('blog');
 
 	const createNews = async ({ values }) => {
 		const result = await handleCreatingNewsItem({

@@ -5,7 +5,7 @@ import classes from './index.module.css';
 
 import CustomImage from '@components/UI/V1/Image';
 
-const NewsArticleInfo = ({
+const NewsBlogInfo = ({
 	newsItemData,
 	isLoadingSkeleton,
 	detailsType,
@@ -15,8 +15,8 @@ const NewsArticleInfo = ({
 
 	return (
 		<div>
-			{!router.query.slug && newsItemData?.type === 'article' ? (
-				<Link href={`/article/${newsItemData?.slug}`} prefetch={false} passHref>
+			{!router.query.slug && newsItemData?.type === 'blog' ? (
+				<Link href={`/blog/${newsItemData?.slug}`} prefetch={false} passHref>
 					<a
 						title={`${newsItemData?.type} | ${newsItemData?.title}`}
 						className={`${classes.title} ${
@@ -81,4 +81,4 @@ const NewsArticleInfo = ({
 	);
 };
 
-export default NewsArticleInfo;
+export default NewsBlogInfo;

@@ -3,7 +3,7 @@
 // import AdSense from 'react-adsense-ad';
 import AddsByGoogle from '@components/UI/V1/AddsByGoogle';
 
-const InsideArticleAd = () => {
+const InsideBlogAd = () => {
 	// useEffect(() => {
 	// 	try {
 	// 		(window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -24,10 +24,10 @@ const InsideArticleAd = () => {
 				// client='ca-pub-7292810486004926'
 				// slot='7806394673'
 				// style={{ display: 'block' }}
-				// layout='in-article'
+				// layout='in-blog'
 				// format='fluid'
 
-				className='adsbygoogle InsideArticleAd'
+				className='adsbygoogle InsideBlogAd'
 				client='ca-pub-8030984398568253'
 				slot='8883547056'
 				style={{
@@ -37,7 +37,7 @@ const InsideArticleAd = () => {
 					textAlign: 'center',
 					minWidth: '251px',
 				}}
-				layout='in-article'
+				layout='in-blog'
 				format='fluid'
 			/>
 		</section>
@@ -55,7 +55,7 @@ const InsideArticleAd = () => {
 				width: '100%',
 				textAlign: 'center',
 			}}
-			data-ad-layout='in-article'
+			data-ad-layout='in-blog'
 			data-ad-format='fluid'
 		/>
 	);
@@ -68,7 +68,7 @@ const InsideArticleAd = () => {
      crossorigin="anonymous"></script>
 			<ins class="adsbygoogle"
 					style="display:block; text-align:center;"
-					data-ad-layout="in-article"
+					data-ad-layout="in-blog"
 					data-ad-format="fluid"
 					data-ad-client="ca-pub-8030984398568253"
 					data-ad-slot="8883547056"
@@ -81,4 +81,4 @@ const InsideArticleAd = () => {
   */
 };
 
-export default InsideArticleAd;
+export default InsideBlogAd;

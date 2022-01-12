@@ -27,12 +27,12 @@ const Header = ({ action, newsType, setNewsType }) => {
 					<ul className={classes.ul}>
 						<li>
 							<Button
-								title='Article'
+								title='Blog'
 								onClick={() => {
-									if (newsType !== 'article') setNewsType('article');
+									if (newsType !== 'blog') setNewsType('blog');
 								}}
 							>
-								Article
+								Blog
 							</Button>
 						</li>
 						<li>

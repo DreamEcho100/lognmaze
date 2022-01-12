@@ -26,7 +26,7 @@ const CreateNewsButton = () => {
 				closeModal={() => setShowCreateNewsButtonModal(false)}
 				showModal={showCreateNewsButtonModal}
 				setShowModal={setShowCreateNewsButtonModal}
-				type='article'
+				type='blog'
 				action='create'
 			/>
 		</>

@@ -10,7 +10,7 @@ const api = async (req, res) => {
 			const { id } = req.query;
 
 			const result = await pool
-				.query('SELECT content FROM news_article WHERE news_article_id=$1', [
+				.query('SELECT content FROM news_blog WHERE news_blog_id=$1', [
 					id,
 				])
 				.then((response) => response.rows[0]);
@@ -26,7 +26,7 @@ const api = async (req, res) => {
 
 			res.status(200).json({
 				status: 'success',
-				message: 'The Article Content Arrived Successfully!, Enjoy ;)',
+				message: 'The Blog Content Arrived Successfully!, Enjoy ;)',
 				data: result,
 			});
 			return;

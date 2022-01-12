@@ -50,13 +50,13 @@ const NewsItem = ({
 		[defaultClasses, extraClasses, className]
 	);
 
-	const articleProps = useMemo(() => {
+	const blogProps = useMemo(() => {
 		if (newsItemData?.type) {
 			const obj = {
 				className: allClasses,
 			};
 
-			if (newsItemData?.type === 'article')
+			if (newsItemData?.type === 'blog')
 				obj.lang = `${newsItemData.iso_language}-${newsItemData.iso_country}`;
 
 			return obj;
@@ -105,7 +105,7 @@ const NewsItem = ({
 	]);
 
 	return (
-		<section {...articleProps}>
+		<section {...blogProps}>
 			{/* {Math.random()} */}
 			<Header
 				newsItemData={newsItemData}
@@ -120,7 +120,7 @@ const NewsItem = ({
 				detailsType={detailsType}
 				newsItemType={newsItemData.type}
 				details={
-					detailsType === 'description' && newsItemData.type === 'article'
+					detailsType === 'description' && newsItemData.type === 'blog'
 						? newsItemData.description
 						: newsItemData.content
 				}
@@ -135,7 +135,7 @@ const NewsItem = ({
 				<NewsItemModal
 					showModal={showModal}
 					setShowModal={setShowModal}
-					articleProps={articleProps}
+					blogProps={blogProps}
 					newsItemData={newsItemData}
 					// hideFooterSettings={hideFooterSettings}
 					detailsType='content'

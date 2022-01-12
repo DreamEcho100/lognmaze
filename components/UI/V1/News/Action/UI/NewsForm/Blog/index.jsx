@@ -19,7 +19,7 @@ const iso_countriesKeys = (() => {
 	return Object.keys(ISOCountryCodesCountriesISOCode);
 })();
 
-const NewsFormArticle = ({
+const NewsFormBlog = ({
 	newsItemData,
 	// setShowModal,
 	// isResettingInputsAfterSubmit, // = false,
@@ -157,16 +157,17 @@ const NewsFormArticle = ({
 						return setValues((prev) => ({
 							...prev,
 							[event.target.name]: event.target.value,
-							slug: actionType !== 'update' ?
-								event.target.value
-								.toLowerCase()
-								.replace(/[^\w\s-\_]/gi, '')
-								.split(/[\s-]+/)
-								.join('-')
-								.replace(/(\_{2,})/gi, '_')
-								.replace(/^[^\w]/gi, '')
-								.replace(/-$/, '') :
-								prev.slug,
+							slug:
+								actionType !== 'update'
+									? event.target.value
+											.toLowerCase()
+											.replace(/[^\w\s-\_]/gi, '')
+											.split(/[\s-]+/)
+											.join('-')
+											.replace(/(\_{2,})/gi, '_')
+											.replace(/^[^\w]/gi, '')
+											.replace(/-$/, '')
+									: prev.slug,
 						}));
 					}}
 					{...sharedInputProps({
@@ -346,4 +347,4 @@ const NewsFormArticle = ({
 	);
 };
 
-export default NewsFormArticle;
+export default NewsFormBlog;

@@ -36,7 +36,7 @@ const Container = ({
 		!!props.loadingUserVote
 	);
 
-	const articleProps = {
+	const blogProps = {
 		className: classes['container'],
 	};
 
@@ -47,8 +47,8 @@ const Container = ({
 		className,
 	});
 
-	if (newsItem?.type === 'article')
-		articleProps.lang = `${newsItem.iso_language}-${newsItem.iso_country}`;
+	if (newsItem?.type === 'blog')
+		blogProps.lang = `${newsItem.iso_language}-${newsItem.iso_country}`;
 
 	useEffect(() => {
 		if (showModal && !newsItem?.content && newsItem?.news_id) {
@@ -81,9 +81,9 @@ const Container = ({
 	return (
 		<>
 			<ContainerItems
-				articleProps={{
-					...articleProps,
-					className: `${allClasses} ${articleProps.className}`,
+				blogProps={{
+					...blogProps,
+					className: `${allClasses} ${blogProps.className}`,
 				}}
 				isLoadingSkeleton={isLoadingSkeleton}
 				newsItem={newsItem}
@@ -97,7 +97,7 @@ const Container = ({
 				<DynamicDeleteNewsModal
 					showModal={showModal}
 					setShowModal={setShowModal}
-					articleProps={articleProps}
+					blogProps={blogProps}
 					newsItem={newsItem}
 					hideFooterSettings={props.hideFooterSettings}
 				/>

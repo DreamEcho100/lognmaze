@@ -13,12 +13,12 @@ const PostHeader = ({ data }) => {
 
 	return (
 		<Head>
-			<meta property='og:type' content='article' />
-			<meta property='article:publisher' content={data.author_user_name_id} />
-			<meta property='article:author' content={data.author_user_name_id} />
-			<meta property='article:published_time' content={data.created_at} />
+			<meta property='og:type' content='blog' />
+			<meta property='blog:publisher' content={data.author_user_name_id} />
+			<meta property='blog:author' content={data.author_user_name_id} />
+			<meta property='blog:published_time' content={data.created_at} />
 			{data.created_at !== data.updated_at && (
-				<meta property='article:modified_time' content={data.updated_at} />
+				<meta property='blog:modified_time' content={data.updated_at} />
 			)}
 
 			<meta

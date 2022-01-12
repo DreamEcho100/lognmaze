@@ -5,7 +5,7 @@ import classes from './index.module.css';
 import Form from '@components/UI/V1/Form';
 import FormControl from '@components/UI/V1/FormControl';
 import Button from '@components/UI/V1/Button';
-import NewsFormArticle from './Article';
+import NewsFormBlog from './Blog';
 import NewsFormPost from './Post';
 
 const NewsForm = ({
@@ -63,7 +63,7 @@ const NewsForm = ({
 
 		const fieldsCheck = [];
 
-		if (newsItemData.type === 'article') {
+		if (newsItemData.type === 'blog') {
 			if (values.title.replace(/\s{2,}/g, '').length < 20)
 				fieldsCheck.push('Title is less than 25 characters.');
 			else if (values.title.replace(/\s{2,}/g, '').length > 120)
@@ -110,7 +110,7 @@ const NewsForm = ({
 		let result = {};
 
 		// if (actionType === 'create') {
-		// 	result = await createNews(values, 'article');
+		// 	result = await createNews(values, 'blog');
 		// } else if (actionType === 'update') {
 		// 	result = await updateNews(newsItemData.type, newsItemData, values);
 		// }
@@ -156,7 +156,7 @@ const NewsForm = ({
 
 	/*
 	useEffect(() => {
-		if (newsItemData.type === 'article') {
+		if (newsItemData.type === 'blog') {
 			setValues({
 				title: newsItemData?.title ? newsItemData.title : '',
 				slug: newsItemData?.slug ? newsItemData.slug : '',
@@ -189,8 +189,8 @@ const NewsForm = ({
 			onSubmit={handleSubmit}
 			className={classes.form}
 		>
-			{newsType === 'article' && (
-				<NewsFormArticle
+			{newsType === 'blog' && (
+				<NewsFormBlog
 					newsItemData={newsItemData}
 					setShowModal={setShowModal}
 					actionOnSubmit={actionOnSubmit}

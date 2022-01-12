@@ -2,38 +2,38 @@ import Head from 'next/head';
 
 import { NewsContextSharedProvider } from '@store/NewsContext';
 import { XMLCharactersEncoding } from '@lib/v1/regex';
-import { pool, getAllArticlesSlugs } from '@lib/v1/pg';
+import { pool, getAllBlogsSlugs } from '@lib/v1/pg';
 
 import OneNewsContent from '@components/OneNewsContent';
 
-const ArticleHead = ({ data = {} }) => {
+const BlogHead = ({ data = {} }) => {
 	const descriptionWithXMLCharactersEncoding = XMLCharactersEncoding(
 		data.description
 	);
 
 	return (
 		<Head>
-			<meta property='og:type' content='article' />
-			<meta property='article:publisher' content={data.author_user_name_id} />
-			<meta property='article:author' content={data.author_user_name_id} />
-			<meta property='article:published_time' content={data.created_at} />
+			<meta property='og:type' content='blog' />
+			<meta property='blog:publisher' content={data.author_user_name_id} />
+			<meta property='blog:author' content={data.author_user_name_id} />
+			<meta property='blog:published_time' content={data.created_at} />
 			{data.created_at !== data.updated_at && (
-				<meta property='article:modified_time' content={data.updated_at} />
+				<meta property='blog:modified_time' content={data.updated_at} />
 			)}
 
-			{data.slug && <link rel='canonical' href={`article/${data.slug}`} />}
+			{data.slug && <link rel='canonical' href={`blog/${data.slug}`} />}
 
 			<script
 				type='application/ld+json'
 				dangerouslySetInnerHTML={{
 					__html: JSON.stringify({
 						'@context': 'http://schema.org',
-						'@type': 'Article',
+						'@type': 'Blog',
 						headline: data.title,
 						alternativeHeadline: data.slug,
 						image: data.image,
 						author: data.author_user_name_id,
-						// award: 'Best article ever written',
+						// award: 'Best blog ever written',
 						// editor: 'Craig Mount',
 						genre: data.tags.join(' '),
 						keywords: data.tags.join(' '),
@@ -46,21 +46,21 @@ const ArticleHead = ({ data = {} }) => {
 								url: 'https://lognmaze.com/favicon.ico',
 							},
 						},
-						url: `https://lognmaze.com/article/${data.slug}`,
+						url: `https://lognmaze.com/blog/${data.slug}`,
 						mainEntityOfPage: {
 							'@type': 'WebPage',
-							'@id': 'https://google.com/article',
+							'@id': 'https://google.com/blog',
 						},
 						datePublished: data.created_at,
 						dateCreated: data.created_at,
 						dateModified: data.updated_at,
 						description: data.description,
-						articleBody: data.content,
+						blogBody: data.content,
 					}),
 				}}
 			/>
 
-			<meta property='article:tag' content={data.tags.join(',')} />
+			<meta property='blog:tag' content={data.tags.join(',')} />
 
 			<meta name='keywords' content={data.tags.join(',')} />
 
@@ -74,11 +74,11 @@ const ArticleHead = ({ data = {} }) => {
 
 			<meta
 				property='og:url'
-				content={`https://lognmaze.com/article/${data.slug}`}
+				content={`https://lognmaze.com/blog/${data.slug}`}
 			/>
 			<meta
 				name='twitter:url'
-				content={`https://lognmaze.com/article/${data.slug}`}
+				content={`https://lognmaze.com/blog/${data.slug}`}
 			/>
 
 			<meta
@@ -98,19 +98,19 @@ const ArticleHead = ({ data = {} }) => {
 	);
 };
 
-const ArticlePage = (props) => {
+const BlogPage = (props) => {
 	const data =
 		typeof props.data === 'string' ? JSON.parse(props.data) : props.data;
 
 	return (
 		<NewsContextSharedProvider>
-			<ArticleHead data={data} />
-			<OneNewsContent newsItemData={data} NewsHeader={ArticleHead} />
+			<BlogHead data={data} />
+			<OneNewsContent newsItemData={data} NewsHeader={BlogHead} />
 		</NewsContextSharedProvider>
 	);
 };
 
-export default ArticlePage;
+export default BlogPage;
 
 export const getStaticProps = async ({ params: { slug }, res }) => {
 	// const {
@@ -158,25 +158,25 @@ export const getStaticProps = async ({ params: { slug }, res }) => {
 							user_profile.profile_picture AS author_profile_picture,
 							user_profile.bio AS author_bio,
 
-							news_article.title,
-							news_article.slug,
-							news_article.iso_language,
-							news_article.iso_country,
-							news_article.image_alt,
-							news_article.image_src,
-							news_article.description,
-							news_article.content,
+							news_blog.title,
+							news_blog.slug,
+							news_blog.iso_language,
+							news_blog.iso_country,
+							news_blog.image_alt,
+							news_blog.image_src,
+							news_blog.description,
+							news_blog.content,
 
 							ARRAY (
 								SELECT news_tag.name AS tag
 								FROM news_tag
-								WHERE news_tag.news_id = news_article.news_article_id
+								WHERE news_tag.news_id = news_blog.news_blog_id
 							) AS tags
 					
 						FROM news
 						JOIN user_profile ON user_profile.user_profile_id = news.author_id
-						JOIN news_article ON news_article.news_article_id = news.news_id
-						WHERE news_article.slug = $1
+						JOIN news_blog ON news_blog.news_blog_id = news.news_id
+						WHERE news_blog.slug = $1
 						;
 					`,
 				[
@@ -221,7 +221,7 @@ export const getStaticProps = async ({ params: { slug }, res }) => {
 
 export const getStaticPaths = async () => {
 	try {
-		const result = await getAllArticlesSlugs();
+		const result = await getAllBlogsSlugs();
 
 		const paths = result.map((post) => ({
 			params: { slug: post.slug },

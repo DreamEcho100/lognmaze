@@ -19,7 +19,7 @@ const iso_countriesKeys = (() => {
 	return Object.keys(ISOCountryCodesCountriesISOCode);
 })();
 
-const NewsFormArticle = ({
+const NewsFormBlog = ({
 	newsItemData,
 	// setShowModal,
 	// isResettingInputsAfterSubmit, // = false,
@@ -103,4 +103,4 @@ const NewsFormArticle = ({
 	);
 };
 
-export default NewsFormArticle;
+export default NewsFormBlog;

@@ -29,7 +29,7 @@ CREATE TABLE user_profile (
   bio TEXT,
 
   news_post_counter BIGINT DEFAULT 0,
-  news_article_counter BIGINT DEFAULT 0,
+  news_blog_counter BIGINT DEFAULT 0,
 
   user_preferences JSONB DEFAULT '{}'::jsonb,
 
@@ -43,14 +43,14 @@ CREATE TABLE user_profile (
   UNIQUE(user_name_id),
 
   CONSTRAINT check_news_post_counter_min CHECK (news_post_counter >= 0),
-  CONSTRAINT check_news_article_counter_min CHECK (news_article_counter >= 0)
+  CONSTRAINT check_news_blog_counter_min CHECK (news_blog_counter >= 0)
 );
 
 -- ALTER TABLE user_profile
 -- ADD COLUMN news_post_counter BIGINT DEFAULT 0;
 
 -- ALTER TABLE user_profile
--- ADD COLUMN news_article_counter BIGINT DEFAULT 0;
+-- ADD COLUMN news_blog_counter BIGINT DEFAULT 0;
 
 -- ALTER TABLE user_profile 
 -- ADD CONSTRAINT check_news_post_counter_min 
@@ -59,9 +59,9 @@ CREATE TABLE user_profile (
 -- );
 
 -- ALTER TABLE user_profile 
--- ADD CONSTRAINT check_news_article_counter_min 
+-- ADD CONSTRAINT check_news_blog_counter_min 
 -- CHECK (
--- 	news_article_counter >= 0
+-- 	news_blog_counter >= 0
 -- );
 
 CREATE TABLE user_address (
@@ -146,9 +146,9 @@ CREATE TABLE news_post (
   FOREIGN KEY (news_post_id) REFERENCES news (news_id) ON DELETE CASCADE
 );
 
--- article Table
-CREATE TABLE news_article (
-  news_article_id uuid NOT NULL,
+-- blog Table
+CREATE TABLE news_blog (
+  news_blog_id uuid NOT NULL,
 
   title TEXT NOT NULL,
   slug TEXT NOT NULL,
@@ -160,9 +160,9 @@ CREATE TABLE news_article (
 
   content TEXT NOT NULL,
 
-  PRIMARY KEY (news_article_id),
+  PRIMARY KEY (news_blog_id),
 
-  FOREIGN KEY (news_article_id) REFERENCES news (news_id) ON DELETE CASCADE,
+  FOREIGN KEY (news_blog_id) REFERENCES news (news_id) ON DELETE CASCADE,
 
   UNIQUE(slug)
 );
@@ -257,7 +257,7 @@ news_comment_main_reply,
 news_comment_main,
 news_comment,
 news_vote,
-news_article,
+news_blog,
 news_post,
 news_tag,
 tag,

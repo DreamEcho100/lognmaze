@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const IsReturnedInP = ({ newsItemType, description }) =>
-	newsItemType === 'article' ? (
+	newsItemType === 'blog' ? (
 		<>{description}</>
 	) : (
 		<p

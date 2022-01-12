@@ -122,22 +122,22 @@ const MyApp = ({ Component, pageProps }) => {
 
 				<meta
 					property='og:description'
-					content='Create articles in Markdown and share them in your different social media platform'
+					content='Create blogs in Markdown and share them in your different social media platform'
 				/>
 				<meta
 					name='description'
-					content='Create articles in Markdown and share them in your different social media platform'
+					content='Create blogs in Markdown and share them in your different social media platform'
 				/>
 				<meta
 					name='twitter:title'
-					content='LogNMaze | Create articles using Markdown and share to the world'
+					content='LogNMaze | Create blogs using Markdown and share to the world'
 				/>
 				<meta
 					property='og:title'
-					content='LogNMaze | Create articles using Markdown and share to the world'
+					content='LogNMaze | Create blogs using Markdown and share to the world'
 				/>
 				<title>
-					LogNMaze | Create articles using Markdown and share to the world
+					LogNMaze | Create blogs using Markdown and share to the world
 				</title>
 			</Head>
 			<Layout isAuthenticated={pageProps.isAuthenticated}>

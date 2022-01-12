@@ -2,7 +2,7 @@
 // https://tuomokankaanpaa.com/blog/nextjs-seo-how-to-add-sitemap-and-robots-txt
 // https://cheatcode.co/tutorials/how-to-generate-a-dynamic-sitemap-with-next-js
 
-import { getAllArticlesSlugs, getAllUsersNameId } from '@lib/v1/pg';
+import { getAllBlogsSlugs, getAllUsersNameId } from '@lib/v1/pg';
 import { SitemapStream, streamToPromise } from 'sitemap';
 import { Readable } from 'stream';
 
@@ -19,10 +19,10 @@ export const getServerSideProps = async ({ res, req }) => {
 		},
 	];
 
-	await getAllArticlesSlugs().then((articles = []) => {
-		articles.map((article) => {
+	await getAllBlogsSlugs().then((blogs = []) => {
+		blogs.map((blog) => {
 			links.push({
-				url: `/article/${article.slug}`,
+				url: `/blog/${blog.slug}`,
 				lastmod: new Date().toISOString(),
 				changefreq: 'weekly',
 				priority: 0.9,

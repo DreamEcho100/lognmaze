@@ -23,7 +23,7 @@ const Auth = ({
 							'@type': 'WebPage',
 							name: 'Sign in/up',
 							description:
-								'Sign in/up to LogNMaze | Create blogs, articles using Markdown and share them in your social media',
+								'Sign in/up to LogNMaze | Create blogs, blogs using Markdown and share them in your social media',
 							publisher: {
 								'@type': 'ProfilePage',
 								name: 'LogNMaze Website',
@@ -37,31 +37,31 @@ const Auth = ({
 
 				<meta
 					property='twitter:description'
-					content='Sign in/up to LogNMaze | Create blogs, articles using Markdown and share them in
+					content='Sign in/up to LogNMaze | Create blogs, blogs using Markdown and share them in
 				your social media'
 				/>
 				<meta
 					property='og:description'
-					content='Sign in/up to LogNMaze | Create blogs, articles using Markdown and share them in
+					content='Sign in/up to LogNMaze | Create blogs, blogs using Markdown and share them in
 				your social media'
 				/>
 				<meta
 					name='description'
-					content='Sign in/up to | LogNMaze | Create blogs, articles using Markdown and share them in
+					content='Sign in/up to | LogNMaze | Create blogs, blogs using Markdown and share them in
 				your social media'
 				/>
 
 				<meta
 					property='twitter:title'
-					content='Sign in/up | LogNMaze | Create articles using Markdown and share to the world'
+					content='Sign in/up | LogNMaze | Create blogs using Markdown and share to the world'
 				/>
 				<meta
 					property='og:title'
-					content='Sign in/up | LogNMaze | Create articles using Markdown and share to the world'
+					content='Sign in/up | LogNMaze | Create blogs using Markdown and share to the world'
 				/>
 				<title>
-					Sign in/up | LogNMaze | Create articles using Markdown and share to
-					the world
+					Sign in/up | LogNMaze | Create blogs using Markdown and share to the
+					world
 				</title>
 			</Head>
 			<header className={classes.header}>

@@ -15,12 +15,12 @@ const UpdateActionHeader = () => {
 			{/* <div className='buttons-holder'>
 				<Button
 					onClick={() => {
-						if (newsType !== 'article') {
-							setNewsType('article');
+						if (newsType !== 'blog') {
+							setNewsType('blog');
 						}
 					}}
 				>
-					Article
+					Blog
 				</Button>
 				<Button
 					onClick={() => {

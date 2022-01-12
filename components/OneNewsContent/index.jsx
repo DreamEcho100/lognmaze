@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { Fragment, useCallback, useEffect } from 'react';
 
 import { useNewsSharedState } from '@store/NewsContext';
 import { handleAddingNewsFirstTime } from '@store/NewsContext/actions';
@@ -24,12 +24,12 @@ const OneNewsContent = ({ newsItemData = {}, NewsHeader }) => {
 	}, [CBHandleAddingNewsFirstTime]);
 
 	return newsState.news.map((item, index) => (
-		<>
-			{
-				NewsHeader && (newsState.news[0]?.type === 'article' || newsState.news[0]?.type === 'post') ?
-					<NewsHeader data={newsState.news[0]} /> :
-					null
-			} 
+		<Fragment key={`${index}-${item.id}`}>
+			{NewsHeader &&
+			(newsState.news[0]?.type === 'blog' ||
+				newsState.news[0]?.type === 'post') ? (
+				<NewsHeader data={newsState.news[0]} />
+			) : null}
 			<main
 				className='main'
 				key={`OneNewsContent-${index}-${newsState.news[0]?.news_id}`}
@@ -50,7 +50,7 @@ const OneNewsContent = ({ newsItemData = {}, NewsHeader }) => {
 					/>
 				</Wrapper>
 			</main>
-		</>
+		</Fragment>
 	));
 };
 

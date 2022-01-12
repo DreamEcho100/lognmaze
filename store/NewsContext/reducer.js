@@ -15,7 +15,7 @@ const reducer = (state, action) => {
 						parseInt(newsItem.comments_counter) === 0 ? true : false,
 				};
 
-				if (newsItem.type === 'article' && !newsItem.content) {
+				if (newsItem.type === 'blog' && !newsItem.content) {
 					toAdd.isLoadingContent = true;
 				}
 
@@ -59,7 +59,7 @@ const reducer = (state, action) => {
 							parseInt(newsItem.comments_counter) === 0 ? true : false,
 					};
 
-					if (newsItem.type === 'article' && !newsItem.content) {
+					if (newsItem.type === 'blog' && !newsItem.content) {
 						toAdd.isLoadingContent = true;
 					}
 

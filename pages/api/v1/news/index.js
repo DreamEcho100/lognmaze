@@ -18,17 +18,17 @@ const api = async (req, res) => {
 	try {
 		if (req.method === 'GET') {
 			const {
-				with_news_article_content,
+				with_news_blog_content,
 				voter_id,
 				last_news_item_created_at,
 				filter_by_user_id,
-				filterByArticleTagsOr,
-				filterByArticleTagsAnd,
+				filterByBlogTagsOr,
+				filterByBlogTagsAnd,
 			} = req.query;
 
 			const queryParams = [];
 			let whereClause = 'WHERE type_data IS NOT NULL';
-			let articleTagsJoinCondition = 'TRUE';
+			let blogTagsJoinCondition = 'TRUE';
 			let voter_id_index = '';
 
 			if (last_news_item_created_at) {
@@ -46,21 +46,21 @@ const api = async (req, res) => {
 				voter_id_index = queryParams.length;
 			}
 
-			if (filterByArticleTagsOr) {
-				queryParams.push(filterByArticleTagsOr.split(','));
-				if (articleTagsJoinCondition === 'TRUE') {
-					articleTagsJoinCondition = `tags_agg.tags && $${queryParams.length}`;
+			if (filterByBlogTagsOr) {
+				queryParams.push(filterByBlogTagsOr.split(','));
+				if (blogTagsJoinCondition === 'TRUE') {
+					blogTagsJoinCondition = `tags_agg.tags && $${queryParams.length}`;
 				} else {
-					articleTagsJoinCondition += `AND tags_agg.tags && $${queryParams.length}`;
+					blogTagsJoinCondition += `AND tags_agg.tags && $${queryParams.length}`;
 				}
 			}
 
-			if (filterByArticleTagsAnd) {
-				queryParams.push(filterByArticleTagsAnd.split(','));
-				if (articleTagsJoinCondition === 'TRUE') {
-					articleTagsJoinCondition = `tags_agg.tags <@ $${queryParams.length}`;
+			if (filterByBlogTagsAnd) {
+				queryParams.push(filterByBlogTagsAnd.split(','));
+				if (blogTagsJoinCondition === 'TRUE') {
+					blogTagsJoinCondition = `tags_agg.tags <@ $${queryParams.length}`;
 				} else {
-					articleTagsJoinCondition += `AND tags_agg.tags <@ $${queryParams.length}`;
+					blogTagsJoinCondition += `AND tags_agg.tags <@ $${queryParams.length}`;
 				}
 			}
 
@@ -90,30 +90,30 @@ const api = async (req, res) => {
 					FROM news
 					JOIN user_profile ON user_profile.user_profile_id = news.author_id
 					JOIN LATERAL (
-						SELECT (CASE WHEN news.type = 'article' THEN (
+						SELECT (CASE WHEN news.type = 'blog' THEN (
 							SELECT
 								json_build_object(
-									'title', news_article.title,
-									'slug', news_article.slug,
-									'iso_language', news_article.iso_language,
-									'iso_country', news_article.iso_country,
-									'image_alt', news_article.image_alt,
-									'image_src', news_article.image_src,
-									'description', news_article.description,
-									${with_news_article_content ? "'content', news_article.content," : ''}
+									'title', news_blog.title,
+									'slug', news_blog.slug,
+									'iso_language', news_blog.iso_language,
+									'iso_country', news_blog.iso_country,
+									'image_alt', news_blog.image_alt,
+									'image_src', news_blog.image_src,
+									'description', news_blog.description,
+									${with_news_blog_content ? "'content', news_blog.content," : ''}
 									'tags', tags_agg.tags
 								) AS type_data
 
-							FROM news_article
+							FROM news_blog
 							INNER JOIN LATERAL (
 								SELECT ARRAY (
 									SELECT news_tag.name AS tag
 									FROM news_tag
-									WHERE news_tag.news_id = news_article.news_article_id
+									WHERE news_tag.news_id = news_blog.news_blog_id
 									GROUP BY name
 									) AS tags
-							) tags_agg ON ${articleTagsJoinCondition}
-							WHERE news_article.news_article_id = news.news_id
+							) tags_agg ON ${blogTagsJoinCondition}
+							WHERE news_blog.news_blog_id = news.news_id
 						) ELSE (
 							SELECT json_build_object( 'content', news_post.content) AS type_data FROM news_post WHERE news_post_id = news_id
 						) END)
@@ -174,7 +174,7 @@ const api = async (req, res) => {
 				.then(async (response) => {
 					news_id_to_delete = response.rows[0].news_id;
 
-					if (type === 'article') {
+					if (type === 'blog') {
 						const params = [
 							response.rows[0].news_id,
 							news_data.title,
@@ -201,10 +201,10 @@ const api = async (req, res) => {
 
 						const sqlQuery = `
 							WITH insert_items_1 AS (
-								INSERT INTO news_article 
-								(news_article_id, title, slug, iso_language, iso_country, image_alt, image_src, description, content)
+								INSERT INTO news_blog 
+								(news_blog_id, title, slug, iso_language, iso_country, image_alt, image_src, description, content)
 								VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-								RETURNING news_article_id
+								RETURNING news_blog_id
 							),
 							upsert_items_1 AS (
 								INSERT INTO tag (name) 
@@ -219,14 +219,14 @@ const api = async (req, res) => {
 								VALUES ($1,${tagsToInsertStringValue.join('),($1,')})
 								RETURNING news_tag_id
 							),
-							update_news_article_counter_on_user_profile AS (
-								UPDATE user_profile SET news_article_counter = news_article_counter + 1
+							update_news_blog_counter_on_user_profile AS (
+								UPDATE user_profile SET news_blog_counter = news_blog_counter + 1
 								WHERE user_profile_id = ($${params.length})
 								RETURNING user_profile_id
 							)
 
-							SELECT news_article_id, name, news_tag_id user_profile_id
-							FROM insert_items_1, upsert_items_1, insert_items_2, update_news_article_counter_on_user_profile
+							SELECT news_blog_id, name, news_tag_id user_profile_id
+							FROM insert_items_1, upsert_items_1, insert_items_2, update_news_blog_counter_on_user_profile
 						`;
 
 						const response2 = await pool.query(sqlQuery, params);
@@ -289,7 +289,7 @@ const api = async (req, res) => {
 				new Date().toUTCString(),
 			];
 
-			if (type === 'article') {
+			if (type === 'blog') {
 				const newsDataToUpdate = [];
 				let item;
 				for (item in req.body.news_data) {
@@ -300,9 +300,9 @@ const api = async (req, res) => {
 				if (newsDataToUpdate.length !== 0) {
 					cte.push(`
 						update_item_2 AS (
-							UPDATE news_article SET ${newsDataToUpdate.join(',')}
-							WHERE news_article_id = ($1)
-							RETURNING  news_article_id
+							UPDATE news_blog SET ${newsDataToUpdate.join(',')}
+							WHERE news_blog_id = ($1)
+							RETURNING  news_blog_id
 						)
 					`);
 					cteNames.push('update_item_2');
@@ -310,13 +310,13 @@ const api = async (req, res) => {
 
 				const { tags } = req.body;
 
-				const tagsAdded = tags?.added?.length !== 0 ? [...new Set(tags.added)] : [];
-				const tagsRemoved = tags?.removed?.length !== 0
-					? [...new Set(tags.removed)]
-					: [];
+				const tagsAdded =
+					tags?.added?.length !== 0 ? [...new Set(tags.added)] : [];
+				const tagsRemoved =
+					tags?.removed?.length !== 0 ? [...new Set(tags.removed)] : [];
 
-					// console.log('tagsAdded', tagsAdded);
-					// console.log('tagsRemoved', tagsRemoved);
+				// console.log('tagsAdded', tagsAdded);
+				// console.log('tagsRemoved', tagsRemoved);
 
 				let startIndex = 0;
 
@@ -483,7 +483,7 @@ const api = async (req, res) => {
 				)
 				.then((response) => response.rows[0]);
 
-			if (result.type === 'article') {
+			if (result.type === 'blog') {
 				const result2 = await pool
 					.query(
 						`

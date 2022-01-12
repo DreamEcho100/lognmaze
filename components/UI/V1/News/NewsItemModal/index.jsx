@@ -10,7 +10,7 @@ import NewsItem from '../Item';
 const NewsItemsModal = ({
 	showModal,
 	setShowModal,
-	articleProps,
+	blogProps,
 	newsItemData,
 	hideFooterSettings,
 }) => {
@@ -36,7 +36,7 @@ const NewsItemsModal = ({
 			<Fragment key='body'>
 				<NewsItem
 					className={`${classes.NewsItem} ${BorderClasses['border-2']}`}
-					articleProps={articleProps}
+					blogProps={blogProps}
 					newsItemData={newsItemData}
 					setShowModal={setShowModal}
 					detailsType='content'

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import classes from './Article.module.css';
+import classes from './Blog.module.css';
 
 import ISO639_1LanguageCodes from '@data/ISO639_1LanguageCodes.json';
 import ISOCountryCodesCountriesISOCode from '@data/ISOCountryCodesCountriesISOCode.json';
@@ -22,13 +22,7 @@ const iso_countriesKeys = (() => {
 	return Object.keys(ISOCountryCodesCountriesISOCode);
 })();
 
-const Article = ({
-	closeModal,
-	createNews,
-	updateNews,
-	actionType,
-	newsItem,
-}) => {
+const Blog = ({ closeModal, createNews, updateNews, actionType, newsItem }) => {
 	const [values, setValues] = useState({
 		title: newsItem && newsItem.title ? newsItem.title : '',
 		slug: newsItem && newsItem.slug ? newsItem.slug : '',
@@ -117,7 +111,7 @@ const Article = ({
 		let result = {};
 
 		if (actionType === 'create') {
-			result = await createNews(values, 'article');
+			result = await createNews(values, 'blog');
 		} else if (actionType === 'update') {
 			result = await updateNews(newsItem.type, newsItem, values);
 		}
@@ -401,4 +395,4 @@ const Article = ({
 	);
 };
 
-export default Article;
+export default Blog;

@@ -8,7 +8,7 @@ import {
 import { useUserSharedState } from '@store/UserContext';
 
 import ModalContainer from './ModalContainer/ModalContainer';
-import Article from './Article/Article';
+import Blog from './Blog/Blog';
 import Post from './Post/Post';
 import Modal from '@components/UI/V1/Modal';
 import Button from '@components/UI/V1/Button';
@@ -90,8 +90,8 @@ const Action = ({
 					setNewsType,
 				}}
 			>
-				{newsType === 'article' && (
-					<Article
+				{newsType === 'blog' && (
+					<Blog
 						closeModal={closeModal}
 						newsItem={newsItem}
 						createNews={createNews}

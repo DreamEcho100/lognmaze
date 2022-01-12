@@ -51,12 +51,12 @@ const Header = ({
 					isLoadingSkeleton={isLoadingSkeleton}
 				/>
 
-				{(isLoadingSkeleton || newsItem?.type === 'article') && (
+				{(isLoadingSkeleton || newsItem?.type === 'blog') && (
 					<>
 						<div className=''>
-							{!router.query.slug && newsItem?.type === 'article' ? (
+							{!router.query.slug && newsItem?.type === 'blog' ? (
 								<Link
-									href={`/article/${newsItem?.slug}`}
+									href={`/blog/${newsItem?.slug}`}
 									prefetch={false}
 									passHref
 								>

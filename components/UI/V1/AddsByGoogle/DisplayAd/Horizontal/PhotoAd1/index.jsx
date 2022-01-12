@@ -17,7 +17,7 @@ const HorizontalPhotoAd1 = () => {
 			// client='ca-pub-7292810486004926'
 			// slot='7806394673'
 			// style={{ display: 'block' }}
-			// layout='in-article'
+			// layout='in-blog'
 			// format='fluid'
 
 			className='adsbygoogle PhotoAdd1'

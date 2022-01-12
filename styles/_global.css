@@ -87,7 +87,7 @@ select {
 }
 
 /* HTML5 display-role reset for older browsers */
-*:where(article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section) {
+*:where(blog, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section) {
 	display: block;
 }
 
@@ -160,11 +160,11 @@ h5,
 h6 {
 	font-weight: bold;
 	color: inherit;
-  /* font-size: 1em; */
-  line-height: inherit;
-  margin: 0;
-  padding: 0;
-  vertical-align: baseline;
+	/* font-size: 1em; */
+	line-height: inherit;
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
 }
 
 ol,

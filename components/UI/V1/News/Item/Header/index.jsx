@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useUserSharedState } from '@store/UserContext';
 import Nav from './Nav';
 import TimeAndDate from './TimeAndDate';
-import NewsArticleInfo from './NewsArticleInfo';
+import NewsBlogInfo from './NewsBlogInfo';
 
 const NewsHeader = ({
 	newsItemData,
@@ -40,8 +40,8 @@ const NewsHeader = ({
 					updated_at={newsItemData?.updated_at}
 					isLoadingSkeleton={isLoadingSkeleton}
 				/>
-				{newsItemData.type === 'article' && (
-					<NewsArticleInfo
+				{newsItemData.type === 'blog' && (
+					<NewsBlogInfo
 						newsItemData={newsItemData}
 						isLoadingSkeleton={isLoadingSkeleton}
 						detailsType={detailsType}

@@ -77,7 +77,7 @@ const api = async (req, res) => {
 									profile_picture,
 									cover_photo,
 									bio,
-									news_article_counter,
+									news_blog_counter,
 									news_post_counter,
 									created_at,
 									last_sign_in
