@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 
-import classes from './index.module.css';
+// import classes from './index.module.css';
 
 import Modal from '@components/UI/V1/Modal';
 import FormatConvertor from '@components/UI/V1/FormatConvertor';

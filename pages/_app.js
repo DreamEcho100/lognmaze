@@ -123,6 +123,31 @@ const MyApp = ({ Component, pageProps }) => {
 
 				<meta property='og:url' content='https://lognmaze.com/' />
 				<meta name='twitter:url' content='https://lognmaze.com/' />
+
+				<meta
+					name='twitter:description'
+					content='Create blogs in Markdown and share them in your different social media platform'
+				/>
+				<meta
+					property='og:description'
+					content='Create blogs in Markdown and share them in your different social media platform'
+				/>
+				<meta
+					name='description'
+					content='Create blogs in Markdown and share them in your different social media platform'
+				/>
+
+				<meta
+					name='twitter:title'
+					content='LogNMaze | Create blogs using Markdown and share to the world'
+				/>
+				<meta
+					property='og:title'
+					content='LogNMaze | Create blogs using Markdown and share to the world'
+				/>
+				<title>
+					LogNMaze | Create blogs using Markdown and share to the world
+				</title>
 			</Head>
 			<Layout isAuthenticated={pageProps.isAuthenticated}>
 				<Component {...pageProps} />

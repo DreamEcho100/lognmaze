@@ -14,7 +14,9 @@ const FormatConvertor = ({
 	id = content,
 	...props
 }) => {
-	const [values, setValues] = useState({ content: '' });
+	const [values, setValues] = useState({
+		[name]: props.values && props.setValues ? props.values[name] : '',
+	});
 
 	return (
 		<main className={classes.main}>

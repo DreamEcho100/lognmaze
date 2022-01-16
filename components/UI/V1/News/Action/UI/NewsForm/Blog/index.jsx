@@ -145,6 +145,14 @@ const NewsFormBlog = ({
 		});
 	}, [setValues, newsItemData]);
 
+	// const onCloseModel = (show) => (content) => {
+	// 	setValues(state => ({
+	// 		...state,
+	// 		content
+	// 	}))
+	// 	setShowFormatConvertorModal(show);
+	// }
+
 	return (
 		<>
 			<FormControl>
