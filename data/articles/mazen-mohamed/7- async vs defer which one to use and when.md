@@ -1,14 +1,14 @@
 ---
 title: async vs defer which one to use and when
 tags: javascript async vs defer
-image_alt: the difference bettween async and defer
+image_alt: the difference between async and defer
 image_src: https://res.cloudinary.com/josefzacek/image/upload/v1520507339/blog/whats-the-difference-between-async-vs-defer-attributes.jpg
-description: both async and defer attributes downloaded the external script in parallel to parsing the page, but the difference is in there execution time
+description: both async and defer attributes downloaded the external script in parallel to parsing the page, but the difference is in their execution time
 ---
 
 The `<script>` tag when executes it is downloaded and executed immediately, blocking parsing until the script is completed
 
-But, there are two attributes (`async`, `defer`) which will change it's download time and/or execute time.
+But, there are two attributes (`async`, `defer`) that will change its download time and/or execute time.
 
 > The `async` and the `defer` attributes are only for **external scripts** (and should only be used if the `src` attribute is present).
 
@@ -16,7 +16,7 @@ But, there are two attributes (`async`, `defer`) which will change it's download
 
 The `async` attribute is **a boolean attribute**, if the `async` attribute is set, **the script is downloaded in parallel to parsing the page**, and **_executed as soon as it is available_**. **The parsing of the page is interrupted** _(The rendering)_ **once the script is downloaded completely**, and then **_the script is executed, before the parsing of the rest of the page continues_**.
 
-> Parsing means taking the html stream and producing a document object. Rendering (and painting, i.e. showing up on the screen).
+> Parsing means taking the HTML stream and producing a document object. Rendering (and painting, i.e. showing up on the screen).
 
 ```js
 <script src='script.js' async></script>
@@ -44,7 +44,7 @@ So you can use it for:
 
 - The script **doesn’t need** the **DOM** _(example: analytics, global store for variables)_.
 
-- The script **doesn’t depend** on other scripts.
+- The script **doesn’t depend on** on other scripts.
 
 ### When to use defer attribute?
 
