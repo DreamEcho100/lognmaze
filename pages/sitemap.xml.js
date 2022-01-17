@@ -23,7 +23,9 @@ export const getServerSideProps = async ({ res, req }) => {
 		blogs.map((blog) => {
 			links.push({
 				url: `/blog/${blog.slug}`,
-				lastmod: new Date().toISOString(),
+				lastmod: blogs.updated_at
+					? new Date(blogs.updated_at).toISOString()
+					: new Date().toISOString(),
 				changefreq: 'weekly',
 				priority: 0.9,
 			});
