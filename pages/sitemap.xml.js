@@ -24,8 +24,8 @@ export const getServerSideProps = async ({ res, req }) => {
 			links.push({
 				url: `/blog/${blog.slug}`,
 				lastmod:
-					blogs.updated_at || blogs.created_at
-						? new Date(blogs.updated_at || blogs.created_at).toISOString()
+					blog.updated_at || blog.created_at
+						? new Date(blog.updated_at || blog.created_at).toISOString()
 						: new Date().toISOString(),
 				changefreq: 'weekly',
 				priority: 0.9,
