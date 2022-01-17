@@ -28,7 +28,7 @@ export default obj;
 // 	types: {},
 // });
 
-// export const NewsContextProvider = ({ children }) => {
+// export const NewsContextSharedProvider = ({ children }) => {
 // 	const [state, dispatch] = useReducer(reducer, initialState);
 
 // 	const stateContext = useMemo(
@@ -46,6 +46,12 @@ export default obj;
 // 	return (
 // 		<NewsContext.Provider value={stateContext}>{children}</NewsContext.Provider>
 // 	);
+// };
+
+// export const useNewsSharedState = () => {
+//   const value = useContext(NewsContext);
+//   if (value === null) throw new Error('Please add NewsContextSharedProvider');
+//   return value;
 // };
 
 // export default NewsContext;

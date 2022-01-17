@@ -157,9 +157,15 @@ const ChangeUserPasswordModal = ({
 
 					<div>{AfterFormSubmitMessage}</div>
 
-					<Button title='Submit Form' disabled={buttonsDisabled} type='submit'>
-						Submit
-					</Button>
+					<FormControl>
+						<Button
+							title='Submit Form'
+							disabled={buttonsDisabled}
+							type='submit'
+						>
+							Submit
+						</Button>
+					</FormControl>
 				</Form>
 			</Fragment>
 		</Modal>

@@ -51,7 +51,7 @@ export default obj;
 // 	);
 // };
 
-// export const useSharedState = () => {
+// export const useUserSharedState = () => {
 //   const value = useContext(UserContext);
 //   if (value === null) throw new Error('Please add UserContextSharedProvider');
 //   return value;

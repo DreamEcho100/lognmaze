@@ -144,9 +144,11 @@ const ChangeUserNameModal = ({
 
 					<div>{AfterFormSubmitMessage}</div>
 
-					<Button title='Submit Form' disabled={btnsDisabled} type='submit'>
-						Submit
-					</Button>
+					<FormControl>
+						<Button title='Submit Form' disabled={btnsDisabled} type='submit'>
+							Submit
+						</Button>
+					</FormControl>
 				</Form>
 			</Fragment>
 		</Modal>
