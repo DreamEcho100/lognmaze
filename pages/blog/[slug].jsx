@@ -2,7 +2,7 @@ import Head from 'next/head';
 
 import { NewsContextSharedProvider } from '@store/NewsContext';
 import { XMLCharactersEncoding } from '@lib/v1/regex';
-import { pool, getAllBlogsSlugs } from '@lib/v1/pg';
+import { pool } from '@lib/v1/pg';
 
 import OneNewsContent from '@components/OneNewsContent';
 
@@ -113,24 +113,8 @@ const BlogPage = (props) => {
 export default BlogPage;
 
 export const getStaticProps = async ({ params: { slug }, res }) => {
-	// const {
-	// 	params: { slug },
-	// 	res,
-	// } = context;
-
-	// const slugsToReplace = {
-	// 	'basic-guide-to-jsonb-in-postgresql':
-	// 		'basic-guide-to-json-in-postgresql-jsonb',
-	// 	'basic-guide-to-json-in-postgresql':
-	// 		'basic-guide-to-json-in-postgresql-jsonb',
-	// 	'full-guide-to-cookies-and-javascript-clint-side':
-	// 		'full-guide-to-cookies-and-javascript-client-side',
-	// };
-
 	try {
 		if (!slug) {
-			// res.statusCode = 404;
-
 			return {
 				props: {
 					data: {},
@@ -221,11 +205,13 @@ export const getStaticProps = async ({ params: { slug }, res }) => {
 
 export const getStaticPaths = async () => {
 	try {
-		const result = await getAllBlogsSlugs();
-
-		const paths = result.map((post) => ({
-			params: { slug: post.slug },
-		}));
+		const paths = await pool
+			.query('SELECT slug FROM news_blog')
+			.then((response) =>
+				response.rows.map((post) => ({
+					params: { slug: post.slug },
+				}))
+			);
 
 		return {
 			paths,
