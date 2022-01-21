@@ -44,9 +44,21 @@
 │   │   ├── __tests__/               #
 │   │   │   ├── ...                  # examples:
 │   │   │   └── ...                  #  (invoices.test.ts tasks.test.ts).
+│   ├── storage/                     #
+│   │   ├── constants                 # Pure functions of business logic.
+│   │   │   ├── index.ts             #
+│   │   │   ├── ...                  #
+│   │   │   └── ...                  #
 │   │   ├── index.ts                 # Pure functions of business logic.
-│   │   ├── ...                      # examples:
-│   │   └── ...                      #  for 'invoices' domain 'tasks' domain.
+│   │   ├── pgDB/                    # examples:
+│   │   │   ├── config.ts            #  for handling the database, constants, etc.
+│   │   │   ├── index.ts             #
+│   │   │   ├── news.ts              #
+│   │   │   ├── users.ts             #
+│   │   │   ├── ...                  #
+│   │   │   └── ...                  #
+│   │   ├── ...                      #
+│   │   └── ...                      #
 │   ├── network/                     #
 │   │   ├── index.ts                 # examples:
 │   │   ├── ...                      #  (httpClient.ts, websocketHandler.ts).
@@ -55,20 +67,19 @@
 │   │   ├── index.ts                 #
 │   │   ├── cookie.ts                #
 │   │   ├── localStorage.ts          #
-│   │   ├── pgDB/                    #
-│   │   │   ├── connection.ts        #
-│   │   │   ├── index.ts             #
-│   │   │   ├── news.ts              #
-│   │   │   ├── users.ts             #
-│   │   │   ├── ...                  #
-│   │   │   └── ...                  #
+│   │   ├── ...                      #
+│   │   └── ...                      #
+│   ├── date/                        #
+│   │   ├── index.ts                 #
+│   │   ├── ...                      #
+│   │   └── ...                      #
+│   ├── array/                       #
+│   │   ├── index.ts                 #
 │   │   ├── ...                      #
 │   │   └── ...                      #
 │   ├── formatters/                  #
 │   │   ├── index.ts                 #
-│   │   ├── array.ts                 #
 │   │   ├── className.ts             #
-│   │   ├── date.ts                  #
 │   │   ├── money.ts                 #
 │   │   ├── ...                      #
 │   │   └── ...                      #
@@ -154,8 +165,100 @@
 └── ...                              #
 ```
 
-## Inspired from:
+## hooks
 
--  [React Project Layout](https://blog.testdouble.com/posts/2021-11-30-tdr-project-layout/)
+### Fetch
+
+Credit to [5 React Architecture Best Practices](https://www.sitepoint.com/react-architecture-best-practices/)
+
+```jsx
+import { useEffect, useState } from 'react';
+
+const Fetch = ({ render, url }) => {
+	const [state, setState] = useState({
+		data: {},
+		isLoading: false,
+	});
+
+	useEffect(() => {
+		setState({ data: {}, isLoading: true });
+
+		const _fetch = async () => {
+			const res = await fetch(url);
+			const json = await res.json();
+
+			setState({
+				data: json,
+				isLoading: false,
+			});
+		};
+
+		_fetch();
+	}, url);
+
+	return render(state);
+};
+
+const Example = () => {
+	return (
+		<Fetch
+			url='https://api.github.com/users/imgly/repos'
+			render={({ data, isLoading }) => (
+				<div>
+					<h2>img.ly repos</h2>
+					{isLoading && <h2>Loading...</h2>}
+
+					<ul>
+						{data.length > 0 &&
+							data.map((repo) => <li key={repo.id}>{repo.full_name}</li>)}
+					</ul>
+				</div>
+			)}
+		/>
+	);
+};
+
+export default Example;
+```
+
+### Imperative Set Timeout
+
+Credit to [Thanks React, I'm fine with an imperative setInterval](https://thoughtspile.github.io/2021/10/13/really-declarative/)
+
+```jsx
+const useImperativeTimeout(callback, delay) => {
+ const timeoutId = useRef(null);
+ const savedCallback = useRef();
+
+ // Remember the latest callback.
+ useEffect(() => {
+  savedCallback.current = callback;
+ }, [callback]);
+
+ // this handle clears the timeout
+ const clear = useCallback(() => {
+  clearTimeout(timeoutId.current);
+ }, []);
+ // this handle sets our timeout
+ const set = useCallback(() => {
+  // but clears the old one first
+  clear();
+  timeoutId.current = setTimeout(() => {
+   savedCallback.current();
+  }, delay);
+ }, [delay]);
+
+ // also, clear the timeout on unmount
+ useEffect(() => clear, []);
+
+ return { set, clear };
+}
+```
+
+## Inspired from
+
+- [React Project Layout](https://blog.testdouble.com/posts/2021-11-30-tdr-project-layout/)
 
 - [A Model View Controller Pattern for React](https://blog.testdouble.com/posts/2019-11-04-react-mvc/)
+
+- [5 React Architecture Best Practices](https://www.sitepoint.com/react-architecture-best-practices/)

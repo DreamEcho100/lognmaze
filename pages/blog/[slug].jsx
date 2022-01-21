@@ -20,9 +20,9 @@ const BlogHead = ({ data = {} }) => {
 			{data.created_at !== data.updated_at && (
 				<meta property='blog:modified_time' content={data.updated_at} />
 			)}
-
 			{data.slug && <link rel='canonical' href={`blog/${data.slug}`} />}
 
+			{/* https://schema.org/BlogPosting */}
 			<script
 				type='application/ld+json'
 				dangerouslySetInnerHTML={{
@@ -37,7 +37,7 @@ const BlogHead = ({ data = {} }) => {
 						// editor: 'Craig Mount',
 						genre: data.tags.join(' '),
 						keywords: data.tags.join(' '),
-						wordcount: data.content.length,
+						wordCount: data.content.length,
 						publisher: {
 							'@type': 'Organization',
 							name: 'LogNMaze',
@@ -55,23 +55,18 @@ const BlogHead = ({ data = {} }) => {
 						dateCreated: data.created_at,
 						dateModified: data.updated_at,
 						description: data.description,
-						blogBody: data.content,
+						// contentRating
 					}),
 				}}
 			/>
-
 			<meta property='blog:tag' content={data.tags.join(',')} />
-
 			<meta name='keywords' content={data.tags.join(',')} />
-
 			<meta property='og:image' content={data.image_src} />
 			<meta property='og:image:width' content='1200' />
 			<meta property='og:image:height' content='630' />
 			<meta property='og:image:alt' content={data.image_alt} />
-
 			<meta name='twitter:image' content={data.image_src} />
 			<meta name='twitter:card' content='summary_large_image' />
-
 			<meta
 				property='og:url'
 				content={`https://lognmaze.com/blog/${data.slug}`}
@@ -80,7 +75,6 @@ const BlogHead = ({ data = {} }) => {
 				name='twitter:url'
 				content={`https://lognmaze.com/blog/${data.slug}`}
 			/>
-
 			<meta
 				name='twitter:description'
 				content={descriptionWithXMLCharactersEncoding}
@@ -90,7 +84,6 @@ const BlogHead = ({ data = {} }) => {
 				content={descriptionWithXMLCharactersEncoding}
 			/>
 			<meta name='description' content={descriptionWithXMLCharactersEncoding} />
-
 			<meta name='twitter:title' content={`${data.title} | LogNMaze`} />
 			<meta property='og:title' content={`${data.title} | LogNMaze`} />
 			<title>{data.title} | LogNMaze</title>

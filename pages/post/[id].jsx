@@ -20,7 +20,6 @@ const PostHeader = ({ data }) => {
 			{data.created_at !== data.updated_at && (
 				<meta property='blog:modified_time' content={data.updated_at} />
 			)}
-
 			<meta
 				property='og:url'
 				content={`https://lognmaze.com/post/${data.news_id}`}
@@ -38,6 +37,39 @@ const PostHeader = ({ data }) => {
 				content={descriptionWithXMLCharactersEncoding}
 			/>
 			<meta name='description' content={descriptionWithXMLCharactersEncoding} />
+
+			{/* https://schema.org/DiscussionForumPosting */}
+			<script
+				type='application/ld+json'
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify({
+						'@context': 'http://schema.org',
+						'@type': 'DiscussionForumPosting',
+						headline: data.title,
+						alternativeHeadline: data.slug,
+						author: data.author_user_name_id,
+						wordCount: data.content.length,
+						publisher: {
+							'@type': 'Organization',
+							name: 'LogNMaze',
+							logo: {
+								'@type': 'ImageObject',
+								url: 'https://lognmaze.com/favicon.ico',
+							},
+						},
+						url: `https://lognmaze.com/blog/${data.slug}`,
+						mainEntityOfPage: {
+							'@type': 'WebPage',
+							'@id': 'https://google.com/blog',
+						},
+						datePublished: data.created_at,
+						dateCreated: data.created_at,
+						dateModified: data.updated_at,
+						description: data.description,
+						// contentRating
+					}),
+				}}
+			/>
 		</Head>
 	);
 };
