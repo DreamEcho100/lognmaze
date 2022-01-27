@@ -1,60 +1,60 @@
 ---
-title: Basic guide to `JSONB` in PostgreSQL
+title: Basic guide to **JSONB** in PostgreSQL
 tags: sql postgresql json
 image_alt: PostgreSQL + json
 image_src: https://i.morioh.com/200728/b25ed22b.webp
-description: Basic guide to `JSONB` in PostgreSQL You may encounter (or have already encountered) a situation you are dealing with `JSON` in your application and you want to store it in your database. Or have unpredictable data or have one or multiple columns in the table that are optional.
+description: Basic guide to JSONB in PostgreSQL You may encounter (or have already encountered) a situation you are dealing with JSON in your application and you want to store it in your database. Or have unpredictable data or have one or multiple columns in the table that are optional.
 
 In these situations an object-oriented, NoSQL database makes sense.
 
-But you're probably going to have to learn a new data query syntax, data creation statement, install new software, and running some new servers in production. Now rather than developing your features, you are going to be spending valuable time learning, experimenting.
+But you're probably going to have to learn a new data query syntax, data creation statement, install new software, and run some new servers in production. Now rather than developing your features, you are going to be spending valuable time learning, experimenting.
 
-Well my friend you can rest at ease since we will talk a little about how you can use PostgreSQL for all your `JSON` needs
+Well my friend you can rest at ease since we will talk a little about how you can use PostgreSQL for all your JSON needs.
 ---
 
-You may encounter (or have already encountered) a situation you are dealing with `JSON` in your application and you want to store it in your database. Or have unpredictable data or have one or multiple columns in the table that are optional.
+You may encounter (or have already encountered) a situation you are dealing with **JSON** in your application and you want to store it in your database. Or have unpredictable data or have one or multiple columns in the table that are optional.
 
 In these situations an object-oriented, NoSQL database makes sense.
 
-But you're probably going to have to learn a new data query syntax, data creation statement, install new software, and running some new server in production. Now rather than developing your features, you are going to be spending valuable time learning, experimenting.
+But you're probably going to have to learn a new data query syntax, data creation statement, install new software, and run some new servers in production. Now rather than developing your features, you are going to be spending valuable time learning, experimenting.
 
-Well my friend you can rest at ease since we will talk a little about how you can use PostgreSQL for all your `JSON` needs.
+Well my friend you can rest at ease since we will talk a little about how you can use PostgreSQL for all your **JSON** needs.
 
-But let start first with what is `JSON`?
+But let start first with what is **JSON**?
 
-## What is `JSON`?
+## What is **JSON**?
 
-JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. It is based on a subset of the JavaScript Programming Language Standard ECMA-262 3rd Edition - December 1999. `JSON` is a text format that is completely language independent but uses conventions that are familiar to programmers of the C-family of languages, including C, C++, C#, Java, JavaScript, Perl, Python, and many others. These properties make `JSON` an ideal data-interchange language.
+**JSON** (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. It is based on a subset of the JavaScript Programming Language Standard ECMA-262 3rd Edition - December 1999. **JSON** is a text format that is completely language independent but uses conventions that are familiar to programmers of the C-family of languages, including C, C++, C#, Java, JavaScript, Perl, Python, and many others. These properties make **JSON** an ideal data-interchange language.
 
-JSON is built on two structures:
+**JSON** is built on two structures:
 
 - A collection of name/value pairs. In various languages, this is realized as an object, record, dictionary, hash table, keyed list, or associative array.
 
 - An ordered list of values. In most languages, this is realized as an array, vector, list, or sequence.
 
-For more about `JSON` visit [json.org](https://www.json.org/json-en.html).
+For more about **JSON** visit [json.org](https://www.json.org/json-en.html).
 
-## `JSON` in PostgreSQL (JSON vs `JSONB`)
+## **JSON** in PostgreSQL (**JSON** vs **JSONB**)
 
-### `JSON`
+### **JSON**
 
-Since 9.2, released in September 2012, PostgreSQL has had a `JSON` type. This original `JSON` type was not much more than just a simple storage field that let you put `JSON` into your database table. It is just a simple text field that checks to make sure your `JSON` is well-formed. Other than that it doesn't do much and I would not recommend using it.
+Since 9.2, released in September 2012, PostgreSQL has had a **JSON** type. This original **JSON** type was not much more than just a simple storage field that let you put **JSON** into your database table. It is just a simple text field that checks to make sure your **JSON** is well-formed. Other than that it doesn't do much and I would not recommend using it.
 
-With PostgreSQL release 9.4 in December 2014, a JSOB type was added. Though the running joke is that the B stands for better it really stands for Binary. When you put `JSON` data into a `JSONB` column, in addition to checking for well-formed `JSON`, you now have the ability to indexing and query, and retrieve portions of the document. Generally for all your work you should use `JSONB` unless you have a compelling reason not to.
+With PostgreSQL release 9.4 in December 2014, a JSOB type was added. Though the running joke is that the B stands for better it really stands for Binary. When you put **JSON** data into a **JSONB** column, in addition to checking for well-formed **JSON**, you now have the ability to indexing and query, and retrieve portions of the document. Generally for all your work you should use **JSONB** unless you have a compelling reason not to.
 
-If you’re storing some form of log data you rarely need to query, `JSON` can work fine. Because it’s so simple, it will have a lot higher write throughput. For anything more complex, I’d recommend using `JSONB`, which is covered below.
+If you’re storing some form of log data you rarely need to query, **JSON** can work fine. Because it’s so simple, it will have a lot higher write throughput. For anything more complex, I’d recommend using **JSONB**, which is covered below.
 
-### `JSONB` (The one we will use here)
+### **JSONB** (The one we will use here)
 
-Finally, in Postgres 9.4 we got real and proper `JSON` in the form of `JSONB`. Though the running joke is that the B stands for better it really stands for Binary. `JSONB` is a binary representation of `JSON`, which means it’s compressed and more efficient for storage than just text. It also has similar plumbing of hstore underneath. In fact, once upon a time, there was almost hstore2 and a separate `JSON` type, but the two converged into the `JSONB` we have today.
+Finally, in Postgres 9.4 we got real and proper **JSON** in the form of **JSONB**. Though the running joke is that the B stands for better it really stands for Binary. **JSONB** is a binary representation of **JSON**, which means it’s compressed and more efficient for storage than just text. It also has similar plumbing of hstore underneath. In fact, once upon a time, there was almost hstore2 and a separate **JSON** type, but the two converged into the **JSONB** we have today.
 
-JSONB is largely what you’d expect from a `JSON` datatype. It allows nested structures, use of basic data types, and has a number of built-in functions for working with it. Though the best part similar to hstore is the indexing. Creating a GIN index on a `JSONB` column will create an index on every key and value within that `JSON` document. That with the ability to nest within the document means `JSONB` is superior to hstore in most cases
+**JSONB** is largely what you’d expect from a **JSON** datatype. It allows nested structures, use of basic data types, and has a number of built-in functions for working with it. Though the best part similar to hstore is the indexing. Creating a GIN index on a **JSONB** column will create an index on every key and value within that **JSON** document. That with the ability to nest within the document means **JSONB** is superior to hstore in most cases
 
-Read more about [When to use unstructured datatypes in Postgres–Hstore vs. `JSON` vs. `JSONB`](https://www.citusdata.com/blog/2016/07/14/choosing-nosql-hstore-json-jsonb/)
+Read more about [When to use unstructured datatypes in Postgres–Hstore vs. **JSON** vs. **JSONB**](https://www.citusdata.com/blog/2016/07/14/choosing-nosql-hstore-json-jsonb/)
 
-## Creating a `JSONB` column
+## Creating a **JSONB** column
 
-Let's say we're building a user_profile table with (id, first_name, last_name, user_name_id, email, phone_number, password) columns and an extra column with a `JSONB` type that will hold things like preferences, email_verified, ...
+Let's say we're building a user_profile table with (id, first_name, last_name, user_name_id, email, phone_number, password) columns and an extra column with a **JSONB** type that will hold things like preferences, email_verified, ...
 
 ```sql
 CREATE TABLE user_profile (
@@ -65,7 +65,7 @@ CREATE TABLE user_profile (
   email TEXT NOT NULL UNIQUE,
   phone_number TEXT NOT NULL,
   password TEXT NOT NULL,
-  extra JSONB DEFAULT '{}'::jsonb
+  extra **JSONB** DEFAULT '{}'::jsonb
 );
 
 INSERT INTO user_profile (id, first_name, last_name, user_name_id, email, phone_number, password, extra)
@@ -97,13 +97,13 @@ SELECT extra FROM user_profile;
 (2 rows)
 ```
 
-## Querying data in `JSON`
+## Querying data in **JSON**
 
 ### `->` vs `->>` operator
 
-PostgreSQL provides two native operators `->` and `->>` to help you query `JSON` data.
+PostgreSQL provides two native operators `->` and `->>` to help you query **JSON** data.
 
-The operator `->` returns `JSON` object field as `JSON` so it can be chained.
+The operator `->` returns **JSON** object field as **JSON** so it can be chained.
 
 ```sql
 SELECT extra -> 'preferences' AS preferences FROM user_profile;
@@ -129,7 +129,7 @@ SELECT extra -> 'preferences' -> 'theme' AS theme FROM user_profile;
 (2 rows)
 ```
 
-The operator `->>` returns `JSON` object field as text so it can't be chained.
+The operator `->>` returns the **JSON** object field as text so it can't be chained.
 
 ```sql
 SELECT extra ->> 'preferences' AS preferences FROM user_profile;
@@ -170,15 +170,15 @@ SELECT extra -> 'preferences' ->> 'theme' AS theme FROM user_profile;
 (2 rows)
 ```
 
-## Insert data in `JSON`
+## Insert data in **JSON**
 
-### Insert into `JSON` using the `||` operator
+### Insert into **JSON** using the `||` operator
 
-- The `||` operator Concatenate two `JSONB` values into a new `JSONB` value.
+- The `||` operator Concatenate two **JSONB** values into a new **JSONB** value.
 
-- So you can concatenate the column with the new values in a `JSON` format.
+- So you can concatenate the column with the new values in a **JSON** format.
 
-#### Insert into `JSON` Surface, level one path using the `||` operator
+#### Insert into **JSON** Surface, level one path using the `||` operator
 
 ```sql
 UPDATE user_profile
@@ -197,9 +197,9 @@ RETURNING extra;
 UPDATE 1
 ```
 
-### Insert into `JSON` using the `jsonb_insert` function
+### Insert into **JSON** using the `jsonb_insert` function
 
-#### Insert into `JSON` in one or multiple levels using the `jsonb_insert` function
+#### Insert into **JSON** in one or multiple levels using the `jsonb_insert` function
 
 The format for jsonb_insert:
 
@@ -212,7 +212,7 @@ jsonb_insert(
 )
 ```
 
-Returns target with new_value inserted. If target section designated by path is in a `JSONB` array, new_value will be inserted before target or after if insert_after is true (default is false). If the target section designated by path is in `JSONB` object, new_value will be inserted only if the target does not exist. As with the path oriented operators, negative integers appear in path counter from the end of `JSON` arrays.
+Returns target with new_value inserted. If the target section designated by path is in a **JSONB** array, a new_value will be inserted before target or after if insert_after is true (default is false). If the target section designated by path is in the **JSONB** object, a new_value will be inserted only if the target does not exist. As with the path-oriented operators, negative integers appear in the path counter from the end of **JSON** arrays.
 
 ```sql
 UPDATE user_profile
@@ -232,17 +232,17 @@ RETURNING extra;
 (1 row)
 ```
 
-## Update data in `JSON`
+## Update data in **JSON**
 
-### Updating `JSON` using the `||` operator
+### Updating **JSON** using the `||` operator
 
-- The `||` operator Concatenate two `JSONB` values into a new `JSONB` value.
+- The `||` operator Concatenate two **JSONB** values into a new **JSONB** value.
 
-- So you can concatenate the column with the new values in a `JSON` format.
+- So you can concatenate the column with the new values in a **JSON** format.
 
-- Since the key already exists and we are using `JSONB` not `JSON` type it will override the old value
+- Since the key already exists and we are using **JSONB** not **JSON** type it will override the old value
 
-#### Updating `JSON` Surface, level one for one or multiple values using the `||` operator
+#### Updating **JSON** Surface, level one for one or multiple values using the `||` operator
 
 ```sql
 UPDATE user_profile
@@ -261,7 +261,7 @@ RETURNING extra;
 UPDATE 1
 ```
 
-### Updating `JSON` using the `jsonb_set` function
+### Updating **JSON** using the `jsonb_set` function
 
 The format for jsonb_set:
 
@@ -274,9 +274,9 @@ jsonb_set(
 )
 ```
 
-Returns target with the section designated by path replaced by new_value, or with new_value added if create_missing is true (default is true) and the item designated by path does not exist. As with the path oriented operators, negative integers appear in path counter from the end of `JSON` arrays.
+Returns target with the section designated by path replaced by new_value, or with new_value added if create_missing is true (default is true) and the item designated by path does not exist. As with the path-oriented operators, negative integers appear in the path counter from the end of **JSON** arrays.
 
-#### Updating `JSON` Surface, level one path for one value using the `jsonb_set` function
+#### Updating **JSON** Surface, level one path for one value using the `jsonb_set` function
 
 - if we want to target email_verified the path would be `'{email_verified}'`.
 
@@ -298,9 +298,9 @@ Returns target with the section designated by path replaced by new_value, or wit
 (1 row)
 ```
 
-#### Updating `JSON` deep, multiple levels for one value using the `jsonb_set` function
+#### Updating **JSON** deep, multiple levels for one value using the `jsonb_set` function
 
-- if we want to target theme in preferences the path would be `'{preferences,theme}'`.
+- if we want to target a theme in preferences the path would be `'{preferences,theme}'`.
 
 ```sql
 UPDATE user_profile
@@ -320,7 +320,7 @@ RETURNING extra;
 (1 row)
 ```
 
-#### Updating multiple values in `JSON` using the `jsonb_set` function
+#### Updating multiple values in **JSON** using the `jsonb_set` function
 
 ```sql
 UPDATE user_profile
@@ -348,13 +348,13 @@ Ok, what's happening here?
 
 - The inner `jsonb_set` changing the `first_name` value to `true` and returns a new data.
 
-- The outer `jsonb_set` take the new data and change `last_name` to `true` and returns a new data.
+- The outer `jsonb_set` take the new data change `last_name` to `true` and returns new data.
 
 - Then you update the `extra` column with the new modified data.
 
-## Delete data in `JSON`
+## Delete data in **JSON**
 
-### Delete data in `JSON` using the `#-` operator
+### Delete data in **JSON** using the `#-` operator
 
 ```sql
 UPDATE user_profile
@@ -370,7 +370,7 @@ RETURNING extra;
 (1 row)
 ```
 
-Since the `#-` operator returns a `JSON` object so we can chain it.
+Since the `#-` operator returns a **JSON** object we can chain it.
 
 ```sql
 UPDATE user_profile
@@ -388,11 +388,11 @@ RETURNING extra;
 
 ## Resources
 
-- [9.16. `JSON` Functions and Operators (postgresql.org)](https://postgresql.org/docs/current/functions-json.html)
+- [9.16. **JSON** Functions and Operators (postgresql.org)](https://postgresql.org/docs/current/functions-json.html)
 
-- [When to use unstructured datatypes in Postgres–Hstore vs. `JSON` vs. `JSONB` (citusdata.com)](https://www.citusdata.com/blog/2016/07/14/choosing-nosql-hstore-json-jsonb/)
+- [When to use unstructured datatypes in Postgres–Hstore vs. **JSON** vs. **JSONB** (citusdata.com)](https://www.citusdata.com/blog/2016/07/14/choosing-nosql-hstore-json-jsonb/)
 
-- [Using PostgreSQL for `JSON` Storage (blog.crunchydata.com)](https://blog.crunchydata.com/blog/using-postgresql-for-json-storage)
+- [Using PostgreSQL for **JSON** Storage (blog.crunchydata.com)](https://blog.crunchydata.com/blog/using-postgresql-for-json-storage)
 
 - [How to: use jsonb_set function in PostgreSQL (dev.to)](https://dev.to/deepika_banoth/how-to-use-jsonbset-function-in-postgresql-35eo)
 
