@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 
 import { useNewsSharedState } from '@store/NewsContext';
 import { handleAddingNewsFirstTime } from '@store/NewsContext/actions';
@@ -6,8 +6,9 @@ import { handleAddingNewsFirstTime } from '@store/NewsContext/actions';
 import NewsItem from '@components/UI/V1/News/Item';
 import Wrapper from '@components/UI/V1/Wrapper';
 
-const OneNewsContent = ({ newsItemData = {}, NewsHeader }) => {
+const OneNewsContent = ({ newsItemData = {}, NewsHeader, ...props }) => {
 	const [newsState, newsDispatch] = useNewsSharedState();
+	const [isLoadingSkeleton, setIsLoadingSkeleton] = useState();
 
 	const CBHandleAddingNewsFirstTime = useCallback(
 		() =>
@@ -22,6 +23,11 @@ const OneNewsContent = ({ newsItemData = {}, NewsHeader }) => {
 	useEffect(() => {
 		CBHandleAddingNewsFirstTime();
 	}, [CBHandleAddingNewsFirstTime]);
+
+	useEffect(() => {
+		if (isLoadingSkeleton && newsState.news && newsState.news.length !== 0)
+			setIsLoadingSkeleton(false);
+	}, [isLoadingSkeleton]);
 
 	return newsState.news.map((item, index) => (
 		<Fragment key={`${index}-${item.id}`}>
@@ -47,6 +53,7 @@ const OneNewsContent = ({ newsItemData = {}, NewsHeader }) => {
 						detailsType={'content'}
 						loadingUserVote={true}
 						isContainerContentOnView={true}
+						isLoadingSkeleton={isLoadingSkeleton}
 					/>
 				</Wrapper>
 			</main>
