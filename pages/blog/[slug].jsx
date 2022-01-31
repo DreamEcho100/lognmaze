@@ -104,7 +104,7 @@ const BlogPage = (props) => {
 		<NewsContextSharedProvider>
 			<BlogHead data={data} />
 			<OneNewsContent
-				isLoadingSkeleton={true}
+				// isLoadingSkeleton={true}
 				newsItemData={data}
 				NewsHeader={BlogHead}
 			/>
