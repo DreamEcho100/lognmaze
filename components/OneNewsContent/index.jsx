@@ -8,7 +8,7 @@ import Wrapper from '@components/UI/V1/Wrapper';
 
 const OneNewsContent = ({ newsItemData = {}, NewsHeader, ...props }) => {
 	const [newsState, newsDispatch] = useNewsSharedState();
-	const [isLoadingSkeleton, setIsLoadingSkeleton] = useState();
+	const [isLoadingSkeleton, setIsLoadingSkeleton] = useState(!!props.isLoadingSkeleton);
 
 	const CBHandleAddingNewsFirstTime = useCallback(
 		() =>
