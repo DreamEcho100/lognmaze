@@ -20,7 +20,12 @@ const BlogHead = ({ data = {} }) => {
 			{data.created_at !== data.updated_at && (
 				<meta property='blog:modified_time' content={data.updated_at} />
 			)}
-			{data.slug && <link rel='canonical' href={`blog/${data.slug}`} />}
+			{data.slug && (
+				<link
+					rel='canonical'
+					href={`${process.env.FRONT_END_ROOT_URL}/blog/${data.slug}`}
+				/>
+			)}
 
 			{/* https://schema.org/BlogPosting */}
 			<script
@@ -98,7 +103,11 @@ const BlogPage = (props) => {
 	return (
 		<NewsContextSharedProvider>
 			<BlogHead data={data} />
-			<OneNewsContent isLoadingSkeleton={true} newsItemData={data} NewsHeader={BlogHead} />
+			<OneNewsContent
+				isLoadingSkeleton={true}
+				newsItemData={data}
+				NewsHeader={BlogHead}
+			/>
 		</NewsContextSharedProvider>
 	);
 };
