@@ -8,7 +8,9 @@ import Wrapper from '@components/UI/V1/Wrapper';
 
 const OneNewsContent = ({ newsItemData = {}, NewsHeader, ...props }) => {
 	const [newsState, newsDispatch] = useNewsSharedState();
-	const [isLoadingSkeleton, setIsLoadingSkeleton] = useState(!!props.isLoadingSkeleton);
+	const [isLoadingSkeleton, setIsLoadingSkeleton] = useState(
+		!!props.isLoadingSkeleton
+	);
 
 	const CBHandleAddingNewsFirstTime = useCallback(
 		() =>
@@ -27,7 +29,7 @@ const OneNewsContent = ({ newsItemData = {}, NewsHeader, ...props }) => {
 	useEffect(() => {
 		if (isLoadingSkeleton && newsState.news && newsState.news.length !== 0)
 			setIsLoadingSkeleton(false);
-	}, [isLoadingSkeleton]);
+	}, [props.isLoadingSkeleton, newsState?.news]);
 
 	return newsState.news.map((item, index) => (
 		<Fragment key={`${index}-${item.id}`}>
