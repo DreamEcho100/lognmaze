@@ -27,9 +27,9 @@ const OneNewsContent = ({ newsItemData = {}, NewsHeader, ...props }) => {
 	}, [CBHandleAddingNewsFirstTime]);
 
 	useEffect(() => {
-		if (isLoadingSkeleton && newsState.news && newsState.news.length !== 0)
+		if (newsState.news && newsState.news.length !== 0)
 			setIsLoadingSkeleton(false);
-	}, [props.isLoadingSkeleton, newsState?.news]);
+	}, [props.isLoadingSkeleton, newsState.news]);
 
 	return newsState.news.map((item, index) => (
 		<Fragment key={`${index}-${item.id}`}>
