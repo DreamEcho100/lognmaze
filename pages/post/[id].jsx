@@ -81,11 +81,7 @@ const PostPage = (props) => {
 	return (
 		<NewsContextSharedProvider>
 			<PostHeader data={data} />
-			<OneNewsContent
-				isLoadingSkeleton={true}
-				newsItemData={data}
-				newsHeader={PostHeader}
-			/>
+			<OneNewsContent newsItemData={data} newsHeader={PostHeader} />
 		</NewsContextSharedProvider>
 	);
 };
