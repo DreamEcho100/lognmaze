@@ -18,6 +18,7 @@ import NewsItemModal from '../NewsItemModal';
 
 import Details from './Details';
 import Header from './Header';
+import Footer from './Footer';
 
 const NewsItem = ({
 	defaultClasses = 'container',
@@ -130,7 +131,12 @@ const NewsItem = ({
 				hideFooterSettings={hideFooterSettings}
 				isLoadingContent={newsItemData.isLoadingContent}
 			/>
-			<footer></footer>
+			<Footer
+				hideFooterSettings={hideFooterSettings}
+				newsItemData={newsItemData}
+				isLoadingSkeleton={isLoadingSkeleton}
+				isLoadingUserVote={isLoadingUserVote}
+			/>
 			{modalOnClick && (
 				<NewsItemModal
 					showModal={showModal}

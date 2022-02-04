@@ -215,7 +215,7 @@ const reducer = (state, action) => {
 								author_last_name: user.last_name,
 								author_profile_picture: user.profile_picture,
 								author_user_name_id: user.user_name_id,
-								author_user_name_id: user.bio,
+								// author_bio: user.bio,
 
 								replies_counter: 0,
 								content: commentContent,

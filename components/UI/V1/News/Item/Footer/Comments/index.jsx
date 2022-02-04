@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
 	handleLoadingNewsItemComments,
 	handlePostingCommentToNewsItem,
 } from '@store/NewsContext/actions';
-import NewsContext from '@store/NewsContext';
+import { useNewsSharedState } from '@store/NewsContext';
 import { useUserSharedState } from '@store/UserContext';
 
 import Comment from './Comment';
@@ -12,15 +12,14 @@ import CommentTextarea from './CommentTextarea';
 
 const Comments = ({
 	inheritedClasses,
-	className,
-	newsItem,
+	newsItemData,
 	setShowComments,
 	setFocusCommentTextarea,
 	showComments,
 	focusCommentTextarea,
 }) => {
 	const [userState, userDispatch] = useUserSharedState();
-	const { dispatch } = useContext(NewsContext);
+	const [newsState, newsDispatch] = useNewsSharedState();
 
 	const [values, setValues] = useState({
 		content: '',
@@ -37,10 +36,10 @@ const Comments = ({
 		setDisableSendCommentButton(true);
 
 		await handlePostingCommentToNewsItem({
-			dispatch,
+			newsDispatch,
 			commentType: 'comment_main',
 			commentContent: values.content,
-			news_id: newsItem.news_id,
+			news_id: newsItemData.news_id,
 			user: userState.user,
 			token: userState.token,
 		});
@@ -54,14 +53,17 @@ const Comments = ({
 
 	const LoadComments = async () => {
 		if (
-			parseInt(newsItem.comments_counter) === 0 ||
-			newsItem.hit_comments_limit
+			parseInt(newsItemData.comments_counter) === 0 ||
+			newsItemData.hit_comments_limit
 		)
 			return;
 
 		setLoadingComments(true);
 
-		await handleLoadingNewsItemComments({ dispatch, newsItem });
+		await handleLoadingNewsItemComments({
+			newsDispatch,
+			newsItem: newsItemData,
+		});
 
 		setLoadingComments(false);
 	};
@@ -82,18 +84,18 @@ const Comments = ({
 				/>
 			)}
 			<div>
-				{newsItem.comments &&
-					newsItem.comments.map((comment, index) => (
+				{newsItemData.comments &&
+					newsItemData.comments.map((comment, index) => (
 						<Comment
 							key={comment.news_comment_id}
 							comment={comment}
-							newsItem={newsItem}
+							newsItemData={newsItemData}
 						/>
 					))}
 			</div>
 			{loadingComments && <p>Loading...</p>}
 			<div className='buttons-holder'>
-				{!newsItem.hit_comments_limit && (
+				{!newsItemData.hit_comments_limit && (
 					<button
 						title='Load More'
 						disabled={loadingComments}

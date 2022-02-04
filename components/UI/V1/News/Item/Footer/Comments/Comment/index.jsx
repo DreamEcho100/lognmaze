@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import classes from './index.module.css';
+import classes from './styles.module.css';
 
 import {
 	handleDeletingMainOrReplyCommentInNewsItem,
@@ -8,7 +8,8 @@ import {
 	handleReplyingToMainOrReplyCommentInNewsItem,
 	handleUpdatingMainOrReplyCommentInNewsItem,
 } from '@store/NewsContext/actions';
-import NewsContext from '@store/NewsContext';
+// import NewsContext from '@store/NewsContext';
+import { useNewsSharedState } from '@store/NewsContext';
 import { useUserSharedState } from '@store/UserContext';
 import { dateToHumanReadableDate } from '@lib/v1/time';
 
@@ -17,23 +18,23 @@ import FormatterContainer from '@components/UI/V1/Format/Container';
 
 import DropdownMenu from '@components/UI/V1/DropdownMenu';
 import CommentTextarea from '../CommentTextarea';
-import LazyLoadImage from '@components/UI/V1/Image/LazyLoad';
+import CustomImage from '@components/UI/V1/Image';
 
-const Replies = ({ replies, newsItem, parent_data }) =>
+const Replies = ({ replies, newsItemData, parent_data }) =>
 	replies
 		? replies.map((reply) => (
 				<Comment
 					key={reply.news_comment_id}
 					comment={reply}
-					newsItem={newsItem}
+					newsItemData={newsItemData}
 					parent_data={parent_data}
 				/>
 		  ))
 		: null;
 
-const Comment = ({ comment, newsItem, ...props }) => {
-	const { dispatch } = useContext(NewsContext);
+const Comment = ({ comment, newsItemData, ...props }) => {
 	const [userState, userDispatch] = useUserSharedState();
+	const [newsState, newsDispatch] = useNewsSharedState();
 
 	const [showContent, setShowContent] = useState(true);
 	const [showReplyTextarea, setShowReplyTextarea] = useState(false);
@@ -60,8 +61,8 @@ const Comment = ({ comment, newsItem, ...props }) => {
 		setDeleteBtnsDisabled(true);
 
 		await handleDeletingMainOrReplyCommentInNewsItem({
-			dispatch,
-			news_id: newsItem.news_id,
+			newsDispatch,
+			news_id: newsItemData.news_id,
 			comment,
 			token: userState.token,
 			bodyObj,
@@ -82,11 +83,11 @@ const Comment = ({ comment, newsItem, ...props }) => {
 		};
 
 		await handleUpdatingMainOrReplyCommentInNewsItem({
-			dispatch,
+			newsDispatch,
 			token: userState.token,
 			bodyObj,
 			comment,
-			news_id: newsItem.news_id,
+			news_id: newsItemData.news_id,
 			parent_data_id:
 				comment.type === 'comment_main_reply'
 					? props.parent_data.news_comment_id
@@ -98,7 +99,7 @@ const Comment = ({ comment, newsItem, ...props }) => {
 	};
 
 	const handleSubmitCommentReply = async (
-		dispatch,
+		newsDispatch,
 		bodyObj,
 		user,
 		commentData,
@@ -107,8 +108,8 @@ const Comment = ({ comment, newsItem, ...props }) => {
 		setCommentReplyBtnsDisabled(true);
 
 		await handleReplyingToMainOrReplyCommentInNewsItem({
-			dispatch,
-			newsItem,
+			newsDispatch,
+			newsItem: newsItemData,
 			user: userState.user,
 			token: userState.token,
 			bodyObj,
@@ -132,7 +133,7 @@ const Comment = ({ comment, newsItem, ...props }) => {
 		setLoadingReplies(true);
 
 		await handleLoadingCommentRepliesInNewsItem({
-			dispatch,
+			newsDispatch,
 			comment,
 			parent_id,
 			news_id,
@@ -150,13 +151,13 @@ const Comment = ({ comment, newsItem, ...props }) => {
 					props: {
 						handleDeleteComment,
 						comment,
-						newsItem,
+						newsItemData,
 						deleteBtnsDisabled,
 					},
 					Element: function Element({
 						handleDeleteComment,
 						comment,
-						newsItem,
+						newsItemData,
 						deleteBtnsDisabled,
 					}) {
 						return (
@@ -169,7 +170,7 @@ const Comment = ({ comment, newsItem, ...props }) => {
 										bodyObj = {
 											type: comment.type,
 											news_comment_id: comment.news_comment_id,
-											parent_id: newsItem.news_id,
+											parent_id: newsItemData.news_id,
 										};
 									} else if (comment.type === 'comment_main_reply') {
 										bodyObj = {
@@ -233,13 +234,12 @@ const Comment = ({ comment, newsItem, ...props }) => {
 		<div className={`${classes.comment} ${classes[`type-${comment.type}`]}`}>
 			<header className={classes.header}>
 				<nav className={classes.nav}>
-					<div className={classes['profile_picture-container']}>
-						<LazyLoadImage
-							src={comment.author_profile_picture}
-							alt=''
-							effect='blur'
-						/>
-					</div>
+					<CustomImage
+						src={comment.author_profile_picture}
+						alt=''
+						className={classes['profile_picture-container']}
+						effect='blur'
+					/>
 					<div className={classes['author-info']}>
 						<p>
 							<strong>{comment.author_user_name_id}</strong>
@@ -336,7 +336,10 @@ const Comment = ({ comment, newsItem, ...props }) => {
 										parseInt(comment.replies_counter)) ||
 								!comment.hit_replies_limit
 							) {
-								loadRepliesHandler(comment.news_comment_id, newsItem.news_id);
+								loadRepliesHandler(
+									comment.news_comment_id,
+									newsItemData.news_id
+								);
 							}
 						}}
 					>
@@ -353,7 +356,7 @@ const Comment = ({ comment, newsItem, ...props }) => {
 
 						let bodyObj = {
 							type: 'comment_main_reply',
-							news_id: newsItem.news_id,
+							news_id: newsItemData.news_id,
 							content: values.comment_reply,
 							reply_to_user_id: comment.author_id,
 						};
@@ -366,7 +369,7 @@ const Comment = ({ comment, newsItem, ...props }) => {
 						}
 
 						handleSubmitCommentReply(
-							dispatch,
+							newsDispatch, // newsDispatch,
 							bodyObj,
 							userState.user,
 							comment,
@@ -386,7 +389,7 @@ const Comment = ({ comment, newsItem, ...props }) => {
 			{showReplies && (
 				<Replies
 					replies={comment.replies}
-					newsItem={newsItem}
+					newsItemData={newsItemData}
 					parent_data={comment}
 				/>
 			)}
@@ -414,7 +417,10 @@ const Comment = ({ comment, newsItem, ...props }) => {
 										comment.replies.length !== comment.replies_counter) ||
 									!comment.hit_replies_limit
 								) {
-									loadRepliesHandler(comment.news_comment_id, newsItem.news_id);
+									loadRepliesHandler(
+										comment.news_comment_id,
+										newsItemData.news_id
+									);
 								}
 							}}
 						>

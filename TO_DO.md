@@ -174,48 +174,77 @@ Credit to [5 React Architecture Best Practices](https://www.sitepoint.com/react-
 ```jsx
 import { useEffect, useState } from 'react';
 
-const Fetch = ({ render, url }) => {
-	const [state, setState] = useState({
-		data: {},
-		isLoading: false,
-	});
+const Fetch = ({
+ render,
+ onFetch = {
+  succuss: (json) => json,
+  error: (prev, error = new Error('Something went wrong!')) => ({
+   error: error.message,
+   //  data: undefined,
+  }),
+ },
+ url,
+ initData,
+}) => {
+ const [state, setState] = useState({
+  status: '',
+  data: initData,
+  isLoading: false,
+  // error: {}
+ });
 
-	useEffect(() => {
-		setState({ data: {}, isLoading: true });
+ useEffect(() => {
+  setState((prev) => ({ ...prev, status: 'pending', isLoading: true }));
 
-		const _fetch = async () => {
-			const res = await fetch(url);
-			const json = await res.json();
+  const _fetch = async () => {
+   try {
+    const res = await fetch(url);
+    const json = await res.json();
 
-			setState({
-				data: json,
-				isLoading: false,
-			});
-		};
+    setState({
+     status: 'succuss',
+     data: onFetch.succuss(json),
+     isLoading: false,
+    });
+   } catch (error) {
+    setState((prev) => ({
+     status: 'error',
+     ...onFetch.error(prev, error instanceof Error && error),
+     isLoading: false,
+    }));
+   }
+  };
 
-		_fetch();
-	}, url);
+  _fetch();
+ }, url);
 
-	return render(state);
+ return render(state);
 };
 
 const Example = () => {
-	return (
-		<Fetch
-			url='https://api.github.com/users/imgly/repos'
-			render={({ data, isLoading }) => (
-				<div>
-					<h2>img.ly repos</h2>
-					{isLoading && <h2>Loading...</h2>}
+ return (
+  <Fetch
+   url='https://api.github.com/users/imgly/repos'
+   onFetch={{
+    succuss: (json) => json,
+    error: (prev) => prev,
+   }}
+   render={({ status, data, isLoading, error }) => (
+    <div>
+     <h2>img.ly repos</h2>
+     {isLoading && status === 'pending' && <h2>Loading...</h2>}
 
-					<ul>
-						{data.length > 0 &&
-							data.map((repo) => <li key={repo.id}>{repo.full_name}</li>)}
-					</ul>
-				</div>
-			)}
-		/>
-	);
+     {data?.length > 0 && (
+      <ul>
+       {data.map((repo) => (
+        <li key={repo.id}>{repo.full_name}</li>
+       ))}
+      </ul>
+     )}
+    </div>
+   )}
+  />
+ );
 };
 
 export default Example;

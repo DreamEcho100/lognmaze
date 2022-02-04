@@ -1,13 +1,24 @@
-// import { useCallback, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import classes from './index.module.css';
 
 import LogNMazeSignature from '@svg/LogNMazeSignature';
 
 const MainIntro = () => {
+	const [removeIntro, setRemoveIntro] = useState(false);
+
+	useEffect(() => {
+		setRemoveIntro(true);
+		// const timeoutId = setTimeout(() => setRemoveIntro(true), 100);
+
+		// return () => clearTimeout(timeoutId);
+	}, []);
+
 	return (
 		<section
-			className={`${classes['main-intro']} ${classes['remove-intro']}`}
+			className={`${classes['main-intro']} ${
+				removeIntro && classes['remove-intro']
+			}`}
 		>
 			<div className={classes.container}>
 				<div

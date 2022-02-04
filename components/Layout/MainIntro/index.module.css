@@ -13,11 +13,22 @@
 	height: min(calc(25vh + 1rem), 15rem);
 	background-color: var(--main-special-bg-color-5);
 	z-index: 10;
-	transition: all 0.6s ease-in-out;
+	transform: translateX(-100%);
+	animation: slideToOriginalPos 0.3s ease-in-out forwards;
+	transition: all 0.6s ease-in-out 1s;
+}
+
+@keyframes slideToOriginalPos {
+	to {
+		transform: translateX(0%);
+	}
 }
 
 .main-intro.remove-intro {
-	animation: removeMainIntroInHorizontally 0.4s ease-in-out 0.9s forwards;
+	transform: translateX(-100%);
+	pointer-events: none;
+	opacity: 0;
+	/* animation: removeMainIntroInHorizontally 0.6s ease-in-out 1s forwards; */
 }
 
 .container {
@@ -49,11 +60,11 @@
 	stroke-dasharray: 40477;
 	stroke-dashoffset: 40477;
 	opacity: 0.5;
-	transition: stroke-dashoffset 0.7s cubic-bezier(0.46, 0.7, 1, 0.69) 0.1s,
-		opacity 0.7s cubic-bezier(0.46, 0.03, 0.52, 0.96) 0.1s;
+	transition: stroke-dashoffset 0.7s cubic-bezier(0.46, 0.7, 1, 0.69) 0.2s,
+		opacity 0.7s cubic-bezier(0.46, 0.03, 0.52, 0.96) 0.2s;
 }
 
-.main-intro .svg-container.draw-signature svg {
+.main-intro.remove-intro .svg-container.draw-signature svg {
 	opacity: 1;
 	stroke-dashoffset: 0;
 }
@@ -66,20 +77,20 @@
 }
 
 /* .main-intro.remove-intro.window-is-vertical {
-	animation: removeMainIntroInVertically 0.5s ease-in-out 0.9s forwards;
+	animation: removeMainIntroInVertically 0.5s ease-in-out 1s forwards;
 } */
 
 /* .main-intro.window-is-vertical .svg-container svg {
 	transform: translateX(100%) rotate(90deg) scale(0.4);
 } */
 
-@keyframes removeMainIntroInHorizontally {
+/* @keyframes removeMainIntroInHorizontally {
 	to {
 		transform: translateX(-100%);
 		pointer-events: none;
 		opacity: 0;
 	}
-}
+} */
 
 /* @keyframes removeMainIntroInVertically {
 	to {

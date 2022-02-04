@@ -2,16 +2,16 @@ import { useEffect, useRef, useState } from 'react';
 
 import dynamic from 'next/dynamic';
 
-import classes from './index.module.css';
+import classes from './styles.module.css';
 
 const DynamicComments = dynamic(() => import('./Comments'));
-import Settings from './Settings';
+// import Settings from './Settings';
 import Status from './Status';
 
 const Footer = ({
 	isLoadingSkeleton,
 	hideFooterSettings,
-	newsItem = {},
+	newsItemData = {},
 	isLoadingUserVote,
 }) => {
 	const footerRef = useRef();
@@ -21,7 +21,7 @@ const Footer = ({
 	const [focusCommentTextarea, setFocusCommentTextarea] = useState(false);
 
 	useEffect(() => {
-		if (!newsItem.news_id) return;
+		if (!newsItemData.news_id) return;
 
 		if (!showComments) {
 			setShowCommentsCounter((prev) => prev + 1);
@@ -30,9 +30,9 @@ const Footer = ({
 
 			footerRef.current.scrollIntoView();
 		}
-	}, [showComments, newsItem.news_id]);
+	}, [showComments, newsItemData.news_id]);
 
-	if (!isLoadingSkeleton && !newsItem.news_id) {
+	if (!isLoadingSkeleton && !newsItemData.news_id) {
 		return <></>;
 	}
 
@@ -45,27 +45,27 @@ const Footer = ({
 		>
 			{!isLoadingSkeleton && (
 				<Status
-					newsItem={newsItem}
+					newsItemData={newsItemData}
 					showComments={showComments}
 					setShowComments={setShowComments}
 				/>
 			)}
-			{!isLoadingSkeleton && !hideFooterSettings && (
+			{/* {!isLoadingSkeleton && !hideFooterSettings && (
 				<Settings
-					newsItem={newsItem}
-					comments={newsItem.comments}
-					user_vote_type={newsItem.user_vote_type}
+					newsItemData={newsItemData}
+					comments={newsItemData.comments}
+					user_vote_type={newsItemData.user_vote_type}
 					setShowComments={setShowComments}
 					setFocusCommentTextarea={setFocusCommentTextarea}
 					showComments={showComments}
 					focusCommentTextarea={focusCommentTextarea}
 					isLoadingUserVote={isLoadingUserVote}
 				/>
-			)}
+			)} */}
 			{!isLoadingSkeleton && showComments && (
 				<DynamicComments
-					newsItem={newsItem}
-					comments={newsItem.comments}
+					newsItemData={newsItemData}
+					comments={newsItemData.comments}
 					className={classes.comments}
 					setShowComments={setShowComments}
 					setFocusCommentTextarea={setFocusCommentTextarea}
