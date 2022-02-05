@@ -102,8 +102,8 @@ const reducer = (state, action) => {
 					author_user_name_id: user.user_name_id,
 					author_bio: user.bio,
 
-					created_at: new Date().toUTCString(),
-					updated_at: new Date().toUTCString(),
+					created_at: new Date().toISOString(),
+					updated_at: new Date().toISOString(),
 				},
 				...state.news,
 			],
@@ -114,7 +114,7 @@ const reducer = (state, action) => {
 
 		const toAdd = {
 			...bodyObj.news_data,
-			updated_at: new Date().toUTCString(),
+			updated_at: new Date().toISOString(),
 		};
 
 		return {
@@ -221,8 +221,8 @@ const reducer = (state, action) => {
 								content: commentContent,
 								news_comment_id: comment.news_comment_id,
 								type: 'comment_main',
-								created_at: new Date().toUTCString(),
-								updated_at: new Date().toUTCString(),
+								created_at: new Date().toISOString(),
+								updated_at: new Date().toISOString(),
 							},
 							...newsItem.comments,
 						],
@@ -293,8 +293,8 @@ const reducer = (state, action) => {
 
 			author_id: user.id,
 			news_comment_id: news_comment_id,
-			created_at: new Date().toUTCString(),
-			updated_at: new Date().toUTCString(),
+			created_at: new Date().toISOString(),
+			updated_at: new Date().toISOString(),
 		};
 
 		return {
@@ -348,7 +348,7 @@ const reducer = (state, action) => {
 									return {
 										...comment,
 										content: bodyObj.content,
-										updated_at: new Date().toUTCString(),
+										updated_at: new Date().toISOString(),
 									};
 								}
 								return comment;
@@ -366,7 +366,7 @@ const reducer = (state, action) => {
 												return {
 													...reply,
 													content: bodyObj.content,
-													updated_at: new Date().toUTCString(),
+													updated_at: new Date().toISOString(),
 												};
 											}
 											return reply;

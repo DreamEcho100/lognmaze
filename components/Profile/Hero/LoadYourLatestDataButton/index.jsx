@@ -31,7 +31,7 @@ const LoadYourLatestDataButton = () => {
 			setCookie({
 				cookieName: `latestDataForToken[${userState.token}]BeenLoaded`,
 				cookieValue: 'true',
-				expiresDate: new Date(new Date().getTime() + 5000 * 60).toUTCString(),
+				expiresDate: new Date(new Date().getTime() + 5000 * 60).toISOString(),
 			});
 
 			if (!disableButtons) setDisableButtons(true);
@@ -75,7 +75,7 @@ const LoadYourLatestDataButton = () => {
 				)}
 			>
 				<Fragment key='header'>
-					<p  className='heading-2'>Load Your Latest Data</p>
+					<p className='heading-2'>Load Your Latest Data</p>
 				</Fragment>
 				<Fragment key='body'>
 					<Form onSubmit={handleSubmit}>

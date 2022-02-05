@@ -286,7 +286,7 @@ const api = async (req, res) => {
 			const params = [
 				req.body.news_id,
 				isAuthorized.id,
-				new Date().toUTCString(),
+				new Date().toISOString(),
 			];
 
 			if (type === 'blog') {

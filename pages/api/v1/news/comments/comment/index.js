@@ -175,7 +175,7 @@ const api = async (req, res) => {
 						INSERT INTO news_comment (news_id, author_id, type, content, created_at, updated_at)
 						VALUES ($1, $2, $3, $4, $5, $5) RETURNING news_comment_id
           `,
-					[news_id, isAuthorized.id, type, content, new Date().toUTCString()]
+					[news_id, isAuthorized.id, type, content, new Date().toISOString()]
 				)
 				.then(async (response) => response.rows[0]);
 			if (type === 'comment_main') {
@@ -252,7 +252,7 @@ const api = async (req, res) => {
 						SET content = ($1), updated_at = ($2)
 						WHERE news_comment_id = ($3) AND author_id = ($4) RETURNING news_comment_id
 					`,
-					[content, new Date().toUTCString(), news_comment_id, isAuthorized.id]
+					[content, new Date().toISOString(), news_comment_id, isAuthorized.id]
 				)
 				.then(async (response) => response.rows[0]);
 

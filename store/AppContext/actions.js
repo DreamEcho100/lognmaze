@@ -35,7 +35,7 @@ const handleUserSign = async ({ dispatch, path, bodyObj }) => {
 		cookieValue: JSON.stringify(userResult.data.user),
 		expiresDate: new Date(
 			new Date().getTime() + userResult.data.jwt.expiriesAfter
-		).toUTCString(),
+		).toISOString(),
 		// domain: process.env.FRONT_END_DOMAIN,
 		path: '/',
 	});
@@ -45,7 +45,7 @@ const handleUserSign = async ({ dispatch, path, bodyObj }) => {
 		cookieValue: userResult.data.jwt.token,
 		expiresDate: new Date(
 			new Date().getTime() + userResult.data.jwt.expiriesAfter
-		).toUTCString(),
+		).toISOString(),
 		// domain: process.env.FRONT_END_DOMAIN,
 		path: '/',
 	});
@@ -55,7 +55,7 @@ const handleUserSign = async ({ dispatch, path, bodyObj }) => {
 		cookieValue: new Date().getTime() + userResult.data.jwt.expiriesAfter,
 		expiresDate: new Date(
 			new Date().getTime() + userResult.data.jwt.expiriesAfter
-		).toUTCString(),
+		).toISOString(),
 		// domain: process.env.FRONT_END_DOMAIN,
 		path: '/',
 	});

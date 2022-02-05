@@ -418,7 +418,7 @@ const SignUp = ({
 						setDateOfBirth(event.target.value);
 						setValues((prev) => ({
 							...prev,
-							[event.target.name]: new Date(event.target.value).toUTCString(),
+							[event.target.name]: new Date(event.target.value).toISOString(),
 						}));
 					}}
 				/>

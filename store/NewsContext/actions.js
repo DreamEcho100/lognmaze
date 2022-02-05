@@ -35,6 +35,10 @@ export const handleLoadingNewsItemContent = async ({
 
 	if (newsResult?.status === 'error') {
 		console.error(newsResult.message);
+		newsDispatch({
+			type: types.SET_IS_LOADING_CONTENT_IN_NEWS_ITEM,
+			payload: { news_id: news_id, isLoadingContent: false },
+		});
 		return {
 			status: 'error',
 			message: newsResult.message,
@@ -66,8 +70,12 @@ export const handleLoadMoreNewsItems = async ({
 
 	const query =
 		newsFetchRouteQuery?.length === 0
-			? `/?last_news_item_created_at=${last_news_item_created_at}`
-			: `${newsFetchRouteQuery}&last_news_item_created_at=${last_news_item_created_at}`;
+			? `/?last_news_item_created_at=${new Date(
+					last_news_item_created_at
+			  ).toISOString()}`
+			: `${newsFetchRouteQuery}&last_news_item_created_at=${new Date(
+					last_news_item_created_at
+			  ).toISOString()}`;
 
 	const newsResult = await fetch(`/api/v1/news${query}`)
 		.then((response) => response.json())
@@ -80,6 +88,10 @@ export const handleLoadMoreNewsItems = async ({
 		});
 
 	if (newsResult?.status === 'error') {
+		newsDispatch({
+			type: types.SET_IS_LOADING_MORE_NEWS_ITEM,
+			payload: { isLoadingMoreNewsItems: false },
+		});
 		console.error(newsResult.message);
 		return {
 			status: 'error',
@@ -351,7 +363,9 @@ export const handleLoadingNewsItemComments = async ({
 	let fetchInput = `/api/v1/news/comments/comment/?type=comment_main&news_id=${newsItem.news_id}`;
 
 	if (newsItem.last_comment_created_at) {
-		fetchInput += `&last_comment_created_at=${newsItem.last_comment_created_at}`;
+		fetchInput += `&last_comment_created_at=${new Date(
+			newsItem.last_comment_created_at
+		).toISOString()}`;
 	}
 
 	if (newsItem?.comments_to_not_fetch?.length > 0) {
