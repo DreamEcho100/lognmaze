@@ -1,5 +1,6 @@
-.default-form {
-	width: 99%;
+:where(.default-form) {
+	max-width: 98%;
+	width: 50rem;
 	border: 0.5rem solid var(--main-special-bg-color-5);
 	border-radius: 0.5rem;
 	padding: 0.5em;

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import Head from 'next/head';
 
 import classes from './index.module.css';
@@ -12,6 +13,16 @@ const Auth = ({
 	setSignType,
 	UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN,
 }) => {
+	const memoSignUp = useMemo(() => {
+		return (
+			<SignUp
+				UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
+					UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN
+				}
+			/>
+		);
+	}, [UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN]);
+
 	return (
 		<main className={`${classes.auth} main`}>
 			<Head>
@@ -89,14 +100,7 @@ const Auth = ({
 				//DynamicSignIn
 				/>
 			)}
-			{signType === 'up' && (
-				<SignUp
-					// DynamicSignUp
-					UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
-						UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN
-					}
-				/>
-			)}
+			{signType === 'up' && memoSignUp}
 		</main>
 	);
 };

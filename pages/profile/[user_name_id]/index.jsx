@@ -277,6 +277,11 @@ export const getServerSideProps = async ({ req, res, query }) => {
 		query.user_name_id
 	);
 
+	res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=60, stale-while-revalidate=60'
+  );
+
 	return {
 		props: {
 			user: data.user,

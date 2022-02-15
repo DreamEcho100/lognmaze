@@ -114,9 +114,11 @@ const EditBioButton = ({ setValues, values }) => {
 							{AfterFormSubmitMessage}
 						</div>
 
-						<Button title='Submit Form' disabled={DisableBtns} type='submit'>
-							Submit
-						</Button>
+						<FormControl>
+							<Button title='Submit Form' disabled={DisableBtns} type='submit'>
+								Submit
+							</Button>
+						</FormControl>
 					</Form>
 				</Fragment>
 			</Modal>

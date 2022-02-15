@@ -91,7 +91,7 @@ const SignUp = ({
 				console.error(error);
 			}
 		},
-		[UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN]
+		[UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN, values.state]
 	);
 
 	const handleGetStates = useCallback(
@@ -134,7 +134,7 @@ const SignUp = ({
 				console.error(error);
 			}
 		},
-		[UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN]
+		[UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN, values.country]
 	);
 
 	const handleGetCountries = useCallback(async () => {

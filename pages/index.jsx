@@ -59,7 +59,7 @@ const HomePage = ({ data }) => {
 
 export default HomePage;
 
-export const getServerSideProps = async ({ req, query }) => {
+export const getServerSideProps = async ({ req, res, query }) => {
 	const fetcher = async (userCookieString, query) => {
 		// const newsResult;
 		const filters = {};
@@ -105,6 +105,11 @@ export const getServerSideProps = async ({ req, query }) => {
 	});
 
 	const result = await fetcher(userCookieString, query);
+
+	res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=60, stale-while-revalidate=60'
+  );
 
 	return {
 		props: result,
