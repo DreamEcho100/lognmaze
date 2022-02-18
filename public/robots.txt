@@ -3,7 +3,9 @@ User-agent: *
 Allow: /
 Disallow: /404
 Disallow: /500
-Disallow: /article
 Disallow: /article/*
+Disallow: /post/*
+Disallow: /blog/*
+Disallow: /profile/*
 
 Sitemap: https://lognmaze.com/sitemap.xml

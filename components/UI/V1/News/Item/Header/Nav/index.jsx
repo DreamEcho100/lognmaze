@@ -14,7 +14,7 @@ const Nav = ({
 	return (
 		<nav className={classes.nav}>
 			<Link
-				href={`/profile/${newsItemData?.author_user_name_id}`}
+				href={`/users/${newsItemData?.author_user_name_id}`}
 				prefetch={false}
 				passHref
 			>

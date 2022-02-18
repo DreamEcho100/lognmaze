@@ -16,7 +16,7 @@ const NewsBlogInfo = ({
 	return (
 		<div>
 			{!router.query.slug && newsItemData?.type === 'blog' ? (
-				<Link href={`/blog/${newsItemData?.slug}`} prefetch={false} passHref>
+				<Link href={`/blogs/${newsItemData?.slug}`} prefetch={false} passHref>
 					<a
 						title={`${newsItemData?.type} | ${newsItemData?.title}`}
 						className={`${classes.title} ${

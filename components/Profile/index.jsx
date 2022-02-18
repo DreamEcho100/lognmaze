@@ -34,7 +34,7 @@ const Profile = ({
 	const [newsState, newsDispatch] = useNewsSharedState();
 
 	useEffect(() => {
-		if (news.length === 0) return
+		if (news.length === 0) return;
 
 		handleAddingNewsFirstTime({
 			newsDispatch,
@@ -62,7 +62,7 @@ const Profile = ({
 				givenName: userData?.first_name,
 				familyName: userData?.last_name,
 				email: userData?.email,
-				url: `https://lognmaze.com/profile/${userData?.user_name_id}`,
+				url: `https://lognmaze.com/users/${userData?.user_name_id}`,
 				gender: userData?.gender,
 			},
 		};
@@ -101,11 +101,11 @@ const Profile = ({
 				/>
 				<meta
 					property='og:url'
-					content={`https://lognmaze.com/profile/${userData?.user_name_id}`}
+					content={`https://lognmaze.com/users/${userData?.user_name_id}`}
 				/>
 				<meta
 					name='twitter:url'
-					content={`https://lognmaze.com/profile/${userData?.user_name_id}`}
+					content={`https://lognmaze.com/users/${userData?.user_name_id}`}
 				/>
 
 				{userData?.profile_picture?.length !== 0 ? (
@@ -143,11 +143,11 @@ const Profile = ({
 				)}
 				<meta
 					property='og:url'
-					content={`https://lognmaze.com/profile/${userData?.user_name_id}`}
+					content={`https://lognmaze.com/users/${userData?.user_name_id}`}
 				/>
 				<meta
 					name='twitter:url'
-					content={`https://lognmaze.com/profile/${userData?.user_name_id}`}
+					content={`https://lognmaze.com/users/${userData?.user_name_id}`}
 				/>
 				<meta
 					name='twitter:title'

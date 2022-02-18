@@ -91,11 +91,11 @@
 │   └── ...                          #
 ├── pages/                           # Next.js pages (routes)
 │   ├── api/                         #  That could be handling
-│   ├── blog/                        #  (SSR, SSG, ISG, static pages)
+│   ├── blogs/                        #  (SSR, SSG, ISG, static pages)
 │   │   └── [slug].ts                #  and pass data to screens.
-│   ├── post/                        #
+│   ├── posts/                        #
 │   │   └── [id].ts                  #
-│   ├── profile/                     #
+│   ├── users/                     #
 │   │   └── [user_name_id].ts        #
 │   ├── _app.ts                      #
 │   ├── _document.ts                 #
@@ -119,13 +119,13 @@
 │   │   ├── Logout.ts                #
 │   │   ├── ...                      #
 │   │   └── ...                      #
-│   ├── blog/                        #
+│   ├── blogs/                        #
 │   │   ├── ...                      #
 │   │   └── ...                      #
-│   ├── post/                        #
+│   ├── posts/                        #
 │   │   ├── ...                      #
 │   │   └── ...                      #
-│   ├── profile/                     #
+│   ├── users/                     #
 │   │   ├── index.ts                 #
 │   │   ├── ...                      #
 │   │   └── ...                      #
@@ -303,3 +303,20 @@ Rule #2. If your component manages state, find parts of the render tree that don
 Rule #3. Never create new components inside the render function of another component.
 
 Rule #4: When using context, make sure that value property is always memoised if it's not a number, string or boolean.
+
+## Books for desgin
+
+### from [Top 15 Graphic Design Skills to Get You Hired](https://dribbble.com/resources/graphic-designer-skills?utm_campaign=2022-01-25&utm_medium=email&utm_source=opportunities)
+
+Read graphic design books
+Reading graphic design books is an inexpensive way to learn specific skills, refine your design process, or get a better idea of what it's like to be a professional designer. Check out these books the next time you need some inspiration or want to learn a new skill:
+
+Thinking with Type: In Thinking with Type, Ellen Lupton explains the principles of typography, focusing on spacing, alignment, shape, and order. You'll learn more about using style sheets, captions, ornaments, font licensing, and enlarged capitals, among other typography topics.
+
+Designing Brand Identity: In some cases, it's not enough to be a great designer. You also need to know how to use your design skills to build cohesive brands. In Designing Brand Identity, Alina Wheeler explains how to develop and implement effective brand identities. The book includes 30 case studies to show you how well-established companies have used graphic design to build consistent brand images.
+
+100 Ideas That Changed Graphic Design: Steven Heller and Veronique Vienne provide an overview of how graphic design has changed throughout history, commenting on how new ideas led to technological and stylistic advancements in the field.
+
+The Non-Designer's Design Book: If you're just starting out in the graphic design field, you might benefit from Robin Williams' guide to the fundamental principles of design. Williams explains how to design with color and type, work with multiple typefaces and think from a design perspective. The book also includes tips for completing specific types of design projects, including newsletters and brochures.
+
+How Do I Do That in InDesign? Once you understand the fundamentals of design, you'll need to be able to use industry tools to work on projects. In How Do I Do That in InDesign, Dave Clayton and Scott Kelby explain how to complete specific actions in Adobe's design software. You'll learn how to add grids to each document, drag out ruler guides, check for errors, change the pasteboard size, and much more.

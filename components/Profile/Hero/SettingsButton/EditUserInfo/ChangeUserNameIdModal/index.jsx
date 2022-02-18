@@ -85,7 +85,7 @@ const ChangeUserNameIdModal = ({
 			return false;
 		});
 
-		router.push(`/profile/${userNameId}`);
+		router.push(`/users/${userNameId}`);
 		return { status, message };
 	};
 

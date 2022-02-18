@@ -23,7 +23,7 @@ const BlogHead = ({ data = {} }) => {
 			{data.slug && (
 				<link
 					rel='canonical'
-					href={`${process.env.FRONT_END_ROOT_URL}/blog/${data.slug}`}
+					href={`${process.env.FRONT_END_ROOT_URL}/blogs/${data.slug}`}
 				/>
 			)}
 
@@ -51,7 +51,7 @@ const BlogHead = ({ data = {} }) => {
 								url: 'https://lognmaze.com/favicon.ico',
 							},
 						},
-						url: `https://lognmaze.com/blog/${data.slug}`,
+						url: `https://lognmaze.com/blogs/${data.slug}`,
 						mainEntityOfPage: {
 							'@type': 'WebPage',
 							'@id': 'https://google.com/blog',
@@ -74,11 +74,11 @@ const BlogHead = ({ data = {} }) => {
 			<meta name='twitter:card' content='summary_large_image' />
 			<meta
 				property='og:url'
-				content={`https://lognmaze.com/blog/${data.slug}`}
+				content={`https://lognmaze.com/blogs/${data.slug}`}
 			/>
 			<meta
 				name='twitter:url'
-				content={`https://lognmaze.com/blog/${data.slug}`}
+				content={`https://lognmaze.com/blogs/${data.slug}`}
 			/>
 			<meta
 				name='twitter:description'

@@ -22,11 +22,11 @@ const PostHeader = ({ data }) => {
 			)}
 			<meta
 				property='og:url'
-				content={`https://lognmaze.com/post/${data.news_id}`}
+				content={`https://lognmaze.com/posts/${data.news_id}`}
 			/>
 			<meta
 				name='twitter:url'
-				content={`https://lognmaze.com/post/${data.news_id}`}
+				content={`https://lognmaze.com/posts/${data.news_id}`}
 			/>
 			<meta
 				property='twitter:description'
@@ -57,7 +57,7 @@ const PostHeader = ({ data }) => {
 								url: 'https://lognmaze.com/favicon.ico',
 							},
 						},
-						url: `https://lognmaze.com/blog/${data.slug}`,
+						url: `https://lognmaze.com/blogs/${data.slug}`,
 						mainEntityOfPage: {
 							'@type': 'WebPage',
 							'@id': 'https://google.com/blog',

@@ -31,13 +31,13 @@ const ShareModel = ({
 	// }`;
 
 	if (data.type === 'blog') {
-		url += `blog/${data.slug}`;
+		url += `blogs/${data.slug}`;
 		title = data.title;
 		summary = data.description;
 		quote = data.description;
 		hashtag = data.tags || [];
 	} else if (data.type === 'post') {
-		url += `post/${data.news_id}`;
+		url += `posts/${data.news_id}`;
 		title = data.content;
 		summary = data.content;
 		quote = data.content;

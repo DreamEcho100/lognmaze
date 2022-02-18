@@ -1,5 +1,5 @@
 // Credit to:
-// https://tuomokankaanpaa.com/blog/nextjs-seo-how-to-add-sitemap-and-robots-txt
+// https://tuomokankaanpaa.com/blogs/nextjs-seo-how-to-add-sitemap-and-robots-txt
 // https://cheatcode.co/tutorials/how-to-generate-a-dynamic-sitemap-with-next-js
 
 import { pool } from '@lib/v1/pg';
@@ -34,8 +34,7 @@ export const getServerSideProps = async ({ res, req }) => {
 				`
 					SELECT
 						news_blog.slug,
-						news.updated_at,
-						news.created_at
+						news.updated_at
 					FROM news_blog
 					JOIN news ON news.news_id = news_blog.news_blog_id
 				`
@@ -43,11 +42,10 @@ export const getServerSideProps = async ({ res, req }) => {
 			.then((response) => {
 				response.rows.forEach((blog) => {
 					linksPush({
-						url: `/blog/${blog.slug}`,
-						lastmod:
-							blog.updated_at || blog.created_at
-								? new Date(blog.updated_at || blog.created_at).toISOString()
-								: new Date().toISOString(),
+						url: `/blogs/${blog.slug}`,
+						lastmod: blog.updated_at
+							? new Date(blog.updated_at).toISOString()
+							: new Date().toISOString(),
 						changefreq: 'weekly',
 						priority: 0.9,
 					});
@@ -63,7 +61,7 @@ export const getServerSideProps = async ({ res, req }) => {
 			.then((response) => {
 				response.rows.forEach((profile) => {
 					linksPush({
-						url: `/profile/${profile.user_name_id}`,
+						url: `/users/${profile.user_name_id}`,
 						lastmod: new Date().toISOString(),
 						changefreq: 'weekly',
 						priority: 0.9,
@@ -99,6 +97,11 @@ export const getServerSideProps = async ({ res, req }) => {
 	const xmlString = await streamToPromise(
 		Readable.from(links).pipe(stream)
 	).then((data) => data.toString());
+
+	res.setHeader(
+		'Cache-Control',
+		'public, s-maxage=86400, stale-while-revalidate=60'
+	);
 
 	res.write(xmlString);
 	res.end();

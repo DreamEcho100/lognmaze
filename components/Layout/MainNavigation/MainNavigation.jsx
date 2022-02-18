@@ -61,7 +61,7 @@ const MainNavigation = () => {
 					{!userState.isVerifyingUserLoading && userState.user.id && (
 						<li>
 							<span onClick={() => setShowNavOnSmallScreens(false)}>
-								<Link href={`/profile/${userState.user.user_name_id}`} passHref>
+								<Link href={`/users/${userState.user.user_name_id}`} passHref>
 									<a title={`${userState.user.user_name_id} profile`}>
 										<FontAwesomeIcon icon={['fas', 'user']} /> Profile
 									</a>
