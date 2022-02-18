@@ -84,6 +84,12 @@ export const getServerSideProps = async ({ res, req }) => {
 	// 	});
 	// });
 
+	res.setHeader(
+		'Cache-Control',
+		'public, s-maxage=86400, stale-while-revalidate=60'
+	);
+
+
 	// Create a stream to write to
 	const stream = new SitemapStream({
 		hostname: `https://${req.headers.host}`,
@@ -97,12 +103,6 @@ export const getServerSideProps = async ({ res, req }) => {
 	const xmlString = await streamToPromise(
 		Readable.from(links).pipe(stream)
 	).then((data) => data.toString());
-
-	res.setHeader(
-		'Cache-Control',
-		'public, s-maxage=86400, stale-while-revalidate=60'
-	);
-
 	res.write(xmlString);
 	res.end();
 
