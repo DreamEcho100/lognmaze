@@ -23,7 +23,7 @@ export const handleLoadingNewsItemContent = async ({
 		payload: { news_id: news_id, isLoadingContent: true },
 	});
 
-	const newsResult = await fetch(`/api/v1/news/blogs/blogs/content/${news_id}`)
+	const newsResult = await fetch(`/api/v1/news/blogs/blog/content/${news_id}`)
 		.then((response) => response.json())
 		.catch((error) => {
 			console.error(error.message);
