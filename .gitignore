@@ -23,6 +23,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 
 # local env files
 .env.local
@@ -33,8 +34,17 @@ yarn-error.log*
 # vercel
 .vercel
 
-#
-public/ca-certificate.txt
+# typescript
+*.tsbuildinfo
 
 #
+_old
+/_old
+/_old/
+
+documentation
+/documentation
+/documentation/
 _
+/_
+/_/

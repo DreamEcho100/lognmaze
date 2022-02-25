@@ -1,9 +1,0 @@
-.details {
-	margin: 0.5em 0;
-}
-
-.details.isLoadingSkeleton {
-	--skeleton-loading-width: 100%;
-	--skeleton-loading-height: min(75vh, 25rem);
-	min-height: 15rem;
-}
