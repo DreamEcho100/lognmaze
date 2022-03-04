@@ -13,7 +13,7 @@ const HomePage = ({ data }) => {
 
 	const [userState, userDispatch] = useUserSharedState();
 
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const newsFetchRouteQuery = data.newsFetchRouteQuery;
 	const news = useMemo(
@@ -66,7 +66,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 		let newsFetchRouteQuery = '';
 
 		if (userCookieString) {
-			filters.newsVotedByUser = JSON.parse(userCookieString).id
+			filters.newsVotedByUser = JSON.parse(userCookieString).id;
 			newsFetchRouteQuery = `/?newsVotedByUser=${filters.newsVotedByUser}`;
 		}
 
@@ -80,7 +80,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 
 			return {
 				status: 'succuss',
-				message: 'succuss', 
+				message: 'succuss',
 				data: {
 					...newsResult,
 					newsFetchRouteQuery,
@@ -107,9 +107,9 @@ export const getServerSideProps = async ({ req, res, query }) => {
 	const result = await fetcher(userCookieString, query);
 
 	res.setHeader(
-    'Cache-Control',
-    'public, s-maxage=60, stale-while-revalidate=60'
-  );
+		'Cache-Control',
+		'public, s-maxage=60, stale-while-revalidate=60'
+	);
 
 	return {
 		props: result,

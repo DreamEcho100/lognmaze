@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import Head from 'next/head';
 
 import { handleAddingNewsFirstTime } from '@store/NewsContext/actions';
@@ -14,7 +14,7 @@ const Home = ({
 }) => {
 	const [newsState, newsDispatch] = useNewsSharedState();
 
-	useEffect(() => {
+	const init = useCallback(() => {
 		handleAddingNewsFirstTime({
 			newsDispatch,
 			news,
@@ -22,6 +22,8 @@ const Home = ({
 			newsFetchRouteQuery,
 		});
 	}, [news, newsDispatch, newsFetchRouteQuery]);
+
+	init();
 
 	return (
 		<main className='main'>
