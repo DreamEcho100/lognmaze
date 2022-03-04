@@ -1,4 +1,9 @@
-import pool from '../../connection';
+const { Pool } = require('pg');
+
+import { YEAR_IN_MILLIE_SECONDS } from '@coreLib/constants';
+import { IUser } from '@coreLib/ts/global';
+// import pool from '../../connection';
+import pool from '@coreLib/db/pg/connection';
 import { TGetUsers } from '../../ts';
 import { chooseFilter } from '../../utils';
 
@@ -76,7 +81,6 @@ const tableAndItsColumns = {
 export const getUsers: TGetUsers = async ({
 	extraReturns = {
 		user_id: true,
-		password: false,
 	},
 	filterBy,
 }) => {
@@ -144,9 +148,9 @@ export const getUsers: TGetUsers = async ({
     ${whereFilter}
 `;
 
-	const result = await pool
+	const result: any | { errorMessage: string } = await pool
 		.query(sqlQuery, paramsArr)
-		.then((response: { rows: any[] }) => response.rows)
+		// .then((response: { rows: any[] }) => response.rows)
 		.catch((error: Error) => {
 			return {
 				errorMessage:
@@ -163,8 +167,36 @@ export const getUsers: TGetUsers = async ({
 	return result;
 };
 
+const createUserSession = async (
+	user_id: IUser['id'],
+	login_start_date: string = new Date().toISOString(),
+	login_end_date: string = new Date(
+		Date.now() + YEAR_IN_MILLIE_SECONDS
+	).toISOString()
+) => {
+	const userSession: {
+		user_session_id: string;
+		login_start_date: string;
+		login_end_date: string;
+	} = await pool
+		.query(
+			`
+		INSERT INTO user_session
+			(user_id, login_start_date, login_end_date)
+		VALUES ($1, $2, $3)
+		RETURNING user_session_id, login_start_date, login_end_date
+	`,
+			[user_id, login_start_date, login_end_date]
+		)
+		.then((response: { rows: any[] }) => response.rows[0]);
+
+
+	return userSession;
+};
+
 const usersActions = {
 	get: getUsers,
+	createSession: createUserSession,
 };
 
 export default usersActions;

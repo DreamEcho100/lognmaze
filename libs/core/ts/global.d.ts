@@ -5,7 +5,29 @@ import {
 
 export type TDate = string | number | Date;
 
-export type NextApiRequestExtended = NextApiRequest & { user: { id: string } };
+export type NextApiRequestExtended = NextApiRequest & { user: { 
+	id: string;
+	user_session_id: string;
+	login_start_date: string;
+	login_end_date: string;
+ } };
+
+/* User */
+export interface IUser {
+	id: string;
+	email: string;
+	password: string;
+	user_name_id: string;
+	first_name: string;
+	last_name: string;
+	date_of_birth: string | number | Date;
+	gender: string;
+	country: string;
+	state: string;
+	city?: string;
+}
+
+/* News */
 
 export interface INewsBasicData {
 	news_id: string;

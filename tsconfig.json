@@ -17,10 +17,13 @@
 		"downlevelIteration": true /* Emit more compliant, but verbose and less performant JavaScript for iteration. */,
 		"baseUrl": "./",
 		"paths": {
-			"@coreUI/*": ["ui/core/*"],
-			"@commonUI/*": ["ui/common/*"],
+			"@coreComponents/*": ["components/core/*"],
+			"@commonComponentsDependent/*": ["components/common/dependent/*"],
+			"@commonComponentsIndependent/*": ["components/common/independent/*"],
 			"@coreLib/*": ["libs/core/*"],
-			"@commonLib/*": ["libs/common/*"],
+			// "@commonLib/*": ["libs/common/*"],
+			"@commonLibDependent/*": ["libs/common/dependent/*"],
+			"@commonLibIndependent/*": ["libs/common/independent/*"],
 			"@screens/*": ["screens/*"],
 			"@nextAPIs/*": ["nextAPIs/*"],
 			"@styles/*": ["styles/*"]
@@ -28,5 +31,13 @@
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-	"exclude": ["node_modules", "_old"]
+	"exclude": [
+		"node_modules",
+		"___",
+		"**/___/*",
+		"**/___/*.ts",
+		"**/___/*.tsx",
+		"___deprecated",
+		"___old"
+	]
 }

@@ -1,4 +1,5 @@
-const { Pool } = require('pg');
+// const { Pool } = require('pg');
+import { Pool } from 'pg';
 
 const connectionString = process.env.PG_CONNECTION_STRING as string;
 

@@ -98,7 +98,7 @@
 	--color-2-5: hsl(300, 100%, 5%); /* #1a001a	rgb(26, 0, 26) */
 	--color-2-0: hsl(300, 100%, 0%); /* #000000	rgb(0, 0, 0) */
 
-	--current-font-size: var(--size-10);
+	--current-font-size: var(--size-12);
 
 	--main-bg-color-0: var(--color-1-100);
 	--main-bg-color-0-95: var(--color-1-100-95);
@@ -148,6 +148,7 @@
 	--wrapper-box-shadow-length: 1rem;
 	--lazy-load-image-background-height: auto;
 	--main-nav-height: 6rem;
+	--main-transition-duration: 0.3s;
 }
 
 body.dark {
@@ -219,13 +220,12 @@ body {
 }
 
 body {
-	font-family: 'Roboto', cursive, sans-serif;
+	font-family: 'Roboto', sans-serif;
 	line-height: 1.15;
 	-webkit-text-size-adjust: 100%;
 	font-size: var(--current-font-size);
 	background: var(--main-bg-color-2);
 	color: var(--main-font-color-1);
-	padding-top: var(--main-nav-height);
 	overflow-y: auto;
 	overflow-x: hidden;
 }
@@ -247,6 +247,17 @@ h5 {
 }
 h6 {
 	font-size: var(--header6);
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+a,
+button {
+	cursor: pointer;
+	font-size: inherit;
 }
 
 nav ol,

@@ -1,4 +1,4 @@
-import { encodeObjectToUrlQueries } from '@commonLib/object';
+import { encodeObjectToUrlQueries } from '@commonLibIndependent/object';
 import { headersDefault } from '@coreLib/networkReqArgs/__utils';
 import { ICreateNewsItemReqArgs, IGetNewsReqArgs } from './ts';
 import networkReqNewsItemArgs from './[news_id]';

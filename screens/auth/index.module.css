@@ -1,0 +1,36 @@
+.header {
+	background-color: var(--main-bg-color-1);
+	padding: 0.5em;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 0.5em;
+	text-align: center;
+}
+.header > * {
+	margin: 0.25em 0;
+}
+.header > *:first-child {
+	margin-top: 0;
+}
+.header > *:last-child {
+	margin-bottom: 0;
+}
+
+.buttonsHolder {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+}
+.buttonsHolder > * {
+	margin: 0 0.5em;
+}
+[dir='rtl'] .buttonsHolder > *:last-child,
+.buttonsHolder > *:first-child {
+	margin-left: 0;
+}
+.buttonsHolder > *:last-child,
+[dir='rtl'] .buttonsHolder > *:first-child {
+	margin-right: 0;
+}

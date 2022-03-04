@@ -87,10 +87,12 @@ export const getByUserNameIdController = async (
 	if (await returnObjFromJwtToken(req.headers.authorization))
 		extraReturns.sensitiveInfo = true;
 
-	const users = await pgActions.users.get({
-		extraReturns,
-		filterBy,
-	});
+	const users = await pgActions.users
+		.get({
+			extraReturns,
+			filterBy,
+		})
+		.then((response: { rows: any[] }) => response.rows);
 
 	if (!Array.isArray(users) || users.length === 0) {
 		res.status(404);

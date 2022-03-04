@@ -74,9 +74,14 @@ export const updateUserByIdController = async (
 	const targets: typeof user_profileTable & typeof user_accountTable =
 		req.body.targets;
 
+	if (!req.headers.authorization) {
+		res.status(401);
+		throw new Error("User authorization doesn't allow the access");
+	}
+
 	const authorizedUser = await isAuthorized(res, req.headers.authorization);
 
-	if (authorizedUser.id !== req.query.user_id) {
+	if (authorizedUser.payload.id !== req.query.user_id) {
 		res.status(401);
 		throw new Error("User authorization doesn't allow the access");
 	}
@@ -143,7 +148,7 @@ export const updateUserByIdController = async (
 	if (requirePassword) {
 		userPassword = req.body.password || req.body.oldPassword;
 
-		const user = await checkIfUserExist(res, authorizedUser.id);
+		const user = await checkIfUserExist(res, authorizedUser.payload.id);
 
 		const validPassword = await verifyPassword({
 			res,
@@ -154,7 +159,7 @@ export const updateUserByIdController = async (
 		if (!validPassword) return;
 	}
 
-	sqlQueryParams.push(authorizedUser.id);
+	sqlQueryParams.push(authorizedUser.payload.id);
 
 	sqlQuery += `
 		UPDATE ${targetedTable} SET ${sqlQuerySet.join(',')}

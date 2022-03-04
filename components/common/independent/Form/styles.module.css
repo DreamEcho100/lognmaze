@@ -1,0 +1,23 @@
+.form {
+	/* max-width: 98%;
+	width: 50rem; */
+	/* border: 0.5rem solid var(--main-special-bg-color-5); */
+	/* border-radius: 0.5rem; */
+	/* padding: 0.5em;
+	margin: 1em auto; */
+	background-color: var(--main-bg-color-1);
+	padding: 0.5em 0.25em;
+	width: fit-content;
+	margin: 0 auto;
+	border-radius: 1.5rem;
+	transition: var(--main-transition-duration) all ease-in;
+
+	display: flex;
+	flex-direction: column;
+}
+.form:hover {
+	border-radius: 1rem;
+}
+.form:focus-within {
+	border-radius: 0.5rem;
+}

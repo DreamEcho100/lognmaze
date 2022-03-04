@@ -38,13 +38,9 @@ yarn-error.log*
 *.tsbuildinfo
 
 #
-_old
-/_old
-/_old/
-
-documentation
-/documentation
-/documentation/
-_
-/_
-/_/
+___old
+/___old
+/___old/
+___
+/___
+/___/

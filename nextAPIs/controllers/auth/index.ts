@@ -1,53 +1,66 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import pgActions from '@coreLib/db/pg/actions';
-import { hashPassword, jwtGenerator, verifyPassword } from '@coreLib/auth';
-import pool from '@coreLib/db/pg/connection';
 
-// @desc    Sign in user
-// @route   Post /api/auth/signin
+import { hashPassword, verifyPassword } from '@coreLib/auth';
+import pool from '@coreLib/db/pg/connection';
+import { YEAR_IN_MILLIE_SECONDS } from '@coreLib/constants';
+import { setAccessToken, setRefreshToken } from '@coreLib/auth';
+import pgActions from '@coreLib/db/pg/actions';
+import { serialize } from 'cookie';
+import { NextApiRequestExtended } from '@coreLib/ts/global';
+
+// @desc    Login in user
+// @route   Post /api/auth/login
 // @access  Public
-export const authSignIn = async (req: NextApiRequest, res: NextApiResponse) => {
+export const authLogin = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { email, password } = req.body;
 
-	const user = await pgActions.users.get({
-		filterBy: [
-			[
-				{
-					name: 'byEmail',
-					value: email,
-				},
+	const user = await pgActions.users
+		.get({
+			filterBy: [
+				[
+					{
+						name: 'byUserEmail',
+						value: email,
+					},
+				],
 			],
-		],
-		extraReturns: {
-			password: true,
-			sensitiveInfo: true,
-		},
-	});
+			extraReturns: {
+				user_password: true,
+				sensitiveInfo: true,
+				user_id: true,
+			},
+		})
+		.then((response: { rows: any[] }) => response.rows[0]);
 
 	if (!user.id) {
 		res.status(404);
 		throw new Error("User doesn't exist!");
 	}
 
-	const validPassword = await verifyPassword({
+	/* const validPassword =  */ await verifyPassword({
 		res,
 		password,
 		hashedPassword: user.password,
 	});
 
-	const jwt = jwtGenerator({
-		id: user.id,
-	});
-
 	delete user.password;
 
-	res.status(201).json({ user, jwt });
+	const userSession = await pgActions.users.createSession(
+		user.id,
+		new Date().toISOString(),
+		new Date(Date.now() + YEAR_IN_MILLIE_SECONDS).toISOString()
+	);
+
+	setRefreshToken(res, user.id, userSession);
+	setAccessToken(res, user.id, userSession);
+
+	res.status(200).json({ user });
 };
 
-// @desc    Sign in user
-// @route   Post /api/auth/signin
+// @desc    Sign up user
+// @route   Post /api/auth/signup
 // @access  Public
-export const authSignUp = async (req: NextApiRequest, res: NextApiResponse) => {
+export const authSignup = async (req: NextApiRequest, res: NextApiResponse) => {
 	const {
 		email,
 		password,
@@ -159,16 +172,56 @@ export const authSignUp = async (req: NextApiRequest, res: NextApiResponse) => {
 			};
 		});
 
-	const jwt = jwtGenerator({
-		id: newUser.id,
-	});
+	const userSession = await pgActions.users.createSession(
+		newUser.id,
+		new Date().toISOString(),
+		new Date(Date.now() + YEAR_IN_MILLIE_SECONDS).toISOString()
+	);
 
-	res.status(201).json({ user: newUser, jwt });
+	setRefreshToken(res, newUser.id, userSession);
+	setAccessToken(res, newUser.id, userSession);
+
+	res.status(201).json({ user: newUser });
+};
+
+// @desc    Logout in user
+// @route   Post /api/auth/logout
+// @access  Private
+export const authLogout = async (
+	req: NextApiRequestExtended,
+	res: NextApiResponse
+) => {
+	res.setHeader('Set-Cookie', [
+		serialize('refreshToken', '', {
+			maxAge: 0,
+			path: '/',
+			httpOnly: true,
+			sameSite: 'lax',
+		}),
+		serialize('accessToken', '', {
+			maxAge: 0,
+			path: '/',
+			// httpOnly: true,
+			sameSite: 'lax',
+		}),
+	]);
+
+	await pool.query(
+		`
+			UPDATE user_session
+			SET logout_date = $1
+			WHERE user_session_id = $2
+		`,
+		[new Date(Date.now()).toISOString(), req.user.user_session_id]
+	);
+
+	res.status(200).send('logout successfully!');
 };
 
 const autController = {
-	signIn: authSignIn,
-	signUp: authSignUp,
+	login: authLogin,
+	signup: authSignup,
+	logout: authLogout,
 };
 
 export default autController;

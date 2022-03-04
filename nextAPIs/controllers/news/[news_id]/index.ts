@@ -1,4 +1,4 @@
-import { itemsInObject } from '@commonLib/object';
+import { itemsInObject } from '@commonLibIndependent/object';
 import pool from '@coreLib/db/pg/connection';
 import {
 	INewsBlogData,

@@ -1,0 +1,15 @@
+.FormControl {
+	max-width: 100%;
+	margin: 0.5em 0.25em;
+	display: flex;
+	flex-direction: column;
+	/* align-items: flex-start; */
+	justify-content: center;
+	transition: all ease-in var(--main-transition-duration);
+}
+
+/* .align-center {
+	margin: 0.5em auto;
+	justify-content: center;
+	align-items: center;
+} */

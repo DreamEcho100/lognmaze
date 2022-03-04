@@ -1,0 +1,9 @@
+.textarea {
+	--padding: 0.5em;
+	min-width: calc(100% - var(--padding) - 1rem);
+	width: calc(100% - var(--padding));
+	max-width: calc(100% - var(--padding) - 1rem);
+	min-height: 10rem;
+	padding: var(--padding);
+	transition: all var(--main-transition-duration) ease-in;
+}

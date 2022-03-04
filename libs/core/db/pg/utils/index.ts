@@ -1,4 +1,4 @@
-import { itemsInObject } from '@commonLib/object';
+import { itemsInObject } from '@commonLibIndependent/object';
 import {
 	IFilterByUsersHandlerProps,
 	TAddParam,

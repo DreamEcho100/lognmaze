@@ -7,7 +7,7 @@ import {
 	NextApiRequestExtended,
 } from '@coreLib/ts/global';
 import pgActions from '@coreLib/db/pg/actions';
-import { itemsInObject } from '@commonLib/object';
+import { itemsInObject } from '@commonLibIndependent/object';
 import pool from '@coreLib/db/pg/connection';
 import newsItemController from './[news_id]';
 

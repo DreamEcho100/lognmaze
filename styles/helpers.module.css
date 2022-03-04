@@ -36,7 +36,8 @@ svg.textGlowSpecial {
 	--color-hover: var(--main-special-bg-color-5);
 	color: var(--color);
 	text-shadow: 0rem 0rem 0.1rem var(--color);
-	transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+	transition: all var(--main-transition-duration)
+		cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 .textGlowSpecial:hover {
 	color: var(--color-hover);

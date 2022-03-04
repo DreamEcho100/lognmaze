@@ -1,4 +1,4 @@
-import { encodeObjectToUrlQueries } from '@commonLib/object';
+import { encodeObjectToUrlQueries } from '@commonLibIndependent/object';
 import networkReqUserArgs from './user';
 
 interface IGetUsersReqArgs {

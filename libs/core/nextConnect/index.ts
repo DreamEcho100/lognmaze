@@ -31,7 +31,7 @@ const onError = (err: Error, req: TReq, res: TRes, next: TNext) => {
 		console.error(`Stack: ${returnObject.stack}`);
 	}
 
-	res.json(returnObject);
+	res.end(returnObject.message);
 };
 
 const onNoMatch = (req: TReq, res: TRes) => {

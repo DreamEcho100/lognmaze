@@ -1,4 +1,4 @@
-import { encodeObjectToUrlQueries } from '@commonLib/object';
+import { encodeObjectToUrlQueries } from '@commonLibIndependent/object';
 import { headersDefault } from '@coreLib/networkReqArgs/__utils';
 import { IUpdateByUserNameIdReqArgs } from './ts';
 
