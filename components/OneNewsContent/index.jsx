@@ -22,9 +22,9 @@ const OneNewsContent = ({ newsItemData = {}, NewsHeader, ...props }) => {
 		[newsDispatch, newsItemData]
 	);
 
-	useEffect(() => {
-		CBHandleAddingNewsFirstTime();
-	}, [CBHandleAddingNewsFirstTime]);
+	CBHandleAddingNewsFirstTime();
+	// useEffect(() => {
+	// }, [CBHandleAddingNewsFirstTime]);
 
 	useEffect(() => {
 		if (newsState.news && newsState.news.length !== 0)
