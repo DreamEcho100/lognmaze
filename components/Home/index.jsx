@@ -14,16 +14,21 @@ const Home = ({
 }) => {
 	const [newsState, newsDispatch] = useNewsSharedState();
 
-	const init = useCallback(() => {
-		handleAddingNewsFirstTime({
-			newsDispatch,
-			news,
-			newsType: 'ALL',
-			newsFetchRouteQuery,
-		});
-	}, [news, newsDispatch, newsFetchRouteQuery]);
+	const init = useCallback(
+		(news, newsDispatch, newsFetchRouteQuery) => {
+			handleAddingNewsFirstTime({
+				newsDispatch,
+				news,
+				newsType: 'ALL',
+				newsFetchRouteQuery,
+			});
+		},
+		[news, newsDispatch, newsFetchRouteQuery]
+	);
 
-	init();
+	useEffect(() => init(news, newsDispatch, newsFetchRouteQuery), [init]);
+
+	// init(news, newsDispatch, newsFetchRouteQuery);
 
 	return (
 		<main className='main'>

@@ -52,9 +52,9 @@ const nextConfig = (phase) => {
 };
 
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-	enabled: process.env.ANALYZE === 'true',
-});
+// const withBundleAnalyzer = require('@next/bundle-analyzer')({
+// 	enabled: process.env.ANALYZE === 'true',
+// });
 
 // module.exports = withBundleAnalyzer([withPlugins], nextConfig);
 // module.exports = withBundleAnalyzer(nextConfig);

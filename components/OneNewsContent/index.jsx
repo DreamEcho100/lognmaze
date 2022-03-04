@@ -12,7 +12,7 @@ const OneNewsContent = ({ newsItemData = {}, NewsHeader, ...props }) => {
 		!!props.isLoadingSkeleton
 	);
 
-	const CBHandleAddingNewsFirstTime = useCallback(
+	const init = useCallback(
 		() =>
 			handleAddingNewsFirstTime({
 				newsDispatch,
@@ -22,9 +22,9 @@ const OneNewsContent = ({ newsItemData = {}, NewsHeader, ...props }) => {
 		[newsDispatch, newsItemData]
 	);
 
-	CBHandleAddingNewsFirstTime();
-	// useEffect(() => {
-	// }, [CBHandleAddingNewsFirstTime]);
+	useEffect(() => {
+		init();
+	}, [init]);
 
 	useEffect(() => {
 		if (newsState.news && newsState.news.length !== 0)

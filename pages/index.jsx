@@ -13,7 +13,7 @@ const HomePage = ({ data }) => {
 
 	const [userState, userDispatch] = useUserSharedState();
 
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 
 	const newsFetchRouteQuery = data.newsFetchRouteQuery;
 	const news = useMemo(
