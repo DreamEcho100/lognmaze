@@ -8,19 +8,41 @@ const initialState = {
 	news: [],
 };
 
-const useNewsState = () => useReducer(reducer, initialState);
+let useNewsState = () => useReducer(reducer, initialState);
 
-export const {
-	Provider: NewsContextSharedProvider,
-	useTracked: useNewsSharedState,
-} = createContainer(useNewsState);
+// // export
+// const { Provider: NewsContextSharedProvider, useTracked: useNewsSharedState } =
+// 	createContainer(useNewsState);
+const createdContainer = createContainer(useNewsState);
+export let NewsContextSharedProvider = createdContainer.Provider;
+export let useNewsSharedState = createdContainer.useTracked;
 
-const obj = {
+let obj = {
 	NewsContextSharedProvider,
 	useNewsSharedState,
 };
 
 export default obj;
+
+export const useSetUserContextStore = ({ newsType = '', news = [] }) => {
+	const initialState = {
+		newsType,
+		news,
+	};
+
+	useNewsState = () => useReducer(reducer, initialState);
+
+	const createdContainer = createContainer(useNewsState);
+	NewsContextSharedProvider = createdContainer.Provider;
+	useNewsSharedState = createdContainer.useTracked;
+
+	obj = {
+		NewsContextSharedProvider,
+		useNewsSharedState,
+	};
+
+	return obj;
+};
 
 // const NewsContext = createContext({
 // 	state: [],

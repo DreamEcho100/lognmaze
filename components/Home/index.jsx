@@ -9,24 +9,26 @@ import Section1 from '@components/Home/Section1';
 const Home = ({
 	isLoadingSkeleton,
 	userExist = false,
-	news,
+	// news,
 	newsFetchRouteQuery,
 }) => {
 	const [newsState, newsDispatch] = useNewsSharedState();
 
-	const init = useCallback(
-		(news, newsDispatch, newsFetchRouteQuery) => {
-			handleAddingNewsFirstTime({
-				newsDispatch,
-				news,
-				newsType: 'ALL',
-				newsFetchRouteQuery,
-			});
-		},
-		[news, newsDispatch, newsFetchRouteQuery]
-	);
+	// useSetUserContextStore
 
-	useEffect(() => init(news, newsDispatch, newsFetchRouteQuery), [init]);
+	// const init = useCallback(
+	// 	(news, newsDispatch, newsFetchRouteQuery) => {
+	// 		handleAddingNewsFirstTime({
+	// 			newsDispatch,
+	// 			news,
+	// 			newsType: 'ALL',
+	// 			newsFetchRouteQuery,
+	// 		});
+	// 	},
+	// 	[news, newsDispatch, newsFetchRouteQuery]
+	// );
+
+	// useEffect(() => init(news, newsDispatch, newsFetchRouteQuery), [init]);
 
 	// init(news, newsDispatch, newsFetchRouteQuery);
 
@@ -78,7 +80,7 @@ const Home = ({
 				/>
 			</Head>
 			<Section1
-				news={news}
+				news={newsState.news}
 				isLoadingSkeleton={isLoadingSkeleton}
 				userExist={userExist}
 				newsFetchRouteQuery={newsFetchRouteQuery}

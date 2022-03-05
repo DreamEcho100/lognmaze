@@ -3,7 +3,8 @@ import { useRouter } from 'next/router';
 import { getCookie } from '@lib/v1/cookie';
 import { getNews } from '@lib/v1/pg/news';
 import { useUserSharedState } from '@store/UserContext';
-import { NewsContextSharedProvider } from '@store/NewsContext';
+// import { NewsContextSharedProvider } from '@store/NewsContext';
+import { useSetUserContextStore } from '@store/NewsContext';
 
 import Profile from '@components/Profile';
 import pg from '@lib/v1/pg';
@@ -75,12 +76,12 @@ const ProfilePage = ({ user = {}, ...props }) => {
 						...state,
 						visitorIdentity,
 						isAuthorized,
-						isLoading: false
+						isLoading: false,
 					};
 
 				return {
 					...state,
-					isLoading: false
+					isLoading: false,
 				};
 			}
 
@@ -95,7 +96,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 		userData: user?.data?.id ? user.data : {},
 		formattedPosts: (() => {
 			const formattedPosts = [];
-	
+
 			if (props?.posts?.length !== 0) {
 				props.posts.forEach((obj) => {
 					const formattedItem = {};
@@ -110,11 +111,11 @@ const ProfilePage = ({ user = {}, ...props }) => {
 							}
 						}
 					}
-	
+
 					formattedPosts.push(formattedItem);
 				});
 			}
-	
+
 			return formattedPosts;
 		})(),
 		newsFetchRouteQuery: props.newsFetchRouteQuery || '',
@@ -147,6 +148,10 @@ const ProfilePage = ({ user = {}, ...props }) => {
 		userState.userExist,
 	]);
 
+	const { NewsContextSharedProvider } = useSetUserContextStore({
+		news: profileState.formattedPosts,
+	});
+
 	useEffect(() => {
 		if (!router.isReady && userState.isVerifyingUserLoading) return;
 
@@ -163,8 +168,12 @@ const ProfilePage = ({ user = {}, ...props }) => {
 	return (
 		<NewsContextSharedProvider>
 			<Profile
-				userData={profileState.userData?.id === userState.user?.id ? userState.user : profileState.userData}
-				isLoadingSkeleton={profileState.isLoading}
+				userData={
+					profileState.userData?.id === userState.user?.id
+						? userState.user
+						: profileState.userData
+				}
+				// isLoadingSkeleton={profileState.isLoading}
 				visitorIdentity={profileState.visitorIdentity}
 				news={profileState.formattedPosts}
 				newsFetchRouteQuery={profileState.newsFetchRouteQuery}
@@ -184,22 +193,20 @@ export const getServerSideProps = async ({ req, res, query }) => {
 				// isAuthorized: user.data.user_name_id === user_name_id ? true : false,
 				// visitorIdentity:
 				// 	user.data.user_name_id === user_name_id ? OWNER : GUEST,
-				data: {}
+				data: {},
 			},
 			posts: {
-				news: []
+				news: [],
 			},
 		};
 		let userCookieObj;
 		let visitor_id;
-
 
 		try {
 			if (tokenCookieString.length !== 0 && userCookieString.length !== 0) {
 				userCookieObj = JSON.parse(userCookieString);
 				if (userCookieObj?.id) visitor_id = userCookieObj.id;
 			}
-
 
 			await pg.users
 				.get({
@@ -218,43 +225,41 @@ export const getServerSideProps = async ({ req, res, query }) => {
 						data.user.data = result[0];
 						data.user.data.last_sign_in = '' + data.user.data.last_sign_in;
 						data.user.data.created_at = '' + data.user.data.created_at;
-
 					}
 				});
 
-				const filters = {};
+			const filters = {};
 
-				if (data.user.data.id) {
-					filters.newsByUserId = data.user.data.id;
-					newsFetchRouteQuery += `/?newsByUserId=${filters.newsByUserId}`;
-					if (visitor_id) {
-						if (newsFetchRouteQuery.length !== 0) {
-							filters.newsVotedByUser = visitor_id;
-							newsFetchRouteQuery += `&newsVotedByUser=${filters.newsVotedByUser}`;
-						}
-						else {
-							filters.newsVotedByUser = visitor_id;
-							newsFetchRouteQuery += `/?newsVotedByUser=${filters.newsVotedByUser}`;
-						}
-					}
-					
-					data.posts = await getNews(filters);
-			
-					if (data?.posts?.news) {
-						data.posts.news.forEach((item, index) => {
-							item.updated_at = '' + item.updated_at;
-							item.created_at = '' + item.created_at;
-						});
+			if (data.user.data.id) {
+				filters.newsByUserId = data.user.data.id;
+				newsFetchRouteQuery += `/?newsByUserId=${filters.newsByUserId}`;
+				if (visitor_id) {
+					if (newsFetchRouteQuery.length !== 0) {
+						filters.newsVotedByUser = visitor_id;
+						newsFetchRouteQuery += `&newsVotedByUser=${filters.newsVotedByUser}`;
+					} else {
+						filters.newsVotedByUser = visitor_id;
+						newsFetchRouteQuery += `/?newsVotedByUser=${filters.newsVotedByUser}`;
 					}
 				}
-				// else if (userCookieObj?.id && userCookieObj?.user_name_id === user_name_id) {
-				// 	filters.newsByUserId = userCookieObj.id;
-				// 	newsFetchRouteQuery += `/?newsByUserId=${filters.newsByUserId}`;
-				// }
+
+				data.posts = await getNews(filters);
+
+				if (data?.posts?.news) {
+					data.posts.news.forEach((item, index) => {
+						item.updated_at = '' + item.updated_at;
+						item.created_at = '' + item.created_at;
+					});
+				}
+			}
+			// else if (userCookieObj?.id && userCookieObj?.user_name_id === user_name_id) {
+			// 	filters.newsByUserId = userCookieObj.id;
+			// 	newsFetchRouteQuery += `/?newsByUserId=${filters.newsByUserId}`;
+			// }
 		} catch (error) {
 			console.error(error.message);
 		}
-		
+
 		return data;
 	};
 
@@ -278,9 +283,9 @@ export const getServerSideProps = async ({ req, res, query }) => {
 	);
 
 	res.setHeader(
-    'Cache-Control',
-    'public, s-maxage=60, stale-while-revalidate=60'
-  );
+		'Cache-Control',
+		'public, s-maxage=60, stale-while-revalidate=60'
+	);
 
 	return {
 		props: {

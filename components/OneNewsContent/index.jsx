@@ -1,7 +1,12 @@
-import { Fragment, useCallback, useEffect, useState } from 'react';
+import {
+	Fragment,
+	// useCallback,
+	useEffect,
+	useState,
+} from 'react';
 
 import { useNewsSharedState } from '@store/NewsContext';
-import { handleAddingNewsFirstTime } from '@store/NewsContext/actions';
+// import { handleAddingNewsFirstTime } from '@store/NewsContext/actions';
 
 import NewsItem from '@components/UI/V1/News/Item';
 import Wrapper from '@components/UI/V1/Wrapper';
@@ -12,19 +17,19 @@ const OneNewsContent = ({ newsItemData = {}, NewsHeader, ...props }) => {
 		!!props.isLoadingSkeleton
 	);
 
-	const init = useCallback(
-		() =>
-			handleAddingNewsFirstTime({
-				newsDispatch,
-				news: [newsItemData],
-				newsType: 'ONE',
-			}),
-		[newsDispatch, newsItemData]
-	);
+	// const init = useCallback(
+	// 	() =>
+	// 		handleAddingNewsFirstTime({
+	// 			newsDispatch,
+	// 			news: [newsItemData],
+	// 			newsType: 'ONE',
+	// 		}),
+	// 	[newsDispatch, newsItemData]
+	// );
 
-	useEffect(() => {
-		init();
-	}, [init]);
+	// useEffect(() => {
+	// 	init();
+	// }, [init]);
 
 	useEffect(() => {
 		if (newsState.news && newsState.news.length !== 0)

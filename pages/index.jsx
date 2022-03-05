@@ -1,25 +1,58 @@
-import { useEffect, useMemo, useState } from 'react';
+import {
+	useEffect,
+	// useMemo,
+	useState,
+} from 'react';
 import { useRouter } from 'next/router';
 
-import { NewsContextSharedProvider } from '@store/NewsContext';
+// import { NewsContextSharedProvider } from '@store/NewsContext';
+import { useSetUserContextStore } from '@store/NewsContext';
 import { useUserSharedState } from '@store/UserContext';
 import { getCookie } from '@lib/v1/cookie';
 import { getNews } from '@lib/v1/pg/news';
 
 import Home from '@components/Home';
 
-const HomePage = ({ data }) => {
+const HomePage = (
+	{ data: { news, newsFetchRouteQuery } } = {
+		data: { news: [], newsFetchRouteQuery: '' },
+	}
+) => {
 	const router = useRouter();
 
 	const [userState, userDispatch] = useUserSharedState();
 
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 
-	const newsFetchRouteQuery = data.newsFetchRouteQuery;
-	const news = useMemo(
-		() =>
-			data?.news?.length !== 0
-				? data.news.map((obj) => {
+	// const newsFetchRouteQuery = newsFetchRouteQuery;
+	// const news = useMemo(
+	// 	() =>
+	// 		Array.isArray(news)
+	// 			? news.map((obj) => {
+	// 					const formattedItem = {};
+	// 					let itemA;
+	// 					for (itemA in obj) {
+	// 						if (itemA !== 'type_data') {
+	// 							formattedItem[itemA] = obj[itemA];
+	// 						} else {
+	// 							let itemB;
+	// 							for (itemB in obj['type_data']) {
+	// 								formattedItem[itemB] = obj.type_data[itemB];
+	// 							}
+	// 						}
+	// 					}
+
+	// 					return formattedItem;
+	// 			  })
+	// 			: [],
+	// 	[news]
+	// );
+
+	const { NewsContextSharedProvider } =
+		// useMemo((news) =>
+		useSetUserContextStore({
+			news: Array.isArray(news)
+				? news.map((obj) => {
 						const formattedItem = {};
 						let itemA;
 						for (itemA in obj) {
@@ -36,8 +69,8 @@ const HomePage = ({ data }) => {
 						return formattedItem;
 				  })
 				: [],
-		[data.news]
-	);
+		});
+	// , [news]);
 
 	useEffect(() => {
 		if (!router.isReady) return;

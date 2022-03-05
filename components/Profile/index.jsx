@@ -27,22 +27,24 @@ const Profile = ({
 	userData,
 	isLoadingSkeleton,
 	visitorIdentity = GUEST,
-	news = [],
+	// news = [],
 	newsFetchRouteQuery,
 }) => {
 	const [userState, userDispatch] = useUserSharedState();
 	const [newsState, newsDispatch] = useNewsSharedState();
 
-	useEffect(() => {
-		if (news.length === 0) return;
+	const news = newsState.news;
 
-		handleAddingNewsFirstTime({
-			newsDispatch,
-			news,
-			newsType: 'ALL',
-			newsFetchRouteQuery,
-		});
-	}, [news, newsDispatch, newsFetchRouteQuery]);
+	// useEffect(() => {
+	// 	if (news.length === 0) return;
+
+	// 	handleAddingNewsFirstTime({
+	// 		newsDispatch,
+	// 		news,
+	// 		newsType: 'ALL',
+	// 		newsFetchRouteQuery,
+	// 	});
+	// }, [news, newsDispatch, newsFetchRouteQuery]);
 
 	if (isLoadingSkeleton && (!userData.id || userData.id.length === 0)) {
 		return (
@@ -169,7 +171,7 @@ const Profile = ({
 				<section className={classes['section-1']}>
 					{news.length !== 0 && (
 						<Feed
-							isLoadingSkeleton={isLoadingSkeleton}
+							// isLoadingSkeleton={isLoadingSkeleton}
 							newsFetchRouteQuery={newsFetchRouteQuery}
 						/>
 					)}
