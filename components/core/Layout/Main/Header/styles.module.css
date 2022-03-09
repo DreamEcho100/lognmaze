@@ -175,20 +175,20 @@
 		font-weight: 700;
 	}
 
-	.button {
-		background-color: var(--main-special-2-font-color-2);
-		color: var(--main-special-2-bg-color-2);
+	.nav-list .button {
+		background-color: var(--main-font-color-2);
+		color: var(--main-bg-color-2);
 	}
 
-	.button:hover,
+	.nav-list .button:hover,
 	.nav-list li:hover {
-		background-color: var(--main-special-2-bg-color-3);
-		color: var(--main-special-2-font-color-3);
+		background-color: var(--main-bg-color-3);
+		color: var(--main-font-color-3);
 	}
 
-	.button:focus,
+	.nav-list .button:focus,
 	.nav-list li:focus {
-		background-color: var(--main-special-2-bg-color-1);
-		color: var(--main-special-2-font-color-1);
+		background-color: var(--main-bg-color-1);
+		color: var(--main-font-color-1);
 	}
 }

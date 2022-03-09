@@ -4,7 +4,7 @@ import classes from './index.module.css';
 import borderClasses from '@styles/border.module.css';
 import boxShadowClasses from '@styles/boxShadow.module.css';
 
-import { IUser } from '@coreLib/ts/global';
+import { IUserAuthenticatedData } from '@coreLib/ts/global';
 import { useUserSharedState } from 'store/UserContext';
 import { loginUserRequestAction } from 'store/UserContext/actions';
 import { validateEmail } from '@commonLibIndependent/validate';
@@ -27,7 +27,7 @@ const LoginComponent = () => {
 	] = useUserSharedState();
 
 	const [values, setValues] = useState<{
-		email: IUser['email'];
+		email: IUserAuthenticatedData['email'];
 		password: string;
 	}>({
 		email: '',

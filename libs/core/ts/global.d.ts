@@ -5,26 +5,37 @@ import {
 
 export type TDate = string | number | Date;
 
-export type NextApiRequestExtended = NextApiRequest & { user: { 
-	id: string;
-	user_session_id: string;
-	login_start_date: string;
-	login_end_date: string;
- } };
+export type NextApiRequestExtended = NextApiRequest & {
+	user: {
+		id: string;
+		user_session_id: string;
+		login_start_date: string;
+		login_end_date: string;
+	};
+};
 
 /* User */
-export interface IUser {
+export interface IUserBasicData {
 	id: string;
-	email: string;
-	password: string;
 	user_name_id: string;
 	first_name: string;
 	last_name: string;
-	date_of_birth: string | number | Date;
 	gender: string;
-	country: string;
-	state: string;
-	city?: string;
+	cover_photo?: string;
+	profile_picture?: string;
+	bio: string;
+	country_of_resident: string;
+	state_of_resident: string;
+	city_of_resident?: string;
+	last_sign_in: string | number | Date;
+	created_at: string | number | Date;
+}
+export interface IUserAuthenticatedData extends IUserBasicData {
+	email?: string;
+	email_verified?: boolean;
+	password?: string;
+	date_of_birth?: string | number | Date;
+	address_of_resident?: string;
 }
 
 /* News */
@@ -66,3 +77,6 @@ export interface INewsPostData extends INewsBasicData {
 		content: string;
 	};
 }
+
+export type TNewsItemData = INewsBlogData | INewsPostData;
+export type TNewsData = TNewsItemData[];

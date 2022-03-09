@@ -1,11 +1,87 @@
+import { getCookie } from '@commonLibIndependent/storage/cookie/document';
+import ls from '@commonLibIndependent/storage/localStorage';
 import UserContextConstants from '@coreLib/constants/store/types/userContext';
+import { IUserAuthenticatedData } from '@coreLib/ts/global';
 import { IUserContextReducerAction, IUserContextState } from './ts';
 
 const reducer = (
 	state: IUserContextState,
 	actions: IUserContextReducerAction
 ) => {
+	if (process.env.NODE_ENV !== 'production')
+		console.log('actions.type', actions.type);
+
 	switch (actions.type) {
+		// case UserContextConstants.INIT_DATA: {
+		// 	return {
+		// 		...state,
+		// 		data: {
+		// 			user: ls.get<IUserAuthenticatedData | undefined>('userData', undefined),
+		// 			token: getCookie('accessToken'),
+		// 		},
+		// 	}
+		// }
+
+		// INIT_STORE_DATA_PENDING
+		// INIT_STORE_DATA_SUCCESS
+		// INIT_STORE_DATA_FAIL
+
+		case UserContextConstants.INIT_STORE_DATA_PENDING: {
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					init: {
+						...state.actions.init,
+						storeData: {
+							errorMessage: '',
+							isLoading: true,
+							success: false,
+						},
+					},
+				},
+			};
+		}
+
+		case UserContextConstants.INIT_STORE_DATA_SUCCESS: {
+			const { data } = actions.payload;
+
+			return {
+				...state,
+				data,
+				actions: {
+					...state.actions,
+					init: {
+						...state.actions.init,
+						storeData: {
+							errorMessage: '',
+							isLoading: false,
+							success: true,
+						},
+					},
+				},
+			};
+		}
+
+		case UserContextConstants.INIT_STORE_DATA_FAIL: {
+			const { errorMessage } = actions.payload;
+
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					init: {
+						...state.actions.init,
+						storeData: {
+							errorMessage,
+							isLoading: false,
+							success: false,
+						},
+					},
+				},
+			};
+		}
+
 		case UserContextConstants.LOGOUT_REQUEST_RESET:
 		case UserContextConstants.SIGNUP_REQUEST_PENDING:
 		case UserContextConstants.LOGIN_REQUEST_PENDING: {

@@ -45,8 +45,10 @@ export const setCookie = (
 	document.cookie = cookieString;
 };
 
-export const getCookie = <T = string>(cookieName: string): T | undefined => {
-	const decodedCookie = decodeURIComponent(document.cookie);
+type TGetCookie = <T = string>(cookieName: string, source?: string) => T | undefined;
+
+export const getCookie: TGetCookie = <T = string>(cookieName: string, source = document.cookie) => {
+	const decodedCookie = decodeURIComponent(source);
 	const cookieArray = decodedCookie.split(';');
 	let cookieValue;
 

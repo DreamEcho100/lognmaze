@@ -14,7 +14,7 @@ import {
 	logoutUserRequestResetAction,
 } from 'store/UserContext/actions';
 import ButtonComponent from '@commonComponentsIndependent/Button';
-import { IUser } from '@coreLib/ts/global';
+import { IUserAuthenticatedData } from '@coreLib/ts/global';
 
 // import { setDataFirstTime, handleSignOut } from '@store/UserContext/actions';
 // import { useUserSharedState } from '@store/UserContext';
@@ -26,6 +26,14 @@ const MainNavigation = () => {
 	const [
 		{
 			data: { user: userData, token },
+			actions: {
+				init: { storeData: initStoreData },
+				requests: {
+					logout: logoutRequest,
+					login: loginRequest,
+					signup: signupRequest,
+				},
+			},
 		},
 		userDispatch,
 	] = useUserSharedState();
@@ -41,13 +49,21 @@ const MainNavigation = () => {
 	// 	CBSetDataFirstTime();
 	// }, [CBSetDataFirstTime]);
 
-	const handleLogout = (id: IUser['id'], token: string) => {
+	const handleLogout = (id: IUserAuthenticatedData['id'], token?: string) => {
+		let logoutUserRequestResetActionTimeoutId: NodeJS.Timeout;
+
 		logoutUserRequestAction(userDispatch, {
-			bodyContent: { id: id },
+			bodyContent: { id },
 			token,
 		});
+		// logoutUserRequestResetAction(userDispatch);
 
-		setTimeout(() => logoutUserRequestResetAction(userDispatch), 3000);
+		logoutUserRequestResetActionTimeoutId = setTimeout(
+			() => logoutUserRequestResetAction(userDispatch),
+			1000
+		);
+
+		return () => clearTimeout(logoutUserRequestResetActionTimeoutId);
 	};
 
 	return (
@@ -84,57 +100,51 @@ const MainNavigation = () => {
 						showNavOnSmallScreens ? classes['show-nav'] : ''
 					}`}
 				>
-					{
-						/*!userData.isVerifyingUserLoading && */ userData?.id && token && (
-							<li>
-								<span onClick={() => setShowNavOnSmallScreens(false)}>
-									<Link href={`/users/${userData?.user_name_id}`} passHref>
-										<a title={`${userData?.user_name_id} profile`}>
-											<FontAwesomeIcon icon={['fas', 'user']} /> Profile
-										</a>
-									</Link>
-								</span>
-							</li>
-						)
-					}
-					{
-						/*!userData.isVerifyingUserLoading && */ (!userData?.id ||
-							!token) && (
-							<li>
-								<span onClick={() => setShowNavOnSmallScreens(false)}>
-									<Link href='/auth'>
-										<a title='Sign In/Up'>Sign In/Up</a>
-									</Link>
-								</span>
-							</li>
-						)
-					}
-					{
-						/*!userData.isVerifyingUserLoading && */ userData?.id && token && (
-							<li>
-								<span onClick={() => setShowNavOnSmallScreens(false)}>
-									<ButtonComponent
-										title='Sign Out'
-										className={classes.button}
-										onClick={() => handleLogout(userData.id, token)}
-									>
-										Sign Out
-									</ButtonComponent>
-								</span>
-							</li>
-						)
-					}
+					{userData?.id && (
+						<li>
+							<Link href={`/users/${userData?.user_name_id}`} passHref>
+								<a
+									onClick={() => setShowNavOnSmallScreens(false)}
+									title={`${userData?.user_name_id} profile`}
+								>
+									<FontAwesomeIcon icon={['fas', 'user']} /> Profile
+								</a>
+							</Link>
+						</li>
+					)}
+					{!userData?.id && (
+						<li>
+							<ButtonComponent
+								className={classes.button}
+								onClick={() => setShowNavOnSmallScreens(false)}
+								disabled={
+									initStoreData.isLoading ||
+									loginRequest.isLoading ||
+									signupRequest.isLoading
+								}
+							>
+								<Link href='/auth'>
+									<a title='Sign In/Up'>Sign In/Up</a>
+								</Link>
+							</ButtonComponent>
+						</li>
+					)}
+					{userData?.id && (
+						<li>
+							<ButtonComponent
+								title='Sign Out'
+								className={classes.button}
+								onClick={() => {
+									handleLogout(userData.id, token);
+									setShowNavOnSmallScreens(false);
+								}}
+								disabled={logoutRequest.isLoading}
+							>
+								Sign Out
+							</ButtonComponent>
+						</li>
+					)}
 				</ul>
-				{/* <NavOnBigScreens
-				userData?={userData?State.user}
-				userData.isVerifyingUserLoading={userData?State.isVerifyingUserLoading}
-				handleSignOut={() => handleSignOut({ dispatch: userDispatch })}
-			/>
-			<NavOnSmallScreens
-				userData?={userData?State.user}
-				isVerifyinUserLoading={userData?State.isVerifyingUserLoading}
-				handleSignOugt={() => handleSignOut({ dispatch: userDispatch })}
-			/> */}
 			</nav>
 		</header>
 	);

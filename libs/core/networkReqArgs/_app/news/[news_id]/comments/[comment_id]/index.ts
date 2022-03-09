@@ -35,7 +35,7 @@ export interface IDeleteNewsItemCommentReqArgsProps {
 		| IDeleteNewsItemCommentReqArgsPropsCommentMain
 		| IDeleteNewsItemCommentReqArgsPropsCommentMainReply;
 	headersList: {
-		Authorization: string;
+		Authorization?: string;
 	};
 	urlOptions: {
 		params: {

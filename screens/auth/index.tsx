@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import classes from './index.module.css';
+import helpersClasses from '@styles/helpers.module.css';
 import borderClasses from '@styles/border.module.css';
 import boxShadowClasses from '@styles/boxShadow.module.css';
 
@@ -25,7 +26,7 @@ const AuthScreen = ({
 	const router = useRouter();
 	const [
 		{
-			data: { user: userData, token },
+			data: { user: userData },
 			actions: {
 				requests: { login: loginRequest, signup: signupRequest },
 			},
@@ -71,7 +72,7 @@ const AuthScreen = ({
 	]);
 
 	return (
-		<section>
+		<main className={helpersClasses.main}>
 			<header className={classes.header}>
 				<h1>
 					Peace,{' '}
@@ -134,7 +135,7 @@ const AuthScreen = ({
 				// 	/>
 				// ))
 			}
-		</section>
+		</main>
 	);
 };
 

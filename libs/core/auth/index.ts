@@ -1,14 +1,19 @@
 import { NextApiResponse } from 'next';
 import { genSalt, hash, compare } from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { serialize } from 'cookie';
+import { CookieSerializeOptions, serialize } from 'cookie';
 
 import {
 	SEVEN_DAYS_IN_MILLIE_SECONDS,
-	// YEAR_IN_MILLIE_SECONDS,
+	YEAR_IN_MILLIE_SECONDS,
 } from '@coreLib/constants';
-import { IUser } from '@coreLib/ts/global';
-import { ISetAccessToken, ISetRefreshToken, TJWTGenerator } from './ts';
+import { IUserAuthenticatedData } from '@coreLib/ts/global';
+import {
+	ISetAccessToken,
+	ISetRefreshToken,
+	ISetUserNameIdToken,
+	TJWTGenerator,
+} from './ts';
 
 export const hashPassword = async (password: string) => {
 	const saltRound = 12;
@@ -126,24 +131,27 @@ export const setRefreshToken: ISetRefreshToken = (
 	res,
 	user_id,
 	userSession,
-	maxAge = SEVEN_DAYS_IN_MILLIE_SECONDS
+	maxAge = YEAR_IN_MILLIE_SECONDS
 ) => {
-	const jwtRefreshToken = jwtGenerator(
-		{
-			id: user_id,
-			...userSession,
-		},
-		maxAge
-	);
 	res.setHeader(
 		'Set-Cookie',
-		serialize('refreshToken', jwtRefreshToken, {
-			maxAge,
-			path: '/',
-			httpOnly: true,
-			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'lax',
-		})
+		serialize(
+			'refreshToken',
+			jwtGenerator(
+				{
+					id: user_id,
+					...userSession,
+				},
+				maxAge
+			),
+			{
+				maxAge,
+				path: '/',
+				sameSite: 'lax',
+				httpOnly: process.env.NODE_ENV === 'production',
+				secure: process.env.NODE_ENV === 'production',
+			}
+		)
 	);
 };
 
@@ -153,22 +161,41 @@ export const setAccessToken: ISetAccessToken = (
 	userSession,
 	maxAge = SEVEN_DAYS_IN_MILLIE_SECONDS
 ) => {
-	const jwtAccessToken = jwtGenerator(
-		{
-			id: user_id,
-			...userSession,
-		},
-		maxAge
-	);
-
 	res.setHeader(
 		'Set-Cookie',
-		serialize('accessToken', jwtAccessToken, {
+		serialize(
+			'accessToken',
+			jwtGenerator(
+				{
+					id: user_id,
+					...userSession,
+				},
+				maxAge
+			),
+			{
+				maxAge,
+				path: '/',
+				// httpOnly: process.env.NODE_ENV === 'production',
+				secure: process.env.NODE_ENV === 'production',
+				sameSite: 'lax',
+			}
+		)
+	);
+};
+
+export const setUserNameIdToken: ISetUserNameIdToken = (
+	res,
+	user_name_id,
+	maxAge = YEAR_IN_MILLIE_SECONDS
+) => {
+	res.setHeader(
+		'Set-Cookie',
+		serialize('user_name_id', user_name_id, {
 			maxAge,
 			path: '/',
-			// httpOnly: true,
-			secure: process.env.NODE_ENV === 'production',
 			sameSite: 'lax',
+			httpOnly: process.env.NODE_ENV === 'production',
+			secure: process.env.NODE_ENV === 'production',
 		})
 	);
 };

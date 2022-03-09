@@ -3,7 +3,7 @@ export interface IUpdateNewsItemCommentReqArgs {
 		content: string;
 	};
 	headersList: {
-		Authorization: string;
+		Authorization?: string;
 	};
 	urlOptions: {
 		params: {

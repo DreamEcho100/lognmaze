@@ -5,9 +5,12 @@
 // import { AppContextSharedProvider, useAppSharedState } from '@store/AppContext';
 // import { UserContextSharedProvider } from '@store/UserContext';
 
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 import classes from './styles.module.css';
+
+import { useUserSharedState } from 'store/UserContext';
+import { initStoreDataAction } from 'store/UserContext/actions';
 
 import MainNavigation from './Header';
 import MainIntroComponent from './Intro';
@@ -55,11 +58,16 @@ const MainLayoutComponent = ({ children }: ILayoutProps) => {
 	// 		payload: { routerIsReady: router.isReady },
 	// 	});
 	// }, [router.isReady, appState.isReady, appDispatch]);
+	const [userState, userDispatch] = useUserSharedState();
+
+	useEffect(() => {
+		initStoreDataAction(userDispatch);
+	}, [userDispatch]);
 
 	return (
 		<>
 			<MainNavigation />
-			<main className={classes.main}>{children}</main>
+			{children}
 			<MainIntroComponent />
 		</>
 	);

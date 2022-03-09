@@ -1,8 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { hashPassword, verifyPassword } from '@coreLib/auth';
+import {
+	hashPassword,
+	jwtGenerator,
+	setUserNameIdToken,
+	verifyPassword,
+} from '@coreLib/auth';
 import pool from '@coreLib/db/pg/connection';
-import { YEAR_IN_MILLIE_SECONDS } from '@coreLib/constants';
+import {
+	SEVEN_DAYS_IN_MILLIE_SECONDS,
+	YEAR_IN_MILLIE_SECONDS,
+} from '@coreLib/constants';
 import { setAccessToken, setRefreshToken } from '@coreLib/auth';
 import pgActions from '@coreLib/db/pg/actions';
 import { serialize } from 'cookie';
@@ -51,8 +59,54 @@ export const authLogin = async (req: NextApiRequest, res: NextApiResponse) => {
 		new Date(Date.now() + YEAR_IN_MILLIE_SECONDS).toISOString()
 	);
 
-	setRefreshToken(res, user.id, userSession);
-	setAccessToken(res, user.id, userSession);
+	// setRefreshToken(res, user.id, userSession);
+	// setUserNameIdToken(res, user.user_name_id);
+	// setAccessToken(res, user.id, userSession);
+
+	res.setHeader('Set-Cookie', [
+		serialize(
+			'refreshToken',
+			jwtGenerator(
+				{
+					id: user.id,
+					...userSession,
+				},
+				YEAR_IN_MILLIE_SECONDS
+			),
+			{
+				maxAge: YEAR_IN_MILLIE_SECONDS,
+				path: '/',
+				sameSite: 'lax',
+				httpOnly: process.env.NODE_ENV === 'production',
+				secure: process.env.NODE_ENV === 'production',
+			}
+		),
+		serialize(
+			'accessToken',
+			jwtGenerator(
+				{
+					id: user.id,
+					...userSession,
+				},
+				SEVEN_DAYS_IN_MILLIE_SECONDS
+			),
+			{
+				maxAge: SEVEN_DAYS_IN_MILLIE_SECONDS,
+				path: '/',
+				// httpOnly: process.env.NODE_ENV === 'production',
+				secure: process.env.NODE_ENV === 'production',
+				sameSite: 'lax',
+			}
+		),
+		serialize('user_name_id', user.user_name_id, {
+			maxAge: YEAR_IN_MILLIE_SECONDS,
+			path: '/',
+			sameSite: 'lax',
+			httpOnly: process.env.NODE_ENV === 'production',
+			secure: process.env.NODE_ENV === 'production',
+		}),
+	]);
+
 
 	res.status(200).json({ user });
 };
@@ -178,8 +232,49 @@ export const authSignup = async (req: NextApiRequest, res: NextApiResponse) => {
 		new Date(Date.now() + YEAR_IN_MILLIE_SECONDS).toISOString()
 	);
 
-	setRefreshToken(res, newUser.id, userSession);
-	setAccessToken(res, newUser.id, userSession);
+	res.setHeader('Set-Cookie', [
+		serialize(
+			'refreshToken',
+			jwtGenerator(
+				{
+					id: newUser.id,
+					...userSession,
+				},
+				YEAR_IN_MILLIE_SECONDS
+			),
+			{
+				maxAge: YEAR_IN_MILLIE_SECONDS,
+				path: '/',
+				sameSite: 'lax',
+				httpOnly: process.env.NODE_ENV === 'production',
+				secure: process.env.NODE_ENV === 'production',
+			}
+		),
+		serialize(
+			'accessToken',
+			jwtGenerator(
+				{
+					id: newUser.id,
+					...userSession,
+				},
+				SEVEN_DAYS_IN_MILLIE_SECONDS
+			),
+			{
+				maxAge: SEVEN_DAYS_IN_MILLIE_SECONDS,
+				path: '/',
+				// httpOnly: process.env.NODE_ENV === 'production',
+				secure: process.env.NODE_ENV === 'production',
+				sameSite: 'lax',
+			}
+		),
+		serialize('user_name_id', newUser.user_name_id, {
+			maxAge: YEAR_IN_MILLIE_SECONDS,
+			path: '/',
+			sameSite: 'lax',
+			httpOnly: process.env.NODE_ENV === 'production',
+			secure: process.env.NODE_ENV === 'production',
+		}),
+	]);
 
 	res.status(201).json({ user: newUser });
 };
@@ -195,13 +290,22 @@ export const authLogout = async (
 		serialize('refreshToken', '', {
 			maxAge: 0,
 			path: '/',
-			httpOnly: true,
+			httpOnly: process.env.NODE_ENV === 'production',
+			secure: process.env.NODE_ENV === 'production',
+			sameSite: 'lax',
+		}),
+		serialize('user_name_id', '', {
+			maxAge: 0,
+			path: '/',
+			httpOnly: process.env.NODE_ENV === 'production',
+			secure: process.env.NODE_ENV === 'production',
 			sameSite: 'lax',
 		}),
 		serialize('accessToken', '', {
 			maxAge: 0,
 			path: '/',
 			// httpOnly: true,
+			secure: process.env.NODE_ENV === 'production',
 			sameSite: 'lax',
 		}),
 	]);

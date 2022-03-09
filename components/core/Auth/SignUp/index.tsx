@@ -10,7 +10,7 @@ import classes from './index.module.css';
 import borderClasses from '@styles/border.module.css';
 import boxShadowClasses from '@styles/boxShadow.module.css';
 
-import { IUser } from '@coreLib/ts/global';
+import { IUserAuthenticatedData } from '@coreLib/ts/global';
 import { useUserSharedState } from 'store/UserContext';
 import { signupUserRequestAction } from 'store/UserContext/actions';
 import {
@@ -44,16 +44,16 @@ const SignUpComponent = ({
 	] = useUserSharedState();
 
 	const [values, setValues] = useState<{
-		first_name: IUser['first_name'];
-		last_name: IUser['last_name'];
-		user_name_id: IUser['user_name_id'];
-		email: IUser['email'];
+		first_name: IUserAuthenticatedData['first_name'];
+		last_name: IUserAuthenticatedData['last_name'];
+		user_name_id: IUserAuthenticatedData['user_name_id'];
+		email: IUserAuthenticatedData['email'];
 		password: string;
 		date_of_birth: string | number | Date;
-		country: IUser['country'];
-		state: IUser['state'];
-		city: IUser['city'];
-		gender: IUser['gender'];
+		country: IUserAuthenticatedData['country'];
+		state: IUserAuthenticatedData['state'];
+		city: IUserAuthenticatedData['city'];
+		gender: IUserAuthenticatedData['gender'];
 	}>({
 		first_name: '',
 		last_name: '',

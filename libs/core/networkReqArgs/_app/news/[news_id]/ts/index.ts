@@ -32,7 +32,7 @@ export interface IUpdateNewsItemReqArgs {
 		| IUpdateNewsItemReqArgsPropsBodyContentTypeBlog
 		| IUpdateNewsItemReqArgsPropsBodyContentTypePost;
 	headersList: {
-		Authorization: string;
+		Authorization?: string;
 	};
 	urlOptions: {
 		params: {
@@ -44,7 +44,7 @@ export interface IUpdateNewsItemReqArgs {
 /* */
 export interface IDeleteNewsItemReqArgs {
 	headersList: {
-		Authorization: string;
+		Authorization?: string;
 	};
 	urlOptions: {
 		params: {

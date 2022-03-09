@@ -49,6 +49,6 @@ export interface ICreateNewsItemReqArgs {
 			| ICreateNewsItemReqArgsBodyContentTypePost;
 	};
 	headersList: {
-		Authorization: string;
+		Authorization?: string;
 	};
 }

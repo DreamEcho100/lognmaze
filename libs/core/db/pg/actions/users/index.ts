@@ -1,7 +1,5 @@
-const { Pool } = require('pg');
-
 import { YEAR_IN_MILLIE_SECONDS } from '@coreLib/constants';
-import { IUser } from '@coreLib/ts/global';
+import { IUserAuthenticatedData } from '@coreLib/ts/global';
 // import pool from '../../connection';
 import pool from '@coreLib/db/pg/connection';
 import { TGetUsers } from '../../ts';
@@ -168,7 +166,7 @@ export const getUsers: TGetUsers = async ({
 };
 
 const createUserSession = async (
-	user_id: IUser['id'],
+	user_id: IUserAuthenticatedData['id'],
 	login_start_date: string = new Date().toISOString(),
 	login_end_date: string = new Date(
 		Date.now() + YEAR_IN_MILLIE_SECONDS
@@ -189,7 +187,6 @@ const createUserSession = async (
 			[user_id, login_start_date, login_end_date]
 		)
 		.then((response: { rows: any[] }) => response.rows[0]);
-
 
 	return userSession;
 };

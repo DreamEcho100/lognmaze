@@ -2,15 +2,15 @@ import { useReducer } from 'react';
 import { createContainer } from 'react-tracked'; // @utils/v1/react-tracked
 
 import { IUserContextState } from './ts';
-import { IUser } from '@coreLib/ts/global';
+// import { IUserAuthenticatedData } from '@coreLib/ts/global';
 import reducer from './reducer';
-import ls from '@commonLibIndependent/storage/localStorage';
-import { getCookie } from '@commonLibIndependent/storage/cookie/document';
+// import ls from '@commonLibIndependent/storage/localStorage';
+// import { getCookie } from '@commonLibIndependent/storage/cookie/document';
 
-const initialState: IUserContextState = {
+let initialState: IUserContextState = {
 	data: {
-		user: ls.get<IUser | undefined>('userData', undefined),
-		token: typeof window !== 'undefined' ? getCookie('accessToken') : undefined,
+		// user: ls.get<IUserAuthenticatedData | undefined>('userData', undefined),
+		// token: typeof window !== 'undefined' ? getCookie('accessToken') : undefined,
 	},
 	actions: {
 		requests: {
@@ -30,22 +30,35 @@ const initialState: IUserContextState = {
 				success: false,
 			},
 		},
+
+		init: {
+			storeData: {
+				errorMessage: '',
+				isLoading: true,
+				success: false,
+			},
+		},
 	},
 };
 
-const useUserState = () => useReducer(reducer, initialState);
+let useUserState = () => useReducer(reducer, initialState);
 
-export const {
-	Provider: UserContextSharedProvider,
-	useTracked: useUserSharedState,
-} = createContainer(useUserState);
+let createdContainer = createContainer(useUserState);
 
-const obj = {
+export let UserContextSharedProvider = createdContainer.Provider;
+export let useUserSharedState = createdContainer.useTracked;
+
+// export let {
+// 	Provider: UserContextSharedProvider,
+// 	useTracked: useUserSharedState,
+// } = createContainer(useUserState);
+
+let UserContextStore = {
 	UserContextSharedProvider,
 	useUserSharedState,
 };
 
-export default obj;
+export default UserContextStore;
 
 // const UserContext = createContext({
 // 	state: [],

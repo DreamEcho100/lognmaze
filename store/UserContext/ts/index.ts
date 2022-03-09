@@ -4,13 +4,13 @@ import {
 	ILogoutReqArgsProps,
 	ISignupReqArgsProps,
 } from '@coreLib/networkReqArgs/_app/auth/ts';
-import { IUser } from '@coreLib/ts/global';
+import { IUserAuthenticatedData } from '@coreLib/ts/global';
 
 export interface IUserContextState {
 	data: {
-		user?: IUser;
+		user?: IUserAuthenticatedData;
 		token?: string;
-	}
+	};
 	actions: {
 		requests: {
 			login: {
@@ -29,7 +29,33 @@ export interface IUserContextState {
 				success: boolean;
 			};
 		};
+
+		init: {
+			storeData: {
+				errorMessage: string;
+				isLoading: boolean;
+				success: boolean;
+			};
+		};
 	};
+}
+
+interface IInitStoreDataPending {
+	type: typeof UserContextConstants.INIT_STORE_DATA_PENDING;
+}
+interface IInitStoreDataSuccess {
+	type: typeof UserContextConstants.INIT_STORE_DATA_SUCCESS;
+	payload: {
+		data: {
+			user: IUserAuthenticatedData;
+			token: IUserContextState['data'];
+		}['token'];
+		// user: IUserAuthenticatedData; token: string
+	};
+}
+interface IInitStoreDataFail {
+	type: typeof UserContextConstants.INIT_STORE_DATA_FAIL;
+	payload: { errorMessage: string };
 }
 
 interface IUserRequestLoginPending {
@@ -37,7 +63,7 @@ interface IUserRequestLoginPending {
 }
 interface IUserRequestLoginSuccess {
 	type: typeof UserContextConstants.LOGIN_REQUEST_SUCCESS;
-	payload: { user: IUser; token: string };
+	payload: { user: IUserAuthenticatedData; token: string };
 }
 interface IUserRequestLoginFail {
 	type: typeof UserContextConstants.LOGIN_REQUEST_FAIL;
@@ -52,7 +78,7 @@ interface IUserRequestSignupPending {
 }
 interface IUserRequestSignupSuccess {
 	type: typeof UserContextConstants.SIGNUP_REQUEST_SUCCESS;
-	payload: { user: IUser; token: string };
+	payload: { user: IUserAuthenticatedData; token: string };
 }
 interface IUserRequestSignupFail {
 	type: typeof UserContextConstants.SIGNUP_REQUEST_FAIL;
@@ -77,6 +103,10 @@ interface IUserRequestLogoutReset {
 }
 
 export type IUserContextReducerAction =
+	| IInitStoreDataPending
+	| IInitStoreDataSuccess
+	| IInitStoreDataFail
+	//
 	| IUserRequestLoginPending
 	| IUserRequestLoginSuccess
 	| IUserRequestLoginFail
@@ -101,6 +131,8 @@ export type TUserContextDispatch =
 // export type userType = InitialStateInterface['user'];
 
 // Actions
+export type TInitStoreDataAction = (dispatch: TUserContextDispatch) => void;
+
 export type TLoginUserRequestAction = (
 	dispatch: TUserContextDispatch,
 	{ bodyContent }: { bodyContent: ILoginReqArgsProps['bodyContent'] }
@@ -124,7 +156,7 @@ export type TLogoutUserRequestAction = (
 		token,
 	}: {
 		bodyContent: ILogoutReqArgsProps['bodyContent'];
-		token: string;
+		token?: string;
 	}
 ) => Promise<void>;
 export type TLogoutUserRequestResetAction = (

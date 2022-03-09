@@ -1,6 +1,6 @@
 import { GetStaticProps, NextPage } from 'next';
 
-import AuthScreen from '@screens/auth';
+import AuthScreen from '@screens/Auth';
 
 interface Props {
 	UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN: string;

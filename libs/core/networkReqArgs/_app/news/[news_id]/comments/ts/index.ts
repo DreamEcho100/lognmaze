@@ -45,7 +45,7 @@ export interface ICreateNewsItemCommentReqArgs {
 		};
 	};
 	headersList: {
-		Authorization: string;
+		Authorization?: string;
 	};
 	bodyContent:
 		| ICreateNewsItemCommentReqArgsPropsBodyContentTypeCommentMain

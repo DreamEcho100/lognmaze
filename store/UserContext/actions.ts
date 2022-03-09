@@ -1,5 +1,6 @@
-import { IUser } from '@coreLib/ts/global';
+import { IUserAuthenticatedData } from '@coreLib/ts/global';
 import {
+	TInitStoreDataAction,
 	TLoginUserRequestAction,
 	TLoginUserRequestResetAction,
 	TLogoutUserRequestAction,
@@ -18,6 +19,43 @@ import networkReqArgs from '@coreLib/networkReqArgs';
 
 const returnBearerToken = (token: string) => `Bearer ${token}`;
 
+// UserContextConstants.INIT_STORE_DATA_PENDING
+export const initStoreDataAction: TInitStoreDataAction = async (dispatch) => {
+	try {
+		dispatch({
+			type: UserContextConstants.INIT_STORE_DATA_PENDING,
+		});
+
+		const user = ls.get<IUserAuthenticatedData | undefined>(
+			'userData',
+			undefined
+		);
+		if (!user) throw new Error('User data not found!');
+		const token = getCookie('accessToken');
+		// if (!accessToken) throw new Error("Access token wasn't found!");
+
+		dispatch({
+			type: UserContextConstants.INIT_STORE_DATA_SUCCESS,
+			payload: {
+				data: {
+					user,
+					token,
+				},
+			},
+		});
+	} catch (error) {
+		dispatch({
+			type: UserContextConstants.INIT_STORE_DATA_FAIL,
+			payload: {
+				errorMessage:
+					error instanceof Error
+						? error.message
+						: 'Something wrong happened :(',
+			},
+		});
+	}
+};
+
 export const loginUserRequestAction: TLoginUserRequestAction = async (
 	dispatch,
 	{ bodyContent }
@@ -31,7 +69,7 @@ export const loginUserRequestAction: TLoginUserRequestAction = async (
 			bodyContent,
 		});
 
-		const { user }: { user: IUser } = await fetch(
+		const { user }: { user: IUserAuthenticatedData } = await fetch(
 			requestInfo,
 			requestInit
 		).then((response) => response.json());
@@ -78,7 +116,7 @@ export const signupUserRequestAction: TSignupUserRequestAction = async (
 			bodyContent,
 		});
 
-		const { user }: { user: IUser } = await fetch(
+		const { user }: { user: IUserAuthenticatedData } = await fetch(
 			requestInfo,
 			requestInit
 		).then((response) => response.json());
@@ -124,7 +162,7 @@ export const logoutUserRequestAction: TLogoutUserRequestAction = async (
 		const { requestInfo, requestInit } = networkReqArgs._app.auth.logout({
 			bodyContent,
 			headersList: {
-				Authorization: returnBearerToken(token),
+				Authorization: token ? returnBearerToken(token) : undefined,
 			},
 		});
 
@@ -137,6 +175,7 @@ export const logoutUserRequestAction: TLogoutUserRequestAction = async (
 
 		deleteCookie('accessToken');
 		deleteCookie('refreshToken');
+		deleteCookie('user_name_id');
 		ls.remove('userData');
 
 		dispatch({
