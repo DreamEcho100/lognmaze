@@ -20,7 +20,8 @@ const nextConfig = (phase) => {
 		env.FRONT_END_ROOT_URL = 'http://localhost:3000';
 		env.BACK_END_ROOT_URL = 'http://localhost:3000';
 		env.FRONT_END_DOMAIN = 'localhost';
-		env.PG_CONNECTION_STRING = process.env.DEVELOPMENT_PG_SUPABASE_CONNECTION_STRING;
+		env.PG_CONNECTION_STRING =
+			process.env.DEVELOPMENT_PG_SUPABASE_CONNECTION_STRING;
 	} else {
 		//  process.env.VERCEL_URL
 		// 	? `https://${process.env.VERCEL_URL}`
@@ -28,7 +29,8 @@ const nextConfig = (phase) => {
 		env.FRONT_END_ROOT_URL = 'https://lognmaze.com';
 		env.BACK_END_ROOT_URL = 'https://lognmaze.com';
 		env.FRONT_END_DOMAIN = 'lognmaze.com';
-		env.PG_CONNECTION_STRING = process.env.PRODUCTION_PG_SUPABASE_CONNECTION_STRING;
+		env.PG_CONNECTION_STRING =
+			process.env.PRODUCTION_PG_SUPABASE_CONNECTION_STRING;
 	}
 
 	return {
@@ -47,10 +49,19 @@ const nextConfig = (phase) => {
 			// your project has ESLint errors.
 			ignoreDuringBuilds: true,
 		},
-		swcMinify: true
+		swcMinify: true,
+		swcMinify: true,
+		experimental: {
+			reactRoot: true,
+			// hydrateRoot: true,
+		},
+		compiler: {
+			removeConsole: {
+				exclude: ['error'],
+			},
+		},
 	};
 };
-
 
 // const withBundleAnalyzer = require('@next/bundle-analyzer')({
 // 	enabled: process.env.ANALYZE === 'true',

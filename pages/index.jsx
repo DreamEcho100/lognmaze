@@ -6,7 +6,7 @@ import {
 import { useRouter } from 'next/router';
 
 // import { NewsContextSharedProvider } from '@store/NewsContext';
-import { useSetUserContextStore } from '@store/NewsContext';
+import { useSetNewsContextStore } from '@store/NewsContext';
 import { useUserSharedState } from '@store/UserContext';
 import { getCookie } from '@lib/v1/cookie';
 import { getNews } from '@lib/v1/pg/news';
@@ -50,7 +50,7 @@ const HomePage = (
 
 	const { NewsContextSharedProvider } =
 		// useMemo((news) =>
-		useSetUserContextStore({
+		useSetNewsContextStore({
 			news: Array.isArray(news)
 				? news.map((obj) => {
 						const formattedItem = {};

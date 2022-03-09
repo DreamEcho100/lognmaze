@@ -3,7 +3,7 @@ import { createContainer } from 'react-tracked'; // @utils/v1/react-tracked
 
 import reducer from './reducer';
 
-const initialState = {
+let initialState = {
 	newsType: '',
 	news: [],
 };
@@ -13,7 +13,7 @@ let useNewsState = () => useReducer(reducer, initialState);
 // // export
 // const { Provider: NewsContextSharedProvider, useTracked: useNewsSharedState } =
 // 	createContainer(useNewsState);
-const createdContainer = createContainer(useNewsState);
+let createdContainer = createContainer(useNewsState);
 export let NewsContextSharedProvider = createdContainer.Provider;
 export let useNewsSharedState = createdContainer.useTracked;
 
@@ -24,15 +24,15 @@ let obj = {
 
 export default obj;
 
-export const useSetUserContextStore = ({ newsType = '', news = [] }) => {
-	const initialState = {
+export const useSetNewsContextStore = ({ newsType = '', news = [] }) => {
+	initialState = {
 		newsType,
 		news,
 	};
 
 	useNewsState = () => useReducer(reducer, initialState);
 
-	const createdContainer = createContainer(useNewsState);
+	createdContainer = createContainer(useNewsState);
 	NewsContextSharedProvider = createdContainer.Provider;
 	useNewsSharedState = createdContainer.useTracked;
 

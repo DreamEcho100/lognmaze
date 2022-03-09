@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import { useSetUserContextStore } from '@store/NewsContext';
+import { useSetNewsContextStore } from '@store/NewsContext';
 import { XMLCharactersEncoding } from '@lib/v1/regex';
 import { pool } from '@lib/v1/pg';
 
@@ -100,7 +100,10 @@ const BlogPage = (props) => {
 	const data =
 		typeof props.data === 'string' ? JSON.parse(props.data) : props.data;
 
-	const { NewsContextSharedProvider } = useSetUserContextStore({ newsType: 'ONE', news: [data] });
+	const { NewsContextSharedProvider } = useSetNewsContextStore({
+		newsType: 'ONE',
+		news: [data],
+	});
 
 	return (
 		<NewsContextSharedProvider>

@@ -4,7 +4,9 @@ import { getCookie } from '@lib/v1/cookie';
 import { getNews } from '@lib/v1/pg/news';
 import { useUserSharedState } from '@store/UserContext';
 // import { NewsContextSharedProvider } from '@store/NewsContext';
-import { useSetUserContextStore } from '@store/NewsContext';
+// import { useSetNewsContextStore } from '@store/NewsContext';
+
+import { useSetNewsContextStore } from '@store/NewsContext';
 
 import Profile from '@components/Profile';
 import pg from '@lib/v1/pg';
@@ -148,8 +150,31 @@ const ProfilePage = ({ user = {}, ...props }) => {
 		userState.userExist,
 	]);
 
-	const { NewsContextSharedProvider } = useSetUserContextStore({
-		news: profileState.formattedPosts,
+	const { NewsContextSharedProvider } = useSetNewsContextStore({
+		news: (() => {
+			const formattedPosts = [];
+
+			if (props?.posts?.length !== 0) {
+				props.posts.forEach((obj) => {
+					const formattedItem = {};
+					let itemA;
+					for (itemA in obj) {
+						if (itemA !== 'type_data') {
+							formattedItem[itemA] = obj[itemA];
+						} else {
+							let itemB;
+							for (itemB in obj['type_data']) {
+								formattedItem[itemB] = obj.type_data[itemB];
+							}
+						}
+					}
+
+					formattedPosts.push(formattedItem);
+				});
+			}
+
+			return formattedPosts;
+		})(),
 	});
 
 	useEffect(() => {
@@ -175,7 +200,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 				}
 				// isLoadingSkeleton={profileState.isLoading}
 				visitorIdentity={profileState.visitorIdentity}
-				news={profileState.formattedPosts}
+				// news={profileState.formattedPosts}
 				newsFetchRouteQuery={profileState.newsFetchRouteQuery}
 			/>
 		</NewsContextSharedProvider>

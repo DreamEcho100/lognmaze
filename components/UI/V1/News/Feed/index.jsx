@@ -30,6 +30,9 @@ const Feed = ({
 		...props,
 	};
 
+	if (!Array.isArray(newsState.news) || newsState.news.length === 0)
+		return <></>;
+
 	return (
 		<section {...feedProps}>
 			{/* {isLoadingSkeleton &&
@@ -87,7 +90,7 @@ const Feed = ({
 							disabled={newsState.isLoadingMoreNewsItems}
 							onClick={() =>
 								handleLoadMoreNewsItems({
-									newsDispatch, 
+									newsDispatch,
 									last_news_item_created_at:
 										newsState.news[newsState.news.length - 1].created_at,
 									newsFetchRouteQuery,

@@ -68,7 +68,9 @@ const Comments = ({
 		setLoadingComments(false);
 	};
 
-	useEffect(() => LoadComments(), []);
+	useEffect(() => {
+		LoadComments();
+	}, []);
 
 	return (
 		<section className={`${inheritedClasses}`}>

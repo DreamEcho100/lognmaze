@@ -14,7 +14,7 @@ const Home = ({
 }) => {
 	const [newsState, newsDispatch] = useNewsSharedState();
 
-	// useSetUserContextStore
+	// useSetNewsContextStore
 
 	// const init = useCallback(
 	// 	(news, newsDispatch, newsFetchRouteQuery) => {

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import classes from './index.module.css';
@@ -6,10 +6,10 @@ import classes from './index.module.css';
 import { XMLCharactersEncoding } from '@lib/v1/regex';
 import { dateToHumanReadableDate } from '@lib/v1/time';
 import { handleAddingLoadingSkeletonClass } from '@lib/v1/className';
-import { useNewsSharedState } from '@store/NewsContext';
+// import { useNewsSharedState } from '@store/NewsContext';
 import { useUserSharedState } from '@store/UserContext';
 
-import { handleAddingNewsFirstTime } from '@store/NewsContext/actions';
+// import { handleAddingNewsFirstTime } from '@store/NewsContext/actions';
 const DynamicCreateNewsButton = dynamic(() =>
 	import('./CreateNewsButton/CreateNewsButton')
 );
@@ -31,20 +31,9 @@ const Profile = ({
 	newsFetchRouteQuery,
 }) => {
 	const [userState, userDispatch] = useUserSharedState();
-	const [newsState, newsDispatch] = useNewsSharedState();
+	// const [newsState, newsDispatch] = useNewsSharedState();
 
-	const news = newsState.news;
-
-	// useEffect(() => {
-	// 	if (news.length === 0) return;
-
-	// 	handleAddingNewsFirstTime({
-	// 		newsDispatch,
-	// 		news,
-	// 		newsType: 'ALL',
-	// 		newsFetchRouteQuery,
-	// 	});
-	// }, [news, newsDispatch, newsFetchRouteQuery]);
+	// const news = newsState.news;
 
 	if (isLoadingSkeleton && (!userData.id || userData.id.length === 0)) {
 		return (
@@ -169,12 +158,10 @@ const Profile = ({
 			/>
 			<section className={classes['main-section']}>
 				<section className={classes['section-1']}>
-					{news.length !== 0 && (
-						<Feed
-							// isLoadingSkeleton={isLoadingSkeleton}
-							newsFetchRouteQuery={newsFetchRouteQuery}
-						/>
-					)}
+					<Feed
+						// isLoadingSkeleton={isLoadingSkeleton}
+						newsFetchRouteQuery={newsFetchRouteQuery}
+					/>
 					<Wrapper
 						className={handleAddingLoadingSkeletonClass(
 							isLoadingSkeleton,
