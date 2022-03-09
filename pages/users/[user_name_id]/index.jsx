@@ -150,7 +150,7 @@ const ProfilePage = ({ user = {}, ...props }) => {
 		userState.userExist,
 	]);
 
-	console.log('props?.posts', props?.posts);
+	// console.log('props?.posts', props?.posts);
 
 	const formattedNews = (() => {
 		const formattedPosts = [];
@@ -325,7 +325,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
 		'public, s-maxage=60, stale-while-revalidate=60'
 	);
 
-	console.log('data.posts.news', data.posts.news);
+	// console.log('data.posts.news', data.posts.news);
 
 	return {
 		props: {
