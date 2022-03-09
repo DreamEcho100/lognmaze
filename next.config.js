@@ -51,10 +51,10 @@ const nextConfig = (phase) => {
 		},
 		swcMinify: true,
 		swcMinify: true,
-		experimental: {
-			reactRoot: true,
-			// hydrateRoot: true,
-		},
+		// experimental: {
+		// 	reactRoot: true,
+		// 	// hydrateRoot: true,
+		// },
 		compiler: {
 			removeConsole: {
 				exclude: ['error'],

@@ -150,31 +150,43 @@ const ProfilePage = ({ user = {}, ...props }) => {
 		userState.userExist,
 	]);
 
-	const { NewsContextSharedProvider } = useSetNewsContextStore({
-		news: (() => {
-			const formattedPosts = [];
+	console.log('props?.posts', props?.posts);
 
-			if (props?.posts?.length !== 0) {
-				props.posts.forEach((obj) => {
-					const formattedItem = {};
-					let itemA;
-					for (itemA in obj) {
-						if (itemA !== 'type_data') {
-							formattedItem[itemA] = obj[itemA];
-						} else {
-							let itemB;
-							for (itemB in obj['type_data']) {
-								formattedItem[itemB] = obj.type_data[itemB];
-							}
+	const formattedNews = (() => {
+		const formattedPosts = [];
+
+		if (props?.posts?.length !== 0) {
+			props.posts.forEach((obj) => {
+				const formattedItem = {};
+				let itemA;
+				for (itemA in obj) {
+					if (itemA !== 'type_data') {
+						formattedItem[itemA] = obj[itemA];
+					} else {
+						let itemB;
+						for (itemB in obj['type_data']) {
+							formattedItem[itemB] = obj.type_data[itemB];
 						}
 					}
+				}
 
-					formattedPosts.push(formattedItem);
-				});
-			}
+				formattedPosts.push(formattedItem);
+			});
+		}
 
-			return formattedPosts;
-		})(),
+		return formattedPosts;
+	})();
+
+	// const { NewsContextSharedProvider } = useSetNewsContextStore({
+	// 	newsType: 'ALL',
+	// 	news: formattedNews,
+	// });
+	// const { NewsContextSharedProvider } = useSetNewsContextStore({
+	// 	news: formattedNews,
+	// });
+	useSetNewsContextStore({
+		newsType: 'ALL',
+		news: formattedNews,
 	});
 
 	useEffect(() => {
@@ -191,19 +203,20 @@ const ProfilePage = ({ user = {}, ...props }) => {
 	]);
 
 	return (
-		<NewsContextSharedProvider>
+		<>
 			<Profile
 				userData={
 					profileState.userData?.id === userState.user?.id
 						? userState.user
 						: profileState.userData
 				}
+				formattedNews={formattedNews}
 				// isLoadingSkeleton={profileState.isLoading}
 				visitorIdentity={profileState.visitorIdentity}
 				// news={profileState.formattedPosts}
 				newsFetchRouteQuery={profileState.newsFetchRouteQuery}
 			/>
-		</NewsContextSharedProvider>
+		</>
 	);
 };
 
@@ -311,6 +324,8 @@ export const getServerSideProps = async ({ req, res, query }) => {
 		'Cache-Control',
 		'public, s-maxage=60, stale-while-revalidate=60'
 	);
+
+	console.log('data.posts.news', data.posts.news);
 
 	return {
 		props: {

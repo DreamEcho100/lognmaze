@@ -1,8 +1,7 @@
-import { useCallback, useEffect } from 'react';
+// import { useCallback, useEffect } from 'react';
 import Head from 'next/head';
 
-import { handleAddingNewsFirstTime } from '@store/NewsContext/actions';
-import { useNewsSharedState } from '@store/NewsContext';
+// import { useNewsSharedState } from '@store/NewsContext';
 
 import Section1 from '@components/Home/Section1';
 
@@ -12,7 +11,7 @@ const Home = ({
 	// news,
 	newsFetchRouteQuery,
 }) => {
-	const [newsState, newsDispatch] = useNewsSharedState();
+	// const [newsState, newsDispatch] = useNewsSharedState();
 
 	// useSetNewsContextStore
 
@@ -80,7 +79,7 @@ const Home = ({
 				/>
 			</Head>
 			<Section1
-				news={newsState.news}
+				// news={newsState.news}
 				isLoadingSkeleton={isLoadingSkeleton}
 				userExist={userExist}
 				newsFetchRouteQuery={newsFetchRouteQuery}

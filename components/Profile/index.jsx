@@ -8,6 +8,10 @@ import { dateToHumanReadableDate } from '@lib/v1/time';
 import { handleAddingLoadingSkeletonClass } from '@lib/v1/className';
 // import { useNewsSharedState } from '@store/NewsContext';
 import { useUserSharedState } from '@store/UserContext';
+import {
+	NewsContextSharedProvider,
+	useSetNewsContextStore,
+} from '@store/NewsContext';
 
 // import { handleAddingNewsFirstTime } from '@store/NewsContext/actions';
 const DynamicCreateNewsButton = dynamic(() =>
@@ -27,13 +31,18 @@ const Profile = ({
 	userData,
 	isLoadingSkeleton,
 	visitorIdentity = GUEST,
-	// news = [],
+	formattedNews = [],
 	newsFetchRouteQuery,
 }) => {
 	const [userState, userDispatch] = useUserSharedState();
 	// const [newsState, newsDispatch] = useNewsSharedState();
 
 	// const news = newsState.news;
+	// const { NewsContextSharedProvider } =
+	// useSetNewsContextStore({
+	// 	newsType: 'ALL',
+	// 	news: formattedNews,
+	// });
 
 	if (isLoadingSkeleton && (!userData.id || userData.id.length === 0)) {
 		return (
@@ -71,141 +80,146 @@ const Profile = ({
 			: undefined;
 
 	return (
-		<main className={`${classes.profile} main`}>
-			<Head>
-				<script
-					type='application/ld+json'
-					dangerouslySetInnerHTML={{
-						__html: JSON.stringify(schemaOrg),
-					}}
-				/>
-
-				<meta property='og:locale' content='en_US' />
-				<meta property='og:type' content='profile' />
-				<meta property='profile:first_name' content={userData?.first_name} />
-				<meta property='profile:last_name' content={userData?.last_name} />
-				<meta property='profile:username' content={userData?.user_name_id} />
-				<meta property='profile:gender' content={userData?.gender} />
-				<meta
-					property='og:title'
-					content={`${userData?.user_name_id} | LogNMaze`}
-				/>
-				<meta
-					property='og:url'
-					content={`https://lognmaze.com/users/${userData?.user_name_id}`}
-				/>
-				<meta
-					name='twitter:url'
-					content={`https://lognmaze.com/users/${userData?.user_name_id}`}
-				/>
-
-				{userData?.profile_picture?.length !== 0 ? (
-					<>
-						<meta property='og:image' content={userData?.profile_picture} />
-						<meta property='og:image:width' content='250' />
-						<meta property='og:image:height' content='250' />
-						<meta
-							property='og:image:alt'
-							content={`${userData?.user_name_id} profile picture`}
-						/>
-						<meta name='twitter:image' content={userData?.profile_picture} />
-					</>
-				) : (
-					''
-				)}
-
-				{descriptionWithXMLCharactersEncoding ? (
-					<>
-						<meta
-							property='og:description'
-							content={descriptionWithXMLCharactersEncoding.slice(1, 150)}
-						/>
-						<meta
-							name='description'
-							content={descriptionWithXMLCharactersEncoding.slice(1, 150)}
-						/>
-						<meta
-							name='twitter:description'
-							content={descriptionWithXMLCharactersEncoding.slice(1, 150)}
-						/>
-					</>
-				) : (
-					''
-				)}
-				<meta
-					property='og:url'
-					content={`https://lognmaze.com/users/${userData?.user_name_id}`}
-				/>
-				<meta
-					name='twitter:url'
-					content={`https://lognmaze.com/users/${userData?.user_name_id}`}
-				/>
-				<meta
-					name='twitter:title'
-					content={`${userData?.user_name_id} | LogNMaze`}
-				/>
-
-				<meta
-					property='og:title'
-					content={`${userData?.user_name_id} | LogNMaze`}
-				/>
-				<title>{userData?.user_name_id} | LogNMaze</title>
-			</Head>
-			<Hero
-				isLoadingSkeleton={isLoadingSkeleton}
-				userData={userData}
-				visitorIdentity={visitorIdentity}
-			/>
-			<section className={classes['main-section']}>
-				<section className={classes['section-1']}>
-					<Feed
-						// isLoadingSkeleton={isLoadingSkeleton}
-						newsFetchRouteQuery={newsFetchRouteQuery}
+		<NewsContextSharedProvider>
+			<main className={`${classes.profile} main`}>
+				<Head>
+					<script
+						type='application/ld+json'
+						dangerouslySetInnerHTML={{
+							__html: JSON.stringify(schemaOrg),
+						}}
 					/>
-					<Wrapper
-						className={handleAddingLoadingSkeletonClass(
-							isLoadingSkeleton,
-							classes,
-							classes.wrapper
-						)}
-					>
-						<div>
-							{userData?.created_at && (
-								<time dateTime={userData.created_at}>
-									<span>
-										<small>
-											<strong>Account Created At:</strong>{' '}
-											<em>
-												{
-													dateToHumanReadableDate(userData.created_at, {
-														withTime: true,
-													}).dateAndTimeString
-												}
-											</em>
-										</small>
-									</span>
-								</time>
-							)}
-						</div>
-					</Wrapper>
-				</section>
-				<section className={classes['section-2']}>
-					<Wrapper
-						className={handleAddingLoadingSkeletonClass(
-							isLoadingSkeleton && userState.isVerifyingUserLoading,
-							classes,
-							classes.wrapper
-						)}
-					>
-						{!isLoadingSkeleton && visitorIdentity === OWNER && (
-							<DynamicCreateNewsButton />
-						)}
 
-						<BioSection bio={userData?.bio} visitorIdentity={visitorIdentity} />
-					</Wrapper>
+					<meta property='og:locale' content='en_US' />
+					<meta property='og:type' content='profile' />
+					<meta property='profile:first_name' content={userData?.first_name} />
+					<meta property='profile:last_name' content={userData?.last_name} />
+					<meta property='profile:username' content={userData?.user_name_id} />
+					<meta property='profile:gender' content={userData?.gender} />
+					<meta
+						property='og:title'
+						content={`${userData?.user_name_id} | LogNMaze`}
+					/>
+					<meta
+						property='og:url'
+						content={`https://lognmaze.com/users/${userData?.user_name_id}`}
+					/>
+					<meta
+						name='twitter:url'
+						content={`https://lognmaze.com/users/${userData?.user_name_id}`}
+					/>
+
+					{userData?.profile_picture?.length !== 0 ? (
+						<>
+							<meta property='og:image' content={userData?.profile_picture} />
+							<meta property='og:image:width' content='250' />
+							<meta property='og:image:height' content='250' />
+							<meta
+								property='og:image:alt'
+								content={`${userData?.user_name_id} profile picture`}
+							/>
+							<meta name='twitter:image' content={userData?.profile_picture} />
+						</>
+					) : (
+						''
+					)}
+
+					{descriptionWithXMLCharactersEncoding ? (
+						<>
+							<meta
+								property='og:description'
+								content={descriptionWithXMLCharactersEncoding.slice(1, 150)}
+							/>
+							<meta
+								name='description'
+								content={descriptionWithXMLCharactersEncoding.slice(1, 150)}
+							/>
+							<meta
+								name='twitter:description'
+								content={descriptionWithXMLCharactersEncoding.slice(1, 150)}
+							/>
+						</>
+					) : (
+						''
+					)}
+					<meta
+						property='og:url'
+						content={`https://lognmaze.com/users/${userData?.user_name_id}`}
+					/>
+					<meta
+						name='twitter:url'
+						content={`https://lognmaze.com/users/${userData?.user_name_id}`}
+					/>
+					<meta
+						name='twitter:title'
+						content={`${userData?.user_name_id} | LogNMaze`}
+					/>
+
+					<meta
+						property='og:title'
+						content={`${userData?.user_name_id} | LogNMaze`}
+					/>
+					<title>{userData?.user_name_id} | LogNMaze</title>
+				</Head>
+				<Hero
+					isLoadingSkeleton={isLoadingSkeleton}
+					userData={userData}
+					visitorIdentity={visitorIdentity}
+				/>
+				<section className={classes['main-section']}>
+					<section className={classes['section-1']}>
+						<Feed
+							// isLoadingSkeleton={isLoadingSkeleton}
+							newsFetchRouteQuery={newsFetchRouteQuery}
+						/>
+						<Wrapper
+							className={handleAddingLoadingSkeletonClass(
+								isLoadingSkeleton,
+								classes,
+								classes.wrapper
+							)}
+						>
+							<div>
+								{userData?.created_at && (
+									<time dateTime={userData.created_at}>
+										<span>
+											<small>
+												<strong>Account Created At:</strong>{' '}
+												<em>
+													{
+														dateToHumanReadableDate(userData.created_at, {
+															withTime: true,
+														}).dateAndTimeString
+													}
+												</em>
+											</small>
+										</span>
+									</time>
+								)}
+							</div>
+						</Wrapper>
+					</section>
+					<section className={classes['section-2']}>
+						<Wrapper
+							className={handleAddingLoadingSkeletonClass(
+								isLoadingSkeleton && userState.isVerifyingUserLoading,
+								classes,
+								classes.wrapper
+							)}
+						>
+							{!isLoadingSkeleton && visitorIdentity === OWNER && (
+								<DynamicCreateNewsButton />
+							)}
+
+							<BioSection
+								bio={userData?.bio}
+								visitorIdentity={visitorIdentity}
+							/>
+						</Wrapper>
+					</section>
 				</section>
-			</section>
-		</main>
+			</main>
+		</NewsContextSharedProvider>
 	);
 };
 

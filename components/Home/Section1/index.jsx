@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import classes from './index.module.css';
 
 import { useUserSharedState } from '@store/UserContext';
+// import { useNewsSharedState } from '@store/NewsContext';
 
 import { handleAddingLoadingSkeletonClass } from '@lib/v1/className';
 
@@ -15,6 +16,7 @@ const Section1 = ({ isLoadingSkeleton, userExist, newsFetchRouteQuery }) => {
 	const router = useRouter();
 
 	const [userState, userDispatch] = useUserSharedState();
+	// const [newsState, newsDispatch] = useNewsSharedState();
 
 	return (
 		<main className={classes['main-section']}>
