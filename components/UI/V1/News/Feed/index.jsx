@@ -87,9 +87,9 @@ const Feed = ({
 							disabled={newsState.isLoadingMoreNewsItems}
 							onClick={() =>
 								handleLoadMoreNewsItems({
-									newsDispatch,
+									newsDispatch, 
 									last_news_item_created_at:
-										newsState.last_news_item_created_at,
+										newsState.news[newsState.news.length - 1].created_at,
 									newsFetchRouteQuery,
 								})
 							}

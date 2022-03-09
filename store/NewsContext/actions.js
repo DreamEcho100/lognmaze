@@ -394,10 +394,12 @@ export const handleLoadingNewsItemComments = async ({
 			newsResult.data.comments.length - 1
 		]
 			? newsResult.data.comments[newsResult.data.comments.length - 1].created_at
-			: newsResult.data.comments[newsResult.data.comments.length - 1].created_at
-			? newsResult.data.comments[newsResult.data.comments.length - 1].created_at
 			: undefined;
-		dataToAdd.comments = [...newsItem.comments, ...newsResult.data.comments];
+
+		dataToAdd.comments = [
+			...(newsItem.comments ?? []),
+			...newsResult.data.comments,
+		];
 	}
 
 	if (
