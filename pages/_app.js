@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
 import Head from 'next/head';
+import Script from 'next/script';
+import { useEffect, useState } from 'react';
 // import { YMInitializer } from 'react-yandex-metrika';
 // import LogRocket from 'logrocket';
 import { config, library } from '@fortawesome/fontawesome-svg-core';
@@ -99,6 +100,11 @@ const MyApp = ({ Component, pageProps }) => {
 		<>
 			{/* <DefaultSeo {...DefaultSEOProps} /> */}
 			<Head>
+				<Script
+					data-ad-client='ca-pub-8030984398568253'
+					async
+					src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
+				/>
 				{
 					'<!-- icon created by ColourCreatype at https://freeicons.io/profile/5790 -->'
 				}

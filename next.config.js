@@ -52,6 +52,7 @@ const nextConfig = (phase) => {
 		swcMinify: true,
 		swcMinify: true,
 		experimental: {
+    	nextScriptWorkers: true,
 			reactRoot: true,
 			// hydrateRoot: true,
 		},
