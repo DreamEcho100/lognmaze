@@ -100,7 +100,7 @@ const MyApp = ({ Component, pageProps }) => {
 		<>
 			{/* <DefaultSeo {...DefaultSEOProps} /> */}
 			<Head>
-				<Script
+				<script
 					data-ad-client='ca-pub-8030984398568253'
 					async
 					src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
