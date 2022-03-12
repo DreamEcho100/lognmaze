@@ -32,13 +32,13 @@ const ExtraScripts = () => {
       // data-checked-head={false}
     /> */}
 			<Script
-				// strategy='afterInteractive'
-				strategy='worker'
+				strategy='afterInteractive'
+				// strategy='worker'
 				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
 			/>
 			<Script
-				// strategy='afterInteractive'
-				strategy='worker'
+				strategy='afterInteractive'
+				// strategy='worker'
 				id='google-analytics-script'
 				dangerouslySetInnerHTML={{
 					__html: `
