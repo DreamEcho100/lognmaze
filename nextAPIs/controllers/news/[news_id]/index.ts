@@ -1,9 +1,9 @@
 import { itemsInObject } from '@commonLibIndependent/object';
 import pool from '@coreLib/db/pg/connection';
 import {
-	INewsBlogData,
-	INewsBlogDataTypeDataContent,
-	INewsPostData,
+	INewsItemTypeBlog,
+	INewsItemTypeBlogContent,
+	INewsItemTypePost,
 	NextApiRequestExtended,
 } from '@coreLib/ts/global';
 import { NextApiResponse } from 'next';
@@ -11,21 +11,21 @@ import newsItemTypeBlogController from './blog';
 import newsItemCommentsController from './comments';
 
 interface INewsDataBlogToUpdate {
-	title?: INewsBlogData['type_data']['title'];
-	iso_language?: INewsBlogData['type_data']['iso_language'];
-	iso_country?: INewsBlogData['type_data']['iso_country'];
-	image_alt?: INewsBlogData['type_data']['image_alt'];
-	image_src?: INewsBlogData['type_data']['image_src'];
-	description?: INewsBlogData['type_data']['description'];
-	content?: INewsBlogDataTypeDataContent;
+	title?: INewsItemTypeBlog['type_data']['title'];
+	iso_language?: INewsItemTypeBlog['type_data']['iso_language'];
+	iso_country?: INewsItemTypeBlog['type_data']['iso_country'];
+	image_alt?: INewsItemTypeBlog['type_data']['image_alt'];
+	image_src?: INewsItemTypeBlog['type_data']['image_src'];
+	description?: INewsItemTypeBlog['type_data']['description'];
+	content?: INewsItemTypeBlogContent;
 	tags?: {
-		added?: INewsBlogData['type_data']['tags'];
-		removed?: INewsBlogData['type_data']['tags'];
+		added?: INewsItemTypeBlog['type_data']['tags'];
+		removed?: INewsItemTypeBlog['type_data']['tags'];
 	};
 }
 
 interface INewsDataPostToUpdate {
-	content: INewsPostData['type_data']['content'];
+	content: INewsItemTypePost['type_data']['content'];
 }
 
 // @desc    Update news

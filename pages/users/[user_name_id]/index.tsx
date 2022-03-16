@@ -9,11 +9,11 @@ import { IExtraReturns, TGetUsersPropFilterBy } from '@coreLib/db/pg/ts';
 import pgActions from '@coreLib/db/pg/actions';
 import { getCookie } from '@commonLibIndependent/storage/cookie/document';
 import { itemsInObject } from '@commonLibIndependent/object';
-import { IPropsUserProfilePageData } from 'store/ProfilePageContext/ts';
-import { setUserProfilePageContextStore } from 'store/ProfilePageContext';
+import { IPropsUserProfilePageData } from '@store/ProfilePageContext/ts';
+import { setUserProfilePageContextStore } from '@store/ProfilePageContext';
 
 import UserProfileScreen from '@screens/Users/Profile';
-import { setNewsContextStore } from 'store/newsContext';
+import { setNewsContextStore } from '@store/newsContext';
 
 interface IProps {
 	user: IPropsUserProfilePageData['user'];

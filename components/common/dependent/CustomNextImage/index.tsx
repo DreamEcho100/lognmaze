@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { ImageProps } from 'next/dist/client/image.d';
 
-import classes from './styles.module.css';
+import classes from './index.module.css';
 
 interface ICustomNextImageProps extends ImageProps {
 	className?: string;

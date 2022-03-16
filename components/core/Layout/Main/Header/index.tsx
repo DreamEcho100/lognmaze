@@ -6,13 +6,13 @@ import {
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import classes from './styles.module.css';
+import classes from './index.module.css';
 
-import { useUserSharedState } from 'store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 import {
 	logoutUserRequestAction,
 	logoutUserRequestResetAction,
-} from 'store/UserContext/actions';
+} from '@store/UserContext/actions';
 import ButtonComponent from '@commonComponentsIndependent/Button';
 import { IUserAuthenticatedData } from '@coreLib/ts/global';
 

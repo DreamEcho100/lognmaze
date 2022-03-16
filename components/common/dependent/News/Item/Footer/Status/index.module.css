@@ -1,0 +1,37 @@
+.status {
+	display: flex;
+	align-items: center;
+	margin: 0.5em 0;
+	overflow-y: auto;
+}
+
+.status-item {
+	margin: 0 0.25em;
+}
+
+:not([dir='rtl']) .status-item:first-child,
+[dir='rtl'] .status-item:last-child {
+	margin-left: 0;
+}
+:not([dir='rtl']) .status-item:last-child [dir='rtl'] .status-item:first-child {
+	margin-right: 0;
+}
+
+.votes {
+	display: flex;
+	align-items: center;
+}
+
+.vote {
+	margin: 0 0.125em;
+	cursor: default;
+}
+
+:not([dir='rtl']) .vote:first-child,
+[dir='rtl'] .vote:last-child {
+	margin-left: 0;
+}
+:not([dir='rtl']) .vote:last-child,
+[dir='rtl'] .vote:first-child {
+	margin-right: 0;
+}

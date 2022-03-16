@@ -6,11 +6,11 @@ import helpersClasses from '@styles/helpers.module.css';
 import borderClasses from '@styles/border.module.css';
 import boxShadowClasses from '@styles/boxShadow.module.css';
 
-import { useUserSharedState } from 'store/UserContext';
+import { useUserSharedState } from '@store/UserContext';
 import {
 	loginUserRequestResetAction,
 	signupUserRequestResetAction,
-} from 'store/UserContext/actions';
+} from '@store/UserContext/actions';
 
 import ButtonComponent from '@commonComponentsIndependent/Button';
 import LoginComponent from '@coreComponents/Auth/Login';

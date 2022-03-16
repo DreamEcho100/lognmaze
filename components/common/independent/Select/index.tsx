@@ -6,10 +6,9 @@ import {
 	SelectHTMLAttributes,
 } from 'react';
 
-import classes from './styles.module.css';
+import classes from './index.module.css';
 
 import { handleAllClasses } from '@commonLibIndependent/className';
-// import { handleAllClasses } from '@commonLibIndependent/className';
 
 interface IProps extends SelectHTMLAttributes<HTMLSelectElement> {
 	defaultClasses?: string;

@@ -16,7 +16,4 @@ export interface INewsContextState {
 	// };
 }
 
-export type INewsContextReducerAction = {
-	type: '';
-	payload: {};
-};
+export type TNewsContextReducerAction = null;

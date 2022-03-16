@@ -13,7 +13,7 @@ export const getNewsItemCommentsReqArgs = ({
 		urlOptions.params.news_id
 	}/comments${
 		urlOptions?.queries
-			? '/' + encodeObjectToUrlQueries(urlOptions.queries)
+			? '/?' + encodeObjectToUrlQueries(urlOptions.queries)
 			: ''
 	}`;
 	const requestInit: RequestInit = {

@@ -15,36 +15,76 @@ export type NextApiRequestExtended = NextApiRequest & {
 };
 
 /* User */
+
+export type IUserBasicDataCoverPhoto = string;
+export type IUserBasicDataProfilePicture = string;
+export type IUserBasicDataCityOfResident = string;
+
+export type TUserAuthenticatedDataEmail = string;
+export type TUserAuthenticatedDataPassword = string;
+export type TUserAuthenticatedDataEmailDateOfBirth = string | number | Date;
+export type TUserAuthenticatedDataEmailAddressOfResident = string;
 export interface IUserBasicData {
 	id: string;
 	user_name_id: string;
 	first_name: string;
 	last_name: string;
 	gender: string;
-	cover_photo?: string;
-	profile_picture?: string;
+	cover_photo?: IUserBasicDataCoverPhoto;
+	profile_picture?: IUserBasicDataProfilePicture;
 	bio: string;
 	country_of_resident: string;
 	state_of_resident: string;
-	city_of_resident?: string;
+	city_of_resident?: IUserBasicDataCityOfResident;
 	last_sign_in: string | number | Date;
 	created_at: string | number | Date;
 }
 export interface IUserAuthenticatedData extends IUserBasicData {
-	email?: string;
+	email?: TUserAuthenticatedDataEmail;
 	email_verified?: boolean;
-	password?: string;
-	date_of_birth?: string | number | Date;
-	address_of_resident?: string;
+	password?: TUserAuthenticatedDataPassword;
+	date_of_birth?: TUserAuthenticatedDataEmailDateOfBirth;
+	address_of_resident?: TUserAuthenticatedDataEmailAddressOfResident;
 }
+
+/* */
+export interface TNewsItemCommentBasicData {
+	news_comment_id: string;
+	content: string;
+	author_id: IUserBasicData['id'];
+	author_user_name_id: IUserBasicData['user_name_id'];
+	author_first_name: IUserBasicData['first_name'];
+	author_last_name: IUserBasicData['last_name'];
+	author_profile_picture?: IUserBasicData['profile_picture'];
+	created_at: string | number | Date;
+	updated_at: string | number | Date;
+}
+
+export interface TNewsItemCommentTypeReplyMain
+	extends TNewsItemCommentBasicData {
+	type: 'comment_main_reply';
+}
+
+export interface TNewsItemCommentTypeMain extends TNewsItemCommentBasicData {
+	type: 'comment_main';
+	replies_counter: number;
+	replies?: TNewsItemCommentTypeReplyMain[];
+	hit_replies_limit?: boolean;
+}
+
+export type TNewsItemComment =
+	| TNewsItemCommentTypeMain
+	| TNewsItemCommentTypeReplyMain;
+
+export type TNewsItemCommentsMain = TNewsItemCommentTypeMain[];
 
 /* News */
 
-export interface INewsBasicData {
+export interface INewsItemBasicData {
 	news_id: string;
-	comments_counter: '0';
-	up_votes_counter: '0';
-	down_votes_counter: '0';
+	comments_counter: number;
+	up_votes_counter: number;
+	down_votes_counter: number;
 	created_at: TDate;
 	updated_at: TDate;
 	author_id: string;
@@ -53,9 +93,11 @@ export interface INewsBasicData {
 	author_last_name: string;
 	author_profile_picture: string;
 	author_bio: string;
+	comments?: TNewsItemCommentsMain;
+	hit_comments_limit?: boolean;
 }
-export type INewsBlogDataTypeDataContent = string;
-export interface INewsBlogData extends INewsBasicData {
+export type INewsItemTypeBlogContent = string;
+export interface INewsItemTypeBlog extends INewsItemBasicData {
 	type: 'blog';
 	type_data: {
 		// user_vote_type: null;
@@ -67,10 +109,10 @@ export interface INewsBlogData extends INewsBasicData {
 		image_src: string;
 		description: string;
 		tags: string[];
-		content?: INewsBlogDataTypeDataContent;
+		content?: INewsItemTypeBlogContent;
 	};
 }
-export interface INewsPostData extends INewsBasicData {
+export interface INewsItemTypePost extends INewsItemBasicData {
 	type: 'post';
 	// user_vote_type: null;
 	type_data: {
@@ -78,5 +120,5 @@ export interface INewsPostData extends INewsBasicData {
 	};
 }
 
-export type TNewsItemData = INewsBlogData | INewsPostData;
+export type TNewsItemData = INewsItemTypeBlog | INewsItemTypePost;
 export type TNewsData = TNewsItemData[];

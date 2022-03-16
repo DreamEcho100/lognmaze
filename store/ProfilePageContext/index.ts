@@ -8,7 +8,7 @@ let initialState: IUserProfilePageContextState = {
 	data: undefined,
 };
 
-let useProfileState = () => useReducer(reducer, initialState);
+const useProfileState = () => useReducer(reducer, initialState);
 
 let createdContainer = createContainer(useProfileState);
 
@@ -31,17 +31,9 @@ export const setUserProfilePageContextStore = ({
 		data: profileData,
 	};
 
-	useProfileState = () => useReducer(reducer, initialState);
+	const useProfileState = () => useReducer(reducer, initialState);
 
 	createdContainer = createContainer(useProfileState);
-
-	UserProfilePageContextSharedProvider = createdContainer.Provider;
-	useUserProfilePageSharedState = createdContainer.useTracked;
-
-	UserProfilePageContextStore = {
-		UserProfilePageContextSharedProvider,
-		useUserProfilePageSharedState,
-	};
 
 	return UserProfilePageContextStore;
 };

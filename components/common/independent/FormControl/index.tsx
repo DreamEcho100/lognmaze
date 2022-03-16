@@ -1,6 +1,6 @@
 import { FC, HTMLAttributes } from 'react';
 
-import classes from './styles.module.css';
+import classes from './index.module.css';
 
 import { handleAllClasses } from '@commonLibIndependent/className';
 

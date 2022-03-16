@@ -1,10 +1,10 @@
 interface IUrlOptionsQueriesTypeCommentMain {
-	type: 'comment_main';
+	comment_type: 'comment_main';
 	last_comment_created_at?: string;
 	comments_to_not_fetch?: string[];
 }
 interface IUrlOptionsQueriesTypeCommentMainReply {
-	type: 'comment_main_reply';
+	comment_type: 'comment_main_reply';
 	replies_to_not_fetch?: string[];
 	last_reply_created_at?: string;
 }

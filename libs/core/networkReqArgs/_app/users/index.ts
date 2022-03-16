@@ -13,7 +13,7 @@ interface IGetUsersReqArgs {
 export const getUsersReqArgs = ({ urlOptions }: IGetUsersReqArgs) => {
 	const requestInfo: RequestInfo = `/api/users${
 		urlOptions?.queries
-			? '/' + encodeObjectToUrlQueries(urlOptions?.queries)
+			? '/?' + encodeObjectToUrlQueries(urlOptions?.queries)
 			: ''
 	}`;
 	const requestInit: RequestInit = {

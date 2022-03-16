@@ -1,21 +1,21 @@
-.wrapper {
+.sectionWrapper {
 	width: 100%;
 	padding: 0.5em;
-	margin: 0.5em auto;
+	margin: var(--sectionWrapper-margin);
 	border-radius: 1rem;
-	box-shadow: 0rem 0rem var(--wrapper-box-shadow-length)
+	box-shadow: 0rem 0rem var(--sectionWrapper-box-shadow-length)
 		var(--main-font-color-1);
 	overflow: hidden;
 	background-color: var(--main-bg-color-1);
 }
 
-.wrapper:first-child {
+.sectionWrapper:first-child {
 	margin-top: 0;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }
 
-.wrapper:last-child {
+.sectionWrapper:last-child {
 	margin-bottom: 0;
 	border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
@@ -25,8 +25,8 @@
 	width: 100%;
 }
 
-@media screen and (max-width: 700px) {
-	.wrapper {
+/* @media screen and (max-width: 700px) {
+	.sectionWrapper {
 		margin: 0.5em auto;
 	}
-}
+} */

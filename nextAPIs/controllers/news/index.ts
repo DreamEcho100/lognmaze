@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import {
-	INewsBlogData,
-	INewsBlogDataTypeDataContent,
-	INewsPostData,
+	INewsItemTypeBlog,
+	INewsItemTypeBlogContent,
+	INewsItemTypePost,
 	NextApiRequestExtended,
 } from '@coreLib/ts/global';
 import pgActions from '@coreLib/db/pg/actions';
@@ -12,21 +12,21 @@ import pool from '@coreLib/db/pg/connection';
 import newsItemController from './[news_id]';
 
 interface INewsDataBlog {
-	type: INewsBlogData['type'];
-	title: INewsBlogData['type_data']['title'];
-	slug: INewsBlogData['type_data']['slug'];
-	iso_language: INewsBlogData['type_data']['iso_language'];
-	iso_country: INewsBlogData['type_data']['iso_country'];
-	image_alt: INewsBlogData['type_data']['image_alt'];
-	image_src: INewsBlogData['type_data']['image_src'];
-	description: INewsBlogData['type_data']['description'];
-	content: INewsBlogDataTypeDataContent;
-	tags: INewsBlogData['type_data']['tags'];
+	type: INewsItemTypeBlog['type'];
+	title: INewsItemTypeBlog['type_data']['title'];
+	slug: INewsItemTypeBlog['type_data']['slug'];
+	iso_language: INewsItemTypeBlog['type_data']['iso_language'];
+	iso_country: INewsItemTypeBlog['type_data']['iso_country'];
+	image_alt: INewsItemTypeBlog['type_data']['image_alt'];
+	image_src: INewsItemTypeBlog['type_data']['image_src'];
+	description: INewsItemTypeBlog['type_data']['description'];
+	content: INewsItemTypeBlogContent;
+	tags: INewsItemTypeBlog['type_data']['tags'];
 }
 
 interface INewsDataPost {
-	type: INewsPostData['type'];
-	content: INewsPostData['type_data']['content'];
+	type: INewsItemTypePost['type'];
+	content: INewsItemTypePost['type_data']['content'];
 }
 
 // @desc    Get News

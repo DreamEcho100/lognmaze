@@ -10,9 +10,14 @@ import classes from './index.module.css';
 import borderClasses from '@styles/border.module.css';
 import boxShadowClasses from '@styles/boxShadow.module.css';
 
-import { IUserAuthenticatedData } from '@coreLib/ts/global';
-import { useUserSharedState } from 'store/UserContext';
-import { signupUserRequestAction } from 'store/UserContext/actions';
+import {
+	IUserBasicDataCoverPhoto,
+	IUserAuthenticatedData,
+	TUserAuthenticatedDataEmail,
+	IUserBasicDataCityOfResident,
+} from '@coreLib/ts/global';
+import { useUserSharedState } from '@store/UserContext';
+import { signupUserRequestAction } from '@store/UserContext/actions';
 import {
 	validateEmail,
 	validatePasswordStrength,
@@ -47,12 +52,12 @@ const SignUpComponent = ({
 		first_name: IUserAuthenticatedData['first_name'];
 		last_name: IUserAuthenticatedData['last_name'];
 		user_name_id: IUserAuthenticatedData['user_name_id'];
-		email: IUserAuthenticatedData['email'];
+		email: TUserAuthenticatedDataEmail; // IUserAuthenticatedData['email'];
 		password: string;
 		date_of_birth: string | number | Date;
-		country: IUserAuthenticatedData['country'];
-		state: IUserAuthenticatedData['state'];
-		city: IUserAuthenticatedData['city'];
+		country: IUserBasicDataCoverPhoto;
+		state: IUserAuthenticatedData['state_of_resident'];
+		city: IUserBasicDataCityOfResident;
 		gender: IUserAuthenticatedData['gender'];
 	}>({
 		first_name: '',

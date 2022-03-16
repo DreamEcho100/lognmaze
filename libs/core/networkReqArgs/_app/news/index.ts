@@ -6,7 +6,7 @@ import networkReqNewsItemArgs from './[news_id]';
 export const getNewsReqArgs = ({ urlOptions }: IGetNewsReqArgs) => {
 	const requestInfo: RequestInfo = `/api/news${
 		urlOptions?.queries
-			? '/' + encodeObjectToUrlQueries(urlOptions?.queries)
+			? '/?' + encodeObjectToUrlQueries(urlOptions?.queries)
 			: ''
 	}`;
 	const requestInit: RequestInit = {

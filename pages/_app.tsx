@@ -54,7 +54,7 @@ library.add(
 
 import '../styles/globals.css';
 
-import { UserContextSharedProvider } from 'store/UserContext';
+import { UserContextSharedProvider } from '@store/UserContext';
 
 import MainLayoutComponent from '@coreComponents/Layout/Main';
 

@@ -1,30 +1,30 @@
 import {
-	INewsBlogData,
-	INewsBlogDataTypeDataContent,
-	INewsPostData,
+	INewsItemTypeBlog,
+	INewsItemTypeBlogContent,
+	INewsItemTypePost,
 } from '@coreLib/ts/global.d';
 
 /* */
 interface IUpdateNewsItemReqArgsPropsBodyContentTypeBlog {
-	type: INewsBlogData['type'];
+	type: INewsItemTypeBlog['type'];
 	dataToUpdate: {
-		title?: INewsBlogData['type_data']['title'];
-		iso_language?: INewsBlogData['type_data']['iso_language'];
-		iso_country?: INewsBlogData['type_data']['iso_country'];
-		image_alt?: INewsBlogData['type_data']['image_alt'];
-		image_src?: INewsBlogData['type_data']['image_src'];
-		description?: INewsBlogData['type_data']['description'];
+		title?: INewsItemTypeBlog['type_data']['title'];
+		iso_language?: INewsItemTypeBlog['type_data']['iso_language'];
+		iso_country?: INewsItemTypeBlog['type_data']['iso_country'];
+		image_alt?: INewsItemTypeBlog['type_data']['image_alt'];
+		image_src?: INewsItemTypeBlog['type_data']['image_src'];
+		description?: INewsItemTypeBlog['type_data']['description'];
 		tags?: {
-			added?: INewsBlogData['type_data']['tags'];
-			removed?: INewsBlogData['type_data']['tags'];
+			added?: INewsItemTypeBlog['type_data']['tags'];
+			removed?: INewsItemTypeBlog['type_data']['tags'];
 		};
-		content?: INewsBlogDataTypeDataContent;
+		content?: INewsItemTypeBlogContent;
 	};
 }
 interface IUpdateNewsItemReqArgsPropsBodyContentTypePost {
-	type: INewsPostData['type'];
+	type: INewsItemTypePost['type'];
 	dataToUpdate: {
-		content: INewsPostData['type_data']['content'];
+		content: INewsItemTypePost['type_data']['content'];
 	};
 }
 export interface IUpdateNewsItemReqArgs {
@@ -52,6 +52,6 @@ export interface IDeleteNewsItemReqArgs {
 		};
 	};
 	bodyContent: {
-		type: INewsBlogData['type'] | INewsPostData['type'];
+		type: INewsItemTypeBlog['type'] | INewsItemTypePost['type'];
 	};
 }

@@ -1,13 +1,13 @@
-import { INewsContextReducerAction, INewsContextState } from './ts';
+import { TNewsContextReducerAction, INewsContextState } from './ts';
 
 const reducer = (
 	state: INewsContextState,
-	actions: INewsContextReducerAction
+	actions: TNewsContextReducerAction
 ) => {
-	if (process.env.NODE_ENV !== 'production')
-		console.log('actions.type', actions.type);
+	// if (process.env.NODE_ENV !== 'production')
+	// 	console.log('actions.type', actions.type);
 
-	switch (actions.type) {
+	switch (actions) {
 		default:
 			return state;
 	}

@@ -4,9 +4,12 @@ import classes from './index.module.css';
 import borderClasses from '@styles/border.module.css';
 import boxShadowClasses from '@styles/boxShadow.module.css';
 
-import { IUserAuthenticatedData } from '@coreLib/ts/global';
-import { useUserSharedState } from 'store/UserContext';
-import { loginUserRequestAction } from 'store/UserContext/actions';
+import {
+	// IUserAuthenticatedData,
+	TUserAuthenticatedDataEmail,
+} from '@coreLib/ts/global';
+import { useUserSharedState } from '@store/UserContext';
+import { loginUserRequestAction } from '@store/UserContext/actions';
 import { validateEmail } from '@commonLibIndependent/validate';
 
 import FormControlComponent from '@commonComponentsIndependent/FormControl';
@@ -27,7 +30,7 @@ const LoginComponent = () => {
 	] = useUserSharedState();
 
 	const [values, setValues] = useState<{
-		email: IUserAuthenticatedData['email'];
+		email: TUserAuthenticatedDataEmail;
 		password: string;
 	}>({
 		email: '',

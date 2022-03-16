@@ -8,7 +8,7 @@ let initialState: INewsContextState = {
 	data: undefined,
 };
 
-let useNewsState = () => useReducer(reducer, initialState);
+const useNewsState = () => useReducer(reducer, initialState);
 
 let createdContainer = createContainer(useNewsState);
 
@@ -33,17 +33,9 @@ export const setNewsContextStore = ({
 		},
 	};
 
-	useNewsState = () => useReducer(reducer, initialState);
+	const useNewsState = () => useReducer(reducer, initialState);
 
 	createdContainer = createContainer(useNewsState);
-
-	NewsContextSharedProvider = createdContainer.Provider;
-	useNewsSharedState = createdContainer.useTracked;
-
-	NewsContextStore = {
-		NewsContextSharedProvider,
-		useNewsSharedState,
-	};
 
 	return NewsContextStore;
 };

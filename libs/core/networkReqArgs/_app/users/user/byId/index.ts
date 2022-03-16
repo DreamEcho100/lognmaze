@@ -9,7 +9,7 @@ export const updateByUserNameIdReqArgs = ({
 }: IUpdateByUserNameIdReqArgs) => {
 	const requestInfo: RequestInfo = `/api/users/user_name_id${
 		urlOptions?.queries
-			? '/' + encodeObjectToUrlQueries(urlOptions.queries)
+			? '/?' + encodeObjectToUrlQueries(urlOptions.queries)
 			: ''
 	}`;
 	const requestInit: RequestInit = {

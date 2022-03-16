@@ -7,10 +7,10 @@
 
 import { ReactNode, useEffect } from 'react';
 
-import classes from './styles.module.css';
+// import classes from './index.module.css';
 
-import { useUserSharedState } from 'store/UserContext';
-import { initStoreDataAction } from 'store/UserContext/actions';
+import { useUserSharedState } from '@store/UserContext';
+import { initStoreDataAction } from '@store/UserContext/actions';
 
 import MainNavigation from './Header';
 import MainIntroComponent from './Intro';

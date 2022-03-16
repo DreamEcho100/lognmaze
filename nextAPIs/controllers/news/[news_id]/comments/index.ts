@@ -12,8 +12,8 @@ export const getCommentsController = async (
 	res: NextApiResponse
 ) => {
 	if (
-		req.body.type !== 'main_comment' ||
-		req.body.type !== 'main_comment_type'
+		req.query.comment_type !== 'comment_main' &&
+		req.query.comment_type !== 'comment_main_reply'
 	) {
 		res.status(400);
 		throw new Error('Data required not provided!');
@@ -69,45 +69,44 @@ export const getCommentsController = async (
 		// 	});
 		// }
 
+		const sqlQuery = `
+		SELECT
+			news_comment.news_comment_id,
+			-- news_comment.author_id,
+			news_comment.type,
+			news_comment.content,
+			news_comment.created_at,
+			news_comment.updated_at,
+			
+			user_profile.user_profile_id AS author_id,
+			user_profile.user_name_id AS author_user_name_id,
+			user_profile.first_name AS author_first_name,
+			user_profile.last_name AS author_last_name,
+			user_profile.profile_picture AS author_profile_picture,
+
+			news_comment_main.replies_counter
+
+		FROM news_comment
+		JOIN user_profile ON user_profile.user_profile_id = news_comment.author_id
+		JOIN news_comment_main ON news_comment_main.news_comment_main_id = news_comment.news_comment_id
+		WHERE news_comment.news_id = $1 ${
+			WhereParamsIndex.comments_to_not_fetch.length > 0
+				? `AND news_comment.news_comment_id NOT IN (${WhereParamsIndex.comments_to_not_fetch.join(
+						','
+				  )})`
+				: ''
+		} ${
+			req.query.last_comment_created_at
+				? 'AND news_comment.created_at > ($2)'
+				: ''
+		}
+		ORDER BY news_comment.created_at -- DESC
+		LIMIT 10;
+	`;
+
 		data.comments = await pool
-			.query(
-				`
-				SELECT
-					news_comment.news_comment_id,
-					-- news_comment.author_id,
-					news_comment.type,
-					news_comment.content,
-					news_comment.created_at,
-					news_comment.updated_at,
-					
-					user_profile.user_profile_id AS author_id,
-					user_profile.user_name_id AS author_user_name_id,
-					user_profile.first_name AS author_first_name,
-					user_profile.last_name AS author_last_name,
-					user_profile.profile_picture AS author_profile_picture,
-
-					news_comment_main.replies_counter
-
-				FROM news_comment
-				JOIN user_profile ON user_profile.user_profile_id = news_comment.author_id
-				JOIN news_comment_main ON news_comment_main.news_comment_main_id = news_comment.news_comment_id
-				WHERE news_comment.news_id = $1 ${
-					WhereParamsIndex.comments_to_not_fetch.length > 0
-						? `AND news_comment.news_comment_id NOT IN (${WhereParamsIndex.comments_to_not_fetch.join(
-								','
-						  )})`
-						: ''
-				} ${
-					req.query.last_comment_created_at
-						? 'AND news_comment.created_at > ($2)'
-						: ''
-				}
-				ORDER BY news_comment.created_at -- DESC
-				LIMIT 10;
-			`,
-				queryParams
-			)
-			.then((response: { rows: any }) => response.rows);
+			.query(sqlQuery, queryParams)
+			.then((response: { rows: any[] }) => response.rows);
 
 		if (data.comments.length < 10) {
 			data.hit_comments_limit = true;
@@ -202,8 +201,8 @@ export const createCommentController = async (
 	res: NextApiResponse
 ) => {
 	if (
-		(req.body.type !== 'main_comment' ||
-			req.body.type !== 'main_comment_type' ||
+		(req.body.type !== 'comment_main' ||
+			req.body.type !== 'comment_main_reply' ||
 			req.body.news_id ||
 			req.body.content) &&
 		req.body.type === 'post' &&

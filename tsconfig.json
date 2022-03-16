@@ -26,8 +26,8 @@
 			"@commonLibIndependent/*": ["libs/common/independent/*"],
 			"@screens/*": ["screens/*"],
 			"@nextAPIs/*": ["nextAPIs/*"],
-			"@styles/*": ["styles/*"]
-			// "@store/*": ["store/*"],
+			"@styles/*": ["styles/*"],
+			"@store/*": ["store/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

@@ -1,6 +1,6 @@
 import { headersDefault } from '@coreLib/networkReqArgs/__utils';
 import networkReqNewsItemTypeBlogArgs from './blog';
-import { getNewsItemTypeBlogBlogContentReqArgs } from './blog/content';
+// import { getNewsItemTypeBlogBlogContentReqArgs } from './blog/content';
 import networkReqNewsItemCommentsArgs from './comments';
 import { IDeleteNewsItemReqArgs, IUpdateNewsItemReqArgs } from './ts';
 

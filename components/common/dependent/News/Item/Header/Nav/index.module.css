@@ -1,0 +1,31 @@
+.nav {
+	width: 100%;
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+
+.author_profile_link {
+	display: flex;
+	align-items: flex-start;
+}
+
+.author_profile_picture_wrapper {
+	width: 6rem;
+	height: 6rem;
+	border-radius: 100%;
+	background: var(--main-bg-color-3);
+	overflow: hidden;
+}
+/* :not([dir='rtl']) */
+.author_profile_picture_wrapper {
+	margin-right: 0.5em;
+}
+[dir='rtl'] .author_profile_picture_wrapper {
+	margin-left: 0.5em;
+}
+
+.author_profile_picture {
+	width: 100%;
+	height: 100%;
+}

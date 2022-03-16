@@ -5,12 +5,14 @@ import helpersClasses from '@styles/helpers.module.css';
 // 	VISITOR_PROFILE_GUEST,
 // 	VISITOR_PROFILE_OWNER,
 // } from '@coreLib/constants';
-import { useUserSharedState } from 'store/UserContext';
-import { useNewsSharedState } from 'store/newsContext';
-import { useUserProfilePageSharedState } from 'store/ProfilePageContext';
-import UserProfileHero from '@coreComponents/Users/Profile/Hero';
 import { VISITOR_PROFILE_OWNER } from '@coreLib/constants';
+import { useUserSharedState } from '@store/UserContext';
+import { useNewsSharedState } from '@store/newsContext';
+import { useUserProfilePageSharedState } from '@store/ProfilePageContext';
+
+import UserProfileHero from '@coreComponents/Users/Profile/Hero';
 import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
+import NewsFeed from '@commonComponentsDependent/News/Feed';
 
 interface Props {}
 
@@ -19,7 +21,7 @@ const UserProfileScreen = (Props: Props) => {
 		{
 			data: { user: userData },
 		},
-		userDispatch,
+		// userDispatch,
 	] = useUserSharedState();
 	const [{ data: profilePageData }, profilePageDispatch] =
 		useUserProfilePageSharedState();
@@ -42,13 +44,21 @@ const UserProfileScreen = (Props: Props) => {
 
 	return (
 		<main className={helpersClasses.main}>
-			<SectionWrapper className={classes.sectionWrapper}>
+			<SectionWrapper className={classes.userProfileHeroSectionWrapper}>
 				<UserProfileHero />
 			</SectionWrapper>
-			<SectionWrapper className={classes.profileContent}>
+			<div className={classes.mainContent}>
+				<NewsFeed />
+				{/* {newsDataState.data?.news && (
+						<NewsItem
+							newsItemData={newsDataState.data.news[0]}
+							newsItemDetailsType='description'
+						/>
+					)} */}
+				{/* <SectionWrapper className={classes.sectionWrapper}>
+				</SectionWrapper> */}
 				<SectionWrapper className={classes.sectionWrapper}></SectionWrapper>
-				<SectionWrapper className={classes.sectionWrapper}></SectionWrapper>
-			</SectionWrapper>
+			</div>
 		</main>
 	);
 };

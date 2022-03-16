@@ -1,11 +1,11 @@
 import classes from './index.module.css';
 
-import { useUserSharedState } from 'store/UserContext';
-import { useUserProfilePageSharedState } from 'store/ProfilePageContext';
+import { useUserSharedState } from '@store/UserContext';
+import { useUserProfilePageSharedState } from '@store/ProfilePageContext';
 import { VISITOR_PROFILE_OWNER } from '@coreLib/constants';
 
 import CustomNextImage from '@commonComponentsDependent/CustomNextImage';
-import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
+// import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
 
 type Props = {};
 

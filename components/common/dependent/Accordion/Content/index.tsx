@@ -1,7 +1,7 @@
 import React, { forwardRef, ReactNode } from 'react';
 import { Content } from '@radix-ui/react-accordion';
 
-import classes from './styles.module.css';
+import classes from './index.module.css';
 
 import withClassName from '@commonLibIndependent/hoc/withClassName';
 

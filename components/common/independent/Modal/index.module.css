@@ -1,0 +1,63 @@
+.modalBackground {
+	position: fixed;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, 0);
+	width: 100%;
+	height: 100%;
+	background: rgb(0, 0, 0, 0.5);
+	max-width: calc(var(--body-max-width) + 20rem);
+}
+
+.modalWrapper {
+	position: fixed;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, 0);
+	width: 95%;
+	max-width: var(--body-max-width);
+	height: calc(100% - var(--main-nav-height));
+	margin: var(--main-nav-height) auto;
+	padding: 0.5em 0;
+	background-color: rgba(0, 0, 0, 0.2);
+	transition: opacity 0.3s ease;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.modalContainerDefault {
+	width: 99%;
+	margin: auto;
+	border-radius: 0.5rem;
+	box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.33);
+	transition: all 0.3s ease;
+	background-color: var(--modalContainer-background-color);
+}
+
+.modalHeaderDefault {
+	padding: 0.5em;
+	padding-bottom: 0em;
+	border-top-left-radius: 1rem;
+	border-top-right-radius: 1rem;
+	text-align: center;
+}
+
+.modalBodyDefault {
+	padding: 0 1em;
+}
+.onlyModalBodyExistDefault {
+	padding: 1em;
+}
+
+.modalFooterDefault {
+	padding: 0.5em;
+	padding-top: 0em;
+	display: flex;
+	justify-content: space-between;
+	border-bottom-left-radius: 1rem;
+	border-bottom-right-radius: 1rem;
+}

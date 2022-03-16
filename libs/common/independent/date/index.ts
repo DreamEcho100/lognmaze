@@ -216,7 +216,7 @@ export const formatDate: TFormatDate = (providedDate, options) => {
 
 	const fullTimeString: string = tempArray[tempArray.length - 1];
 
-	const fullDateString = tempArray.slice(0, tempArray.length - 1).join(',');
+	const fullDateString = tempArray.slice(0, tempArray.length - 1).join(', ');
 
 	let time: string;
 	let timeZoneName: string;

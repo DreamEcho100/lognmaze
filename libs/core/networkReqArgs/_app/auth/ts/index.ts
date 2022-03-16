@@ -1,4 +1,7 @@
-import { IUserAuthenticatedData } from '@coreLib/ts/global';
+import {
+	IUserAuthenticatedData,
+	IUserBasicDataCityOfResident,
+} from '@coreLib/ts/global';
 
 export interface ILoginReqArgsProps {
 	bodyContent: {
@@ -18,9 +21,9 @@ export interface ISignupReqArgsProps {
 		last_name: IUserAuthenticatedData['last_name'];
 		date_of_birth: IUserAuthenticatedData['date_of_birth'];
 		gender: IUserAuthenticatedData['gender'];
-		country: IUserAuthenticatedData['country'];
-		state: IUserAuthenticatedData['state'];
-		city?: IUserAuthenticatedData['city'];
+		country: IUserAuthenticatedData['country_of_resident'];
+		state: IUserAuthenticatedData['state_of_resident'];
+		city?: IUserBasicDataCityOfResident;
 	};
 }
 
