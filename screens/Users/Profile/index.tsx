@@ -12,7 +12,7 @@ import { useUserProfilePageSharedState } from '@store/ProfilePageContext';
 
 import UserProfileHero from '@coreComponents/Users/Profile/Hero';
 import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
-import NewsFeed from '@commonComponentsDependent/News/Feed';
+import NewsFeed from '@coreComponents/News/Feed';
 
 interface Props {}
 

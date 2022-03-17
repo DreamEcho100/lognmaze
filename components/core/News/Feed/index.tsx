@@ -6,7 +6,7 @@ import { useNewsSharedState } from '@store/newsContext';
 import { handleAllClasses } from '@commonLibIndependent/className';
 
 import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
-import NewsItem from '@commonComponentsDependent/News/Item';
+import NewsItem from '@coreComponents/News/Item';
 
 interface IProps {
 	defaultClasses?: string;

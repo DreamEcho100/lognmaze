@@ -30,7 +30,7 @@ import CommentTextarea from '../CommentTextarea';
 import CustomNextImage from '@commonComponentsDependent/CustomNextImage';
 import MdToHTMLFormatter from '@commonComponentsDependent/Format/MdToHTML';
 import FormatContainer from '@commonComponentsIndependent/Format/Container';
-import TimeAndDate from '@commonComponentsDependent/News/Item/TimeAndDate';
+import TimeAndDate from '@coreComponents/News/Item/TimeAndDate';
 
 interface ICommentMainProps {
 	commentType: TNewsItemCommentTypeMain['type'];
