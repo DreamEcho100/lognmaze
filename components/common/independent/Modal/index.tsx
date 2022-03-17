@@ -1,4 +1,14 @@
-import { ReactNode, useEffect } from 'react';
+// Credit to:
+// - [Creating An Accessible Dialog From Scratch (smashingmagazine.com)](https://www.smashingmagazine.com/2021/07/accessible-dialog-from-scratch/)
+// - [How To Make Modal Windows Better For Everyone](https://www.smashingmagazine.com/2014/09/making-modal-windows-better-for-everyone/)
+
+import {
+	KeyboardEvent,
+	ReactNode,
+	useCallback,
+	useEffect,
+	useRef,
+} from 'react';
 import { createPortal } from 'react-dom';
 
 import classes from './index.module.css';
@@ -37,6 +47,21 @@ interface IProps {
 	};
 }
 
+const focusableSelectors = [
+	'a[href]:not([tabindex^="-"])',
+	'area[href]:not([tabindex^="-"])',
+	'input:not([type="hidden"]):not([type="radio"]):not([disabled]):not([tabindex^="-"])',
+	'input[type="radio"]:not([disabled]):not([tabindex^="-"]):checked',
+	'select:not([disabled]):not([tabindex^="-"])',
+	'textarea:not([disabled]):not([tabindex^="-"])',
+	'button:not([disabled]):not([tabindex^="-"])',
+	'iframe:not([tabindex^="-"])',
+	'audio[controls]:not([tabindex^="-"])',
+	'video[controls]:not([tabindex^="-"])',
+	'[contenteditable]:not([tabindex^="-"])',
+	'[tabindex]:not([tabindex^="-"])',
+];
+
 const ModalComponent = ({
 	children,
 	// handleSetIsModalVisible,
@@ -46,6 +71,23 @@ const ModalComponent = ({
 	modalClasses,
 }: IProps) => {
 	const isChildrenArray = Array.isArray(children);
+
+	const modalProps = useRef<{
+		lastElementFocusedBeforeThisModal: Element | null;
+		bodyOverflowBeforeModal?: string;
+		// modalWrapperFocusableElements?: NodeListOf<Element>;
+	}>({
+		lastElementFocusedBeforeThisModal: null,
+		bodyOverflowBeforeModal: undefined,
+		// modalWrapperFocusableElements: undefined,
+	});
+	const modalContainerCloseButtonPropsProps = useRef<HTMLButtonElement>(null);
+
+	const modalWrapperRef = useRef<HTMLDivElement>(null);
+	const modalContainerBodyRef = useRef<HTMLDivElement>(null);
+
+	const ElementSelected =
+		typeof window !== 'undefined' && document.getElementById('__next');
 
 	const findByKey = (name: 'header' | 'body' | 'footer') => {
 		const ModalContainerElementMap = {
@@ -67,6 +109,7 @@ const ModalComponent = ({
 							? modalClasses?.containerBody?.default
 							: classes.modalBodyDefault
 					} ${!isChildrenArray ? classes.onlyModalBodyExistDefault : ''}`}
+					ref={modalContainerBodyRef}
 				>
 					{children}
 				</section>
@@ -112,22 +155,108 @@ const ModalComponent = ({
 		return <ModalContainerElement>{Element}</ModalContainerElement>;
 	};
 
-	const ElementSelected =
-		typeof window !== 'undefined' && document.getElementById('__next');
+	const getFocusableChildren = () => {
+		const elements: Element[] = [];
+
+		modalWrapperRef.current
+			?.querySelectorAll(focusableSelectors.join(','))
+			?.forEach((nodeElem) => elements.push(nodeElem));
+
+		return elements.filter(
+			(element) =>
+				element instanceof HTMLElement &&
+				(element.offsetWidth ||
+					element.offsetWidth ||
+					element.getClientRects().length)
+		);
+	};
+
+	const closeModalHandler = () => {
+		if (typeof modalVisibilityHandler === 'function')
+			return modalVisibilityHandler();
+		if (!modalVisibilityHandler.handleSetIsModalVisible) return;
+
+		modalVisibilityHandler
+			.handleSetIsModalVisible
+			// !isModalVisible,
+			// modalVisibilityHandler.handleSetIsModalVisibleOptions
+			();
+	};
+
+	const moveFocusIn = useCallback(() => {
+		const target =
+			modalContainerBodyRef.current?.querySelector('[autofocus]') ||
+			getFocusableChildren()[0];
+
+		if (target instanceof HTMLElement) target.focus();
+	}, []);
+
+	const trapTapKey = (event: KeyboardEvent<HTMLDivElement>) => {
+		const node = modalContainerBodyRef.current;
+		if (!document.activeElement || !node) return;
+
+		const focusableChildren = getFocusableChildren();
+		const focusedItemIndex = focusableChildren.indexOf(document.activeElement);
+		const lastIndex = focusableChildren.length - 1;
+		const withShift = event.shiftKey;
+		const withCtrlKey = event.ctrlKey;
+
+		if (withCtrlKey && withShift && focusedItemIndex === 0) {
+			if (focusableChildren[lastIndex] instanceof HTMLElement) {
+				(focusableChildren[lastIndex] as HTMLElement).focus();
+			}
+			event.preventDefault();
+		} else if (!withShift && focusedItemIndex === lastIndex) {
+			if (focusableChildren[0] instanceof HTMLElement) {
+				(focusableChildren[0] as HTMLElement).focus();
+			}
+			event.preventDefault();
+		}
+	};
+
+	/*
+: KeyboardEventHandler<
+		HTMLDivElement
+	>
+	*/
+	const modalContainerOnKeyDownEventHandler = (
+		event: KeyboardEvent<HTMLDivElement>
+	) => {
+		if (event.key === 'Escape') return closeModalHandler();
+		if (event.key === 'Tab') return trapTapKey(event);
+	};
 
 	useEffect(() => {
-		// if (typeof window === 'undefined') return;
-
-		// if (document.body.style.overflow) {
 		if (isModalVisible) {
 			document.body.style.overflowX = 'hidden';
 			document.body.style.overflowY = 'hidden';
+
+			modalProps.current.bodyOverflowBeforeModal = getComputedStyle(
+				document.body
+			).overflow;
+
+			modalProps.current.lastElementFocusedBeforeThisModal =
+				document.activeElement;
+
+			moveFocusIn();
 		} else {
-			document.body.style.overflowX = 'hidden';
-			document.body.style.overflowY = 'auto';
+			if (modalProps.current.bodyOverflowBeforeModal)
+				document.body.style.overflow =
+					modalProps.current.bodyOverflowBeforeModal;
+			else {
+				document.body.style.overflowX = 'hidden';
+				document.body.style.overflowY = 'auto';
+			}
+
+			if (
+				modalProps.current.lastElementFocusedBeforeThisModal instanceof
+				HTMLElement
+			) {
+				modalProps.current.lastElementFocusedBeforeThisModal.focus();
+			}
 		}
 		// }
-	}, [isModalVisible]);
+	}, [isModalVisible, moveFocusIn]);
 
 	if (!isModalVisible || !ElementSelected) {
 		return <></>;
@@ -135,28 +264,26 @@ const ModalComponent = ({
 
 	return createPortal(
 		<>
-			<div
-				className={classes.modalBackground}
-				onClick={() => {
-					if (typeof modalVisibilityHandler === 'function')
-						return modalVisibilityHandler();
-					if (!modalVisibilityHandler.handleSetIsModalVisible) return;
-
-					modalVisibilityHandler
-						.handleSetIsModalVisible
-						// !isModalVisible,
-						// modalVisibilityHandler.handleSetIsModalVisibleOptions
-						();
-				}}
-			/>
-			<div className={classes.modalWrapper}>
+			<div className={classes.modalBackground} onClick={closeModalHandler} />
+			<div className={classes.modalWrapper} ref={modalWrapperRef}>
 				<div
 					className={
 						modalClasses?.container?.default
 							? modalClasses?.container?.default
 							: classes.modalContainerDefault
 					}
+					onKeyDown={modalContainerOnKeyDownEventHandler}
 				>
+					<button
+						// tabIndex={0}
+						ref={modalContainerCloseButtonPropsProps}
+						onClick={closeModalHandler}
+						type='button'
+						className={classes.ModalCloseButton}
+						aria-label='close'
+					>
+						x
+					</button>
 					{isChildrenArray ? (
 						<>
 							{findByKey('header')}

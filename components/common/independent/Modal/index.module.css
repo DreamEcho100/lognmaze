@@ -30,12 +30,46 @@
 }
 
 .modalContainerDefault {
+	position: relative;
 	width: 99%;
 	margin: auto;
 	border-radius: 0.5rem;
 	box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.33);
 	transition: all 0.3s ease;
 	background-color: var(--modalContainer-background-color);
+}
+
+.ModalCloseButton {
+	position: absolute;
+	top: 0;
+	transition: all ease-in var(--main-transition-duration);
+
+	left: 0;
+	padding: 0 0.3em 0.3em 0;
+	border-radius: 0% 100% 100% 0% / 100% 0% 100% 0%;
+	background: linear-gradient(
+		145deg,
+		var(--main-special-bg-color-4),
+		var(--main-special-bg-color-3)
+	);
+}
+.ModalCloseButton:focus {
+	box-shadow: 0.14rem 0.14rem 0.5rem var(--main-special-bg-color-5);
+}
+
+[dir='rtl'] .ModalCloseButton {
+	left: unset;
+	right: 0;
+	padding: 0 0 0.3em 0.3em;
+	border-radius: 100% 0% 0% 100% / 0% 100% 0% 100%;
+	background: linear-gradient(
+		270deg,
+		var(--main-special-bg-color-4),
+		var(--main-special-bg-color-3)
+	);
+}
+[dir='rtl'] .ModalCloseButton:focus {
+	box-shadow: -0.14rem 0.14rem 0.5rem var(--main-special-bg-color-5);
 }
 
 .modalHeaderDefault {

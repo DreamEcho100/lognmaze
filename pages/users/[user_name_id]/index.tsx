@@ -43,107 +43,102 @@ const UserProfilePage: NextPage<IProps> = (props) => {
 
 export const getServerSideProps: GetServerSideProps = async ({
 	req,
-	// res,
+	res,
 	query,
 }) => {
-	const fetchProfileData = async (
-		user_name_id: string,
-		visitorUserNameId?: string
-	) => {
-		const profileData = {} as IPropsUserProfilePageData & {
-			newsData: { news: TNewsData; hit_news_items_limit: boolean };
-		};
-
-		profileData.visitorStatus =
-			visitorUserNameId && user_name_id === visitorUserNameId
-				? VISITOR_PROFILE_OWNER
-				: VISITOR_PROFILE_GUEST;
-		const userFilterBy: TGetUsersPropFilterBy = [
-			[
-				{
-					name: 'byUserNameId',
-					value: user_name_id,
-				},
-			],
-		];
-		const userExtraReturns: IExtraReturns = {
-			user_id: true,
-			sensitiveInfo: profileData.visitorStatus === VISITOR_PROFILE_OWNER,
-			// user_password
-			// user_news_counter
-		};
-
-		profileData.user = await pgActions.users
-			.get({
-				extraReturns: userExtraReturns,
-				filterBy: userFilterBy,
-			})
-			.then(
-				(response: { rows: IPropsUserProfilePageData['user'][] }) =>
-					response.rows[0]
-			);
-
-		profileData.user.last_sign_in = profileData.user.last_sign_in.toString();
-		profileData.user.created_at = profileData.user.created_at.toString();
-		if (
-			profileData.visitorStatus === VISITOR_PROFILE_OWNER &&
-			profileData.user.date_of_birth
-		) {
-			profileData.user.date_of_birth =
-				profileData.user.date_of_birth.toString();
-		}
-
-		/* */
-		const { existingItems } = itemsInObject(query, [
-			'filterByBlogTagsAnd',
-			'filterByBlogTagsOr',
-			// 'newsByUserId',
-			// 'newsCreatedBefore',
-			'isNewsVotedByUser',
-			// 'with_news_blog_content',
-		]);
-
-		if (typeof existingItems.filterByBlogTagsAnd === 'string')
-			existingItems.filterByBlogTagsAnd = JSON.parse(
-				existingItems.filterByBlogTagsAnd
-			);
-		if (typeof existingItems.filterByBlogTagsOr === 'string')
-			existingItems.filterByBlogTagsOr = JSON.parse(
-				existingItems.filterByBlogTagsOr
-			);
-
-		profileData.newsData = await pgActions.news.get({
-			...existingItems,
-			newsByUserId: profileData.user.id,
-		});
-
-		profileData.newsData.news.forEach((item) => {
-			item.updated_at = item.updated_at.toString();
-			item.created_at = item.created_at.toString();
-		});
-
-		return profileData;
-	};
-	// const cookies = cookie.parse(req.headers.cookie || '');
-
 	const visitorUserNameId = getCookie('user_name_id', req.headers.cookie);
-	// cookies.refreshToken;
-	// let visitorUserNameId: IObjFromJwtToken | undefined = refreshToken
-	// 	? JSON.parse(refreshToken)
-	// 	: undefined;
 
-	// if (refreshToken) {
-	// 	visitorUserNameId = (await verifyJwtToken(refreshToken)) as
-	// 		| IObjFromJwtToken
-	// 		| undefined;
-	// }
+	if (typeof query.user_name_id !== 'string') {
+		res.statusCode = 404;
+		res.statusMessage = "query.user_name_id doesn't exist!";
+		res.end();
+		return {
+			props: {},
+		};
+	}
+	const profileData = {} as IPropsUserProfilePageData & {
+		newsData: { news: TNewsData; hit_news_items_limit: boolean };
+	};
 
-	if (typeof query.user_name_id !== 'string')
-		throw new Error("query.user_name_id doesn't exist!");
+	profileData.visitorStatus =
+		visitorUserNameId && query.user_name_id === visitorUserNameId
+			? VISITOR_PROFILE_OWNER
+			: VISITOR_PROFILE_GUEST;
+	const userFilterBy: TGetUsersPropFilterBy = [
+		[
+			{
+				name: 'byUserNameId',
+				value: query.user_name_id,
+			},
+		],
+	];
+	const userExtraReturns: IExtraReturns = {
+		user_id: true,
+		sensitiveInfo: profileData.visitorStatus === VISITOR_PROFILE_OWNER,
+		// user_password
+		// user_news_counter
+	};
 
-	const profileData = await fetchProfileData(
-		query.user_name_id,
-		visitorUserNameId
+	profileData.user = await pgActions.users
+		.get({
+			extraReturns: userExtraReturns,
+			filterBy: userFilterBy,
+		})
+		.then(
+			(response: { rows: IPropsUserProfilePageData['user'][] }) =>
+				response.rows[0]
+		);
+
+	if (!profileData.user) {
+		res.statusCode = 404;
+		res.statusMessage = 'User Not Found!';
+		res.end();
+		return {
+			props: {},
+		};
+	}
+
+	profileData.user.last_sign_in = profileData.user.last_sign_in.toString();
+	profileData.user.created_at = profileData.user.created_at.toString();
+	if (
+		profileData.visitorStatus === VISITOR_PROFILE_OWNER &&
+		profileData.user.date_of_birth
+	) {
+		profileData.user.date_of_birth = profileData.user.date_of_birth.toString();
+	}
+
+	/* */
+	const { existingItems } = itemsInObject(query, [
+		'filterByBlogTagsAnd',
+		'filterByBlogTagsOr',
+		// 'newsByUserId',
+		// 'newsCreatedBefore',
+		'isNewsVotedByUser',
+		// 'with_news_blog_content',
+	]);
+
+	if (typeof existingItems.filterByBlogTagsAnd === 'string')
+		existingItems.filterByBlogTagsAnd = JSON.parse(
+			existingItems.filterByBlogTagsAnd
+		);
+	if (typeof existingItems.filterByBlogTagsOr === 'string')
+		existingItems.filterByBlogTagsOr = JSON.parse(
+			existingItems.filterByBlogTagsOr
+		);
+
+	profileData.newsData = await pgActions.news.get({
+		...existingItems,
+		newsByUserId: profileData.user.id,
+	});
+
+	profileData.newsData.news.forEach((item) => {
+		item.updated_at = item.updated_at.toString();
+		item.created_at = item.created_at.toString();
+	});
+
+	res.setHeader(
+		'Cache-Control',
+		'public, s-maxage=60, stale-while-revalidate=60'
 	);
 
 	return {
