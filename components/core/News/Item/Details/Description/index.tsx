@@ -3,6 +3,8 @@ import { FC, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TNewsItemData } from '@coreLib/ts/global';
 
+import helpersClasses from '@styles/helpers.module.css';
+
 interface IIsReturnedInPProps {
 	newsItemType: TNewsItemData['type'];
 	description: string;
@@ -40,13 +42,13 @@ const HandleShowFullDetailsButton: FC<IHandleShowFullDetailsButtonProps> = ({
 	isFullDetailsShawn,
 }) => (
 	<button
-		className='text-glow-special display-inline'
+		className={`${helpersClasses.textGlowSpecial} ${helpersClasses.displayInline}`}
 		title='see more'
 		onClick={() => handleIsFullDetailsShawn(!isFullDetailsShawn)}
 	>
 		{!isFullDetailsShawn ? (
 			<>
-				<strong>...</strong>see more
+				<span className={helpersClasses.fontWeightBold}>...</span>see more
 			</>
 		) : (
 			<>&nbsp;see less</>
@@ -82,7 +84,7 @@ const NewsItemDescriptionDetails: FC<INewsItemDescriptionDetailsProps> = ({
 				/>
 			)}{' '}
 			<button
-				className='text-glow-special display-inline'
+				className={`${helpersClasses.textGlowSpecial} ${helpersClasses.displayInline}`}
 				title='Keep Reading'
 				onClick={() => handleSetIsModalVisible(true)}
 			>

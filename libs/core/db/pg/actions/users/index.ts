@@ -135,16 +135,16 @@ export const getUsers: TGetUsers = async ({
     user_address.country_of_resident,
     user_address.state_of_resident,
     user_address.city_of_resident
-    ${sensitiveInfo ? ',user_address.address_of_resident' : ''}
-
+		
 		FROM
-			user_account
+		user_account
 		JOIN user_profile
-			ON user_profile.user_profile_id = user_account.user_account_id
-			LEFT JOIN user_address
-			ON user_address.user_address_id = user_account.user_account_id
+		ON user_profile.user_profile_id = user_account.user_account_id
+		LEFT JOIN user_address
+		ON user_address.user_address_id = user_account.user_account_id
     ${whereFilter}
-`;
+		`;
+	// ${sensitiveInfo ? ',user_address.address_of_resident' : ''}
 
 	const result: any | { errorMessage: string } = await pool
 		.query(sqlQuery, paramsArr)

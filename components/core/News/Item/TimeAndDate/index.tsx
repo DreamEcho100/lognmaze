@@ -1,5 +1,7 @@
 import { FC } from 'react';
 
+import helpersClasses from '@styles/helpers.module.css';
+
 import { formatDate } from '@commonLibIndependent/date';
 
 interface Props {
@@ -28,13 +30,14 @@ const TimeAndDate: FC<Props> = ({ created_at, updated_at }) => {
 		<span>
 			<time dateTime={new Date(created_at).toISOString()}>
 				<small>
-					<strong>Created At:</strong> <em>{handleFormateDate(created_at)}</em>
+					<span className={helpersClasses.fontWeightBold}>Created At:</span>{' '}
+					<em>{handleFormateDate(created_at)}</em>
 				</small>
 			</time>
 			{created_at !== updated_at && (
 				<time dateTime={new Date(updated_at).toISOString()}>
 					<small>
-						, <strong>Updated On:</strong>{' '}
+						, <span className={helpersClasses.fontWeightBold}>Updated On:</span>{' '}
 						<em>{handleFormateDate(updated_at)}</em>
 					</small>
 				</time>

@@ -201,12 +201,12 @@ export const authSignup = async (req: NextApiRequest, res: NextApiResponse) => {
             RETURNING
               country_of_resident,
               state_of_resident,
-              city_of_resident,
-              address_of_resident
-          )
+              city_of_resident
+							)
           
           SELECT * FROM add_new_user_profile, add_new_user_address;
         `,
+              // ,address_of_resident
 				[
 					response.rows[0].id,
 					user_name_id,

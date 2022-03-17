@@ -15,7 +15,7 @@ import NewsItemFooter from './Footer';
 import ModalComponent from '@commonComponentsIndependent/Modal';
 import { initGetNewsItemTypeBlogContent } from '@store/newsContext/Item/actions';
 
-interface INewsItemProps {
+interface INewsItemProvidedContextProps {
 	defaultClasses?: string;
 	extraClasses?: string;
 	className?: string;
@@ -26,23 +26,26 @@ interface INewsItemProps {
 	};
 	newsItemDetailsType?: 'description' | 'content';
 	hit_comments_limit?: boolean;
+	priorityForHeaderImage?: boolean;
 }
 
-interface INewsItemProvidedContextProps {
+interface INewsItemProps {
 	allClasses: string;
 	handleSetIsModalVisible: (isModalVisible: boolean) => void;
 	handleIsFooterSettingsVisible: (isFooterSettingsVisible: boolean) => void;
-	isModalVisible: boolean;
+	// isModalVisible: boolean;
 	isFooterSettingsVisible: boolean;
+	priorityForHeaderImage: boolean;
 	isThisAModal?: boolean;
 }
 
-const NewsItem: FC<INewsItemProvidedContextProps> = ({
+const NewsItem: FC<INewsItemProps> = ({
 	allClasses,
 	handleSetIsModalVisible,
 	handleIsFooterSettingsVisible,
-	isModalVisible,
+	// isModalVisible,
 	isFooterSettingsVisible,
+	priorityForHeaderImage,
 	isThisAModal,
 	// newsItemData,
 }) => {
@@ -106,7 +109,7 @@ const NewsItem: FC<INewsItemProvidedContextProps> = ({
 
 	return (
 		<article {...newsItemProps}>
-			<NewsItemHeader />
+			<NewsItemHeader priorityForHeaderImage={priorityForHeaderImage} />
 			<NewsItemDetails
 				handleSetIsModalVisible={handleSetIsModalVisible}
 				isThisAModal={isThisAModal}
@@ -121,10 +124,12 @@ const NewsItem: FC<INewsItemProvidedContextProps> = ({
 
 interface INewsItemProvidedContextMiddlewareProps {
 	allClasses: string;
+	priorityForHeaderImage: boolean;
 }
 
 export const NewsItemProvidedContextMiddleware = ({
 	allClasses,
+	priorityForHeaderImage,
 }: INewsItemProvidedContextMiddlewareProps) => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [isFooterSettingsVisible, setIsFooterSettingsVisible] = useState(false);
@@ -150,8 +155,9 @@ export const NewsItemProvidedContextMiddleware = ({
 				allClasses={allClasses}
 				handleSetIsModalVisible={handleSetIsModalVisible}
 				handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
-				isModalVisible={isModalVisible}
+				// isModalVisible={isModalVisible}
 				isFooterSettingsVisible={isFooterSettingsVisible}
+				priorityForHeaderImage={priorityForHeaderImage}
 			/>
 			<ModalComponent
 				isModalVisible={isModalVisible}
@@ -169,8 +175,9 @@ export const NewsItemProvidedContextMiddleware = ({
 						allClasses={allClasses}
 						handleSetIsModalVisible={handleSetIsModalVisible}
 						handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
-						isModalVisible={isModalVisible}
+						// isModalVisible={isModalVisible}
 						isFooterSettingsVisible={isFooterSettingsVisible}
+						priorityForHeaderImage={priorityForHeaderImage}
 						isThisAModal
 					/>
 				</Fragment>
@@ -184,7 +191,7 @@ export const NewsItemProvidedContextMiddleware = ({
 	);
 };
 
-export const NewsItemProvidedContext: FC<INewsItemProps> = ({
+export const NewsItemProvidedContext: FC<INewsItemProvidedContextProps> = ({
 	defaultClasses = 'newsItem',
 	extraClasses,
 	className,
@@ -195,6 +202,7 @@ export const NewsItemProvidedContext: FC<INewsItemProps> = ({
 		initModalWithGetTypeBlogContent: true,
 	},
 	hit_comments_limit = false,
+	priorityForHeaderImage = false,
 }) => {
 	const { NewsItemContextSharedProvider } = setNewsItemContextStore({
 		newsItem: newsItemData,
@@ -212,14 +220,17 @@ export const NewsItemProvidedContext: FC<INewsItemProps> = ({
 
 	return (
 		<NewsItemContextSharedProvider>
-			<NewsItemProvidedContextMiddleware allClasses={allClasses} />
+			<NewsItemProvidedContextMiddleware
+				allClasses={allClasses}
+				priorityForHeaderImage={priorityForHeaderImage}
+			/>
 		</NewsItemContextSharedProvider>
 	);
 };
 
 const timeAndDatePropsAreEqual = (
-	prevNewsItem: INewsItemProps,
-	nextNewsItem: INewsItemProps
+	prevNewsItem: INewsItemProvidedContextProps,
+	nextNewsItem: INewsItemProvidedContextProps
 ) => {
 	return (
 		!prevNewsItem ||

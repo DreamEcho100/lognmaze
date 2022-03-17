@@ -213,12 +213,6 @@ const ModalComponent = ({
 			event.preventDefault();
 		}
 	};
-
-	/*
-: KeyboardEventHandler<
-		HTMLDivElement
-	>
-	*/
 	const modalContainerOnKeyDownEventHandler = (
 		event: KeyboardEvent<HTMLDivElement>
 	) => {
@@ -226,14 +220,16 @@ const ModalComponent = ({
 		if (event.key === 'Tab') return trapTapKey(event);
 	};
 
+	console.log("modalProps.current.bodyOverflowBeforeModal", modalProps.current.bodyOverflowBeforeModal);
+
 	useEffect(() => {
 		if (isModalVisible) {
-			document.body.style.overflowX = 'hidden';
-			document.body.style.overflowY = 'hidden';
-
 			modalProps.current.bodyOverflowBeforeModal = getComputedStyle(
 				document.body
 			).overflow;
+
+			document.body.style.overflowX = 'hidden';
+			document.body.style.overflowY = 'hidden';
 
 			modalProps.current.lastElementFocusedBeforeThisModal =
 				document.activeElement;

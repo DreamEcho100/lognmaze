@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import classes from './index.module.css';
+import helpersClasses from '@styles/helpers.module.css';
 
 import { INewsItemTypeBlog } from '@coreLib/ts/global';
 
@@ -12,12 +13,13 @@ import CustomNextImage from '@commonComponentsDependent/CustomNextImage';
 interface Props {
 	newsItemBlogData: INewsItemTypeBlog;
 	newsItemDetailsType?: 'description' | 'content';
+	priorityForHeaderImage: boolean;
 }
 
 const NewsItemHeaderBlogInfo: FC<Props> = ({
 	newsItemBlogData,
 	newsItemDetailsType,
-	// setShowModal,
+	priorityForHeaderImage = false,
 }) => {
 	const router = useRouter();
 
@@ -47,11 +49,13 @@ const NewsItemHeaderBlogInfo: FC<Props> = ({
 				src={newsItemBlogData.type_data.image_src}
 				alt={newsItemBlogData.type_data.image_alt}
 				className={classes.img_wrapper}
+				priority={priorityForHeaderImage}
 			/>
 			<p className={classes.tags}>
 				{newsItemBlogData.type_data.tags && (
 					<>
-						<strong>Tags:</strong> {newsItemBlogData.type_data.tags?.join(', ')}
+						<span className={helpersClasses.fontWeightBold}>Tags:</span>{' '}
+						{newsItemBlogData.type_data.tags?.join(', ')}
 					</>
 				)}
 			</p>

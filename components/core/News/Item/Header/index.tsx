@@ -8,9 +8,11 @@ import NewsItemHeaderNav from './Nav';
 import TimeAndDate from '../TimeAndDate';
 import NewsItemHeaderBlogInfo from './BlogInfo';
 
-interface Props {}
+interface Props {
+	priorityForHeaderImage: boolean;
+}
 
-const NewsItemHeader: FC<Props> = () => {
+const NewsItemHeader: FC<Props> = ({ priorityForHeaderImage }) => {
 	const [
 		{
 			data: { newsItem: newsItemData, newsItemDetailsType },
@@ -29,6 +31,7 @@ const NewsItemHeader: FC<Props> = () => {
 					<NewsItemHeaderBlogInfo
 						newsItemBlogData={newsItemData}
 						newsItemDetailsType={newsItemDetailsType}
+						priorityForHeaderImage={priorityForHeaderImage}
 					/>
 				)}
 			</div>

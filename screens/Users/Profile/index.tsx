@@ -48,15 +48,10 @@ const UserProfileScreen = (Props: Props) => {
 				<UserProfileHero />
 			</SectionWrapper>
 			<div className={classes.mainContent}>
-				<NewsFeed />
-				{/* {newsDataState.data?.news && (
-						<NewsItem
-							newsItemData={newsDataState.data.news[0]}
-							newsItemDetailsType='description'
-						/>
-					)} */}
-				{/* <SectionWrapper className={classes.sectionWrapper}>
-				</SectionWrapper> */}
+				<NewsFeed
+					newsFetchRouteQuery={{}}
+					priorityForHeaderImageForFirstIndex={false}
+				/>
 				<SectionWrapper className={classes.sectionWrapper}></SectionWrapper>
 			</div>
 		</main>

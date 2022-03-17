@@ -35,8 +35,8 @@ a.textGlowSpecial,
 button.textGlowSpecial,
 svg.textGlowSpecial {
 	--color: var(--main-special-bg-color-5);
-	--color-focus: var(--main-special-bg-color-5);
-	--color-hover: var(--main-special-bg-color-5);
+	--color-focus: var(--main-special-bg-color-4);
+	--color-hover: var(--main-special-bg-color-3);
 	color: var(--color);
 	text-shadow: 0rem 0rem 0.1rem var(--color);
 	transition: all var(--main-transition-duration)
@@ -44,14 +44,14 @@ svg.textGlowSpecial {
 }
 .textGlowSpecial:hover {
 	color: var(--color-hover);
-	text-shadow: 0rem 0rem 0.8rem var(--color-hover);
+	text-shadow: 0rem 0rem 0.4rem var(--color-hover);
 }
 .textGlowSpecial:focus-within,
 .textGlowSpecial:active,
 .textGlowSpecial:visited {
 	color: var(--color-focus);
 	text-shadow: 0rem 0rem 0rem var(--color-focus);
-	font-weight: 600;
+	/* font-weight: 600; */
 }
 
 body:global(.dark) .textGlowSpecial {
@@ -60,17 +60,25 @@ body:global(.dark) .textGlowSpecial {
 	--color-hover: var(--main-special-bg-color-3);
 }
 
-.cursor-pointer {
+.cursorPointer {
 	cursor: pointer;
 }
 
-.display-inline {
+.displayInline {
 	display: inline;
 }
 
-.text-align-center {
+.textAlignCenter {
 	text-align: center;
 }
+
+.fontWeightBold {
+	font-weight: bold;
+}
+.fontWeightBolder {
+	font-weight: bolder;
+}
+
 /* 
 .buttons-holder > button {
 	margin: 0.5em 0;

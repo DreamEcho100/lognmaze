@@ -1,26 +1,27 @@
 import classes from './index.module.css';
+// import helpersClasses from '@styles/helpers.module.css';
 
 // import { handleLoadMoreNewsItems } from '@store/NewsContext/actions';
-// import { handleAllClasses } from '@lib/v1/className';
 import { useNewsSharedState } from '@store/newsContext';
 import { handleAllClasses } from '@commonLibIndependent/className';
 
 import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
 import NewsItem from '@coreComponents/News/Item';
+import { FC } from 'react';
 
 interface IProps {
 	defaultClasses?: string;
 	extraClasses?: string;
 	className?: string;
 	newsFetchRouteQuery: { [key: string]: any };
+	priorityForHeaderImageForFirstIndex?: boolean;
 }
 
-const NewsFeed = ({
+const NewsFeed: FC<IProps> = ({
 	defaultClasses = 'feed',
 	extraClasses = '',
 	className = '',
-	// isLoadingSkeleton,
-	// // newsState,
+	priorityForHeaderImageForFirstIndex = false,
 	// newsFetchRouteQuery,
 	...props
 }) => {
@@ -51,7 +52,12 @@ const NewsFeed = ({
 							key={`NewsFeed-${index}-${item.news_id}`}
 							className={classes.SectionWrapper}
 						>
-							<NewsItem newsItemData={item} />
+							<NewsItem
+								newsItemData={item}
+								priorityForHeaderImage={
+									priorityForHeaderImageForFirstIndex && index === 0
+								}
+							/>
 						</SectionWrapper>
 					);
 				})}
@@ -86,7 +92,7 @@ const NewsFeed = ({
 								justifyContent: 'center',
 							}}
 						>
-							<strong>Load More</strong>
+							<span className={helpersClasses.fontWeightBold}>Load More</span>
 						</button>
 					</SectionWrapper>
 				)} */}

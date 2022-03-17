@@ -1,5 +1,7 @@
 import { FC, FormEvent, useCallback, useEffect, useState } from 'react';
 
+import helpersClasses from '@styles/helpers.module.css';
+
 import { TNewsItemCommentsMain } from '@coreLib/ts/global';
 // import {
 // 	handleLoadingNewsItemComments,
@@ -145,17 +147,18 @@ const Comments: FC<IProps> = ({
 						disabled={initGetMainComments.isLoading}
 						onClick={async () => await LoadComments()}
 					>
-						<strong>Load More</strong>
+						<span className={helpersClasses.fontWeightBold}>Load More</span>
 					</button>
 				)}{' '}
 				<button title='Hide Comments' disabled={initGetMainComments.isLoading}>
-					<strong
+					<span
+						className={helpersClasses.fontWeightBold}
 						onClick={() => {
 							if (isCommentsVisible) handleSetIsCommentsVisible(false);
 						}}
 					>
 						Hide Comments
-					</strong>
+					</span>
 				</button>
 			</div>
 		</div>

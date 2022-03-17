@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import classes from './index.module.css';
+import helpersClasses from '@styles/helpers.module.css';
 
 import { TNewsItemData } from '@coreLib/ts/global';
 
@@ -34,7 +35,9 @@ const NewsItemHeaderNav = ({ newsItemData }: Props) => {
 						)}
 					</div>
 					<p className={classes.author_user_name_id}>
-						<strong>{newsItemData.author_user_name_id}</strong>
+						<span className={helpersClasses.fontWeightBold}>
+							{newsItemData.author_user_name_id}
+						</span>
 					</p>
 				</a>
 			</Link>

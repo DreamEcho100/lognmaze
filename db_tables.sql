@@ -74,7 +74,7 @@ CREATE TABLE user_address (
   country_of_resident TEXT NOT NULL,
   state_of_resident TEXT NOT NULL,
   city_of_resident TEXT,
-  address_of_resident TEXT,
+  -- address_of_resident TEXT,
 
   PRIMARY KEY (user_address_id),
   FOREIGN KEY (user_address_id) REFERENCES user_account (user_account_id) ON DELETE CASCADE

@@ -7,6 +7,7 @@ import {
 } from 'react';
 
 import classes from './index.module.css';
+import helpersClasses from '@styles/helpers.module.css';
 import borderClasses from '@styles/border.module.css';
 import boxShadowClasses from '@styles/boxShadow.module.css';
 
@@ -573,7 +574,9 @@ const SignUpComponent = ({
 			)}
 
 			<fieldset className={classes.genderSelectFieldset}>
-				<legend className='text-align-center'>Choose your gender:</legend>
+				<legend className={helpersClasses.textAlignCenter}>
+					Choose your gender:
+				</legend>
 				<FormControlComponent
 					className={`${classes.genderFormControl} ${classes.formControl}`}
 				>

@@ -1,6 +1,7 @@
 import { FC, FormEvent, useEffect, useState } from 'react';
 
 import classes from './index.module.css';
+import helpersClasses from '@styles/helpers.module.css';
 
 import {
 	TNewsItemData,
@@ -313,7 +314,9 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					)}
 					<div className={classes['author-info']}>
 						<p>
-							<strong>{props.comment.author_user_name_id}</strong>
+							<span className={helpersClasses.fontWeightBold}>
+								{props.comment.author_user_name_id}
+							</span>
 						</p>
 						<p>
 							<em>
@@ -467,7 +470,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 								}
 							}}
 						>
-							<strong>Load More</strong>
+							<span className={helpersClasses.fontWeightBold}>Load More</span>
 						</button>
 					)}
 
@@ -477,7 +480,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 						disabled={loadingReplies}
 						onClick={() => setShowReplies(false)}
 					>
-						<strong>Hide Replies</strong>
+						<span className={helpersClasses.fontWeightBold}>Hide Replies</span>
 					</button>
 				)}
 			</div>

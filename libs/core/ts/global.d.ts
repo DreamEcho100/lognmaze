@@ -18,6 +18,7 @@ export type NextApiRequestExtended = NextApiRequest & {
 
 export type IUserBasicDataCoverPhoto = string;
 export type IUserBasicDataProfilePicture = string;
+export type IUserBasicDataBio = string;
 export type IUserBasicDataCityOfResident = string;
 
 export type TUserAuthenticatedDataEmail = string;
@@ -32,7 +33,7 @@ export interface IUserBasicData {
 	gender: string;
 	cover_photo?: IUserBasicDataCoverPhoto;
 	profile_picture?: IUserBasicDataProfilePicture;
-	bio: string;
+	bio?: IUserBasicDataBio;
 	country_of_resident: string;
 	state_of_resident: string;
 	city_of_resident?: IUserBasicDataCityOfResident;
@@ -42,9 +43,9 @@ export interface IUserBasicData {
 export interface IUserAuthenticatedData extends IUserBasicData {
 	email?: TUserAuthenticatedDataEmail;
 	email_verified?: boolean;
-	password?: TUserAuthenticatedDataPassword;
+	// password?: TUserAuthenticatedDataPassword;
 	date_of_birth?: TUserAuthenticatedDataEmailDateOfBirth;
-	address_of_resident?: TUserAuthenticatedDataEmailAddressOfResident;
+	// address_of_resident?: TUserAuthenticatedDataEmailAddressOfResident;
 }
 
 /* */
