@@ -6,11 +6,12 @@ import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext
 // import { TUseFetchNewsItemMainComments } from '@store/newsContext/ts';
 
 export const initGetNewsItemCommentsMain: TInitGetNewsItemCommentsMain = async (
-	newsItemDispatch,
-	{ urlOptions }
+	newsDispatch,
+	{ news_id, urlOptions }
 ) => {
-	newsItemDispatch({
+	newsDispatch({
 		type: NewsItemContextConstants.INIT_GET_COMMENTS_PENDING,
+		payload: { news_id },
 	});
 
 	const { requestInfo, requestInit } =
@@ -18,19 +19,12 @@ export const initGetNewsItemCommentsMain: TInitGetNewsItemCommentsMain = async (
 			urlOptions,
 		});
 
-	// const fetcher = async ({
-	// 	requestInfo,
-	// 	requestInit,
-	// }: {
-	// 	requestInfo: RequestInfo;
-	// 	requestInit: RequestInit;
-	// }) => {
 	const response = await fetch(requestInfo, requestInit);
 
 	if (!response.ok)
-		return newsItemDispatch({
+		return newsDispatch({
 			type: NewsItemContextConstants.INIT_GET_COMMENTS_FAIL,
-			payload: { error: await response.text() },
+			payload: { news_id, error: await response.text() },
 		});
 
 	const {
@@ -39,8 +33,8 @@ export const initGetNewsItemCommentsMain: TInitGetNewsItemCommentsMain = async (
 	}: { comments: TNewsItemCommentsMain; hit_comments_limit: boolean } =
 		await response.json();
 
-	newsItemDispatch({
+	newsDispatch({
 		type: NewsItemContextConstants.INIT_GET_COMMENTS_SUCCESS,
-		payload: { commentsMainData, hit_comments_limit },
+		payload: { news_id, commentsMainData, hit_comments_limit },
 	});
 };

@@ -9,20 +9,21 @@ import dynamic from 'next/dynamic';
 import { TNewsItemData } from '@coreLib/ts/global';
 import { VISITOR_PROFILE_OWNER } from '@coreLib/constants';
 import { useUserSharedState } from '@store/UserContext';
-// import { useNewsItemSharedState } from '@store/newsContext';
+import { useNewsSharedState } from '@store/newsContext';
 import { useUserProfilePageSharedState } from '@store/ProfilePageContext';
-import { useNewsItemSharedState } from '@store/newsContext/Item';
 
 const DynamicComments = dynamic(() => import('./Comments'));
 // import Settings from './Settings';
 import Status from './Status';
 
 interface IProps {
+	newsItemData: TNewsItemData;
 	isFooterSettingsVisible: boolean;
 	handleIsFooterSettingsVisible: (isFooterSettingsVisible: boolean) => void;
 }
 
 const NewsItemFooter: FC<IProps> = ({
+	newsItemData,
 	isFooterSettingsVisible,
 	handleIsFooterSettingsVisible,
 }) => {
@@ -34,10 +35,13 @@ const NewsItemFooter: FC<IProps> = ({
 
 	const [
 		{
-			data: { newsItem: newsItemData, hit_comments_limit, newsItemDetailsType },
+			actions: { items: newsItemsActions },
 		},
-		newsItemDispatch,
-	] = useNewsItemSharedState();
+		newsDispatch,
+	] = useNewsSharedState();
+
+	const initGetMainComments =
+		newsItemsActions[newsItemData.news_id]?.init?.getMainComments;
 
 	const [
 		{
@@ -104,7 +108,7 @@ const NewsItemFooter: FC<IProps> = ({
 					handleSetIsCommentsVisible={handleSetIsCommentsVisible}
 					// setFocusCommentTextarea={setFocusCommentTextarea}
 					isCommentsVisible={isCommentsVisible}
-					// focusCommentTextarea={focusCommentTextarea}
+					newsItemData={newsItemData} // focusCommentTextarea={focusCommentTextarea}
 				/>
 			)}
 		</footer>

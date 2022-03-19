@@ -2,7 +2,7 @@ import { FC, FormEvent, useCallback, useEffect, useState } from 'react';
 
 import helpersClasses from '@styles/helpers.module.css';
 
-import { TNewsItemCommentsMain } from '@coreLib/ts/global';
+import { TNewsItemCommentsMain, TNewsItemData } from '@coreLib/ts/global';
 // import {
 // 	handleLoadingNewsItemComments,
 // 	handlePostingCommentToNewsItem,
@@ -10,23 +10,25 @@ import { TNewsItemCommentsMain } from '@coreLib/ts/global';
 // import { useNewsSharedState } from '@store/NewsContext';
 // import { useUserSharedState } from '@store/UserContext';
 import { useUserSharedState } from '@store/UserContext';
-import { useNewsSharedState } from '@store/newsContext';
+// import { useNewsSharedState } from '@store/newsContext';
 
 import Comment from './Comment';
 import CommentTextarea from './CommentTextarea';
-import { initGetNewsItemCommentsMain } from '@store/newsContext/Item/actions/comments';
-import { useNewsItemSharedState } from '@store/newsContext/Item';
+import { initGetNewsItemCommentsMain } from '@store/newsContext/actions/comments';
+import { useNewsSharedState } from '@store/newsContext';
 
 interface IProps {
 	newsItemComments: TNewsItemCommentsMain;
 	handleSetIsCommentsVisible: (isCommentsVisible?: boolean) => void;
 	isCommentsVisible: boolean;
+	newsItemData: TNewsItemData;
 }
 
 const Comments: FC<IProps> = ({
 	newsItemComments,
 	handleSetIsCommentsVisible,
 	isCommentsVisible,
+	newsItemData,
 }) => {
 	const [
 		{
@@ -38,18 +40,26 @@ const Comments: FC<IProps> = ({
 
 	const [
 		{
-			data: { newsItem: newsItemData, hit_comments_limit, newsItemDetailsType },
-			actions: {
-				init: { getComments: initGetMainComments },
-			},
+			actions: { items: newsItemsActions },
 		},
-		newsItemDispatch,
-	] = useNewsItemSharedState();
+		newsDispatch,
+	] = useNewsSharedState();
+
+	const initGetMainComments =
+		newsItemsActions[newsItemData.news_id]?.init?.getMainComments;
 
 	useEffect(() => {
-		if (initGetMainComments.isLoading)
+		if (
+			!newsItemData.hit_comments_limit &&
+			newsItemComments.length === 0 &&
+			(!initGetMainComments ||
+				(initGetMainComments &&
+					!initGetMainComments.isLoading &&
+					!initGetMainComments.success))
+		) {
 			(async () =>
-				await initGetNewsItemCommentsMain(newsItemDispatch, {
+				await initGetNewsItemCommentsMain(newsDispatch, {
+					news_id: newsItemData.news_id,
 					urlOptions: {
 						params: {
 							news_id: newsItemData.news_id,
@@ -59,7 +69,14 @@ const Comments: FC<IProps> = ({
 						},
 					},
 				}))();
-	}, [newsItemData.news_id, newsItemDispatch, initGetMainComments.isLoading]);
+		}
+	}, [
+		newsItemData.news_id,
+		newsDispatch,
+		newsItemComments.length,
+		initGetMainComments,
+		newsItemData.hit_comments_limit,
+	]);
 
 	// const [userData, userDispatch] = useUserSharedState();
 	// const [newsDataState, newsDataDispatch] = useNewsSharedState();
@@ -122,15 +139,16 @@ const Comments: FC<IProps> = ({
 				/>
 			)}
 			<div>
-				{initGetMainComments.isLoading && (
+				{initGetMainComments?.isLoading && (
 					<p className='isLoadingLoader'>Loading...</p>
 				)}
-				{initGetMainComments.error && (
+				{initGetMainComments?.error && (
 					<p className='errorMessage'>{!initGetMainComments.error}</p>
 				)}
-				{!initGetMainComments.isLoading &&
+				{initGetMainComments &&
+					!initGetMainComments.isLoading &&
 					initGetMainComments.success &&
-					newsItemComments.length === 0 &&
+					newsItemComments.length !== 0 &&
 					newsItemComments.map((comment) => (
 						<Comment
 							commentType='comment_main'
@@ -141,16 +159,16 @@ const Comments: FC<IProps> = ({
 					))}
 			</div>
 			<div className='buttons-holder'>
-				{newsItemData.hit_comments_limit && (
+				{!newsItemData.hit_comments_limit && (
 					<button
-						title='Load More'
-						disabled={initGetMainComments.isLoading}
+						title='Load more comments'
+						disabled={initGetMainComments?.isLoading}
 						onClick={async () => await LoadComments()}
 					>
 						<span className={helpersClasses.fontWeightBold}>Load More</span>
 					</button>
 				)}{' '}
-				<button title='Hide Comments' disabled={initGetMainComments.isLoading}>
+				<button title='Hide comments' disabled={initGetMainComments?.isLoading}>
 					<span
 						className={helpersClasses.fontWeightBold}
 						onClick={() => {

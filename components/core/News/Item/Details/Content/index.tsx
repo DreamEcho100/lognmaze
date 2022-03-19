@@ -1,34 +1,42 @@
 import { FC } from 'react';
-import { useNewsItemSharedState } from '@store/newsContext/Item';
+
+import { TNewsItemData } from '@coreLib/ts/global';
+import { useNewsSharedState } from '@store/newsContext';
 
 import MdToHTMLFormatter from '@commonComponentsDependent/Format/MdToHTML';
 
 interface Props {
 	content: string;
+	newsItemData: TNewsItemData;
 }
 
-const NewsItemContentDetails: FC<Props> = ({ content }) => {
+const NewsItemContentDetails: FC<Props> = ({ newsItemData, content }) => {
 	const [
 		{
 			actions: {
-				init: {
-					modal: { getTypeBlogContent },
-				},
+				items: itemsActions,
+				// init: {
+				// 	modal: { getTypeBlogContent },
+				// },
 			},
 		},
-	] = useNewsItemSharedState();
+	] = useNewsSharedState();
+
+	const getTypeBlogContent =
+		itemsActions[newsItemData.news_id]?.init?.modal?.getTypeBlogContent;
 
 	return (
 		<>
-			{getTypeBlogContent.error && (
+			{getTypeBlogContent?.error && (
 				<p className='errorMessage'>{getTypeBlogContent.error}</p>
 			)}
-			{getTypeBlogContent.isLoading && (
+			{getTypeBlogContent?.isLoading && (
 				<p className='isLoadingLoader'>Loading...</p>
 			)}
-			{!getTypeBlogContent.isLoading && !getTypeBlogContent.error && (
-				<MdToHTMLFormatter content={content} />
-			)}
+			{(!getTypeBlogContent && content) ||
+				(getTypeBlogContent &&
+					!getTypeBlogContent.isLoading &&
+					!getTypeBlogContent.error && <MdToHTMLFormatter content={content} />)}
 		</>
 	);
 };

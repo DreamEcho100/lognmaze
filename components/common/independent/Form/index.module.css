@@ -3,12 +3,6 @@
 }
 
 .form {
-	/* max-width: 98%;
-	width: 50rem; */
-	/* border: 0.5rem solid var(--main-special-bg-color-5); */
-	/* border-radius: 0.5rem; */
-	/* padding: 0.5em;
-	margin: 1em auto; */
 	background-color: var(--main-bg-color-1);
 	padding: 0.5em 0.25em;
 	width: var(--width-min-width);

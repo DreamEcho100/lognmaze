@@ -3,104 +3,115 @@ import { FC, Fragment, memo, useEffect, useState } from 'react';
 import classes from './index.module.css';
 
 import { TNewsItemData } from '@coreLib/ts/global';
-import {
-	setNewsItemContextStore,
-	useNewsItemSharedState,
-} from '@store/newsContext/Item';
+import { useNewsSharedState } from '@store/newsContext';
 import { handleAllClasses } from '@commonLibIndependent/className';
 
 import NewsItemHeader from './Header';
 import NewsItemDetails from './Details';
 import NewsItemFooter from './Footer';
 import ModalComponent from '@commonComponentsIndependent/Modal';
-import { initGetNewsItemTypeBlogContent } from '@store/newsContext/Item/actions';
+import { initGetNewsItemTypeBlogContent } from '@store/newsContext/actions';
 
 interface INewsItemProvidedContextProps {
 	defaultClasses?: string;
 	extraClasses?: string;
 	className?: string;
 	newsItemData: TNewsItemData;
-	initActions?: {
-		initWithMainComments?: boolean;
-		initModalWithGetTypeBlogContent: boolean;
-	};
-	newsItemDetailsType?: 'description' | 'content';
-	hit_comments_limit?: boolean;
+	isThisAModal?: boolean;
 	priorityForHeaderImage?: boolean;
 }
 
-interface INewsItemProps {
-	allClasses: string;
+interface INewsItemProps extends INewsItemProvidedContextProps {
 	handleSetIsModalVisible: (isModalVisible: boolean) => void;
 	handleIsFooterSettingsVisible: (isFooterSettingsVisible: boolean) => void;
-	// isModalVisible: boolean;
 	isFooterSettingsVisible: boolean;
-	priorityForHeaderImage: boolean;
-	isThisAModal?: boolean;
 }
 
 const NewsItem: FC<INewsItemProps> = ({
-	allClasses,
+	newsItemData,
+	priorityForHeaderImage = false,
 	handleSetIsModalVisible,
 	handleIsFooterSettingsVisible,
 	// isModalVisible,
 	isFooterSettingsVisible,
-	priorityForHeaderImage,
 	isThisAModal,
-	// newsItemData,
+	defaultClasses,
+	extraClasses,
+	className,
 }) => {
 	const [
 		{
-			data: { newsItem: newsItemData },
+			data: { newsExtra: newsExtraData },
 			actions: {
-				init: {
-					modal: { getTypeBlogContent },
-				},
+				// 	init: {
+				// 		modal: { getTypeBlogContent },
+				// 	},
+				// },
+				items: itemsActions,
 			},
 		},
-		newsItemDispatch,
-	] = useNewsItemSharedState();
+		newsDispatch,
+	] = useNewsSharedState();
+
+	const getTypeBlogContent =
+		itemsActions[newsItemData.news_id]?.init?.modal?.getTypeBlogContent;
+	const newsItemDetailsType =
+		newsExtraData[newsItemData.news_id]?.newsItemDetailsType || 'description';
+	const newsItemModelDetailsType =
+		newsExtraData[newsItemData.news_id]?.newsItemModelDetailsType || 'content';
+
+	// const priorityForHeaderImage = items[newsItemData.news_id]?.init?.priorityForHeaderImageForFirstIndex;
+
+	const allClasses = handleAllClasses({
+		classes,
+		defaultClasses,
+		extraClasses,
+		className,
+	});
 
 	useEffect(() => {
-		let timeoutId: NodeJS.Timeout;
+		// let timeoutId: NodeJS.Timeout;
 
 		if (
+			// getTypeBlogContent &&
 			isThisAModal &&
-			(getTypeBlogContent.isLoading || getTypeBlogContent.error) &&
 			newsItemData.type === 'blog' &&
-			!newsItemData.type_data.content
+			!newsItemData.type_data.content &&
+			(!getTypeBlogContent ||
+				(getTypeBlogContent &&
+					!getTypeBlogContent.success &&
+					!getTypeBlogContent.isLoading))
 		) {
-			if (!getTypeBlogContent.error) {
-				initGetNewsItemTypeBlogContent(newsItemDispatch, {
-					urlOptions: {
-						params: {
-							news_id: newsItemData.news_id,
-						},
+			initGetNewsItemTypeBlogContent(newsDispatch, {
+				news_id: newsItemData.news_id,
+				urlOptions: {
+					params: {
+						news_id: newsItemData.news_id,
 					},
-				});
-				return;
-			}
+				},
+			});
+			return;
 
-			timeoutId = setTimeout(() => {
-				initGetNewsItemTypeBlogContent(newsItemDispatch, {
-					urlOptions: {
-						params: {
-							news_id: newsItemData.news_id,
-						},
-					},
-				});
-			}, 1500);
+			// timeoutId = setTimeout(() => {
+			// 	initGetNewsItemTypeBlogContent(newsDispatch, {
+			// 		news_id: newsItemData.news_id,
+			// 		urlOptions: {
+			// 			params: {
+			// 				news_id: newsItemData.news_id,
+			// 			},
+			// 		},
+			// 	});
+			// }, 1500);
 		}
 
-		() => clearTimeout(timeoutId);
+		// () => clearTimeout(timeoutId);
 	}, [
-		getTypeBlogContent.error,
-		getTypeBlogContent.isLoading,
+		getTypeBlogContent,
 		isThisAModal,
+		newsDispatch,
 		newsItemData.news_id,
 		newsItemData.type,
 		newsItemData.type_data.content,
-		newsItemDispatch,
 	]);
 
 	const newsItemProps = {
@@ -109,12 +120,19 @@ const NewsItem: FC<INewsItemProps> = ({
 
 	return (
 		<article {...newsItemProps}>
-			<NewsItemHeader priorityForHeaderImage={priorityForHeaderImage} />
+			<NewsItemHeader
+				newsItemData={newsItemData}
+				priorityForHeaderImage={priorityForHeaderImage}
+			/>
 			<NewsItemDetails
+				newsItemData={newsItemData}
 				handleSetIsModalVisible={handleSetIsModalVisible}
 				isThisAModal={isThisAModal}
+				newsItemDetailsType={newsItemDetailsType}
+				newsItemModelDetailsType={newsItemModelDetailsType}
 			/>
 			<NewsItemFooter
+				newsItemData={newsItemData}
 				isFooterSettingsVisible={isFooterSettingsVisible}
 				handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
 			/>
@@ -122,15 +140,9 @@ const NewsItem: FC<INewsItemProps> = ({
 	);
 };
 
-interface INewsItemProvidedContextMiddlewareProps {
-	allClasses: string;
-	priorityForHeaderImage: boolean;
-}
-
-export const NewsItemProvidedContextMiddleware = ({
-	allClasses,
-	priorityForHeaderImage,
-}: INewsItemProvidedContextMiddlewareProps) => {
+export const NewsItemProvidedContextMiddleware = (
+	props: INewsItemProvidedContextProps
+) => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [isFooterSettingsVisible, setIsFooterSettingsVisible] = useState(false);
 
@@ -140,8 +152,6 @@ export const NewsItemProvidedContextMiddleware = ({
 		return setIsModalVisible((prevState) => !prevState);
 	};
 
-	// isModalVisible: boolean,
-	// handleSetIsModalVisibleOptions?: { [key: string]: any }
 	const handleIsFooterSettingsVisible = (isFooterSettingsVisible: boolean) => {
 		if (isFooterSettingsVisible)
 			return setIsFooterSettingsVisible(isFooterSettingsVisible);
@@ -152,12 +162,10 @@ export const NewsItemProvidedContextMiddleware = ({
 	return (
 		<>
 			<NewsItem
-				allClasses={allClasses}
+				{...props}
 				handleSetIsModalVisible={handleSetIsModalVisible}
 				handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
-				// isModalVisible={isModalVisible}
 				isFooterSettingsVisible={isFooterSettingsVisible}
-				priorityForHeaderImage={priorityForHeaderImage}
 			/>
 			<ModalComponent
 				isModalVisible={isModalVisible}
@@ -165,84 +173,18 @@ export const NewsItemProvidedContextMiddleware = ({
 					handleSetIsModalVisible,
 				}}
 			>
-				{/* <Fragment key='header'>
-					<header>
-						<h2>Header</h2>
-					</header>
-				</Fragment> */}
 				<Fragment key='body'>
 					<NewsItem
-						allClasses={allClasses}
+						{...props}
 						handleSetIsModalVisible={handleSetIsModalVisible}
 						handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
-						// isModalVisible={isModalVisible}
 						isFooterSettingsVisible={isFooterSettingsVisible}
-						priorityForHeaderImage={priorityForHeaderImage}
 						isThisAModal
 					/>
 				</Fragment>
-				{/* <Fragment key='footer'>
-					<footer>
-						<h2>footer</h2>
-					</footer>
-				</Fragment> */}
 			</ModalComponent>
 		</>
 	);
 };
 
-export const NewsItemProvidedContext: FC<INewsItemProvidedContextProps> = ({
-	defaultClasses = 'newsItem',
-	extraClasses,
-	className,
-	newsItemData,
-	newsItemDetailsType = 'description',
-	initActions = {
-		initWithMainComments: false,
-		initModalWithGetTypeBlogContent: true,
-	},
-	hit_comments_limit = false,
-	priorityForHeaderImage = false,
-}) => {
-	const { NewsItemContextSharedProvider } = setNewsItemContextStore({
-		newsItem: newsItemData,
-		newsItemDetailsType,
-		initActions,
-		hit_comments_limit,
-	});
-
-	const allClasses = handleAllClasses({
-		classes,
-		defaultClasses,
-		extraClasses,
-		className,
-	});
-
-	return (
-		<NewsItemContextSharedProvider>
-			<NewsItemProvidedContextMiddleware
-				allClasses={allClasses}
-				priorityForHeaderImage={priorityForHeaderImage}
-			/>
-		</NewsItemContextSharedProvider>
-	);
-};
-
-const timeAndDatePropsAreEqual = (
-	prevNewsItem: INewsItemProvidedContextProps,
-	nextNewsItem: INewsItemProvidedContextProps
-) => {
-	return (
-		!prevNewsItem ||
-		!prevNewsItem?.newsItemData ||
-		new Date(prevNewsItem.newsItemData.updated_at).getTime() >
-			new Date(nextNewsItem.newsItemData.updated_at).getTime()
-	);
-};
-
-const MemoizedNewsItem = memo(
-	NewsItemProvidedContext,
-	timeAndDatePropsAreEqual
-);
-
-export default MemoizedNewsItem;
+export default NewsItemProvidedContextMiddleware;

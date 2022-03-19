@@ -18,7 +18,6 @@ export const getCommentsController = async (
 		res.status(400);
 		throw new Error('Data required not provided!');
 	}
-	const { type } = req.query;
 
 	if (
 		typeof req.query.news_id !== 'string'
@@ -37,7 +36,7 @@ export const getCommentsController = async (
 		comments: [],
 	};
 
-	if (type === 'comment_main') {
+	if (req.query.comment_type === 'comment_main') {
 		const queryParams: string[] = [req.query.news_id];
 		if (typeof req.query.last_comment_created_at === 'string') {
 			queryParams.push(req.query.last_comment_created_at);
@@ -111,7 +110,7 @@ export const getCommentsController = async (
 		if (data.comments.length < 10) {
 			data.hit_comments_limit = true;
 		}
-	} else if (type === 'comment_main_reply') {
+	} else if (req.query.comment_type === 'comment_main_reply') {
 		const queryParams = [req.query.parent_id];
 
 		if (req.query.last_reply_created_at) {
@@ -201,19 +200,19 @@ export const createCommentController = async (
 	res: NextApiResponse
 ) => {
 	if (
-		(req.body.type !== 'comment_main' ||
-			req.body.type !== 'comment_main_reply' ||
+		(req.query.comment_type !== 'comment_main' ||
+			req.query.comment_type !== 'comment_main_reply' ||
 			req.body.news_id ||
 			req.body.content) &&
-		req.body.type === 'post' &&
-		!req.body.type.parent_id &&
-		!req.body.type.reply_to_user_id
+		req.query.comment_type === 'post' &&
+		!req.query.comment_type.parent_id &&
+		!req.query.comment_type.reply_to_user_id
 	) {
 		res.status(400);
 		throw new Error('Data required not provided!');
 	}
 
-	const { type, news_id, content } = req.body;
+	const { news_id, content } = req.body;
 
 	const data = await pool
 		.query(
@@ -221,10 +220,16 @@ export const createCommentController = async (
 				INSERT INTO news_comment (news_id, author_id, type, content, created_at, updated_at)
 				VALUES ($1, $2, $3, $4, $5, $5) RETURNING news_comment_id
 			`,
-			[news_id, req.user.id, type, content, new Date().toISOString()]
+			[
+				news_id,
+				req.user.id,
+				req.query.comment_type,
+				content,
+				new Date().toISOString(),
+			]
 		)
 		.then(async (response: { rows: any[] }) => response.rows[0]);
-	if (type === 'comment_main') {
+	if (req.query.comment_type === 'comment_main') {
 		await pool.query(
 			`
 				WITH insert_item_1 AS (
@@ -243,7 +248,7 @@ export const createCommentController = async (
 			`,
 			[data.news_comment_id, news_id]
 		);
-	} else if (type === 'comment_main_reply') {
+	} else if (req.query.comment_type === 'comment_main_reply') {
 		await pool.query(
 			`
 				WITH insert_item_1 AS (

@@ -2,7 +2,8 @@ import { FC } from 'react';
 
 // import classes from './index.module.css';
 
-import { useNewsItemSharedState } from '@store/newsContext/Item';
+import { TNewsItemData } from '@coreLib/ts/global';
+import { useNewsSharedState } from '@store/newsContext';
 
 import NewsItemHeaderNav from './Nav';
 import TimeAndDate from '../TimeAndDate';
@@ -10,14 +11,28 @@ import NewsItemHeaderBlogInfo from './BlogInfo';
 
 interface Props {
 	priorityForHeaderImage: boolean;
+	newsItemData: TNewsItemData;
 }
 
-const NewsItemHeader: FC<Props> = ({ priorityForHeaderImage }) => {
+const NewsItemHeader: FC<Props> = ({
+	newsItemData,
+	priorityForHeaderImage,
+}) => {
 	const [
 		{
-			data: { newsItem: newsItemData, newsItemDetailsType },
+			// data: { newsItem: newsItemData, newsItemDetailsType },
+			data: { newsExtra },
 		},
-	] = useNewsItemSharedState();
+	] = useNewsSharedState();
+
+	const newsItemDetailsType =
+		newsExtra[newsItemData.news_id].newsItemDetailsType;
+	if (
+		newsItemData.type === 'blog' &&
+		newsItemDetailsType !== 'description' &&
+		newsItemDetailsType !== 'content'
+	)
+		return <>Missing &quot;newsItemDetailsType&quot;</>;
 
 	return (
 		<header>

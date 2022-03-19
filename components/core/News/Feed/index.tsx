@@ -13,7 +13,7 @@ interface IProps {
 	defaultClasses?: string;
 	extraClasses?: string;
 	className?: string;
-	newsFetchRouteQuery: { [key: string]: any };
+	// newsFetchRouteQuery: { [key: string]: any };
 	priorityForHeaderImageForFirstIndex?: boolean;
 }
 
@@ -25,9 +25,11 @@ const NewsFeed: FC<IProps> = ({
 	// newsFetchRouteQuery,
 	...props
 }) => {
-	const [newsState, newsDispatch] = useNewsSharedState();
+	const [newsState] = useNewsSharedState();
 
-	const [newsDataState, newsDataDispatch] = useNewsSharedState();
+	const {
+		actions: { items: newsItemsActions },
+	} = newsState;
 
 	const allClasses = handleAllClasses({
 		classes,
@@ -41,12 +43,16 @@ const NewsFeed: FC<IProps> = ({
 		...props,
 	};
 
-	if (!newsDataState.data) return <></>;
+	if (newsState.data.news.length === 0) return <></>;
 
 	return (
 		<section {...feedProps}>
-			{newsDataState.data.news.length !== 0 &&
-				newsDataState.data.news.map((item, index) => {
+			{newsState.data.news.length !== 0 &&
+				newsState.data.news.map((item, index) => {
+					const priorityForHeaderImage =
+						newsItemsActions[item.news_id]?.init
+							?.priorityForHeaderImageForFirstIndex;
+
 					return (
 						<SectionWrapper
 							key={`NewsFeed-${index}-${item.news_id}`}
@@ -54,16 +60,14 @@ const NewsFeed: FC<IProps> = ({
 						>
 							<NewsItem
 								newsItemData={item}
-								priorityForHeaderImage={
-									priorityForHeaderImageForFirstIndex && index === 0
-								}
+								priorityForHeaderImage={priorityForHeaderImage}
 							/>
 						</SectionWrapper>
 					);
 				})}
 			{/* {
-				newsDataState.data.news.length !== 0 &&
-				!newsDataState.data.hit_news_items_limit && (
+				newsState.data.news.length !== 0 &&
+				!newsState.data.hit_news_items_limit && (
 					<SectionWrapper
 						style={{
 							width: '100%',
@@ -75,12 +79,12 @@ const NewsFeed: FC<IProps> = ({
 						}}
 					>
 						<button
-							disabled={newsDataState.data.isLoadingMoreNewsItems}
+							disabled={newsState.data.isLoadingMoreNewsItems}
 							onClick={() =>
 								handleLoadMoreNewsItems({
 									newsDispatch,
 									last_news_item_created_at:
-										newsDataState.data.last_news_item_created_at,
+										newsState.data.last_news_item_created_at,
 									newsFetchRouteQuery,
 								})
 							}

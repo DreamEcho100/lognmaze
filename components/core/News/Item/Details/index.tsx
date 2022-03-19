@@ -7,16 +7,18 @@ import { TNewsItemData } from '@coreLib/ts/global';
 import NewsItemContentDetails from './Content';
 import NewsItemDescriptionDetails from './Description';
 import FormatContainer from '@commonComponentsIndependent/Format/Container';
-import { useNewsItemSharedState } from '@store/newsContext/Item';
+// import { useNewsSharedState } from '@store/newsContext';
 
 interface IDetailsType_MapDescriptionProps {
 	details: string;
 	newsItemType: TNewsItemData['type'];
+	newsItemData: TNewsItemData;
 	handleSetIsModalVisible: (isModelShown: boolean) => void;
 }
 interface IDetailsType_MapContentProps {
 	details: string;
 	newsItemType: TNewsItemData['type'];
+	newsItemData: TNewsItemData;
 	handleSetIsModalVisible: (isModelShown: boolean) => void;
 }
 
@@ -26,8 +28,11 @@ interface IDetailsType_Map {
 }
 
 interface INewsItemDetails {
+	newsItemData: TNewsItemData;
 	handleSetIsModalVisible: (isModalVisible: boolean) => void;
 	isThisAModal?: boolean;
+	newsItemDetailsType: 'description' | 'content';
+	newsItemModelDetailsType: 'content' | 'description';
 }
 
 const NotFound = () => <h2>Not Found</h2>;
@@ -40,26 +45,27 @@ const DetailsType_Map: IDetailsType_Map = {
 			handleSetIsModalVisible={handleSetIsModalVisible}
 		/>
 	),
-	content: ({ details, newsItemType }) => (
-		<NewsItemContentDetails content={details} />
+	content: ({ details, newsItemData }) => (
+		<NewsItemContentDetails newsItemData={newsItemData} content={details} />
 	),
 };
 
 const NewsItemDetails: FC<INewsItemDetails> = ({
 	handleSetIsModalVisible,
 	isThisAModal,
-	// isLoadingContent,
+	newsItemData,
+	newsItemDetailsType,
+	newsItemModelDetailsType,
 }) => {
-	const [
-		{
-			data: {
-				newsItem: newsItemData,
-				// hit_comments_limit,
-				newsItemDetailsType,
-				newsItemModelDetailsType,
-			},
-		},
-	] = useNewsItemSharedState();
+	// const [
+	// 	{
+	// 		data: { newsExtra: newsExtraData },
+	// 		actions: { items: newsItemsActions },
+	// 	},
+	// ] = useNewsSharedState();
+
+	// const newsItemDetailsType = newsExtraData[newsItemData.news_id]?.newsItemDetailsType;
+	// const newsItemModelDetailsType = newsExtraData[newsItemData.news_id]?.newsItemModelDetailsType;
 
 	const detailsType = isThisAModal
 		? newsItemModelDetailsType
@@ -92,6 +98,9 @@ const NewsItemDetails: FC<INewsItemDetails> = ({
 			return tempObj as IDetailsType_MapDescriptionProps;
 		}
 
+		// if (detailsType === 'content') {
+		// }
+		tempObj.newsItemData = newsItemData;
 		return tempObj as IDetailsType_MapContentProps;
 	};
 

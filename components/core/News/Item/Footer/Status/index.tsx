@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classes from './index.module.css';
 
 import { TNewsItemData } from '@coreLib/ts/global';
-import { initGetNewsItemCommentsMain } from '@store/newsContext/Item/actions/comments';
-import { useNewsItemSharedState } from '@store/newsContext/Item';
+import { initGetNewsItemCommentsMain } from '@store/newsContext/actions/comments';
+import { useNewsSharedState } from '@store/newsContext';
 
 interface IProps {
 	newsItemData: TNewsItemData;
@@ -16,28 +16,43 @@ interface IProps {
 const Status: FC<IProps> = ({
 	isCommentsVisible,
 	handleSetIsCommentsVisible,
+	newsItemData,
 }) => {
 	const [
 		{
 			data: {
-				newsItem: newsItemData,
-				hit_comments_limit,
+				// newsItem: newsItemData,
+				// hit_comments_limit,
 				// newsItemDetailsType,
+				newsExtra: newsExtraData,
 			},
 			actions: {
-				init: { getComments: initGetMainComments },
+				// init: { getMainComments: initGetMainComments },
+				items: newsItemsActions,
 			},
 		},
-		newsItemDispatch,
-	] = useNewsItemSharedState();
+		newsDispatch,
+	] = useNewsSharedState();
 
+	const hit_comments_limit =
+		newsExtraData[newsItemData.news_id]?.hit_comments_limit;
+	const initGetMainComments =
+		newsItemsActions[newsItemData.news_id]?.init?.getMainComments;
+
+	/*
 	const handleInitGetNewsItemCommentsMain = async () => {
 		if (
-			!initGetMainComments.success &&
-			!initGetMainComments.isLoading &&
-			!hit_comments_limit
+			!initGetMainComments ||
+			(!newsItemData.hit_comments_limit &&
+				newsItemData.comments &&
+				newsItemData.comments.length === 0 &&
+				initGetMainComments &&
+				!initGetMainComments.success &&
+				!initGetMainComments.isLoading &&
+				!hit_comments_limit)
 		)
-			await initGetNewsItemCommentsMain(newsItemDispatch, {
+			await initGetNewsItemCommentsMain(newsDispatch, {
+				news_id: newsItemData.news_id,
 				urlOptions: {
 					params: {
 						news_id: newsItemData.news_id,
@@ -48,6 +63,7 @@ const Status: FC<IProps> = ({
 				},
 			});
 	};
+	*/
 
 	return (
 		<section className={classes.status}>
@@ -71,7 +87,7 @@ const Status: FC<IProps> = ({
 			<div
 				onClick={() => {
 					if (!isCommentsVisible) handleSetIsCommentsVisible();
-					handleInitGetNewsItemCommentsMain();
+					// handleInitGetNewsItemCommentsMain();
 				}}
 				className={`${classes.comments_counter} ${classes['status-item']}`}
 			>

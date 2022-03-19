@@ -29,11 +29,11 @@ interface ICreateNewsItemCommentReqArgsPropsBodyContentBasic {
 }
 interface ICreateNewsItemCommentReqArgsPropsBodyContentTypeCommentMain
 	extends ICreateNewsItemCommentReqArgsPropsBodyContentBasic {
-	type: 'comment_main';
+	comment_type: 'comment_main';
 }
 interface ICreateNewsItemCommentReqArgsPropsBodyContentTypeCommentMainReply
 	extends ICreateNewsItemCommentReqArgsPropsBodyContentBasic {
-	type: 'comment_main_reply';
+	comment_type: 'comment_main_reply';
 	parent_id: string;
 	reply_to_comment_id?: string;
 	reply_to_user_id: string;

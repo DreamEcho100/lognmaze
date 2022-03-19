@@ -4,9 +4,10 @@ import { TInitGetNewsItemTypeBlogContent } from '../ts';
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 
 export const initGetNewsItemTypeBlogContent: TInitGetNewsItemTypeBlogContent =
-	async (newsItemDispatch, { urlOptions }) => {
-		newsItemDispatch({
+	async (newsDispatch, { news_id, urlOptions }) => {
+		newsDispatch({
 			type: NewsItemContextConstants.INIT_TYPE_BLOG_DETAILS_TYPE_CONTENT_CONTENT_PENDING,
+			payload: { news_id },
 		});
 
 		const { requestInfo, requestInit } =
@@ -17,17 +18,17 @@ export const initGetNewsItemTypeBlogContent: TInitGetNewsItemTypeBlogContent =
 		const response = await fetch(requestInfo, requestInit);
 
 		if (!response.ok)
-			return newsItemDispatch({
+			return newsDispatch({
 				type: NewsItemContextConstants.INIT_TYPE_BLOG_DETAILS_TYPE_CONTENT_CONTENT_FAIL,
-				payload: { error: await response.text() },
+				payload: { news_id, error: await response.text() },
 			});
 
 		const {
 			content: newsItemTypeBlogContent,
 		}: { content: INewsItemTypeBlogContent } = await response.json();
 
-		newsItemDispatch({
+		newsDispatch({
 			type: NewsItemContextConstants.INIT_TYPE_BLOG_DETAILS_TYPE_CONTENT_CONTENT_SUCCESS,
-			payload: { newsItemTypeBlogContent },
+			payload: { news_id, newsItemTypeBlogContent },
 		});
 	};

@@ -219,9 +219,6 @@ const ModalComponent = ({
 		if (event.key === 'Escape') return closeModalHandler();
 		if (event.key === 'Tab') return trapTapKey(event);
 	};
-
-	console.log("modalProps.current.bodyOverflowBeforeModal", modalProps.current.bodyOverflowBeforeModal);
-
 	useEffect(() => {
 		if (isModalVisible) {
 			modalProps.current.bodyOverflowBeforeModal = getComputedStyle(

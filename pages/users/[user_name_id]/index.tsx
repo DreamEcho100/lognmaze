@@ -13,7 +13,11 @@ import { IPropsUserProfilePageData } from '@store/ProfilePageContext/ts';
 import { setUserProfilePageContextStore } from '@store/ProfilePageContext';
 
 import UserProfileScreen from '@screens/Users/Profile';
-import { setNewsContextStore } from '@store/newsContext';
+import {
+	ISetNewsContextStoreProps,
+	setNewsContextStore,
+} from '@store/newsContext';
+import { INewsContextStateData } from '@store/newsContext/ts';
 
 interface IProps {
 	user: IPropsUserProfilePageData['user'];
@@ -30,7 +34,35 @@ const UserProfilePage: NextPage<IProps> = (props) => {
 			},
 		});
 
-	const { NewsContextSharedProvider } = setNewsContextStore(props.newsData);
+	const newsExtra: ISetNewsContextStoreProps['data']['newsExtra'] = {};
+	const actions: ISetNewsContextStoreProps['actions'] = {
+		items: {},
+	};
+
+	props.newsData.news.forEach((item, index) => {
+		if (index === 0) {
+			actions.items[item.news_id] = {
+				init: {
+					priorityForHeaderImageForFirstIndex: true,
+				},
+			};
+		}
+
+		newsExtra[item.news_id] = {
+			hit_comments_limit: false,
+			newsItemDetailsType: 'description',
+			newsItemModelDetailsType: 'content',
+		};
+	});
+
+	const { NewsContextSharedProvider } = setNewsContextStore({
+		data: {
+			news: props.newsData.news,
+			newsExtra,
+			hit_news_items_limit: !!props.newsData.hit_news_items_limit,
+		},
+		actions,
+	});
 
 	return (
 		<NewsContextSharedProvider>

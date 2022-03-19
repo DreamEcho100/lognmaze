@@ -81,10 +81,10 @@
 }
 
 .modalBodyDefault {
-	padding: 0 1em;
+	padding: 0 var(--padding-main-1);
 }
 .onlyModalBodyExistDefault {
-	padding: 1em;
+	padding: var(--padding-main-1);
 }
 
 .modalFooterDefault {

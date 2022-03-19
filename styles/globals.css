@@ -152,6 +152,10 @@
 	--sectionWrapper-box-shadow-length: 1rem;
 	--sectionWrapper-margin: 0.5em auto;
 	--modalContainer-background-color: var(--main-bg-color-0-95);
+	--padding-main-1: 1em;
+	--padding-main-1-three-quarters: 0.75;
+	--padding-main-1-half: 0.5em;
+	--padding-main-1-quarter: 0.25em;
 }
 
 body.dark {
@@ -300,7 +304,7 @@ blockquote {
 	padding: 0.1em 0.5em;
 	color: black;
 	position: relative;
-	margin: 1em 0;
+	margin: var(--padding-main-1) 0;
 }
 body:not([dir='rtl']) blockquote {
 	padding-left: 1.5em;
@@ -364,6 +368,11 @@ code[data-code-inline='true'] {
 		--header5: var(--size-14);
 		--header6: var(--size-12);
 
+		--padding-main-1: calc(1em * 0.75);
+		--padding-main-1-three-quarters: calc(0.75 * 0.75);
+		--padding-main-1-half: calc(0.5 * 0.75);
+		--padding-main-1-quarter: calc(0.25 * 0.75);
+
 		/* --current-font-size: var(--size-10); */
 	}
 }
@@ -378,6 +387,11 @@ code[data-code-inline='true'] {
 		--header4: var(--size-14);
 		--header5: var(--size-12);
 		--header6: var(--size-11);
+
+		--padding-main-1: calc(1em * 0.5);
+		--padding-main-1-three-quarters: calc(0.75 * 0.5);
+		--padding-main-1-half: calc(0.5 * 0.5);
+		--padding-main-1-quarter: calc(0.25 * 0.5);
 
 		/* --current-font-size: var(--size-10); */
 	}

@@ -49,7 +49,7 @@ const UserProfileScreen = (Props: Props) => {
 			</SectionWrapper>
 			<div className={classes.mainContent}>
 				<NewsFeed
-					newsFetchRouteQuery={{}}
+					// newsFetchRouteQuery={{}}
 					priorityForHeaderImageForFirstIndex={false}
 				/>
 				<SectionWrapper className={classes.sectionWrapper}></SectionWrapper>

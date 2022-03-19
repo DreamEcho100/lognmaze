@@ -171,7 +171,7 @@
 	}
 
 	.nav-list li {
-		padding: 1em 0.5em;
+		padding: var(--padding-main-1) calc(var(--padding-main-1) / 2);
 		font-weight: 700;
 	}
 
