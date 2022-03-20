@@ -25,14 +25,13 @@ const CommentTextarea: FC<IProps> = ({
 }) => {
 	return (
 		<FormComponent onSubmit={handleSubmit} className={classes.form}>
-			<FormControlComponent
-				className={`${classes.textareaController} ${borderClasses.default}`}
-			>
+			<FormControlComponent className={classes.textareaController}>
 				<TextareaComponent
 					name={name}
 					setValues={setValues}
 					// onChange={onChange}
 					value={value}
+					className={borderClasses.default}
 				/>
 			</FormControlComponent>
 			<div className='buttons-holder'>

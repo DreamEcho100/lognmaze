@@ -74,7 +74,7 @@ const MainNavigation = () => {
 		>
 			<nav className={classes['nav']}>
 				<div className={classes['logo']}>
-					<Link href='/' passHref>
+					<Link href='/' prefetch={false}>
 						<a title='LogNMaze | Home Page' className={classes.logo_anchor}>
 							<strong>LogNMaze</strong>
 						</a>
@@ -102,7 +102,7 @@ const MainNavigation = () => {
 				>
 					{userData?.id && (
 						<li>
-							<Link href={`/users/${userData?.user_name_id}`} passHref>
+							<Link href={`/users/${userData?.user_name_id}`} prefetch={false}>
 								<a
 									onClick={() => setShowNavOnSmallScreens(false)}
 									title={`${userData?.user_name_id} profile`}
@@ -123,8 +123,8 @@ const MainNavigation = () => {
 									signupRequest.isLoading
 								}
 							>
-								<Link href='/auth'>
-									<a title='Sign In/Up'>Sign In/Up</a>
+								<Link href='/auth' prefetch={false}>
+									<a title='Go to sign In/Up page'>Sign In/Up</a>
 								</Link>
 							</ButtonComponent>
 						</li>

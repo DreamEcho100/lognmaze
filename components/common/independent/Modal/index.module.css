@@ -18,7 +18,7 @@
 	max-width: var(--body-max-width);
 	height: calc(100% - var(--main-nav-height));
 	margin: var(--main-nav-height) auto;
-	padding: 0.5em 0;
+	padding: var(--padding-main-1-half) 0;
 	background-color: rgba(0, 0, 0, 0.2);
 	transition: opacity 0.3s ease;
 	display: flex;
@@ -73,7 +73,7 @@
 }
 
 .modalHeaderDefault {
-	padding: 0.5em;
+	padding: var(--padding-main-1-half);
 	padding-bottom: 0em;
 	border-top-left-radius: 1rem;
 	border-top-right-radius: 1rem;
@@ -88,7 +88,7 @@
 }
 
 .modalFooterDefault {
-	padding: 0.5em;
+	padding: var(--padding-main-1-half);
 	padding-top: 0em;
 	display: flex;
 	justify-content: space-between;

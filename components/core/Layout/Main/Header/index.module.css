@@ -23,7 +23,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 0.25em 0.5em;
+	padding: var(--padding-main-1-quarter) var(--padding-main-1-half);
 }
 
 .logo {
@@ -43,7 +43,7 @@
 	}
 
 	.nav-list li {
-		margin: auto 0.25em;
+		margin: auto var(--padding-main-1-quarter);
 	}
 
 	.button,
@@ -59,7 +59,7 @@
 	}
 
 	.nav-list li a {
-		padding: 0.5em 0.75em;
+		padding: var(--padding-main-1-half) var(--padding-main-1-three-quarters);
 	}
 
 	.button:hover,
@@ -138,7 +138,7 @@
 		color: var(--main-special-2-font-color-2);
 		top: 0;
 		left: 0;
-		padding: 0.5em;
+		padding: var(--padding-main-1-half);
 		opacity: 0;
 		pointer-events: none;
 		transition: all var(--main-transition-duration)

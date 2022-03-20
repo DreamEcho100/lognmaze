@@ -7,10 +7,11 @@ import helpersClasses from '@styles/helpers.module.css';
 // } from '@coreLib/constants';
 import { VISITOR_PROFILE_OWNER } from '@coreLib/constants';
 import { useUserSharedState } from '@store/UserContext';
-import { useNewsSharedState } from '@store/newsContext';
+// import { useNewsSharedState } from '@store/newsContext';
 import { useUserProfilePageSharedState } from '@store/ProfilePageContext';
 
 import UserProfileHero from '@coreComponents/Users/Profile/Hero';
+import ProfileBioSection from '@coreComponents/Users/Profile/BioSection';
 import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
 import NewsFeed from '@coreComponents/News/Feed';
 
@@ -25,7 +26,7 @@ const UserProfileScreen = (Props: Props) => {
 	] = useUserSharedState();
 	const [{ data: profilePageData }, profilePageDispatch] =
 		useUserProfilePageSharedState();
-	const [newsDataState, newsDataDispatch] = useNewsSharedState();
+	// const [newsDataState, newsDataDispatch] = useNewsSharedState();
 
 	const profilePageVisitorStatus = profilePageData?.visitorStatus;
 
@@ -52,7 +53,9 @@ const UserProfileScreen = (Props: Props) => {
 					// newsFetchRouteQuery={{}}
 					priorityForHeaderImageForFirstIndex={false}
 				/>
-				<SectionWrapper className={classes.sectionWrapper}></SectionWrapper>
+				<SectionWrapper className={classes.sectionWrapper}>
+					<ProfileBioSection bio={profilePageUserData.bio} />
+				</SectionWrapper>
 			</div>
 		</main>
 	);

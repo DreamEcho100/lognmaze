@@ -11,5 +11,5 @@
 .SectionWrapper {
 	padding: var(--padding-main-1);
 	background-color: var(--main-bg-color-0);
-	margin: 0.5em 0;
+	/* margin: var(--padding-main-1-half)  0; */
 }

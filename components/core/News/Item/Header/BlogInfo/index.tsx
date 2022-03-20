@@ -29,7 +29,6 @@ const NewsItemHeaderBlogInfo: FC<Props> = ({
 				<Link
 					href={`/blogs/${newsItemBlogData.type_data.slug}`}
 					prefetch={false}
-					passHref
 				>
 					<a
 						title={`${newsItemBlogData.type} | ${newsItemBlogData.type_data.title}`}

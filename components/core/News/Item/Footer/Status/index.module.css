@@ -1,12 +1,12 @@
 .status {
 	display: flex;
 	align-items: center;
-	margin: 0.5em 0;
+	margin: var(--padding-main-1-half) 0;
 	overflow-y: auto;
 }
 
 .status-item {
-	margin: 0 0.25em;
+	margin: 0 var(--padding-main-1-quarter);
 }
 
 :not([dir='rtl']) .status-item:first-child,

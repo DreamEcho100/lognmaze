@@ -1,13 +1,15 @@
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
-const Component = (props) => {
+interface IProps {}
+
+const Component = (props: IProps) => {
 	return (
 		<SyntaxHighlighter
 			style={vscDarkPlus}
 			customStyle={{
 				margin: '1.5em 0',
-				padding: '0.75em',
+				padding: 'var(--padding-main-1-three-quarters)',
 				paddingLeft: '0',
 			}}
 			showLineNumbers

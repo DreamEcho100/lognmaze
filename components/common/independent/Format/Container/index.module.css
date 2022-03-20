@@ -35,6 +35,6 @@
 .format-md img {
 	width: 100%;
 	max-width: min(100%, 150rem);
-	margin: 0.5em;
+	margin: var(--padding-main-1-half);
 	max-height: 30rem;
 }

@@ -1,12 +1,12 @@
 .list {
 	list-style: none;
-	margin-top: 1em;
-	padding: 0.5em;
+	margin-top: var(--padding-main-1);
+	padding: var(--padding-main-1-half);
 	border-radius: 1rem;
 }
 
 .list li {
-	margin: 0.5em;
+	margin: var(--padding-main-1-half);
 }
 [dir='ltr'] .list li,
 .list li {

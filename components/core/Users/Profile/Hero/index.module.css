@@ -70,7 +70,7 @@ body[dir='rtl'] .coverPhotoContainer .editButton {
 	width: 25vw;
 	max-width: 20rem;
 	min-width: 12.5rem;
-	margin: 0 0.75em;
+	margin: 0 var(--padding-main-1-three-quarters);
 }
 
 [dir='rtl'] .profilePictureOuterContainer {
@@ -87,12 +87,12 @@ body[dir='rtl'] .coverPhotoContainer .editButton {
 }
 
 .basicData {
-	padding: 0.5em;
+	padding: var(--padding-main-1-half);
 }
 
 .basicData > *:not(address),
 .basicData address > * {
-	margin: 0.25em 0;
+	margin: var(--padding-main-1-quarter) 0;
 }
 .basicData > *:first-child,
 .basicData address > *:first-child {

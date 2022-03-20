@@ -32,6 +32,7 @@ import CustomNextImage from '@commonComponentsDependent/CustomNextImage';
 import MdToHTMLFormatter from '@commonComponentsDependent/Format/MdToHTML';
 import FormatContainer from '@commonComponentsIndependent/Format/Container';
 import TimeAndDate from '@coreComponents/News/Item/TimeAndDate';
+import Link from 'next/link';
 
 interface ICommentMainProps {
 	commentType: TNewsItemCommentTypeMain['type'];
@@ -306,17 +307,31 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 			<header className={classes.header}>
 				<nav className={classes.nav}>
 					{props.comment.author_profile_picture && (
-						<CustomNextImage
-							src={props.comment.author_profile_picture}
-							alt=''
-							className={classes['profile_picture-container']}
-						/>
+						<Link
+							prefetch={false}
+							// passHref
+							href={`/users/${props.comment.author_user_name_id}`}
+						>
+							<a>
+								<CustomNextImage
+									src={props.comment.author_profile_picture}
+									alt=''
+									className={classes['profile_picture-container']}
+								/>
+							</a>
+						</Link>
 					)}
 					<div className={classes['author-info']}>
 						<p>
-							<span className={helpersClasses.fontWeightBold}>
-								{props.comment.author_user_name_id}
-							</span>
+							<Link
+								prefetch={false}
+								// passHref
+								href={`/users/${props.comment.author_user_name_id}`}
+							>
+								<a className={helpersClasses.fontWeightBold}>
+									{props.comment.author_user_name_id}
+								</a>
+							</Link>
 						</p>
 						<p>
 							<em>

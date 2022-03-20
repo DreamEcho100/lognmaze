@@ -16,31 +16,44 @@ const NewsItemHeaderNav = ({ newsItemData }: Props) => {
 
 	return (
 		<nav className={classes.nav}>
-			<Link
-				href={`/users/${newsItemData.author_user_name_id}`}
-				prefetch={false}
-				passHref
-			>
-				<a
-					title={`author ${newsItemData.author_user_name_id} profile`}
-					className={classes.author_profile_link}
-				>
-					<div className={classes.author_profile_picture_wrapper}>
-						{newsItemData.author_profile_picture && (
+			<div className={classes.author_profile_picture_wrapper}>
+				{newsItemData.author_profile_picture && (
+					<Link
+						href={`/users/${newsItemData.author_user_name_id}`}
+						prefetch={false}
+					>
+						<a title={`author ${newsItemData.author_user_name_id} profile`}>
 							<CustomNextImage
 								src={newsItemData.author_profile_picture}
 								alt=''
 								className={classes.author_profile_picture}
 							/>
-						)}
-					</div>
-					<p className={classes.author_user_name_id}>
-						<span className={helpersClasses.fontWeightBold}>
+						</a>
+					</Link>
+				)}
+			</div>
+			<div className={classes.authorInfo}>
+				<p className={classes.author_user_name_id}>
+					<Link
+						href={`/users/${newsItemData.author_user_name_id}`}
+						prefetch={false}
+					>
+						<a
+							title={`author ${newsItemData.author_user_name_id} profile`}
+							className={helpersClasses.fontWeightBold}
+						>
 							{newsItemData.author_user_name_id}
-						</span>
-					</p>
-				</a>
-			</Link>
+						</a>
+					</Link>
+				</p>
+				<p>
+					<em>
+						<small>
+							{newsItemData.author_first_name} {newsItemData.author_last_name}
+						</small>
+					</em>
+				</p>
+			</div>
 
 			{/* {!hideHeaderSettings && newsItemData.news_id && (
 				<NewsItemNavSettings

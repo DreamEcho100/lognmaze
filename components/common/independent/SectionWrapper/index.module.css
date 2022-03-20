@@ -1,7 +1,7 @@
-.sectionWrapper {
+body .sectionWrapper {
 	width: 100%;
-	padding: 0.5em;
-	margin: var(--sectionWrapper-margin);
+	padding: var(--padding-main-1-half);
+	margin-bottom: var(--sectionWrapper-margin-bottom);
 	border-radius: 1rem;
 	box-shadow: 0rem 0rem var(--sectionWrapper-box-shadow-length)
 		var(--main-font-color-1);
@@ -10,7 +10,7 @@
 }
 
 .sectionWrapper:first-child {
-	margin-top: 0;
+	/* margin-top: 0; */
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }

@@ -1,13 +1,13 @@
 .header {
 	background-color: var(--main-bg-color-1);
-	padding: 0.5em;
+	padding: var(--padding-main-1-half);
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 0.5em;
+	margin-bottom: var(--padding-main-1-half);
 	text-align: center;
 }
 .header > * {
-	margin: 0.25em 0;
+	margin: var(--padding-main-1-quarter) 0;
 }
 .header > *:first-child {
 	margin-top: 0;
@@ -24,7 +24,7 @@
 	justify-content: center;
 }
 .buttonsHolder > * {
-	margin: 0 0.5em;
+	margin: 0 var(--padding-main-1-half);
 }
 [dir='rtl'] .buttonsHolder > *:last-child,
 .buttonsHolder > *:first-child {

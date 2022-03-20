@@ -1,6 +1,6 @@
 .FormControls {
 	max-width: 100%;
-	margin: 0.25em;
+	margin: var(--padding-main-1-quarter);
 	margin-left: 0;
 	display: flex;
 	flex-wrap: wrap;

@@ -46,7 +46,7 @@ const MdToHTMLFormatter: FC<Props> = ({ content }) => {
 
 			if (href.startsWith('/') || href.startsWith('https://lognmaze.com')) {
 				return (
-					<Link href={href} prefetch={false} passHref>
+					<Link href={href} prefetch={false}>
 						<a className={helpersClasses.textGlowSpecial}>{children}</a>
 					</Link>
 				);

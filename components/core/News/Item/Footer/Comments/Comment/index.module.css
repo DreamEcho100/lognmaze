@@ -1,5 +1,5 @@
 .comment {
-	margin: 0.5em auto;
+	margin: var(--padding-main-1-half) auto;
 }
 
 .comment:first-child {
@@ -11,10 +11,10 @@
 }
 
 body:not([dir='rtl']) .type-comment_main_reply {
-	margin-left: 0.5em;
+	margin-left: var(--padding-main-1-half);
 }
 body[dir='rtl'] .type-comment_main_reply {
-	margin-right: 0.5em;
+	margin-right: var(--padding-main-1-half);
 }
 
 .header {
@@ -37,10 +37,10 @@ body[dir='rtl'] .type-comment_main_reply {
 	--lazy-load-image-background-height: 100%;
 }
 body:not([dir='rtl']) .profile_picture-container {
-	margin-right: 0.25em;
+	margin-right: var(--padding-main-1-quarter);
 }
 body[dir='rtl'] .profile_picture-container {
-	margin-left: 0.25em;
+	margin-left: var(--padding-main-1-quarter);
 }
 
 .footer {
@@ -51,9 +51,9 @@ body[dir='rtl'] .profile_picture-container {
 }
 
 .comments_counter {
-	margin: 0 0.25em;
+	margin: 0 var(--padding-main-1-quarter);
 }
 
 .comment_content {
-	padding: 0.25em 0.125em;
+	padding: var(--padding-main-1-quarter) 0.125em;
 }

@@ -21,9 +21,9 @@
 .input:not([type='checkbox']):focus {
 	min-height: 3rem;
 	font-size: calc(var(--current-font-size) + 0.2rem);
-	padding: 0.125em 0.25em;
-	margin-top: 0.25em;
-	margin-bottom: 0.25em;
+	padding: 0.125em var(--padding-main-1-quarter);
+	margin-top: var(--padding-main-1-quarter);
+	margin-bottom: var(--padding-main-1-quarter);
 	background-color: var(--main-special-bg-color-1);
 
 	border-bottom: 0.45rem solid var(--main-special-bg-color-4);

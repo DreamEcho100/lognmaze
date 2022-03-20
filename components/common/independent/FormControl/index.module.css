@@ -4,7 +4,7 @@ body .FormControl {
 
 .FormControl {
 	max-width: 100%;
-	margin: 0.5em 0.25em;
+	margin: var(--padding-main-1-half) var(--padding-main-1-quarter);
 	display: flex;
 	flex-direction: column;
 	min-width: var(--FormControl-min-width);

@@ -1,6 +1,6 @@
 .img_wrapper {
 	width: 100%;
-	margin: 0.5em 0;
+	margin: var(--padding-main-1-half) 0;
 }
 
 .img_wrapper span {

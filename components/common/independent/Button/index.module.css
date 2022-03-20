@@ -1,5 +1,5 @@
 .button {
-	padding: 0.25em 1rem;
+	padding: var(--padding-main-1-quarter) 1rem;
 	border-radius: 0.4rem;
 	font-weight: bold;
 	background-color: var(--main-special-bg-color-5);
@@ -31,7 +31,7 @@
 /**/
 /**/
 .button-2 {
-	padding: 0.5em 0.75rem;
+	padding: var(--padding-main-1-half) var(--padding-main-1-three-quarters);
 	border-radius: 0.4rem;
 	font-weight: bold;
 	background-color: var(--main-special-2-bg-color-2);
