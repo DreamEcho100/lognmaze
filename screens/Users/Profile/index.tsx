@@ -51,7 +51,7 @@ const UserProfileScreen = (Props: Props) => {
 			<div className={classes.mainContent}>
 				<NewsFeed
 					// newsFetchRouteQuery={{}}
-					priorityForHeaderImageForFirstIndex={false}
+					// priorityForHeaderImage={false}
 				/>
 				<SectionWrapper className={classes.sectionWrapper}>
 					<ProfileBioSection bio={profilePageUserData.bio} />

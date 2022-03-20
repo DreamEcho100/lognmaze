@@ -3,6 +3,7 @@
 // import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 
 // import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
+import NewsContextConstants from '@coreLib/constants/store/types/NewsContext';
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 import { returnNewsInitialState } from './initialState';
 
@@ -20,6 +21,7 @@ const reducer: TNewsContextStateReducer = (
 	// 	console.log('actions.type', actions.type);
 
 	switch (actions.type) {
+		//
 		case NewsItemContextConstants.INIT_GET_COMMENTS_PENDING: {
 			const { news_id } = actions.payload;
 
@@ -109,6 +111,7 @@ const reducer: TNewsContextStateReducer = (
 			};
 		}
 
+		//
 		case NewsItemContextConstants.INIT_TYPE_BLOG_DETAILS_TYPE_CONTENT_CONTENT_PENDING: {
 			const { news_id } = actions.payload;
 
@@ -205,6 +208,83 @@ const reducer: TNewsContextStateReducer = (
 				},
 			};
 		}
+
+		//
+		case NewsContextConstants.GET_MORE_ITEMS_PENDING: {
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					getMoreNewsItems: {
+						...(state.actions.getMoreNewsItems || {}),
+						isLoading: true,
+						error: '',
+						success: false,
+					},
+				},
+			};
+		}
+		case NewsContextConstants.GET_MORE_ITEMS_SUCCESS: {
+			const { newNewsItems, hit_news_items_limit } = actions.payload;
+
+			const newNewsExtra: typeof state.data.newsExtra = {};
+
+			newNewsItems.forEach((item) => {
+				newNewsExtra[item.news_id] = {
+					hit_comments_limit: false,
+					newsItemDetailsType: 'description',
+					newsItemModelDetailsType: 'content',
+				};
+			});
+
+			return {
+				...state,
+				data: {
+					...state.data,
+					news: [...state.data.news, ...newNewsItems],
+					hit_news_items_limit,
+					newsExtra: {
+						...(state.data.newsExtra || {}),
+						...newNewsExtra,
+					},
+				},
+				actions: {
+					...state.actions,
+					items: {
+						...(state.actions.items || {}),
+						[newNewsItems[0].news_id]: {
+							init: {
+								priorityForHeaderImage: true,
+							},
+						},
+					},
+					getMoreNewsItems: {
+						...(state.actions.getMoreNewsItems || {}),
+						isLoading: false,
+						error: '',
+						success: false,
+					},
+				},
+			};
+		}
+		case NewsContextConstants.GET_MORE_ITEMS_FAIL: {
+			const { error } = actions.payload;
+
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					getMoreNewsItems: {
+						...(state.actions.getMoreNewsItems || {}),
+						isLoading: false,
+						error,
+						success: false,
+					},
+				},
+			};
+		}
+
+		// NewsContextConstants
 
 		default:
 			return state;

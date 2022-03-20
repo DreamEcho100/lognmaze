@@ -1,9 +1,12 @@
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import {
+	Prism as SyntaxHighlighter,
+	SyntaxHighlighterProps,
+} from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
-interface IProps {}
+// interface IProps {}
 
-const Component = (props: IProps) => {
+const Component = (props: SyntaxHighlighterProps) => {
 	return (
 		<SyntaxHighlighter
 			style={vscDarkPlus}

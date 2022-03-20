@@ -10,23 +10,22 @@ import TimeAndDate from '../TimeAndDate';
 import NewsItemHeaderBlogInfo from './BlogInfo';
 
 interface Props {
-	priorityForHeaderImage: boolean;
 	newsItemData: TNewsItemData;
 }
 
-const NewsItemHeader: FC<Props> = ({
-	newsItemData,
-	priorityForHeaderImage,
-}) => {
+const NewsItemHeader: FC<Props> = ({ newsItemData }) => {
 	const [
 		{
 			// data: { newsItem: newsItemData, newsItemDetailsType },
 			data: { newsExtra },
+			actions: { items: newsItemsActions },
 		},
 	] = useNewsSharedState();
 
 	const newsItemDetailsType =
 		newsExtra[newsItemData.news_id].newsItemDetailsType;
+	const priorityForHeaderImage =
+		!!newsItemsActions[newsItemData.news_id]?.init?.priorityForHeaderImage;
 	if (
 		newsItemData.type === 'blog' &&
 		newsItemDetailsType !== 'description' &&

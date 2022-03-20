@@ -17,7 +17,7 @@ import {
 	ISetNewsContextStoreProps,
 	setNewsContextStore,
 } from '@store/newsContext';
-import { INewsContextStateData } from '@store/newsContext/ts';
+// import { INewsContextStateData } from '@store/newsContext/ts';
 
 interface IProps {
 	user: IPropsUserProfilePageData['user'];
@@ -43,7 +43,7 @@ const UserProfilePage: NextPage<IProps> = (props) => {
 		if (index === 0) {
 			actions.items[item.news_id] = {
 				init: {
-					priorityForHeaderImageForFirstIndex: true,
+					priorityForHeaderImage: true,
 				},
 			};
 		}

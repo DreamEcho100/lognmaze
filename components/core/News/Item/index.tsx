@@ -18,7 +18,6 @@ interface INewsItemProvidedContextProps {
 	className?: string;
 	newsItemData: TNewsItemData;
 	isThisAModal?: boolean;
-	priorityForHeaderImage?: boolean;
 }
 
 interface INewsItemProps extends INewsItemProvidedContextProps {
@@ -29,7 +28,6 @@ interface INewsItemProps extends INewsItemProvidedContextProps {
 
 const NewsItem: FC<INewsItemProps> = ({
 	newsItemData,
-	priorityForHeaderImage = false,
 	handleSetIsModalVisible,
 	handleIsFooterSettingsVisible,
 	// isModalVisible,
@@ -59,8 +57,6 @@ const NewsItem: FC<INewsItemProps> = ({
 		newsExtraData[newsItemData.news_id]?.newsItemDetailsType || 'description';
 	const newsItemModelDetailsType =
 		newsExtraData[newsItemData.news_id]?.newsItemModelDetailsType || 'content';
-
-	// const priorityForHeaderImage = items[newsItemData.news_id]?.init?.priorityForHeaderImageForFirstIndex;
 
 	const allClasses = handleAllClasses({
 		classes,
@@ -120,10 +116,7 @@ const NewsItem: FC<INewsItemProps> = ({
 
 	return (
 		<article {...newsItemProps}>
-			<NewsItemHeader
-				newsItemData={newsItemData}
-				priorityForHeaderImage={priorityForHeaderImage}
-			/>
+			<NewsItemHeader newsItemData={newsItemData} />
 			<NewsItemDetails
 				newsItemData={newsItemData}
 				handleSetIsModalVisible={handleSetIsModalVisible}

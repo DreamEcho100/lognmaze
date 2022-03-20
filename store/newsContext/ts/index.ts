@@ -8,6 +8,8 @@ import {
 import { IGetNewsItemCommentsReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/comments/ts';
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 import { IGetNewsItemBlogContentReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/blog/content/ts';
+import NewsContextConstants from '@coreLib/constants/store/types/NewsContext';
+import { IGetNewsReqArgs } from '@coreLib/networkReqArgs/_app/news/ts';
 
 export type INewsContextStateData = {
 	news: TNewsData;
@@ -28,7 +30,7 @@ export interface INewsContextState {
 			[key: string]: {
 				request?: {};
 				init?: {
-					priorityForHeaderImageForFirstIndex?: boolean;
+					priorityForHeaderImage?: boolean;
 					getMainComments?: {
 						isLoading: boolean;
 						error: string;
@@ -43,6 +45,11 @@ export interface INewsContextState {
 					};
 				};
 			};
+		};
+		getMoreNewsItems?: {
+			isLoading: boolean;
+			error: string;
+			success: boolean;
 		};
 	};
 }
@@ -90,13 +97,33 @@ interface IInitGetNewsItemTypeBlogDetailsTypeContentFail {
 	};
 }
 
+interface IGetMoreNewsItemsPending {
+	type: NewsContextConstants.GET_MORE_ITEMS_PENDING;
+}
+interface IGetMoreNewsItemsSuccess {
+	type: NewsContextConstants.GET_MORE_ITEMS_SUCCESS;
+	payload: {
+		newNewsItems: TNewsData;
+		hit_news_items_limit: boolean;
+	};
+}
+interface IGetMoreNewsItemsFail {
+	type: NewsContextConstants.GET_MORE_ITEMS_FAIL;
+	payload: {
+		error: string;
+	};
+}
+
 export type TNewsContextReducerAction =
 	| IInitGetNewsItemCommentsMainPending
 	| IInitGetNewsItemCommentsMainSuccess
 	| IInitGetNewsItemCommentsMainFail
 	| IInitGetNewsItemTypeBlogDetailsTypeContentPending
 	| IInitGetNewsItemTypeBlogDetailsTypeContentSuccess
-	| IInitGetNewsItemTypeBlogDetailsTypeContentFail;
+	| IInitGetNewsItemTypeBlogDetailsTypeContentFail
+	| IGetMoreNewsItemsPending
+	| IGetMoreNewsItemsSuccess
+	| IGetMoreNewsItemsFail;
 
 export type TNewsContextDispatch =
 	| React.Dispatch<TNewsContextReducerAction>
@@ -120,6 +147,14 @@ export type TInitGetNewsItemTypeBlogContent = (
 	}: {
 		news_id: TNewsItemData['news_id'];
 		urlOptions: IGetNewsItemBlogContentReqArgs['urlOptions'];
+	}
+) => Promise<void>;
+export type TGetMoreNewsItems = (
+	newsDispatch: TNewsContextDispatch,
+	{
+		urlOptions,
+	}: {
+		urlOptions: IGetNewsReqArgs['urlOptions'];
 	}
 ) => Promise<void>;
 
