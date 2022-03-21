@@ -1,7 +1,7 @@
-import { getCookie } from '@commonLibIndependent/storage/cookie/document';
-import ls from '@commonLibIndependent/storage/localStorage';
+// import { getCookie } from '@commonLibIndependent/storage/cookie/document';
+// import ls from '@commonLibIndependent/storage/localStorage';
 import UserContextConstants from '@coreLib/constants/store/types/userContext';
-import { IUserAuthenticatedData } from '@coreLib/ts/global';
+// import { IUserAuthenticatedData } from '@coreLib/ts/global';
 import { IUserContextReducerAction, IUserContextState } from './ts';
 
 const reducer = (

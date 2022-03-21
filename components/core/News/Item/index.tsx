@@ -3,14 +3,14 @@ import { FC, Fragment, memo, useEffect, useState } from 'react';
 import classes from './index.module.css';
 
 import { TNewsItemData } from '@coreLib/ts/global';
-import { useNewsSharedState } from '@store/newsContext';
+import { useNewsSharedState } from '@store/NewsContext';
 import { handleAllClasses } from '@commonLibIndependent/className';
 
 import NewsItemHeader from './Header';
 import NewsItemDetails from './Details';
 import NewsItemFooter from './Footer';
 import ModalComponent from '@commonComponentsIndependent/Modal';
-import { initGetNewsItemTypeBlogContent } from '@store/newsContext/actions';
+import { initGetNewsItemTypeBlogContent } from '@store/NewsContext/actions';
 
 interface INewsItemProvidedContextProps {
 	defaultClasses?: string;
@@ -52,7 +52,8 @@ const NewsItem: FC<INewsItemProps> = ({
 	] = useNewsSharedState();
 
 	const getTypeBlogContent =
-		itemsActions[newsItemData.news_id]?.init?.modal?.getTypeBlogContent;
+		itemsActions[newsItemData.news_id]?.requests?.init?.modal
+			?.getTypeBlogContent;
 	const newsItemDetailsType =
 		newsExtraData[newsItemData.news_id]?.newsItemDetailsType || 'description';
 	const newsItemModelDetailsType =

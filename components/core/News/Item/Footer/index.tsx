@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic';
 import { TNewsItemData } from '@coreLib/ts/global';
 import { VISITOR_PROFILE_OWNER } from '@coreLib/constants';
 import { useUserSharedState } from '@store/UserContext';
-import { useNewsSharedState } from '@store/newsContext';
+import { useNewsSharedState } from '@store/NewsContext';
 import { useUserProfilePageSharedState } from '@store/ProfilePageContext';
 
 const DynamicComments = dynamic(() => import('./Comments'));
@@ -41,7 +41,7 @@ const NewsItemFooter: FC<IProps> = ({
 	] = useNewsSharedState();
 
 	const initGetMainComments =
-		newsItemsActions[newsItemData.news_id]?.init?.getMainComments;
+		newsItemsActions[newsItemData.news_id]?.requests?.init?.getMainComments;
 
 	const [
 		{

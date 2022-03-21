@@ -111,6 +111,10 @@ export const getCommentsController = async (
 			data.hit_comments_limit = true;
 		}
 	} else if (req.query.comment_type === 'comment_main_reply') {
+		if (!req.query.parent_id) {
+			res.status(400);
+			throw new Error('Data required ("parent_id") on the query not provided!');
+		}
 		const queryParams = [req.query.parent_id];
 
 		if (req.query.last_reply_created_at) {

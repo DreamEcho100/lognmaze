@@ -14,8 +14,11 @@ import { useUserSharedState } from '@store/UserContext';
 
 import Comment from './Comment';
 import CommentTextarea from './CommentTextarea';
-import { initGetNewsItemCommentsMain } from '@store/newsContext/actions/comments';
-import { useNewsSharedState } from '@store/newsContext';
+import {
+	getMoreNewsItemCommentsMain,
+	initGetNewsItemCommentsMain,
+} from '@store/NewsContext/actions/comments';
+import { useNewsSharedState } from '@store/NewsContext';
 
 interface IProps {
 	newsItemComments: TNewsItemCommentsMain;
@@ -45,38 +48,10 @@ const Comments: FC<IProps> = ({
 		newsDispatch,
 	] = useNewsSharedState();
 
-	const initGetMainComments =
-		newsItemsActions[newsItemData.news_id]?.init?.getMainComments;
-
-	useEffect(() => {
-		if (
-			!newsItemData.hit_comments_limit &&
-			newsItemComments.length === 0 &&
-			(!initGetMainComments ||
-				(initGetMainComments &&
-					!initGetMainComments.isLoading &&
-					!initGetMainComments.success))
-		) {
-			(async () =>
-				await initGetNewsItemCommentsMain(newsDispatch, {
-					news_id: newsItemData.news_id,
-					urlOptions: {
-						params: {
-							news_id: newsItemData.news_id,
-						},
-						queries: {
-							comment_type: 'comment_main',
-						},
-					},
-				}))();
-		}
-	}, [
-		newsItemData.news_id,
-		newsDispatch,
-		newsItemComments.length,
-		initGetMainComments,
-		newsItemData.hit_comments_limit,
-	]);
+	const initGetMainCommentsRequest =
+		newsItemsActions[newsItemData.news_id]?.requests?.init?.getMainComments;
+	const getMoreMainCommentsRequest =
+		newsItemsActions[newsItemData.news_id]?.requests?.getMoreMainComments;
 
 	// const [userData, userDispatch] = useUserSharedState();
 	// const [newsDataState, newsDataDispatch] = useNewsSharedState();
@@ -111,21 +86,68 @@ const Comments: FC<IProps> = ({
 		setDisableSendCommentButton(false);
 	};
 
-	const LoadComments = useCallback(async () => {
-		if (newsItemData.comments_counter === 0 || newsItemData.hit_comments_limit)
+	const loadMoreNewsItemMainComments = useCallback(async () => {
+		if (
+			newsItemData.comments_counter === 0 ||
+			newsItemData.hit_comments_limit ||
+			!newsItemData.comments ||
+			newsItemData.comments.length === 0
+		)
 			return;
 
-		setLoadingComments(true);
+		await getMoreNewsItemCommentsMain(newsDataDispatch, {
+			news_id: newsItemData.news_id,
+			urlOptions: {
+				params: {
+					news_id: newsItemData.news_id,
+				},
+				queries: {
+					comment_type: 'comment_main',
+					last_comment_created_at: new Date(
+						newsItemData.comments[newsItemData.comments.length - 1].created_at
+					).toISOString(),
+				},
+			},
+		});
+	}, [
+		newsDataDispatch,
+		newsItemData.comments,
+		newsItemData.comments_counter,
+		newsItemData.hit_comments_limit,
+		newsItemData.news_id,
+	]);
 
-		// await handleLoadingNewsItemComments({
-		// 	newsDataDispatch,
-		// 	newsItem: newsItemData,
-		// });
+	// useEffect(() => loadMoreNewsItemMainComments(), [loadMoreNewsItemMainComments]);
 
-		setLoadingComments(false);
-	}, [newsItemData.comments_counter, newsItemData.hit_comments_limit]);
-
-	// useEffect(() => LoadComments(), [LoadComments]);
+	useEffect(() => {
+		if (
+			!newsItemData.hit_comments_limit &&
+			newsItemComments.length === 0 &&
+			(!initGetMainCommentsRequest ||
+				(initGetMainCommentsRequest &&
+					!initGetMainCommentsRequest.isLoading &&
+					!initGetMainCommentsRequest.success))
+		) {
+			(async () =>
+				await initGetNewsItemCommentsMain(newsDispatch, {
+					news_id: newsItemData.news_id,
+					urlOptions: {
+						params: {
+							news_id: newsItemData.news_id,
+						},
+						queries: {
+							comment_type: 'comment_main',
+						},
+					},
+				}))();
+		}
+	}, [
+		newsItemData.news_id,
+		newsDispatch,
+		newsItemComments.length,
+		initGetMainCommentsRequest,
+		newsItemData.hit_comments_limit,
+	]);
 
 	return (
 		<div>
@@ -139,15 +161,15 @@ const Comments: FC<IProps> = ({
 				/>
 			)}
 			<div>
-				{initGetMainComments?.isLoading && (
+				{initGetMainCommentsRequest?.isLoading && (
 					<p className='isLoadingLoader'>Loading...</p>
 				)}
-				{initGetMainComments?.error && (
-					<p className='errorMessage'>{!initGetMainComments.error}</p>
+				{initGetMainCommentsRequest?.error && (
+					<p className='errorMessage'>{!initGetMainCommentsRequest.error}</p>
 				)}
-				{initGetMainComments &&
-					!initGetMainComments.isLoading &&
-					initGetMainComments.success &&
+				{initGetMainCommentsRequest &&
+					!initGetMainCommentsRequest.isLoading &&
+					initGetMainCommentsRequest.success &&
 					newsItemComments.length !== 0 &&
 					newsItemComments.map((comment) => (
 						<Comment
@@ -162,13 +184,22 @@ const Comments: FC<IProps> = ({
 				{!newsItemData.hit_comments_limit && (
 					<button
 						title='Load more comments'
-						disabled={initGetMainComments?.isLoading}
-						onClick={async () => await LoadComments()}
+						disabled={
+							initGetMainCommentsRequest?.isLoading ||
+							getMoreMainCommentsRequest?.isLoading
+						}
+						onClick={async () => await loadMoreNewsItemMainComments()}
 					>
 						<span className={helpersClasses.fontWeightBold}>Load More</span>
 					</button>
 				)}{' '}
-				<button title='Hide comments' disabled={initGetMainComments?.isLoading}>
+				<button
+					title='Hide comments'
+					disabled={
+						initGetMainCommentsRequest?.isLoading ||
+						getMoreMainCommentsRequest?.isLoading
+					}
+				>
 					<span
 						className={helpersClasses.fontWeightBold}
 						onClick={() => {

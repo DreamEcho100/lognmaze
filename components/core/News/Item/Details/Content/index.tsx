@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { TNewsItemData } from '@coreLib/ts/global';
-import { useNewsSharedState } from '@store/newsContext';
+import { useNewsSharedState } from '@store/NewsContext';
 
 import MdToHTMLFormatter from '@commonComponentsDependent/Format/MdToHTML';
 
@@ -23,7 +23,8 @@ const NewsItemContentDetails: FC<Props> = ({ newsItemData, content }) => {
 	] = useNewsSharedState();
 
 	const getTypeBlogContent =
-		itemsActions[newsItemData.news_id]?.init?.modal?.getTypeBlogContent;
+		itemsActions[newsItemData.news_id]?.requests?.init?.modal
+			?.getTypeBlogContent;
 
 	return (
 		<>

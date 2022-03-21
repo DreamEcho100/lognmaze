@@ -65,18 +65,14 @@ export interface TNewsItemCommentTypeReplyMain
 	extends TNewsItemCommentBasicData {
 	type: 'comment_main_reply';
 }
+export type TNewsItemCommentMainReplies = TNewsItemCommentTypeReplyMain[];
 
 export interface TNewsItemCommentTypeMain extends TNewsItemCommentBasicData {
 	type: 'comment_main';
 	replies_counter: number;
-	replies?: TNewsItemCommentTypeReplyMain[];
+	replies?: TNewsItemCommentMainReplies;
 	hit_replies_limit?: boolean;
 }
-
-export type TNewsItemComment =
-	| TNewsItemCommentTypeMain
-	| TNewsItemCommentTypeReplyMain;
-
 export type TNewsItemCommentsMain = TNewsItemCommentTypeMain[];
 
 /* News */

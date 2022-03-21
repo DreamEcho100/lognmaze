@@ -10,7 +10,7 @@ import {
 } from '@coreLib/ts/global';
 
 import { useUserSharedState } from '@store/UserContext';
-import { useNewsSharedState } from '@store/newsContext';
+import { useNewsSharedState } from '@store/NewsContext';
 
 // import {
 // 	handleDeletingMainOrReplyCommentInNewsItem,
@@ -33,6 +33,7 @@ import MdToHTMLFormatter from '@commonComponentsDependent/Format/MdToHTML';
 import FormatContainer from '@commonComponentsIndependent/Format/Container';
 import TimeAndDate from '@coreComponents/News/Item/TimeAndDate';
 import Link from 'next/link';
+import { getMoreNewsItemCommentRepliesMain } from '@store/NewsContext/actions/comments';
 
 interface ICommentMainProps {
 	commentType: TNewsItemCommentTypeMain['type'];
@@ -91,7 +92,21 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		userDispatch,
 	] = useUserSharedState();
 
-	const [newsDataState, newsDataDispatch] = useNewsSharedState();
+	const [
+		{
+			actions: { items: itemsActions },
+		},
+		newsDataDispatch,
+	] = useNewsSharedState();
+
+	const getMoreRepliesRequest = (() => {
+		const mainComments =
+			itemsActions[newsItemData.news_id]?.requests?.mainComments;
+
+		if (!mainComments || typeof mainComments !== 'object') return;
+
+		return mainComments[props.comment.news_comment_id]?.getMoreReplies;
+	})();
 
 	const commentMain =
 		(props.commentType === 'comment_main' && props.comment) || undefined;
@@ -101,7 +116,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		(props.commentType === 'comment_main_reply' && props.parent_data) ||
 		undefined;
 
-	const [isContentVisible, setShowContent] = useState(true);
+	// const [isContentVisible, setShowContent] = useState(true);
 	const [showReplyTextarea, setShowReplyTextarea] = useState(false);
 	const [showReplies, setShowReplies] = useState(false);
 
@@ -114,7 +129,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 	const [focusCommentReplyTextarea, setFocusCommentReplyTextarea] =
 		useState(false);
 
-	const [loadingReplies, setLoadingReplies] = useState(false);
+	// const [loadingReplies, setLoadingReplies] = useState(false);
 
 	const [values, setValues] = useState({
 		content: props.comment.content,
@@ -184,27 +199,37 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 			// setCommentReplyBtnsDisabled(false);
 		};
 
-	const loadRepliesHandler = async () =>
-		// parent_id, news_id
-		{
-			// if (
-			// 	props.comment.hit_replies_limit ||
-			// 	(props.comment.replies && props.comment.replies.length === props.comment.replies_counter)
-			// )
-			// 	return;
-			// setLoadingReplies(true);
-			// await handleLoadingCommentRepliesInNewsItem({
-			// 	newsDispatch,
-			// 	props.comment,
-			// 	parent_id,
-			// 	news_id,
-			// });
-			// if (!showReplies) setShowReplies(true);
-			// setLoadingReplies(false);
-		};
+	const loadRepliesHandler = async () => {
+		if (props.comment.type !== 'comment_main') return;
 
-	useEffect(() => {
-		/*
+		const last_reply_created_at = (() => {
+			try {
+				return new Date(props.comment.created_at).toISOString();
+			} catch (error) {
+				if (error instanceof Error) {
+					console.error(error.message);
+				}
+			}
+		})();
+
+		getMoreNewsItemCommentRepliesMain(newsDataDispatch, {
+			newsCommentParentId: props.comment.news_comment_id,
+			news_id: newsItemData.news_id,
+			urlOptions: {
+				params: {
+					news_id: newsItemData.news_id,
+				},
+				queries: {
+					comment_type: 'comment_main_reply',
+					last_reply_created_at,
+					parent_id: props.comment.news_comment_id,
+				},
+			},
+		});
+	};
+
+	// useEffect(() => {
+	/*
 		if (userData?.userExist) {
 			setItems([
 				{
@@ -278,17 +303,17 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 			if (items.length > 0) setItems([]);
 		}
 		*/
-	}, [
-		props.comment,
-		deleteBtnsDisabled,
-		items.length,
-		newsItemData,
-		commentPropsMainReplyParentData?.news_comment_id,
-		// userData?.userExist,
-	]);
+	// }, [
+	// 	props.comment,
+	// 	deleteBtnsDisabled,
+	// 	items.length,
+	// 	newsItemData,
+	// 	commentPropsMainReplyParentData?.news_comment_id,
+	// 	// userData?.userExist,
+	// ]);
 
-	useEffect(() => {
-		/*
+	// useEffect(() => {
+	/*
 		if (
 			props.commentType === 'comment_main' &&
 			!showReplies &&
@@ -298,7 +323,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 			setShowReplies(true);
 		}
 		*/
-	}, [commentMain?.replies, props.commentType, showReplies]);
+	// }, [commentMain?.replies, props.commentType, showReplies]);
 
 	return (
 		<div
@@ -347,27 +372,21 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					<DropdownMenu items={items} />
 				)} */}
 			</header>
-			{isContentVisible && (
-				<FormatContainer className={classes.comment_content}>
-					<MdToHTMLFormatter content={props.comment.content} />
-				</FormatContainer>
-			)}
-			{!isContentVisible && (
+			{/* {isContentVisible && ( */}
+			<FormatContainer className={classes.comment_content}>
+				<MdToHTMLFormatter content={props.comment.content} />
+			</FormatContainer>
+			{/* )} */}
+			{/* {!isContentVisible && (
 				<CommentTextarea
-					// type='update'
-					handleSubmit={handleUpdatingComment}
-					// focusTextarea={focusTextarea}
-					// setFocusCommentTextarea={setFocusCommentTextarea}
-					name='content'
-					// comment={props.comment}
-					// comment={props.comment}
-					setValues={setValues}
-					value={values.content}
-					disableSubmitBtn={editBtnsDisabled}
-					// closeBtn
-					// onClickingCloseBtn={() => setShowContent(true)}
+				handleSubmit={handleUpdatingComment}
+				name='content'
+				setValues={setValues}
+				value={values.content}
+				disableSubmitBtn={editBtnsDisabled}
+				commentToType={props.comment.type}
 				/>
-			)}
+			)} */}
 			<footer className={classes.footer}>
 				<TimeAndDate
 					created_at={props.comment.created_at}
@@ -389,24 +408,25 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 						title={`${
 							props.comment.replies_counter === 1 ? 'Reply' : 'Replies'
 						} ${props.comment.replies_counter}`}
-						disabled={loadingReplies}
+						disabled={getMoreRepliesRequest?.isLoading}
 						onClick={() => {
+							// if (
+							// 	props.comment.replies &&
+							// 	props.comment.replies.length !== 0 &&
+							// 	!showReplies
+							// )
+							// 	setShowReplies(true);
 							if (
-								props.comment.replies &&
-								props.comment.replies.length !== 0 &&
-								!showReplies
-							)
-								setShowReplies(true);
-							if (
-								(props.comment.replies &&
+								(!props.comment.replies ||
 									props.comment.replies.length !==
-										props.comment.replies_counter) ||
+										props.comment.replies_counter) &&
 								!props.comment.hit_replies_limit
 							) {
-								loadRepliesHandler();
 								// props.comment.news_comment_id,
 								// newsItemData.news_id
+								loadRepliesHandler();
 							}
+							setShowReplies(true);
 						}}
 					>
 						<p>
@@ -445,39 +465,45 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					setValues={setValues}
 					value={values.comment_reply}
 					disableSubmitBtn={commentReplyBtnsDisabled}
+					commentToType={props.comment.type}
 				/>
 			)}
-			{showReplies && commentMain?.replies && (
-				<Replies
-					replies={commentMain.replies}
-					newsItemData={newsItemData}
-					parent_data={commentMain}
-				/>
-			)}
+			{showReplies &&
+				commentMain?.replies &&
+				commentMain.replies?.length !== 0 && (
+					<Replies
+						replies={commentMain.replies}
+						newsItemData={newsItemData}
+						parent_data={commentMain}
+					/>
+				)}
 
-			{loadingReplies && <p>Loading...</p>}
+			{getMoreRepliesRequest?.isLoading && <p className='isLoadingLoader'>Loading...</p>}
 
 			<div className='buttons-holder'>
 				{showReplies &&
-					props.commentType === 'comment_main' &&
+					props.comment.type === 'comment_main' &&
+					props.comment?.replies &&
+					props.comment?.replies.length !== 0 &&
 					!props.comment.hit_replies_limit &&
 					props.comment.replies_counter !== 0 &&
 					props.comment.replies_counter !== props.comment?.replies?.length && (
 						<button
 							title='Load More'
-							disabled={loadingReplies}
+							disabled={getMoreRepliesRequest?.isLoading}
 							onClick={() => {
 								if (
+									props.comment.type === 'comment_main' &&
 									props.comment.replies &&
 									props.comment.replies.length !== 0 &&
 									!showReplies
 								)
 									setShowReplies(true);
 								if (
-									(props.comment.replies &&
-										props.comment.replies.length !==
-											props.comment.replies_counter) ||
-									!props.comment.hit_replies_limit
+									props.comment.type === 'comment_main' &&
+									!props.comment.hit_replies_limit &&
+									props.comment.replies &&
+									props.comment.replies.length !== props.comment.replies_counter
 								) {
 									loadRepliesHandler();
 									// props.comment.news_comment_id,
@@ -489,15 +515,20 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 						</button>
 					)}
 
-				{showReplies && (
-					<button
-						title='Hide Replies'
-						disabled={loadingReplies}
-						onClick={() => setShowReplies(false)}
-					>
-						<span className={helpersClasses.fontWeightBold}>Hide Replies</span>
-					</button>
-				)}
+				{props.comment.type === 'comment_main' &&
+					showReplies &&
+					props.comment?.replies &&
+					props.comment?.replies.length !== 0 && (
+						<button
+							title='Hide Replies'
+							disabled={getMoreRepliesRequest?.isLoading}
+							onClick={() => setShowReplies(false)}
+						>
+							<span className={helpersClasses.fontWeightBold}>
+								Hide Replies
+							</span>
+						</button>
+					)}
 			</div>
 		</div>
 	);

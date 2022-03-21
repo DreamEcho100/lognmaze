@@ -14,6 +14,8 @@ import UserProfileHero from '@coreComponents/Users/Profile/Hero';
 import ProfileBioSection from '@coreComponents/Users/Profile/BioSection';
 import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
 import NewsFeed from '@coreComponents/News/Feed';
+import { useEffect } from 'react';
+import { setProfilePageVisitorStatus } from '@store/ProfilePageContext/actions';
 
 interface Props {}
 
@@ -35,6 +37,19 @@ const UserProfileScreen = (Props: Props) => {
 			? userData
 			: profilePageData?.user;
 
+	useEffect(() => {
+		setProfilePageVisitorStatus(profilePageDispatch, {
+			userData: userData,
+			userProfileData: profilePageData.user,
+			visitorStatusInitial: profilePageData.visitorStatusInitial,
+		});
+	}, [
+		profilePageData.user,
+		profilePageData.visitorStatusInitial,
+		profilePageDispatch,
+		userData,
+	]);
+
 	if (!profilePageUserData || !profilePageVisitorStatus) {
 		return (
 			<main className={helpersClasses.main}>
@@ -50,8 +65,8 @@ const UserProfileScreen = (Props: Props) => {
 			</SectionWrapper>
 			<div className={classes.mainContent}>
 				<NewsFeed
-					// newsFetchRouteQuery={{}}
-					// priorityForHeaderImage={false}
+				// newsFetchRouteQuery={{}}
+				// priorityForHeaderImage={false}
 				/>
 				<SectionWrapper className={classes.sectionWrapper}>
 					<ProfileBioSection bio={profilePageUserData.bio} />

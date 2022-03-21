@@ -14,6 +14,7 @@ interface IProps {
 	name: string;
 	handleSubmit: (event: FormEvent) => void;
 	disableSubmitBtn: boolean;
+	commentToType?: 'news_item' | 'comment_main' | 'comment_main_reply';
 }
 
 const CommentTextarea: FC<IProps> = ({
@@ -22,7 +23,19 @@ const CommentTextarea: FC<IProps> = ({
 	value,
 	handleSubmit,
 	disableSubmitBtn,
+	commentToType = 'news_item',
 }) => {
+	const SendButtonComponent_Map = {
+		news_item: 'Submit comment replying a news item',
+		comment_main: 'Submit comment replying a comment',
+		comment_main_reply: 'Submit comment replying a reply',
+	};
+	const closeButtonComponent_Map = {
+		news_item: 'Close create "comment replying to a news item" area',
+		comment_main: 'Close create "comment replying to a comment" area',
+		comment_main_reply: 'Close create "comment replying to a reply" area',
+	};
+
 	return (
 		<FormComponent onSubmit={handleSubmit} className={classes.form}>
 			<FormControlComponent className={classes.textareaController}>
@@ -31,12 +44,14 @@ const CommentTextarea: FC<IProps> = ({
 					setValues={setValues}
 					// onChange={onChange}
 					value={value}
-					className={borderClasses.default}
+					className={`${borderClasses.default} ${classes.textarea}`}
 				/>
 			</FormControlComponent>
-			<div className='buttons-holder'>
+			<div
+			/// className='buttons-holder'
+			>
 				<ButtonComponent
-					title='Submit Form'
+					title={SendButtonComponent_Map[commentToType]}
 					type='submit'
 					disabled={disableSubmitBtn}
 				>
@@ -44,7 +59,7 @@ const CommentTextarea: FC<IProps> = ({
 				</ButtonComponent>{' '}
 				{/* {closeBtn && ( */}
 				<ButtonComponent
-					title='Close Modal'
+					title={closeButtonComponent_Map[commentToType]}
 					disabled={disableSubmitBtn}
 					// onClick={onClickingCloseBtn}
 				>

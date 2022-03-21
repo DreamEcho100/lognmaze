@@ -3,7 +3,7 @@ import { FC } from 'react';
 // import classes from './index.module.css';
 
 import { TNewsItemData } from '@coreLib/ts/global';
-import { useNewsSharedState } from '@store/newsContext';
+import { useNewsSharedState } from '@store/NewsContext';
 
 import NewsItemHeaderNav from './Nav';
 import TimeAndDate from '../TimeAndDate';
@@ -25,7 +25,7 @@ const NewsItemHeader: FC<Props> = ({ newsItemData }) => {
 	const newsItemDetailsType =
 		newsExtra[newsItemData.news_id].newsItemDetailsType;
 	const priorityForHeaderImage =
-		!!newsItemsActions[newsItemData.news_id]?.init?.priorityForHeaderImage;
+		!!newsItemsActions[newsItemData.news_id]?.priorityForHeaderImage;
 	if (
 		newsItemData.type === 'blog' &&
 		newsItemDetailsType !== 'description' &&

@@ -1,15 +1,17 @@
 body .form {
 	--width-min-width: 100%;
+	padding-left: 0;
+	padding-right: 0;
 }
 
 .textareaController {
 	margin: 0;
 	margin-bottom: var(--padding-main-1-half);
-	margin-left: 0;
-	margin-right: 0;
 }
 
-body .textareaController textarea {
+.textarea {
 	--FormControl-min-width: 100%;
 	--padding-main-1-half: 0;
+	margin-left: 0;
+	margin-right: 0;
 }

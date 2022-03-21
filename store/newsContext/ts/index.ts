@@ -3,6 +3,8 @@ import {
 	TNewsItemCommentsMain,
 	INewsItemTypeBlogContent,
 	TNewsData,
+	TNewsItemCommentMainReplies,
+	TNewsItemCommentBasicData,
 } from '@coreLib/ts/global';
 
 import { IGetNewsItemCommentsReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/comments/ts';
@@ -28,28 +30,45 @@ export interface INewsContextState {
 	actions: {
 		items: {
 			[key: string]: {
-				request?: {};
-				init?: {
-					priorityForHeaderImage?: boolean;
-					getMainComments?: {
+				priorityForHeaderImage?: boolean;
+				requests?: {
+					init?: {
+						getMainComments?: {
+							isLoading: boolean;
+							error: string;
+							success: boolean;
+						};
+						modal?: {
+							getTypeBlogContent?: {
+								isLoading: boolean;
+								error: string;
+								success: boolean;
+							};
+						};
+					};
+					getMoreMainComments?: {
 						isLoading: boolean;
 						error: string;
 						success: boolean;
 					};
-					modal?: {
-						getTypeBlogContent?: {
-							isLoading: boolean;
-							error: string;
-							success: boolean;
+					mainComments?: {
+						[key: string]: {
+							getMoreReplies?: {
+								isLoading: boolean;
+								error: string;
+								success: boolean;
+							};
 						};
 					};
 				};
 			};
 		};
-		getMoreNewsItems?: {
-			isLoading: boolean;
-			error: string;
-			success: boolean;
+		requests: {
+			getMoreNewsItems?: {
+				isLoading: boolean;
+				error: string;
+				success: boolean;
+			};
 		};
 	};
 }
@@ -114,6 +133,53 @@ interface IGetMoreNewsItemsFail {
 	};
 }
 
+interface IGetMoreNewsItemCommentsMainPending {
+	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENTS_PENDING;
+	payload: {
+		news_id: TNewsItemData['news_id'];
+	};
+}
+interface IGetMoreNewsItemCommentsMainSuccess {
+	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENTS_SUCCESS;
+	payload: {
+		news_id: TNewsItemData['news_id'];
+		newCommentsMainData: TNewsItemCommentsMain;
+		hit_comments_limit: boolean;
+	};
+}
+interface IGetMoreNewsItemCommentsMainFail {
+	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENTS_FAIL;
+	payload: {
+		news_id: TNewsItemData['news_id'];
+		error: string;
+	};
+}
+
+interface IGetMoreNewsItemCommentMainReplyPending {
+	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENT_REPLIES_PENDING;
+	payload: {
+		news_id: TNewsItemData['news_id'];
+		newsCommentParentId: TNewsItemCommentBasicData['news_comment_id'];
+	};
+}
+interface IGetMoreNewsItemCommentMainReplySuccess {
+	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENT_REPLIES_SUCCESS;
+	payload: {
+		news_id: TNewsItemData['news_id'];
+		newsCommentParentId: TNewsItemCommentBasicData['news_comment_id'];
+		newCommentMainRepliesData: TNewsItemCommentMainReplies;
+		hit_replies_limit: boolean;
+	};
+}
+interface IGetMoreNewsItemCommentMainReplyFail {
+	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENT_REPLIES_FAIL;
+	payload: {
+		news_id: TNewsItemData['news_id'];
+		newsCommentParentId: TNewsItemCommentBasicData['news_comment_id'];
+		error: string;
+	};
+}
+
 export type TNewsContextReducerAction =
 	| IInitGetNewsItemCommentsMainPending
 	| IInitGetNewsItemCommentsMainSuccess
@@ -123,7 +189,13 @@ export type TNewsContextReducerAction =
 	| IInitGetNewsItemTypeBlogDetailsTypeContentFail
 	| IGetMoreNewsItemsPending
 	| IGetMoreNewsItemsSuccess
-	| IGetMoreNewsItemsFail;
+	| IGetMoreNewsItemsFail
+	| IGetMoreNewsItemCommentsMainPending
+	| IGetMoreNewsItemCommentsMainSuccess
+	| IGetMoreNewsItemCommentsMainFail
+	| IGetMoreNewsItemCommentMainReplyPending
+	| IGetMoreNewsItemCommentMainReplySuccess
+	| IGetMoreNewsItemCommentMainReplyFail;
 
 export type TNewsContextDispatch =
 	| React.Dispatch<TNewsContextReducerAction>
@@ -155,6 +227,28 @@ export type TGetMoreNewsItems = (
 		urlOptions,
 	}: {
 		urlOptions: IGetNewsReqArgs['urlOptions'];
+	}
+) => Promise<void>;
+export type TGetMoreNewsItemCommentsMain = (
+	newsDispatch: TNewsContextDispatch,
+	{
+		news_id,
+		urlOptions,
+	}: {
+		news_id: TNewsItemData['news_id'];
+		urlOptions: IGetNewsItemCommentsReqArgs['urlOptions'];
+	}
+) => Promise<void>;
+export type TGetMoreNewsItemCommentRepliesMain = (
+	newsDispatch: TNewsContextDispatch,
+	{
+		news_id,
+		urlOptions,
+		newsCommentParentId,
+	}: {
+		news_id: TNewsItemData['news_id'];
+		newsCommentParentId: TNewsItemCommentBasicData['news_comment_id'];
+		urlOptions: IGetNewsItemCommentsReqArgs['urlOptions'];
 	}
 ) => Promise<void>;
 

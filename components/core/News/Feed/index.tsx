@@ -2,13 +2,13 @@ import classes from './index.module.css';
 import helpersClasses from '@styles/helpers.module.css';
 
 // import { handleLoadMoreNewsItems } from '@store/NewsContext/actions';
-import { useNewsSharedState } from '@store/newsContext';
+import { useNewsSharedState } from '@store/NewsContext';
 import { handleAllClasses } from '@commonLibIndependent/className';
 
 import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
 import NewsItem from '@coreComponents/News/Item';
 import { FC } from 'react';
-import { getMoreNewsItemsAction } from '@store/newsContext/actions';
+import { getMoreNewsItems } from '@store/NewsContext/actions';
 
 interface IProps {
 	defaultClasses?: string;
@@ -47,8 +47,8 @@ const NewsFeed: FC<IProps> = ({
 	// 	actions: { items: newsItemsActions },
 	// } = newsState;
 
-	const newsItemsActions = newsActions.items;
-	const getMoreNewsItems = newsActions.getMoreNewsItems;
+	// const newsItemsActions = newsActions.items;
+	const getMoreNewsItemsRequest = newsActions.requests?.getMoreNewsItems;
 
 	const feedProps = {
 		className: allClasses,
@@ -80,7 +80,7 @@ const NewsFeed: FC<IProps> = ({
 					}}
 				>
 					<button
-						disabled={getMoreNewsItems?.isLoading}
+						disabled={getMoreNewsItemsRequest?.isLoading}
 						onClick={() => {
 							// handleLoadMoreNewsItems({
 							// 	newsDispatch,
@@ -95,9 +95,10 @@ const NewsFeed: FC<IProps> = ({
 							if (
 								// !isNaN(newsCreatedBefore) &&
 								newsCreatedBefore &&
-								(!getMoreNewsItems || !getMoreNewsItems?.isLoading)
+								(!getMoreNewsItemsRequest ||
+									!getMoreNewsItemsRequest?.isLoading)
 							)
-								getMoreNewsItemsAction(newsDispatch, {
+								getMoreNewsItems(newsDispatch, {
 									urlOptions: {
 										queries: {
 											newsCreatedBefore: new Date(

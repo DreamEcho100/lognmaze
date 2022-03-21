@@ -8,6 +8,40 @@ import {
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 import NewsContextConstants from '@coreLib/constants/store/types/NewsContext';
 
+const handleLoadingChanges = async <
+	TData,
+	TInitExtraData = undefined,
+	TErrorExtraData = undefined,
+	TSuccessExtraData = undefined
+>({
+	onInit,
+	onError,
+	onSuccess,
+	extraData,
+}: {
+	onInit: (extraData: TInitExtraData) => Promise<Response>;
+	onError: (error: string, extraData: TErrorExtraData) => void; // TDispatcher;
+	onSuccess: (data: TData, extraData: TSuccessExtraData) => void; // TDispatcher;
+	extraData?: {
+		init?: TInitExtraData;
+		error?: TErrorExtraData;
+		success?: TSuccessExtraData;
+	};
+}) => {
+	const response = await onInit(extraData?.init || ({} as TInitExtraData));
+
+	if (!response.ok)
+		return onError(
+			await response.text(),
+			extraData?.error || ({} as TErrorExtraData)
+		);
+
+	onSuccess(
+		await response.json(),
+		extraData?.success || ({} as TSuccessExtraData)
+	);
+};
+
 export const initGetNewsItemTypeBlogContent: TInitGetNewsItemTypeBlogContent =
 	async (newsDispatch, { news_id, urlOptions }) => {
 		newsDispatch({
@@ -38,25 +72,7 @@ export const initGetNewsItemTypeBlogContent: TInitGetNewsItemTypeBlogContent =
 		});
 	};
 
-// type TDispatcher = (value: TNewsContextReducerAction) => void;
-
-const handleLoadingChanges = async <T>({
-	onInit,
-	onError,
-	onSuccess,
-}: {
-	onInit: () => Promise<Response>;
-	onError: (error: string) => void; // TDispatcher;
-	onSuccess: (data: T) => void; // TDispatcher;
-}) => {
-	const response = await onInit();
-
-	if (!response.ok) return onError(await response.text());
-
-	onSuccess(await response.json());
-};
-
-export const getMoreNewsItemsAction: TGetMoreNewsItems = async (
+export const getMoreNewsItems: TGetMoreNewsItems = async (
 	newsDispatch,
 	{ urlOptions }
 ) => {

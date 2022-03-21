@@ -1,3 +1,5 @@
+import { TNewsItemCommentTypeMain } from '@coreLib/ts/global';
+
 interface IUrlOptionsQueriesTypeCommentMain {
 	comment_type: 'comment_main';
 	last_comment_created_at?: string;
@@ -7,6 +9,7 @@ interface IUrlOptionsQueriesTypeCommentMainReply {
 	comment_type: 'comment_main_reply';
 	replies_to_not_fetch?: string[];
 	last_reply_created_at?: string;
+	parent_id: TNewsItemCommentTypeMain['news_comment_id'];
 }
 // comment_main
 // comment_main_reply

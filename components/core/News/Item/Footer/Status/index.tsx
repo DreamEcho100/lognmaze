@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classes from './index.module.css';
 
 import { TNewsItemData } from '@coreLib/ts/global';
-import { initGetNewsItemCommentsMain } from '@store/newsContext/actions/comments';
-import { useNewsSharedState } from '@store/newsContext';
+import { initGetNewsItemCommentsMain } from '@store/NewsContext/actions/comments';
+import { useNewsSharedState } from '@store/NewsContext';
 
 interface IProps {
 	newsItemData: TNewsItemData;
@@ -37,7 +37,7 @@ const Status: FC<IProps> = ({
 	const hit_comments_limit =
 		newsExtraData[newsItemData.news_id]?.hit_comments_limit;
 	const initGetMainComments =
-		newsItemsActions[newsItemData.news_id]?.init?.getMainComments;
+		newsItemsActions[newsItemData.news_id]?.requests?.init?.getMainComments;
 
 	/*
 	const handleInitGetNewsItemCommentsMain = async () => {
