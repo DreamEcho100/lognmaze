@@ -4,42 +4,11 @@ import { createContainer } from 'react-tracked'; // @utils/v1/react-tracked
 import { IUserContextState } from './ts';
 // import { IUserAuthenticatedData } from '@coreLib/ts/global';
 import reducer from './reducer';
+import { returnUserContextInitialState } from './initialState';
 // import ls from '@commonLibIndependent/storage/localStorage';
 // import { getCookie } from '@commonLibIndependent/storage/cookie/document';
 
-let initialState: IUserContextState = {
-	data: {
-		// user: ls.get<IUserAuthenticatedData | undefined>('userData', undefined),
-		// token: typeof window !== 'undefined' ? getCookie('accessToken') : undefined,
-	},
-	actions: {
-		requests: {
-			login: {
-				errorMessage: '',
-				isLoading: false,
-				success: false,
-			},
-			signup: {
-				errorMessage: '',
-				isLoading: false,
-				success: false,
-			},
-			logout: {
-				errorMessage: '',
-				isLoading: false,
-				success: false,
-			},
-		},
-
-		init: {
-			storeData: {
-				errorMessage: '',
-				isLoading: true,
-				success: false,
-			},
-		},
-	},
-};
+let initialState: IUserContextState = returnUserContextInitialState();
 
 let useUserState = () => useReducer(reducer, initialState);
 

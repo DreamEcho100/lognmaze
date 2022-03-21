@@ -3,10 +3,9 @@ import { createContainer } from 'react-tracked';
 
 import { IUserProfilePageContextState, IPropsUserProfilePageData } from './ts';
 import reducer from './reducer';
+import { returnProfilePageStoreInitialState } from './initialState';
 
-let initialState: IUserProfilePageContextState = {
-	data: undefined,
-};
+let initialState = returnProfilePageStoreInitialState();
 
 const useProfileState = () => useReducer(reducer, initialState);
 

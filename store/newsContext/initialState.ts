@@ -8,5 +8,6 @@ export const returnNewsInitialState = (): INewsContextState => ({
 	},
 	actions: {
 		items: {},
+		requests: {},
 	},
 });

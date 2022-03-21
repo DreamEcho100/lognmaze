@@ -1,6 +1,6 @@
 import React, { forwardRef, ReactNode } from 'react';
-import { faArrowAltCircleUp } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faArrowAltCircleUp } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Header, Trigger } from '@radix-ui/react-accordion';
 
 import classes from './index.module.css';
@@ -24,11 +24,11 @@ const CustomAccordionHeaderTrigger = forwardRef<
 			<StyledTrigger {...props} ref={forwardedRef}>
 				{children}
 
-				<FontAwesomeIcon
+				{/* <FontAwesomeIcon
 					icon={faArrowAltCircleUp}
 					className={classes.AccordionChevronDownIcon}
 					aria-hidden
-				></FontAwesomeIcon>
+				/> */}
 			</StyledTrigger>
 		</StyledHeader>
 	);

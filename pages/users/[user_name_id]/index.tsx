@@ -4,7 +4,7 @@ import {
 	VISITOR_PROFILE_GUEST,
 	VISITOR_PROFILE_OWNER,
 } from '@coreLib/constants';
-import { TNewsData } from '@coreLib/ts/global';
+import { IUserBasicData, TNewsData } from '@coreLib/ts/global';
 import { IExtraReturns, TGetUsersPropFilterBy } from '@coreLib/db/pg/ts';
 import pgActions from '@coreLib/db/pg/actions';
 import { IPropsUserProfilePageData } from '@store/ProfilePageContext/ts';
@@ -106,8 +106,9 @@ export const getStaticPaths: GetStaticPaths = /*
 export const getStaticProps: GetStaticProps = async ({ params }) => {
 	const user_name_id = params?.user_name_id;
 	if (typeof user_name_id === 'string') {
-		const profileData = {} as IPropsUserProfilePageData & {
+		const profileData = {} as /*{IPropsUserProfilePageData} &*/ {
 			newsData: { news: TNewsData; hit_news_items_limit: boolean };
+			user: IUserBasicData;
 		};
 
 		// profileData.visitorStatus =
@@ -124,12 +125,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 		];
 		const userExtraReturns: IExtraReturns = {
 			user_id: true,
-			sensitiveInfo: profileData.visitorStatus === VISITOR_PROFILE_OWNER,
+			// sensitiveInfo: profileData.visitorStatus === VISITOR_PROFILE_OWNER,
 			// user_password
 			// user_news_counter
 		};
 
-		profileData.user = await pgActions.users
+		const user: IUserBasicData | undefined = await pgActions.users
 			.get({
 				extraReturns: userExtraReturns,
 				filterBy: userFilterBy,
@@ -139,7 +140,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 					response.rows[0]
 			);
 
-		if (!profileData.user) {
+		if (!user) {
 			// res.statusCode = 404;
 			// res.statusMessage = 'User Not Found!';
 			// res.end();
@@ -151,15 +152,17 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 			};
 		}
 
+		profileData.user = user;
+
 		profileData.user.last_sign_in = profileData.user.last_sign_in.toString();
 		profileData.user.created_at = profileData.user.created_at.toString();
-		if (
-			profileData.visitorStatus === VISITOR_PROFILE_OWNER &&
-			profileData.user.date_of_birth
-		) {
-			profileData.user.date_of_birth =
-				profileData.user.date_of_birth.toString();
-		}
+		// if (
+		// 	profileData.visitorStatus === VISITOR_PROFILE_OWNER &&
+		// 	profileData.user.date_of_birth
+		// ) {
+		// 	profileData.user.date_of_birth =
+		// 		profileData.user.date_of_birth.toString();
+		// }
 
 		const existingItems = {};
 		// const { existingItems } =

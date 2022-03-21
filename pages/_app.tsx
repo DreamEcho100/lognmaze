@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 // import Head from 'next/head';
 // import { YMInitializer } from 'react-yandex-metrika';
 // import LogRocket from 'logrocket';
-import { config, library } from '@fortawesome/fontawesome-svg-core';
+import { config, IconDefinition, library } from '@fortawesome/fontawesome-svg-core';
 import {
 	faUser,
 	faEllipsisV,
@@ -31,7 +31,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 // import '../node_modules/@fortawesome/fontawesome-svg-core/styles.css';
 config.autoAddCss = false;
 library.add(
-	faUser,
+	...[faUser,
 	faEllipsisV,
 	faComment,
 	faComments,
@@ -49,7 +49,7 @@ library.add(
 	faTelegram,
 	faTumblr,
 	faTwitter,
-	faWhatsapp
+	faWhatsapp] as IconDefinition[]
 );
 
 import '../styles/globals.css';

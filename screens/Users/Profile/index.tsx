@@ -41,11 +41,11 @@ const UserProfileScreen = (Props: Props) => {
 		setProfilePageVisitorStatus(profilePageDispatch, {
 			userData: userData,
 			userProfileData: profilePageData.user,
-			visitorStatusInitial: profilePageData.visitorStatusInitial,
+			visitorStatusInitial: profilePageData.visitorStatus,
 		});
 	}, [
 		profilePageData.user,
-		profilePageData.visitorStatusInitial,
+		profilePageData.visitorStatus,
 		profilePageDispatch,
 		userData,
 	]);

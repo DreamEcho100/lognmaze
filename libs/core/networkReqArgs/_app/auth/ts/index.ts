@@ -15,7 +15,7 @@ export interface ISignupReqArgsProps {
 	bodyContent: {
 		auth_type: 'signup';
 		email: IUserAuthenticatedData['email'];
-		password: IUserAuthenticatedData['password'];
+		password: string;
 		user_name_id: IUserAuthenticatedData['user_name_id'];
 		first_name: IUserAuthenticatedData['first_name'];
 		last_name: IUserAuthenticatedData['last_name'];

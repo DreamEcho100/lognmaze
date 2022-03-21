@@ -23,8 +23,8 @@
     "next-compose-plugins": "^2.2.1",
     "next-connect": "^0.12.2",
     "pg": "^8.7.3",
-    "react": "^18.0.0-rc.2-next-b9de50d2f-20220308",
-    "react-dom": "^18.0.0-rc.2-next-b9de50d2f-20220308",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-markdown": "^8.0.1",
     "react-syntax-highlighter": "^15.5.0",
     "react-tracked": "^1.7.8",
@@ -33,6 +33,7 @@
     "swr": "^1.2.2"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-common-types": "^6.1.0",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie": "^0.4.1",
     "@types/jsonwebtoken": "^8.5.8",
