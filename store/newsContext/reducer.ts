@@ -5,6 +5,7 @@
 // import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 import NewsContextConstants from '@coreLib/constants/store/types/NewsContext';
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
+import { TNewsItemData } from '@coreLib/ts/global';
 import { returnNewsInitialState } from './initialState';
 
 import {
@@ -519,6 +520,81 @@ const reducer: TNewsContextStateReducer = (
 									},
 								},
 							},
+						},
+					},
+				},
+			};
+		}
+
+		//
+		case NewsItemContextConstants.CREATE_PENDING: {
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					requests: {
+						...state.actions.requests,
+						createItem: {
+							isLoading: true,
+							error: '',
+							success: false,
+						},
+					},
+				},
+			};
+		}
+		case NewsItemContextConstants.CREATE_SUCCESS: {
+			const { newNewsItemAuthorData, newNewsItemId, newsItemBasicData } =
+				actions.payload;
+
+			return {
+				...state,
+				data: {
+					...state.data,
+					news: [
+						{
+							news_id: newNewsItemId,
+							// ...newsItemBasicData,
+							type: newsItemBasicData.type,
+							type_data: newsItemBasicData.basics,
+							...newNewsItemAuthorData,
+							comments_counter: 0,
+							up_votes_counter: 0,
+							down_votes_counter: 0,
+							created_at: new Date().toISOString(),
+							updated_at: new Date().toISOString(),
+							comments: [],
+							hit_comments_limit: true,
+						} as unknown as TNewsItemData,
+						...state.data.news,
+					],
+				},
+				actions: {
+					...state.actions,
+					requests: {
+						...state.actions.requests,
+						createItem: {
+							isLoading: false,
+							error: '',
+							success: true,
+						},
+					},
+				},
+			};
+		}
+		case NewsItemContextConstants.CREATE_FAIL: {
+			const { error } = actions.payload;
+
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					requests: {
+						...state.actions.requests,
+						createItem: {
+							isLoading: false,
+							error,
+							success: false,
 						},
 					},
 				},

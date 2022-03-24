@@ -73,26 +73,27 @@ export const createNewsItemController = async (
 	try {
 		let news_data: INewsDataBlog | INewsDataPost;
 
-		if (req.body.type === 'blog') {
+		if (req.body.newsItemBasicData.type === 'blog') {
 			if (
-				req.body.title ||
-				req.body.slug ||
-				req.body.iso_language ||
-				req.body.iso_country ||
-				req.body.image_alt ||
-				req.body.image_src ||
-				req.body.description ||
-				req.body.content ||
-				req.body.tags
+				!req.body.newsItemBasicData ||
+				!req.body.newsItemBasicData.basics ||
+				!req.body.newsItemBasicData.basics.title ||
+				!req.body.newsItemBasicData.basics.slug ||
+				!req.body.newsItemBasicData.basics.iso_language ||
+				!req.body.newsItemBasicData.basics.iso_country ||
+				!req.body.newsItemBasicData.basics.image_alt ||
+				!req.body.newsItemBasicData.basics.image_src ||
+				!req.body.newsItemBasicData.basics.description ||
+				!req.body.newsItemBasicData.basics.content ||
+				!req.body.newsItemBasicData.basics.tags
 			) {
 				res.status(400);
 				throw new Error("Items doesn't exist");
 			}
 
 			const { existingItems /*, atLeastOneItemExist*/ } = itemsInObject(
-				req.body.news_data,
+				req.body.newsItemBasicData.basics,
 				[
-					'type',
 					'title',
 					'slug',
 					'iso_language',
@@ -106,23 +107,30 @@ export const createNewsItemController = async (
 			);
 
 			news_data = existingItems;
+			news_data.type = req.body.newsItemBasicData.type;
 			// if (atLeastOneItemExist) news_data = existingItems;
 			// else {
 			// 	res.status(400);
 			// 	throw new Error("Items doesn't exist");
 			// }
-		} else if (req.body.type === 'post') {
-			if (req.body.content) {
+		} else if (req.body.newsItemBasicData.type === 'post') {
+			if (
+				!req.body.newsItemBasicData ||
+				!req.body.newsItemBasicData.basics ||
+				!req.body.newsItemBasicData.basics.content
+			) {
 				res.status(400);
 				throw new Error("Items doesn't exist");
 			}
 
 			const { existingItems /*, atLeastOneItemExist*/ } = itemsInObject(
-				req.body.news_data,
-				['type', 'content']
+				req.body.newsItemBasicData.basics,
+				['content']
 			);
 
 			news_data = existingItems;
+			news_data.type = req.body.newsItemBasicData.type;
+
 			// if (atLeastOneItemExist) news_data = existingItems;
 			// else {
 			// 	res.status(400);

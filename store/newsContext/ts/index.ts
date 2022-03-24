@@ -5,9 +5,13 @@ import {
 	TNewsData,
 	TNewsItemCommentMainReplies,
 	TNewsItemCommentBasicData,
+	INewsItemTypeBlogBasicData,
+	INewsItemTypePostBasicData,
 } from '@coreLib/ts/global';
 
 import { IGetNewsItemCommentsReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/comments/ts';
+import { ICreateNewsItemReqArgs } from '@coreLib/networkReqArgs/_app/news/ts';
+
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 import { IGetNewsItemBlogContentReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/blog/content/ts';
 import NewsContextConstants from '@coreLib/constants/store/types/NewsContext';
@@ -65,6 +69,11 @@ export interface INewsContextState {
 		};
 		requests: {
 			getMoreNewsItems?: {
+				isLoading: boolean;
+				error: string;
+				success: boolean;
+			};
+			createItem?: {
 				isLoading: boolean;
 				error: string;
 				success: boolean;
@@ -180,6 +189,33 @@ interface IGetMoreNewsItemCommentMainReplyFail {
 	};
 }
 
+interface ICreateNewsItemPending {
+	type: NewsItemContextConstants.CREATE_PENDING;
+}
+interface ICreateNewsItemSuccess {
+	type: NewsItemContextConstants.CREATE_SUCCESS;
+	payload: {
+		// newNewsItemData: ICreateNewsItemReqArgs['bodyContent'];
+		// newNewsItemType
+		newsItemBasicData: ICreateNewsItemReqArgs['bodyContent']['newsItemBasicData'];
+		newNewsItemId: TNewsItemData['news_id'];
+		newNewsItemAuthorData: {
+			author_id: TNewsItemData['author_id'];
+			author_user_name_id: TNewsItemData['author_user_name_id'];
+			author_first_name: TNewsItemData['author_first_name'];
+			author_last_name: TNewsItemData['author_last_name'];
+			author_profile_picture: TNewsItemData['author_profile_picture'];
+			author_bio: TNewsItemData['author_bio'];
+		};
+	};
+}
+interface ICreateNewsItemFail {
+	type: NewsItemContextConstants.CREATE_FAIL;
+	payload: {
+		error: string;
+	};
+}
+
 export type TNewsContextReducerAction =
 	| IInitGetNewsItemCommentsMainPending
 	| IInitGetNewsItemCommentsMainSuccess
@@ -195,7 +231,10 @@ export type TNewsContextReducerAction =
 	| IGetMoreNewsItemCommentsMainFail
 	| IGetMoreNewsItemCommentMainReplyPending
 	| IGetMoreNewsItemCommentMainReplySuccess
-	| IGetMoreNewsItemCommentMainReplyFail;
+	| IGetMoreNewsItemCommentMainReplyFail
+	| ICreateNewsItemPending
+	| ICreateNewsItemSuccess
+	| ICreateNewsItemFail;
 
 export type TNewsContextDispatch =
 	| React.Dispatch<TNewsContextReducerAction>
@@ -249,6 +288,19 @@ export type TGetMoreNewsItemCommentRepliesMain = (
 		news_id: TNewsItemData['news_id'];
 		newsCommentParentId: TNewsItemCommentBasicData['news_comment_id'];
 		urlOptions: IGetNewsItemCommentsReqArgs['urlOptions'];
+	}
+) => Promise<void>;
+
+export type TCreateNewsItem = (
+	newsDispatch: TNewsContextDispatch,
+	{
+		newsItemBasicData,
+		newNewsItemAuthorData,
+		token,
+	}: {
+		newsItemBasicData: ICreateNewsItemSuccess['payload']['newsItemBasicData'];
+		newNewsItemAuthorData: ICreateNewsItemSuccess['payload']['newNewsItemAuthorData'];
+		token?: string;
 	}
 ) => Promise<void>;
 

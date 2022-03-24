@@ -1,8 +1,8 @@
 .input {
 	height: 2.5rem;
 	max-width: 100%;
-	width: 25rem;
-	min-height: fit-content;
+	width: var(--input-width);
+	/* min-height: fit-content; */
 	background-color: transparent;
 	transition: all var(--main-transition-duration) ease-in;
 

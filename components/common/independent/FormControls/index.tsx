@@ -10,7 +10,7 @@ interface IProps extends HTMLAttributes<HTMLDivElement> {
 	className?: string;
 }
 
-const FormControlComponent: FC<IProps> = ({
+const FormControlsComponent: FC<IProps> = ({
 	defaultClasses = 'FormControls',
 	extraClasses,
 	className,
@@ -24,7 +24,7 @@ const FormControlComponent: FC<IProps> = ({
 		className,
 	});
 
-	const handleFormControlProps = () => {
+	const handleFormControlsProps = () => {
 		const formControlProps: HTMLAttributes<HTMLDivElement> = {
 			className: allClasses,
 			...props,
@@ -33,7 +33,7 @@ const FormControlComponent: FC<IProps> = ({
 		return formControlProps;
 	};
 
-	return <div {...handleFormControlProps()}>{children}</div>;
+	return <div {...handleFormControlsProps()}>{children}</div>;
 };
 
-export default FormControlComponent;
+export default FormControlsComponent;

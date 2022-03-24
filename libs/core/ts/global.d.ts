@@ -94,7 +94,7 @@ export interface INewsItemBasicData {
 	hit_comments_limit?: boolean;
 }
 export type INewsItemTypeBlogContent = string;
-export interface INewsItemTypeBlog extends INewsItemBasicData {
+export interface INewsItemTypeBlogBasicData {
 	type: 'blog';
 	type_data: {
 		// user_vote_type: null;
@@ -109,13 +109,15 @@ export interface INewsItemTypeBlog extends INewsItemBasicData {
 		content?: INewsItemTypeBlogContent;
 	};
 }
-export interface INewsItemTypePost extends INewsItemBasicData {
+export type INewsItemTypeBlog = INewsItemBasicData & INewsItemTypeBlogBasicData;
+export interface INewsItemTypePostBasicData {
 	type: 'post';
 	// user_vote_type: null;
 	type_data: {
 		content: string;
 	};
 }
+export type INewsItemTypePost = INewsItemBasicData & INewsItemTypePostBasicData;
 
 export type TNewsItemData = INewsItemTypeBlog | INewsItemTypePost;
 export type TNewsData = TNewsItemData[];

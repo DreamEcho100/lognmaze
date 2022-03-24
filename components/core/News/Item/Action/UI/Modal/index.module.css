@@ -1,0 +1,4 @@
+.containerBody {
+	padding: 0 var(--padding-main-1-quarter);
+  margin: var(--padding-main-1-half) 0;
+}

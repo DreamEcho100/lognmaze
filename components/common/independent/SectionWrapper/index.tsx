@@ -9,6 +9,7 @@ interface IProps extends HTMLAttributes<HTMLElement> {
 	extraClasses?: string;
 	className?: string;
 	setValues?: Dispatch<SetStateAction<any>>;
+	elemType?: 'section' | 'article' | 'div';
 }
 
 const SectionWrapper = ({
@@ -16,6 +17,7 @@ const SectionWrapper = ({
 	extraClasses = '',
 	className = '',
 	children,
+	elemType = 'section',
 	...props
 }: IProps) => {
 	const allClasses = handleAllClasses({
@@ -30,7 +32,11 @@ const SectionWrapper = ({
 		...props,
 	};
 
-	return <section {...sectionWrapperProps}>{children}</section>;
+	if (elemType === 'section')
+		return <section {...sectionWrapperProps}>{children}</section>;
+	if (elemType === 'article')
+		return <article {...sectionWrapperProps}>{children}</article>;
+	return <div {...sectionWrapperProps}>{children}</div>;
 };
 
 export default SectionWrapper;

@@ -94,9 +94,11 @@ const ModalComponent = ({
 			header: ({ children }: { children: ReactNode }) => (
 				<header
 					className={
-						modalClasses?.containerHeader?.default
+						`${modalClasses?.containerHeader?.default
 							? modalClasses?.containerHeader?.default
-							: classes.modalHeaderDefault
+							: classes.modalHeaderDefault} ${
+								modalClasses?.containerHeader?.new || ''
+							}`
 					}
 				>
 					{children}
@@ -105,9 +107,11 @@ const ModalComponent = ({
 			body: ({ children }: { children: ReactNode }) => (
 				<section
 					className={`${
-						modalClasses?.containerBody?.default
+						`${modalClasses?.containerBody?.default
 							? modalClasses?.containerBody?.default
-							: classes.modalBodyDefault
+							: classes.modalBodyDefault} ${
+								modalClasses?.containerBody?.new || ''
+							}`
 					} ${!isChildrenArray ? classes.onlyModalBodyExistDefault : ''}`}
 					ref={modalContainerBodyRef}
 				>
@@ -117,9 +121,11 @@ const ModalComponent = ({
 			footer: ({ children }: { children: ReactNode }) => (
 				<footer
 					className={
-						modalClasses?.containerFooter?.default
+						`${modalClasses?.containerFooter?.default
 							? modalClasses?.containerFooter?.default
-							: classes.modalFooterDefault
+							: classes.modalFooterDefault} ${
+								modalClasses?.containerFooter?.new || ''
+							}`
 					}
 				>
 					{children}

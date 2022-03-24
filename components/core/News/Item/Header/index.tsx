@@ -23,7 +23,7 @@ const NewsItemHeader: FC<Props> = ({ newsItemData }) => {
 	] = useNewsSharedState();
 
 	const newsItemDetailsType =
-		newsExtra[newsItemData.news_id].newsItemDetailsType;
+		newsExtra[newsItemData.news_id]?.newsItemDetailsType;
 	const priorityForHeaderImage =
 		!!newsItemsActions[newsItemData.news_id]?.priorityForHeaderImage;
 	if (

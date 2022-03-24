@@ -1,0 +1,16 @@
+.form {
+	width: 100%;
+	--form-min-width: 100%;
+	align-items: flex-start;
+}
+
+.submitButtonFormController {
+	margin: 0;
+}
+
+.formControl {
+	min-width: 100%;
+}
+.input {
+	width: 100%;
+}

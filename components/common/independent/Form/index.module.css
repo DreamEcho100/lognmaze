@@ -1,11 +1,11 @@
-.form {
-	--width-min-width: fit-content;
-}
+/* .form {
+	--form-min-width: fit-content;
+} */
 
 .form {
 	background-color: var(--main-bg-color-1);
 	padding: var(--padding-main-1-half) var(--padding-main-1-quarter);
-	width: var(--width-min-width);
+	width: var(--form-min-width);
 	margin: 0 auto;
 	border-radius: 1.5rem;
 	transition: var(--main-transition-duration) all ease-in;

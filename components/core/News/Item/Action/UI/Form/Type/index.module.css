@@ -1,0 +1,22 @@
+.form {
+	width: 100%;
+	--form-min-width: 100%;
+	align-items: flex-start;
+}
+
+.submitButtonFormController {
+	margin: 0;
+}
+
+.formControl {
+	/* min-width: 100%; */
+	--FormControl-min-width: 100%;
+}
+.input {
+	/* width: 100%; */
+	--input-width: 100%;
+}
+.textarea {
+	width: 100%;
+	--min-textarea-width: 100%;
+}

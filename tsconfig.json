@@ -17,6 +17,7 @@
 		"downlevelIteration": true /* Emit more compliant, but verbose and less performant JavaScript for iteration. */,
 		"baseUrl": "./",
 		"paths": {
+			"@data/*": ["data/*"],
 			"@coreComponents/*": ["components/core/*"],
 			"@commonComponentsDependent/*": ["components/common/dependent/*"],
 			"@commonComponentsIndependent/*": ["components/common/independent/*"],

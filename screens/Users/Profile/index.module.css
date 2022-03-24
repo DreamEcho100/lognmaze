@@ -15,10 +15,10 @@
 	margin-bottom: var(--padding-main-1-three-quarters);
 }
 
-.mainContent > section:nth-child(1) {
+.mainContent > :nth-child(1) {
 	width: calc(75% - var(--padding-main-1-half));
 }
-.mainContent > section:nth-child(2) {
+.mainContent > :nth-child(2) {
 	width: 25%; /*calc(25% - var(--padding-main-1-half));*/
 	min-height: 10rem;
 	margin: 0;
@@ -29,16 +29,16 @@
 		flex-direction: column;
 	}
 
-	.mainContent > section:nth-child(1),
-	.mainContent > section:nth-child(2) {
+	.mainContent > :nth-child(1),
+	.mainContent > :nth-child(2) {
 		width: 100%;
 	}
 
-	.mainContent > section:nth-child(1) {
+	.mainContent > :nth-child(1) {
 		order: 2;
 	}
 
-	.mainContent > section:nth-child(2) {
+	.mainContent > :nth-child(2) {
 		order: 1;
 		margin-bottom: var(--padding-main-1-half);
 	}

@@ -1,6 +1,6 @@
-body .FormControl {
+/* body .FormControl {
 	--FormControl-min-width: none;
-}
+} */
 
 .FormControl {
 	max-width: 100%;

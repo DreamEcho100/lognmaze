@@ -1,12 +1,18 @@
 import networkReqArgs from '@coreLib/networkReqArgs';
-import { INewsItemTypeBlogContent, TNewsData } from '@coreLib/ts/global';
+import {
+	INewsItemTypeBlogContent,
+	TNewsData,
+	TNewsItemData,
+} from '@coreLib/ts/global';
 import {
 	TGetMoreNewsItems,
 	TInitGetNewsItemTypeBlogContent,
-	// TNewsContextReducerAction,
+	TCreateNewsItem,
 } from '../ts';
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 import NewsContextConstants from '@coreLib/constants/store/types/NewsContext';
+
+const returnBearerToken = (token: string) => `Bearer ${token}`;
 
 const handleLoadingChanges = async <
 	TData,
@@ -101,6 +107,50 @@ export const getMoreNewsItems: TGetMoreNewsItems = async (
 			newsDispatch({
 				type: NewsContextConstants.GET_MORE_ITEMS_SUCCESS,
 				payload: { newNewsItems: news, hit_news_items_limit },
+			});
+		},
+	});
+};
+
+export const createNewsItem: TCreateNewsItem = async (
+	newsDispatch,
+	{ newsItemBasicData, newNewsItemAuthorData, token }
+) => {
+	await handleLoadingChanges<{
+		news_id: TNewsItemData['news_id'];
+	}>({
+		onInit: async () => {
+			newsDispatch({
+				type: NewsItemContextConstants.CREATE_PENDING,
+			});
+
+			const { requestInfo, requestInit } = networkReqArgs._app.news.item.create(
+				{
+					bodyContent: {
+						newsItemBasicData: newsItemBasicData,
+					},
+					headersList: {
+						Authorization: (token && returnBearerToken(token)) || undefined,
+					},
+				}
+			);
+
+			return await fetch(requestInfo, requestInit);
+		},
+		onError: (error) => {
+			return newsDispatch({
+				type: NewsItemContextConstants.CREATE_FAIL,
+				payload: { error },
+			});
+		},
+		onSuccess: ({ news_id }) => {
+			newsDispatch({
+				type: NewsItemContextConstants.CREATE_SUCCESS,
+				payload: {
+					newNewsItemId: news_id,
+					newNewsItemAuthorData,
+					newsItemBasicData,
+				},
 			});
 		},
 	});
