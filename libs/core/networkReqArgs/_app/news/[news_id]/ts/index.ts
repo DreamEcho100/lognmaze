@@ -5,7 +5,7 @@ import {
 } from '@coreLib/ts/global.d';
 
 /* */
-interface IUpdateNewsItemReqArgsPropsBodyContentTypeBlog {
+export interface IUpdateNewsItemReqArgsPropsBodyContentTypeBlog {
 	type: INewsItemTypeBlog['type'];
 	dataToUpdate: {
 		title?: INewsItemTypeBlog['type_data']['title'];
@@ -21,10 +21,10 @@ interface IUpdateNewsItemReqArgsPropsBodyContentTypeBlog {
 		content?: INewsItemTypeBlogContent;
 	};
 }
-interface IUpdateNewsItemReqArgsPropsBodyContentTypePost {
+export interface IUpdateNewsItemReqArgsPropsBodyContentTypePost {
 	type: INewsItemTypePost['type'];
 	dataToUpdate: {
-		content: INewsItemTypePost['type_data']['content'];
+		content?: INewsItemTypePost['type_data']['content'];
 	};
 }
 export interface IUpdateNewsItemReqArgs {

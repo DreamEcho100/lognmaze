@@ -9,17 +9,17 @@ import { TNewsItemData } from '@coreLib/ts/global';
 import { returnNewsInitialState } from './initialState';
 
 import {
+	INewsContextState,
 	// TNewsContextReducerAction,
 	// INewsContextState,
 	TNewsContextStateReducer,
 } from './ts';
 
 const reducer: TNewsContextStateReducer = (
-	state = returnNewsInitialState(),
+	state: INewsContextState = returnNewsInitialState(),
 	actions
-) => {
-	if (process.env.NODE_ENV !== 'production')
-		console.log('actions.type', actions.type);
+): INewsContextState => {
+	if (process.env.NODE_ENV !== 'production') console.log(actions.type);
 
 	switch (actions.type) {
 		//
@@ -639,6 +639,42 @@ const reducer: TNewsContextStateReducer = (
 		case NewsItemContextConstants.UPDATE_SUCCESS: {
 			const { news_id, dataToUpdate } = actions.payload;
 
+			const newDataToUpdate: Partial<TNewsItemData['type_data']> = {};
+
+			let item: keyof typeof newDataToUpdate;
+			for (item in dataToUpdate) {
+				// @ts-ignore
+				if (item === 'tags') {
+					// @ts-ignore
+					const newTags: string[] = [...(dataToUpdate?.tags?.added || [])];
+					// @ts-ignore
+					const remainedTags = dataToUpdate?.tags?.removed
+						? // @ts-ignore
+						  // @ts-ignore
+						  state.data.news
+								.find((item) => item.news_id === news_id)
+								// @ts-ignore
+								?.type_data.tags // @ts-ignore
+								.filter(
+									// @ts-ignore
+									(item) => !dataToUpdate.tags.removed.includes(item)
+								) || [
+								// @ts-ignore
+								state.data.news
+									// @ts-ignore
+									.find((item) => item.news_id === news_id)?.type_data.tags,
+						  ]
+						: [];
+
+					// @ts-ignore
+					if (newTags.length !== 0 || remainedTags.length !== 0)
+						// @ts-ignore
+						newDataToUpdate.tags = [...remainedTags, ...newTags];
+				} else {
+					newDataToUpdate[item] = dataToUpdate[item];
+				}
+			}
+
 			return {
 				...state,
 				data: {
@@ -647,8 +683,13 @@ const reducer: TNewsContextStateReducer = (
 						if (item.news_id === news_id)
 							return {
 								...item,
-								...dataToUpdate,
-							};
+								type_data: {
+									...item.type_data,
+									// ...(newDataToUpdate as typeof item.type_data),
+									...newDataToUpdate,
+								},
+								updated_at: new Date().toISOString(),
+							} as typeof item;
 
 						return item;
 					}),

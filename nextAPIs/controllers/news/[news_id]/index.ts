@@ -1,6 +1,11 @@
 import { itemsInObject } from '@commonLibIndependent/object';
 import pool from '@coreLib/db/pg/connection';
 import {
+	IUpdateNewsItemReqArgs,
+	IUpdateNewsItemReqArgsPropsBodyContentTypeBlog,
+	IUpdateNewsItemReqArgsPropsBodyContentTypePost,
+} from '@coreLib/networkReqArgs/_app/news/[news_id]/ts';
+import {
 	INewsItemTypeBlog,
 	INewsItemTypeBlogContent,
 	INewsItemTypePost,
@@ -35,12 +40,17 @@ export const updateNewsItemController = async (
 	req: NextApiRequestExtended,
 	res: NextApiResponse
 ) => {
-	const { type } = req.body;
+	const bodyContent: IUpdateNewsItemReqArgs['bodyContent'] = {
+		type: req.body.type,
+		dataToUpdate: req.body.dataToUpdate,
+	};
 
 	let dataToUpdate: INewsDataBlogToUpdate | INewsDataPostToUpdate;
 
-	if (type === 'blog') {
-		const test = itemsInObject<INewsDataBlogToUpdate>(req.body.dataToUpdate, [
+	if (bodyContent.type === 'blog') {
+		const test = itemsInObject<
+			IUpdateNewsItemReqArgsPropsBodyContentTypeBlog['dataToUpdate']
+		>(bodyContent.dataToUpdate, [
 			'title',
 			'iso_language',
 			'iso_country',
@@ -51,17 +61,17 @@ export const updateNewsItemController = async (
 			'tags',
 		]);
 
-		if (test.atLeastOneItemExist) dataToUpdate = test.existingItems;
+		if (test.atLeastOneItemExist) bodyContent.dataToUpdate = test.existingItems;
 		else {
 			res.status(400);
 			throw new Error("Items doesn't exist");
 		}
-	} else if (type === 'post') {
-		const test = itemsInObject<INewsDataPostToUpdate>(req.body.dataToUpdate, [
-			'content',
-		]);
+	} else if (bodyContent.type === 'post') {
+		const test = itemsInObject<
+			IUpdateNewsItemReqArgsPropsBodyContentTypePost['dataToUpdate']
+		>(bodyContent.dataToUpdate, ['content']);
 
-		if (test.atLeastOneItemExist) dataToUpdate = test.existingItems;
+		if (test.atLeastOneItemExist) bodyContent.dataToUpdate = test.existingItems;
 		else {
 			res.status(400);
 			throw new Error("Items doesn't exist");
@@ -83,16 +93,17 @@ export const updateNewsItemController = async (
 	const cteNames = ['update_item_1'];
 	const params = [req.query.news_id, req.user.id, new Date().toISOString()];
 
-	if (type === 'blog') {
+	if (bodyContent.type === 'blog') {
 		const newsDataToUpdate = [];
-		let item: keyof typeof dataToUpdate;
+		let item: keyof typeof bodyContent.dataToUpdate;
 		let tags;
-		for (item in dataToUpdate) {
-			if ('tags' in dataToUpdate) {
-				tags = dataToUpdate.tags;
+		for (item in bodyContent.dataToUpdate) {
+			if (item === 'tags') {
+				// 'tags' in bodyContent.dataToUpdate
+				tags = bodyContent.dataToUpdate.tags;
 				continue;
 			}
-			params.push(dataToUpdate[item]);
+			params.push(bodyContent.dataToUpdate[item]);
 			newsDataToUpdate.push(`${item}=($${params.length})`);
 		}
 
@@ -229,11 +240,11 @@ export const updateNewsItemController = async (
 				}
 			}
 		}
-	} else if (type === 'post') {
+	} else if (bodyContent.type === 'post') {
 		const newsDataToUpdate = [];
-		let item: keyof typeof dataToUpdate;
-		for (item in dataToUpdate) {
-			params.push(dataToUpdate[item]);
+		let item: keyof typeof bodyContent.dataToUpdate;
+		for (item in bodyContent.dataToUpdate) {
+			params.push(bodyContent.dataToUpdate[item]);
 			newsDataToUpdate.push(`${item}=($${params.length})`);
 		}
 

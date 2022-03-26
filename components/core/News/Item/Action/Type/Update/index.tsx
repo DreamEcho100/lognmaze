@@ -2,8 +2,13 @@ import { useEffect } from 'react';
 
 import { TNewsItemData } from '@coreLib/ts/global';
 import { THandleSubmitForCreateAndUpdateNewsItemActionType } from '../../ts';
+import { IUpdateNewsItemReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/ts';
 import { useNewsSharedState } from '@store/NewsContext';
-import { initGetNewsItemTypeBlogContent } from '@store/NewsContext/actions';
+import {
+	initGetNewsItemTypeBlogContent,
+	updateNewsItem,
+} from '@store/NewsContext/actions';
+import { differenceBetweenTwoArrays } from '@commonLibIndependent/array';
 
 import NewsItemActionModal from '../../UI/Modal';
 import NewsItemFormTypeBlog from '../../UI/Form/Type/Blog';
@@ -102,7 +107,77 @@ IProps) => {
 				// 	} as ICreateNewsItemReqArgs['bodyContent']['newsItemBasicData'],
 				// 	token: userToken,
 				// });
+				const bodyContent: IUpdateNewsItemReqArgs['bodyContent'] = {
+					type: props.type,
+					dataToUpdate: {},
+				};
+
+				if (
+					props.type === 'post' &&
+					newsItemData.type === 'post' &&
+					bodyContent.type === 'post'
+				) {
+					let item: keyof typeof props.type_data;
+					for (item in props.type_data) {
+						if (
+							props.type_data[item]?.trim() !==
+							newsItemData.type_data[item]?.trim()
+						) {
+							bodyContent.dataToUpdate[item] = props.type_data[item];
+						}
+					}
+				} else if (
+					props.type === 'blog' &&
+					newsItemData.type === 'blog' &&
+					bodyContent.type === 'blog'
+				) {
+					let item: keyof typeof props.type_data;
+					for (item in props.type_data) {
+						if (
+							// !Array.isArray(props.type_data[item]) &&
+							typeof props.type_data[item] === 'string' &&
+							!['tags', 'slug', 'type'].includes(item) &&
+							(props.type_data[item] as string)?.trim() !==
+								(newsItemData.type_data[item] as string)?.trim()
+						) {
+							// @ts-ignore
+							bodyContent.dataToUpdate[item] = props.type_data[item];
+						} else {
+							if (item === 'tags') {
+								const changedTags: typeof bodyContent.dataToUpdate.tags = {};
+								const { added: addedTags, removed: removedTags } =
+									differenceBetweenTwoArrays(
+										newsItemData.type_data.tags,
+										props.type_data.tags,
+										{
+											noDuplicates: true,
+										}
+									);
+
+								if (addedTags.length !== 0) changedTags.added = addedTags;
+								if (removedTags.length !== 0) changedTags.removed = removedTags;
+								if (changedTags.added || changedTags.removed) {
+									bodyContent.dataToUpdate.tags = changedTags;
+								}
+							}
+						}
+					}
+				}
+
+				if (
+					!bodyContent.dataToUpdate ||
+					Object.keys(bodyContent.dataToUpdate).length === 0
+				)
+					return ['Nothing Changed!'];
+
+				await updateNewsItem(newsDataDispatch, {
+					news_id: newsItemData.news_id,
+					token: userToken,
+					bodyContent,
+				});
 				modalVisibilityHandler();
+				/*
+				 */
 			}
 		};
 	useEffect(() => {

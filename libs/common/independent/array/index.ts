@@ -1,9 +1,9 @@
-type DifferenceOptions = {
-	noDuplicates?: true;
+type TDifferenceOptions = {
+	noDuplicates?: boolean;
 };
 
-const DifferenceDefaults: DifferenceOptions = {
-	noDuplicates: true,
+const DifferenceDefaults: TDifferenceOptions = {
+	noDuplicates: false,
 };
 
 export const shuffleArray = <T>(array: T[]): T[] => {
@@ -39,6 +39,11 @@ export const removeArrayDuplicates = <T>(arr: T[]): T[] => {
 				items[itemStringified] = true;
 				newArr.push(item);
 			}
+		} else {
+			if (!items[item + '']) {
+				newArr.push(item);
+				items[item + ''] = true;
+			}
 		}
 	});
 
@@ -54,10 +59,10 @@ export const removeArrayDuplicates = <T>(arr: T[]): T[] => {
 export const differenceBetweenTwoArrays = <T>(
 	array1: T[],
 	array2: T[],
-	{ noDuplicates = true }: DifferenceOptions = DifferenceDefaults
+	{ noDuplicates }: TDifferenceOptions = DifferenceDefaults
 ) => {
 	const arr1: T[] = noDuplicates ? removeArrayDuplicates<T>(array1) : array1;
-	const arr2: T[] = noDuplicates ? removeArrayDuplicates<T>(array1) : array2;
+	const arr2: T[] = noDuplicates ? removeArrayDuplicates<T>(array2) : array2;
 
 	const removed: T[] = [];
 	const added: T[] = [];
@@ -84,14 +89,14 @@ export const differenceBetweenTwoArrays = <T>(
 	};
 };
 
-export const joinArrayWith1EmptySpace = (arr: string[]): string => arr.join(' ');
-
+export const joinArrayWith1EmptySpace = (arr: string[]): string =>
+	arr.join(' ');
 
 const arrayFormatter = {
 	shuffle: shuffleArray,
 	removeDuplicates: removeArrayDuplicates,
 	differenceBetweenTwo: differenceBetweenTwoArrays,
-	joinWith1EmptySpace: joinArrayWith1EmptySpace
+	joinWith1EmptySpace: joinArrayWith1EmptySpace,
 };
 
 export default arrayFormatter;
