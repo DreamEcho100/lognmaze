@@ -8,6 +8,7 @@ import {
 	TGetMoreNewsItems,
 	TInitGetNewsItemTypeBlogContent,
 	TCreateNewsItem,
+	TUpdateNewsItem,
 } from '../ts';
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 import NewsContextConstants from '@coreLib/constants/store/types/NewsContext';
@@ -150,6 +151,56 @@ export const createNewsItem: TCreateNewsItem = async (
 					newNewsItemId: news_id,
 					newNewsItemAuthorData,
 					newsItemBasicData,
+				},
+			});
+		},
+	});
+};
+
+export const updateNewsItem: TUpdateNewsItem = async (
+	newsDispatch,
+	{ bodyContent, news_id, token }
+) => {
+	await handleLoadingChanges({
+		onInit: async () => {
+			newsDispatch({
+				type: NewsItemContextConstants.UPDATE_PENDING,
+				payload: {
+					news_id,
+				},
+			});
+
+			const { requestInfo, requestInit } = networkReqArgs._app.news.item.update(
+				{
+					bodyContent,
+					urlOptions: {
+						params: {
+							news_id,
+						},
+					},
+					headersList: {
+						Authorization: (token && returnBearerToken(token)) || undefined,
+					},
+				}
+			);
+
+			return await fetch(requestInfo, requestInit);
+		},
+		onError: (error) => {
+			return newsDispatch({
+				type: NewsItemContextConstants.UPDATE_FAIL,
+				payload: {
+					news_id,
+					error,
+				},
+			});
+		},
+		onSuccess: () => {
+			newsDispatch({
+				type: NewsItemContextConstants.UPDATE_SUCCESS,
+				payload: {
+					news_id,
+					dataToUpdate: bodyContent.dataToUpdate,
 				},
 			});
 		},

@@ -1,11 +1,7 @@
-import {
-	FormEvent,
-	InputHTMLAttributes,
-	TextareaHTMLAttributes,
-	useState,
-} from 'react';
+import { FormEvent, useMemo, useState } from 'react';
 
 import classes from '../index.module.css';
+import helperClasses from '@styles/helpers.module.css';
 import borderClasses from '@styles/border.module.css';
 
 import ISO639_1LanguageCodes from '@data/ISO639_1LanguageCodes.json';
@@ -14,12 +10,17 @@ import ISOCountryCodesCountriesISOCode from '@data/ISOCountryCodesCountriesISOCo
 import {
 	INewsItemTypeBlogBasicData,
 	INewsItemTypePostBasicData,
+	INewsItemTypeBlog,
 } from '@coreLib/ts/global';
 import {
 	TActionCreateAndUpdateValuesTypeBlog,
 	THandleSubmitForCreateAndUpdateNewsItemActionType,
 } from '../../../../ts';
-import { useNewsSharedState } from '@store/NewsContext';
+import { useCreateOrUpdateNewsItemNeeds } from '@coreComponents/News/Item/Action/utils/hooks';
+import {
+	sharedInputProps,
+	sharedTextareaProps,
+} from '@coreComponents/News/Item/Action/utils';
 
 import FormComponent from '@commonComponentsIndependent/Form';
 import FormControlComponent from '@commonComponentsIndependent/FormControl';
@@ -40,89 +41,65 @@ interface IProps {
 	actionType: 'create' | 'update';
 	handleSubmit: THandleSubmitForCreateAndUpdateNewsItemActionType;
 	newsItemType: 'blog' | 'post';
+	newsItemData?: INewsItemTypeBlog;
 }
 
 const NewsItemFormTypeBlog = ({
 	actionType,
 	handleSubmit,
 	newsItemType,
+	newsItemData,
 }: IProps) => {
 	const [values, setValues] = useState<TActionCreateAndUpdateValuesTypeBlog>({
 		type: 'blog',
-		title: '',
-		slug: '',
-		iso_language: 'en',
-		iso_country: 'US',
-		image_alt: '',
-		image_src: '',
-		description: '',
-		tags: [],
-		content: '',
+		title: newsItemData?.type_data.title || '',
+		slug: newsItemData?.type_data.slug || '',
+		iso_language: newsItemData?.type_data.iso_language || 'en',
+		iso_country: newsItemData?.type_data.iso_country || 'US',
+		image_alt: newsItemData?.type_data.image_alt || '',
+		image_src: newsItemData?.type_data.image_src || '',
+		description: newsItemData?.type_data.description || '',
+		tags: newsItemData?.type_data.tags || [],
+		content: newsItemData?.type_data?.content || '',
 	});
 	const [inputsError, setInputsError] = useState<string[]>([]);
 
-	const [
-		{
-			actions: { requests: newsActionsRequest },
-		},
+	const {
+		createOrUpdateRequestAction,
+		contentRequestAction,
 		newsDataDispatch,
-	] = useNewsSharedState();
+	} = useCreateOrUpdateNewsItemNeeds({
+		actionType,
+		newsItemId: newsItemData?.news_id,
+	});
 
-	const createItemRequest = newsActionsRequest?.createItem || {
-		isLoading: false,
-		error: '',
-		success: false,
-	};
+	// const isLoading = createOrUpdateRequestAction.isLoading;
+	// const error = createOrUpdateRequestAction.error;
+	// const success = createOrUpdateRequestAction.success;
 
-	const isLoading = createItemRequest.isLoading;
-	const error = createItemRequest.error;
-	const success = createItemRequest.success;
+	// const isLoadingContent = !values.content && contentRequestAction.isLoading;
 
-	// : HTMLAttributes<HTMLDivElement>
-	const sharedInputProps = (elementProps?: {
-		maxLength?: number | undefined;
-		minLength?: number | undefined;
-	}) => {
-		const props: InputHTMLAttributes<HTMLInputElement> = {
-			className: classes.input,
-			required: true,
-			spellCheck: true,
-		};
-		if (elementProps?.minLength) props.minLength = elementProps.minLength;
-		if (elementProps?.maxLength) props.maxLength = elementProps.maxLength;
-
-		if (elementProps?.minLength || elementProps?.maxLength) {
-			props.pattern = `.{${elementProps?.minLength || ''},${
-				elementProps?.maxLength || ''
-			}}`;
-		}
-
-		return props;
-	};
-
-	const sharedTextareaProps = (elementProps?: {
-		maxLength?: number | undefined;
-		minLength?: number | undefined;
-	}) => {
-		const props: TextareaHTMLAttributes<HTMLTextAreaElement> = {
-			className: `${classes.textarea} ${borderClasses.default}`,
-			required: true,
-			spellCheck: true,
-		};
-		if (elementProps?.minLength) props.minLength = elementProps.minLength;
-		if (elementProps?.maxLength) props.maxLength = elementProps.maxLength;
-
-		// if (elementProps?.minLength || elementProps?.maxLength) {
-		// 	props.pattern = `.{${elementProps?.minLength || ''},${elementProps?.maxLength || ''}}`;
-		// }
-
-		return props;
-	};
+	const itemsDisabled = useMemo(
+		() =>
+			!!(
+				createOrUpdateRequestAction.isLoading ||
+				(!values.content && contentRequestAction.isLoading) ||
+				contentRequestAction.error
+			),
+		[
+			contentRequestAction.error,
+			contentRequestAction.isLoading,
+			createOrUpdateRequestAction.isLoading,
+			values.content,
+		]
+	);
 
 	return (
 		<FormComponent
 			onSubmit={async (event: FormEvent) => {
 				event.preventDefault();
+				if (itemsDisabled) return;
+
 				setInputsError([]);
 
 				const props = {
@@ -141,6 +118,12 @@ const NewsItemFormTypeBlog = ({
 			}}
 			className={classes.form}
 		>
+			{contentRequestAction.isLoading && (
+				<p className='isLoadingLoader'>Loading missing data...</p>
+			)}
+			{contentRequestAction.error && (
+				<p className='errorMessage'>{contentRequestAction.error}</p>
+			)}
 			<FormControlComponent className={classes.formControl}>
 				<LabelComponent htmlFor='title'>Title: </LabelComponent>
 				<InputComponent
@@ -165,6 +148,9 @@ const NewsItemFormTypeBlog = ({
 						}));
 					}}
 					{...sharedInputProps({
+						className: `${classes.input} ${
+							itemsDisabled && helperClasses.disabled
+						}`,
 						minLength: 10,
 						maxLength: 255,
 					})}
@@ -190,6 +176,9 @@ const NewsItemFormTypeBlog = ({
 						}));
 					}}
 					{...sharedInputProps({
+						className: `${classes.input} ${
+							itemsDisabled && helperClasses.disabled
+						}`,
 						minLength: 10,
 						maxLength: 255,
 					})}
@@ -254,7 +243,11 @@ const NewsItemFormTypeBlog = ({
 								.split(/\s+/),
 						}));
 					}}
-					{...sharedInputProps()}
+					{...sharedInputProps({
+						className: `${classes.input} ${
+							itemsDisabled && helperClasses.disabled
+						}`,
+					})}
 				/>
 			</FormControlComponent>
 
@@ -265,7 +258,11 @@ const NewsItemFormTypeBlog = ({
 					id='image_alt'
 					value={values.image_alt}
 					setValues={setValues}
-					{...sharedInputProps()}
+					{...sharedInputProps({
+						className: `${classes.input} ${
+							itemsDisabled && helperClasses.disabled
+						}`,
+					})}
 				/>
 			</FormControlComponent>
 
@@ -276,7 +273,11 @@ const NewsItemFormTypeBlog = ({
 					id='image_src'
 					value={values.image_src}
 					setValues={setValues}
-					{...sharedInputProps()}
+					{...sharedInputProps({
+						className: `${classes.input} ${
+							itemsDisabled && helperClasses.disabled
+						}`,
+					})}
 				/>
 			</FormControlComponent>
 
@@ -293,6 +294,9 @@ const NewsItemFormTypeBlog = ({
 						}))
 					}
 					{...sharedTextareaProps({
+						className: `${classes.textarea} ${borderClasses.default} ${
+							itemsDisabled && helperClasses.disabled
+						}`,
 						minLength: 25,
 					})}
 				/>
@@ -314,6 +318,9 @@ const NewsItemFormTypeBlog = ({
 						}))
 					}
 					{...sharedTextareaProps({
+						className: `${classes.textarea} ${borderClasses.default} ${
+							itemsDisabled && helperClasses.disabled
+						}`,
 						minLength: 100,
 					})}
 					// onClick={() => setShowFormatConvertorModal(true)}
@@ -323,16 +330,24 @@ const NewsItemFormTypeBlog = ({
 				/>
 			</FormControlComponent>
 
-			{inputsError.length !== 0 && (
-				<ul>
-					{inputsError.map((item) => (
-						<li>{item}</li>
-					))}
-				</ul>
-			)}
+			{createOrUpdateRequestAction.error ||
+				(inputsError.length !== 0 && (
+					<ul className='errorsMessagesList'>
+						{createOrUpdateRequestAction.error && (
+							<li>{createOrUpdateRequestAction.error}</li>
+						)}
+						{inputsError.map((item, index) => (
+							<li key={index}>{item}</li>
+						))}
+					</ul>
+				))}
 
 			<FormControlComponent className={classes.submitButton}>
-				<ButtonComponent title='Submit Form' disabled={isLoading} type='submit'>
+				<ButtonComponent
+					title='Submit Form'
+					disabled={!!itemsDisabled}
+					type='submit'
+				>
 					submit
 				</ButtonComponent>
 			</FormControlComponent>

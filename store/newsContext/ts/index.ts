@@ -5,8 +5,8 @@ import {
 	TNewsData,
 	TNewsItemCommentMainReplies,
 	TNewsItemCommentBasicData,
-	INewsItemTypeBlogBasicData,
-	INewsItemTypePostBasicData,
+	// INewsItemTypeBlogBasicData,
+	// INewsItemTypePostBasicData,
 } from '@coreLib/ts/global';
 
 import { IGetNewsItemCommentsReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/comments/ts';
@@ -16,6 +16,7 @@ import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext
 import { IGetNewsItemBlogContentReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/blog/content/ts';
 import NewsContextConstants from '@coreLib/constants/store/types/NewsContext';
 import { IGetNewsReqArgs } from '@coreLib/networkReqArgs/_app/news/ts';
+import { IUpdateNewsItemReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/ts';
 
 export type INewsContextStateData = {
 	news: TNewsData;
@@ -55,6 +56,11 @@ export interface INewsContextState {
 						error: string;
 						success: boolean;
 					};
+					update?: {
+						isLoading: boolean;
+						error: string;
+						success: boolean;
+					};
 					mainComments?: {
 						[key: string]: {
 							getMoreReplies?: {
@@ -73,7 +79,7 @@ export interface INewsContextState {
 				error: string;
 				success: boolean;
 			};
-			createItem?: {
+			create?: {
 				isLoading: boolean;
 				error: string;
 				success: boolean;
@@ -216,6 +222,27 @@ interface ICreateNewsItemFail {
 	};
 }
 
+interface IUpdateNewsItemPending {
+	type: NewsItemContextConstants.UPDATE_PENDING;
+	payload: {
+		news_id: TNewsItemData['news_id'];
+	};
+}
+interface IUpdateNewsItemSuccess {
+	type: NewsItemContextConstants.UPDATE_SUCCESS;
+	payload: {
+		news_id: TNewsItemData['news_id'];
+		dataToUpdate: IUpdateNewsItemReqArgs['bodyContent']['dataToUpdate'];
+	};
+}
+interface IUpdateNewsItemFail {
+	type: NewsItemContextConstants.UPDATE_FAIL;
+	payload: {
+		news_id: TNewsItemData['news_id'];
+		error: string;
+	};
+}
+
 export type TNewsContextReducerAction =
 	| IInitGetNewsItemCommentsMainPending
 	| IInitGetNewsItemCommentsMainSuccess
@@ -234,7 +261,10 @@ export type TNewsContextReducerAction =
 	| IGetMoreNewsItemCommentMainReplyFail
 	| ICreateNewsItemPending
 	| ICreateNewsItemSuccess
-	| ICreateNewsItemFail;
+	| ICreateNewsItemFail
+	| IUpdateNewsItemPending
+	| IUpdateNewsItemSuccess
+	| IUpdateNewsItemFail;
 
 export type TNewsContextDispatch =
 	| React.Dispatch<TNewsContextReducerAction>
@@ -290,7 +320,6 @@ export type TGetMoreNewsItemCommentRepliesMain = (
 		urlOptions: IGetNewsItemCommentsReqArgs['urlOptions'];
 	}
 ) => Promise<void>;
-
 export type TCreateNewsItem = (
 	newsDispatch: TNewsContextDispatch,
 	{
@@ -300,6 +329,18 @@ export type TCreateNewsItem = (
 	}: {
 		newsItemBasicData: ICreateNewsItemSuccess['payload']['newsItemBasicData'];
 		newNewsItemAuthorData: ICreateNewsItemSuccess['payload']['newNewsItemAuthorData'];
+		token?: string;
+	}
+) => Promise<void>;
+export type TUpdateNewsItem = (
+	newsDispatch: TNewsContextDispatch,
+	{
+		bodyContent,
+		news_id,
+		token,
+	}: {
+		bodyContent: IUpdateNewsItemReqArgs['bodyContent'];
+		news_id: TNewsItemData['news_id'];
 		token?: string;
 	}
 ) => Promise<void>;

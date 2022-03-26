@@ -24,7 +24,8 @@ export interface IGetNewsReqArgs {
 /*  */
 interface ICreateNewsItemReqArgsBodyContentTypeBlog {
 	type: INewsItemTypeBlogBasicData['type'];
-	basics: {
+	type_data: {
+		// user_vote_type: null;
 		title: INewsItemTypeBlogBasicData['type_data']['title'];
 		slug: INewsItemTypeBlogBasicData['type_data']['slug'];
 		iso_language: INewsItemTypeBlogBasicData['type_data']['iso_language'];
@@ -36,11 +37,12 @@ interface ICreateNewsItemReqArgsBodyContentTypeBlog {
 		content: INewsItemTypeBlogContent;
 	};
 }
-interface ICreateNewsItemReqArgsBodyContentTypePost {
-	type: INewsItemTypePostBasicData['type'];
-	basics: {
-		content: INewsItemTypePostBasicData['type_data']['content'];
-	};
+interface ICreateNewsItemReqArgsBodyContentTypePost
+	extends INewsItemTypePostBasicData {
+	// type: INewsItemTypePostBasicData['type'];
+	// type_data: {
+	// 	content: INewsItemTypePostBasicData['type_data']['content'];
+	// };
 }
 export interface ICreateNewsItemReqArgs {
 	bodyContent: {

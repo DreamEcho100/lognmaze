@@ -1,17 +1,20 @@
-import { FormEvent, TextareaHTMLAttributes, useState } from 'react';
+import { FormEvent, useMemo, useState } from 'react';
 
 import classes from '../index.module.css';
+import helperClasses from '@styles/helpers.module.css';
 import borderClasses from '@styles/border.module.css';
 
 import {
 	INewsItemTypeBlogBasicData,
 	INewsItemTypePostBasicData,
+	INewsItemTypePost,
 } from '@coreLib/ts/global';
 import {
 	TActionCreateAndUpdateValuesTypePost,
 	THandleSubmitForCreateAndUpdateNewsItemActionType,
 } from '../../../../ts';
-import { useNewsSharedState } from '@store/NewsContext';
+import { useCreateOrUpdateNewsItemNeeds } from '@coreComponents/News/Item/Action/utils/hooks';
+import { sharedTextareaProps } from '@coreComponents/News/Item/Action/utils';
 
 import FormComponent from '@commonComponentsIndependent/Form';
 import FormControlComponent from '@commonComponentsIndependent/FormControl';
@@ -22,50 +25,47 @@ import ButtonComponent from '@commonComponentsIndependent/Button';
 interface IProps {
 	newsItemType: 'blog' | 'post';
 	handleSubmit: THandleSubmitForCreateAndUpdateNewsItemActionType;
+	actionType: 'create' | 'update';
+	newsItemData?: INewsItemTypePost;
 }
 
-const NewsItemFormTypePost = ({ newsItemType, handleSubmit }: IProps) => {
+const NewsItemFormTypePost = ({
+	newsItemType,
+	handleSubmit,
+	actionType = 'create',
+	newsItemData,
+}: IProps) => {
 	const [values, setValues] = useState<TActionCreateAndUpdateValuesTypePost>({
 		type: 'post',
-		content: '',
+		content: newsItemData?.type_data?.content || '',
 	});
 	const [inputsError, setInputsError] = useState<string[]>([]);
 
-	const [
-		{
-			actions: { requests: newsActionsRequest },
-		},
+	const {
+		createOrUpdateRequestAction,
+		contentRequestAction,
 		newsDataDispatch,
-	] = useNewsSharedState();
+	} = useCreateOrUpdateNewsItemNeeds({
+		actionType,
+		newsItemId: newsItemData?.news_id,
+	});
 
-	const createItemRequest = newsActionsRequest?.createItem || {
-		isLoading: false,
-		error: '',
-		success: false,
-	};
+	// const isLoadingContent = !values.content && contentRequestAction.isLoading;
 
-	const isLoading = createItemRequest.isLoading;
-	const error = createItemRequest.error;
-	const success = createItemRequest.success;
-
-	const sharedTextareaProps = (elementProps?: {
-		maxLength?: number | undefined;
-		minLength?: number | undefined;
-	}) => {
-		const props: TextareaHTMLAttributes<HTMLTextAreaElement> = {
-			className: `${classes.textarea} ${borderClasses.default}`,
-			required: true,
-			spellCheck: true,
-		};
-		if (elementProps?.minLength) props.minLength = elementProps.minLength;
-		if (elementProps?.maxLength) props.maxLength = elementProps.maxLength;
-
-		// if (elementProps?.minLength || elementProps?.maxLength) {
-		// 	props.pattern = `.{${elementProps?.minLength || ''},${elementProps?.maxLength || ''}}`;
-		// }
-
-		return props;
-	};
+	const itemsDisabled = useMemo(
+		() =>
+			!!(
+				createOrUpdateRequestAction.isLoading ||
+				(!values.content && contentRequestAction.isLoading) ||
+				contentRequestAction.error
+			),
+		[
+			contentRequestAction.error,
+			contentRequestAction.isLoading,
+			createOrUpdateRequestAction.isLoading,
+			values.content,
+		]
+	);
 
 	return (
 		<FormComponent
@@ -89,6 +89,12 @@ const NewsItemFormTypePost = ({ newsItemType, handleSubmit }: IProps) => {
 			}}
 			className={classes.form}
 		>
+			{contentRequestAction.isLoading && (
+				<p className='isLoadingLoader'>Loading missing data...</p>
+			)}
+			{contentRequestAction.error && (
+				<p className='errorMessage'>{contentRequestAction.error}</p>
+			)}
 			<FormControlComponent className={classes.formControl}>
 				<LabelComponent htmlFor='content'>Content: </LabelComponent>
 				<TextareaComponent
@@ -102,21 +108,32 @@ const NewsItemFormTypePost = ({ newsItemType, handleSubmit }: IProps) => {
 						}))
 					}
 					{...sharedTextareaProps({
+						className: `${classes.textarea} ${borderClasses.default} ${
+							itemsDisabled && helperClasses.disabled
+						}`,
 						minLength: 3,
 					})}
 				/>
 			</FormControlComponent>
 
-			{inputsError.length !== 0 && (
-				<ul>
-					{inputsError.map((item) => (
-						<li>{item}</li>
-					))}
-				</ul>
-			)}
+			{createOrUpdateRequestAction.error ||
+				(inputsError.length !== 0 && (
+					<ul className='errorsMessagesList'>
+						{createOrUpdateRequestAction.error && (
+							<li>{createOrUpdateRequestAction.error}</li>
+						)}
+						{inputsError.map((item, index) => (
+							<li key={index}>{item}</li>
+						))}
+					</ul>
+				))}
 
 			<FormControlComponent className={classes.submitButton}>
-				<ButtonComponent title='Submit Form' disabled={isLoading} type='submit'>
+				<ButtonComponent
+					title='Submit Form'
+					disabled={itemsDisabled}
+					type='submit'
+				>
 					submit
 				</ButtonComponent>
 			</FormControlComponent>

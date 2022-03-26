@@ -534,7 +534,7 @@ const reducer: TNewsContextStateReducer = (
 					...state.actions,
 					requests: {
 						...state.actions.requests,
-						createItem: {
+						create: {
 							isLoading: true,
 							error: '',
 							success: false,
@@ -556,7 +556,7 @@ const reducer: TNewsContextStateReducer = (
 							news_id: newNewsItemId,
 							// ...newsItemBasicData,
 							type: newsItemBasicData.type,
-							type_data: newsItemBasicData.basics,
+							type_data: newsItemBasicData.type_data,
 							...newNewsItemAuthorData,
 							comments_counter: 0,
 							up_votes_counter: 0,
@@ -568,12 +568,20 @@ const reducer: TNewsContextStateReducer = (
 						} as unknown as TNewsItemData,
 						...state.data.news,
 					],
+					newsExtra: {
+						...(state.data.newsExtra || {}),
+						[newNewsItemId]: {
+							hit_comments_limit: false,
+							newsItemDetailsType: 'description',
+							newsItemModelDetailsType: 'content',
+						},
+					},
 				},
 				actions: {
 					...state.actions,
 					requests: {
 						...state.actions.requests,
-						createItem: {
+						create: {
 							isLoading: false,
 							error: '',
 							success: true,
@@ -591,10 +599,98 @@ const reducer: TNewsContextStateReducer = (
 					...state.actions,
 					requests: {
 						...state.actions.requests,
-						createItem: {
+						create: {
 							isLoading: false,
 							error,
 							success: false,
+						},
+					},
+				},
+			};
+		}
+
+		//
+
+		//
+		case NewsItemContextConstants.UPDATE_PENDING: {
+			const { news_id } = actions.payload;
+
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					items: {
+						...state.actions.items,
+						[news_id]: {
+							...(state.actions.items[news_id] || {}),
+							requests: {
+								...(state.actions.items[news_id]?.requests || {}),
+								update: {
+									isLoading: true,
+									error: '',
+									success: false,
+								},
+							},
+						},
+					},
+				},
+			};
+		}
+		case NewsItemContextConstants.UPDATE_SUCCESS: {
+			const { news_id, dataToUpdate } = actions.payload;
+
+			return {
+				...state,
+				data: {
+					...state.data,
+					news: state.data.news.map((item) => {
+						if (item.news_id === news_id)
+							return {
+								...item,
+								...dataToUpdate,
+							};
+
+						return item;
+					}),
+				},
+				actions: {
+					...state.actions,
+					items: {
+						...state.actions.items,
+						[news_id]: {
+							...(state.actions.items[news_id] || {}),
+							requests: {
+								...(state.actions.items[news_id]?.requests || {}),
+								update: {
+									isLoading: false,
+									error: '',
+									success: true,
+								},
+							},
+						},
+					},
+				},
+			};
+		}
+		case NewsItemContextConstants.UPDATE_FAIL: {
+			const { news_id, error } = actions.payload;
+
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					items: {
+						...state.actions.items,
+						[news_id]: {
+							...(state.actions.items[news_id] || {}),
+							requests: {
+								...(state.actions.items[news_id]?.requests || {}),
+								update: {
+									isLoading: false,
+									error,
+									success: false,
+								},
+							},
 						},
 					},
 				},

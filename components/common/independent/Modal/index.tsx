@@ -93,26 +93,24 @@ const ModalComponent = ({
 		const ModalContainerElementMap = {
 			header: ({ children }: { children: ReactNode }) => (
 				<header
-					className={
-						`${modalClasses?.containerHeader?.default
+					className={`${
+						modalClasses?.containerHeader?.default
 							? modalClasses?.containerHeader?.default
-							: classes.modalHeaderDefault} ${
-								modalClasses?.containerHeader?.new || ''
-							}`
-					}
+							: classes.modalHeaderDefault
+					} ${modalClasses?.containerHeader?.new || ''}`}
 				>
 					{children}
 				</header>
 			),
 			body: ({ children }: { children: ReactNode }) => (
 				<section
-					className={`${
-						`${modalClasses?.containerBody?.default
+					className={`${`${
+						modalClasses?.containerBody?.default
 							? modalClasses?.containerBody?.default
-							: classes.modalBodyDefault} ${
-								modalClasses?.containerBody?.new || ''
-							}`
-					} ${!isChildrenArray ? classes.onlyModalBodyExistDefault : ''}`}
+							: classes.modalBodyDefault
+					} ${modalClasses?.containerBody?.new || ''}`} ${
+						!isChildrenArray ? classes.onlyModalBodyExistDefault : ''
+					}`}
 					ref={modalContainerBodyRef}
 				>
 					{children}
@@ -120,13 +118,11 @@ const ModalComponent = ({
 			),
 			footer: ({ children }: { children: ReactNode }) => (
 				<footer
-					className={
-						`${modalClasses?.containerFooter?.default
+					className={`${
+						modalClasses?.containerFooter?.default
 							? modalClasses?.containerFooter?.default
-							: classes.modalFooterDefault} ${
-								modalClasses?.containerFooter?.new || ''
-							}`
-					}
+							: classes.modalFooterDefault
+					} ${modalClasses?.containerFooter?.new || ''}`}
 				>
 					{children}
 				</footer>
@@ -239,13 +235,13 @@ const ModalComponent = ({
 
 			moveFocusIn();
 		} else {
-			if (modalProps.current.bodyOverflowBeforeModal)
-				document.body.style.overflow =
-					modalProps.current.bodyOverflowBeforeModal;
-			else {
-				document.body.style.overflowX = 'hidden';
-				document.body.style.overflowY = 'auto';
-			}
+			// if (modalProps.current.bodyOverflowBeforeModal)
+			// 	document.body.style.overflow =
+			// 		modalProps.current.bodyOverflowBeforeModal;
+			// else {
+			document.body.style.overflowX = 'hidden';
+			document.body.style.overflowY = 'auto';
+			// }
 
 			if (
 				modalProps.current.lastElementFocusedBeforeThisModal instanceof

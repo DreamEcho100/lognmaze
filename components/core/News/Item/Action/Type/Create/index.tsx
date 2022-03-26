@@ -1,11 +1,6 @@
-import { Dispatch, useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import {
-	// INewsItemTypeBlogBasicData,
-	// INewsItemTypePostBasicData,
-	IUserAuthenticatedData,
-	TNewsItemData,
-} from '@coreLib/ts/global';
+import { IUserAuthenticatedData, TNewsItemData } from '@coreLib/ts/global';
 import { createNewsItem } from '@store/NewsContext/actions';
 import { ICreateNewsItemReqArgs } from '@coreLib/networkReqArgs/_app/news/ts';
 
@@ -14,7 +9,6 @@ import NewsItemActionModal from '../../UI/Modal';
 
 import NewsItemFormTypeBlog from '../../UI/Form/Type/Blog';
 import NewsItemFormTypePost from '../../UI/Form/Type/Post';
-// import { TNewsContextReducerAction } from '@store/NewsContext/ts';
 import { THandleSubmitForCreateAndUpdateNewsItemActionType } from '../../ts';
 
 interface IProps {
@@ -101,10 +95,11 @@ const NewsItemActionTypeCreate = ({
 					},
 					newsItemBasicData: {
 						type: props.type,
-						basics: props.type_data,
+						type_data: props.type_data,
 					} as ICreateNewsItemReqArgs['bodyContent']['newsItemBasicData'],
 					token: userToken,
 				});
+				modalVisibilityHandler();
 			}
 		};
 
@@ -114,7 +109,7 @@ const NewsItemActionTypeCreate = ({
 			isModalVisible={isModalVisible}
 			HeaderComponent={
 				<header>
-					<p className='heading-2'>Create News</p>
+					<h2>Create News</h2>
 					<div className='buttons-holder'>
 						<ButtonComponent
 							onClick={() => {
@@ -145,6 +140,7 @@ const NewsItemActionTypeCreate = ({
 					{newsItemType === 'post' && (
 						<NewsItemFormTypePost
 							handleSubmit={handleSubmit}
+							actionType='create'
 							newsItemType={newsItemType}
 						/>
 					)}

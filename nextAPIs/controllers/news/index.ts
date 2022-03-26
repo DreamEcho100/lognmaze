@@ -76,23 +76,23 @@ export const createNewsItemController = async (
 		if (req.body.newsItemBasicData.type === 'blog') {
 			if (
 				!req.body.newsItemBasicData ||
-				!req.body.newsItemBasicData.basics ||
-				!req.body.newsItemBasicData.basics.title ||
-				!req.body.newsItemBasicData.basics.slug ||
-				!req.body.newsItemBasicData.basics.iso_language ||
-				!req.body.newsItemBasicData.basics.iso_country ||
-				!req.body.newsItemBasicData.basics.image_alt ||
-				!req.body.newsItemBasicData.basics.image_src ||
-				!req.body.newsItemBasicData.basics.description ||
-				!req.body.newsItemBasicData.basics.content ||
-				!req.body.newsItemBasicData.basics.tags
+				!req.body.newsItemBasicData.type_data ||
+				!req.body.newsItemBasicData.type_data.title ||
+				!req.body.newsItemBasicData.type_data.slug ||
+				!req.body.newsItemBasicData.type_data.iso_language ||
+				!req.body.newsItemBasicData.type_data.iso_country ||
+				!req.body.newsItemBasicData.type_data.image_alt ||
+				!req.body.newsItemBasicData.type_data.image_src ||
+				!req.body.newsItemBasicData.type_data.description ||
+				!req.body.newsItemBasicData.type_data.content ||
+				!req.body.newsItemBasicData.type_data.tags
 			) {
 				res.status(400);
 				throw new Error("Items doesn't exist");
 			}
 
 			const { existingItems /*, atLeastOneItemExist*/ } = itemsInObject(
-				req.body.newsItemBasicData.basics,
+				req.body.newsItemBasicData.type_data,
 				[
 					'title',
 					'slug',
@@ -116,15 +116,15 @@ export const createNewsItemController = async (
 		} else if (req.body.newsItemBasicData.type === 'post') {
 			if (
 				!req.body.newsItemBasicData ||
-				!req.body.newsItemBasicData.basics ||
-				!req.body.newsItemBasicData.basics.content
+				!req.body.newsItemBasicData.type_data ||
+				!req.body.newsItemBasicData.type_data.content
 			) {
 				res.status(400);
 				throw new Error("Items doesn't exist");
 			}
 
 			const { existingItems /*, atLeastOneItemExist*/ } = itemsInObject(
-				req.body.newsItemBasicData.basics,
+				req.body.newsItemBasicData.type_data,
 				['content']
 			);
 
