@@ -100,11 +100,7 @@ const MyApp = ({ Component, pageProps }) => {
 		<>
 			{/* <DefaultSeo {...DefaultSEOProps} /> */}
 			<Head>
-				<script
-					data-ad-client='ca-pub-8030984398568253'
-					async
-					src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
-				/>
+				<meta name="propeller" content="5c7828541aec374e7bb4e8086ad34a0d" />
 				{
 					'<!-- icon created by ColourCreatype at https://freeicons.io/profile/5790 -->'
 				}
