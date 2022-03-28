@@ -10,8 +10,9 @@ const reducer = (
 	state: IUserProfilePageContextState = returnProfilePageStoreInitialState(),
 	actions: IUserProfilePageContextReducerAction
 ): IUserProfilePageContextState => {
-	if (process.env.NODE_ENV !== 'production')
+	if (process.env.NODE_ENV !== 'production') {
 		console.log('actions.type', actions.type);
+	}
 
 	switch (actions.type) {
 		case UserProfilePageConstants.SET_VISITOR_STATUS_PENDING: {

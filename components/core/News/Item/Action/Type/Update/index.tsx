@@ -35,9 +35,9 @@ IProps) => {
 		newsDispatch,
 	] = useNewsSharedState();
 
-	const getTypeBlogContent =
-		itemsActions[newsItemData.news_id]?.requests?.init?.modal
-			?.getTypeBlogContent;
+	// const getTypeBlogContent =
+	// 	itemsActions[newsItemData.news_id]?.requests?.init?.modal
+	// 		?.getTypeBlogContent;
 
 	const handleSubmit: THandleSubmitForCreateAndUpdateNewsItemActionType =
 		async (newsDataDispatch, props) => {
@@ -180,36 +180,6 @@ IProps) => {
 				 */
 			}
 		};
-	useEffect(() => {
-		// let timeoutId: NodeJS.Timeout;
-
-		if (
-			isModalVisible &&
-			newsItemData.type === 'blog' &&
-			!newsItemData.type_data.content &&
-			(!getTypeBlogContent ||
-				(getTypeBlogContent &&
-					!getTypeBlogContent.success &&
-					!getTypeBlogContent.isLoading))
-		) {
-			initGetNewsItemTypeBlogContent(newsDispatch, {
-				news_id: newsItemData.news_id,
-				urlOptions: {
-					params: {
-						news_id: newsItemData.news_id,
-					},
-				},
-			});
-			return;
-		}
-	}, [
-		getTypeBlogContent,
-		isModalVisible,
-		newsDispatch,
-		newsItemData.news_id,
-		newsItemData.type,
-		newsItemData.type_data.content,
-	]);
 
 	return (
 		<NewsItemActionModal
@@ -228,6 +198,10 @@ IProps) => {
 							actionType='update'
 							newsItemType={newsItemData.type}
 							newsItemData={newsItemData}
+							isLoadingContentProps={{
+								isModalVisible,
+								newsItemData,
+							}}
 						/>
 					)}
 					{newsItemData.type === 'post' && (
@@ -236,6 +210,10 @@ IProps) => {
 							actionType='update'
 							newsItemType={newsItemData.type}
 							newsItemData={newsItemData}
+							isLoadingContentProps={{
+								isModalVisible,
+								newsItemData,
+							}}
 						/>
 					)}
 				</>

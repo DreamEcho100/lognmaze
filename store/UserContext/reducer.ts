@@ -9,8 +9,9 @@ const reducer = (
 	state: IUserContextState = returnUserContextInitialState(),
 	actions: IUserContextReducerAction
 ) => {
-	if (process.env.NODE_ENV !== 'production')
+	if (process.env.NODE_ENV !== 'production') {
 		console.log('actions.type', actions.type);
+	}
 
 	switch (actions.type) {
 		// case UserContextConstants.INIT_DATA: {

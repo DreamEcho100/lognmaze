@@ -13,7 +13,7 @@ import {
 	TActionCreateAndUpdateValuesTypePost,
 	THandleSubmitForCreateAndUpdateNewsItemActionType,
 } from '../../../../ts';
-import { useCreateOrUpdateNewsItemNeeds } from '@coreComponents/News/Item/Action/utils/hooks';
+import { useCreateUpdateDeleteNewsItemNeeds } from '@coreComponents/News/Item/Action/utils/hooks';
 import { sharedTextareaProps } from '@coreComponents/News/Item/Action/utils';
 
 import FormComponent from '@commonComponentsIndependent/Form';
@@ -27,6 +27,9 @@ interface IProps {
 	handleSubmit: THandleSubmitForCreateAndUpdateNewsItemActionType;
 	actionType: 'create' | 'update';
 	newsItemData?: INewsItemTypePost;
+	isLoadingContentProps?: Parameters<
+		typeof useCreateUpdateDeleteNewsItemNeeds
+	>['0']['isLoadingContentProps'];
 }
 
 const NewsItemFormTypePost = ({
@@ -34,6 +37,7 @@ const NewsItemFormTypePost = ({
 	handleSubmit,
 	actionType = 'create',
 	newsItemData,
+	isLoadingContentProps,
 }: IProps) => {
 	const [values, setValues] = useState<TActionCreateAndUpdateValuesTypePost>({
 		type: 'post',
@@ -45,9 +49,10 @@ const NewsItemFormTypePost = ({
 		createOrUpdateRequestAction,
 		contentRequestAction,
 		newsDataDispatch,
-	} = useCreateOrUpdateNewsItemNeeds({
+	} = useCreateUpdateDeleteNewsItemNeeds({
 		actionType,
 		newsItemId: newsItemData?.news_id,
+		isLoadingContentProps,
 	});
 
 	// const isLoadingContent = !values.content && contentRequestAction.isLoading;

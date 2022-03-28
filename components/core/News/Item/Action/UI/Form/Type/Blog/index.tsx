@@ -16,7 +16,7 @@ import {
 	TActionCreateAndUpdateValuesTypeBlog,
 	THandleSubmitForCreateAndUpdateNewsItemActionType,
 } from '../../../../ts';
-import { useCreateOrUpdateNewsItemNeeds } from '@coreComponents/News/Item/Action/utils/hooks';
+import { useCreateUpdateDeleteNewsItemNeeds } from '@coreComponents/News/Item/Action/utils/hooks';
 import {
 	sharedInputProps,
 	sharedTextareaProps,
@@ -42,6 +42,9 @@ interface IProps {
 	handleSubmit: THandleSubmitForCreateAndUpdateNewsItemActionType;
 	newsItemType: 'blog' | 'post';
 	newsItemData?: INewsItemTypeBlog;
+	isLoadingContentProps?: Parameters<
+		typeof useCreateUpdateDeleteNewsItemNeeds
+	>['0']['isLoadingContentProps'];
 }
 
 const NewsItemFormTypeBlog = ({
@@ -49,6 +52,7 @@ const NewsItemFormTypeBlog = ({
 	handleSubmit,
 	newsItemType,
 	newsItemData,
+	isLoadingContentProps,
 }: IProps) => {
 	const [values, setValues] = useState<TActionCreateAndUpdateValuesTypeBlog>({
 		type: 'blog',
@@ -68,16 +72,11 @@ const NewsItemFormTypeBlog = ({
 		createOrUpdateRequestAction,
 		contentRequestAction,
 		newsDataDispatch,
-	} = useCreateOrUpdateNewsItemNeeds({
+	} = useCreateUpdateDeleteNewsItemNeeds({
 		actionType,
 		newsItemId: newsItemData?.news_id,
+		isLoadingContentProps,
 	});
-
-	// const isLoading = createOrUpdateRequestAction.isLoading;
-	// const error = createOrUpdateRequestAction.error;
-	// const success = createOrUpdateRequestAction.success;
-
-	// const isLoadingContent = !values.content && contentRequestAction.isLoading;
 
 	const itemsDisabled = useMemo(
 		() =>

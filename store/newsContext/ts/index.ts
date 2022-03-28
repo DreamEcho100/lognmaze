@@ -16,7 +16,10 @@ import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext
 import { IGetNewsItemBlogContentReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/blog/content/ts';
 import NewsContextConstants from '@coreLib/constants/store/types/NewsContext';
 import { IGetNewsReqArgs } from '@coreLib/networkReqArgs/_app/news/ts';
-import { IUpdateNewsItemReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/ts';
+import {
+	IDeleteNewsItemReqArgs,
+	IUpdateNewsItemReqArgs,
+} from '@coreLib/networkReqArgs/_app/news/[news_id]/ts';
 
 export type INewsContextStateData = {
 	news: TNewsData;
@@ -57,6 +60,11 @@ export interface INewsContextState {
 						success: boolean;
 					};
 					update?: {
+						isLoading: boolean;
+						error: string;
+						success: boolean;
+					};
+					delete?: {
 						isLoading: boolean;
 						error: string;
 						success: boolean;
@@ -221,6 +229,9 @@ interface ICreateNewsItemFail {
 		error: string;
 	};
 }
+interface ICreateNewsItemReset {
+	type: NewsItemContextConstants.CREATE_RESET;
+}
 
 interface IUpdateNewsItemPending {
 	type: NewsItemContextConstants.UPDATE_PENDING;
@@ -240,6 +251,38 @@ interface IUpdateNewsItemFail {
 	payload: {
 		news_id: TNewsItemData['news_id'];
 		error: string;
+	};
+}
+interface IUpdateNewsItemReset {
+	type: NewsItemContextConstants.UPDATE_RESET;
+	payload: {
+		news_id: TNewsItemData['news_id'];
+	};
+}
+
+interface IDeleteNewsItemPending {
+	type: NewsItemContextConstants.DELETE_PENDING;
+	payload: {
+		news_id: TNewsItemData['news_id'];
+	};
+}
+interface IDeleteNewsItemSuccess {
+	type: NewsItemContextConstants.DELETE_SUCCESS;
+	payload: {
+		news_id: TNewsItemData['news_id'];
+	};
+}
+interface IDeleteNewsItemFail {
+	type: NewsItemContextConstants.DELETE_FAIL;
+	payload: {
+		news_id: TNewsItemData['news_id'];
+		error: string;
+	};
+}
+interface IDeleteNewsItemReset {
+	type: NewsItemContextConstants.DELETE_RESET;
+	payload: {
+		news_id: TNewsItemData['news_id'];
 	};
 }
 
@@ -262,9 +305,15 @@ export type TNewsContextReducerAction =
 	| ICreateNewsItemPending
 	| ICreateNewsItemSuccess
 	| ICreateNewsItemFail
+	| ICreateNewsItemReset
 	| IUpdateNewsItemPending
 	| IUpdateNewsItemSuccess
-	| IUpdateNewsItemFail;
+	| IUpdateNewsItemFail
+	| IUpdateNewsItemReset
+	| IDeleteNewsItemPending
+	| IDeleteNewsItemSuccess
+	| IDeleteNewsItemFail
+	| IDeleteNewsItemReset;
 
 export type TNewsContextDispatch =
 	| React.Dispatch<TNewsContextReducerAction>
@@ -332,6 +381,9 @@ export type TCreateNewsItem = (
 		token?: string;
 	}
 ) => Promise<void>;
+export type TResetCreateNewsItemAction = (
+	newsDispatch: TNewsContextDispatch
+) => void;
 export type TUpdateNewsItem = (
 	newsDispatch: TNewsContextDispatch,
 	{
@@ -344,6 +396,34 @@ export type TUpdateNewsItem = (
 		token?: string;
 	}
 ) => Promise<void>;
+export type TResetUpdateNewsItemAction = (
+	newsDispatch: TNewsContextDispatch,
+	{
+		news_id,
+	}: {
+		news_id: TNewsItemData['news_id'];
+	}
+) => void;
+export type TDeleteNewsItem = (
+	newsDispatch: TNewsContextDispatch,
+	{
+		bodyContent,
+		news_id,
+		token,
+	}: {
+		bodyContent: IDeleteNewsItemReqArgs['bodyContent'];
+		news_id: TNewsItemData['news_id'];
+		token?: string;
+	}
+) => Promise<void>;
+export type TResetDeleteNewsItemAction = (
+	newsDispatch: TNewsContextDispatch,
+	{
+		news_id,
+	}: {
+		news_id: TNewsItemData['news_id'];
+	}
+) => void;
 
 export type TNewsContextStateReducer = (
 	state: INewsContextState, // | undefined,

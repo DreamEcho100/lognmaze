@@ -18,14 +18,16 @@ import Status from './Status';
 
 interface IProps {
 	newsItemData: TNewsItemData;
-	isFooterSettingsVisible: boolean;
-	handleIsFooterSettingsVisible: (isFooterSettingsVisible: boolean) => void;
+	// isFooterSettingsVisible: boolean;
+	// handleIsFooterSettingsVisible: (isFooterSettingsVisible: boolean) => void;
+	hideFooterSettings?: boolean;
 }
 
 const NewsItemFooter: FC<IProps> = ({
 	newsItemData,
-	isFooterSettingsVisible,
-	handleIsFooterSettingsVisible,
+	// isFooterSettingsVisible,
+	// handleIsFooterSettingsVisible,
+	hideFooterSettings,
 }) => {
 	const footerRef = useRef<HTMLDivElement>(null);
 
@@ -89,7 +91,7 @@ const NewsItemFooter: FC<IProps> = ({
 				isCommentsVisible={isCommentsVisible}
 				handleSetIsCommentsVisible={handleSetIsCommentsVisible}
 			/>
-			{/* {!isFooterSettingsVisible && (
+			{/* {!hideFooterSettings && (
 				<Settings
 					newsItemData={newsItemData}
 					comments={newsItemData.comments}

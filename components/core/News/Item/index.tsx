@@ -18,21 +18,27 @@ interface INewsItemProvidedContextProps {
 	className?: string;
 	newsItemData: TNewsItemData;
 	isThisAModal?: boolean;
+	hideHeaderSettings?: boolean;
+	hideFooterSettings?: boolean;
 }
 
 interface INewsItemProps extends INewsItemProvidedContextProps {
 	handleSetIsModalVisible: (isModalVisible: boolean) => void;
-	handleIsFooterSettingsVisible: (isFooterSettingsVisible: boolean) => void;
-	isFooterSettingsVisible: boolean;
+	// isFooterSettingsVisible: boolean;
+	// handleIsFooterSettingsVisible: (isFooterSettingsVisible: boolean) => void;
+	hideHeaderSettings?: boolean;
+	hideFooterSettings?: boolean;
 }
 
 const NewsItem: FC<INewsItemProps> = ({
 	newsItemData,
 	handleSetIsModalVisible,
-	handleIsFooterSettingsVisible,
+	// isFooterSettingsVisible,
+	// handleIsFooterSettingsVisible,
 	// isModalVisible,
-	isFooterSettingsVisible,
 	isThisAModal,
+	hideHeaderSettings,
+	hideFooterSettings,
 	defaultClasses,
 	extraClasses,
 	className,
@@ -117,7 +123,10 @@ const NewsItem: FC<INewsItemProps> = ({
 
 	return (
 		<article {...newsItemProps}>
-			<NewsItemHeader newsItemData={newsItemData} />
+			<NewsItemHeader
+				newsItemData={newsItemData}
+				hideHeaderSettings={hideHeaderSettings}
+			/>
 			<NewsItemDetails
 				newsItemData={newsItemData}
 				handleSetIsModalVisible={handleSetIsModalVisible}
@@ -127,8 +136,9 @@ const NewsItem: FC<INewsItemProps> = ({
 			/>
 			<NewsItemFooter
 				newsItemData={newsItemData}
-				isFooterSettingsVisible={isFooterSettingsVisible}
-				handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
+				// isFooterSettingsVisible={isFooterSettingsVisible}
+				// handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
+				hideFooterSettings={hideFooterSettings}
 			/>
 		</article>
 	);
@@ -138,7 +148,7 @@ export const NewsItemProvidedContextMiddleware = (
 	props: INewsItemProvidedContextProps
 ) => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
-	const [isFooterSettingsVisible, setIsFooterSettingsVisible] = useState(false);
+	// const [isFooterSettingsVisible, setIsFooterSettingsVisible] = useState(false);
 
 	const handleSetIsModalVisible = (isModalVisible?: boolean) => {
 		if (isModalVisible) return setIsModalVisible(isModalVisible);
@@ -146,20 +156,20 @@ export const NewsItemProvidedContextMiddleware = (
 		return setIsModalVisible((prevState) => !prevState);
 	};
 
-	const handleIsFooterSettingsVisible = (isFooterSettingsVisible: boolean) => {
-		if (isFooterSettingsVisible)
-			return setIsFooterSettingsVisible(isFooterSettingsVisible);
-		if (isFooterSettingsVisible)
-			return setIsFooterSettingsVisible((prevState) => !prevState);
-	};
+	// const handleIsFooterSettingsVisible = (isFooterSettingsVisible: boolean) => {
+	// 	if (isFooterSettingsVisible)
+	// 		return setIsFooterSettingsVisible(isFooterSettingsVisible);
+	// 	if (isFooterSettingsVisible)
+	// 		return setIsFooterSettingsVisible((prevState) => !prevState);
+	// };
 
 	return (
 		<>
 			<NewsItem
 				{...props}
 				handleSetIsModalVisible={handleSetIsModalVisible}
-				handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
-				isFooterSettingsVisible={isFooterSettingsVisible}
+				// isFooterSettingsVisible={isFooterSettingsVisible}
+				// handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
 			/>
 			<ModalComponent
 				isModalVisible={isModalVisible}
@@ -171,8 +181,8 @@ export const NewsItemProvidedContextMiddleware = (
 					<NewsItem
 						{...props}
 						handleSetIsModalVisible={handleSetIsModalVisible}
-						handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
-						isFooterSettingsVisible={isFooterSettingsVisible}
+						// isFooterSettingsVisible={isFooterSettingsVisible}
+						// handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
 						isThisAModal
 					/>
 				</Fragment>

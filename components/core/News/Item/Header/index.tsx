@@ -11,9 +11,10 @@ import NewsItemHeaderBlogInfo from './BlogInfo';
 
 interface Props {
 	newsItemData: TNewsItemData;
+	hideHeaderSettings?: boolean;
 }
 
-const NewsItemHeader: FC<Props> = ({ newsItemData }) => {
+const NewsItemHeader: FC<Props> = ({ newsItemData, hideHeaderSettings }) => {
 	const [
 		{
 			// data: { newsItem: newsItemData, newsItemDetailsType },
@@ -35,7 +36,11 @@ const NewsItemHeader: FC<Props> = ({ newsItemData }) => {
 
 	return (
 		<header>
-			<NewsItemHeaderNav newsItemData={newsItemData} />
+			<NewsItemHeaderNav
+				newsItemData={newsItemData}
+				hideHeaderSettings={hideHeaderSettings}
+				priorityForHeaderImage={priorityForHeaderImage}
+			/>
 			<div>
 				<TimeAndDate
 					created_at={newsItemData.created_at}

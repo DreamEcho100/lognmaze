@@ -53,11 +53,11 @@ const UserProfilePage: NextPage<IProps> = ({
 	};
 
 	newsData.news.forEach((item, index) => {
-		if (index === 0) {
-			actions.items[item.news_id] = {
-				priorityForHeaderImage: true,
-			};
-		}
+		// if (index === 0) {
+		// 	actions.items[item.news_id] = {
+		// 		priorityForHeaderImage: true,
+		// 	};
+		// }
 
 		newsExtra[item.news_id] = {
 			hit_comments_limit: false,

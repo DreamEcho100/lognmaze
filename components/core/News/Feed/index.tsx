@@ -1,14 +1,14 @@
+import { FC } from 'react';
+
 import classes from './index.module.css';
 import helpersClasses from '@styles/helpers.module.css';
 
-// import { handleLoadMoreNewsItems } from '@store/NewsContext/actions';
+import { getMoreNewsItems } from '@store/NewsContext/actions';
 import { useNewsSharedState } from '@store/NewsContext';
 import { handleAllClasses } from '@commonLibIndependent/className';
 
 import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
 import NewsItem from '@coreComponents/News/Item';
-import { FC } from 'react';
-import { getMoreNewsItems } from '@store/NewsContext/actions';
 
 interface IProps {
 	defaultClasses?: string;

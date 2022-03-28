@@ -9,6 +9,10 @@ import {
 	TInitGetNewsItemTypeBlogContent,
 	TCreateNewsItem,
 	TUpdateNewsItem,
+	TDeleteNewsItem,
+	TResetUpdateNewsItemAction,
+	TResetCreateNewsItemAction,
+	TResetDeleteNewsItemAction,
 } from '../ts';
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 import NewsContextConstants from '@coreLib/constants/store/types/NewsContext';
@@ -25,6 +29,7 @@ const handleLoadingChanges = async <
 	onError,
 	onSuccess,
 	extraData,
+	responseSuccessType = 'json',
 }: {
 	onInit: (extraData: TInitExtraData) => Promise<Response>;
 	onError: (error: string, extraData: TErrorExtraData) => void; // TDispatcher;
@@ -34,6 +39,7 @@ const handleLoadingChanges = async <
 		error?: TErrorExtraData;
 		success?: TSuccessExtraData;
 	};
+	responseSuccessType?: 'json' | 'text';
 }) => {
 	const response = await onInit(extraData?.init || ({} as TInitExtraData));
 
@@ -44,7 +50,9 @@ const handleLoadingChanges = async <
 		);
 
 	onSuccess(
-		await response.json(),
+		responseSuccessType === 'json'
+			? await response.json()
+			: await response.text(),
 		extraData?.success || ({} as TSuccessExtraData)
 	);
 };
@@ -156,6 +164,13 @@ export const createNewsItem: TCreateNewsItem = async (
 		},
 	});
 };
+export const resetCreateNewsItemAction: TResetCreateNewsItemAction = (
+	newsDispatch
+) => {
+	newsDispatch({
+		type: NewsItemContextConstants.CREATE_RESET,
+	});
+};
 
 export const updateNewsItem: TUpdateNewsItem = async (
 	newsDispatch,
@@ -203,6 +218,80 @@ export const updateNewsItem: TUpdateNewsItem = async (
 					dataToUpdate: bodyContent.dataToUpdate,
 				},
 			});
+		},
+	});
+};
+export const resetUpdateNewsItemAction: TResetUpdateNewsItemAction = (
+	newsDispatch,
+	{ news_id }
+) => {
+	newsDispatch({
+		type: NewsItemContextConstants.UPDATE_RESET,
+		payload: {
+			news_id,
+		},
+	});
+};
+
+export const deleteNewsItem: TDeleteNewsItem = async (
+	newsDispatch,
+	{ bodyContent, news_id, token }
+) => {
+	await handleLoadingChanges<string>({
+		onInit: async () => {
+			newsDispatch({
+				type: NewsItemContextConstants.DELETE_PENDING,
+				payload: {
+					news_id,
+				},
+			});
+
+			const { requestInfo, requestInit } = networkReqArgs._app.news.item.delete(
+				{
+					bodyContent,
+					urlOptions: {
+						params: {
+							news_id,
+						},
+					},
+					headersList: {
+						Authorization: (token && returnBearerToken(token)) || undefined,
+					},
+				}
+			);
+
+			return await fetch(requestInfo, requestInit);
+		},
+		onError: (error) => {
+			return newsDispatch({
+				type: NewsItemContextConstants.DELETE_FAIL,
+				payload: {
+					news_id: news_id,
+					error,
+				},
+			});
+		},
+		onSuccess: (data) => {
+			console.log('data', data);
+
+			newsDispatch({
+				type: NewsItemContextConstants.DELETE_SUCCESS,
+				payload: {
+					news_id,
+				},
+			});
+		},
+		responseSuccessType: 'text',
+	});
+};
+export const resetDeleteNewsItemAction: TResetDeleteNewsItemAction = (
+	newsDispatch,
+	{ news_id }
+) => {
+	newsDispatch({
+		type: NewsItemContextConstants.DELETE_RESET,
+		payload: {
+			news_id: news_id,
 		},
 	});
 };

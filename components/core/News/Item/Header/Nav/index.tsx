@@ -12,9 +12,15 @@ const DynamicCustomDropdown = dynamic(() => import('./CustomDropdown'));
 
 interface Props {
 	newsItemData: TNewsItemData;
+	hideHeaderSettings?: boolean;
+	priorityForHeaderImage?: boolean;
 }
 
-const NewsItemHeaderNav = ({ newsItemData }: Props) => {
+const NewsItemHeaderNav = ({
+	newsItemData,
+	hideHeaderSettings,
+	priorityForHeaderImage,
+}: Props) => {
 	const [
 		{
 			data: { user: userData, token: userToken },
@@ -35,6 +41,7 @@ const NewsItemHeaderNav = ({ newsItemData }: Props) => {
 									src={newsItemData.author_profile_picture}
 									alt=''
 									className={classes.author_profile_picture}
+									priority={priorityForHeaderImage}
 								/>
 							</a>
 						</Link>
@@ -70,7 +77,12 @@ const NewsItemHeaderNav = ({ newsItemData }: Props) => {
 					newsItemData={newsItemData}
 				/>
 			)} */}
-			{userData?.id && <DynamicCustomDropdown newsItemData={newsItemData} userToken={userToken} />}
+			{userData?.id && !hideHeaderSettings && (
+				<DynamicCustomDropdown
+					newsItemData={newsItemData}
+					userToken={userToken}
+				/>
+			)}
 		</nav>
 	);
 };

@@ -19,7 +19,9 @@ const reducer: TNewsContextStateReducer = (
 	state: INewsContextState = returnNewsInitialState(),
 	actions
 ): INewsContextState => {
-	if (process.env.NODE_ENV !== 'production') console.log(actions.type);
+	if (process.env.NODE_ENV !== 'production') {
+		console.log(actions.type);
+	}
 
 	switch (actions.type) {
 		//
@@ -608,8 +610,22 @@ const reducer: TNewsContextStateReducer = (
 				},
 			};
 		}
-
-		//
+		case NewsItemContextConstants.CREATE_RESET: {
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					requests: {
+						...state.actions.requests,
+						create: {
+							isLoading: false,
+							error: '',
+							success: false,
+						},
+					},
+				},
+			};
+		}
 
 		//
 		case NewsItemContextConstants.UPDATE_PENDING: {
@@ -729,6 +745,132 @@ const reducer: TNewsContextStateReducer = (
 								update: {
 									isLoading: false,
 									error,
+									success: false,
+								},
+							},
+						},
+					},
+				},
+			};
+		}
+		case NewsItemContextConstants.UPDATE_RESET: {
+			const { news_id } = actions.payload;
+
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					items: {
+						...state.actions.items,
+						[news_id]: {
+							...(state.actions.items[news_id] || {}),
+							requests: {
+								...(state.actions.items[news_id]?.requests || {}),
+								update: {
+									isLoading: false,
+									error: '',
+									success: false,
+								},
+							},
+						},
+					},
+				},
+			};
+		}
+
+		//
+		case NewsItemContextConstants.DELETE_PENDING: {
+			const { news_id } = actions.payload;
+
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					items: {
+						...state.actions.items,
+						[news_id]: {
+							...(state.actions.items[news_id] || {}),
+							requests: {
+								...(state.actions.items[news_id]?.requests || {}),
+								delete: {
+									isLoading: true,
+									error: '',
+									success: false,
+								},
+							},
+						},
+					},
+				},
+			};
+		}
+		case NewsItemContextConstants.DELETE_SUCCESS: {
+			const { news_id } = actions.payload;
+
+			return {
+				...state,
+				data: {
+					...state.data,
+					news: state.data.news.filter((item) => item.news_id !== news_id),
+				},
+				actions: {
+					...state.actions,
+					items: {
+						...state.actions.items,
+						[news_id]: {
+							...(state.actions.items[news_id] || {}),
+							requests: {
+								...(state.actions.items[news_id]?.requests || {}),
+								delete: {
+									isLoading: false,
+									error: '',
+									success: true,
+								},
+							},
+						},
+					},
+				},
+			};
+		}
+		case NewsItemContextConstants.DELETE_FAIL: {
+			const { news_id, error } = actions.payload;
+
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					items: {
+						...state.actions.items,
+						[news_id]: {
+							...(state.actions.items[news_id] || {}),
+							requests: {
+								...(state.actions.items[news_id]?.requests || {}),
+								delete: {
+									isLoading: false,
+									error,
+									success: false,
+								},
+							},
+						},
+					},
+				},
+			};
+		}
+		case NewsItemContextConstants.DELETE_RESET: {
+			const { news_id } = actions.payload;
+
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					items: {
+						...state.actions.items,
+						[news_id]: {
+							...(state.actions.items[news_id] || {}),
+							requests: {
+								...(state.actions.items[news_id]?.requests || {}),
+								delete: {
+									isLoading: false,
+									error: '',
 									success: false,
 								},
 							},

@@ -51,7 +51,10 @@ export interface IDeleteNewsItemReqArgs {
 			news_id: string;
 		};
 	};
-	bodyContent: {
-		type: INewsItemTypeBlog['type'] | INewsItemTypePost['type'];
-	};
+	bodyContent: ({
+		type: INewsItemTypePost['type']
+	} | {
+		type: INewsItemTypeBlog['type'];
+		tags: INewsItemTypeBlog['type_data']['tags']
+	});
 }
