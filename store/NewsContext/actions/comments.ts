@@ -9,8 +9,11 @@ import {
 	TGetMoreNewsItemCommentRepliesMain,
 	TGetMoreNewsItemCommentsMain,
 	TInitGetNewsItemCommentsMain,
+	TUpdateNewsItemMainOrMainReplyComment,
 } from '../ts';
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
+
+const returnBearerToken = (token: string) => `Bearer ${token}`;
 
 const handleLoadingChanges = async <
 	TData,
@@ -22,6 +25,7 @@ const handleLoadingChanges = async <
 	onError,
 	onSuccess,
 	extraData,
+	responseSuccessType = 'json',
 }: {
 	onInit: (extraData: TInitExtraData) => Promise<Response>;
 	onError: (error: string, extraData: TErrorExtraData) => void; // TDispatcher;
@@ -31,6 +35,7 @@ const handleLoadingChanges = async <
 		error?: TErrorExtraData;
 		success?: TSuccessExtraData;
 	};
+	responseSuccessType?: 'json' | 'text';
 }) => {
 	const response = await onInit(extraData?.init || ({} as TInitExtraData));
 
@@ -41,7 +46,9 @@ const handleLoadingChanges = async <
 		);
 
 	onSuccess(
-		await response.json(),
+		responseSuccessType === 'json'
+			? await response.json()
+			: await response.text(),
 		extraData?.success || ({} as TSuccessExtraData)
 	);
 };
@@ -143,10 +150,10 @@ export const getMoreNewsItemCommentsMain: TGetMoreNewsItemCommentsMain = async (
 
 type IGetMoreNewsItemCommentRepliesMainExtraProps = {
 	news_id: TNewsItemData['news_id'];
-	newsCommentParentId: TNewsItemCommentBasicData['news_comment_id'];
+	parent_id: TNewsItemCommentBasicData['news_comment_id'];
 };
 export const getMoreNewsItemCommentRepliesMain: TGetMoreNewsItemCommentRepliesMain =
-	async (newsDispatch, { news_id, newsCommentParentId, urlOptions }) => {
+	async (newsDispatch, { news_id, parent_id, urlOptions }) => {
 		await handleLoadingChanges<
 			{
 				comments: TNewsItemCommentMainReplies;
@@ -159,7 +166,7 @@ export const getMoreNewsItemCommentRepliesMain: TGetMoreNewsItemCommentRepliesMa
 			onInit: async () => {
 				newsDispatch({
 					type: NewsItemContextConstants.GET_MORE_MAIN_COMMENT_REPLIES_PENDING,
-					payload: { news_id, newsCommentParentId },
+					payload: { news_id, parent_id },
 				});
 
 				const { requestInfo, requestInit } =
@@ -175,7 +182,7 @@ export const getMoreNewsItemCommentRepliesMain: TGetMoreNewsItemCommentRepliesMa
 					payload: {
 						error,
 						news_id: errorExtraData.news_id,
-						newsCommentParentId,
+						parent_id,
 					},
 				});
 			},
@@ -184,7 +191,7 @@ export const getMoreNewsItemCommentRepliesMain: TGetMoreNewsItemCommentRepliesMa
 					type: NewsItemContextConstants.GET_MORE_MAIN_COMMENT_REPLIES_SUCCESS,
 					payload: {
 						news_id: errorExtraData.news_id,
-						newsCommentParentId,
+						parent_id,
 						hit_replies_limit,
 						newCommentMainRepliesData: comments,
 						// newCommentsMainData: comments,
@@ -193,9 +200,65 @@ export const getMoreNewsItemCommentRepliesMain: TGetMoreNewsItemCommentRepliesMa
 				});
 			},
 			extraData: {
-				error: { news_id, newsCommentParentId },
-				success: { news_id, newsCommentParentId },
-				init: { news_id, newsCommentParentId },
+				error: { news_id, parent_id },
+				success: { news_id, parent_id },
+				init: { news_id, parent_id },
+			},
+		});
+	};
+
+export const updateNewsItemMainOrMainReplyComment: TUpdateNewsItemMainOrMainReplyComment =
+	async (newsDispatch, { requiredData, token }) => {
+		await handleLoadingChanges<
+			{
+				comments: TNewsItemCommentMainReplies;
+				hit_replies_limit: boolean;
+			},
+			IGetMoreNewsItemCommentRepliesMainExtraProps,
+			IGetMoreNewsItemCommentRepliesMainExtraProps,
+			IGetMoreNewsItemCommentRepliesMainExtraProps
+		>({
+			onInit: async () => {
+				newsDispatch({
+					type: NewsItemContextConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT_PENDING,
+					payload: requiredData,
+				});
+
+				const { requestInfo, requestInit } =
+					networkReqArgs._app.news.item.comment.update({
+						urlOptions: {
+							params: {
+								comment_id: requiredData.news_comment_id,
+								news_id: requiredData.news_id,
+							},
+						},
+						bodyContent: {
+							content: requiredData.newContent,
+						},
+						headersList: {
+							Authorization: token && returnBearerToken(token),
+						},
+					});
+
+				return await fetch(requestInfo, requestInit);
+			},
+			onError: (error) => {
+				return newsDispatch({
+					type: NewsItemContextConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT_FAIL,
+					payload: {
+						error,
+						...requiredData,
+					},
+				});
+			},
+			onSuccess: () => {
+				newsDispatch({
+					type: NewsItemContextConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS,
+					payload: {
+						...requiredData,
+						newContent: requiredData.newContent,
+					},
+				});
 			},
 		});
 	};

@@ -397,9 +397,212 @@ const reducer: TNewsContextStateReducer = (
 			};
 		}
 
+		// update comment
+		case NewsItemContextConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT_PENDING: {
+			const payload = actions.payload;
+
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					items: {
+						...state.actions.items,
+						[payload.news_id]: {
+							...(state.actions.items[payload.news_id] || {}),
+							requests: {
+								...(state.actions.items[payload.news_id]?.requests || {}),
+								mainComments: {
+									...(state.actions.items[payload.news_id]?.requests
+										?.mainComments || {}),
+									...(payload.type === 'comment_main'
+										? {
+												[payload.news_comment_id]: {
+													...(state.actions.items[payload.news_id]?.requests
+														?.mainComments?.[payload.news_comment_id] || {}),
+													update: {
+														isLoading: true,
+														error: '',
+														success: false,
+													},
+												},
+										  }
+										: {
+												[payload.parent_id]: {
+													...(state.actions.items[payload.news_id]?.requests
+														?.mainComments?.[payload.news_comment_id] || {}),
+													replies: {
+														...(state.actions.items[payload.news_id]?.requests
+															?.mainComments?.[payload.news_comment_id]
+															?.replies || {}),
+														[payload.news_comment_id]: {
+															update: {
+																isLoading: true,
+																error: '',
+																success: false,
+															},
+														},
+													},
+												},
+										  }),
+								},
+							},
+						},
+					},
+				},
+			};
+		}
+		case NewsItemContextConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS: {
+			const payload = actions.payload;
+
+			return {
+				...state,
+				data: {
+					...state.data,
+					news: state.data.news.map((item) => {
+						if (item.news_id === payload.news_id) {
+							return {
+								...item,
+								comments: (item.comments || []).map((comment) => {
+									if (
+										payload.type === 'comment_main' &&
+										comment.news_comment_id === payload.news_comment_id
+									) {
+										return {
+											...comment,
+											content: payload.newContent,
+										};
+									} else if (
+										payload.type === 'comment_main_reply' &&
+										comment.news_comment_id === payload.parent_id
+									) {
+										return {
+											...comment,
+											replies: (comment.replies || []).map((reply) => {
+												if (reply.news_comment_id) {
+													return {
+														...reply,
+														content: payload.newContent,
+													};
+												}
+
+												return reply;
+											}),
+										};
+									}
+
+									return comment;
+								}),
+							};
+						}
+
+						return item;
+					}),
+				},
+				actions: {
+					...state.actions,
+					items: {
+						...state.actions.items,
+						[payload.news_id]: {
+							...(state.actions.items[payload.news_id] || {}),
+							requests: {
+								...(state.actions.items[payload.news_id]?.requests || {}),
+								mainComments: {
+									...(state.actions.items[payload.news_id]?.requests
+										?.mainComments || {}),
+									...(payload.type === 'comment_main'
+										? {
+												[payload.news_comment_id]: {
+													...(state.actions.items[payload.news_id]?.requests
+														?.mainComments?.[payload.news_comment_id] || {}),
+													update: {
+														isLoading: false,
+														error: '',
+														success: false,
+													},
+												},
+										  }
+										: {
+												[payload.parent_id]: {
+													...(state.actions.items[payload.news_id]?.requests
+														?.mainComments?.[payload.news_comment_id] || {}),
+													replies: {
+														...(state.actions.items[payload.news_id]?.requests
+															?.mainComments?.[payload.news_comment_id]
+															?.replies || {}),
+														[payload.news_comment_id]: {
+															update: {
+																isLoading: false,
+																error: '',
+																success: false,
+															},
+														},
+													},
+												},
+										  }),
+								},
+							},
+						},
+					},
+				},
+			};
+		}
+		case NewsItemContextConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT_FAIL: {
+			const payload = actions.payload;
+
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					items: {
+						...state.actions.items,
+						[payload.news_id]: {
+							...(state.actions.items[payload.news_id] || {}),
+							requests: {
+								...(state.actions.items[payload.news_id]?.requests || {}),
+								mainComments: {
+									...(state.actions.items[payload.news_id]?.requests
+										?.mainComments || {}),
+									...(payload.type === 'comment_main'
+										? {
+												[payload.news_comment_id]: {
+													...(state.actions.items[payload.news_id]?.requests
+														?.mainComments?.[payload.news_comment_id] || {}),
+													update: {
+														isLoading: false,
+														error: payload.error,
+														success: false,
+													},
+												},
+										  }
+										: {
+												[payload.parent_id]: {
+													...(state.actions.items[payload.news_id]?.requests
+														?.mainComments?.[payload.news_comment_id] || {}),
+													replies: {
+														...(state.actions.items[payload.news_id]?.requests
+															?.mainComments?.[payload.news_comment_id]
+															?.replies || {}),
+														[payload.news_comment_id]: {
+															update: {
+																isLoading: false,
+																error: payload.error,
+																success: false,
+															},
+														},
+													},
+												},
+										  }),
+								},
+							},
+						},
+					},
+				},
+			};
+		}
+
 		//
 		case NewsItemContextConstants.GET_MORE_MAIN_COMMENT_REPLIES_PENDING: {
-			const { news_id, newsCommentParentId } = actions.payload;
+			const { news_id, parent_id } = actions.payload;
 
 			return {
 				...state,
@@ -414,9 +617,9 @@ const reducer: TNewsContextStateReducer = (
 								mainComments: {
 									...(state.actions.items[news_id]?.requests?.mainComments ||
 										{}),
-									[newsCommentParentId]: {
+									[parent_id]: {
 										...(state.actions.items[news_id]?.requests?.mainComments
-											?.newsCommentParentId || {}),
+											?.parent_id || {}),
 										getMoreReplies: {
 											isLoading: true,
 											error: '',
@@ -435,7 +638,7 @@ const reducer: TNewsContextStateReducer = (
 				news_id,
 				hit_replies_limit,
 				newCommentMainRepliesData,
-				newsCommentParentId,
+				parent_id,
 			} = actions.payload;
 
 			return {
@@ -449,7 +652,7 @@ const reducer: TNewsContextStateReducer = (
 							return {
 								...item,
 								comments: itemComments.map((comment) => {
-									if (comment.news_comment_id === newsCommentParentId) {
+									if (comment.news_comment_id === parent_id) {
 										return {
 											...comment,
 											replies: [
@@ -479,9 +682,9 @@ const reducer: TNewsContextStateReducer = (
 								mainComments: {
 									...(state.actions.items[news_id]?.requests?.mainComments ||
 										{}),
-									[newsCommentParentId]: {
+									[parent_id]: {
 										...(state.actions.items[news_id]?.requests?.mainComments
-											?.newsCommentParentId || {}),
+											?.parent_id || {}),
 										getMoreReplies: {
 											isLoading: false,
 											error: '',
@@ -496,7 +699,7 @@ const reducer: TNewsContextStateReducer = (
 			};
 		}
 		case NewsItemContextConstants.GET_MORE_MAIN_COMMENT_REPLIES_FAIL: {
-			const { news_id, newsCommentParentId, error } = actions.payload;
+			const { news_id, parent_id, error } = actions.payload;
 
 			return {
 				...state,
@@ -511,9 +714,9 @@ const reducer: TNewsContextStateReducer = (
 								mainComments: {
 									...(state.actions.items[news_id]?.requests?.mainComments ||
 										{}),
-									[newsCommentParentId]: {
+									[parent_id]: {
 										...(state.actions.items[news_id]?.requests?.mainComments
-											?.newsCommentParentId || {}),
+											?.parent_id || {}),
 										getMoreReplies: {
 											isLoading: false,
 											error: '',

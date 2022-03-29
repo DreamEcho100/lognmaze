@@ -213,7 +213,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		})();
 
 		getMoreNewsItemCommentRepliesMain(newsDataDispatch, {
-			newsCommentParentId: props.comment.news_comment_id,
+			parent_id: props.comment.news_comment_id,
 			news_id: newsItemData.news_id,
 			urlOptions: {
 				params: {
@@ -478,7 +478,9 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					/>
 				)}
 
-			{getMoreRepliesRequest?.isLoading && <p className='isLoadingLoader'>Loading...</p>}
+			{getMoreRepliesRequest?.isLoading && (
+				<p className='isLoadingLoader'>Loading...</p>
+			)}
 
 			<div className='buttons-holder'>
 				{showReplies &&
