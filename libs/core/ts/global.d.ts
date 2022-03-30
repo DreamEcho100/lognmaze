@@ -65,6 +65,8 @@ export interface TNewsItemCommentTypeReplyMain
 	extends TNewsItemCommentBasicData {
 	type: 'comment_main_reply';
 	parent_id: TNewsItemCommentBasicData['news_comment_id'];
+	reply_to_user_id: IUserBasicData['id'];
+	reply_to_comment_id: TNewsItemCommentBasicData['news_comment_id'];
 }
 export type TNewsItemCommentMainReplies = TNewsItemCommentTypeReplyMain[];
 

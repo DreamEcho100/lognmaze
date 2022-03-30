@@ -7,6 +7,7 @@ import {
 	TNewsItemCommentBasicData,
 	TNewsItemCommentTypeReplyMain,
 	TNewsItemCommentTypeMain,
+	IUserBasicData,
 	// INewsItemTypeBlogBasicData,
 	// INewsItemTypePostBasicData,
 } from '@coreLib/ts/global';
@@ -249,7 +250,21 @@ interface ICreateNewsItemMainOrMainReplyCommentPending {
 }
 interface ICreateNewsItemMainOrMainReplyCommentSuccess {
 	type: NewsItemContextConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS;
-	payload: TNewsItemCommentTypeMain | TNewsItemCommentTypeReplyMain;
+	payload: (
+		| ICommentTypeMainCommon
+		| (ICommentTypeMainReplyCommon & {
+				reply_to_user_id: TNewsItemCommentTypeReplyMain['reply_to_user_id'];
+				reply_to_comment_id?: TNewsItemCommentTypeReplyMain['reply_to_comment_id'];
+		  })
+	) & {
+		// news_comment_id: string;
+		content: TNewsItemCommentBasicData['content'];
+		author_id: IUserBasicData['id'];
+		author_user_name_id: IUserBasicData['user_name_id'];
+		author_first_name: IUserBasicData['first_name'];
+		author_last_name: IUserBasicData['last_name'];
+		author_profile_picture?: IUserBasicData['profile_picture'];
+	};
 }
 interface ICreateNewsItemMainOrMainReplyCommentFail {
 	type: NewsItemContextConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_FAIL;
@@ -257,7 +272,7 @@ interface ICreateNewsItemMainOrMainReplyCommentFail {
 		| (Pick<ICommentTypeMainCommon, 'type' | 'news_id'> & {
 				error: string;
 		  })
-		| (Pick<ICommentTypeMainReplyCommon, 'type' | 'news_id' | 'parent_id'> & {
+		| (Pick<ICommentTypeMainReplyCommon, 'type' | 'news_id'> & {
 				error: string;
 		  });
 }
@@ -466,13 +481,24 @@ export type TGetMoreNewsItemCommentRepliesMain = (
 export type TCreateNewsItemMainOrMainReplyComment = (
 	newsDispatch: TNewsContextDispatch,
 	props: {
-		requiredData:
-			| (ICommentTypeMainReplyCommon & {
-					newContent: TNewsItemCommentTypeReplyMain['content'];
+		requiredData: (
+			| (Pick<ICommentTypeMainReplyCommon, 'type' | 'news_id' | 'parent_id'> & {
+					content: TNewsItemCommentTypeReplyMain['content'];
+					reply_to_user_id: TNewsItemCommentTypeReplyMain['reply_to_user_id'];
+					reply_to_comment_id?: TNewsItemCommentTypeReplyMain['reply_to_comment_id'];
 			  })
-			| (ICommentTypeMainReplyCommon & {
-					newContent: TNewsItemCommentTypeMain['content'];
-			  });
+			| (Pick<ICommentTypeMainCommon, 'type' | 'news_id'> & {
+					content: TNewsItemCommentTypeMain['content'];
+			  })
+		) & {
+			// news_comment_id: string;
+			content: TNewsItemCommentBasicData['content'];
+			author_id: IUserBasicData['id'];
+			author_user_name_id: IUserBasicData['user_name_id'];
+			author_first_name: IUserBasicData['first_name'];
+			author_last_name: IUserBasicData['last_name'];
+			author_profile_picture?: IUserBasicData['profile_picture'];
+		};
 		token?: string;
 	}
 ) => Promise<void>;

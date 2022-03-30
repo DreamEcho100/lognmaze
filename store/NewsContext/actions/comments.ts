@@ -6,6 +6,7 @@ import {
 	TNewsItemData,
 } from '@coreLib/ts/global';
 import {
+	TCreateNewsItemMainOrMainReplyComment,
 	TGetMoreNewsItemCommentRepliesMain,
 	TGetMoreNewsItemCommentsMain,
 	TInitGetNewsItemCommentsMain,
@@ -203,6 +204,99 @@ export const getMoreNewsItemCommentRepliesMain: TGetMoreNewsItemCommentRepliesMa
 				error: { news_id, parent_id },
 				success: { news_id, parent_id },
 				init: { news_id, parent_id },
+			},
+		});
+	};
+
+export const createNewsItemMainOrMainReplyComment: TCreateNewsItemMainOrMainReplyComment =
+	async (newsDispatch, { requiredData, token }) => {
+		await handleLoadingChanges<
+			{
+				news_comment_id: TNewsItemCommentBasicData['news_comment_id'];
+			},
+			IGetMoreNewsItemCommentRepliesMainExtraProps,
+			IGetMoreNewsItemCommentRepliesMainExtraProps,
+			IGetMoreNewsItemCommentRepliesMainExtraProps
+		>({
+			onInit: async () => {
+				newsDispatch({
+					type: NewsItemContextConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_PENDING,
+					payload: {
+						...(requiredData.type === 'comment_main_reply'
+							? {
+									type: 'comment_main_reply',
+									parent_id: requiredData.parent_id,
+							  }
+							: {
+									type: 'comment_main',
+							  }),
+						news_id: requiredData.news_id,
+					},
+				});
+
+				const { requestInfo, requestInit } =
+					networkReqArgs._app.news.item.comment.create({
+						urlOptions: {
+							params: {
+								// comment_id: requiredData.news_comment_id,
+								news_id: requiredData.news_id,
+							},
+						},
+						bodyContent: {
+							...(requiredData.type === 'comment_main_reply'
+								? {
+										comment_type: requiredData.type,
+										parent_id: requiredData.parent_id,
+										reply_to_user_id: requiredData.reply_to_user_id,
+										reply_to_comment_id: requiredData.reply_to_comment_id,
+										content: requiredData.content,
+										news_id: requiredData.news_id,
+								  }
+								: {
+										comment_type: 'comment_main',
+										content: requiredData.content,
+										news_id: requiredData.news_id,
+								  }),
+						},
+						headersList: {
+							Authorization: token && returnBearerToken(token),
+						},
+					});
+
+				return await fetch(requestInfo, requestInit);
+			},
+			onError: (error) => {
+				return newsDispatch({
+					type: NewsItemContextConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_FAIL,
+					payload: {
+						error,
+						...requiredData,
+					},
+				});
+			},
+			onSuccess: ({ news_comment_id }) => {
+				newsDispatch({
+					type: NewsItemContextConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS,
+					payload: {
+						...(requiredData.type === 'comment_main_reply'
+							? {
+									type: requiredData.type,
+									parent_id: requiredData.parent_id,
+									reply_to_user_id: requiredData.reply_to_user_id,
+									reply_to_comment_id: requiredData.reply_to_comment_id,
+							  }
+							: {
+									type: 'comment_main',
+							  }),
+						news_id: requiredData.news_id,
+						content: requiredData.content,
+						author_first_name: requiredData.author_first_name,
+						author_id: requiredData.author_id,
+						author_last_name: requiredData.author_last_name,
+						author_user_name_id: requiredData.author_user_name_id,
+						news_comment_id,
+					},
+				});
 			},
 		});
 	};
