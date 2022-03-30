@@ -99,19 +99,43 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		newsDataDispatch,
 	] = useNewsSharedState();
 
-	const getMoreRepliesRequest = (() => {
-		const mainComments =
-			itemsActions[newsItemData.news_id]?.requests?.mainComments;
-
-		if (!mainComments || typeof mainComments !== 'object') return;
-
-		return mainComments[props.comment.news_comment_id]?.getMoreReplies;
-	})();
-
 	const commentMain =
 		(props.commentType === 'comment_main' && props.comment) || undefined;
+	const initRequest = () => ({
+		isLoading: false,
+		error: '',
+		success: false,
+	});
+	const commentMainRequestsActions = (() => {
+		if (props.comment.type === 'comment_main') {
+			return {
+				getMoreReplies:
+					itemsActions[newsItemData.news_id]?.requests?.mainComments?.[
+						props.comment.news_comment_id
+					]?.getMoreReplies || initRequest(),
+				update:
+					itemsActions[newsItemData.news_id]?.requests?.mainComments?.[
+						props.comment.news_comment_id
+					]?.update || initRequest(),
+			};
+		}
+	})();
 	const commentMainReply =
 		(props.commentType === 'comment_main_reply' && props.comment) || undefined;
+	const commentMainReplyRequestsActions = (() => {
+		if (props.comment.type === 'comment_main_reply') {
+			return {
+				update:
+					itemsActions[newsItemData.news_id]?.requests?.mainComments?.[
+						props.comment.parent_id
+					]?.replies?.[props.comment.news_comment_id]?.update || initRequest(),
+				create:
+					itemsActions[newsItemData.news_id]?.requests?.mainComments?.[
+						props.comment.parent_id
+					]?.replies?.[props.comment.news_comment_id]?.create || initRequest(),
+			};
+		}
+	})();
 	const commentPropsMainReplyParentData =
 		(props.commentType === 'comment_main_reply' && props.parent_data) ||
 		undefined;
@@ -408,7 +432,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 						title={`${
 							props.comment.replies_counter === 1 ? 'Reply' : 'Replies'
 						} ${props.comment.replies_counter}`}
-						disabled={getMoreRepliesRequest?.isLoading}
+						disabled={commentMainRequestsActions?.getMoreReplies?.isLoading}
 						onClick={() => {
 							// if (
 							// 	props.comment.replies &&
@@ -478,7 +502,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					/>
 				)}
 
-			{getMoreRepliesRequest?.isLoading && (
+			{commentMainRequestsActions?.getMoreReplies?.isLoading && (
 				<p className='isLoadingLoader'>Loading...</p>
 			)}
 
@@ -492,7 +516,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					props.comment.replies_counter !== props.comment?.replies?.length && (
 						<button
 							title='Load More'
-							disabled={getMoreRepliesRequest?.isLoading}
+							disabled={commentMainRequestsActions?.getMoreReplies?.isLoading}
 							onClick={() => {
 								if (
 									props.comment.type === 'comment_main' &&
@@ -523,7 +547,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					props.comment?.replies.length !== 0 && (
 						<button
 							title='Hide Replies'
-							disabled={getMoreRepliesRequest?.isLoading}
+							disabled={commentMainRequestsActions?.getMoreReplies?.isLoading}
 							onClick={() => setShowReplies(false)}
 						>
 							<span className={helpersClasses.fontWeightBold}>

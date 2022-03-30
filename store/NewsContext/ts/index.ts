@@ -84,9 +84,19 @@ export interface INewsContextState {
 								error: string;
 								success: boolean;
 							};
+							create?: {
+								isLoading: boolean;
+								error: string;
+								success: boolean;
+							};
 							replies?: {
 								[key: string]: {
 									update?: {
+										isLoading: boolean;
+										error: string;
+										success: boolean;
+									};
+									create?: {
 										isLoading: boolean;
 										error: string;
 										success: boolean;
@@ -233,7 +243,9 @@ interface ICommentTypeMainReplyCommon {
 }
 interface ICreateNewsItemMainOrMainReplyCommentPending {
 	type: NewsItemContextConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_PENDING;
-	payload: ICommentTypeMainCommon | ICommentTypeMainReplyCommon;
+	payload:
+		| Pick<ICommentTypeMainCommon, 'type' | 'news_id'>
+		| Pick<ICommentTypeMainReplyCommon, 'type' | 'news_id' | 'parent_id'>;
 }
 interface ICreateNewsItemMainOrMainReplyCommentSuccess {
 	type: NewsItemContextConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS;
@@ -242,10 +254,10 @@ interface ICreateNewsItemMainOrMainReplyCommentSuccess {
 interface ICreateNewsItemMainOrMainReplyCommentFail {
 	type: NewsItemContextConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_FAIL;
 	payload:
-		| (ICommentTypeMainReplyCommon & {
+		| (Pick<ICommentTypeMainCommon, 'type' | 'news_id'> & {
 				error: string;
 		  })
-		| (ICommentTypeMainCommon & {
+		| (Pick<ICommentTypeMainReplyCommon, 'type' | 'news_id' | 'parent_id'> & {
 				error: string;
 		  });
 }
