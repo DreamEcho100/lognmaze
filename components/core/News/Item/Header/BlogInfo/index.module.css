@@ -1,0 +1,23 @@
+.img_wrapper {
+	width: 100%;
+	margin: var(--padding-main-1-half) 0;
+}
+
+.img_wrapper span {
+	width: 100% !important;
+	position: revert !important;
+	height: revert !important;
+	max-height: revert !important;
+}
+
+.img_wrapper span img {
+	object-fit: revert;
+	object-position: center;
+	position: revert !important;
+	width: 100% !important;
+	height: revert !important;
+	min-width: revert !important;
+	max-width: 100% !important;
+	min-height: revert !important;
+	max-height: 75vh !important;
+}

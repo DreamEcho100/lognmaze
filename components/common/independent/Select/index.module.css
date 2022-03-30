@@ -1,0 +1,6 @@
+.select {
+	width: 100%;
+	padding: var(--padding-main-1-quarter);
+	background-color: transparent;
+	transition: all var(--main-transition-duration) ease-in;
+}

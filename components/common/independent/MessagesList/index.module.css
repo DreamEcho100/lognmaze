@@ -1,0 +1,29 @@
+.list {
+	list-style: none;
+	margin-top: var(--padding-main-1);
+	padding: var(--padding-main-1-half);
+	border-radius: 1rem;
+}
+
+.list li {
+	margin: var(--padding-main-1-half);
+}
+[dir='ltr'] .list li,
+.list li {
+	margin-left: 0;
+}
+[dir='rtl'] .list li {
+	margin-right: 0;
+}
+.list li:first-child {
+	margin-top: 0;
+}
+.list li:last-child {
+	margin-bottom: 0;
+}
+
+.danger {
+	color: darkred;
+	border: 0.1rem solid darkred;
+	background-color: palevioletred;
+}

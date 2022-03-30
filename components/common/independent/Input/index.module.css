@@ -1,0 +1,33 @@
+.input {
+	height: 2.5rem;
+	max-width: 100%;
+	width: var(--input-width);
+	/* min-height: fit-content; */
+	background-color: transparent;
+	transition: all var(--main-transition-duration) ease-in;
+
+	border-color: rgba(255, 255, 255, 0.1);
+	outline-color: rgba(255, 255, 255, 0.1);
+
+	border: 0rem solid transparent;
+	border-bottom: 0.15rem solid var(--main-special-bg-color-2);
+}
+
+.input:hover {
+	border-bottom: 0.3rem solid var(--main-special-bg-color-3);
+}
+
+.input:not([type='text']):focus,
+.input:not([type='checkbox']):focus {
+	min-height: 3rem;
+	font-size: calc(var(--current-font-size) + 0.2rem);
+	padding: 0.125em var(--padding-main-1-quarter);
+	margin-top: var(--padding-main-1-quarter);
+	margin-bottom: var(--padding-main-1-quarter);
+	background-color: var(--main-special-bg-color-1);
+
+	border-bottom: 0.45rem solid var(--main-special-bg-color-4);
+}
+
+/* .input-radio {
+} */

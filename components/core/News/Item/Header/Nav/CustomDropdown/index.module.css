@@ -1,0 +1,25 @@
+.mainContent {
+	background-color: var(--main-bg-color-1);
+	border: 0.1rem solid var(--main-bg-color-4);
+	border-radius: 0.5rem;
+}
+
+.mainContentItem {
+	padding: 0.125em 0.25em;
+	transition: all ease-in var(--main-transition-duration);
+}
+
+.mainContentItem:hover {
+	background-color: var(--main-bg-color-5);
+	color: var(--main-bg-color-2);
+}
+
+.triggerButton {
+	background-color: transparent;
+	border-color: transparent;
+	outline-color: rgba(255, 255, 255, 0.1);
+
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}

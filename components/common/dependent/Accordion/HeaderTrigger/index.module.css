@@ -1,0 +1,29 @@
+.AccordionHeader {
+	all: unset;
+	display: flex;
+}
+
+.AccordionTrigger {
+	all: unset;
+	font-family: inherit;
+	background-color: transparent;
+	padding: 0 20px;
+	height: 45;
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 15;
+	line-height: 1;
+	color: #ee82ee;
+	box-shadow: 0 1px 0 #ddd;
+}
+.AccordionTrigger[data-state='closed'] {
+	background-color: white;
+}
+.AccordionTrigger[data-state='open'] {
+	background-color: white;
+}
+.AccordionTrigger:hover {
+	background-color: #ddd;
+}

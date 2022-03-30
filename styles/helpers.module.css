@@ -1,0 +1,167 @@
+/* main#main */
+.main {
+	margin-top: var(--main-nav-height);
+	padding: var(--padding-main-1-three-quarters) var(--padding-main-1-half);
+	width: 100%;
+	height: 100%;
+	min-height: calc(100vh - var(--main-nav-height) - var(--padding-main-1));
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: flex-start;
+}
+
+.dFlex {
+	display: flex;
+}
+.flexXYCenter {
+	align-items: center;
+	justify-content: center;
+}
+
+/* .disable {
+	pointer-events: none;
+	filter: grayscale(1);
+	user-select: none;
+	cursor: not-allowed;
+} */
+
+.disabled {
+	cursor: not-allowed;
+	user-select: none;
+	filter: grayscale(0.75) blur(0.05rem) brightness(0.5) hue-rotate(45deg);
+}
+
+.margin-0 {
+	margin: 0;
+}
+
+.textGlowSpecial,
+a.textGlowSpecial,
+button.textGlowSpecial,
+svg.textGlowSpecial {
+	--color: var(--main-special-bg-color-5);
+	--color-focus: var(--main-special-bg-color-4);
+	--color-hover: var(--main-special-bg-color-3);
+	color: var(--color);
+	text-shadow: 0rem 0rem 0.1rem var(--color);
+	transition: all var(--main-transition-duration)
+		cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.textGlowSpecial:hover {
+	color: var(--color-hover);
+	text-shadow: 0rem 0rem 0.4rem var(--color-hover);
+}
+.textGlowSpecial:focus-within,
+.textGlowSpecial:active,
+.textGlowSpecial:visited {
+	color: var(--color-focus);
+	text-shadow: 0rem 0rem 0rem var(--color-focus);
+	/* font-weight: 600; */
+}
+
+body:global(.dark) .textGlowSpecial {
+	--color: var(--main-special-bg-color-3);
+	--color-focus: var(--main-special-bg-color-3);
+	--color-hover: var(--main-special-bg-color-3);
+}
+
+.cursorPointer {
+	cursor: pointer;
+}
+
+.displayInline {
+	display: inline;
+}
+
+.textAlignCenter {
+	text-align: center;
+}
+
+.fontWeightBold {
+	font-weight: bold;
+}
+.fontWeightBolder {
+	font-weight: bolder;
+}
+
+/* 
+.buttons-holder > button {
+	margin: 0.5em 0;
+}
+
+body:not([dir='rtl']) .buttons-holder > button {
+	margin-right: 0.5em;
+}
+body:not([dir='rtl']) .buttons-holder > button:last-child {
+	margin-right: 0em;
+}
+
+body[dir='rtl'] .buttons-holder > button {
+	margin-left: 0.5em;
+}
+body[dir='rtl'] .buttons-holder > button:last-child {
+	margin-left: 0em;
+}
+
+.font-size-inherit {
+	font-size: inherit !important;
+}
+*/
+
+/*
+span.lazyLoadImageBackground,
+span.lazyLoadImageBackground.blur {
+	width: 100%;
+	position: unset;
+	display: block;
+	height: var(--lazy-load-image-background-height);
+}
+
+span.lazyLoadImageBackground img,
+span.lazyLoadImageBackground.blur img {
+	width: 100%;
+}
+
+:root {
+	--skeleton-loading-width: 100%;
+	--skeleton-loading-height: 100%;
+	--skeleton-loading-before-width: 25%;
+	--skeleton-loading-animation-duration: 3s;
+	--skeleton-loading-background: var(--main-bg-color-3);
+	--skeleton-loading-before-background: linear-gradient(
+		90deg,
+		transparent,
+		black
+	);
+}
+
+.skeletonLoading {
+	background: var(--skeleton-loading-background);
+	color: var(--skeleton-loading-background);
+	position: relative;
+	overflow: hidden;
+	width: var(--skeleton-loading-width);
+	height: var(--skeleton-loading-height);
+}
+
+.skeletonLoading::before {
+	content: '';
+	background: var(--skeleton-loading-before-background);
+	color: var(--skeleton-loading-before-background);
+	height: 100%;
+	width: var(--skeleton-loading-before-width);
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	z-index: 2;
+	transform: translateX(-100%);
+	animation: move var(--skeleton-loading-animation-duration) infinite;
+}
+
+@keyframes move {
+	to {
+		left: calc(100% + var(--skeleton-loading-before-width));
+	}
+}
+*/

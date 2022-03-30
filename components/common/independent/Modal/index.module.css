@@ -1,0 +1,97 @@
+.modalBackground {
+	position: fixed;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, 0);
+	width: 100%;
+	height: 100%;
+	background: rgb(0, 0, 0, 0.5);
+	max-width: calc(var(--body-max-width) + 20rem);
+}
+
+.modalWrapper {
+	position: fixed;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, 0);
+	width: 95%;
+	max-width: var(--body-max-width);
+	height: calc(100% - var(--main-nav-height));
+	margin: var(--main-nav-height) auto;
+	padding: var(--padding-main-1-half) 0;
+	background-color: rgba(0, 0, 0, 0.2);
+	transition: opacity 0.3s ease;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.modalContainerDefault {
+	position: relative;
+	width: 99%;
+	margin: auto;
+	border-radius: 0.5rem;
+	box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.33);
+	transition: all 0.3s ease;
+	background-color: var(--modalContainer-background-color);
+}
+
+.ModalCloseButton {
+	position: absolute;
+	top: 0;
+	transition: all ease-in var(--main-transition-duration);
+
+	left: 0;
+	padding: 0 0.3em 0.3em 0;
+	border-radius: 0% 100% 100% 0% / 100% 0% 100% 0%;
+	background: linear-gradient(
+		145deg,
+		var(--main-special-bg-color-4),
+		var(--main-special-bg-color-3)
+	);
+}
+.ModalCloseButton:focus {
+	box-shadow: 0.14rem 0.14rem 0.5rem var(--main-special-bg-color-5);
+}
+
+[dir='rtl'] .ModalCloseButton {
+	left: unset;
+	right: 0;
+	padding: 0 0 0.3em 0.3em;
+	border-radius: 100% 0% 0% 100% / 0% 100% 0% 100%;
+	background: linear-gradient(
+		270deg,
+		var(--main-special-bg-color-4),
+		var(--main-special-bg-color-3)
+	);
+}
+[dir='rtl'] .ModalCloseButton:focus {
+	box-shadow: -0.14rem 0.14rem 0.5rem var(--main-special-bg-color-5);
+}
+
+.modalHeaderDefault {
+	padding: var(--padding-main-1-half);
+	padding-bottom: 0em;
+	border-top-left-radius: 1rem;
+	border-top-right-radius: 1rem;
+	text-align: center;
+}
+
+.modalBodyDefault {
+	padding: 0 var(--padding-main-1);
+}
+.onlyModalBodyExistDefault {
+	padding: var(--padding-main-1);
+}
+
+.modalFooterDefault {
+	padding: var(--padding-main-1-half);
+	padding-top: 0em;
+	display: flex;
+	justify-content: space-between;
+	border-bottom-left-radius: 1rem;
+	border-bottom-right-radius: 1rem;
+}

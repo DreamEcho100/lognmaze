@@ -1,0 +1,6 @@
+.AccordionRoot {
+	border-radius: 0.6rem;
+	width: 300;
+	background-color: #ddd;
+	box-shadow: 0 0.2rem 1rem #fff;
+}
