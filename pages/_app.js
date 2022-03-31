@@ -88,11 +88,12 @@ import ExtraScripts from '@components/_app/ExtraScripts';
 // }
 
 const MyApp = ({ Component, pageProps }) => {
-	const [playingScripts, isPlayingScripts] = useState(false);
+	const [isPlayingScripts, setIsPlayingScripts] = useState(false);
 
 	useEffect(() => {
 		setTimeout(() => {
-			isPlayingScripts(true);
+			console.log('1', true);
+			setIsPlayingScripts(true);
 		}, 5000);
 	}, []);
 
@@ -100,7 +101,7 @@ const MyApp = ({ Component, pageProps }) => {
 		<>
 			{/* <DefaultSeo {...DefaultSEOProps} /> */}
 			<Head>
-				<meta name="propeller" content="5c7828541aec374e7bb4e8086ad34a0d" />
+				<meta name='propeller' content='5c7828541aec374e7bb4e8086ad34a0d' />
 				{
 					'<!-- icon created by ColourCreatype at https://freeicons.io/profile/5790 -->'
 				}
@@ -154,7 +155,7 @@ const MyApp = ({ Component, pageProps }) => {
 			<Layout isAuthenticated={pageProps.isAuthenticated}>
 				<Component {...pageProps} />
 			</Layout>
-			{playingScripts && <ExtraScripts />}
+			{isPlayingScripts && (console.log('2', true) || true) && <ExtraScripts />}
 		</>
 	);
 };

@@ -53,10 +53,11 @@ const ExtraScripts = () => {
 				}}
 			/>
 			<Script
-				// strategy='afterInteractive'
-				strategy='worker'
+				strategy='afterInteractive'
+				// strategy='worker'
 				data-cfasync='false'
 				type='text/javascript'
+				defer
 				dangerouslySetInnerHTML={{
 					__html: pAddScript,
 				}}
