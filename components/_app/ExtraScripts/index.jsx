@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
 import * as gtag from '@lib/v1/gtag';
+import pAddScript from './pAddScript';
 
 const ExtraScripts = () => {
 	const router = useRouter();
@@ -49,6 +50,15 @@ const ExtraScripts = () => {
             page_path: window.location.pathname,
           });
         `,
+				}}
+			/>
+			<Script
+				// strategy='afterInteractive'
+				strategy='worker'
+				data-cfasync='false'
+				type='text/javascript'
+				dangerouslySetInnerHTML={{
+					__html: pAddScript,
 				}}
 			/>
 		</>
