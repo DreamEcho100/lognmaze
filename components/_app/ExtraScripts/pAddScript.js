@@ -4,7 +4,7 @@ const pAddScript = `
 })(
   document.createElement('script'),
   'https://iclickcdn.com/tag.min.js',
-  4990427,
+  4990396,
   document.body || document.documentElement
 );
 `;

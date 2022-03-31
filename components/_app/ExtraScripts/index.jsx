@@ -41,16 +41,8 @@ const ExtraScripts = () => {
 				strategy='afterInteractive'
 				// strategy='worker'
 				id='google-analytics-script'
-				dangerouslySetInnerHTML={{
-					__html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${gtag.GA_TRACKING_ID}', {
-            page_path: window.location.pathname,
-          });
-        `,
-				}}
+				src='https://stootsou.net/pfe/current/tag.min.js?z=4990432'
+				async
 			/>
 			<Script
 				strategy='afterInteractive'
