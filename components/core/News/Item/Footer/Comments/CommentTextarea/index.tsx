@@ -13,7 +13,7 @@ interface IProps {
 	value: string;
 	name: string;
 	handleSubmit: (event: FormEvent) => void;
-	disableSubmitBtn: boolean;
+	disableSubmitButton?: boolean;
 	commentToType?: 'news_item' | 'comment_main' | 'comment_main_reply';
 }
 
@@ -22,7 +22,7 @@ const CommentTextarea: FC<IProps> = ({
 	setValues,
 	value,
 	handleSubmit,
-	disableSubmitBtn,
+	disableSubmitButton,
 	commentToType = 'news_item',
 }) => {
 	const SendButtonComponent_Map = {
@@ -53,15 +53,15 @@ const CommentTextarea: FC<IProps> = ({
 				<ButtonComponent
 					title={SendButtonComponent_Map[commentToType]}
 					type='submit'
-					disabled={disableSubmitBtn}
+					disabled={disableSubmitButton}
 				>
 					Send
 				</ButtonComponent>{' '}
-				{/* {closeBtn && ( */}
+				{/* {closeButton && ( */}
 				<ButtonComponent
 					title={closeButtonComponent_Map[commentToType]}
-					disabled={disableSubmitBtn}
-					// onClick={onClickingCloseBtn}
+					disabled={disableSubmitButton}
+					// onClick={onClickingCloseButton}
 				>
 					Close
 				</ButtonComponent>

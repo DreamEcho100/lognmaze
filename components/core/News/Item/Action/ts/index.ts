@@ -9,7 +9,7 @@ import {
 import { TNewsContextReducerAction } from '@store/NewsContext/ts';
 
 export type THandleSubmitForCreateAndUpdateNewsItemActionType = (
-	newsDataDispatch:
+	newsDispatch:
 		| Dispatch<TNewsContextReducerAction>
 		| ((value: TNewsContextReducerAction) => void),
 	props: INewsItemTypeBlogBasicData | INewsItemTypePostBasicData

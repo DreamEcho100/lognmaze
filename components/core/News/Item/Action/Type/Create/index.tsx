@@ -31,7 +31,7 @@ const NewsItemActionTypeCreate = ({
 	);
 
 	const handleSubmit: THandleSubmitForCreateAndUpdateNewsItemActionType =
-		async (newsDataDispatch, props) => {
+		async (newsDispatch, props) => {
 			// if (createItemRequest?.isLoading) return;
 
 			const fieldsCheck: string[] = [];
@@ -84,7 +84,7 @@ const NewsItemActionTypeCreate = ({
 				// setInputsError(fieldsCheck);
 				return fieldsCheck;
 			} else {
-				await createNewsItem(newsDataDispatch, {
+				await createNewsItem(newsDispatch, {
 					newNewsItemAuthorData: {
 						author_bio: userData.bio || '',
 						author_first_name: userData.first_name,

@@ -23,7 +23,7 @@ export const useCreateUpdateDeleteNewsItemNeeds = ({
 		{
 			actions: { requests: newsActionsRequest, items: itemsActions },
 		},
-		newsDataDispatch,
+		newsDispatch,
 	] = useNewsSharedState();
 
 	const requestAction_map = {
@@ -66,7 +66,7 @@ export const useCreateUpdateDeleteNewsItemNeeds = ({
 			!contentRequestAction.success &&
 			!contentRequestAction.isLoading
 		) {
-			initGetNewsItemTypeBlogContent(newsDataDispatch, {
+			initGetNewsItemTypeBlogContent(newsDispatch, {
 				news_id: isLoadingContentProps.newsItemData.news_id,
 				urlOptions: {
 					params: {
@@ -76,16 +76,11 @@ export const useCreateUpdateDeleteNewsItemNeeds = ({
 			});
 			return;
 		}
-	}, [
-		actionType,
-		contentRequestAction,
-		isLoadingContentProps,
-		newsDataDispatch,
-	]);
+	}, [actionType, contentRequestAction, isLoadingContentProps, newsDispatch]);
 
 	return {
 		createOrUpdateRequestAction,
 		contentRequestAction,
-		newsDataDispatch,
+		newsDispatch,
 	};
 };

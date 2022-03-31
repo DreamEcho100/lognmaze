@@ -75,7 +75,7 @@ export interface INewsContextState {
 					};
 					mainComments?: {
 						[key: string]: {
-							getMoreReplies?: {
+							create?: {
 								isLoading: boolean;
 								error: string;
 								success: boolean;
@@ -85,19 +85,9 @@ export interface INewsContextState {
 								error: string;
 								success: boolean;
 							};
-							create?: {
-								isLoading: boolean;
-								error: string;
-								success: boolean;
-							};
 							replies?: {
 								[key: string]: {
 									update?: {
-										isLoading: boolean;
-										error: string;
-										success: boolean;
-									};
-									create?: {
 										isLoading: boolean;
 										error: string;
 										success: boolean;
@@ -205,7 +195,7 @@ interface IGetMoreNewsItemCommentsMainFail {
 		error: string;
 	};
 }
-
+/*
 interface IGetMoreNewsItemCommentMainReplyPending {
 	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENT_REPLIES_PENDING;
 	payload: {
@@ -230,7 +220,7 @@ interface IGetMoreNewsItemCommentMainReplyFail {
 		error: string;
 	};
 }
-
+*/
 interface ICommentTypeMainCommon {
 	type: TNewsItemCommentTypeMain['type'];
 	news_id: TNewsItemData['news_id'];
@@ -242,14 +232,19 @@ interface ICommentTypeMainReplyCommon {
 	news_comment_id: TNewsItemCommentTypeReplyMain['news_comment_id'];
 	parent_id: TNewsItemCommentTypeReplyMain['parent_id'];
 }
-interface ICreateNewsItemMainOrMainReplyCommentPending {
-	type: NewsItemContextConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_PENDING;
-	payload:
-		| Pick<ICommentTypeMainCommon, 'type' | 'news_id'>
-		| Pick<ICommentTypeMainReplyCommon, 'type' | 'news_id' | 'parent_id'>;
+
+interface IAddRepliesToCommentMain {
+	type: NewsItemContextConstants.ADD_REPLIES_TO_COMMENT_MAIN;
+	payload: {
+		news_id: TNewsItemData['news_id'];
+		parent_id: TNewsItemCommentTypeReplyMain['parent_id'];
+		newCommentMainRepliesData: TNewsItemCommentMainReplies;
+		hit_replies_limit: boolean;
+	};
 }
-interface ICreateNewsItemMainOrMainReplyCommentSuccess {
-	type: NewsItemContextConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS;
+// Needs Work :|
+interface IAddNewCommentTypeMainOrMainReply {
+	type: NewsItemContextConstants.ADD_NEW_COMMENT_TYPE_MAIN_OR_MAIN_REPLY;
 	payload: (
 		| ICommentTypeMainCommon
 		| (ICommentTypeMainReplyCommon & {
@@ -266,38 +261,14 @@ interface ICreateNewsItemMainOrMainReplyCommentSuccess {
 		author_profile_picture?: IUserBasicData['profile_picture'];
 	};
 }
-interface ICreateNewsItemMainOrMainReplyCommentFail {
-	type: NewsItemContextConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_FAIL;
-	payload:
-		| (Pick<ICommentTypeMainCommon, 'type' | 'news_id'> & {
-				error: string;
-		  })
-		| (Pick<ICommentTypeMainReplyCommon, 'type' | 'news_id'> & {
-				error: string;
-		  });
-}
-interface IUpdateNewsItemMainOrMainReplyCommentPending {
-	type: NewsItemContextConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT_PENDING;
-	payload: ICommentTypeMainCommon | ICommentTypeMainReplyCommon;
-}
-interface IUpdateNewsItemMainOrMainReplyCommentSuccess {
-	type: NewsItemContextConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS;
+interface IUpdateNewsItemMainOrMainReplyComment {
+	type: NewsItemContextConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT;
 	payload:
 		| (ICommentTypeMainCommon & {
 				newContent: TNewsItemCommentTypeReplyMain['content'];
 		  })
 		| (ICommentTypeMainReplyCommon & {
 				newContent: TNewsItemCommentTypeMain['content'];
-		  });
-}
-interface IUpdateNewsItemMainOrMainReplyCommentFail {
-	type: NewsItemContextConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT_FAIL;
-	payload:
-		| (ICommentTypeMainReplyCommon & {
-				error: string;
-		  })
-		| (ICommentTypeMainCommon & {
-				error: string;
 		  });
 }
 
@@ -398,15 +369,12 @@ export type TNewsContextReducerAction =
 	| IGetMoreNewsItemCommentsMainPending
 	| IGetMoreNewsItemCommentsMainSuccess
 	| IGetMoreNewsItemCommentsMainFail
-	| IGetMoreNewsItemCommentMainReplyPending
-	| IGetMoreNewsItemCommentMainReplySuccess
-	| IGetMoreNewsItemCommentMainReplyFail
-	| ICreateNewsItemMainOrMainReplyCommentPending
-	| ICreateNewsItemMainOrMainReplyCommentSuccess
-	| ICreateNewsItemMainOrMainReplyCommentFail
-	| IUpdateNewsItemMainOrMainReplyCommentPending
-	| IUpdateNewsItemMainOrMainReplyCommentSuccess
-	| IUpdateNewsItemMainOrMainReplyCommentFail
+	//
+	//
+	| IAddRepliesToCommentMain
+	| IAddNewCommentTypeMainOrMainReply
+	| IUpdateNewsItemMainOrMainReplyComment
+	//
 	//
 	| ICreateNewsItemPending
 	| ICreateNewsItemSuccess
@@ -464,59 +432,7 @@ export type TGetMoreNewsItemCommentsMain = (
 		urlOptions: IGetNewsItemCommentsReqArgs['urlOptions'];
 	}
 ) => Promise<void>;
-export type TGetMoreNewsItemCommentRepliesMain = (
-	newsDispatch: TNewsContextDispatch,
-	{
-		news_id,
-		urlOptions,
-		parent_id,
-	}: {
-		news_id: TNewsItemData['news_id'];
-		parent_id: TNewsItemCommentTypeReplyMain['parent_id'];
-		urlOptions: IGetNewsItemCommentsReqArgs['urlOptions'];
-	}
-) => Promise<void>;
 
-/* Not Finished Yet! :| */
-export type TCreateNewsItemMainOrMainReplyComment = (
-	newsDispatch: TNewsContextDispatch,
-	props: {
-		requiredData: (
-			| (Pick<ICommentTypeMainReplyCommon, 'type' | 'news_id' | 'parent_id'> & {
-					content: TNewsItemCommentTypeReplyMain['content'];
-					reply_to_user_id: TNewsItemCommentTypeReplyMain['reply_to_user_id'];
-					reply_to_comment_id?: TNewsItemCommentTypeReplyMain['reply_to_comment_id'];
-			  })
-			| (Pick<ICommentTypeMainCommon, 'type' | 'news_id'> & {
-					content: TNewsItemCommentTypeMain['content'];
-			  })
-		) & {
-			// news_comment_id: string;
-			content: TNewsItemCommentBasicData['content'];
-			author_id: IUserBasicData['id'];
-			author_user_name_id: IUserBasicData['user_name_id'];
-			author_first_name: IUserBasicData['first_name'];
-			author_last_name: IUserBasicData['last_name'];
-			author_profile_picture?: IUserBasicData['profile_picture'];
-		};
-		token?: string;
-	}
-) => Promise<void>;
-/* */
-
-export type TUpdateNewsItemMainOrMainReplyComment = (
-	newsDispatch: TNewsContextDispatch,
-	props: {
-		requiredData:
-			| (ICommentTypeMainReplyCommon & {
-					newContent: TNewsItemCommentTypeReplyMain['content'];
-			  })
-			| (ICommentTypeMainReplyCommon & {
-					newContent: TNewsItemCommentTypeMain['content'];
-			  });
-		token?: string;
-	}
-) => Promise<void>;
 //
 export type TCreateNewsItem = (
 	newsDispatch: TNewsContextDispatch,

@@ -40,7 +40,7 @@ IProps) => {
 	// 		?.getTypeBlogContent;
 
 	const handleSubmit: THandleSubmitForCreateAndUpdateNewsItemActionType =
-		async (newsDataDispatch, props) => {
+		async (newsDispatch, props) => {
 			// if (createItemRequest?.isLoading) return;
 
 			const fieldsCheck: string[] = [];
@@ -92,7 +92,7 @@ IProps) => {
 			if (fieldsCheck.length > 0) {
 				return fieldsCheck;
 			} else {
-				// await createNewsItem(newsDataDispatch, {
+				// await createNewsItem(newsDispatch, {
 				// 	newNewsItemAuthorData: {
 				// 		author_bio: userData.bio || '',
 				// 		author_first_name: userData.first_name,
@@ -170,7 +170,7 @@ IProps) => {
 				)
 					return ['Nothing Changed!'];
 
-				await updateNewsItem(newsDataDispatch, {
+				await updateNewsItem(newsDispatch, {
 					news_id: newsItemData.news_id,
 					token: userToken,
 					bodyContent,

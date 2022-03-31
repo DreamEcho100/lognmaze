@@ -23,21 +23,18 @@ const NewsItemActionTypeDelete = ({
 	isModalVisible,
 }: IProps) => {
 	// const [userState, userDispatch] = useUserSharedState();
-	const [newsState, newsDispatch] = useNewsSharedState();
+	// const [newsState, newsDispatch] = useNewsSharedState();
 	// const [disableButtons, setDisableButtons] = useState(false);
 
-	const {
-		createOrUpdateRequestAction,
-		contentRequestAction,
-		newsDataDispatch,
-	} = useCreateUpdateDeleteNewsItemNeeds({
-		actionType: 'delete',
-		newsItemId: newsItemData.news_id,
-		isLoadingContentProps: {
-			isModalVisible,
-			newsItemData,
-		},
-	});
+	const { createOrUpdateRequestAction, contentRequestAction, newsDispatch } =
+		useCreateUpdateDeleteNewsItemNeeds({
+			actionType: 'delete',
+			newsItemId: newsItemData.news_id,
+			isLoadingContentProps: {
+				isModalVisible,
+				newsItemData,
+			},
+		});
 
 	const itemsDisabled = useMemo(
 		() =>
@@ -55,7 +52,7 @@ const NewsItemActionTypeDelete = ({
 	);
 
 	const deleteNews = async () => {
-		await deleteNewsItem(newsDataDispatch, {
+		await deleteNewsItem(newsDispatch, {
 			bodyContent:
 				newsItemData.type === 'blog'
 					? {

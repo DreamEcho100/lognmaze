@@ -1,4 +1,10 @@
-import { FC, FormEvent, useEffect, useState } from 'react';
+import {
+	FC,
+	FormEvent,
+	// useEffect,
+	useReducer,
+	useState,
+} from 'react';
 
 import classes from './index.module.css';
 import helpersClasses from '@styles/helpers.module.css';
@@ -33,7 +39,9 @@ import MdToHTMLFormatter from '@commonComponentsDependent/Format/MdToHTML';
 import FormatContainer from '@commonComponentsIndependent/Format/Container';
 import TimeAndDate from '@coreComponents/News/Item/TimeAndDate';
 import Link from 'next/link';
-import { getMoreNewsItemCommentRepliesMain } from '@store/NewsContext/actions/comments';
+// import { getMoreNewsItemCommentRepliesMain } from '@store/NewsContext/actions/comments';
+import commentRequestsReducer from './utils/reducer';
+import { getRepliesForMainComment } from './utils/actions';
 
 interface ICommentMainProps {
 	commentType: TNewsItemCommentTypeMain['type'];
@@ -96,59 +104,33 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		{
 			actions: { items: itemsActions },
 		},
-		newsDataDispatch,
+		newsDispatch,
 	] = useNewsSharedState();
+
+	const [requestsActionsState, requestsActionsDispatch] = useReducer(
+		commentRequestsReducer,
+		{
+			type: props.comment.type,
+		}
+	);
 
 	const commentMain =
 		(props.commentType === 'comment_main' && props.comment) || undefined;
-	const initRequest = () => ({
-		isLoading: false,
-		error: '',
-		success: false,
-	});
-	const commentMainRequestsActions = (() => {
-		if (props.comment.type === 'comment_main') {
-			return {
-				getMoreReplies:
-					itemsActions[newsItemData.news_id]?.requests?.mainComments?.[
-						props.comment.news_comment_id
-					]?.getMoreReplies || initRequest(),
-				update:
-					itemsActions[newsItemData.news_id]?.requests?.mainComments?.[
-						props.comment.news_comment_id
-					]?.update || initRequest(),
-			};
-		}
-	})();
-	const commentMainReply =
-		(props.commentType === 'comment_main_reply' && props.comment) || undefined;
-	const commentMainReplyRequestsActions = (() => {
-		if (props.comment.type === 'comment_main_reply') {
-			return {
-				update:
-					itemsActions[newsItemData.news_id]?.requests?.mainComments?.[
-						props.comment.parent_id
-					]?.replies?.[props.comment.news_comment_id]?.update || initRequest(),
-				create:
-					itemsActions[newsItemData.news_id]?.requests?.mainComments?.[
-						props.comment.parent_id
-					]?.replies?.[props.comment.news_comment_id]?.create || initRequest(),
-			};
-		}
-	})();
-	const commentPropsMainReplyParentData =
-		(props.commentType === 'comment_main_reply' && props.parent_data) ||
-		undefined;
+	// const commentMainReply =
+	// 	(props.commentType === 'comment_main_reply' && props.comment) || undefined;
+	// const commentPropsMainReplyParentData =
+	// 	(props.commentType === 'comment_main_reply' && props.parent_data) ||
+	// 	undefined;
 
 	// const [isContentVisible, setShowContent] = useState(true);
 	const [showReplyTextarea, setShowReplyTextarea] = useState(false);
 	const [showReplies, setShowReplies] = useState(false);
 
 	const [focusTextarea, setFocusCommentTextarea] = useState(false);
-	const [editBtnsDisabled, setEditBtnsDisabled] = useState(false);
+	const [editButtonsDisabled, setEditButtonsDisabled] = useState(false);
 
-	const [deleteBtnsDisabled, setDeleteBtnsDisabled] = useState(false);
-	const [commentReplyBtnsDisabled, setCommentReplyBtnsDisabled] =
+	const [deleteButtonsDisabled, setDeleteButtonsDisabled] = useState(false);
+	const [commentReplyButtonsDisabled, setCommentReplyButtonsDisabled] =
 		useState(false);
 	const [focusCommentReplyTextarea, setFocusCommentReplyTextarea] =
 		useState(false);
@@ -164,7 +146,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 	const handleDeleteComment = async () =>
 		// bodyObj
 		{
-			// setDeleteBtnsDisabled(true);
+			// setDeleteButtonsDisabled(true);
 			// await handleDeletingMainOrReplyCommentInNewsItem({
 			// 	newsDispatch,
 			// 	news_id: newsItemData.news_id,
@@ -180,7 +162,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 
 	const handleUpdatingComment = async (event: FormEvent) => {
 		// event.preventDefault();
-		// setEditBtnsDisabled(true);
+		// setEditButtonsDisabled(true);
 		// const bodyObj = {
 		// 	content: values.content,
 		// 	news_comment_id: props.comment.news_comment_id,
@@ -197,7 +179,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		// 			: undefined,
 		// });
 		// setShowContent(true);
-		// setEditBtnsDisabled(false);
+		// setEditButtonsDisabled(false);
 	};
 
 	const handleSubmitCommentReply = async () =>
@@ -207,7 +189,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		// commentData,
 		// setValues
 		{
-			// setCommentReplyBtnsDisabled(true);
+			// setCommentReplyButtonsDisabled(true);
 			// await handleReplyingToMainOrReplyCommentInNewsItem({
 			// 	newsDispatch,
 			// 	newsItem: newsItemData,
@@ -220,7 +202,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 			// 	comment_reply: '',
 			// }));
 			// setShowReplyTextarea(false);
-			// setCommentReplyBtnsDisabled(false);
+			// setCommentReplyButtonsDisabled(false);
 		};
 
 	const loadRepliesHandler = async () => {
@@ -236,7 +218,8 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 			}
 		})();
 
-		getMoreNewsItemCommentRepliesMain(newsDataDispatch, {
+		await getRepliesForMainComment(requestsActionsDispatch, {
+			newsDispatch,
 			parent_id: props.comment.news_comment_id,
 			news_id: newsItemData.news_id,
 			urlOptions: {
@@ -250,6 +233,12 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 				},
 			},
 		});
+
+		// if (data)
+		// 	newsDispatch({
+		// 		type: NewsItemContextConstants.ADD_REPLIES_TO_COMMENT_MAIN,
+		// 		payload: data,
+		// 	});
 	};
 
 	// useEffect(() => {
@@ -261,18 +250,18 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 						handleDeleteComment,
 						props.comment,
 						newsItemData,
-						deleteBtnsDisabled,
+						deleteButtonsDisabled,
 					},
 					Element: function Element({
 						handleDeleteComment,
 						props.comment,
 						newsItemData,
-						deleteBtnsDisabled,
+						deleteButtonsDisabled,
 					}) {
 						return (
 							<button
 								title='Delete Comment'
-								disabled={deleteBtnsDisabled}
+								disabled={deleteButtonsDisabled}
 								onClick={() => {
 									let bodyObj = {};
 									if (props.commentType === 'comment_main') {
@@ -329,7 +318,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		*/
 	// }, [
 	// 	props.comment,
-	// 	deleteBtnsDisabled,
+	// 	deleteButtonsDisabled,
 	// 	items.length,
 	// 	newsItemData,
 	// 	commentPropsMainReplyParentData?.news_comment_id,
@@ -407,7 +396,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 				name='content'
 				setValues={setValues}
 				value={values.content}
-				disableSubmitBtn={editBtnsDisabled}
+				disableSubmitButton={editButtonsDisabled}
 				commentToType={props.comment.type}
 				/>
 			)} */}
@@ -426,13 +415,14 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 				)} */}
 			</footer>
 			{props.commentType === 'comment_main' &&
+				requestsActionsState.type === 'comment_main' &&
 				props.comment.replies_counter !== 0 &&
 				!showReplies && (
 					<button
 						title={`${
 							props.comment.replies_counter === 1 ? 'Reply' : 'Replies'
 						} ${props.comment.replies_counter}`}
-						disabled={commentMainRequestsActions?.getMoreReplies?.isLoading}
+						disabled={requestsActionsState?.getReplies?.isLoading}
 						onClick={() => {
 							// if (
 							// 	props.comment.replies &&
@@ -488,7 +478,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					name='comment_reply'
 					setValues={setValues}
 					value={values.comment_reply}
-					disableSubmitBtn={commentReplyBtnsDisabled}
+					disableSubmitButton={commentReplyButtonsDisabled}
 					commentToType={props.comment.type}
 				/>
 			)}
@@ -502,13 +492,15 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					/>
 				)}
 
-			{commentMainRequestsActions?.getMoreReplies?.isLoading && (
-				<p className='isLoadingLoader'>Loading...</p>
-			)}
+			{requestsActionsState.type === 'comment_main' &&
+				requestsActionsState?.getReplies?.isLoading && (
+					<p className='isLoadingLoader'>Loading...</p>
+				)}
 
 			<div className='buttons-holder'>
 				{showReplies &&
 					props.comment.type === 'comment_main' &&
+					requestsActionsState.type === 'comment_main' &&
 					props.comment?.replies &&
 					props.comment?.replies.length !== 0 &&
 					!props.comment.hit_replies_limit &&
@@ -516,7 +508,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					props.comment.replies_counter !== props.comment?.replies?.length && (
 						<button
 							title='Load More'
-							disabled={commentMainRequestsActions?.getMoreReplies?.isLoading}
+							disabled={requestsActionsState?.getReplies?.isLoading}
 							onClick={() => {
 								if (
 									props.comment.type === 'comment_main' &&
@@ -542,12 +534,13 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					)}
 
 				{props.comment.type === 'comment_main' &&
+					requestsActionsState.type === 'comment_main' &&
 					showReplies &&
 					props.comment?.replies &&
 					props.comment?.replies.length !== 0 && (
 						<button
 							title='Hide Replies'
-							disabled={commentMainRequestsActions?.getMoreReplies?.isLoading}
+							disabled={requestsActionsState?.getReplies?.isLoading}
 							onClick={() => setShowReplies(false)}
 						>
 							<span className={helpersClasses.fontWeightBold}>

@@ -116,7 +116,7 @@ const LoginComponent = () => {
 					title='Log In'
 					disabled={isButtonsDisabled}
 					type='submit'
-					className={classes.submitBtn}
+					className={classes.submitButton}
 				>
 					Login
 				</ButtonComponent>

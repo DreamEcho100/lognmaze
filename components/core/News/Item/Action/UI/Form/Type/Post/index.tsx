@@ -45,15 +45,12 @@ const NewsItemFormTypePost = ({
 	});
 	const [inputsError, setInputsError] = useState<string[]>([]);
 
-	const {
-		createOrUpdateRequestAction,
-		contentRequestAction,
-		newsDataDispatch,
-	} = useCreateUpdateDeleteNewsItemNeeds({
-		actionType,
-		newsItemId: newsItemData?.news_id,
-		isLoadingContentProps,
-	});
+	const { createOrUpdateRequestAction, contentRequestAction, newsDispatch } =
+		useCreateUpdateDeleteNewsItemNeeds({
+			actionType,
+			newsItemId: newsItemData?.news_id,
+			isLoadingContentProps,
+		});
 
 	// const isLoadingContent = !values.content && contentRequestAction.isLoading;
 
@@ -83,7 +80,7 @@ const NewsItemFormTypePost = ({
 					type_data: values,
 				} as INewsItemTypeBlogBasicData | INewsItemTypePostBasicData;
 				const inputsErrorAfterSubmission = await handleSubmit(
-					newsDataDispatch,
+					newsDispatch,
 					props
 				);
 				if (

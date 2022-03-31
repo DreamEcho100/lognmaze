@@ -39,7 +39,7 @@ const Comments: FC<IProps> = ({
 		},
 		userDispatch,
 	] = useUserSharedState();
-	const [newsDataState, newsDataDispatch] = useNewsSharedState();
+	// const [newsDataState, newsDispatch] = useNewsSharedState();
 
 	const [
 		{
@@ -54,7 +54,7 @@ const Comments: FC<IProps> = ({
 		newsItemsActions[newsItemData.news_id]?.requests?.getMoreMainComments;
 
 	// const [userData, userDispatch] = useUserSharedState();
-	// const [newsDataState, newsDataDispatch] = useNewsSharedState();
+	// const [newsDataState, newsDispatch] = useNewsSharedState();
 
 	const [values, setValues] = useState({
 		content: '',
@@ -71,7 +71,7 @@ const Comments: FC<IProps> = ({
 		setDisableSendCommentButton(true);
 
 		// await handlePostingCommentToNewsItem({
-		// 	newsDataDispatch,
+		// 	newsDispatch,
 		// 	commentType: 'comment_main',
 		// 	commentContent: values.content,
 		// 	news_id: newsItemData.news_id,
@@ -95,7 +95,7 @@ const Comments: FC<IProps> = ({
 		)
 			return;
 
-		await getMoreNewsItemCommentsMain(newsDataDispatch, {
+		await getMoreNewsItemCommentsMain(newsDispatch, {
 			news_id: newsItemData.news_id,
 			urlOptions: {
 				params: {
@@ -110,7 +110,7 @@ const Comments: FC<IProps> = ({
 			},
 		});
 	}, [
-		newsDataDispatch,
+		newsDispatch,
 		newsItemData.comments,
 		newsItemData.comments_counter,
 		newsItemData.hit_comments_limit,
@@ -157,7 +157,7 @@ const Comments: FC<IProps> = ({
 					name='content'
 					setValues={setValues}
 					value={values.content}
-					disableSubmitBtn={disableSendCommentButton}
+					disableSubmitButton={disableSendCommentButton}
 				/>
 			)}
 			<div>

@@ -31,7 +31,7 @@ const UserProfileScreen = (Props: Props) => {
 	] = useUserSharedState();
 	const [{ data: profilePageData }, profilePageDispatch] =
 		useUserProfilePageSharedState();
-	// const [newsDataState, newsDataDispatch] = useNewsSharedState();
+	// const [newsDataState, newsDispatch] = useNewsSharedState();
 
 	const profilePageVisitorStatus = profilePageData?.visitorStatus;
 
