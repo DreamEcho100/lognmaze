@@ -51,7 +51,10 @@ const NewsBlogInfo = ({
 				}`}
 			> */}
 			<CustomImage
-				src={newsItemData?.image_src}
+				src={
+					newsItemData?.image_src &&
+					`//images.weserv.nl/?url=${newsItemData?.image_src}&w=500&h=250`
+				}
 				alt={newsItemData?.image_alt}
 				effect='blur'
 				className={`${classes.img_wrapper} ${

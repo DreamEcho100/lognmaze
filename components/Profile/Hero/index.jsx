@@ -58,7 +58,7 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 						)}
 					>
 						<CustomImage
-							src={userData.cover_photo}
+							src={`//images.weserv.nl/?url=${userData.cover_photo}&w=500&h=250`}
 							alt=''
 							className={classes['cover_photo']}
 							// effect='blur'
@@ -93,7 +93,7 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 						)}
 					>
 						<CustomImage
-							src={userData.profile_picture}
+							src={`//images.weserv.nl/?url=${userData.profile_picture}&w=150&h=150`}
 							alt=''
 							className={classes['profile_picture']}
 							effect='blur'
@@ -132,12 +132,12 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 					className={handleAddingLoadingSkeletonClass(
 						isLoadingSkeleton,
 						classes,
-						'heading-4')}
+						'heading-4'
+					)}
 				>
 					{userData.first_name} {userData.last_name}
 				</p>
-				{
-					userData.gender && 
+				{userData.gender && (
 					<p
 						className={handleAddingLoadingSkeletonClass(
 							isLoadingSkeleton,
@@ -146,7 +146,7 @@ const Hero = ({ isLoadingSkeleton, userData = {}, visitorIdentity }) => {
 					>
 						{userData.gender[0].toUpperCase() + userData.gender.slice(1)}
 					</p>
-				}
+				)}
 				<address>
 					<p
 						className={handleAddingLoadingSkeletonClass(

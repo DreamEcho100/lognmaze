@@ -33,7 +33,10 @@ const Nav = ({
 						}`}
 					>
 						<CustomImage
-							src={newsItemData?.author_profile_picture}
+							src={
+								newsItemData?.author_profile_picture &&
+								`//images.weserv.nl/?url=${newsItemData?.author_profile_picture}&w=150&h=150`
+							}
 							alt=''
 							className={classes.author_profile_picture}
 							effect='blur'

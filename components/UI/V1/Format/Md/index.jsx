@@ -40,7 +40,7 @@ const Md = ({ content, addHorizontalPhotoAd11 = false }) => {
 			return (
 				<div className={classes['img-container']}>
 					<CustomImage
-						src={image.src}
+						src={`//images.weserv.nl/?url=${image.src}&w=500&h=250`}
 						alt={image.alt}
 						effect='blur'
 						style={{
@@ -70,9 +70,7 @@ const Md = ({ content, addHorizontalPhotoAd11 = false }) => {
 			) {
 				return (
 					<Link href={href} prefetch={false} passHref>
-						<a className='text-glow-special'>
-							{children}
-						</a>
+						<a className='text-glow-special'>{children}</a>
 					</Link>
 				);
 			}

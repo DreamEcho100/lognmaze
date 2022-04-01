@@ -235,7 +235,7 @@ const Comment = ({ comment, newsItemData, ...props }) => {
 			<header className={classes.header}>
 				<nav className={classes.nav}>
 					<CustomImage
-						src={comment.author_profile_picture}
+						src={`//images.weserv.nl/?url=${comment.author_profile_picture}&w=150&h=150`}
 						alt=''
 						className={classes['profile_picture-container']}
 						effect='blur'
