@@ -1,6 +1,6 @@
 export const handleRequestStateChanges = async <
 	TData,
-	R = undefined,
+	R = boolean,
 	TInitExtraData = undefined,
 	TErrorExtraData = undefined,
 	TSuccessExtraData = undefined
@@ -20,19 +20,26 @@ export const handleRequestStateChanges = async <
 		success?: TSuccessExtraData;
 	};
 	responseSuccessType?: 'json' | 'text';
-}): Promise<R | void | undefined> => {
-	const response = await onInit(extraData?.init || ({} as TInitExtraData));
+}): Promise<R | boolean> => {
+	const response = await onInit(
+		extraData?.init || ({} as unknown as TInitExtraData)
+	);
 
 	if (!response.ok) {
-		onError(await response.text(), extraData?.error || ({} as TErrorExtraData));
-		return;
+		onError(
+			await response.text(),
+			extraData?.error || ({} as unknown as TErrorExtraData)
+		);
+		return false;
 	}
 
-	return onSuccess(
-		responseSuccessType === 'json'
-			? await response.json()
-			: await response.text(),
-		extraData?.success || ({} as TSuccessExtraData)
+	return (
+		onSuccess(
+			responseSuccessType === 'json'
+				? await response.json()
+				: await response.text(),
+			extraData?.success || ({} as unknown as TSuccessExtraData)
+		) || true
 	);
 };
 

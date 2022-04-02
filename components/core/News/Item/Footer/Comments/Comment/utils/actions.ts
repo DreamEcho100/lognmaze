@@ -11,7 +11,8 @@ import {
 } from '@coreLib/ts/global';
 import ECommentConstants from './constants';
 import {
-	TCreateNewsItemMainOrMainReplyComment,
+	TCreateNewsItemReplyForMainComment,
+	TDeleteNewsItemMainOrMainReplyComment,
 	TGetRepliesForMainComment,
 	TUpdateNewsItemMainOrMainReplyComment,
 } from './ts';
@@ -26,27 +27,27 @@ interface IGetRepliesForMainCommentSuccessData {
 	comments: TNewsItemCommentMainReplies;
 }
 
-export const createNewsItemMainOrMainReplyComment: TCreateNewsItemMainOrMainReplyComment =
+export const createNewsItemReplyForMainComment: TCreateNewsItemReplyForMainComment =
 	async (commentDispatch, { newsDispatch, requiredData, token }) => {
-		await handleRequestStateChanges<
+		return await handleRequestStateChanges<
 			{
 				news_comment_id: TNewsItemCommentBasicData['news_comment_id'];
 			},
-			void,
+			boolean,
 			IGetMoreNewsItemCommentRepliesMainExtraProps,
 			IGetMoreNewsItemCommentRepliesMainExtraProps,
 			IGetMoreNewsItemCommentRepliesMainExtraProps
 		>({
 			onInit: async () => {
 				commentDispatch({
-					type: ECommentConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_PENDING,
+					type: ECommentConstants.CREATE_REPLY_FOR_MAIN_COMMENT_PENDING,
 				});
 
 				const { requestInfo, requestInit } =
 					networkReqArgs._app.news.item.comment.create({
 						urlOptions: {
 							params: {
-								// comment_id: requiredData.news_comment_id,
+								// news_comment_id: requiredData.news_comment_id,
 								news_id: requiredData.news_id,
 							},
 						},
@@ -74,8 +75,8 @@ export const createNewsItemMainOrMainReplyComment: TCreateNewsItemMainOrMainRepl
 				return await fetch(requestInfo, requestInit);
 			},
 			onError: (error) => {
-				return commentDispatch({
-					type: ECommentConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_FAIL,
+				commentDispatch({
+					type: ECommentConstants.CREATE_REPLY_FOR_MAIN_COMMENT_FAIL,
 					payload: {
 						error,
 						...requiredData,
@@ -84,7 +85,7 @@ export const createNewsItemMainOrMainReplyComment: TCreateNewsItemMainOrMainRepl
 			},
 			onSuccess: ({ news_comment_id }) => {
 				commentDispatch({
-					type: ECommentConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS,
+					type: ECommentConstants.CREATE_REPLY_FOR_MAIN_COMMENT_SUCCESS,
 				});
 				newsDispatch({
 					type: NewsItemContextConstants.ADD_NEW_COMMENT_TYPE_MAIN_OR_MAIN_REPLY,
@@ -99,10 +100,13 @@ export const createNewsItemMainOrMainReplyComment: TCreateNewsItemMainOrMainRepl
 
 export const updateNewsItemMainOrMainReplyComment: TUpdateNewsItemMainOrMainReplyComment =
 	async (commentDispatch, { newsDispatch, requiredData, token }) => {
-		return await handleRequestStateChanges<{
-			comments: TNewsItemCommentMainReplies;
-			hit_replies_limit: boolean;
-		}>({
+		return await handleRequestStateChanges<
+			{
+				comments: TNewsItemCommentMainReplies;
+				hit_replies_limit: boolean;
+			},
+			true
+		>({
 			onInit: async () => {
 				commentDispatch({
 					type: ECommentConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT_PENDING,
@@ -112,7 +116,7 @@ export const updateNewsItemMainOrMainReplyComment: TUpdateNewsItemMainOrMainRepl
 					networkReqArgs._app.news.item.comment.update({
 						urlOptions: {
 							params: {
-								comment_id: requiredData.news_comment_id,
+								news_comment_id: requiredData.news_comment_id,
 								news_id: requiredData.news_id,
 							},
 						},
@@ -127,7 +131,7 @@ export const updateNewsItemMainOrMainReplyComment: TUpdateNewsItemMainOrMainRepl
 				return await fetch(requestInfo, requestInit);
 			},
 			onError: (error) => {
-				return commentDispatch({
+				commentDispatch({
 					type: ECommentConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT_FAIL,
 					payload: {
 						error,
@@ -142,15 +146,6 @@ export const updateNewsItemMainOrMainReplyComment: TUpdateNewsItemMainOrMainRepl
 				newsDispatch({
 					type: NewsItemContextConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT,
 					payload: {
-						// type: requiredData.type,
-						// news_id: requiredData.news_id,
-						// news_comment_id: requiredData.news_comment_id,
-						// ...(requiredData.type === 'comment_main_reply'
-						// 	? {
-						// 			type: requiredData.type,
-						// 			parent_id: requiredData.parent_id,
-						// 	  }
-						// 	: {}),
 						...requiredData,
 						newContent: requiredData.newContent,
 					},
@@ -177,12 +172,13 @@ export const getRepliesForMainComment: TGetRepliesForMainComment = async (
 			return await fetch(requestInfo, requestInit);
 		},
 		onError: (error) => {
-			return commentDispatch({
+			commentDispatch({
 				type: ECommentConstants.GET_REPLIES_FOR_MAIN_COMMENT_FAIL,
 				payload: {
 					error,
 				},
 			});
+			return false;
 		},
 		onSuccess: ({ comments, hit_replies_limit }) => {
 			commentDispatch({
@@ -201,3 +197,64 @@ export const getRepliesForMainComment: TGetRepliesForMainComment = async (
 		},
 	});
 };
+
+export const deleteNewsItemMainOrMainReplyComment: TDeleteNewsItemMainOrMainReplyComment =
+	async (commentDispatch, { newsDispatch, requiredData, token }) => {
+		return await handleRequestStateChanges<
+			{
+				comments: TNewsItemCommentMainReplies;
+				hit_replies_limit: boolean;
+			},
+			true
+		>({
+			onInit: async () => {
+				commentDispatch({
+					type: ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT_PENDING,
+				});
+
+				const { requestInfo, requestInit } =
+					networkReqArgs._app.news.item.comment.delete({
+						urlOptions: {
+							params: {
+								news_comment_id: requiredData.news_comment_id,
+								news_id: requiredData.news_id,
+							},
+						},
+						bodyContent:
+							requiredData.type === 'comment_main_reply'
+								? {
+										type: requiredData.type,
+										parent_id: requiredData.parent_id,
+								  }
+								: {
+										type: requiredData.type,
+								  },
+						headersList: {
+							Authorization: token && returnBearerTokenIfExist(token),
+						},
+					});
+
+				return await fetch(requestInfo, requestInit);
+			},
+			onError: (error) => {
+				commentDispatch({
+					type: ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT_FAIL,
+					payload: {
+						error,
+						...requiredData,
+					},
+				});
+			},
+			onSuccess: () => {
+				commentDispatch({
+					type: ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS,
+				});
+				newsDispatch({
+					type: NewsItemContextConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT,
+					payload: {
+						...requiredData,
+					},
+				});
+			},
+		});
+	};

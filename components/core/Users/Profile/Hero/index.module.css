@@ -34,12 +34,12 @@
 	z-index: 2;
 }
 
-body:not([dir='rtl']) .profilePictureContainer .editButton,
-body:not([dir='rtl']) .coverPhotoContainer .editButton {
+:not([dir='rtl']) .profilePictureContainer .editButton,
+:not([dir='rtl']) .coverPhotoContainer .editButton {
 	right: 0;
 }
-body[dir='rtl'] .profilePictureContainer .editButton,
-body[dir='rtl'] .coverPhotoContainer .editButton {
+[dir='rtl'] .profilePictureContainer .editButton,
+[dir='rtl'] .coverPhotoContainer .editButton {
 	left: 0;
 }
 

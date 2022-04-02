@@ -27,7 +27,7 @@ const NewsItemActionButton = ({
 	const [isModalVisible, setIsModalVisible] = useState(false);
 
 	const ButtonComponent_Map = {
-		create: 'Create New News Item',
+		create: 'Create a Blog/Post',
 		update: newsItemData && `Update the ${newsItemData.type}`,
 		delete: newsItemData && `Delete the ${newsItemData.type}`,
 	};

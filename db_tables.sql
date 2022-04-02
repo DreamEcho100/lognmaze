@@ -1,4 +1,4 @@
-CREATE extension IF NOT EXISTS "uuid-ossp";
+-- CREATE extension IF NOT EXISTS "uuid-ossp";
 
 -- user_account Table
 CREATE TABLE user_account (

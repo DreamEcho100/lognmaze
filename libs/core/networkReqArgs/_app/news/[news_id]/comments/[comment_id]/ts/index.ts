@@ -8,7 +8,7 @@ export interface IUpdateNewsItemCommentReqArgs {
 	urlOptions: {
 		params: {
 			news_id: string;
-			comment_id: string;
+			news_comment_id: string;
 		};
 	};
 }

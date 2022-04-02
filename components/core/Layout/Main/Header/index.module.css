@@ -94,10 +94,10 @@
 		align-items: center;
 		justify-content: space-evenly;
 	}
-	body:not([dir='rtl']) .menu-toggle-button {
+	:not([dir='rtl']) .menu-toggle-button {
 		margin-left: auto;
 	}
-	body[dir='rtl'] .menu-toggle-button {
+	[dir='rtl'] .menu-toggle-button {
 		margin-right: auto;
 	}
 	.menu-toggle-button .line {
@@ -144,11 +144,11 @@
 		transition: all var(--main-transition-duration)
 			cubic-bezier(0.075, 0.82, 0.165, 1) 0.27s;
 	}
-	body:not([dir='rtl']) .nav-list {
+	:not([dir='rtl']) .nav-list {
 		left: 0;
 		transform: translateX(-100%);
 	}
-	body[dir='rtl'] .nav-list {
+	[dir='rtl'] .nav-list {
 		right: 0;
 		transform: translateX(100%);
 	}

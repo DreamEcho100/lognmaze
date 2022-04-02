@@ -11,10 +11,8 @@ const requestInit = (props?: Partial<IRequestInit>): IRequestInit => ({
 	success: props?.success || false,
 });
 
-const actionsMap = (actionType: string, commentType?: string) => {
-	if (
-		actionType.startsWith(ECommentConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT)
-	)
+const actionsTypeMap = (actionType: string, commentType?: string) => {
+	if (actionType.startsWith(ECommentConstants.CREATE_REPLY_FOR_MAIN_COMMENT))
 		return 'create';
 	if (
 		actionType.startsWith(ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT)
@@ -25,8 +23,8 @@ const actionsMap = (actionType: string, commentType?: string) => {
 	)
 		return 'update';
 
-	// if (actionType.startsWith(ECommentConstants.GET_REPLIES_FOR_MAIN_COMMENT))
-	return 'getReplies';
+	if (actionType.startsWith(ECommentConstants.GET_REPLIES_FOR_MAIN_COMMENT))
+		return 'getReplies';
 };
 
 const commentRequestsReducer = (
@@ -36,45 +34,61 @@ const commentRequestsReducer = (
 	action: TCommentRequestsReducerAction
 ): TCommentRequestsState => {
 	switch (action.type) {
-		case ECommentConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT:
+		case ECommentConstants.CREATE_REPLY_FOR_MAIN_COMMENT:
 		case ECommentConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT:
 		case ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT:
 
 		case ECommentConstants.GET_REPLIES_FOR_MAIN_COMMENT: {
+			const actionType = actionsTypeMap(action.type);
+
+			if (!actionType) return state;
+
 			return {
 				...state,
-				[actionsMap(action.type)]: requestInit(),
+				[actionType]: requestInit(),
 			};
 		}
-		case ECommentConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_PENDING:
+		case ECommentConstants.CREATE_REPLY_FOR_MAIN_COMMENT_PENDING:
 		case ECommentConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT_PENDING:
 		case ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT_PENDING:
 
 		case ECommentConstants.GET_REPLIES_FOR_MAIN_COMMENT_PENDING: {
+			const actionType = actionsTypeMap(action.type);
+
+			if (!actionType) return state;
+
 			return {
 				...state,
-				[actionsMap(action.type)]: requestInit({ isLoading: true }),
+				[actionType]: requestInit({ isLoading: true }),
 			};
 		}
-		case ECommentConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS:
+		case ECommentConstants.CREATE_REPLY_FOR_MAIN_COMMENT_SUCCESS:
 		case ECommentConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS:
 		case ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS:
 
 		case ECommentConstants.GET_REPLIES_FOR_MAIN_COMMENT_SUCCESS: {
+			const actionType = actionsTypeMap(action.type);
+
+			if (!actionType) return state;
+
 			return {
 				...state,
-				[actionsMap(action.type)]: requestInit({ success: true }),
+				[actionType]: requestInit({ success: true }),
 			};
 		}
-		case ECommentConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_FAIL:
+		case ECommentConstants.CREATE_REPLY_FOR_MAIN_COMMENT_FAIL:
 		case ECommentConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT_FAIL:
 		case ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT_FAIL:
 
 		case ECommentConstants.GET_REPLIES_FOR_MAIN_COMMENT_FAIL: {
 			const { error } = action.payload;
+			const actionType = actionsTypeMap(action.type);
+
+			if (!actionType) return state;
+
 			return {
 				...state,
-				[actionsMap(action.type)]: requestInit({ error }),
+				[actionType]: requestInit({ error }),
 			};
 		}
 

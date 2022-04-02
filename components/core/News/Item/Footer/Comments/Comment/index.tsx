@@ -41,7 +41,12 @@ import TimeAndDate from '@coreComponents/News/Item/TimeAndDate';
 import Link from 'next/link';
 // import { getMoreNewsItemCommentRepliesMain } from '@store/NewsContext/actions/comments';
 import commentRequestsReducer from './utils/reducer';
-import { getRepliesForMainComment } from './utils/actions';
+import {
+	createNewsItemReplyForMainComment,
+	deleteNewsItemMainOrMainReplyComment,
+	getRepliesForMainComment,
+	updateNewsItemMainOrMainReplyComment,
+} from './utils/actions';
 
 interface ICommentMainProps {
 	commentType: TNewsItemCommentTypeMain['type'];
@@ -95,17 +100,12 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 
 	const [
 		{
-			data: { user: userData },
+			data: { user: userData, token: userToken },
 		},
 		userDispatch,
 	] = useUserSharedState();
 
-	const [
-		{
-			actions: { items: itemsActions },
-		},
-		newsDispatch,
-	] = useNewsSharedState();
+	const [_newsState, newsDispatch] = useNewsSharedState();
 
 	const [requestsActionsState, requestsActionsDispatch] = useReducer(
 		commentRequestsReducer,
@@ -116,13 +116,9 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 
 	const commentMain =
 		(props.commentType === 'comment_main' && props.comment) || undefined;
-	// const commentMainReply =
-	// 	(props.commentType === 'comment_main_reply' && props.comment) || undefined;
-	// const commentPropsMainReplyParentData =
-	// 	(props.commentType === 'comment_main_reply' && props.parent_data) ||
-	// 	undefined;
 
-	// const [isContentVisible, setShowContent] = useState(true);
+	const [isUpdatingContentVisible, setIsUpdatingContentVisible] =
+		useState(true);
 	const [showReplyTextarea, setShowReplyTextarea] = useState(false);
 	const [showReplies, setShowReplies] = useState(false);
 
@@ -146,77 +142,108 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 	const handleDeleteComment = async () =>
 		// bodyObj
 		{
-			// setDeleteButtonsDisabled(true);
-			// await handleDeletingMainOrReplyCommentInNewsItem({
-			// 	newsDispatch,
-			// 	news_id: newsItemData.news_id,
-			// 	props.comment,
-			// 	token: userData?.token,
-			// 	bodyObj,
-			// 	parent_data_id:
-			// 		props.commentType === 'comment_main_reply'
-			// 			? props.parent_data.news_comment_id
-			// 			: undefined,
-			// });
+			setDeleteButtonsDisabled(true);
+			deleteNewsItemMainOrMainReplyComment(requestsActionsDispatch, {
+				newsDispatch,
+				token: userToken,
+				requiredData: {
+					news_comment_id: props.comment.news_comment_id,
+					news_id: newsItemData.news_id,
+					// parent_id:
+					...(() => {
+						if (props.comment.type === 'comment_main_reply') {
+							return {
+								type: props.comment.type,
+								parent_id: props.comment.parent_id,
+							};
+						}
+
+						return {
+							type: props.comment.type,
+						};
+					})(),
+				},
+			});
 		};
 
 	const handleUpdatingComment = async (event: FormEvent) => {
-		// event.preventDefault();
-		// setEditButtonsDisabled(true);
-		// const bodyObj = {
-		// 	content: values.content,
-		// 	news_comment_id: props.comment.news_comment_id,
-		// };
-		// await handleUpdatingMainOrReplyCommentInNewsItem({
-		// 	newsDispatch,
-		// 	token: userData?.token,
-		// 	bodyObj,
-		// 	props.comment,
-		// 	news_id: newsItemData.news_id,
-		// 	parent_data_id:
-		// 		props.commentType === 'comment_main_reply'
-		// 			? props.parent_data.news_comment_id
-		// 			: undefined,
-		// });
-		// setShowContent(true);
-		// setEditButtonsDisabled(false);
+		event.preventDefault();
+		if (!userData) return;
+
+		const result = await updateNewsItemMainOrMainReplyComment(
+			requestsActionsDispatch,
+			{
+				newsDispatch,
+				token: userToken,
+				requiredData: {
+					newContent: values.content,
+					news_comment_id: props.comment.news_comment_id,
+					news_id: newsItemData.news_id,
+					...(() => {
+						if (props.comment.type === 'comment_main_reply') {
+							return {
+								parent_id: props.comment.parent_id,
+								type: props.comment.type,
+							};
+						}
+
+						return {
+							type: props.comment.type,
+						};
+					})(),
+				},
+			}
+		);
+
+		if (result) setIsUpdatingContentVisible(false);
 	};
 
-	const handleSubmitCommentReply = async () =>
-		// newsDispatch,
-		// bodyObj,
-		// user,
-		// commentData,
-		// setValues
-		{
-			// setCommentReplyButtonsDisabled(true);
-			// await handleReplyingToMainOrReplyCommentInNewsItem({
-			// 	newsDispatch,
-			// 	newsItem: newsItemData,
-			// 	user: userData?.user,
-			// 	token: userData?.token,
-			// 	bodyObj,
-			// });
-			// setValues((prev) => ({
-			// 	...prev,
-			// 	comment_reply: '',
-			// }));
-			// setShowReplyTextarea(false);
-			// setCommentReplyButtonsDisabled(false);
-		};
+	const handleSubmitCommentReply = async () => {
+		if (!userData) return;
+
+		await createNewsItemReplyForMainComment(requestsActionsDispatch, {
+			newsDispatch,
+			token: userToken,
+			requiredData: {
+				author_id: userData.id,
+				author_user_name_id: userData.user_name_id,
+				author_first_name: userData.first_name,
+				author_last_name: userData.last_name,
+				author_profile_picture: userData.profile_picture,
+				content: values.comment_reply,
+				news_id: newsItemData.news_id,
+				...(() => {
+					if (props.comment.type === 'comment_main_reply') {
+						return {
+							type: props.comment.type,
+							parent_id: props.comment.news_comment_id,
+							reply_to_comment_id: props.comment.news_comment_id,
+							reply_to_user_id: props.comment.author_id,
+						};
+					}
+
+					return {
+						type: props.comment.type,
+						parent_id: props.comment.news_comment_id,
+					};
+				})(),
+			},
+		});
+	};
 
 	const loadRepliesHandler = async () => {
 		if (props.comment.type !== 'comment_main') return;
 
-		const last_reply_created_at = (() => {
-			try {
-				return new Date(props.comment.created_at).toISOString();
-			} catch (error) {
-				if (error instanceof Error) {
-					console.error(error.message);
-				}
-			}
-		})();
+		let last_reply_created_at;
+		try {
+			last_reply_created_at = new Date(props.comment.created_at).toISOString();
+			if (!last_reply_created_at)
+				throw new Error(
+					'last_reply_created_at is undefined \u{1F612}, So we will fetch the initial comment \u{1F60A}'
+				);
+		} catch (error) {
+			if (error instanceof Error) console.error(error.message);
+		}
 
 		await getRepliesForMainComment(requestsActionsDispatch, {
 			newsDispatch,
@@ -233,12 +260,6 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 				},
 			},
 		});
-
-		// if (data)
-		// 	newsDispatch({
-		// 		type: NewsItemContextConstants.ADD_REPLIES_TO_COMMENT_MAIN,
-		// 		payload: data,
-		// 	});
 	};
 
 	// useEffect(() => {
@@ -385,34 +406,36 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					<DropdownMenu items={items} />
 				)} */}
 			</header>
-			{/* {isContentVisible && ( */}
-			<FormatContainer className={classes.comment_content}>
-				<MdToHTMLFormatter content={props.comment.content} />
-			</FormatContainer>
-			{/* )} */}
-			{/* {!isContentVisible && (
-				<CommentTextarea
-				handleSubmit={handleUpdatingComment}
-				name='content'
-				setValues={setValues}
-				value={values.content}
-				disableSubmitButton={editButtonsDisabled}
-				commentToType={props.comment.type}
-				/>
-			)} */}
+			{isUpdatingContentVisible && (
+				<FormatContainer className={classes.comment_content}>
+					<MdToHTMLFormatter content={props.comment.content} />
+				</FormatContainer>
+			)}
+			{userData?.id &&
+				userData.id === props.comment.author_id &&
+				!isUpdatingContentVisible && (
+					<CommentTextarea
+						handleSubmit={handleUpdatingComment}
+						name='content'
+						setValues={setValues}
+						value={values.content}
+						disableSubmitButton={editButtonsDisabled}
+						commentToType={props.comment.type}
+					/>
+				)}
 			<footer className={classes.footer}>
 				<TimeAndDate
 					created_at={props.comment.created_at}
 					updated_at={props.comment.updated_at}
 				/>
-				{/* {userData?.userExist && (
+				{userData?.id && (
 					<button
 						title='Reply To A Comment'
 						onClick={() => setShowReplyTextarea((prev) => !prev)}
 					>
 						Reply
 					</button>
-				)} */}
+				)}
 			</footer>
 			{props.commentType === 'comment_main' &&
 				requestsActionsState.type === 'comment_main' &&
@@ -424,20 +447,12 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 						} ${props.comment.replies_counter}`}
 						disabled={requestsActionsState?.getReplies?.isLoading}
 						onClick={() => {
-							// if (
-							// 	props.comment.replies &&
-							// 	props.comment.replies.length !== 0 &&
-							// 	!showReplies
-							// )
-							// 	setShowReplies(true);
 							if (
 								(!props.comment.replies ||
 									props.comment.replies.length !==
 										props.comment.replies_counter) &&
 								!props.comment.hit_replies_limit
 							) {
-								// props.comment.news_comment_id,
-								// newsItemData.news_id
 								loadRepliesHandler();
 							}
 							setShowReplies(true);
@@ -451,28 +466,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 				)}
 			{userData?.id && showReplyTextarea && (
 				<CommentTextarea
-					handleSubmit={(event) => {
-						// event.preventDefault();
-						// let bodyObj = {
-						// 	type: 'comment_main_reply',
-						// 	news_id: newsItemData.news_id,
-						// 	content: values.comment_reply,
-						// 	reply_to_user_id: props.comment.author_id,
-						// };
-						// if (props.commentType === 'comment_main') {
-						// 	bodyObj.parent_id = props.comment.news_comment_id;
-						// } else if (props.commentType === 'comment_main_reply') {
-						// 	bodyObj.parent_id = props.parent_data.news_comment_id;
-						// 	bodyObj.reply_to_comment_id = props.comment.news_comment_id;
-						// }
-						// handleSubmitCommentReply(
-						// 	// newsDispatch, // newsDispatch,
-						// 	// bodyObj,
-						// 	// userData?.user,
-						// 	// props.comment,
-						// 	// setValues
-						// );
-					}}
+					handleSubmit={handleSubmitCommentReply}
 					// focusTextarea={focusCommentReplyTextarea}
 					// setFocusCommentTextarea={setFocusCommentReplyTextarea}
 					name='comment_reply'
@@ -524,8 +518,6 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 									props.comment.replies.length !== props.comment.replies_counter
 								) {
 									loadRepliesHandler();
-									// props.comment.news_comment_id,
-									// newsItemData.news_id
 								}
 							}}
 						>

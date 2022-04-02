@@ -23,7 +23,12 @@ export const updateCommentController = async (
 				SET content = ($1), updated_at = ($2)
 				WHERE news_comment_id = ($3) AND author_id = ($4) RETURNING news_comment_id
 			`,
-			[content, new Date().toISOString(), req.query.comment_id, req.user.id]
+			[
+				content,
+				new Date().toISOString(),
+				req.query.news_comment_id,
+				req.user.id,
+			]
 		)
 		.then(async (response: { rows: any[] }) => response.rows[0]);
 
@@ -60,7 +65,7 @@ export const deleteCommentController = async (
 				WHERE news_comment_id = ($1) AND author_id = ($2)
 				RETURNING news_comment_id
 			`,
-			[req.query.comment_id, req.user.id]
+			[req.query.news_comment_id, req.user.id]
 		)
 		.then((response: { rows: any[] }) => response.rows[0]);
 

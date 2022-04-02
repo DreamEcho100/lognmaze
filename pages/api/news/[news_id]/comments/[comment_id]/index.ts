@@ -8,11 +8,11 @@ import { isAuthorizedMiddleware } from '@nextAPIs/middleware/auth';
 const newsAPIRouteHandler = nextConnect();
 const auth = nextConnect()
 	.put<NextApiRequestExtended>(
-		'/api/news/:news_id/comments/:comment_id',
+		'/api/news/:news_id/comments/:news_comment_id',
 		isAuthorizedMiddleware
 	)
 	.delete<NextApiRequestExtended>(
-		'/api/news/:news_id/comments/:comment_id',
+		'/api/news/:news_id/comments/:news_comment_id',
 		isAuthorizedMiddleware
 	);
 

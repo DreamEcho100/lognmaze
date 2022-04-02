@@ -90,17 +90,17 @@ body:global(.dark) .textGlowSpecial {
 	margin: 0.5em 0;
 }
 
-body:not([dir='rtl']) .buttons-holder > button {
+:not([dir='rtl']) .buttons-holder > button {
 	margin-right: 0.5em;
 }
-body:not([dir='rtl']) .buttons-holder > button:last-child {
+:not([dir='rtl']) .buttons-holder > button:last-child {
 	margin-right: 0em;
 }
 
-body[dir='rtl'] .buttons-holder > button {
+[dir='rtl'] .buttons-holder > button {
 	margin-left: 0.5em;
 }
-body[dir='rtl'] .buttons-holder > button:last-child {
+[dir='rtl'] .buttons-holder > button:last-child {
 	margin-left: 0em;
 }
 

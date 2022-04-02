@@ -2,7 +2,6 @@ import { IGetNewsItemCommentsReqArgs } from '@coreLib/networkReqArgs/_app/news/[
 import {
 	IUserBasicData,
 	TNewsItemCommentBasicData,
-	TNewsItemCommentMainReplies,
 	TNewsItemCommentTypeMain,
 	TNewsItemCommentTypeReplyMain,
 	TNewsItemData,
@@ -39,20 +38,20 @@ export type TCommentRequestsState =
 // 	| TNewsItemCommentTypeMain['type']
 // 	| TNewsItemCommentTypeReplyMain['type'];
 
-interface ICreateNewsItemMainOrMainReplyComment {
-	type: ECommentConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT;
+interface ICreateNewsItemReplyForMainComment {
+	type: ECommentConstants.CREATE_REPLY_FOR_MAIN_COMMENT;
 	// payload: { type: TCommentType };
 }
-interface ICreateNewsItemMainOrMainReplyCommentPending {
-	type: ECommentConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_PENDING;
+interface ICreateNewsItemReplyForMainCommentPending {
+	type: ECommentConstants.CREATE_REPLY_FOR_MAIN_COMMENT_PENDING;
 	// payload: { type: TCommentType };
 }
-interface ICreateNewsItemMainOrMainReplyCommentSuccess {
-	type: ECommentConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS;
+interface ICreateNewsItemReplyForMainCommentSuccess {
+	type: ECommentConstants.CREATE_REPLY_FOR_MAIN_COMMENT_SUCCESS;
 	// payload: { type: TCommentType };
 }
-interface ICreateNewsItemMainOrMainReplyCommentFail {
-	type: ECommentConstants.CREATE_MAIN_OR_MAIN_REPLY_COMMENT_FAIL;
+interface ICreateNewsItemReplyForMainCommentFail {
+	type: ECommentConstants.CREATE_REPLY_FOR_MAIN_COMMENT_FAIL;
 	payload: { error: string };
 }
 
@@ -92,26 +91,29 @@ interface IGetRepliesForMainCommentFail {
 
 interface IDeleteNewsItemMainOrMainReplyComment {
 	type: ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT;
-	payload: { type: TNewsItemCommentTypeMain['type'] };
+	// payload: { type: TNewsItemCommentTypeMain['type'] };
 }
 interface IDeleteNewsItemMainOrMainReplyCommentPending {
 	type: ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT_PENDING;
-	payload: { type: TNewsItemCommentTypeMain['type'] };
+	// payload: { type: TNewsItemCommentTypeMain['type'] };
 }
 interface IDeleteNewsItemMainOrMainReplyCommentSuccess {
 	type: ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS;
-	payload: { type: TNewsItemCommentTypeMain['type'] };
+	// payload: { type: TNewsItemCommentTypeMain['type'] };
 }
 interface IDeleteNewsItemMainOrMainReplyCommentFail {
 	type: ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT_FAIL;
-	payload: { type: TNewsItemCommentTypeMain['type']; error: string };
+	payload: {
+		// type: TNewsItemCommentTypeMain['type'];
+		error: string;
+	};
 }
 
 export type TCommentRequestsReducerAction =
-	| ICreateNewsItemMainOrMainReplyComment
-	| ICreateNewsItemMainOrMainReplyCommentPending
-	| ICreateNewsItemMainOrMainReplyCommentSuccess
-	| ICreateNewsItemMainOrMainReplyCommentFail
+	| ICreateNewsItemReplyForMainComment
+	| ICreateNewsItemReplyForMainCommentPending
+	| ICreateNewsItemReplyForMainCommentSuccess
+	| ICreateNewsItemReplyForMainCommentFail
 	| IUpdateNewsItemMainOrMainReplyComment
 	| IUpdateNewsItemMainOrMainReplyCommentPending
 	| IUpdateNewsItemMainOrMainReplyCommentSuccess
@@ -129,52 +131,71 @@ export type TCommentRequestsDispatch =
 	| Dispatch<TCommentRequestsReducerAction>
 	| ((value: TCommentRequestsReducerAction) => void);
 
-export type TCreateNewsItemMainOrMainReplyComment = (
+export type TCreateNewsItemReplyForMainComment = (
 	commentDispatch: TCommentRequestsDispatch,
 	props: {
-		requiredData: (
-			| (Pick<TNewsItemCommentTypeReplyMain, 'type' | 'parent_id'> & {
-					news_id: TNewsItemData['news_id'];
-					content: TNewsItemCommentTypeReplyMain['content'];
-					reply_to_user_id: TNewsItemCommentTypeReplyMain['reply_to_user_id'];
-					reply_to_comment_id?: TNewsItemCommentTypeReplyMain['reply_to_comment_id'];
-			  })
-			| (Pick<TNewsItemCommentTypeMain, 'type'> & {
-					news_id: TNewsItemData['news_id'];
-					content: TNewsItemCommentTypeMain['content'];
-			  })
-		) & {
+		requiredData: {
 			// news_comment_id: string;
+			news_id: TNewsItemData['news_id'];
 			content: TNewsItemCommentBasicData['content'];
 			author_id: IUserBasicData['id'];
 			author_user_name_id: IUserBasicData['user_name_id'];
 			author_first_name: IUserBasicData['first_name'];
 			author_last_name: IUserBasicData['last_name'];
 			author_profile_picture?: IUserBasicData['profile_picture'];
-		};
+		} & (
+			| {
+					type: TNewsItemCommentTypeReplyMain['type'];
+					parent_id: TNewsItemCommentTypeReplyMain['parent_id'];
+					reply_to_user_id: TNewsItemCommentTypeReplyMain['reply_to_user_id'];
+					reply_to_comment_id: TNewsItemCommentTypeReplyMain['reply_to_comment_id'];
+			  }
+			| {
+					type: TNewsItemCommentTypeMain['type'];
+					parent_id: TNewsItemCommentTypeMain['news_comment_id'];
+			  }
+		);
 		newsDispatch: (value: TNewsContextReducerAction) => void;
 		token?: string;
 	}
-) => Promise<void>;
+) => Promise<boolean>;
 /* */
 
 export type TUpdateNewsItemMainOrMainReplyComment = (
 	commentDispatch: TCommentRequestsDispatch,
 	props: {
-		requiredData: (
-			| (TNewsItemCommentTypeReplyMain & {
-					newContent: TNewsItemCommentTypeReplyMain['content'];
-			  })
-			| (TNewsItemCommentTypeMain & {
-					newContent: TNewsItemCommentTypeMain['content'];
-			  })
-		) & {
+		requiredData: {
 			news_id: TNewsItemData['news_id'];
-		};
+			newContent: TNewsItemCommentBasicData['content'];
+			news_comment_id: TNewsItemCommentBasicData['news_comment_id'];
+		} & (
+			| {
+					type: TNewsItemCommentTypeReplyMain['type'];
+					parent_id: TNewsItemCommentTypeReplyMain['parent_id'];
+			  }
+			| {
+					type: TNewsItemCommentTypeMain['type'];
+			  }
+		);
 		newsDispatch: (value: TNewsContextReducerAction) => void;
 		token?: string;
 	}
-) => Promise<void>;
+) => Promise<boolean>;
+
+export type TDeleteNewsItemMainOrMainReplyComment = (
+	commentDispatch: TCommentRequestsDispatch,
+	props: {
+		requiredData: {
+			news_comment_id: TNewsItemCommentBasicData['news_comment_id'];
+			news_id: TNewsItemData['news_id'];
+		} & (
+			| { type: TNewsItemCommentTypeMain['type'] }
+			| Pick<TNewsItemCommentTypeReplyMain, 'type' | 'parent_id'>
+		);
+		newsDispatch: (value: TNewsContextReducerAction) => void;
+		token?: string;
+	}
+) => Promise<boolean>;
 
 export type TGetRepliesForMainComment = (
 	commentDispatch: TCommentRequestsDispatch,
@@ -188,7 +209,7 @@ export type TGetRepliesForMainComment = (
 		parent_id: TNewsItemCommentTypeReplyMain['parent_id'];
 		urlOptions: IGetNewsItemCommentsReqArgs['urlOptions'];
 	}
-) => Promise<void>;
+) => Promise<boolean>;
 
 export type TCommentRequestsStateReducer = (
 	state: TCommentRequestsState, // | undefined,

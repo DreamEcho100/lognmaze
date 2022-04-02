@@ -1,4 +1,8 @@
 import { headersDefault } from '@coreLib/networkReqArgs/__utils';
+import {
+	TNewsItemCommentTypeMain,
+	TNewsItemCommentTypeReplyMain,
+} from '@coreLib/ts/global';
 import { IUpdateNewsItemCommentReqArgs } from './ts';
 
 export const updateNewsItemCommentReqArgs = ({
@@ -6,7 +10,7 @@ export const updateNewsItemCommentReqArgs = ({
 	urlOptions,
 	headersList,
 }: IUpdateNewsItemCommentReqArgs) => {
-	const requestInfo: RequestInfo = `/api/news/${urlOptions.params.news_id}/comments/${urlOptions.params.comment_id}`;
+	const requestInfo: RequestInfo = `/api/news/${urlOptions.params.news_id}/comments/${urlOptions.params.news_comment_id}`;
 	const requestInit: RequestInit = {
 		method: 'PUT',
 		headers: {
@@ -23,10 +27,10 @@ export const updateNewsItemCommentReqArgs = ({
 };
 
 export interface IDeleteNewsItemCommentReqArgsPropsCommentMain {
-	type: 'comment_main';
+	type: TNewsItemCommentTypeMain['type'];
 }
 export interface IDeleteNewsItemCommentReqArgsPropsCommentMainReply {
-	type: 'comment_main';
+	type: TNewsItemCommentTypeReplyMain['type'];
 	parent_id: string;
 }
 
@@ -40,7 +44,7 @@ export interface IDeleteNewsItemCommentReqArgsProps {
 	urlOptions: {
 		params: {
 			news_id: string;
-			comment_id: string;
+			news_comment_id: string;
 		};
 	};
 }
@@ -50,7 +54,7 @@ export const deleteNewsItemCommentReqArgs = ({
 	urlOptions,
 	headersList,
 }: IDeleteNewsItemCommentReqArgsProps) => {
-	const requestInfo: RequestInfo = `/api/news/${urlOptions.params.news_id}/comments/${urlOptions.params.comment_id}`;
+	const requestInfo: RequestInfo = `/api/news/${urlOptions.params.news_id}/comments/${urlOptions.params.news_comment_id}`;
 	const requestInit: RequestInit = {
 		method: 'DELETE',
 		headers: {

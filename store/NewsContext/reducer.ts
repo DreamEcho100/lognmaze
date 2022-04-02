@@ -466,7 +466,7 @@ const reducer: TNewsContextStateReducer = (
 										return {
 											...comment,
 											replies: (comment.replies || []).map((reply) => {
-												if (reply.news_comment_id) {
+												if (reply.news_comment_id === payload.news_comment_id) {
 													return {
 														...reply,
 														content: payload.newContent,
@@ -486,51 +486,49 @@ const reducer: TNewsContextStateReducer = (
 						return item;
 					}),
 				},
-				actions: {
-					...state.actions,
-					items: {
-						...state.actions.items,
-						[payload.news_id]: {
-							...(state.actions.items[payload.news_id] || {}),
-							requests: {
-								...(state.actions.items[payload.news_id]?.requests || {}),
-								mainComments: {
-									...(state.actions.items[payload.news_id]?.requests
-										?.mainComments || {}),
-									...(payload.type === 'comment_main'
-										? {
-												[payload.news_comment_id]: {
-													...(state.actions.items[payload.news_id]?.requests
-														?.mainComments?.[payload.news_comment_id] || {}),
-													update: {
-														isLoading: false,
-														error: '',
-														success: false,
-													},
-												},
-										  }
-										: {
-												[payload.parent_id]: {
-													...(state.actions.items[payload.news_id]?.requests
-														?.mainComments?.[payload.news_comment_id] || {}),
-													replies: {
-														...(state.actions.items[payload.news_id]?.requests
-															?.mainComments?.[payload.news_comment_id]
-															?.replies || {}),
-														[payload.news_comment_id]: {
-															update: {
-																isLoading: false,
-																error: '',
-																success: false,
-															},
-														},
-													},
-												},
-										  }),
-								},
-							},
-						},
-					},
+			};
+		}
+
+		// Delete comment
+		case NewsItemContextConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT: {
+			const payload = actions.payload;
+
+			return {
+				...state,
+				data: {
+					...state.data,
+					news: state.data.news.map((item) => {
+						if (item.news_id === payload.news_id) {
+							if (payload.type === 'comment_main') {
+								return {
+									...item,
+									comments: (item.comments || []).filter(
+										(comment) =>
+											comment.news_comment_id !== payload.news_comment_id
+									),
+								};
+							}
+
+							return {
+								...item,
+								comments: (item.comments || []).map((comment) => {
+									if (comment.news_comment_id === payload.parent_id) {
+										return {
+											...comment,
+											replies: (comment.replies || []).filter(
+												(reply) =>
+													reply.news_comment_id === payload.news_comment_id
+											),
+										};
+									}
+
+									return comment;
+								}),
+							};
+						}
+
+						return item;
+					}),
 				},
 			};
 		}

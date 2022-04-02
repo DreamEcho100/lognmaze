@@ -23,7 +23,7 @@ import {
 	IDeleteNewsItemReqArgs,
 	IUpdateNewsItemReqArgs,
 } from '@coreLib/networkReqArgs/_app/news/[news_id]/ts';
-import { IUpdateNewsItemCommentReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/comments/[comment_id]/ts';
+// import { IUpdateNewsItemCommentReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/comments/[comment_id]/ts';
 
 export type INewsContextStateData = {
 	news: TNewsData;
@@ -79,20 +79,6 @@ export interface INewsContextState {
 								isLoading: boolean;
 								error: string;
 								success: boolean;
-							};
-							update?: {
-								isLoading: boolean;
-								error: string;
-								success: boolean;
-							};
-							replies?: {
-								[key: string]: {
-									update?: {
-										isLoading: boolean;
-										error: string;
-										success: boolean;
-									};
-								};
 							};
 						};
 					};
@@ -263,13 +249,31 @@ interface IAddNewCommentTypeMainOrMainReply {
 }
 interface IUpdateNewsItemMainOrMainReplyComment {
 	type: NewsItemContextConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT;
-	payload:
-		| (ICommentTypeMainCommon & {
-				newContent: TNewsItemCommentTypeReplyMain['content'];
-		  })
-		| (ICommentTypeMainReplyCommon & {
-				newContent: TNewsItemCommentTypeMain['content'];
-		  });
+	payload: {
+		news_id: TNewsItemData['news_id'];
+		newContent: TNewsItemCommentBasicData['content'];
+	} & (
+		| {
+				type: TNewsItemCommentTypeReplyMain['type'];
+				news_comment_id: TNewsItemCommentTypeReplyMain['news_comment_id'];
+				parent_id: TNewsItemCommentTypeReplyMain['parent_id'];
+		  }
+		| {
+				type: TNewsItemCommentTypeMain['type'];
+				news_comment_id: TNewsItemCommentTypeMain['news_comment_id'];
+		  }
+	);
+}
+
+interface IDeleteMainOrReplyComment {
+	type: NewsItemContextConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT;
+	payload: {
+		news_comment_id: TNewsItemCommentBasicData['news_comment_id'];
+		news_id: TNewsItemData['news_id'];
+	} & (
+		| { type: TNewsItemCommentTypeMain['type'] }
+		| Pick<TNewsItemCommentTypeReplyMain, 'type' | 'parent_id'>
+	);
 }
 
 interface ICreateNewsItemPending {
@@ -374,6 +378,7 @@ export type TNewsContextReducerAction =
 	| IAddRepliesToCommentMain
 	| IAddNewCommentTypeMainOrMainReply
 	| IUpdateNewsItemMainOrMainReplyComment
+	| IDeleteMainOrReplyComment
 	//
 	//
 	| ICreateNewsItemPending

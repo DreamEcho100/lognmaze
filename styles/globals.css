@@ -154,6 +154,11 @@
 	--padding-main-1-half: 0.5em;
 	--padding-main-1-quarter: 0.25em;
 
+	/* --border-main-1: 1rem;
+	--border-main-1-three-quarters: 0.75rem;
+	--border-main-1-half: 0.5rem;
+	--border-main-1-quarter: 0.25rem; */
+
 	--sectionWrapper-box-shadow-length: 1rem;
 	--sectionWrapper-margin-bottom: var(--padding-main-1-half);
 
@@ -168,19 +173,19 @@ body.dark {
 	--main-bg-color-0: var(--color-1-0);
 	--main-bg-color-0-95: var(--color-1-0-95);
 
-	--main-bg-color-1: var(--color-1-5);
-	--main-bg-color-2: var(--color-1-15);
+	--main-bg-color-1: var(--color-1-10);
+	--main-bg-color-2: var(--color-1-20);
 	--main-bg-color-3: var(--color-1-70);
-	--main-bg-color-4: var(--color-1-90);
-	--main-bg-color-5: var(--color-1-100);
+	--main-bg-color-4: var(--color-1-85);
+	--main-bg-color-5: var(--color-1-95);
 
-	--main-font-color-0: var(--color-1-100);
+	--main-font-color-0: var(--color-1-95);
 
-	--main-font-color-1: var(--color-1-100);
-	--main-font-color-2: var(--color-1-90);
+	--main-font-color-1: var(--color-1-95);
+	--main-font-color-2: var(--color-1-85);
 	--main-font-color-3: var(--color-1-25);
 	--main-font-color-4: var(--color-1-20);
-	--main-font-color-5: var(--color-1-15);
+	--main-font-color-5: var(--color-1-10);
 
 	--sectionWrapper-box-shadow-length: 0.25rem;
 
@@ -263,20 +268,43 @@ h6 {
 }
 
 a {
-	color: inherit;
 	text-decoration: none;
 }
 
 a,
-button {
+button,
+label {
 	cursor: pointer;
 	font-size: inherit;
+}
+
+a,
+button,
+textarea {
 	color: inherit;
 }
 
 nav ol,
 nav ul {
 	list-style: none;
+}
+
+:not([dir='rtl']) ol,
+:not([dir='rtl']) ul {
+	padding-left: 2em;
+}
+[dir='rtl'] ol,
+[dir='rtl'] ul {
+	padding-right: 2em;
+}
+
+nav ol,
+nav ul,
+:not([dir='rtl']) nav ol,
+:not([dir='rtl']) nav ul,
+[dir='rtl'] nav ol,
+[dir='rtl'] nav ul {
+	padding: 0;
 }
 
 img {
@@ -314,10 +342,10 @@ blockquote {
 	position: relative;
 	margin: var(--padding-main-1) 0;
 }
-body:not([dir='rtl']) blockquote {
+:not([dir='rtl']) blockquote {
 	padding-left: 1.5em;
 }
-body[dir='rtl'] blockquote {
+[dir='rtl'] blockquote {
 	padding-right: 1.5em;
 }
 
@@ -329,10 +357,10 @@ blockquote::before {
 	background-color: var(--main-special-bg-color-5);
 	height: 100%;
 }
-body:not([dir='rtl']) blockquote::before {
+:not([dir='rtl']) blockquote::before {
 	left: 0;
 }
-body[dir='rtl'] blockquote::before {
+[dir='rtl'] blockquote::before {
 	right: 0;
 }
 /**/
