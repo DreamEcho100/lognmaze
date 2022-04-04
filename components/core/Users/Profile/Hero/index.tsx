@@ -5,6 +5,7 @@ import { useUserProfilePageSharedState } from '@store/ProfilePageContext';
 import { VISITOR_PROFILE_OWNER } from '@coreLib/constants';
 
 import CustomNextImage from '@commonComponentsDependent/CustomNextImage';
+import { imagesWeservNlLoader } from '@commonLibIndependent/image';
 // import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
 
 type Props = {};
@@ -34,7 +35,11 @@ const UserProfileHero = (props: Props) => {
 					<div className={classes.coverPhotoInnerContainer}>
 						{profilePageUserData?.cover_photo && (
 							<CustomNextImage
-								src={profilePageUserData.cover_photo}
+								src={imagesWeservNlLoader({
+									url: profilePageUserData.cover_photo,
+									w: 300,
+									h: 300,
+								})}
 								alt='cover photo'
 								className={classes.coverPhoto}
 								priority
@@ -48,7 +53,9 @@ const UserProfileHero = (props: Props) => {
 					<div className={classes.profilePictureInnerContainer}>
 						{profilePageUserData?.profile_picture && (
 							<CustomNextImage
-								src={profilePageUserData.profile_picture}
+								src={imagesWeservNlLoader({
+									url: profilePageUserData.profile_picture,
+								})}
 								alt='profile picture'
 								className={classes.profilePicture}
 								priority

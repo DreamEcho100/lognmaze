@@ -6,6 +6,7 @@ import helpersClasses from '@styles/helpers.module.css';
 
 import { TNewsItemData } from '@coreLib/ts/global';
 import { useUserSharedState } from '@store/UserContext';
+import { imagesWeservNlLoader } from '@commonLibIndependent/image';
 
 import CustomNextImage from '@commonComponentsDependent/CustomNextImage';
 const DynamicCustomDropdown = dynamic(() => import('./CustomDropdown'));
@@ -38,7 +39,11 @@ const NewsItemHeaderNav = ({
 						>
 							<a title={`author ${newsItemData.author_user_name_id} profile`}>
 								<CustomNextImage
-									src={newsItemData.author_profile_picture}
+									src={imagesWeservNlLoader({
+										url: newsItemData.author_profile_picture,
+										w: 300,
+										h: 300,
+									})}
 									alt=''
 									className={classes.author_profile_picture}
 									priority={priorityForHeaderImage}

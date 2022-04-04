@@ -6,11 +6,15 @@ import {
 } from 'react';
 import dynamic from 'next/dynamic';
 
-import { TNewsItemData } from '@coreLib/ts/global';
-import { VISITOR_PROFILE_OWNER } from '@coreLib/constants';
-import { useUserSharedState } from '@store/UserContext';
+import {
+	// IUserAuthenticatedData,
+	// IUserBasicData,
+	TNewsItemData,
+} from '@coreLib/ts/global';
+// import { VISITOR_PROFILE_OWNER } from '@coreLib/constants';
+// import { useUserSharedState } from '@store/UserContext';
 import { useNewsSharedState } from '@store/NewsContext';
-import { useUserProfilePageSharedState } from '@store/ProfilePageContext';
+// import { useUserProfilePageSharedState } from '@store/ProfilePageContext';
 
 const DynamicComments = dynamic(() => import('./Comments'));
 // import Settings from './Settings';
@@ -18,6 +22,7 @@ import Status from './Status';
 
 interface IProps {
 	newsItemData: TNewsItemData;
+	// userData?: IUserAuthenticatedData
 	// isFooterSettingsVisible: boolean;
 	// handleIsFooterSettingsVisible: (isFooterSettingsVisible: boolean) => void;
 	hideFooterSettings?: boolean;
@@ -25,6 +30,7 @@ interface IProps {
 
 const NewsItemFooter: FC<IProps> = ({
 	newsItemData,
+	// userData,
 	// isFooterSettingsVisible,
 	// handleIsFooterSettingsVisible,
 	hideFooterSettings,
@@ -45,21 +51,21 @@ const NewsItemFooter: FC<IProps> = ({
 	const initGetMainComments =
 		newsItemsActions[newsItemData.news_id]?.requests?.init?.getMainComments;
 
-	const [
-		{
-			data: { user: userData },
-		},
-		userDispatch,
-	] = useUserSharedState();
-	const [{ data: profilePageData }, profilePageDispatch] =
-		useUserProfilePageSharedState();
+	// const [
+	// 	{
+	// 		data: { user: userData },
+	// 	},
+	// 	userDispatch,
+	// ] = useUserSharedState();
+	// const [{ data: profilePageData }, profilePageDispatch] =
+	// 	useUserProfilePageSharedState();
 
-	const profilePageVisitorStatus = profilePageData?.visitorStatus;
+	// const profilePageVisitorStatus = profilePageData?.visitorStatus;
 
-	const profilePageUserData =
-		profilePageVisitorStatus === VISITOR_PROFILE_OWNER && userData
-			? userData
-			: profilePageData?.user;
+	// const profilePageUserData =
+	// 	profilePageVisitorStatus === VISITOR_PROFILE_OWNER && userData
+	// 		? userData
+	// 		: profilePageData?.user;
 
 	const handleSetIsCommentsVisible = (isCommentsVisible?: boolean) => {
 		if (isCommentsVisible) return setIsCommentsVisible(isCommentsVisible);

@@ -105,7 +105,7 @@ const UserProfileScreen = (Props: Props) => {
 				<SectionWrapper className={classes.userProfileHeroSectionWrapper}>
 					<UserProfileHero />
 				</SectionWrapper>
-				<div className={classes.mainContent}>
+				<div className={helpersClasses.mainContent}>
 					<NewsFeed
 					// newsFetchRouteQuery={{}}
 					// priorityForHeaderImage={false}

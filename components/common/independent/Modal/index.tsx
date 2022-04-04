@@ -28,6 +28,10 @@ interface IProps {
 	isModalVisible: boolean;
 	modalVisibilityHandler: TPropsHandler0 | IPropsHandler1;
 	modalClasses?: {
+		wrapper?: {
+			default?: string;
+			new: string;
+		};
 		container?: {
 			default?: string;
 			new: string;
@@ -256,13 +260,20 @@ const ModalComponent = ({
 	return createPortal(
 		<>
 			<div className={classes.modalBackground} onClick={closeModalHandler} />
-			<div className={classes.modalWrapper} ref={modalWrapperRef}>
+			<div
+				className={`${
+					modalClasses?.wrapper?.default
+						? modalClasses?.wrapper?.default
+						: classes.modalWrapper
+				} ${modalClasses?.wrapper?.new || ''}`}
+				ref={modalWrapperRef}
+			>
 				<div
-					className={
+					className={`${
 						modalClasses?.container?.default
 							? modalClasses?.container?.default
 							: classes.modalContainerDefault
-					}
+					} ${modalClasses?.container?.new || ''}`}
 					onKeyDown={modalContainerOnKeyDownEventHandler}
 				>
 					<button

@@ -92,7 +92,7 @@ const CustomDropdown = ({ newsItemData }: IProps) => {
 	return (
 		<>
 			<Root>
-				<StyledTrigger>
+				<StyledTrigger title='News item setting button'>
 					<FontAwesomeIcon icon={['fas', 'ellipsis-v']} />
 				</StyledTrigger>
 

@@ -47,6 +47,7 @@ import {
 	getRepliesForMainComment,
 	updateNewsItemMainOrMainReplyComment,
 } from './utils/actions';
+import { imagesWeservNlLoader } from '@commonLibIndependent/image';
 
 interface ICommentMainProps {
 	commentType: TNewsItemCommentTypeMain['type'];
@@ -373,7 +374,11 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 						>
 							<a>
 								<CustomNextImage
-									src={props.comment.author_profile_picture}
+									src={imagesWeservNlLoader({
+										url: props.comment.author_profile_picture,
+										w: 300,
+										h: 300,
+									})}
 									alt=''
 									className={classes['profile_picture-container']}
 								/>

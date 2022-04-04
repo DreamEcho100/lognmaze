@@ -6,6 +6,7 @@ import classes from './index.module.css';
 import helpersClasses from '@styles/helpers.module.css';
 
 import { INewsItemTypeBlog } from '@coreLib/ts/global';
+import { imagesWeservNlLoader } from '@commonLibIndependent/image';
 
 import CustomNextImage from '@commonComponentsDependent/CustomNextImage';
 // import CustomImage from '@components/UI/V1/Image';
@@ -45,7 +46,11 @@ const NewsItemHeaderBlogInfo: FC<Props> = ({
 				<h1 className={classes.title}>{newsItemBlogData.type_data.title}</h1>
 			)}
 			<CustomNextImage
-				src={newsItemBlogData.type_data.image_src}
+				src={imagesWeservNlLoader({
+					url: newsItemBlogData.type_data.image_src,
+					w: 800,
+					h: 500,
+				})}
 				alt={newsItemBlogData.type_data.image_alt}
 				className={classes.img_wrapper}
 				priority={priorityForHeaderImage}

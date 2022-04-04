@@ -24,8 +24,11 @@ const NewsItemActionModal = ({
 			modalVisibilityHandler={modalVisibilityHandler}
 			modalClasses={{
 				containerBody: {
-					new: classes.containerBody
-				}
+					new: classes.containerBody,
+				},
+				wrapper: {
+					new: classes.wrapper,
+				},
 			}}
 		>
 			<Fragment key='header'>{HeaderComponent}</Fragment>

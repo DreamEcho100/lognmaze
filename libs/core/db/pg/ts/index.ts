@@ -95,4 +95,4 @@ interface TGetNewsProps {
 	filterByBlogTagsAnd?: string;
 }
 
-export type TGetNews = (props: TGetNewsProps) => Promise<any>;
+export type TGetNews = (props?: TGetNewsProps) => Promise<any>;
