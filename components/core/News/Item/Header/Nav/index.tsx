@@ -77,11 +77,8 @@ const NewsItemHeaderNav = ({
 					newsItemData={newsItemData}
 				/>
 			)} */}
-			{userData?.id && !hideHeaderSettings && (
-				<DynamicCustomDropdown
-					newsItemData={newsItemData}
-					userToken={userToken}
-				/>
+			{!hideHeaderSettings && (
+				<DynamicCustomDropdown newsItemData={newsItemData} />
 			)}
 		</nav>
 	);

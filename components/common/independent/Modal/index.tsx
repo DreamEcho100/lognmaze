@@ -178,11 +178,7 @@ const ModalComponent = ({
 			return modalVisibilityHandler();
 		if (!modalVisibilityHandler.handleSetIsModalVisible) return;
 
-		modalVisibilityHandler
-			.handleSetIsModalVisible
-			// !isModalVisible,
-			// modalVisibilityHandler.handleSetIsModalVisibleOptions
-			();
+		modalVisibilityHandler.handleSetIsModalVisible();
 	};
 
 	const moveFocusIn = useCallback(() => {

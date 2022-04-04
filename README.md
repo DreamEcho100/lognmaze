@@ -35,4 +35,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Useful Websites
 
-- [FANCY-BORDER-RADIUS](https://9elements.github.io/fancy-border-radius/)
+- [FANCY-BORDER-RADIUS (9elements.github.io)](https://9elements.github.io/fancy-border-radius/)
+
+- [How can I convert an image into Base64 string using JavaScript? (stackoverflow.com)](https://stackoverflow.com/a/20285053/13961420)
+
+- [Convert Markdown to HTML](https://markdowntohtml.com/)
+
+- [Encode URL](https://www.browserling.com/tools/url-encode)

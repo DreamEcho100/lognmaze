@@ -42,7 +42,7 @@ const InputComponent: FC<IProps> = ({
 			...props,
 		};
 
-		if (setValues)
+		if (setValues && !props.readOnly)
 			inputProps.onChange = (event: ChangeEvent<HTMLInputElement>) =>
 				setValues((prev: any) => ({
 					...prev,

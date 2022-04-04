@@ -41,19 +41,21 @@ const handleLoadingChanges = async <
 	};
 	responseSuccessType?: 'json' | 'text';
 }) => {
-	const response = await onInit(extraData?.init || ({} as TInitExtraData));
+	const response = await onInit(
+		extraData?.init || ({} as unknown as TInitExtraData)
+	);
 
 	if (!response.ok)
 		return onError(
 			await response.text(),
-			extraData?.error || ({} as TErrorExtraData)
+			extraData?.error || ({} as unknown as TErrorExtraData)
 		);
 
 	onSuccess(
 		responseSuccessType === 'json'
 			? await response.json()
 			: await response.text(),
-		extraData?.success || ({} as TSuccessExtraData)
+		extraData?.success || ({} as unknown as TSuccessExtraData)
 	);
 };
 
@@ -272,8 +274,6 @@ export const deleteNewsItem: TDeleteNewsItem = async (
 			});
 		},
 		onSuccess: (data) => {
-			console.log('data', data);
-
 			newsDispatch({
 				type: NewsItemContextConstants.DELETE_SUCCESS,
 				payload: {

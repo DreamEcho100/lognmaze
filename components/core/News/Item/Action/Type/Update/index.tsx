@@ -1,13 +1,8 @@
-import { useEffect } from 'react';
-
 import { TNewsItemData } from '@coreLib/ts/global';
 import { THandleSubmitForCreateAndUpdateNewsItemActionType } from '../../ts';
 import { IUpdateNewsItemReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/ts';
 import { useNewsSharedState } from '@store/NewsContext';
-import {
-	initGetNewsItemTypeBlogContent,
-	updateNewsItem,
-} from '@store/NewsContext/actions';
+import { updateNewsItem } from '@store/NewsContext/actions';
 import { differenceBetweenTwoArrays } from '@commonLibIndependent/array';
 
 import NewsItemActionModal from '../../UI/Modal';

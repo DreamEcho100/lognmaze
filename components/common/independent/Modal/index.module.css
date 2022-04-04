@@ -14,11 +14,11 @@
 	top: 0;
 	left: 50%;
 	transform: translate(-50%, 0);
-	width: 95%;
+	width: 97.5%;
 	max-width: var(--body-max-width);
 	height: calc(100% - var(--main-nav-height));
+	padding: var(--padding-main-1) var(--padding-main-1-half);
 	margin: var(--main-nav-height) auto;
-	padding: var(--padding-main-1-half) 0;
 	background-color: rgba(0, 0, 0, 0.2);
 	transition: opacity 0.3s ease;
 	display: flex;

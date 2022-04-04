@@ -1,6 +1,6 @@
 import { TNewsItemData } from '@coreLib/ts/global';
 // import { useUserSharedState } from '@store/UserContext';
-import { useNewsSharedState } from '@store/NewsContext';
+// import { useNewsSharedState } from '@store/NewsContext';
 import { deleteNewsItem } from '@store/NewsContext/actions';
 import { useCreateUpdateDeleteNewsItemNeeds } from '../../utils/hooks';
 

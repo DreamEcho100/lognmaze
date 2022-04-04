@@ -20,7 +20,7 @@ const reducer: TNewsContextStateReducer = (
 	actions
 ): INewsContextState => {
 	if (process.env.NODE_ENV !== 'production') {
-		console.log(actions.type);
+		console.log('actions.type', actions.type);
 	}
 
 	switch (actions.type) {

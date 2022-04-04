@@ -282,7 +282,6 @@ export const deleteNewsItemController = async (
 	req: NextApiRequestExtended,
 	res: NextApiResponse
 ) => {
-	console.log('req.body', req.body);
 	if (
 		req.body.type !== 'blog' ||
 		req.body.type !== 'post' ||

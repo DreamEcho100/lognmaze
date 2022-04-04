@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classes from './index.module.css';
 
 import { TNewsItemData } from '@coreLib/ts/global';
+import { useUserSharedState } from '@store/UserContext';
 import withClassName from '@commonLibIndependent/hoc/withClassName';
 
 const DynamicNewsItemActionTypeUpdate = dynamic(
@@ -13,6 +14,9 @@ const DynamicNewsItemActionTypeUpdate = dynamic(
 );
 const DynamicNewsItemActionTypeDelete = dynamic(
 	() => import('@coreComponents/News/Item/Action/Type/Delete')
+);
+const DynamicCustomShareModelComponent = dynamic(
+	() => import('@commonComponentsIndependent/CustomShareModel')
 );
 
 const {
@@ -33,14 +37,19 @@ const {
 
 interface IProps {
 	newsItemData: TNewsItemData;
-	userToken?: string;
 }
 
 const StyledTrigger = withClassName(Trigger, classes.triggerButton);
 const StyledMainContent = withClassName(Content, classes.mainContent);
 const StyledMainContentItem = withClassName(Item, classes.mainContentItem);
 
-const CustomDropdown = ({ newsItemData, userToken }: IProps) => {
+const CustomDropdown = ({ newsItemData }: IProps) => {
+	const [
+		{
+			data: { user: userData, token: userToken },
+		},
+	] = useUserSharedState();
+
 	const [
 		isNewsItemTypeUpdateActionModalVisible,
 		setIsNewsItemTypeUpdateActionModalVisible,
@@ -48,6 +57,11 @@ const CustomDropdown = ({ newsItemData, userToken }: IProps) => {
 	const [
 		isNewsItemTypeDeleteActionModalVisible,
 		setIsNewsItemTypeDeleteActionModalVisible,
+	] = useState(false);
+
+	const [
+		isCustomShareModelComponentVisible,
+		setIsCustomShareModelComponentVisible,
 	] = useState(false);
 
 	const newsItemTypeUpdateActionModalVisibilityHandler = (
@@ -66,6 +80,14 @@ const CustomDropdown = ({ newsItemData, userToken }: IProps) => {
 				? !prevState
 				: isNewsItemTypeDeleteActionModalVisible
 		);
+	const customShareModelComponentVisibilityHandler = (
+		isCustomShareModelComponentVisible?: boolean
+	) =>
+		setIsCustomShareModelComponentVisible((prevState) =>
+			typeof isCustomShareModelComponentVisible !== 'boolean'
+				? !prevState
+				: isCustomShareModelComponentVisible
+		);
 
 	return (
 		<>
@@ -77,27 +99,37 @@ const CustomDropdown = ({ newsItemData, userToken }: IProps) => {
 				<StyledMainContent>
 					{/* <Group> */}
 					{/* <Label /> */}
+					{userData?.id && (
+						<>
+							<StyledMainContentItem>
+								<button
+									onClick={() =>
+										newsItemTypeUpdateActionModalVisibilityHandler(true)
+									}
+								>
+									Update
+								</button>
+							</StyledMainContentItem>
+							<hr />
+							<StyledMainContentItem>
+								<button
+									onClick={() =>
+										newsItemTypeDeleteActionModalVisibilityHandler(true)
+									}
+								>
+									Delete
+								</button>
+							</StyledMainContentItem>
+							<hr />
+						</>
+					)}
 					<StyledMainContentItem>
 						<button
-							onClick={() =>
-								newsItemTypeUpdateActionModalVisibilityHandler(true)
-							}
+							onClick={() => customShareModelComponentVisibilityHandler()}
 						>
-							Update
+							Share
 						</button>
 					</StyledMainContentItem>
-					<hr />
-					<StyledMainContentItem>
-						<button
-							onClick={() =>
-								newsItemTypeDeleteActionModalVisibilityHandler(true)
-							}
-						>
-							Delete
-						</button>
-					</StyledMainContentItem>
-					<hr />
-					<StyledMainContentItem>Share</StyledMainContentItem>
 					{/* </Group> */}
 
 					{/* <Group>
@@ -135,18 +167,38 @@ const CustomDropdown = ({ newsItemData, userToken }: IProps) => {
 				</StyledMainContent>
 			</Root>
 
-			<DynamicNewsItemActionTypeUpdate
-				newsItemData={newsItemData}
-				userToken={userToken}
-				modalVisibilityHandler={newsItemTypeUpdateActionModalVisibilityHandler}
-				isModalVisible={isNewsItemTypeUpdateActionModalVisible}
+			{userData?.id && (
+				<>
+					{isNewsItemTypeUpdateActionModalVisible && (
+						<DynamicNewsItemActionTypeUpdate
+							newsItemData={newsItemData}
+							userToken={userToken}
+							modalVisibilityHandler={
+								newsItemTypeUpdateActionModalVisibilityHandler
+							}
+							isModalVisible={isNewsItemTypeUpdateActionModalVisible}
+						/>
+					)}
+					{isNewsItemTypeDeleteActionModalVisible && (
+						<DynamicNewsItemActionTypeDelete
+							newsItemData={newsItemData}
+							userToken={userToken}
+							modalVisibilityHandler={
+								newsItemTypeDeleteActionModalVisibilityHandler
+							}
+							isModalVisible={isNewsItemTypeDeleteActionModalVisible}
+						/>
+					)}
+				</>
+			)}
+			{/* {isCustomShareModelComponentVisible && ( */}
+			<DynamicCustomShareModelComponent
+				isModalVisible={isCustomShareModelComponentVisible}
+				modalVisibilityHandler={customShareModelComponentVisibilityHandler}
+				platforms='all'
+				itemData={newsItemData}
 			/>
-			<DynamicNewsItemActionTypeDelete
-				newsItemData={newsItemData}
-				userToken={userToken}
-				modalVisibilityHandler={newsItemTypeDeleteActionModalVisibilityHandler}
-				isModalVisible={isNewsItemTypeDeleteActionModalVisible}
-			/>
+			{/* )} */}
 		</>
 	);
 };
