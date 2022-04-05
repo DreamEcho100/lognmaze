@@ -1,6 +1,6 @@
-body .sectionWrapper {
+.sectionWrapper {
 	width: 100%;
-	padding: var(--padding-main-1-half);
+	padding: var(--sectionWrapper-padding);
 	margin-bottom: var(--sectionWrapper-margin-bottom);
 	border-radius: 1rem;
 	box-shadow: 0rem 0rem var(--sectionWrapper-box-shadow-length)

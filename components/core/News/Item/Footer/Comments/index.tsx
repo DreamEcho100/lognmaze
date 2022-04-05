@@ -19,6 +19,7 @@ import {
 	initGetNewsItemCommentsMain,
 } from '@store/NewsContext/actions/comments';
 import { useNewsSharedState } from '@store/NewsContext';
+import ButtonComponent from '@commonComponentsIndependent/Button';
 
 interface IProps {
 	newsItemComments: TNewsItemCommentsMain;
@@ -47,6 +48,8 @@ const Comments: FC<IProps> = ({
 		},
 		newsDispatch,
 	] = useNewsSharedState();
+
+	const [isCommentTextarea, setIsCommentTextarea] = useState(true);
 
 	const initGetMainCommentsRequest =
 		newsItemsActions[newsItemData.news_id]?.requests?.init?.getMainComments;
@@ -117,6 +120,12 @@ const Comments: FC<IProps> = ({
 		newsItemData.news_id,
 	]);
 
+	const handleIsUpdatingContentVisible = (isVisible?: boolean) => {
+		setIsCommentTextarea((prevState) =>
+			typeof isVisible === 'boolean' ? isVisible : !prevState
+		);
+	};
+
 	// useEffect(() => loadMoreNewsItemMainComments(), [loadMoreNewsItemMainComments]);
 
 	useEffect(() => {
@@ -151,14 +160,22 @@ const Comments: FC<IProps> = ({
 
 	return (
 		<div>
-			{userData?.id && (
+			{!!(userData?.id && isCommentTextarea) && (
 				<CommentTextarea
 					handleSubmit={handleSubmit}
 					name='content'
 					setValues={setValues}
 					value={values.content}
 					disableSubmitButton={disableSendCommentButton}
+					handleIsCommentTextareaIsVisible={() =>
+						handleIsUpdatingContentVisible(false)
+					}
 				/>
+			)}
+			{!!(userData?.id && !isCommentTextarea) && (
+				<ButtonComponent onClick={() => handleIsUpdatingContentVisible(true)}>
+					Add Comment?
+				</ButtonComponent>
 			)}
 			<div>
 				{initGetMainCommentsRequest?.isLoading && (

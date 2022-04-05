@@ -360,6 +360,17 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		*/
 	// }, [commentMain?.replies, props.commentType, showReplies]);
 
+	const handleIsReplyTextareaIsVisible = (isVisible?: boolean) => {
+		setShowReplyTextarea((prevState) =>
+			typeof isVisible === 'boolean' ? isVisible : !prevState
+		);
+	};
+	const handleIsUpdatingContentVisible = (isVisible?: boolean) => {
+		setIsUpdatingContentVisible((prevState) =>
+			typeof isVisible === 'boolean' ? isVisible : !prevState
+		);
+	};
+
 	return (
 		<div
 			className={`${classes.comment} ${classes[`type-${props.commentType}`]}`}
@@ -426,6 +437,9 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 						value={values.content}
 						disableSubmitButton={editButtonsDisabled}
 						commentToType={props.comment.type}
+						handleIsCommentTextareaIsVisible={() =>
+							handleIsUpdatingContentVisible(false)
+						}
 					/>
 				)}
 			<footer className={classes.footer}>
@@ -479,6 +493,9 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					value={values.comment_reply}
 					disableSubmitButton={commentReplyButtonsDisabled}
 					commentToType={props.comment.type}
+					handleIsCommentTextareaIsVisible={() =>
+						handleIsReplyTextareaIsVisible(false)
+					}
 				/>
 			)}
 			{showReplies &&

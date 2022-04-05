@@ -8,18 +8,15 @@ import helpersClasses from '@styles/helpers.module.css';
 import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
 import NewsFeed from '@coreComponents/News/Feed';
 import ButtonComponent from '@commonComponentsIndependent/Button';
+import NewsItemActionButton from '@coreComponents/News/Item/Action/UI/Button';
 
 const HomeScreen = () => {
 	const router = useRouter();
 
 	const [
 		{
-			data: {
-				user: userData,
-				// token: userToken
-			},
+			data: { user: userData, token: userToken },
 		},
-		// userDispatch,
 	] = useUserSharedState();
 
 	return (
@@ -51,6 +48,17 @@ const HomeScreen = () => {
 							</>
 						)}
 					</SectionWrapper>
+					{userData?.id && (
+						<SectionWrapper className={classes.sectionWrapper}>
+							<NewsItemActionButton
+								userToken={userToken}
+								actionType={'create'}
+								// newsItemData={undefined}
+								// newsItemDataType={'blog'}
+								userData={userData}
+							/>
+						</SectionWrapper>
+					)}
 				</div>
 			</div>
 		</main>

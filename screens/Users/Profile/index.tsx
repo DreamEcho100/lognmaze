@@ -1,5 +1,8 @@
 import { useEffect } from 'react';
-import { NextSeo } from 'next-seo';
+import {
+	NextSeo,
+	// ProfilePageJsonLd
+} from 'next-seo';
 
 import classes from './index.module.css';
 import helpersClasses from '@styles/helpers.module.css';
@@ -101,6 +104,7 @@ const UserProfileScreen = (Props: Props) => {
 					})(),
 				}}
 			/>
+			{/* <ProfilePageJsonLd breadcrumb={''} /> */}
 			<main className={helpersClasses.main}>
 				<SectionWrapper className={classes.userProfileHeroSectionWrapper}>
 					<UserProfileHero />

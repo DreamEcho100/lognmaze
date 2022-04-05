@@ -6,9 +6,6 @@ import {
 	setNewsContextStore,
 } from '@store/NewsContext';
 import type { GetStaticProps, NextPage } from 'next';
-// import Head from 'next/head'
-// import Image from 'next/image';
-// import styles from '../styles/Home.module.css';
 
 interface IProps {
 	newsData: { news: TNewsData; hit_news_items_limit: boolean };

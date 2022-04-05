@@ -26,6 +26,15 @@ const NewsItemContentDetails: FC<Props> = ({ newsItemData, content }) => {
 		itemsActions[newsItemData.news_id]?.requests?.init?.modal
 			?.getTypeBlogContent;
 
+	const showContent = !!(
+		(!getTypeBlogContent && content) ||
+		(getTypeBlogContent &&
+			!getTypeBlogContent.isLoading &&
+			!getTypeBlogContent.error)
+	);
+
+	// return <></>;
+
 	return (
 		<>
 			{getTypeBlogContent?.error && (
@@ -34,10 +43,7 @@ const NewsItemContentDetails: FC<Props> = ({ newsItemData, content }) => {
 			{getTypeBlogContent?.isLoading && (
 				<p className='isLoadingLoader'>Loading...</p>
 			)}
-			{(!getTypeBlogContent && content) ||
-				(getTypeBlogContent &&
-					!getTypeBlogContent.isLoading &&
-					!getTypeBlogContent.error && <MdToHTMLFormatter content={content} />)}
+			{showContent && <MdToHTMLFormatter content={content} />}
 		</>
 	);
 };

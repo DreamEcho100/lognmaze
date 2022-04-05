@@ -66,14 +66,18 @@ export const useCreateUpdateDeleteNewsItemNeeds = ({
 			!contentRequestAction.success &&
 			!contentRequestAction.isLoading
 		) {
-			initGetNewsItemTypeBlogContent(newsDispatch, {
-				news_id: isLoadingContentProps.newsItemData.news_id,
-				urlOptions: {
-					params: {
-						news_id: isLoadingContentProps.newsItemData.news_id,
+			if (!contentRequestAction || !contentRequestAction?.error) {
+				initGetNewsItemTypeBlogContent(newsDispatch, {
+					news_id: isLoadingContentProps.newsItemData.news_id,
+					urlOptions: {
+						params: {
+							news_id: isLoadingContentProps.newsItemData.news_id,
+						},
 					},
-				},
-			});
+				});
+			} else {
+				console.warn('Error with loading the content!');
+			}
 			return;
 		}
 	}, [actionType, contentRequestAction, isLoadingContentProps, newsDispatch]);

@@ -15,6 +15,7 @@ interface IProps {
 	handleSubmit: (event: FormEvent) => void;
 	disableSubmitButton?: boolean;
 	commentToType?: 'news_item' | 'comment_main' | 'comment_main_reply';
+	handleIsCommentTextareaIsVisible: (isVisible?: boolean) => void;
 }
 
 const CommentTextarea: FC<IProps> = ({
@@ -24,6 +25,7 @@ const CommentTextarea: FC<IProps> = ({
 	handleSubmit,
 	disableSubmitButton,
 	commentToType = 'news_item',
+	handleIsCommentTextareaIsVisible,
 }) => {
 	const SendButtonComponent_Map = {
 		news_item: 'Submit comment replying a news item',
@@ -61,7 +63,7 @@ const CommentTextarea: FC<IProps> = ({
 				<ButtonComponent
 					title={closeButtonComponent_Map[commentToType]}
 					disabled={disableSubmitButton}
-					// onClick={onClickingCloseButton}
+					onClick={() => handleIsCommentTextareaIsVisible(false)}
 				>
 					Close
 				</ButtonComponent>

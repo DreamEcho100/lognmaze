@@ -161,6 +161,7 @@
 
 	--sectionWrapper-box-shadow-length: 1rem;
 	--sectionWrapper-margin-bottom: var(--padding-main-1-half);
+	--sectionWrapper-padding: var(--padding-main-1-half);
 
 	--modalContainer-background-color: var(--main-bg-color-0-95);
 

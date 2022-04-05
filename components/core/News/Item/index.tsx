@@ -85,26 +85,19 @@ const NewsItem: FC<INewsItemProps> = ({
 					!getTypeBlogContent.success &&
 					!getTypeBlogContent.isLoading))
 		) {
-			initGetNewsItemTypeBlogContent(newsDispatch, {
-				news_id: newsItemData.news_id,
-				urlOptions: {
-					params: {
-						news_id: newsItemData.news_id,
+			if (!getTypeBlogContent || !getTypeBlogContent?.error) {
+				initGetNewsItemTypeBlogContent(newsDispatch, {
+					news_id: newsItemData.news_id,
+					urlOptions: {
+						params: {
+							news_id: newsItemData.news_id,
+						},
 					},
-				},
-			});
+				});
+			} else {
+				console.warn('Error with loading the content!');
+			}
 			return;
-
-			// timeoutId = setTimeout(() => {
-			// 	initGetNewsItemTypeBlogContent(newsDispatch, {
-			// 		news_id: newsItemData.news_id,
-			// 		urlOptions: {
-			// 			params: {
-			// 				news_id: newsItemData.news_id,
-			// 			},
-			// 		},
-			// 	});
-			// }, 1500);
 		}
 
 		// () => clearTimeout(timeoutId);
@@ -150,11 +143,10 @@ export const NewsItemProvidedContextMiddleware = (
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	// const [isFooterSettingsVisible, setIsFooterSettingsVisible] = useState(false);
 
-	const handleSetIsModalVisible = (isModalVisible?: boolean) => {
-		if (isModalVisible) return setIsModalVisible(isModalVisible);
-
-		return setIsModalVisible((prevState) => !prevState);
-	};
+	const handleSetIsModalVisible = (isModalVisible?: boolean) =>
+		setIsModalVisible((prevState) =>
+			typeof isModalVisible === 'boolean' ? isModalVisible : !prevState
+		);
 
 	// const handleIsFooterSettingsVisible = (isFooterSettingsVisible: boolean) => {
 	// 	if (isFooterSettingsVisible)

@@ -66,20 +66,38 @@ const CustomDropdown = ({ newsItemData }: IProps) => {
 
 	const newsItemTypeUpdateActionModalVisibilityHandler = (
 		isNewsItemTypeUpdateActionModalVisible?: boolean
-	) =>
-		setIsNewsItemTypeUpdateActionModalVisible((prevState) =>
-			typeof isNewsItemTypeUpdateActionModalVisible !== 'boolean'
-				? !prevState
-				: isNewsItemTypeUpdateActionModalVisible
-		);
+	) => {
+		setIsNewsItemTypeUpdateActionModalVisible((prevState) => {
+			const state =
+				typeof isNewsItemTypeUpdateActionModalVisible !== 'boolean'
+					? !prevState
+					: isNewsItemTypeUpdateActionModalVisible;
+
+			if (!state) {
+				document.body.style.overflowX = 'hidden';
+				document.body.style.overflowY = 'auto';
+			}
+
+			return state;
+		});
+	};
 	const newsItemTypeDeleteActionModalVisibilityHandler = (
 		isNewsItemTypeDeleteActionModalVisible?: boolean
-	) =>
-		setIsNewsItemTypeDeleteActionModalVisible((prevState) =>
-			typeof isNewsItemTypeDeleteActionModalVisible !== 'boolean'
-				? !prevState
-				: isNewsItemTypeDeleteActionModalVisible
-		);
+	) => {
+		setIsNewsItemTypeDeleteActionModalVisible((prevState) => {
+			const state =
+				typeof isNewsItemTypeDeleteActionModalVisible !== 'boolean'
+					? !prevState
+					: isNewsItemTypeDeleteActionModalVisible;
+
+			if (!state) {
+				document.body.style.overflowX = 'hidden';
+				document.body.style.overflowY = 'auto';
+			}
+
+			return state;
+		});
+	};
 	const customShareModelComponentVisibilityHandler = (
 		isCustomShareModelComponentVisible?: boolean
 	) =>
