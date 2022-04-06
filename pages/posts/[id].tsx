@@ -71,7 +71,7 @@ const PostPage: NextPage<IProps> = ({ newsItemData }) => {
 
 		newsExtra[item.news_id] = {
 			hit_comments_limit: false,
-			newsItemDetailsType: 'description',
+			newsItemDetailsType: 'content',
 			newsItemModelDetailsType: 'content',
 		};
 	});
