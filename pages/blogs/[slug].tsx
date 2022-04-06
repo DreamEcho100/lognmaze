@@ -52,24 +52,30 @@ interface IProps {
 }
 
 const BlogPage: NextPage<IProps> = ({ newsItemData }) => {
+	const newsData = { news: [newsItemData] };
+
 	const newsExtra: ISetNewsContextStoreProps['data']['newsExtra'] = {};
 	const actions: ISetNewsContextStoreProps['actions'] = {
 		items: {},
 	};
 
-	actions.items[newsItemData.news_id] = {
-		priorityForHeaderImage: true,
-	};
+	newsData.news.forEach((item, index) => {
+		if (index === 0) {
+			actions.items[item.news_id] = {
+				priorityForHeaderImage: true,
+			};
+		}
 
-	newsExtra[newsItemData.news_id] = {
-		hit_comments_limit: false,
-		newsItemDetailsType: 'content',
-		newsItemModelDetailsType: 'content',
-	};
+		newsExtra[item.news_id] = {
+			hit_comments_limit: false,
+			newsItemDetailsType: 'description',
+			newsItemModelDetailsType: 'content',
+		};
+	});
 
 	const { NewsContextSharedProvider } = setNewsContextStore({
 		data: {
-			news: [newsItemData],
+			news: newsData.news,
 			newsExtra,
 			hit_news_items_limit: true,
 		},
