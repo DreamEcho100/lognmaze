@@ -155,7 +155,7 @@ body.dark {
 
 html,
 body {
-	font-family: 'Roboto', cursive, sans-serif;
+	font-family: sans-serif, system-ui, monospace;
 }
 
 body {
