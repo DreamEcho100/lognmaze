@@ -92,6 +92,7 @@ const MyApp = ({ Component, pageProps }) => {
 
 	useEffect(() => {
 		setTimeout(() => {
+			console.log('Playing extra scripts');
 			setIsPlayingScripts(true);
 		}, 5000);
 	}, []);

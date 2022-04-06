@@ -38,15 +38,15 @@ const ExtraScripts = () => {
 				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
 			/>
 			<Script
-				// strategy='afterInteractive'
-				strategy='worker'
+				strategy='afterInteractive'
+				// strategy='worker'
 				id='google-analytics-script'
 				src='https://stootsou.net/pfe/current/tag.min.js?z=4990432'
 				async
 			/>
 			<Script
-				// strategy='afterInteractive'
-				strategy='worker'
+				strategy='afterInteractive'
+				// strategy='worker'
 				data-cfasync='false'
 				id='pAddScript'
 				type='text/javascript'
