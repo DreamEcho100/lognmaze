@@ -65,18 +65,28 @@ import { UserContextSharedProvider } from '@store/UserContext';
 import SEODefaults from '../next-seo.config';
 
 import MainLayoutComponent from '@coreComponents/Layout/Main';
-import { Fragment } from 'react';
+import { useEffect, useState } from 'react';
+import ExtraScripts from '@coreComponents/_app/ExtraScripts';
 
 function MyApp({ Component, pageProps }: AppProps) {
+	const [isPlayingScripts, setIsPlayingScripts] = useState(false);
+
+	useEffect(() => {
+		setTimeout(() => {
+			setIsPlayingScripts(true);
+		}, 5000);
+	}, []);
+
 	return (
-		<Fragment>
+		<>
 			<DefaultSeo {...SEODefaults} />
 			<UserContextSharedProvider>
 				<MainLayoutComponent>
 					<Component {...pageProps} />
 				</MainLayoutComponent>
 			</UserContextSharedProvider>
-		</Fragment>
+			{isPlayingScripts && <ExtraScripts />}
+		</>
 	);
 }
 
