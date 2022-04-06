@@ -6,36 +6,8 @@ import {
 	setNewsContextStore,
 } from '@store/NewsContext';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-// import Head from 'next/head';
-
-// import { useSetNewsContextStore } from '@store/NewsContext';
-// import { XMLCharactersEncoding } from '@lib/v1/regex';
-// import { pool } from '@lib/v1/pg';
-
-// import OneNewsContent from '@components/OneNewsContent';
 
 /*
-const BlogHead = ({ data = {} }) => {
-	// const descriptionWithXMLCharactersEncoding = XMLCharactersEncoding(
-	// 	data.description
-	// );
-
-	return (
-		<Head>
-			<meta property='og:type' content='blog' />
-			<meta property='blog:publisher' content={data.author_user_name_id} />
-			<meta property='blog:author' content={data.author_user_name_id} />
-			<meta property='blog:published_time' content={data.created_at} />
-			{data.created_at !== data.updated_at && (
-				<meta property='blog:modified_time' content={data.updated_at} />
-			)}
-			{data.slug && (
-				<link
-					rel='canonical'
-					href={`${process.env.FRONT_END_ROOT_URL}/blogs/${data.slug}`}
-				/>
-			)}
-
 			// https://schema.org/BlogPosting
 			<script
 				type='application/ld+json'
@@ -73,37 +45,6 @@ const BlogHead = ({ data = {} }) => {
 					}),
 				}}
 			/>
-			<meta property='blog:tag' content={data.tags.join(',')} />
-			<meta name='keywords' content={data.tags.join(',')} />
-			<meta property='og:image' content={data.image_src} />
-			<meta property='og:image:width' content='1200' />
-			<meta property='og:image:height' content='630' />
-			<meta property='og:image:alt' content={data.image_alt} />
-			<meta name='twitter:image' content={data.image_src} />
-			<meta name='twitter:card' content='summary_large_image' />
-			<meta
-				property='og:url'
-				content={`https://lognmaze.com/blogs/${data.slug}`}
-			/>
-			<meta
-				name='twitter:url'
-				content={`https://lognmaze.com/blogs/${data.slug}`}
-			/>
-			<meta
-				name='twitter:description'
-				content={descriptionWithXMLCharactersEncoding}
-			/>
-			<meta
-				property='og:description'
-				content={descriptionWithXMLCharactersEncoding}
-			/>
-			<meta name='description' content={descriptionWithXMLCharactersEncoding} />
-			<meta name='twitter:title' content={`${data.title} | LogNMaze`} />
-			<meta property='og:title' content={`${data.title} | LogNMaze`} />
-			<title>{data.title} | LogNMaze</title>
-		</Head>
-	);
-};
 */
 
 interface IProps {
@@ -137,12 +78,6 @@ const BlogPage: NextPage<IProps> = ({ newsItemData }) => {
 
 	return (
 		<NewsContextSharedProvider>
-			{/* <BlogHead data={data} />
-			<OneNewsContent
-				// isLoadingSkeleton={true}
-				// newsItemData={data}
-				NewsHeader={BlogHead}
-			/> */}
 			<BlogScreen />
 		</NewsContextSharedProvider>
 	);

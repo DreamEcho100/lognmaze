@@ -7,7 +7,7 @@ import borderClasses from '@styles/border.module.css';
 
 import MdToHTMLFormatter from '@commonComponentsDependent/Format/MdToHTML';
 import TextareaComponent from '@commonComponentsIndependent/Textarea';
-import extraAppLinksArr from '@data/appLinks';
+// import extraAppLinksArr from '@data/appLinks';
 
 interface Props {}
 
@@ -27,6 +27,14 @@ const ConvertFromMarkdownToHTMLAppScreen = (props: Props) => {
 					title: 'Free Markdown to HTML Converter | LogNMaze',
 					description:
 						'Convert your markdown to HTML in one easy steps - for free! | LogNMaze',
+					images: [
+						{
+							url: 'https://lognmaze.com/favicon.ico',
+							width: 250,
+							height: 250,
+							alt: 'LogNMaze Logo',
+						},
+					],
 				}}
 			/>
 			<main className={helperClasses.main}>

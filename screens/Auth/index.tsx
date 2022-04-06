@@ -15,6 +15,7 @@ import {
 import ButtonComponent from '@commonComponentsIndependent/Button';
 import LoginComponent from '@coreComponents/Auth/Login';
 import SignUpComponent from '@coreComponents/Auth/SignUp';
+import { NextSeo } from 'next-seo';
 
 type Props = {
 	UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN: string;
@@ -72,70 +73,89 @@ const AuthScreen = ({
 	]);
 
 	return (
-		<main className={helpersClasses.main}>
-			<header className={classes.header}>
-				<h1>
-					Peace,{' '}
-					{
+		<>
+			<NextSeo
+				openGraph={{
+					type: 'website',
+					url: 'https://lognmaze.com/auth/',
+					title: 'Login or Sign up to LogNMaze',
+					description:
+						'Login or Sign up to LogNMaze | Create blogs, blogs using Markdown and share them in your social media',
+					images: [
 						{
-							login: 'Already a user ?',
-							signup: 'New here :o ?',
-							default: loginRequest.success
-								? 'logged in successfully! Welcome back!'
-								: signupRequest.success
-								? 'Singed Up in successfully!'
-								: 'Already a user logout first!',
-						}[!isRedirectingFromAuth ? objective : 'default']
-					}
-				</h1>
-				{!isRedirectingFromAuth && (
-					<div className={classes.buttonsHolder}>
-						<ButtonComponent
-							className={
-								objective === 'login'
-									? `${borderClasses.border2} ${boxShadowClasses.boxShadow2}`
-									: ''
-							}
-							onClick={() => setObjective('login')}
-						>
-							Login
-						</ButtonComponent>
-						<ButtonComponent
-							className={
-								objective === 'signup'
-									? `${borderClasses.border2} ${boxShadowClasses.boxShadow2}`
-									: ''
-							}
-							onClick={() => setObjective('signup')}
-						>
-							Sign Up
-						</ButtonComponent>
-					</div>
-				)}
-			</header>
-			{
-				(!isRedirectingFromAuth &&
-					{
-						login: <LoginComponent />,
-						signup: (
-							<SignUpComponent
-								UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
-									UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN
+							url: 'https://lognmaze.com/favicon.ico',
+							width: 250,
+							height: 250,
+							alt: 'LogNMaze Logo',
+						},
+					],
+				}}
+			/>
+			<main className={helpersClasses.main}>
+				<header className={classes.header}>
+					<h1>
+						Peace,{' '}
+						{
+							{
+								login: 'Already a user ?',
+								signup: 'New here :o ?',
+								default: loginRequest.success
+									? 'logged in successfully! Welcome back!'
+									: signupRequest.success
+									? 'Singed Up in successfully!'
+									: 'Already a user logout first!',
+							}[!isRedirectingFromAuth ? objective : 'default']
+						}
+					</h1>
+					{!isRedirectingFromAuth && (
+						<div className={classes.buttonsHolder}>
+							<ButtonComponent
+								className={
+									objective === 'login'
+										? `${borderClasses.border2} ${boxShadowClasses.boxShadow2}`
+										: ''
 								}
-							/>
-						),
-					}[objective]) || <></>
-				// (objective === 'login' ? (
-				// 	<LoginComponent />
-				// ) : objective === 'signup' ? (
-				// 	<SignUpComponent
-				// 		UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
-				// 			UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN
-				// 		}
-				// 	/>
-				// ))
-			}
-		</main>
+								onClick={() => setObjective('login')}
+							>
+								Login
+							</ButtonComponent>
+							<ButtonComponent
+								className={
+									objective === 'signup'
+										? `${borderClasses.border2} ${boxShadowClasses.boxShadow2}`
+										: ''
+								}
+								onClick={() => setObjective('signup')}
+							>
+								Sign Up
+							</ButtonComponent>
+						</div>
+					)}
+				</header>
+				{
+					(!isRedirectingFromAuth &&
+						{
+							login: <LoginComponent />,
+							signup: (
+								<SignUpComponent
+									UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
+										UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN
+									}
+								/>
+							),
+						}[objective]) || <></>
+					// (objective === 'login' ? (
+					// 	<LoginComponent />
+					// ) : objective === 'signup' ? (
+					// 	<SignUpComponent
+					// 		UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
+					// 			UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN
+					// 		}
+					// 	/>
+					// ))
+				}
+			</main>
+		</>
 	);
 };
 

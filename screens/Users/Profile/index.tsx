@@ -100,7 +100,17 @@ const UserProfileScreen = (Props: Props) => {
 								alt: 'Cover Photo',
 							});
 
-						return { images };
+						return {
+							images: [
+								...images,
+								{
+									url: 'https://lognmaze.com/favicon.ico',
+									width: 250,
+									height: 250,
+									alt: 'LogNMaze Logo',
+								},
+							],
+						};
 					})(),
 				}}
 			/>

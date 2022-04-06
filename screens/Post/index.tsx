@@ -9,7 +9,7 @@ import NewsItem from '@coreComponents/News/Item';
 
 type Props = {};
 
-const BlogScreen = (props: Props) => {
+const PostScreen = (props: Props) => {
 	const [
 		{
 			data: { news: newsData },
@@ -17,24 +17,24 @@ const BlogScreen = (props: Props) => {
 		// userDispatch,
 	] = useNewsSharedState();
 
-	if (newsData[0].type !== 'blog') return <></>;
+	if (newsData[0].type !== 'post') return <></>;
 
 	const newsItemData = newsData[0];
 
 	return (
 		<>
 			<NextSeo
-				title={`${newsItemData.type_data.title} | LogNMaze`}
-				description={newsItemData.type_data.description}
-				canonical={`https://lognmaze.com/blogs/${newsItemData.type_data.slug}`}
+				title={`${newsItemData.author_first_name} ${newsItemData.author_last_name} - @${newsItemData.author_user_name_id} | LogNMaze`}
+				description={newsItemData.type_data.content}
+				canonical={`https://lognmaze.com/posts/${newsItemData.news_id}`}
 				// openGraph={{
 				// 	locale: `${newsItemData.type_data.iso_language}_${newsItemData.type_data.iso_country}`,
 				// }}
 
 				openGraph={{
-					title: `${newsItemData.type_data.title} | LogNMaze`,
-					description: newsItemData.type_data.description,
-					url: `https://lognmaze.com/blogs/${newsItemData.type_data.slug}`,
+					title: `${newsItemData.author_first_name} ${newsItemData.author_last_name} - @${newsItemData.author_user_name_id} | LogNMaze`,
+					description: newsItemData.type_data.content,
+					url: `https://lognmaze.com/posts/${newsItemData.news_id}`,
 					type: 'article',
 
 					article: {
@@ -45,17 +45,10 @@ const BlogScreen = (props: Props) => {
 						authors: [
 							`${newsItemData.author_first_name} ${newsItemData.author_last_name} - @${newsItemData.author_user_name_id}`,
 						],
-						tags: newsItemData.type_data?.tags || [],
+						tags: ['LogNMaze', 'post'],
 					},
 					...(() => {
-						const images: any[] = [
-							{
-								url: newsItemData.type_data.image_src,
-								width: 850,
-								height: 650,
-								alt: newsItemData.type_data.image_alt,
-							},
-						];
+						const images: any[] = [];
 
 						if (newsItemData.author_profile_picture)
 							images.push({
@@ -64,6 +57,8 @@ const BlogScreen = (props: Props) => {
 								height: 650,
 								alt: 'Author Profile Picture',
 							});
+
+						if (images.length === 0) return {};
 
 						return {
 							images: [
@@ -80,9 +75,9 @@ const BlogScreen = (props: Props) => {
 				}}
 			/>
 			<ArticleJsonLd
-				title={`${newsItemData.type_data.title} | LogNMaze`}
-				description={newsItemData.type_data.description}
-				url={`https://lognmaze.com/blogs/${newsItemData.type_data.slug}`}
+				title={`${newsItemData.author_first_name} ${newsItemData.author_last_name} - @${newsItemData.author_user_name_id} | LogNMaze`}
+				description={newsItemData.type_data.content}
+				url={`https://lognmaze.com/posts/${newsItemData.news_id}`}
 				type='Blog'
 				datePublished={new Date(newsItemData.created_at).toISOString()}
 				publisherLogo='https://lognmaze.com/favicon.ico'
@@ -90,26 +85,10 @@ const BlogScreen = (props: Props) => {
 				dateModified={new Date(newsItemData.updated_at).toISOString()}
 				authorName={`${newsItemData.author_first_name} ${newsItemData.author_last_name} - @${newsItemData.author_user_name_id}`}
 				{...(() => {
-					const images: any[] = [
-						// {
-						// 	url: newsItemData.type_data.image_src,
-						// 	width: 850,
-						// 	height: 650,
-						// 	alt: newsItemData.type_data.image_alt,
-						// },
-						newsItemData.type_data.image_src,
-					];
+					const images: string[] = [];
 
 					if (newsItemData.author_profile_picture)
-						images.push(
-							// {
-							//   url: newsItemData.author_profile_picture,
-							//   width: 850,
-							//   height: 650,
-							//   alt: 'Author Profile Picture',
-							// }
-							newsItemData.author_profile_picture
-						);
+						images.push(newsItemData.author_profile_picture);
 
 					return {
 						images: [...images, 'https://lognmaze.com/favicon.ico'],
@@ -125,4 +104,4 @@ const BlogScreen = (props: Props) => {
 	);
 };
 
-export default BlogScreen;
+export default PostScreen;

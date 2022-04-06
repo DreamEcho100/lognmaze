@@ -15,6 +15,14 @@ const SEODefaults: DefaultSeoProps = {
 			'Create blogs and posts in Markdown and share them in your different social media platform',
 		title:
 			'LogNMaze | Create blogs and posts in Markdown and share them in your different social media platform',
+		images: [
+			{
+				url: 'https://lognmaze.com/favicon.ico',
+				width: 250,
+				height: 250,
+				alt: 'LogNMaze Logo',
+			},
+		],
 	},
 	twitter: {
 		handle: '@MazenMohamedSh4',
