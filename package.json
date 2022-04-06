@@ -13,21 +13,21 @@
 		"build:sitemap": "node build-sitemap.js"
 	},
 	"dependencies": {
-		"@builder.io/partytown": "^0.5.1",
+		"@builder.io/partytown": "^0.5.2",
 		"@fortawesome/fontawesome-svg-core": "^6.1.1",
 		"@fortawesome/free-brands-svg-icons": "^6.1.1",
 		"@fortawesome/free-regular-svg-icons": "^6.1.1",
 		"@fortawesome/free-solid-svg-icons": "^6.1.1",
 		"@fortawesome/react-fontawesome": "^0.1.18",
-		"@next/bundle-analyzer": "^12.1.2",
+		"@next/bundle-analyzer": "^12.1.4",
 		"bcrypt": "^5.0.1",
 		"cross-env": "^7.0.3",
 		"jsonwebtoken": "^8.5.1",
-    "next": "^12.1.4",
+		"next": "^12.1.4",
 		"next-compose-plugins": "^2.2.1",
 		"pg": "^8.7.3",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+		"react": "^18.0.0",
+		"react-dom": "^18.0.0",
 		"react-markdown": "^8.0.2",
 		"react-syntax-highlighter": "^15.5.0",
 		"react-tracked": "^1.7.8",
@@ -35,7 +35,7 @@
 		"sitemap": "^7.1.1"
 	},
 	"devDependencies": {
-    "eslint": "^8.12.0",
-    "eslint-config-next": "^12.1.4"
+		"eslint": "^8.12.0",
+		"eslint-config-next": "^12.1.4"
 	}
 }

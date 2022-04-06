@@ -92,7 +92,6 @@ const MyApp = ({ Component, pageProps }) => {
 
 	useEffect(() => {
 		setTimeout(() => {
-			console.log('1', true);
 			setIsPlayingScripts(true);
 		}, 5000);
 	}, []);
@@ -155,7 +154,7 @@ const MyApp = ({ Component, pageProps }) => {
 			<Layout isAuthenticated={pageProps.isAuthenticated}>
 				<Component {...pageProps} />
 			</Layout>
-			{isPlayingScripts && (console.log('2', true) || true) && <ExtraScripts />}
+			{isPlayingScripts && <ExtraScripts />}
 		</>
 	);
 };
