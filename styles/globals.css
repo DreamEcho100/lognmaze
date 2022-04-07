@@ -239,7 +239,7 @@ body {
 }
 
 body {
-	font-family: 'Roboto', sans-serif;
+	font-family: sans-serif, system-ui, monospace;
 	line-height: 1.15;
 	-webkit-text-size-adjust: 100%;
 	font-size: var(--current-font-size);

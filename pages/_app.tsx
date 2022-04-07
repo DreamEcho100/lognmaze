@@ -72,6 +72,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 	const [isPlayingScripts, setIsPlayingScripts] = useState(false);
 
 	useEffect(() => {
+		if (process.env.NODE_ENV === 'development') return;
+
 		setTimeout(() => {
 			setIsPlayingScripts(true);
 		}, 5000);

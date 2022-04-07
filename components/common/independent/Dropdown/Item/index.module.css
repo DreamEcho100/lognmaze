@@ -1,0 +1,39 @@
+.settingsItem {
+	margin: 0 auto;
+	padding: 0.25em;
+	/* padding: 0.125em 0.25em; */
+	width: 100%;
+	min-width: max-content;
+	border-bottom: 0.1rem solid var(--main-bg-color-0);
+	transition: all ease-in var(--main-transition-duration);
+}
+
+.settingsItem > * {
+	width: 100%;
+	background-color: transparent;
+	border-color: transparent;
+	outline-color: rgba(255, 255, 255, 0.1);
+	font-weight: bold;
+	text-align: left;
+}
+
+.settingsItem:hover {
+	background-color: var(--main-bg-color-1);
+}
+
+.settingsItem:focus {
+	background-color: var(--main-bg-color-5);
+	color: var(--main-font-color-5);
+}
+
+.settingsItem:focus > * {
+	background-color: var(--main-bg-color-5);
+	color: var(--main-font-color-5);
+}
+
+.settingsItem:last-child {
+	border-bottom: unset;
+}
+
+/* .settingsItem-for-data-owner {
+} */

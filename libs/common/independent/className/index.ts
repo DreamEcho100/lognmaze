@@ -32,3 +32,16 @@ export const handleAllClasses: THandleAllClasses = ({
 
 	return allClasses.trim().replace(/\s/, ' ');
 };
+
+export const bundleClassesIfExist = (classes: (string | undefined)[]) => {
+	let allClasses = '';
+
+	classes.forEach(
+		(className) =>
+			typeof className === 'string' &&
+			className.length > 0 &&
+			(allClasses += ' ' + className)
+	);
+
+	return allClasses;
+};

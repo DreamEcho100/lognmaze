@@ -1,0 +1,17 @@
+.settingsMenu {
+	position: absolute;
+	top: 100%;
+	z-index: 99;
+	background-color: var(--main-bg-color-2);
+
+	border-radius: 1rem;
+	border: 0.3rem solid var(--main-bg-color-1);
+	overflow-y: auto;
+}
+
+:not([dir='rtl']) .settingsMenu {
+	right: 0;
+}
+[dir='rtl'] .settingsMenu {
+	left: 0;
+}

@@ -1,0 +1,14 @@
+.settingsWrapper {
+	position: relative;
+	max-width: fit-content;
+}
+
+.wrapper {
+	position: fixed;
+	z-index: 2;
+	top: 0%;
+	left: 0;
+	/* transform: translate(-3%, -8%); */
+	width: 100vw;
+	height: 100vh;
+}

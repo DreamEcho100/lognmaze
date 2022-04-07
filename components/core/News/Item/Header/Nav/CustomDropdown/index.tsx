@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import * as Dropdown from '@radix-ui/react-dropdown-menu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import classes from './index.module.css';
 
 import { TNewsItemData } from '@coreLib/ts/global';
 import { useUserSharedState } from '@store/UserContext';
-import withClassName from '@commonLibIndependent/hoc/withClassName';
+import DropdownRoot from '@commonComponentsIndependent/Dropdown';
+import DropdownTriggerMenu from '@commonComponentsIndependent/Dropdown/Trigger';
+import DropdownList from '@commonComponentsIndependent/Dropdown/List';
+import DropdownMenuItem from '@commonComponentsIndependent/Dropdown/Item';
 
 const DynamicNewsItemActionTypeUpdate = dynamic(
 	() => import('@coreComponents/News/Item/Action/Type/Update')
@@ -19,30 +19,9 @@ const DynamicCustomShareModelComponent = dynamic(
 	() => import('@commonComponentsIndependent/CustomShareModel')
 );
 
-const {
-	Root,
-	Trigger,
-	Content,
-	// Label,
-	Item,
-	// Separator,
-	// Group,
-	// CheckboxItem,
-	// ItemIndicator,
-	// RadioGroup,
-	// RadioItem,
-	// TriggerItem,
-	// Arrow,
-} = Dropdown;
-
 interface IProps {
 	newsItemData: TNewsItemData;
 }
-
-const StyledTrigger = withClassName(Trigger, classes.triggerButton);
-const StyledMainContent = withClassName(Content, classes.mainContent);
-const StyledMainContentItem = withClassName(Item, classes.mainContentItem);
-
 const CustomDropdown = ({ newsItemData }: IProps) => {
 	const [
 		{
@@ -63,6 +42,7 @@ const CustomDropdown = ({ newsItemData }: IProps) => {
 		isCustomShareModelComponentVisible,
 		setIsCustomShareModelComponentVisible,
 	] = useState(false);
+	const [isDropdownListVisible, setIsDropdownListVisible] = useState(false);
 
 	const newsItemTypeUpdateActionModalVisibilityHandler = (
 		isNewsItemTypeUpdateActionModalVisible?: boolean
@@ -109,17 +89,25 @@ const CustomDropdown = ({ newsItemData }: IProps) => {
 
 	return (
 		<>
-			<Root>
-				<StyledTrigger title='News item setting button'>
+			<DropdownRoot
+				setIsDropdownListVisible={setIsDropdownListVisible}
+				isDropdownListVisible={isDropdownListVisible}
+			>
+				<DropdownTriggerMenu
+					title='News item setting button'
+					setIsDropdownListVisible={setIsDropdownListVisible}
+					// isDropdownListVisible={isDropdownListVisible}
+				>
 					<FontAwesomeIcon icon={['fas', 'ellipsis-v']} />
-				</StyledTrigger>
+				</DropdownTriggerMenu>
 
-				<StyledMainContent>
-					{/* <Group> */}
-					{/* <Label /> */}
+				<DropdownList
+					// setIsDropdownListVisible={setIsDropdownListVisible}
+					isDropdownListVisible={isDropdownListVisible}
+				>
 					{userData?.id && (
 						<>
-							<StyledMainContentItem>
+							<DropdownMenuItem>
 								<button
 									onClick={() =>
 										newsItemTypeUpdateActionModalVisibilityHandler(true)
@@ -127,9 +115,9 @@ const CustomDropdown = ({ newsItemData }: IProps) => {
 								>
 									Update
 								</button>
-							</StyledMainContentItem>
+							</DropdownMenuItem>
 							<hr />
-							<StyledMainContentItem>
+							<DropdownMenuItem>
 								<button
 									onClick={() =>
 										newsItemTypeDeleteActionModalVisibilityHandler(true)
@@ -137,53 +125,19 @@ const CustomDropdown = ({ newsItemData }: IProps) => {
 								>
 									Delete
 								</button>
-							</StyledMainContentItem>
+							</DropdownMenuItem>
 							<hr />
 						</>
 					)}
-					<StyledMainContentItem>
+					<DropdownMenuItem>
 						<button
 							onClick={() => customShareModelComponentVisibilityHandler()}
 						>
 							Share
 						</button>
-					</StyledMainContentItem>
-					{/* </Group> */}
-
-					{/* <Group>
-					<Item />
-				</Group>
-
-				<CheckboxItem>
-					<ItemIndicator />
-				</CheckboxItem>
-
-				<RadioGroup>
-					<RadioItem value={''}>
-						<ItemIndicator />
-					</RadioItem>
-				</RadioGroup>
-
-				<Separator />
-				<Root>
-					<TriggerItem>Sub menu →</TriggerItem>
-					<Content>
-						<Item>Sub menu item</Item>
-						<Item>Sub menu item</Item>
-						<Arrow />
-					</Content>
-				</Root>
-				<Separator />
-
-				<Root>
-					<TriggerItem />
-					<Content />
-				</Root>
-
-				<Separator />
-				<Arrow /> */}
-				</StyledMainContent>
-			</Root>
+					</DropdownMenuItem>
+				</DropdownList>
+			</DropdownRoot>
 
 			{userData?.id && (
 				<>
