@@ -96,18 +96,16 @@ const CustomDropdown = ({ newsItemData }: IProps) => {
 				<DropdownTriggerMenu
 					title='News item setting button'
 					setIsDropdownListVisible={setIsDropdownListVisible}
-					// isDropdownListVisible={isDropdownListVisible}
 				>
 					<FontAwesomeIcon icon={['fas', 'ellipsis-v']} />
 				</DropdownTriggerMenu>
 
-				<DropdownList
-					// setIsDropdownListVisible={setIsDropdownListVisible}
-					isDropdownListVisible={isDropdownListVisible}
-				>
+				<DropdownList isDropdownListVisible={isDropdownListVisible}>
 					{userData?.id && (
 						<>
-							<DropdownMenuItem>
+							<DropdownMenuItem
+								setIsDropdownListVisible={setIsDropdownListVisible}
+							>
 								<button
 									onClick={() =>
 										newsItemTypeUpdateActionModalVisibilityHandler(true)
@@ -117,7 +115,9 @@ const CustomDropdown = ({ newsItemData }: IProps) => {
 								</button>
 							</DropdownMenuItem>
 							<hr />
-							<DropdownMenuItem>
+							<DropdownMenuItem
+								setIsDropdownListVisible={setIsDropdownListVisible}
+							>
 								<button
 									onClick={() =>
 										newsItemTypeDeleteActionModalVisibilityHandler(true)
@@ -129,7 +129,7 @@ const CustomDropdown = ({ newsItemData }: IProps) => {
 							<hr />
 						</>
 					)}
-					<DropdownMenuItem>
+					<DropdownMenuItem setIsDropdownListVisible={setIsDropdownListVisible}>
 						<button
 							onClick={() => customShareModelComponentVisibilityHandler()}
 						>

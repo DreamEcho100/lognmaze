@@ -8,7 +8,7 @@
 .convertorFooter,
 .convertorHeader {
 	width: 100%;
-	background: var(--main-bg-color-1);
+	background-color: var(--main-bg-color-1);
 	color: var(--main-font-color-1);
 	padding: var(--padding-main-1-half);
 	margin: 0.25em 0 0.5em 0;
@@ -27,7 +27,7 @@
 	max-height: 50rem;
 	min-height: 50rem;
 	overflow: auto;
-	background: var(--main-bg-color-1);
+	background-color: var(--main-bg-color-1);
 	color: var(--main-font-color-1);
 	transition: all ease-in var(--main-transition-duration);
 }

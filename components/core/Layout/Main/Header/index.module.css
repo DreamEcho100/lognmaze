@@ -85,7 +85,7 @@
 	}
 	.menu-toggle-button {
 		cursor: pointer;
-		background: var(--main-special-2-bg-color-5);
+		background-color: var(--main-special-2-bg-color-5);
 		border: none;
 		width: 5rem;
 		height: 5rem;
@@ -103,13 +103,13 @@
 	.menu-toggle-button .line {
 		width: 100%;
 		height: 15%;
-		background: var(--main-special-2-font-color-5);
+		background-color: var(--main-special-2-font-color-5);
 		transform-origin: center;
 		transform: translate(0%, 0%) rotate(0);
 		transition: transform var(--main-transition-duration);
 	}
 	.menu-toggle-button.active .line-2 {
-		background: transparent;
+		background-color: transparent;
 	}
 	.menu-toggle-button.active .line-1 {
 		transform: translate(0%, 190%) rotate(45deg);

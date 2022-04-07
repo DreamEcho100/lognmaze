@@ -15,3 +15,8 @@
 [dir='rtl'] .settingsMenu {
 	left: 0;
 }
+
+:not([dir='rtl']) .settingsMenu,
+[dir='rtl'] .settingsMenu {
+	list-style: none;
+}

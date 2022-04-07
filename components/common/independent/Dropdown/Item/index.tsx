@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 
 import classes from './index.module.css';
 
@@ -7,11 +7,13 @@ import { bundleClassesIfExist } from '@commonLibIndependent/className';
 interface IProps {
 	defaultClassName?: string;
 	className?: string;
+	setIsDropdownListVisible: Dispatch<SetStateAction<boolean>>;
 }
 
 const DropdownMenuItem: FC<IProps> = ({
 	defaultClassName = 'settingsItem',
 	className = '',
+	setIsDropdownListVisible,
 	children,
 }) => {
 	const allClasses = bundleClassesIfExist([
@@ -19,7 +21,14 @@ const DropdownMenuItem: FC<IProps> = ({
 		className,
 	]);
 
-	return <li className={allClasses}>{children}</li>;
+	return (
+		<li
+			className={allClasses}
+			onClick={() => setIsDropdownListVisible((prev) => !prev)}
+		>
+			{children}
+		</li>
+	);
 };
 
 export default DropdownMenuItem;

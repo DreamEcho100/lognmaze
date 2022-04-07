@@ -15,15 +15,9 @@ const MainIntroComponent = () => {
 	}, []);
 
 	return (
-		<div
-			className={`${classes['main-intro']} ${
-				removeIntro && classes['remove-intro']
-			}`}
-		>
+		<div className={`${classes.mainIntro} ${removeIntro && classes.animate}`}>
 			<div className={classes.container}>
-				<div
-					className={`${classes['svg-container']} ${classes['draw-signature']}`}
-				>
+				<div className={`${classes.svgContainer} ${classes.drawSignature}`}>
 					<LogNMazeSignature
 					// setAnimationEnd={setAnimationEnd}
 					/>

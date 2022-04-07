@@ -200,23 +200,23 @@ body.dark {
 }
 /*.special-scrollbar*/
 ::-webkit-scrollbar-button {
-	/* background: var(--main-special-bg-color-5); */
+	/* background-color: var(--main-special-bg-color-5); */
 	width: 0;
 	height: 0;
 }
 /*.special-scrollbar*/
 ::-webkit-scrollbar-thumb {
-	background: var(--main-special-bg-color-5);
+	background-color: var(--main-special-bg-color-5);
 	border-radius: 1rem;
 }
 /*.special-scrollbar*/
 ::-webkit-scrollbar-track {
-	background: var(--main-bg-color-2);
+	background-color: var(--main-bg-color-2);
 }
 
 ::selection {
 	color: var(--main-special-bg-color-3);
-	background: var(--main-special-font-color-4);
+	background-color: var(--main-special-font-color-4);
 }
 
 *,
@@ -226,7 +226,7 @@ body.dark {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	background: transparent;
+	background-color: transparent;
 }
 
 html,
@@ -243,7 +243,7 @@ body {
 	line-height: 1.15;
 	-webkit-text-size-adjust: 100%;
 	font-size: var(--current-font-size);
-	background: var(--main-bg-color-2);
+	background-color: var(--main-bg-color-2);
 	color: var(--main-font-color-1);
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -370,7 +370,7 @@ blockquote::before {
 code[data-code-inline='true'] {
 	vertical-align: bottom;
 	display: inline-block;
-	background: var(--main-font-color-3);
+	background-color: var(--main-font-color-3);
 	color: var(--main-bg-color-3);
 	padding: 0.05em 0.25em;
 	margin-top: 0.1em;

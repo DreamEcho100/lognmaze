@@ -4,6 +4,7 @@
 
 import {
 	KeyboardEvent,
+	MouseEvent,
 	ReactNode,
 	useCallback,
 	useEffect,
@@ -259,15 +260,19 @@ const ModalComponent = ({
 
 	return createPortal(
 		<>
-			<div className={classes.modalBackground} onClick={closeModalHandler} />
 			<div
 				className={`${
 					modalClasses?.wrapper?.default
 						? modalClasses?.wrapper?.default
-						: classes.modalWrapper
+						: classes.wrapper
 				} ${modalClasses?.wrapper?.new || ''}`}
 				ref={modalWrapperRef}
+				onClick={(event: MouseEvent) => {
+					event.stopPropagation();
+					if (event.target === event.currentTarget) closeModalHandler();
+				}}
 			>
+				{/* <div className={classes.wrapper}> */}
 				<div
 					className={`${
 						modalClasses?.container?.default
@@ -296,6 +301,7 @@ const ModalComponent = ({
 						findByKey('body')
 					)}
 				</div>
+				{/* </div> */}
 			</div>
 		</>,
 		ElementSelected

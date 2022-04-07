@@ -1,35 +1,24 @@
-.main-intro {
+.mainIntro {
+	--svg-stroke: 40477;
 	user-select: none;
 	position: fixed;
-	/* top: 0;
 	bottom: 0;
 	left: 0;
-	right: 0;
-	width: 100%;
-	height: 100%; */
-	bottom: 0;
-	left: 0;
-	width: min(75vw, 30rem);
-	height: min(calc(25vh + 1rem), 15rem);
+	width: calc(15rem + 10vw);
+	height: calc(5rem + 10vw);
+	min-width: 20rem;
+	min-height: 10rem;
+	max-width: 75rem;
+	max-height: 40rem;
 	background-color: var(--main-special-bg-color-5);
 	z-index: 10;
 	transform: translateX(-100%);
-	animation: slideToOriginalPos var(--main-transition-duration) ease-in-out
-		forwards;
+	pointer-events: none;
 	transition: all 0.6s ease-in-out 1s;
 }
 
-@keyframes slideToOriginalPos {
-	to {
-		transform: translateX(0%);
-	}
-}
-
-.main-intro.remove-intro {
-	transform: translateX(-100%);
-	pointer-events: none;
-	opacity: 0;
-	/* animation: removeMainIntroInHorizontally 0.6s ease-in-out 1s forwards; */
+.mainIntro.animate {
+	animation: removeMainIntroInHorizontally 2s ease-in-out forwards;
 }
 
 .container {
@@ -41,7 +30,7 @@
 	justify-content: center;
 }
 
-.svg-container {
+.svgContainer {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -54,49 +43,62 @@
 	transition-duration: 0s;
 }
 
-.main-intro svg {
-	/* 3036  */
+.mainIntro svg {
 	width: 100%;
 	height: 100%;
-	stroke-dasharray: 40477;
-	stroke-dashoffset: 40477;
-	opacity: 0.5;
-	transition: stroke-dashoffset 0.7s cubic-bezier(0.46, 0.7, 1, 0.69) 0.2s,
-		opacity 0.7s cubic-bezier(0.46, 0.03, 0.52, 0.96) 0.2s;
+	stroke-dasharray: var(--svg-stroke);
+	stroke-dashoffset: var(--svg-stroke);
 }
 
-.main-intro.remove-intro .svg-container.draw-signature svg {
-	opacity: 1;
-	stroke-dashoffset: 0;
+.mainIntro.animate .svgContainer.drawSignature svg {
+	animation: svgAnimation 0.8s ease-in forwards 0.4s;
 }
 
 /**/
 
-.main-intro.window-is-vertical .svg-container {
+.mainIntro.window-is-vertical .svgContainer {
 	height: 20vh;
 	transform: rotate(90deg);
 }
 
-/* .main-intro.remove-intro.window-is-vertical {
-	animation: removeMainIntroInVertically 0.5s ease-in-out 1s forwards;
-} */
-
-/* .main-intro.window-is-vertical .svg-container svg {
-	transform: translateX(100%) rotate(90deg) scale(0.4);
-} */
-
-/* @keyframes removeMainIntroInHorizontally {
-	to {
+@keyframes removeMainIntroInHorizontally {
+	0% {
 		transform: translateX(-100%);
-		pointer-events: none;
-		opacity: 0;
 	}
-} */
+	20% {
+		transform: translateX(0%);
+	}
+	80% {
+		transform: translateX(0%);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
+}
 
-/* @keyframes removeMainIntroInVertically {
+@keyframes svgAnimation {
 	to {
-		transform: translateY(-100%);
-		pointer-events: none;
-		opacity: 0;
+		opacity: 1;
+		stroke-dashoffset: 0;
 	}
-} */
+	/* 0% {
+		opacity: 1;
+		stroke-dashoffset: calc(var(--svg-stroke) * 1);
+	}
+	25% {
+		opacity: 1;
+		stroke-dashoffset: calc(var(--svg-stroke) * 0.75);
+	}
+	50% {
+		opacity: 1;
+		stroke-dashoffset: calc(var(--svg-stroke) * 0.5);
+	}
+	75% {
+		opacity: 1;
+		stroke-dashoffset: calc(var(--svg-stroke) * 0.25);
+	}
+	100% {
+		opacity: 1;
+		stroke-dashoffset: calc(var(--svg-stroke) * 0);
+	} */
+}

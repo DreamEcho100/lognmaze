@@ -6,9 +6,11 @@
 .wrapper {
 	position: fixed;
 	z-index: 2;
-	top: 0%;
+	top: 0;
 	left: 0;
-	/* transform: translate(-3%, -8%); */
-	width: 100vw;
-	height: 100vh;
+	transform: translate(-50%, -50%);
+	width: 200%;
+	height: 200%;
+	min-width: 200vw;
+	min-height: 200vh;
 }
