@@ -1,4 +1,5 @@
-import { FC, Fragment, memo, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { FC, Fragment, useEffect, useState } from 'react';
 
 import classes from './index.module.css';
 
@@ -9,7 +10,9 @@ import { handleAllClasses } from '@commonLibIndependent/className';
 import NewsItemHeader from './Header';
 import NewsItemDetails from './Details';
 import NewsItemFooter from './Footer';
-import ModalComponent from '@commonComponentsIndependent/Modal';
+const DynamicModalComponent = dynamic(
+	() => import('@commonComponentsIndependent/Modal')
+);
 import { initGetNewsItemTypeBlogContent } from '@store/NewsContext/actions';
 
 interface INewsItemProvidedContextProps {
@@ -143,10 +146,16 @@ export const NewsItemProvidedContextMiddleware = (
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	// const [isFooterSettingsVisible, setIsFooterSettingsVisible] = useState(false);
 
-	const handleSetIsModalVisible = (isModalVisible?: boolean) =>
+	const handleSetIsModalVisible = (isModalVisible?: boolean) => {
 		setIsModalVisible((prevState) =>
 			typeof isModalVisible === 'boolean' ? isModalVisible : !prevState
 		);
+
+		if (!isModalVisible) {
+			document.body.style.overflowX = 'hidden';
+			document.body.style.overflowY = 'auto';
+		}
+	};
 
 	// const handleIsFooterSettingsVisible = (isFooterSettingsVisible: boolean) => {
 	// 	if (isFooterSettingsVisible)
@@ -163,22 +172,24 @@ export const NewsItemProvidedContextMiddleware = (
 				// isFooterSettingsVisible={isFooterSettingsVisible}
 				// handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
 			/>
-			<ModalComponent
-				isModalVisible={isModalVisible}
-				modalVisibilityHandler={{
-					handleSetIsModalVisible,
-				}}
-			>
-				<Fragment key='body'>
-					<NewsItem
-						{...props}
-						handleSetIsModalVisible={handleSetIsModalVisible}
-						// isFooterSettingsVisible={isFooterSettingsVisible}
-						// handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
-						isThisAModal
-					/>
-				</Fragment>
-			</ModalComponent>
+			{isModalVisible && (
+				<DynamicModalComponent
+					isModalVisible={isModalVisible}
+					modalVisibilityHandler={{
+						handleSetIsModalVisible,
+					}}
+				>
+					<Fragment key='body'>
+						<NewsItem
+							{...props}
+							handleSetIsModalVisible={handleSetIsModalVisible}
+							// isFooterSettingsVisible={isFooterSettingsVisible}
+							// handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
+							isThisAModal
+						/>
+					</Fragment>
+				</DynamicModalComponent>
+			)}
 		</>
 	);
 };
