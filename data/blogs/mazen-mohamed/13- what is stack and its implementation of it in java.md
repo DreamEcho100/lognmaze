@@ -63,7 +63,7 @@ public int push(int element) {
 }
 ```
 
-- firstly, We will check if the stack is full, and if true we exit or you can throw an exception return from the method.
+- firstly, We will check if the stack is full, and if true we exit or you can throw an exception.
 - Else we will add it to the end of `myArr` and increase both `stackTop` and `numberOfElements` values by 1.
 - Finally return the element.
 
@@ -88,7 +88,7 @@ public int pop() {
 }
 ```
 
-- firstly, We will check if the stack is empty, and if true we exit or you can throw an exception return from the method.
+- firstly, We will check if the stack is empty, and if true we exit or you can throw an exception.
 - Else we will store the last element in a variable `element`.
 - Then decrease both `stackTop` and `numberOfElements` values by 1.
 - Finally return the poped `element`.
@@ -137,7 +137,7 @@ public int indexOf(int index) {
 }
 ```
 
-- firstly, We will check if the index is bigger than the `stackTop` variable which holds the last element index, and if true we exit or you can throw an exception return from the method.
+- firstly, We will check if the index is bigger than the `stackTop` variable which holds the last element index, and if true we exit or you can throw an exception.
 - Else we will return the element with the specified index.
 
 ## Coming Soon

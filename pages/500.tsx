@@ -1,13 +1,15 @@
 import { NextPage, NextPageContext } from 'next';
 import Head from 'next/head';
 
+import helpersClasses from '@styles/helpers.module.css';
+
 interface IProps {
 	statusCode: number;
 }
 
 const Custom500: NextPage<IProps> = ({ statusCode }) => {
 	return (
-		<main className='main'>
+		<main className={helpersClasses.main}>
 			<Head>
 				<meta name='robots' content='noindex,nofollow' />
 				<meta

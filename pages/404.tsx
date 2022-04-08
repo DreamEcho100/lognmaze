@@ -1,8 +1,10 @@
 import Head from 'next/head';
 
+import helpersClasses from '@styles/helpers.module.css';
+
 const Custom404 = () => {
 	return (
-		<main className='main'>
+		<main className={helpersClasses.main}>
 			<Head>
 				<meta name='robots' content='noindex,nofollow' />
 				<meta name='description' content='404 | Not Found | LogNMaze' />
