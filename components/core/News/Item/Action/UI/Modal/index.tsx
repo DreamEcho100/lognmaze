@@ -26,8 +26,8 @@ const NewsItemActionModal = ({
 				containerBody: {
 					new: classes.containerBody,
 				},
-				wrapper: {
-					new: classes.wrapper,
+				container: {
+					new: classes.container,
 				},
 			}}
 		>

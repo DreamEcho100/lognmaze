@@ -178,6 +178,11 @@ export const NewsItemProvidedContextMiddleware = (
 					modalVisibilityHandler={{
 						handleSetIsModalVisible,
 					}}
+					modalClasses={{
+						container: {
+							new: classes.modalContainer,
+						},
+					}}
 				>
 					<Fragment key='body'>
 						<NewsItem
