@@ -1,5 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Dispatch, FC, SetStateAction } from 'react';
 
 // import { handleAllClasses } from '@lib/v1/className';
 

@@ -43,7 +43,6 @@ import Link from 'next/link';
 import commentRequestsReducer from './utils/reducer';
 import {
 	createNewsItemReplyForMainComment,
-	deleteNewsItemMainOrMainReplyComment,
 	getRepliesForMainComment,
 	updateNewsItemMainOrMainReplyComment,
 } from './utils/actions';
@@ -103,10 +102,9 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		{
 			data: { user: userData, token: userToken },
 		},
-		userDispatch,
 	] = useUserSharedState();
 
-	const [_newsState, newsDispatch] = useNewsSharedState();
+	const [, newsDispatch] = useNewsSharedState();
 
 	const [requestsActionsState, requestsActionsDispatch] = useReducer(
 		commentRequestsReducer,
@@ -123,14 +121,15 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 	const [showReplyTextarea, setShowReplyTextarea] = useState(false);
 	const [showReplies, setShowReplies] = useState(false);
 
-	const [focusTextarea, setFocusCommentTextarea] = useState(false);
-	const [editButtonsDisabled, setEditButtonsDisabled] = useState(false);
+	// const [focusTextarea, setFocusCommentTextarea] = useState(false);
+	const [editButtonsDisabled /* setEditButtonsDisabled */] = useState(false);
 
-	const [deleteButtonsDisabled, setDeleteButtonsDisabled] = useState(false);
-	const [commentReplyButtonsDisabled, setCommentReplyButtonsDisabled] =
+	// const [deleteButtonsDisabled, setDeleteButtonsDisabled] =
+	// 	useState(false);
+	const [commentReplyButtonsDisabled /* setCommentReplyButtonsDisabled */] =
 		useState(false);
-	const [focusCommentReplyTextarea, setFocusCommentReplyTextarea] =
-		useState(false);
+	// const [focusCommentReplyTextarea, setFocusCommentReplyTextarea] =
+	// 	useState(false);
 
 	// const [loadingReplies, setLoadingReplies] = useState(false);
 
@@ -138,8 +137,8 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		content: props.comment.content,
 		comment_reply: '',
 	});
-	const [items, setItems] = useState([]);
 
+	/*
 	const handleDeleteComment = async () =>
 		// bodyObj
 		{
@@ -165,7 +164,8 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					})(),
 				},
 			});
-		};
+	};
+	*/
 
 	const handleUpdatingComment = async (event: FormEvent) => {
 		event.preventDefault();

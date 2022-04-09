@@ -14,6 +14,7 @@ interface IProps extends SelectHTMLAttributes<HTMLSelectElement> {
 	defaultClasses?: string;
 	extraClasses?: string;
 	className?: string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	setValues?: Dispatch<SetStateAction<any>>;
 }
 
@@ -40,6 +41,7 @@ const SelectComponent: FC<IProps> = ({
 
 		if (setValues)
 			selectProps.onChange = (event: ChangeEvent<HTMLSelectElement>) =>
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				setValues((prev: any) => ({
 					...prev,
 					[event.target.name]: event.target.value,

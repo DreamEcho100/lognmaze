@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import ECommentConstants from './constants';
 import {
 	IRequestInit,
@@ -11,7 +12,7 @@ const requestInit = (props?: Partial<IRequestInit>): IRequestInit => ({
 	success: props?.success || false,
 });
 
-const actionsTypeMap = (actionType: string, commentType?: string) => {
+const actionsTypeMap = (actionType: string) => {
 	if (actionType.startsWith(ECommentConstants.CREATE_REPLY_FOR_MAIN_COMMENT))
 		return 'create';
 	if (

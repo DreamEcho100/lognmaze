@@ -14,6 +14,7 @@ interface IProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 	defaultClasses?: string;
 	extraClasses?: string;
 	className?: string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	setValues?: Dispatch<SetStateAction<any>>;
 }
 
@@ -40,6 +41,7 @@ const TextareaComponent: FC<IProps> = ({
 
 		if (setValues)
 			textareaProps.onChange = (event: ChangeEvent<HTMLTextAreaElement>) =>
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				setValues((prev: any) => ({
 					...prev,
 					[event.target.name]: event.target.value,

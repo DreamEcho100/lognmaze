@@ -47,12 +47,10 @@ const HomePage: NextPage<IProps> = ({ newsData }) => {
 	);
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-	const profileData = {} as /*{IPropsUserProfilePageData} &*/ {
+export const getStaticProps: GetStaticProps = async () => {
+	const profileData = {} as {
 		newsData: { news: TNewsData; hit_news_items_limit: boolean };
 	};
-
-	const existingItems = {};
 
 	profileData.newsData = await pgActions.news.get();
 

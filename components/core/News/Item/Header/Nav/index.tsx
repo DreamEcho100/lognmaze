@@ -5,7 +5,6 @@ import classes from './index.module.css';
 import helpersClasses from '@styles/helpers.module.css';
 
 import { TNewsItemData } from '@coreLib/ts/global';
-import { useUserSharedState } from '@store/UserContext';
 import { imagesWeservNlLoader } from '@commonLibIndependent/image';
 
 import CustomNextImage from '@commonComponentsDependent/CustomNextImage';
@@ -22,12 +21,6 @@ const NewsItemHeaderNav = ({
 	hideHeaderSettings,
 	priorityForHeaderImage,
 }: Props) => {
-	const [
-		{
-			data: { user: userData, token: userToken },
-		},
-	] = useUserSharedState();
-
 	return (
 		<nav className={classes.nav}>
 			<div className={classes.authorInfo}>

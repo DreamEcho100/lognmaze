@@ -19,7 +19,7 @@ const CustomNextImage = ({
 	// role = 'img',
 	blurDataURL,
 	...props
-}: ICustomNextImageProps): JSX.Element => {
+}: ICustomNextImageProps) => {
 	const wrapperProps = {
 		className: `${className} ${classes['img-container']} ${classes['layout-fill']}`,
 	};

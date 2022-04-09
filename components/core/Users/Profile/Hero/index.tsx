@@ -8,9 +8,7 @@ import CustomNextImage from '@commonComponentsDependent/CustomNextImage';
 import { imagesWeservNlLoader } from '@commonLibIndependent/image';
 // import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
 
-type Props = {};
-
-const UserProfileHero = (props: Props) => {
+const UserProfileHero = () => {
 	const [
 		{
 			data: { user: userData },

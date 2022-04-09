@@ -9,6 +9,7 @@ import TextareaComponent from '@commonComponentsIndependent/Textarea';
 import ButtonComponent from '@commonComponentsIndependent/Button';
 
 interface IProps {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	setValues: Dispatch<SetStateAction<any>>;
 	value: string;
 	name: string;

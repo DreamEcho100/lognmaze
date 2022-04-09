@@ -38,7 +38,6 @@ const Comments: FC<IProps> = ({
 		{
 			data: { user: userData },
 		},
-		userDispatch,
 	] = useUserSharedState();
 	// const [newsDataState, newsDispatch] = useNewsSharedState();
 
@@ -66,7 +65,7 @@ const Comments: FC<IProps> = ({
 	const [disableSendCommentButton, setDisableSendCommentButton] =
 		useState(false);
 
-	const [loadingComments, setLoadingComments] = useState(false);
+	// const [loadingComments, setLoadingComments] = useState(false);
 
 	const handleSubmit = async (event: FormEvent) => {
 		event.preventDefault();

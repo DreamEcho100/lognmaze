@@ -18,8 +18,10 @@ type TPropsHandler0 = () => void;
 interface IPropsHandler1 {
 	handleSetIsModalVisible: (
 		isModalVisible?: boolean,
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		handleSetIsModalVisibleOptions?: { [key: string]: any }
 	) => void;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	handleSetIsModalVisibleOptions?: { [key: string]: any };
 }
 

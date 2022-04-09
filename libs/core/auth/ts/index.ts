@@ -1,12 +1,17 @@
 import { IUserAuthenticatedData } from '@coreLib/ts/global';
 import { NextApiResponse } from 'next';
 
-export type TJWTGenerator = <T = {}>(data: T, maxAge?: number) => string;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type TJWTGenerator = <T = { [key: string]: any }>(
+	data: T,
+	maxAge?: number
+) => string;
 
 export type ISetRefreshToken = (
 	res: NextApiResponse,
 	user_id: IUserAuthenticatedData['id'],
 	userSession: {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		[key: string]: any;
 	},
 	maxAge?: number
@@ -16,6 +21,7 @@ export type ISetAccessToken = (
 	res: NextApiResponse,
 	user_id: IUserAuthenticatedData['id'],
 	userSession: {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		[key: string]: any;
 	},
 	maxAge?: number

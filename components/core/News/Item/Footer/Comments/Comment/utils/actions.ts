@@ -60,11 +60,13 @@ export const createNewsItemReplyForMainComment: TCreateNewsItemReplyForMainComme
 										reply_to_comment_id: requiredData.reply_to_comment_id,
 										content: requiredData.content,
 										news_id: requiredData.news_id,
+										// eslint-disable-next-line no-mixed-spaces-and-tabs
 								  }
 								: {
 										comment_type: 'comment_main',
 										content: requiredData.content,
 										news_id: requiredData.news_id,
+										// eslint-disable-next-line no-mixed-spaces-and-tabs
 								  }),
 						},
 						headersList: {
@@ -225,9 +227,11 @@ export const deleteNewsItemMainOrMainReplyComment: TDeleteNewsItemMainOrMainRepl
 								? {
 										type: requiredData.type,
 										parent_id: requiredData.parent_id,
+										// eslint-disable-next-line no-mixed-spaces-and-tabs
 								  }
 								: {
 										type: requiredData.type,
+										// eslint-disable-next-line no-mixed-spaces-and-tabs
 								  },
 						headersList: {
 							Authorization: token && returnBearerTokenIfExist(token),

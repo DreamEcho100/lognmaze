@@ -55,13 +55,8 @@ const NewsItemActionTypeDelete = ({
 		await deleteNewsItem(newsDispatch, {
 			bodyContent:
 				newsItemData.type === 'blog'
-					? {
-							type: newsItemData.type,
-							tags: newsItemData.type_data.tags,
-					  }
-					: {
-							type: newsItemData.type,
-					  },
+					? { type: newsItemData.type, tags: newsItemData.type_data.tags }
+					: { type: newsItemData.type },
 			news_id: newsItemData.news_id,
 			token: userToken,
 		});

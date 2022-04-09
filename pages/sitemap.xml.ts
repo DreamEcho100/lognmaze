@@ -2,6 +2,7 @@
 // https://tuomokankaanpaa.com/blogs/nextjs-seo-how-to-add-sitemap-and-robots-txt
 // https://cheatcode.co/tutorials/how-to-generate-a-dynamic-sitemap-with-next-js
 
+import { ReactNode } from 'react';
 import { GetServerSideProps } from 'next';
 import { SitemapStream, streamToPromise } from 'sitemap';
 import { Readable } from 'stream';
@@ -9,7 +10,7 @@ import { Readable } from 'stream';
 import extraAppLinksArr from '@data/appLinks';
 import pool from '@coreLib/db/pg/connection';
 
-const Sitemap = () => {};
+const Sitemap = (): ReactNode => null;
 
 export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
 	// An array with your links

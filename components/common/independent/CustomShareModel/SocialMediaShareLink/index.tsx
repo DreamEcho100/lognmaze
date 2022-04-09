@@ -21,8 +21,9 @@ const SocialMediaShareLink = ({
 		const linkPramsArr: string[] = [];
 
 		let linkPram: keyof typeof linkPrams;
+		let pram;
 		for (linkPram in linkPrams) {
-			let pram = linkPrams[linkPram];
+			pram = linkPrams[linkPram];
 			if (pram) {
 				linkPramsArr.push(
 					`${encodeURIComponent(linkPram)}=${encodeURIComponent(pram)}`

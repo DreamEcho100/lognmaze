@@ -1,7 +1,6 @@
 import { TNewsItemData } from '@coreLib/ts/global';
 import { THandleSubmitForCreateAndUpdateNewsItemActionType } from '../../ts';
 import { IUpdateNewsItemReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/ts';
-import { useNewsSharedState } from '@store/NewsContext';
 import { updateNewsItem } from '@store/NewsContext/actions';
 import { differenceBetweenTwoArrays } from '@commonLibIndependent/array';
 
@@ -23,17 +22,6 @@ const NewsItemActionTypeUpdate = ({
 	isModalVisible,
 }: // ...props
 IProps) => {
-	const [
-		{
-			actions: { items: itemsActions },
-		},
-		newsDispatch,
-	] = useNewsSharedState();
-
-	// const getTypeBlogContent =
-	// 	itemsActions[newsItemData.news_id]?.requests?.init?.modal
-	// 		?.getTypeBlogContent;
-
 	const handleSubmit: THandleSubmitForCreateAndUpdateNewsItemActionType =
 		async (newsDispatch, props) => {
 			// if (createItemRequest?.isLoading) return;
@@ -94,21 +82,6 @@ IProps) => {
 			if (fieldsCheck.length > 0) {
 				return fieldsCheck;
 			} else {
-				// await createNewsItem(newsDispatch, {
-				// 	newNewsItemAuthorData: {
-				// 		author_bio: userData.bio || '',
-				// 		author_first_name: userData.first_name,
-				// 		author_last_name: userData.last_name,
-				// 		author_id: userData.id,
-				// 		author_profile_picture: userData.profile_picture || '',
-				// 		author_user_name_id: userData.user_name_id,
-				// 	},
-				// 	newsItemBasicData: {
-				// 		type: props.type,
-				// 		type_data: props.type_data,
-				// 	} as ICreateNewsItemReqArgs['bodyContent']['newsItemBasicData'],
-				// 	token: userToken,
-				// });
 				const bodyContent: IUpdateNewsItemReqArgs['bodyContent'] = {
 					type: props.type,
 					dataToUpdate: {},
@@ -138,11 +111,13 @@ IProps) => {
 						if (
 							// !Array.isArray(props.type_data[item]) &&
 							typeof props.type_data[item] === 'string' &&
-							!['tags', 'slug', 'type'].includes(item) &&
+							// !['tags', 'slug', 'type'].includes(item) &&
+							item !== 'slug' &&
+							item !== 'tags' &&
 							(props.type_data[item] as string)?.trim() !==
 								(newsItemData.type_data[item] as string)?.trim()
 						) {
-							// @ts-ignore
+							// if (item !== 'slug' && item !== 'tags')
 							bodyContent.dataToUpdate[item] = props.type_data[item];
 						} else {
 							if (item === 'tags') {

@@ -374,20 +374,20 @@ const SignUpComponent = ({
 						required
 						value={values.first_name}
 						onChange={(event) => {
-							if (true || !values.user_name_id) {
-								return setValues((prev) => ({
-									...prev,
-									user_name_id: `${event.target.value}-${values.last_name}`
-										.toLowerCase()
-										.replace(/[^\w\s-\_]/gi, '')
-										.split(/[\s-]+/)
-										.join('-')
-										.replace(/(\_{2,})/gi, '_')
-										.replace(/^[^\w]/gi, '')
-										.replace(/-$/, ''),
-									[event.target.name]: event.target.value,
-								}));
-							}
+							// if (true || !values.user_name_id) {
+							return setValues((prev) => ({
+								...prev,
+								user_name_id: `${event.target.value}-${values.last_name}`
+									.toLowerCase()
+									.replace(/[^\w\s-_]/gi, '')
+									.split(/[\s-]+/)
+									.join('-')
+									.replace(/(_{2,})/gi, '_')
+									.replace(/^[^\w]/gi, '')
+									.replace(/-$/, ''),
+								[event.target.name]: event.target.value,
+							}));
+							// }
 						}}
 					/>
 				</FormControlComponent>
@@ -399,21 +399,21 @@ const SignUpComponent = ({
 						required
 						value={values.last_name}
 						onChange={(event) => {
-							if (true || !values.user_name_id) {
-								return setValues((prev) => ({
-									...prev,
-									user_name_id: `${values.first_name}-${event.target.value}`
+							// if (true || !values.user_name_id) {
+							return setValues((prev) => ({
+								...prev,
+								user_name_id: `${values.first_name}-${event.target.value}`
 
-										.toLowerCase()
-										.replace(/[^\w\s-\_]/gi, '')
-										.split(/[\s-]+/)
-										.join('-')
-										.replace(/(\_{2,})/gi, '_')
-										.replace(/^[^\w]/gi, '')
-										.replace(/-$/, ''),
-									[event.target.name]: event.target.value,
-								}));
-							}
+									.toLowerCase()
+									.replace(/[^\w\s-_]/gi, '')
+									.split(/[\s-]+/)
+									.join('-')
+									.replace(/(_{2,})/gi, '_')
+									.replace(/^[^\w]/gi, '')
+									.replace(/-$/, ''),
+								[event.target.name]: event.target.value,
+							}));
+							// }
 						}}
 					/>
 				</FormControlComponent>
@@ -433,7 +433,7 @@ const SignUpComponent = ({
 						.replace(/(-{2,})/gi, '-')
 						.replace(/(_{2,})/gi, '_')
 						.replace(/^-/, '')
-						.replace(/[^\w-\_]/gi, '')}
+						.replace(/[^\w-_]/gi, '')}
 					setValues={setValues}
 				/>
 			</FormControlComponent>
@@ -502,7 +502,7 @@ const SignUpComponent = ({
 					</option>
 					{countries.map(
 						(
-							{ country_name, country_phone_code, country_short_name },
+							{ country_name /*, country_phone_code, country_short_name*/ },
 							index
 						) => (
 							<option key={index} value={country_name}>

@@ -1,7 +1,6 @@
 import { TNewsItemData } from '@coreLib/ts/global';
 import { useNewsSharedState } from '@store/NewsContext';
 import { initGetNewsItemTypeBlogContent } from '@store/NewsContext/actions';
-import { TNewsContextDispatch } from '@store/NewsContext/ts';
 import { useEffect, useMemo } from 'react';
 
 export const useCreateUpdateDeleteNewsItemNeeds = ({

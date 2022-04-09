@@ -8,6 +8,7 @@ interface IProps extends HTMLAttributes<HTMLElement> {
 	defaultClasses?: string;
 	extraClasses?: string;
 	className?: string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	setValues?: Dispatch<SetStateAction<any>>;
 	elemType?: 'section' | 'article' | 'div';
 }

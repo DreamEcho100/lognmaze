@@ -9,6 +9,7 @@ import withClassName from '@commonLibIndependent/hoc/withClassName';
 
 interface IAccordionTriggerForwardedProps {
 	children?: ReactNode;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	props?: { [key: string]: any };
 }
 

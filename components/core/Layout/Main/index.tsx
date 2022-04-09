@@ -58,7 +58,7 @@ const MainLayoutComponent = ({ children }: ILayoutProps) => {
 	// 		payload: { routerIsReady: router.isReady },
 	// 	});
 	// }, [router.isReady, appState.isReady, appDispatch]);
-	const [userState, userDispatch] = useUserSharedState();
+	const [, userDispatch] = useUserSharedState();
 
 	useEffect(() => {
 		initStoreDataAction(userDispatch);

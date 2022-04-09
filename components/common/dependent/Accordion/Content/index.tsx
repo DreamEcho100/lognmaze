@@ -9,6 +9,7 @@ const StyledContent = withClassName(Content, classes.AccordionContent);
 
 interface AccordionContentForwardedProps {
 	children?: ReactNode;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	props?: { [key: string]: any };
 }
 

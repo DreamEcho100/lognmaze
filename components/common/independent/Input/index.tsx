@@ -14,6 +14,7 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
 	defaultClasses?: string;
 	extraClasses?: string;
 	className?: string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	setValues?: Dispatch<SetStateAction<any>>;
 }
 
@@ -44,6 +45,7 @@ const InputComponent: FC<IProps> = ({
 
 		if (setValues && !props.readOnly)
 			inputProps.onChange = (event: ChangeEvent<HTMLInputElement>) =>
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				setValues((prev: any) => ({
 					...prev,
 					[event.target.name]: event.target.value,

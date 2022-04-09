@@ -15,7 +15,7 @@ import InputComponent from '@commonComponentsIndependent/Input';
 interface IProps {
 	itemData: TNewsItemData;
 	isModalVisible: boolean;
-	modalVisibilityHandler: (isModalVisible?: boolean) => void;
+	modalVisibilityHandler: (/* isModalVisible?: boolean */) => void;
 	platforms:
 		| Parameters<typeof SocialMediaLinksData>['0']['socialMediaType'][]
 		| 'all';
@@ -29,17 +29,17 @@ const CustomShareModelComponent = ({
 	isModalVisible,
 	modalVisibilityHandler,
 }: IProps) => {
-	const [useInput, setUseInput] = useState(true);
+	const [, setUseInput] = useState(true);
 	const [inputCopiedToClipboard, setInputCopiedToClipboard] = useState(true);
 
 	let url =
 		// 'https://lognmaze.com/';
 		`${process.env.FRONT_END_ROOT_URL}/`;
-	let quote = '';
+	const quote = '';
 	let tags: string[] = [];
 	let title = '';
 	let summary = '';
-	let source = 'https://lognmaze.com';
+	const source = 'https://lognmaze.com';
 	let caption = '';
 	// `https://${
 	// 	'lognmaze.vercel.app' || process.env.FRONT_END_ROOT_URL

@@ -30,6 +30,21 @@
 			"@styles/*": ["styles/*"],
 			"@store/*": ["store/*"]
 		}
+		// "plugins": ["@typescript-eslint", "react-hooks", "react"]
+	},
+	"rules": {
+		// 	"no-unused-vars": [1, { "args": "after-used", "argsIgnorePattern": "^_" }]
+		// "semi": "off",
+		// "@typescript-eslint/semi": "error"
+		// "no-unused-vars": 0,
+		// "@typescript-eslint/no-unused-vars": ["error"],
+		// "noUnusedLocals": true,
+		// "noUnusedParameters": true
+		"no-unused-vars": "off",
+		"@typescript-eslint/no-unused-vars": [
+			1,
+			{ "args": "after-used", "argsIgnorePattern": "^_" }
+		]
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
 	"exclude": [

@@ -4,9 +4,7 @@ import Link from 'next/link';
 import helpersClasses from '@styles/helpers.module.css';
 import { NextSeo } from 'next-seo';
 
-interface Props {}
-
-const Tools: NextPage<Props> = () => {
+const Tools: NextPage<null> = () => {
 	return (
 		<>
 			<NextSeo

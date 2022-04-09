@@ -50,7 +50,7 @@ const MainNavigation = () => {
 	// }, [CBSetDataFirstTime]);
 
 	const handleLogout = (id: IUserAuthenticatedData['id'], token?: string) => {
-		let logoutUserRequestResetActionTimeoutId: NodeJS.Timeout;
+		// let logoutUserRequestResetActionTimeoutId: NodeJS.Timeout;
 
 		logoutUserRequestAction(userDispatch, {
 			bodyContent: { id },
@@ -58,7 +58,7 @@ const MainNavigation = () => {
 		});
 		// logoutUserRequestResetAction(userDispatch);
 
-		logoutUserRequestResetActionTimeoutId = setTimeout(
+		const logoutUserRequestResetActionTimeoutId = setTimeout(
 			() => logoutUserRequestResetAction(userDispatch),
 			1000
 		);

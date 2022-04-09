@@ -85,6 +85,7 @@ const NewsItemDetails: FC<INewsItemDetails> = ({
 		const tempObj: {
 			details: string;
 			newsItemType: TNewsItemData['type'];
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			[key: string]: any;
 		} = {
 			newsItemType: newsItemData.type,
@@ -95,13 +96,13 @@ const NewsItemDetails: FC<INewsItemDetails> = ({
 		// | IDetailsType_MapContentProps
 		if (detailsType === 'description') {
 			tempObj.handleSetIsModalVisible = handleSetIsModalVisible;
-			return tempObj as IDetailsType_MapDescriptionProps;
+			return tempObj as unknown as IDetailsType_MapDescriptionProps;
 		}
 
 		// if (detailsType === 'content') {
 		// }
 		tempObj.newsItemData = newsItemData;
-		return tempObj as IDetailsType_MapContentProps;
+		return tempObj as unknown as IDetailsType_MapContentProps;
 	};
 
 	return (

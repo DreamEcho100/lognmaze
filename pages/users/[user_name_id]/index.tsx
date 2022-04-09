@@ -43,7 +43,7 @@ const UserProfilePage: NextPage<IProps> = ({
 				visitorStatus:
 					userData && user && userData.id === user.id
 						? VISITOR_PROFILE_OWNER
-						: VISITOR_PROFILE_GUEST, // visitorStatus,
+						: VISITOR_PROFILE_GUEST,
 			},
 		});
 
@@ -52,13 +52,7 @@ const UserProfilePage: NextPage<IProps> = ({
 		items: {},
 	};
 
-	newsData.news.forEach((item, index) => {
-		// if (index === 0) {
-		// 	actions.items[item.news_id] = {
-		// 		priorityForHeaderImage: true,
-		// 	};
-		// }
-
+	newsData.news.forEach((item) => {
 		newsExtra[item.news_id] = {
 			hit_comments_limit: false,
 			newsItemDetailsType: 'description',

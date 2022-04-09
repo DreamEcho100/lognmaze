@@ -134,10 +134,10 @@ const NewsItemFormTypeBlog = ({
 								actionType !== 'update'
 									? event.target.value
 											.toLowerCase()
-											.replace(/[^\w\s-\_]/gi, '')
+											.replace(/[^\w\s-_]/gi, '')
 											.split(/[\s-]+/)
 											.join('-')
-											.replace(/(\_{2,})/gi, '_')
+											.replace(/(_{2,})/gi, '_')
 											.replace(/^[^\w]/gi, '')
 											.replace(/-$/, '')
 									: prev.slug,
@@ -168,7 +168,7 @@ const NewsItemFormTypeBlog = ({
 								.replace(/(-{2,})/gi, '-')
 								.replace(/(_{2,})/gi, '_')
 								.replace(/^-/, '')
-								.replace(/[^\w-\_]/gi, ''),
+								.replace(/[^\w-_]/gi, ''),
 						}));
 					}}
 					{...sharedInputProps({
@@ -235,7 +235,7 @@ const NewsItemFormTypeBlog = ({
 								.replace(/(-{2,})/gi, '-')
 								.replace(/(_{2,})/gi, '_')
 								.replace(/^-/, '')
-								.replace(/[^\w\s-\_]/gi, '')
+								.replace(/[^\w\s-_]/gi, '')
 								.split(/\s+/),
 						}));
 					}}

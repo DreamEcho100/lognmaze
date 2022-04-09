@@ -9,7 +9,7 @@ type TItemsInObject = <TObj>(
 export const itemsInObject: TItemsInObject = (obj, items) => {
 	if (!obj || typeof obj !== 'object') throw new Error('');
 
-	const existingItems: typeof obj = {} as typeof obj;
+	const existingItems: typeof obj = {} as unknown as typeof obj;
 	let atLeastOneItemExist = false;
 
 	items.forEach((item) => {
@@ -32,8 +32,9 @@ export const itemsInObject: TItemsInObject = (obj, items) => {
 	};
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const encodeObjectToUrlQueries = (obj: { [key: string]: any }) => {
-	let queryString: string = '';
+	let queryString = '';
 	let key: keyof typeof obj;
 	for (key in obj) {
 		queryString += `${queryString && '&'}${key}=${encodeURIComponent(

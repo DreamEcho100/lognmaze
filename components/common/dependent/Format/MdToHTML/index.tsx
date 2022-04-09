@@ -26,27 +26,16 @@ const MdToHTMLFormatter: FC<Props> = ({ content }) => {
 
 			return (
 				<CustomNextImage
-					// <div className={classes['img-container']}>
 					src={imagesWeservNlLoader({
 						url: image.src,
 						w: 800,
 					})}
 					alt={image.alt}
-					// style={{
-					// 	position: 'relative',
-					// 	width: '100%',
-					// 	height: 'revert',
-					// 	minWidth: 'revert',
-					// 	maxWidth: 'revert',
-					// 	minHeight: 'revert',
-					// 	maxHeight: 'revert',
-					// }}
-					// </div>
 				/>
 			);
 		},
 
-		a({ href, children, node }) {
+		a({ href, children }) {
 			if (!href) return <></>;
 
 			if (href.startsWith('/') || href.startsWith('https://lognmaze.com')) {
@@ -69,7 +58,7 @@ const MdToHTMLFormatter: FC<Props> = ({ content }) => {
 			);
 		},
 
-		code({ node, inline, className, children, ...props }) {
+		code({ inline, className, children, ...props }) {
 			const match = /language-(\w+)/.exec(className || '');
 
 			return !inline && match ? (
@@ -86,14 +75,9 @@ const MdToHTMLFormatter: FC<Props> = ({ content }) => {
 
 	return (
 		<>
-			<ReactMarkdown
-				// DynamicReactMarkdown
-				components={customComponents}
-				remarkPlugins={[remarkGfm]}
-			>
+			<ReactMarkdown components={customComponents} remarkPlugins={[remarkGfm]}>
 				{content}
 			</ReactMarkdown>
-			{/* {addHorizontalPhotoAd11 ? <DynamicHorizontalPhotoAd1 /> : ''} */}
 		</>
 	);
 };
