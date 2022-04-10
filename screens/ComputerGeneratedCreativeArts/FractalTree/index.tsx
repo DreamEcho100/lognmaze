@@ -141,11 +141,12 @@ const FractalTreeScreen = () => {
 			context.rotate((Math.PI / 180) * angle);
 			context.moveTo(0, 0);
 
+			// The line direction/angle
 			if (angle > 0) {
 				context.bezierCurveTo(
 					20,
 					-shapeLength / 2,
-					20,
+					Math.random() >= 0.5 ? 20 : -20,
 					-shapeLength,
 					0,
 					-shapeLength /* * 1.12*/
@@ -154,7 +155,7 @@ const FractalTreeScreen = () => {
 				context.bezierCurveTo(
 					20,
 					-shapeLength / 2,
-					20,
+					Math.random() >= 0.5 ? 20 : -20,
 					-shapeLength,
 					0,
 					-shapeLength /* * 1.12*/
@@ -164,6 +165,7 @@ const FractalTreeScreen = () => {
 			context.stroke();
 			context.closePath();
 
+			// Draw leaves ends
 			if (shapeLength < shapeLengthMinLimit) {
 				context.beginPath();
 				context.arc(0, -shapeLength, 15, 0, Math.PI / 2);
@@ -180,8 +182,8 @@ const FractalTreeScreen = () => {
 				shapeLength: shapeLength * 0.75,
 				angle: angle + curve,
 				branchWidth: branchWidth * 0.65,
-				color1: color1,
-				color2: color2,
+				color1,
+				color2,
 				curve,
 				curve2,
 				shapeLengthMinLimit,
@@ -193,8 +195,8 @@ const FractalTreeScreen = () => {
 				shapeLength: shapeLength * 0.75,
 				angle: angle - curve,
 				branchWidth: branchWidth * 0.65,
-				color1: color1,
-				color2: color2,
+				color1,
+				color2,
 				curve,
 				curve2,
 				shapeLengthMinLimit,
@@ -319,7 +321,7 @@ const FractalTreeScreen = () => {
 		if (isSizesChanged) {
 			canvasPropsRef.current.context?.scale(
 				canvasProps.width / 550,
-				canvasProps.height / 450
+				canvasProps.height / 460
 			);
 		}
 
@@ -408,7 +410,7 @@ const FractalTreeScreen = () => {
 							if (isSizesChanged) {
 								canvasPropsRef.current.context?.scale(
 									canvasProps.width / 550,
-									canvasProps.height / 450
+									canvasProps.height / 460
 								);
 							}
 							setCanvasPropsRef(canvasProps);
@@ -640,7 +642,7 @@ const FractalTreeScreen = () => {
 
 					<div className={classes.canvasSection}>
 						<div className={classes.canvasContainer}>
-							<canvas width={550} height={450} ref={canvasRef}></canvas>
+							<canvas width={550} height={460} ref={canvasRef}></canvas>
 						</div>
 						<button
 							className={classes.generateRandomTreeButton}
