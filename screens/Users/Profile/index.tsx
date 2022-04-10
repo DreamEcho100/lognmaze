@@ -23,9 +23,7 @@ import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
 import NewsFeed from '@coreComponents/News/Feed';
 import NewsItemActionButton from '@coreComponents/News/Item/Action/UI/Button';
 
-interface Props {}
-
-const UserProfileScreen = (Props: Props) => {
+const UserProfileScreen = () => {
 	const [
 		{
 			data: { user: userData, token: userToken },

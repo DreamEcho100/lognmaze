@@ -7,9 +7,7 @@ import { useNewsSharedState } from '@store/NewsContext';
 import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
 import NewsItem from '@coreComponents/News/Item';
 
-type Props = {};
-
-const BlogScreen = (props: Props) => {
+const BlogScreen = () => {
 	const [
 		{
 			data: { news: newsData },
