@@ -1,5 +1,6 @@
 const linksObj = {
 	tools: ['convert_from_markdown_to_html'],
+	cg_creative_arts: ['fractal_tree'],
 	auth: [
 		{
 			type: 'query',
@@ -20,7 +21,7 @@ const linksObj = {
 	],
 };
 
-const extraAppLinksArr: string[] = [];
+const extraAppLinksArr: string[] = ['tools', 'cg_creative_arts'];
 
 let item: keyof typeof linksObj;
 for (item in linksObj) {
@@ -32,7 +33,7 @@ for (item in linksObj) {
 					extraAppLinksArr.push(
 						`${item}/?${(() => {
 							let queriesStr = '';
-							let item: keyof typeof arrItem;
+							// let item: keyof typeof arrItem;
 
 							if (arrItem && typeof arrItem === 'object') {
 								if (arrItem.type === 'query') {

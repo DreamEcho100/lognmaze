@@ -1,4 +1,4 @@
-.button {
+.default {
 	padding: var(--padding-main-1-quarter) 1rem;
 	border-radius: 0.4rem;
 	font-weight: bold;
@@ -9,19 +9,19 @@
 	transition: all var(--main-transition-duration) ease;
 }
 
-.button:hover {
+.default:hover {
 	background-color: var(--main-special-bg-color-2);
 	outline-color: var(--main-special-bg-color-2);
 	color: var(--main-special-font-color-2);
 }
 
-.button:focus {
+.default:focus {
 	background-color: var(--main-special-bg-color-4);
 	outline-color: var(--main-special-bg-color-4);
 	color: var(--main-special-font-color-4);
 }
 
-.button:disabled {
+.default:disabled {
 	background-color: var(--main-font-color-light);
 	color: var(--main-font-color-dark);
 	cursor: not-allowed;

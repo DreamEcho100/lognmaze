@@ -1,0 +1,88 @@
+/*=============================================
+=            header            =
+=============================================*/
+.header {
+	width: 100%;
+	text-align: center;
+}
+
+/*=====  End of header  ======*/
+
+/*=============================================
+=            mainSection            =
+=============================================*/
+.mainSection {
+	margin: var(--padding-main-1-half) 0;
+}
+
+.generateRandomTreeButton {
+	border-width: 0.5rem;
+	border-style: solid;
+	text-shadow: black 0.1rem 0.1rem 0.5rem;
+	box-shadow: inset black 0.1rem 0.1rem 1rem;
+	padding: 0.25em;
+}
+
+form.form {
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: stretch;
+	justify-content: stretch;
+}
+
+.fieldset {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.formControl {
+	width: fit-content;
+	--FormControl-min-width: none;
+}
+
+.generateButton {
+	border-width: 0.5rem;
+	border-style: solid;
+	text-shadow: black 0.1rem 0.1rem 0.5rem;
+	box-shadow: inset black 0.1rem 0.1rem 1rem;
+	/* padding: 0.25em; */
+}
+
+.canvasSection {
+	width: 100%;
+	min-height: 30rem;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: stretch;
+}
+
+.canvasContainer {
+	width: 100%;
+	display: flex;
+	overflow: auto;
+}
+
+.canvasContainer canvas {
+	margin: 0 auto;
+}
+
+@media all and (max-width: 700px) {
+	.fieldset {
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+/*=====  End of mainSection  ======*/
+
+/*=============================================
+=            footer            =
+=============================================*/
+
+.footer {
+	width: 100%;
+}
+
+/*=====  End of footer  ======*/

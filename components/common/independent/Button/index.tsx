@@ -11,7 +11,7 @@ interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const ButtonComponent: FC<IProps> = ({
-	defaultClasses = 'button',
+	defaultClasses = 'default',
 	extraClasses,
 	className,
 	children,

@@ -46,7 +46,13 @@ const BlogScreen = () => {
 						tags: newsItemData.type_data?.tags || [],
 					},
 					...(() => {
-						const images: any[] = [
+						const images = [
+							{
+								url: 'https://lognmaze.com/favicon.ico',
+								width: 250,
+								height: 250,
+								alt: 'LogNMaze Logo',
+							},
 							{
 								url: newsItemData.type_data.image_src,
 								width: 850,
@@ -64,15 +70,7 @@ const BlogScreen = () => {
 							});
 
 						return {
-							images: [
-								...images,
-								{
-									url: 'https://lognmaze.com/favicon.ico',
-									width: 250,
-									height: 250,
-									alt: 'LogNMaze Logo',
-								},
-							],
+							images,
 						};
 					})(),
 				}}
@@ -88,29 +86,16 @@ const BlogScreen = () => {
 				dateModified={new Date(newsItemData.updated_at).toISOString()}
 				authorName={`${newsItemData.author_first_name} ${newsItemData.author_last_name} - @${newsItemData.author_user_name_id}`}
 				{...(() => {
-					const images: any[] = [
-						// {
-						// 	url: newsItemData.type_data.image_src,
-						// 	width: 850,
-						// 	height: 650,
-						// 	alt: newsItemData.type_data.image_alt,
-						// },
+					const images = [
+						'https://lognmaze.com/favicon.ico',
 						newsItemData.type_data.image_src,
 					];
 
 					if (newsItemData.author_profile_picture)
-						images.push(
-							// {
-							//   url: newsItemData.author_profile_picture,
-							//   width: 850,
-							//   height: 650,
-							//   alt: 'Author Profile Picture',
-							// }
-							newsItemData.author_profile_picture
-						);
+						images.push(newsItemData.author_profile_picture);
 
 					return {
-						images: [...images, 'https://lognmaze.com/favicon.ico'],
+						images,
 					};
 				})()}
 			/>
