@@ -30,6 +30,7 @@ export const updateCommentController = async (
 				req.user.id,
 			]
 		)
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		.then(async (response: { rows: any[] }) => response.rows[0]);
 
 	if (!data && !data.news_comment_id) {
@@ -67,6 +68,7 @@ export const deleteCommentController = async (
 			`,
 			[req.query.news_comment_id, req.user.id]
 		)
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		.then((response: { rows: any[] }) => response.rows[0]);
 
 	if (!data && !data.news_comment_id) {
@@ -86,6 +88,7 @@ export const deleteCommentController = async (
 			`,
 				[req.body.parent_id]
 			)
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			.then((response: { rows: any[] }) => response.rows[0]);
 	} else if (type === 'comment_main_reply') {
 		data2 = await pool
@@ -97,6 +100,7 @@ export const deleteCommentController = async (
 			`,
 				[req.body.parent_id]
 			)
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			.then((response: { rows: any[] }) => response.rows[0]);
 	}
 

@@ -57,6 +57,10 @@ export const getNewsController = async (
 	const news = await pgActions.news.get({
 		...existingItems,
 	});
+	res.setHeader(
+		'Cache-Control',
+		'public, s-maxage=10, stale-while-revalidate=59'
+	);
 
 	res.json(news);
 };
@@ -155,6 +159,7 @@ export const createNewsItemController = async (
 			`,
 				[req.user.id, news_data.type]
 			)
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			.then(async (response: { rows: any[] }) => {
 				news_id_to_delete = response.rows[0].news_id;
 
@@ -175,7 +180,7 @@ export const createNewsItemController = async (
 						news_data.tags?.length !== 0
 							? [...new Set<string>(news_data.tags as string[])]
 							: [];
-					let tagsToInsertStringValue = [];
+					const tagsToInsertStringValue = [];
 
 					let i;
 					for (i = 0; i < tagsToInsert.length; i++) {
@@ -215,9 +220,9 @@ export const createNewsItemController = async (
 					FROM insert_items_1, upsert_items_1, insert_items_2, update_news_blog_counter_on_user_profile
 				`;
 
-					const response2 = await pool.query(sqlQuery, params);
+					/*const response2 = */ await pool.query(sqlQuery, params);
 				} else if (news_data.type === 'post') {
-					const response2 = await pool.query(
+					/*const response2 = */ await pool.query(
 						`
 					WITH insert_item_1 AS (
 						INSERT INTO news_post
@@ -248,10 +253,11 @@ export const createNewsItemController = async (
 		return res.status(200).json(newPost);
 	} catch (error) {
 		if (news_id_to_delete) {
-			const result = await pool
+			/* const result = */ await pool
 				.query('DELETE FROM news WHERE news_id = ($1) RETURNING type', [
 					news_id_to_delete,
 				])
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				.then((response: { rows: any[] }) => response.rows[0]);
 		}
 		throw new Error(

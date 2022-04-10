@@ -12,6 +12,7 @@ export const getNewsItemBlogContentController = async (
 		.query('SELECT content FROM news_blog WHERE news_blog_id=$1', [
 			req.query.news_id,
 		])
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		.then((response: { rows: any[] }) => response.rows[0]);
 
 	if (!result.content) {
@@ -19,5 +20,9 @@ export const getNewsItemBlogContentController = async (
 		throw new Error('Content Not Found :(');
 	}
 
+	res.setHeader(
+		'Cache-Control',
+		'public, s-maxage=10, stale-while-revalidate=59'
+	);
 	res.status(200).json(result);
 };

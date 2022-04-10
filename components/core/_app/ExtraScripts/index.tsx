@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
 import * as gtag from '@commonLibIndependent/gtag';
-// import pAddScript from './pAddScript';
+import pAddScript from './pAddScript';
 
 const ExtraScripts = () => {
 	const router = useRouter();
@@ -44,7 +44,15 @@ const ExtraScripts = () => {
 				src='https://stootsou.net/pfe/current/tag.min.js?z=4990432'
 				async
 			/>
-			{/* <Script
+			<Script
+				id='superior-tag'
+				strategy='afterInteractive'
+				src='https://uwoaptee.com/pfe/current/tag.min.js?z=5012612'
+				data-cfasync='false'
+				async
+			/>
+			<script></script>
+			<Script
 				strategy='afterInteractive'
 				// strategy='worker'
 				id='pAddScript'
@@ -53,15 +61,15 @@ const ExtraScripts = () => {
 					__html: pAddScript,
 				}}
 				async
-			/> */}
-			<Script
+			/>
+			{/* <Script
 				id='luminous-tag'
 				strategy='afterInteractive'
 				dangerouslySetInnerHTML={{
 					__html:
 						"(function(s,u,z,p){s.src=u,s.setAttribute('data-zone',z),p.appendChild(s);})(document.createElement('script'),'https://inklinkor.com/tag.min.js',5011496,document.body||document.documentElement)",
 				}}
-			/>
+			/> */}
 		</>
 	);
 };

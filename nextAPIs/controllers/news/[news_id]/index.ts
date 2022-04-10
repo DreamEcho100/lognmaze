@@ -5,33 +5,10 @@ import {
 	IUpdateNewsItemReqArgsPropsBodyContentTypeBlog,
 	IUpdateNewsItemReqArgsPropsBodyContentTypePost,
 } from '@coreLib/networkReqArgs/_app/news/[news_id]/ts';
-import {
-	INewsItemTypeBlog,
-	INewsItemTypeBlogContent,
-	INewsItemTypePost,
-	NextApiRequestExtended,
-} from '@coreLib/ts/global';
+import { NextApiRequestExtended } from '@coreLib/ts/global';
 import { NextApiResponse } from 'next';
 import newsItemTypeBlogController from './blog';
 import newsItemCommentsController from './comments';
-
-interface INewsDataBlogToUpdate {
-	title?: INewsItemTypeBlog['type_data']['title'];
-	iso_language?: INewsItemTypeBlog['type_data']['iso_language'];
-	iso_country?: INewsItemTypeBlog['type_data']['iso_country'];
-	image_alt?: INewsItemTypeBlog['type_data']['image_alt'];
-	image_src?: INewsItemTypeBlog['type_data']['image_src'];
-	description?: INewsItemTypeBlog['type_data']['description'];
-	content?: INewsItemTypeBlogContent;
-	tags?: {
-		added?: INewsItemTypeBlog['type_data']['tags'];
-		removed?: INewsItemTypeBlog['type_data']['tags'];
-	};
-}
-
-interface INewsDataPostToUpdate {
-	content: INewsItemTypePost['type_data']['content'];
-}
 
 // @desc    Update news
 // @route   PUT /api/news/:news_id
@@ -45,7 +22,7 @@ export const updateNewsItemController = async (
 		dataToUpdate: req.body.dataToUpdate,
 	};
 
-	let dataToUpdate: INewsDataBlogToUpdate | INewsDataPostToUpdate;
+	// let dataToUpdate: INewsDataBlogToUpdate | INewsDataPostToUpdate;
 
 	if (bodyContent.type === 'blog') {
 		const test = itemsInObject<
@@ -145,8 +122,8 @@ export const updateNewsItemController = async (
 					}
 				});
 
-				let tagsToUpdateTotLocation: string[] = [];
-				let tagsToUpdateFromLocation: string[] = [];
+				const tagsToUpdateTotLocation: string[] = [];
+				const tagsToUpdateFromLocation: string[] = [];
 				if (tagsToUpdateTo.length !== 0 && tagsToUpdateFrom.length !== 0) {
 					tagsToUpdateTo.forEach((tag, index) => {
 						params.push(tag);
@@ -166,9 +143,9 @@ export const updateNewsItemController = async (
 					});
 				}
 
-				let tagsToRemoveLocation: string[] = [];
+				const tagsToRemoveLocation: string[] = [];
 				if (tagsToRemove.length !== 0) {
-					tagsToRemove.forEach((tag, index) => {
+					tagsToRemove.forEach((tag) => {
 						params.push(tag);
 
 						tagsToRemoveLocation.push(`$${params.length}`);
@@ -184,11 +161,11 @@ export const updateNewsItemController = async (
 					cteNames.push('delete_item_1');
 				}
 
-				let tagsToInsertLocation: string[] = [];
+				const tagsToInsertLocation: string[] = [];
 				if (startIndex < tagsAdded.length) {
 					tagsToInsert = tagsAdded.slice(startIndex);
 
-					tagsToInsert.forEach((tag, index) => {
+					tagsToInsert.forEach((tag) => {
 						params.push(tag);
 
 						tagsToInsertLocation.push(`$${params.length}`);
@@ -260,7 +237,7 @@ export const updateNewsItemController = async (
 		}
 	}
 
-	const result = await pool
+	/*const result = */ await pool
 		.query(
 			`
 				WITH ${cte.join(',')}
@@ -268,6 +245,7 @@ export const updateNewsItemController = async (
 			`,
 			params
 		)
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		.then((response: { rows: any[] }) => response.rows);
 
 	return res.status(200).json({
@@ -293,15 +271,16 @@ export const deleteNewsItemController = async (
 		}
 	}
 
-	const result = await pool
+	/*const result = */ await pool
 		.query(
 			'DELETE FROM news WHERE news_id = ($1) AND author_id = ($2) RETURNING type',
 			[req.query.news_id, req.user.id]
 		)
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		.then((response: { rows: any[] }) => response.rows[0]);
 
 	if (req.body.type === 'blog') {
-		const result2 = await pool
+		/*const result2 = */ await pool
 			.query(
 				`
 				WITH update_user_profile AS (
@@ -320,9 +299,10 @@ export const deleteNewsItemController = async (
 			`,
 				[req.user.id, req.body.tags]
 			)
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			.then((response: { rows: any[] }) => response.rows[0]);
 	} else {
-		const result2 = await pool
+		/*const result2 = */ await pool
 			.query(
 				`
 				UPDATE user_profile SET news_${req.body.type}_counter = news_${req.body.type}_counter - 1
@@ -331,6 +311,7 @@ export const deleteNewsItemController = async (
 			`,
 				[req.user.id]
 			)
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			.then((response: { rows: any[] }) => response.rows[0]);
 	}
 

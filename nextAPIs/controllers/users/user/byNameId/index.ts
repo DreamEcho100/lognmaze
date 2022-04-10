@@ -92,12 +92,18 @@ export const getByUserNameIdController = async (
 			extraReturns,
 			filterBy,
 		})
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		.then((response: { rows: any[] }) => response.rows);
 
 	if (!Array.isArray(users) || users.length === 0) {
 		res.status(404);
 		throw new Error("User/s data doesn't exist");
 	}
+
+	res.setHeader(
+		'Cache-Control',
+		'public, s-maxage=10, stale-while-revalidate=59'
+	);
 
 	res.json(users[0]);
 };

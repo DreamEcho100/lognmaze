@@ -31,6 +31,7 @@ export const getCommentsController = async (
 		// [key: string]: string | boolean;
 		hit_comments_limit?: boolean;
 		hit_replies_limit?: boolean;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		comments: any[];
 	} = {
 		comments: [],
@@ -92,6 +93,7 @@ export const getCommentsController = async (
 			WhereParamsIndex.comments_to_not_fetch.length > 0
 				? `AND news_comment.news_comment_id NOT IN (${WhereParamsIndex.comments_to_not_fetch.join(
 						','
+						// eslint-disable-next-line no-mixed-spaces-and-tabs
 				  )})`
 				: ''
 		} ${
@@ -105,6 +107,7 @@ export const getCommentsController = async (
 
 		data.comments = await pool
 			.query(sqlQuery, queryParams)
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			.then((response: { rows: any[] }) => response.rows);
 
 		if (data.comments.length < 10) {
@@ -174,6 +177,7 @@ export const getCommentsController = async (
 						WhereParamsIndex.replies_to_not_fetch.length > 0
 							? `AND news_comment_main_reply.news_comment_main_reply_id NOT IN (${WhereParamsIndex.replies_to_not_fetch.join(
 									','
+									// eslint-disable-next-line no-mixed-spaces-and-tabs
 							  )})`
 							: ''
 					} ${
@@ -186,6 +190,7 @@ export const getCommentsController = async (
 				`,
 				queryParams
 			)
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			.then((response: { rows: any }) => response.rows);
 
 		if (data.comments.length < 5) {
@@ -193,6 +198,10 @@ export const getCommentsController = async (
 		}
 	}
 
+	res.setHeader(
+		'Cache-Control',
+		'public, s-maxage=10, stale-while-revalidate=59'
+	);
 	res.status(200).json(data);
 };
 
@@ -232,6 +241,7 @@ export const createCommentController = async (
 				new Date().toISOString(),
 			]
 		)
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		.then(async (response: { rows: any[] }) => response.rows[0]);
 	if (req.query.comment_type === 'comment_main') {
 		await pool.query(
