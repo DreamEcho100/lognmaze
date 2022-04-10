@@ -3,6 +3,7 @@
 // - [How To Make Modal Windows Better For Everyone](https://www.smashingmagazine.com/2014/09/making-modal-windows-better-for-everyone/)
 
 import {
+	FC,
 	KeyboardEvent,
 	MouseEvent,
 	ReactNode,
@@ -69,14 +70,14 @@ const focusableSelectors = [
 	'[tabindex]:not([tabindex^="-"])',
 ];
 
-const ModalComponent = ({
+const ModalComponent: FC<IProps> = ({
 	children,
 	// handleSetIsModalVisible,
 	// handleSetIsModalVisibleOptions,
 	modalVisibilityHandler,
 	isModalVisible,
 	modalClasses,
-}: IProps) => {
+}) => {
 	const isChildrenArray = Array.isArray(children);
 
 	const modalProps = useRef<{
@@ -93,8 +94,7 @@ const ModalComponent = ({
 	const modalWrapperRef = useRef<HTMLDivElement>(null);
 	const modalContainerBodyRef = useRef<HTMLDivElement>(null);
 
-	const ElementSelected =
-		typeof window !== 'undefined' && document.getElementById('__next');
+	const ElementSelected = typeof window !== 'undefined' && document.body; // document.getElementById('__next');
 
 	const findByKey = (name: 'header' | 'body' | 'footer') => {
 		const ModalContainerElementMap = {

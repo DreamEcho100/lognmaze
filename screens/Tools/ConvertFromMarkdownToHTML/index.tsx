@@ -9,9 +9,7 @@ import MdToHTMLFormatter from '@commonComponentsDependent/Format/MdToHTML';
 import TextareaComponent from '@commonComponentsIndependent/Textarea';
 // import extraAppLinksArr from '@data/appLinks';
 
-interface Props {}
-
-const ConvertFromMarkdownToHTMLAppScreen = (props: Props) => {
+const ConvertFromMarkdownToHTMLAppScreen = () => {
 	const [values, setValues] = useState({
 		mdContent:
 			'# Convert from Markdown**(md)** to Hyper Text Markup Language**(HTML)**\n\nPaste or type your markdown and see it rendered as HTML. Then copy the resulting HTML.\n',

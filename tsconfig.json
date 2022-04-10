@@ -34,9 +34,6 @@
 	},
 	"rules": {
 		// 	"no-unused-vars": [1, { "args": "after-used", "argsIgnorePattern": "^_" }]
-		// "semi": "off",
-		// "@typescript-eslint/semi": "error"
-		// "no-unused-vars": 0,
 		// "@typescript-eslint/no-unused-vars": ["error"],
 		// "noUnusedLocals": true,
 		// "noUnusedParameters": true
@@ -44,7 +41,15 @@
 		"@typescript-eslint/no-unused-vars": [
 			1,
 			{ "args": "after-used", "argsIgnorePattern": "^_" }
-		]
+		],
+		"require-await": "off",
+		"@typescript-eslint/require-await": "error",
+		"no-extra-semi": "off",
+		"@typescript-eslint/no-extra-semi": ["error"]
+		// "no-extra-parens": "off",
+		// "@typescript-eslint/no-extra-parens": ["error"]
+		// "brace-style": "off",
+		// "@typescript-eslint/brace-style": ["error"]
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
 	"exclude": [
