@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
 import * as gtag from '@commonLibIndependent/gtag';
-import pAddScript from './pAddScript';
+// import pAddScript from './pAddScript';
 
 const ExtraScripts = () => {
 	const router = useRouter();
@@ -44,7 +44,7 @@ const ExtraScripts = () => {
 				src='https://stootsou.net/pfe/current/tag.min.js?z=4990432'
 				async
 			/>
-			<Script
+			{/* <Script
 				strategy='afterInteractive'
 				// strategy='worker'
 				id='pAddScript'
@@ -53,7 +53,7 @@ const ExtraScripts = () => {
 					__html: pAddScript,
 				}}
 				async
-			/>
+			/> */}
 			<Script
 				id='luminous-tag'
 				strategy='afterInteractive'
