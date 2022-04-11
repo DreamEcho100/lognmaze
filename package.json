@@ -33,8 +33,7 @@
 		"react-syntax-highlighter": "^15.5.0",
 		"react-tracked": "^1.7.8",
 		"remark-gfm": "^3.0.1",
-		"sitemap": "^7.1.1",
-		"swr": "^1.2.2"
+		"sitemap": "^7.1.1"
 	},
 	"devDependencies": {
 		"@fortawesome/fontawesome-common-types": "^6.1.1",
@@ -47,7 +46,7 @@
 		"@types/react": "^17.0.44",
 		"@types/react-dom": "^17.0.15",
 		"@types/react-syntax-highlighter": "^13.5.2",
-		"@typescript-eslint/eslint-plugin": "^5.18.0",
+		"@typescript-eslint/eslint-plugin": "^5.19.0",
 		"eslint": "^8.13.0",
 		"eslint-config-next": "^12.1.4",
 		"typescript": "^4.6.3"
