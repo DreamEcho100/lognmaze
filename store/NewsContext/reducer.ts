@@ -410,7 +410,7 @@ const reducer: TNewsContextStateReducer = (
 							return {
 								...newsItem,
 								comments: [newCommentMainData, ...(newsItem.comments || [])],
-								comments_counter: newsItem.comments_counter + 1,
+								comments_counter: parseInt(newsItem.comments_counter + '') + 1,
 							};
 						}
 
