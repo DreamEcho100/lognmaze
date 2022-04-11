@@ -213,37 +213,30 @@ export const createCommentController = async (
 	res: NextApiResponse
 ) => {
 	if (
-		(req.query.comment_type !== 'comment_main' ||
-			req.query.comment_type !== 'comment_main_reply' ||
+		(req.body.comment_type !== 'comment_main' ||
+			req.body.comment_type !== 'comment_main_reply' ||
 			req.body.news_id ||
 			req.body.content) &&
-		req.query.comment_type === 'post' &&
-		!req.query.comment_type.parent_id &&
-		!req.query.comment_type.reply_to_user_id
+		req.body.comment_type === 'post' &&
+		!req.body.comment_type.parent_id &&
+		!req.body.comment_type.reply_to_user_id
 	) {
 		res.status(400);
 		throw new Error('Data required not provided!');
 	}
 
 	const { news_id, content } = req.body;
-
 	const data = await pool
 		.query(
 			`
-				INSERT INTO news_comment (news_id, author_id, type, content, created_at, updated_at)
-				VALUES ($1, $2, $3, $4, $5, $5) RETURNING news_comment_id
+				INSERT INTO news_comment (news_id, author_id, type, content)
+				VALUES ($1, $2, $3, $4) RETURNING news_comment_id
 			`,
-			[
-				news_id,
-				req.user.id,
-				req.query.comment_type,
-				content,
-				new Date().toISOString(),
-			]
+			[news_id, req.user.id, req.body.comment_type, content]
 		)
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		.then(async (response: { rows: any[] }) => response.rows[0]);
-	if (req.query.comment_type === 'comment_main') {
+	if (req.body.comment_type === 'comment_main') {
 		await pool.query(
 			`
 				WITH insert_item_1 AS (

@@ -397,6 +397,27 @@ const reducer: TNewsContextStateReducer = (
 			};
 		}
 
+		// Create new main comment
+		case NewsItemContextConstants.ADD_NEW_MAIN_COMMENT: {
+			const { news_id, newCommentMainData } = actions.payload;
+
+			return {
+				...state,
+				data: {
+					...state.data,
+					news: state.data.news.map((newsItem) => {
+						if (newsItem.news_id === news_id) {
+							return {
+								...newsItem,
+								comments: [newCommentMainData, ...(newsItem.comments || [])],
+							};
+						}
+
+						return newsItem;
+					}),
+				},
+			};
+		}
 		//
 		case NewsItemContextConstants.ADD_REPLIES_TO_COMMENT_MAIN: {
 			const {
@@ -664,31 +685,43 @@ const reducer: TNewsContextStateReducer = (
 
 			let item: keyof typeof newDataToUpdate;
 			for (item in dataToUpdate) {
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
 				if (item === 'tags') {
+					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 					// @ts-ignore
 					const newTags: string[] = [...(dataToUpdate?.tags?.added || [])];
+					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 					// @ts-ignore
 					const remainedTags = dataToUpdate?.tags?.removed
-						? // @ts-ignore
+						? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+						  // @ts-ignore
+						  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 						  // @ts-ignore
 						  state.data.news
 								.find((item) => item.news_id === news_id)
+								// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 								// @ts-ignore
+								// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 								?.type_data.tags // @ts-ignore
 								.filter(
+									// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 									// @ts-ignore
 									(item) => !dataToUpdate.tags.removed.includes(item)
 								) || [
+								// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 								// @ts-ignore
 								state.data.news
+									// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 									// @ts-ignore
 									.find((item) => item.news_id === news_id)?.type_data.tags,
 						  ]
 						: [];
 
+					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 					// @ts-ignore
 					if (newTags.length !== 0 || remainedTags.length !== 0)
+						// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 						// @ts-ignore
 						newDataToUpdate.tags = [...remainedTags, ...newTags];
 				} else {

@@ -30,11 +30,11 @@ interface ICreateNewsItemCommentReqArgsPropsBodyContentBasic {
 	news_id: string;
 	content: string;
 }
-interface ICreateNewsItemCommentReqArgsPropsBodyContentTypeCommentMain
+export interface ICreateNewsItemCommentReqArgsPropsBodyContentTypeCommentMain
 	extends ICreateNewsItemCommentReqArgsPropsBodyContentBasic {
 	comment_type: 'comment_main';
 }
-interface ICreateNewsItemCommentReqArgsPropsBodyContentTypeCommentMainReply
+export interface ICreateNewsItemCommentReqArgsPropsBodyContentTypeCommentMainReply
 	extends ICreateNewsItemCommentReqArgsPropsBodyContentBasic {
 	comment_type: 'comment_main_reply';
 	parent_id: string;

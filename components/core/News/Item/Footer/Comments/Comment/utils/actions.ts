@@ -90,7 +90,7 @@ export const createNewsItemReplyForMainComment: TCreateNewsItemReplyForMainComme
 					type: ECommentConstants.CREATE_REPLY_FOR_MAIN_COMMENT_SUCCESS,
 				});
 				newsDispatch({
-					type: NewsItemContextConstants.ADD_NEW_COMMENT_TYPE_MAIN_OR_MAIN_REPLY,
+					type: NewsItemContextConstants.ADD_NEW_MAIN_COMMENT,
 					payload: {
 						news_comment_id,
 						...requiredData,

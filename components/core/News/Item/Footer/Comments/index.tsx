@@ -1,4 +1,11 @@
-import { FC, FormEvent, useCallback, useEffect, useState } from 'react';
+import {
+	FC,
+	FormEvent,
+	useCallback,
+	useEffect,
+	useReducer,
+	useState,
+} from 'react';
 
 import helpersClasses from '@styles/helpers.module.css';
 
@@ -20,6 +27,8 @@ import {
 } from '@store/NewsContext/actions/comments';
 import { useNewsSharedState } from '@store/NewsContext';
 import ButtonComponent from '@commonComponentsIndependent/Button';
+import { createNewsItemMainComment } from './utils/actions';
+import commentsRequestsReducer from './utils/reducer';
 
 interface IProps {
 	newsItemComments: TNewsItemCommentsMain;
@@ -36,10 +45,9 @@ const Comments: FC<IProps> = ({
 }) => {
 	const [
 		{
-			data: { user: userData },
+			data: { user: userData, token: userToken },
 		},
 	] = useUserSharedState();
-	// const [newsDataState, newsDispatch] = useNewsSharedState();
 
 	const [
 		{
@@ -47,6 +55,11 @@ const Comments: FC<IProps> = ({
 		},
 		newsDispatch,
 	] = useNewsSharedState();
+
+	const [requestsActionsState, requestsActionsDispatch] = useReducer(
+		commentsRequestsReducer,
+		{}
+	);
 
 	const [isCommentTextarea, setIsCommentTextarea] = useState(true);
 
@@ -62,15 +75,20 @@ const Comments: FC<IProps> = ({
 		content: '',
 	});
 
-	const [disableSendCommentButton, setDisableSendCommentButton] =
-		useState(false);
+	const isSendCommentButtonDisable = !!(
+		!userData || requestsActionsState.create
+	);
+	// , setisSendCommentButtonDisable] =
+	// useState(false);
 
 	// const [loadingComments, setLoadingComments] = useState(false);
 
 	const handleSubmit = async (event: FormEvent) => {
 		event.preventDefault();
 
-		setDisableSendCommentButton(true);
+		// setisSendCommentButtonDisable(true);
+
+		if (!userData || requestsActionsState.create) return;
 
 		// await handlePostingCommentToNewsItem({
 		// 	newsDispatch,
@@ -81,11 +99,29 @@ const Comments: FC<IProps> = ({
 		// 	token: userData.token,
 		// });
 
+		await createNewsItemMainComment(requestsActionsDispatch, {
+			token: userToken,
+			bodyContent: {
+				comment_type: 'comment_main',
+				content: values.content,
+				news_id: newsItemData.news_id,
+			},
+			newsDispatch,
+			requiredExtraData: {
+				author_id: userData.id,
+				author_user_name_id: userData.user_name_id,
+				author_first_name: userData.first_name,
+				author_last_name: userData.last_name,
+				author_profile_picture: userData.profile_picture,
+				type: 'comment_main',
+			},
+		});
+
 		setValues({
 			content: '',
 		});
 
-		setDisableSendCommentButton(false);
+		// setisSendCommentButtonDisable(false);
 	};
 
 	const loadMoreNewsItemMainComments = useCallback(async () => {
@@ -165,7 +201,7 @@ const Comments: FC<IProps> = ({
 					name='content'
 					setValues={setValues}
 					value={values.content}
-					disableSubmitButton={disableSendCommentButton}
+					disableSubmitButton={isSendCommentButtonDisable}
 					handleIsCommentTextareaIsVisible={() =>
 						handleIsUpdatingContentVisible(false)
 					}
