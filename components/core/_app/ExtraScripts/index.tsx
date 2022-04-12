@@ -39,14 +39,14 @@ const ExtraScripts = () => {
 				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
 			/>
 
-			<Script
+			{/* <Script
 				strategy='worker'
 				id='googletagmanager'
 				// strategy='worker'
 				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
-			/>
+			/> */}
 			<Script
-				strategy='worker'
+				strategy='afterInteractive'
 				id='gogleanalytics'
 				dangerouslySetInnerHTML={{
 					__html: `
@@ -61,14 +61,14 @@ const ExtraScripts = () => {
 			/>
 			<Script
 				// strategy='afterInteractive'
-				strategy='worker'
+				strategy='afterInteractive'
 				id='google-analytics-script'
 				src='https://stootsou.net/pfe/current/tag.min.js?z=4990432'
 				async
 			/>
 			{/* <!-- Yandex.Metrika counter --> */}
 			<Script
-				strategy='worker'
+				strategy='afterInteractive'
 				id='YandexMetrika'
 				dangerouslySetInnerHTML={{
 					__html: `   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -85,7 +85,7 @@ const ExtraScripts = () => {
 			/>
 			<Script
 				id='MicrosoftClarity'
-				strategy='worker'
+				strategy='afterInteractive'
 				dangerouslySetInnerHTML={{
 					__html: `    (function(c,l,a,r,i,t,y){
 						c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
