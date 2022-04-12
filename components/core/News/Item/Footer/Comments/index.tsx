@@ -88,7 +88,8 @@ const Comments: FC<IProps> = ({
 
 		// setisSendCommentButtonDisable(true);
 
-		if (!userData || requestsActionsState.create) return;
+		if (!userData || requestsActionsState.create || values.content.length < 2)
+			return;
 
 		// await handlePostingCommentToNewsItem({
 		// 	newsDispatch,
@@ -126,7 +127,7 @@ const Comments: FC<IProps> = ({
 
 	const loadMoreNewsItemMainComments = useCallback(async () => {
 		if (
-			newsItemData.comments_counter === 0 ||
+			parseInt(newsItemData.comments_counter + '') === 0 ||
 			newsItemData.hit_comments_limit ||
 			!newsItemData.comments ||
 			newsItemData.comments.length === 0
@@ -165,12 +166,16 @@ const Comments: FC<IProps> = ({
 
 	useEffect(() => {
 		if (
-			!newsItemData.hit_comments_limit &&
-			newsItemComments.length === 0 &&
-			(!initGetMainCommentsRequest ||
-				(initGetMainCommentsRequest &&
-					!initGetMainCommentsRequest.isLoading &&
-					!initGetMainCommentsRequest.success))
+			parseInt(newsItemData.comments_counter + '') === 0 ||
+			newsItemData.hit_comments_limit ||
+			newsItemComments.length !== 0
+		)
+			return;
+		if (
+			!initGetMainCommentsRequest ||
+			(initGetMainCommentsRequest &&
+				!initGetMainCommentsRequest.isLoading &&
+				!initGetMainCommentsRequest.success)
 		) {
 			(async () =>
 				await initGetNewsItemCommentsMain(newsDispatch, {
@@ -191,6 +196,7 @@ const Comments: FC<IProps> = ({
 		newsItemComments.length,
 		initGetMainCommentsRequest,
 		newsItemData.hit_comments_limit,
+		newsItemData.comments_counter,
 	]);
 
 	return (
@@ -233,18 +239,20 @@ const Comments: FC<IProps> = ({
 					))}
 			</div>
 			<div className='buttons-holder'>
-				{!newsItemData.hit_comments_limit && (
-					<button
-						title='Load more comments'
-						disabled={
-							initGetMainCommentsRequest?.isLoading ||
-							getMoreMainCommentsRequest?.isLoading
-						}
-						onClick={async () => await loadMoreNewsItemMainComments()}
-					>
-						<span className={helpersClasses.fontWeightBold}>Load More</span>
-					</button>
-				)}{' '}
+				{!newsItemData.hit_comments_limit &&
+					newsItemData.comments &&
+					newsItemData.comments.length !== 0 && (
+						<button
+							title='Load more comments'
+							disabled={
+								initGetMainCommentsRequest?.isLoading ||
+								getMoreMainCommentsRequest?.isLoading
+							}
+							onClick={async () => await loadMoreNewsItemMainComments()}
+						>
+							<span className={helpersClasses.fontWeightBold}>Load More</span>
+						</button>
+					)}{' '}
 				<button
 					title='Hide comments'
 					disabled={

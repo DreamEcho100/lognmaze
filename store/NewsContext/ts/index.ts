@@ -230,26 +230,15 @@ interface IAddRepliesToCommentMain {
 }
 interface IAddNewCommentTypeMainOrMainReply {
 	type: NewsItemContextConstants.ADD_NEW_MAIN_COMMENT;
-	payload: {
-		news_id: TNewsItemData['news_id'];
-		newCommentMainData: TNewsItemCommentTypeMain;
-	};
-	/*(
-		| ICommentTypeMainCommon
-		| (ICommentTypeMainReplyCommon & {
-				reply_to_user_id: TNewsItemCommentTypeReplyMain['reply_to_user_id'];
-				reply_to_comment_id?: TNewsItemCommentTypeReplyMain['reply_to_comment_id'];
-		  })
-	) & {
-		// news_comment_id: string;
-		content: TNewsItemCommentBasicData['content'];
-		author_id: IUserBasicData['id'];
-		author_user_name_id: IUserBasicData['user_name_id'];
-		author_first_name: IUserBasicData['first_name'];
-		author_last_name: IUserBasicData['last_name'];
-		author_profile_picture?: IUserBasicData['profile_picture'];
-	};
-	*/
+	payload:
+		| {
+				news_id: TNewsItemData['news_id'];
+				newCommentData: TNewsItemCommentTypeMain;
+		  }
+		| {
+				news_id: TNewsItemData['news_id'];
+				newCommentData: TNewsItemCommentTypeReplyMain;
+		  };
 }
 interface IUpdateNewsItemMainOrMainReplyComment {
 	type: NewsItemContextConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT;

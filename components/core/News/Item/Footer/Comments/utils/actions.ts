@@ -6,7 +6,7 @@ import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext
 import networkReqArgs from '@coreLib/networkReqArgs';
 import {
 	TNewsItemCommentBasicData,
-	TNewsItemCommentMainReplies,
+	// TNewsItemCommentMainReplies,
 	TNewsItemData,
 } from '@coreLib/ts/global';
 import ECommentConstants from './constants';
@@ -71,8 +71,9 @@ export const createNewsItemMainComment: TCreateNewsItemMainComment = async (
 			newsDispatch({
 				type: NewsItemContextConstants.ADD_NEW_MAIN_COMMENT,
 				payload: {
+					// type: 'comment_main',
 					news_id: bodyContent.news_id,
-					newCommentMainData: {
+					newCommentData: {
 						...requiredExtraData,
 						...bodyContent,
 						news_comment_id,

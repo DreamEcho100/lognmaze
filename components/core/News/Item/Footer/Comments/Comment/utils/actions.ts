@@ -52,23 +52,24 @@ export const createNewsItemReplyForMainComment: TCreateNewsItemReplyForMainComme
 							},
 						},
 						bodyContent: {
-							...(requiredData.type === 'comment_main_reply'
-								? {
-										comment_type: requiredData.type,
-										parent_id: requiredData.parent_id,
-										reply_to_user_id: requiredData.reply_to_user_id,
-										reply_to_comment_id: requiredData.reply_to_comment_id,
-										content: requiredData.content,
-										news_id: requiredData.news_id,
-										// eslint-disable-next-line no-mixed-spaces-and-tabs
-								  }
-								: {
-										comment_type: 'comment_main',
-										content: requiredData.content,
-										news_id: requiredData.news_id,
-										// eslint-disable-next-line no-mixed-spaces-and-tabs
-								  }),
+							comment_type: 'comment_main_reply',
+							parent_id: requiredData.parent_id,
+							reply_to_user_id: requiredData.reply_to_user_id,
+							reply_to_comment_id: requiredData.reply_to_comment_id,
+							content: requiredData.content,
+							news_id: requiredData.news_id,
+							// eslint-disable-next-line no-mixed-spaces-and-tabs
 						},
+						// {
+						// 	...(requiredData.type === 'comment_main_reply'
+						// 		?
+						// 		: {
+						// 				comment_type: 'comment_main',
+						// 				content: requiredData.content,
+						// 				news_id: requiredData.news_id,
+						// 				// eslint-disable-next-line no-mixed-spaces-and-tabs
+						// 		  }),
+						// },
 						headersList: {
 							Authorization: token && returnBearerTokenIfExist(token),
 						},
@@ -89,14 +90,19 @@ export const createNewsItemReplyForMainComment: TCreateNewsItemReplyForMainComme
 				commentDispatch({
 					type: ECommentConstants.CREATE_REPLY_FOR_MAIN_COMMENT_SUCCESS,
 				});
-				// TODO: Needs more work!
-				// newsDispatch({
-				// 	type: NewsItemContextConstants.ADD_NEW_MAIN_COMMENT,
-				// 	payload: {
-				// 		news_comment_id,
-				// 		...requiredData,
-				// 	},
-				// });
+				newsDispatch({
+					type: NewsItemContextConstants.ADD_NEW_MAIN_COMMENT,
+					payload: {
+						news_id: requiredData.news_id,
+						newCommentData: {
+							...requiredData,
+							news_comment_id,
+							type: 'comment_main_reply',
+							created_at: new Date().getTime(),
+							updated_at: new Date().getTime(),
+						},
+					},
+				});
 			},
 		});
 	};

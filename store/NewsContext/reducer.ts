@@ -399,7 +399,7 @@ const reducer: TNewsContextStateReducer = (
 
 		// Create new main comment
 		case NewsItemContextConstants.ADD_NEW_MAIN_COMMENT: {
-			const { news_id, newCommentMainData } = actions.payload;
+			const { news_id, newCommentData } = actions.payload;
 
 			return {
 				...state,
@@ -407,11 +407,29 @@ const reducer: TNewsContextStateReducer = (
 					...state.data,
 					news: state.data.news.map((newsItem) => {
 						if (newsItem.news_id === news_id) {
-							return {
-								...newsItem,
-								comments: [newCommentMainData, ...(newsItem.comments || [])],
-								comments_counter: parseInt(newsItem.comments_counter + '') + 1,
-							};
+							if (newCommentData.type === 'comment_main') {
+								return {
+									...newsItem,
+									comments: [newCommentData, ...(newsItem.comments || [])],
+									comments_counter:
+										parseInt(newsItem.comments_counter + '') + 1,
+								};
+							} else {
+								return {
+									...newsItem,
+									comments: (newsItem.comments || []).map((comment) => {
+										if (comment.news_comment_id === newCommentData.parent_id) {
+											return {
+												...comment,
+												replies: [...(comment.replies || []), newCommentData],
+												replies_counter:
+													parseInt(comment.replies_counter + '') + 1,
+											};
+										}
+										return comment;
+									}),
+								};
+							}
 						}
 
 						return newsItem;

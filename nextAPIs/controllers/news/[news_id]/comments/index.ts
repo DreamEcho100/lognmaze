@@ -255,7 +255,13 @@ export const createCommentController = async (
 			`,
 			[data.news_comment_id, news_id]
 		);
-	} else if (req.query.comment_type === 'comment_main_reply') {
+	} else if (req.body.comment_type === 'comment_main_reply') {
+		console.log(
+			data.news_comment_id,
+			req.body.parent_id,
+			req.body.reply_to_comment_id || req.body.parent_id,
+			req.body.reply_to_user_id
+		);
 		await pool.query(
 			`
 				WITH insert_item_1 AS (
@@ -281,7 +287,7 @@ export const createCommentController = async (
 			[
 				data.news_comment_id,
 				req.body.parent_id,
-				req.body.reply_to_comment_id || req.body.parent_id,
+				req.body.reply_to_comment_id || null,
 				req.body.reply_to_user_id,
 			]
 		);

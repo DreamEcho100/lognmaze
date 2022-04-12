@@ -1,6 +1,7 @@
 import {
 	FC,
 	FormEvent,
+	useEffect,
 	// useEffect,
 	useReducer,
 	useState,
@@ -52,6 +53,7 @@ interface ICommentMainProps {
 	commentType: TNewsItemCommentTypeMain['type'];
 	comment: TNewsItemCommentTypeMain;
 	newsItemData: TNewsItemData;
+	parent_data: undefined;
 	// ...props
 }
 interface ICommentMainReplyProps {
@@ -199,8 +201,10 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		if (result) setIsUpdatingContentVisible(false);
 	};
 
-	const handleSubmitCommentReply = async () => {
-		if (!userData) return;
+	const handleSubmitCommentReply = async (event: FormEvent) => {
+		event.preventDefault();
+
+		if (!userData || values.comment_reply.length < 2) return;
 
 		await createNewsItemReplyForMainComment(requestsActionsDispatch, {
 			newsDispatch,
@@ -213,27 +217,34 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 				author_profile_picture: userData.profile_picture,
 				content: values.comment_reply,
 				news_id: newsItemData.news_id,
-				...(() => {
-					if (props.comment.type === 'comment_main_reply') {
-						return {
-							type: props.comment.type,
-							parent_id: props.comment.news_comment_id,
-							reply_to_comment_id: props.comment.news_comment_id,
-							reply_to_user_id: props.comment.author_id,
-						};
-					}
-
-					return {
-						type: props.comment.type,
-						parent_id: props.comment.news_comment_id,
-					};
-				})(),
+				parent_id:
+					props.comment.type === 'comment_main_reply' && props.parent_data
+						? props.parent_data.news_comment_id
+						: props.comment.news_comment_id,
+				reply_to_user_id: props.comment.author_id,
+				reply_to_comment_id:
+					props.comment.type === 'comment_main_reply' && props.parent_data
+						? props.parent_data.news_comment_id
+						: undefined,
 			},
 		});
 	};
 
+	useEffect(() => {
+		if (requestsActionsState.create?.success) {
+			setValues((prevState) => ({
+				...prevState,
+				comment_reply: '',
+			}));
+		}
+	}, [requestsActionsState.create?.success]);
+
 	const loadRepliesHandler = async () => {
-		if (props.comment.type !== 'comment_main') return;
+		if (
+			props.comment.type !== 'comment_main' ||
+			parseInt(props.comment.replies_counter + '') === 0
+		)
+			return;
 
 		let last_reply_created_at;
 		try {
@@ -457,14 +468,16 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 				)}
 			</footer>
 			{props.commentType === 'comment_main' &&
-				requestsActionsState.type === 'comment_main' &&
 				props.comment.replies_counter !== 0 &&
 				!showReplies && (
 					<button
 						title={`${
 							props.comment.replies_counter === 1 ? 'Reply' : 'Replies'
 						} ${props.comment.replies_counter}`}
-						disabled={requestsActionsState?.getReplies?.isLoading}
+						disabled={
+							requestsActionsState.type === 'comment_main' &&
+							requestsActionsState?.getReplies?.isLoading
+						}
 						onClick={() => {
 							if (
 								(!props.comment.replies ||
@@ -491,7 +504,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					name='comment_reply'
 					setValues={setValues}
 					value={values.comment_reply}
-					disableSubmitButton={commentReplyButtonsDisabled}
+					disableSubmitButton={requestsActionsState.create?.isLoading}
 					commentToType={props.comment.type}
 					handleIsCommentTextareaIsVisible={() =>
 						handleIsReplyTextareaIsVisible(false)

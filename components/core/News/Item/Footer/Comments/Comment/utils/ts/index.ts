@@ -143,20 +143,21 @@ export type TCreateNewsItemReplyForMainComment = (
 			author_first_name: IUserBasicData['first_name'];
 			author_last_name: IUserBasicData['last_name'];
 			author_profile_picture?: IUserBasicData['profile_picture'];
-		} & (
-			| {
-					type: TNewsItemCommentTypeReplyMain['type'];
-					parent_id: TNewsItemCommentTypeReplyMain['parent_id'];
-					reply_to_user_id: TNewsItemCommentTypeReplyMain['reply_to_user_id'];
-					reply_to_comment_id: TNewsItemCommentTypeReplyMain['reply_to_comment_id'];
-					// eslint-disable-next-line no-mixed-spaces-and-tabs
-			  }
-			| {
-					type: TNewsItemCommentTypeMain['type'];
-					parent_id: TNewsItemCommentTypeMain['news_comment_id'];
-					// eslint-disable-next-line no-mixed-spaces-and-tabs
-			  }
-		);
+			parent_id: TNewsItemCommentTypeReplyMain['parent_id'];
+			reply_to_user_id: TNewsItemCommentTypeReplyMain['reply_to_user_id'];
+			reply_to_comment_id?: TNewsItemCommentTypeReplyMain['reply_to_comment_id'];
+		};
+		// & (
+		// 	| {
+		// 			// type: TNewsItemCommentTypeReplyMain['type'];
+		// 			// eslint-disable-next-line no-mixed-spaces-and-tabs
+		// 	  }
+		// 	| {
+		// 			// type: TNewsItemCommentTypeMain['type'];
+		// 			parent_id: TNewsItemCommentTypeMain['news_comment_id'];
+		// 			// eslint-disable-next-line no-mixed-spaces-and-tabs
+		// 	  }
+		// );
 		newsDispatch: (value: TNewsContextReducerAction) => void;
 		token?: string;
 	}
