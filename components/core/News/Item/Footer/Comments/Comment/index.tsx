@@ -53,7 +53,7 @@ interface ICommentMainProps {
 	commentType: TNewsItemCommentTypeMain['type'];
 	comment: TNewsItemCommentTypeMain;
 	newsItemData: TNewsItemData;
-	parent_data: undefined;
+	parent_data?: null;
 	// ...props
 }
 interface ICommentMainReplyProps {
@@ -128,8 +128,8 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 
 	// const [deleteButtonsDisabled, setDeleteButtonsDisabled] =
 	// 	useState(false);
-	const [commentReplyButtonsDisabled /* setCommentReplyButtonsDisabled */] =
-		useState(false);
+	// const [commentReplyButtonsDisabled /* setCommentReplyButtonsDisabled */] =
+	// 	useState(false);
 	// const [focusCommentReplyTextarea, setFocusCommentReplyTextarea] =
 	// 	useState(false);
 

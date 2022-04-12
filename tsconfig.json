@@ -43,9 +43,9 @@
 			{ "args": "after-used", "argsIgnorePattern": "^_" }
 		],
 		"require-await": "off",
-		"@typescript-eslint/require-await": "error",
+		"@typescript-eslint/require-await": 1,
 		"no-extra-semi": "off",
-		"@typescript-eslint/no-extra-semi": ["error"]
+		"@typescript-eslint/no-extra-semi": [1]
 		// "no-extra-parens": "off",
 		// "@typescript-eslint/no-extra-parens": ["error"]
 		// "brace-style": "off",
