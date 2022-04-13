@@ -6,6 +6,7 @@ const nextConfig = {
 
 module.exports = nextConfig
 */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 
 const nextConfig = (phase) => {
@@ -63,7 +64,7 @@ const nextConfig = (phase) => {
 			// your project has ESLint errors.
 			ignoreDuringBuilds: true,
 		},
-		swcMinify: true,
+		// swcMinify: true,
 		experimental: {
 			reactRoot: true,
 			// hydrateRoot: true

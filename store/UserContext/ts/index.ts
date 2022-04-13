@@ -1,3 +1,5 @@
+import { Dispatch } from 'react';
+
 import UserContextConstants from '@coreLib/constants/store/types/userContext';
 import {
 	ILoginReqArgsProps,
@@ -126,7 +128,7 @@ export type IUserContextReducerAction =
 // import { InitialStateInterface } from '@store/HBOProvider/ts/interfaces';
 
 export type TUserContextDispatch =
-	| React.Dispatch<IUserContextReducerAction>
+	| Dispatch<IUserContextReducerAction>
 	| ((value: IUserContextReducerAction) => void);
 // export type userType = InitialStateInterface['user'];
 

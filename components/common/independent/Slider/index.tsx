@@ -1,10 +1,4 @@
-import React, {
-	MouseEvent,
-	ReactNode,
-	TouchEvent,
-	useEffect,
-	useRef,
-} from 'react';
+import { MouseEvent, ReactNode, TouchEvent, useEffect, useRef } from 'react';
 
 interface Props {
 	children: ReactNode;

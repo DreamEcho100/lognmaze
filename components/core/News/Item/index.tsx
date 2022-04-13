@@ -11,7 +11,10 @@ import NewsItemHeader from './Header';
 import NewsItemDetails from './Details';
 import NewsItemFooter from './Footer';
 const DynamicModalComponent = dynamic(
-	() => import('@commonComponentsIndependent/Modal')
+	() => import('@commonComponentsIndependent/Modal'),
+	{
+		ssr: false,
+	}
 );
 import { initGetNewsItemTypeBlogContent } from '@store/NewsContext/actions';
 

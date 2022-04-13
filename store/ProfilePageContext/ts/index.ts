@@ -1,3 +1,5 @@
+import { Dispatch } from 'react';
+
 import {
 	VISITOR_PROFILE_GUEST,
 	VISITOR_PROFILE_OWNER,
@@ -48,7 +50,7 @@ export type IUserProfilePageContextReducerAction =
 	| ISetProfilePageVisitorStatusFail;
 
 export type TUserProfilePageContextDispatch =
-	| React.Dispatch<IUserProfilePageContextReducerAction>
+	| Dispatch<IUserProfilePageContextReducerAction>
 	| ((value: IUserProfilePageContextReducerAction) => void);
 
 // Actions

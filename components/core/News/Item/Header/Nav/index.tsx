@@ -8,7 +8,9 @@ import { TNewsItemData } from '@coreLib/ts/global';
 import { imagesWeservNlLoader } from '@commonLibIndependent/image';
 
 import CustomNextImage from '@commonComponentsDependent/CustomNextImage';
-const DynamicCustomDropdown = dynamic(() => import('./CustomDropdown'));
+const DynamicCustomDropdown = dynamic(() => import('./CustomDropdown'), {
+	ssr: false
+});
 
 interface Props {
 	newsItemData: TNewsItemData;

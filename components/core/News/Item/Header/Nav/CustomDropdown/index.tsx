@@ -10,13 +10,22 @@ import DropdownList from '@commonComponentsIndependent/Dropdown/List';
 import DropdownMenuItem from '@commonComponentsIndependent/Dropdown/Item';
 
 const DynamicNewsItemActionTypeUpdate = dynamic(
-	() => import('@coreComponents/News/Item/Action/Type/Update')
+	() => import('@coreComponents/News/Item/Action/Type/Update'),
+	{
+		ssr: false,
+	}
 );
 const DynamicNewsItemActionTypeDelete = dynamic(
-	() => import('@coreComponents/News/Item/Action/Type/Delete')
+	() => import('@coreComponents/News/Item/Action/Type/Delete'),
+	{
+		ssr: false,
+	}
 );
 const DynamicCustomShareModelComponent = dynamic(
-	() => import('@commonComponentsIndependent/CustomShareModel')
+	() => import('@commonComponentsIndependent/CustomShareModel'),
+	{
+		ssr: false,
+	}
 );
 
 interface IProps {

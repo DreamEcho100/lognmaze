@@ -7,7 +7,9 @@ import {
 	TNewsItemData,
 } from '@coreLib/ts/global';
 
-const DynamicComments = dynamic(() => import('./Comments'));
+const DynamicComments = dynamic(() => import('./Comments'), {
+	ssr: false,
+});
 // import Settings from './Settings';
 import Status from './Status';
 

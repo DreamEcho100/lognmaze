@@ -1,3 +1,5 @@
+import { Dispatch } from 'react';
+
 import {
 	TNewsItemData,
 	TNewsItemCommentsMain,
@@ -7,7 +9,7 @@ import {
 	TNewsItemCommentBasicData,
 	TNewsItemCommentTypeReplyMain,
 	TNewsItemCommentTypeMain,
-	IUserBasicData,
+	// IUserBasicData,
 	// INewsItemTypeBlogBasicData,
 	// INewsItemTypePostBasicData,
 } from '@coreLib/ts/global';
@@ -388,7 +390,7 @@ export type TNewsContextReducerAction =
 	| IDeleteNewsItemReset;
 
 export type TNewsContextDispatch =
-	| React.Dispatch<TNewsContextReducerAction>
+	| Dispatch<TNewsContextReducerAction>
 	| ((value: TNewsContextReducerAction) => void);
 
 export type TInitGetNewsItemCommentsMain = (
