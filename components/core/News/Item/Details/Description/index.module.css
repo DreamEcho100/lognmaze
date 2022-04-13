@@ -21,6 +21,12 @@
 	bottom: 0;
 	left: 0;
 	width: 100%;
-	height: 75%;
+	height: 100%;
 	background: linear-gradient(360deg, hsl(0, 0%, 10%), transparent);
+}
+
+.detailContainer.notAllTheDetails .details,
+.detailContainer.notAllTheDetails::after {
+	border-bottom-right-radius: 2rem;
+	border-bottom-left-radius: 2rem;
 }
