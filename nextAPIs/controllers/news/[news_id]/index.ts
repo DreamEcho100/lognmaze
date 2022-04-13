@@ -261,14 +261,13 @@ export const deleteNewsItemController = async (
 	res: NextApiResponse
 ) => {
 	if (
-		req.body.type !== 'blog' ||
-		req.body.type !== 'post' ||
-		(req.body.type === 'blog' && !Array.isArray(req.body.tags))
+		// req.body.type !== 'blog' ||
+		req.body.type !== 'post' &&
+		req.body.type === 'blog' &&
+		!Array.isArray(req.body.tags)
 	) {
-		if (!req.body.tags) {
-			res.status(400);
-			throw new Error('Required data not provided!');
-		}
+		res.status(400);
+		throw new Error('Required data not provided!');
 	}
 
 	/*const result = */ await pool

@@ -1,9 +1,12 @@
 import { FC } from 'react';
 
+import classes from './index.module.css';
+
 import { TNewsItemData } from '@coreLib/ts/global';
 import { useNewsSharedState } from '@store/NewsContext';
 
 import MdToHTMLFormatter from '@commonComponentsDependent/Format/MdToHTML';
+import FormatContainer from '@commonComponentsIndependent/Format/Container';
 
 interface Props {
 	content: string;
@@ -36,7 +39,7 @@ const NewsItemContentDetails: FC<Props> = ({ newsItemData, content }) => {
 	// return <></>;
 
 	return (
-		<>
+		<FormatContainer className={classes.formatContainer}>
 			{getTypeBlogContent?.error && (
 				<p className='errorMessage'>{getTypeBlogContent.error}</p>
 			)}
@@ -44,7 +47,7 @@ const NewsItemContentDetails: FC<Props> = ({ newsItemData, content }) => {
 				<p className='isLoadingLoader'>Loading...</p>
 			)}
 			{showContent && <MdToHTMLFormatter content={content} />}
-		</>
+		</FormatContainer>
 	);
 };
 

@@ -1,0 +1,26 @@
+.formatContainer {
+	margin: var(--padding-main-1-half) 0;
+}
+
+.detailContainer {
+	position: relative;
+}
+
+.detailContainer hr {
+	display: none;
+}
+
+.detailContainer.notAllTheDetails .details {
+	height: 10rem;
+	overflow: hidden;
+}
+
+.detailContainer.notAllTheDetails::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+	background: linear-gradient(360deg, hsl(0, 0%, 10%), transparent);
+}

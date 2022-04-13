@@ -6,7 +6,6 @@ import { TNewsItemData } from '@coreLib/ts/global';
 
 import NewsItemContentDetails from './Content';
 import NewsItemDescriptionDetails from './Description';
-import FormatContainer from '@commonComponentsIndependent/Format/Container';
 // import { useNewsSharedState } from '@store/newsContext';
 
 interface IDetailsType_MapDescriptionProps {
@@ -105,11 +104,7 @@ const NewsItemDetails: FC<INewsItemDetails> = ({
 		return tempObj as unknown as IDetailsType_MapContentProps;
 	};
 
-	return (
-		<FormatContainer className={classes.details}>
-			<DetailsType {...newsItemDetailsTypeProps()} />
-		</FormatContainer>
-	);
+	return <DetailsType {...newsItemDetailsTypeProps()} />;
 };
 
 export default NewsItemDetails;

@@ -1,14 +1,12 @@
 import { FC, useState } from 'react';
 
+import classes from './index.module.css';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TNewsItemData } from '@coreLib/ts/global';
 
 import helpersClasses from '@styles/helpers.module.css';
-
-interface IIsReturnedInPProps {
-	newsItemType: TNewsItemData['type'];
-	description: string;
-}
+import FormatContainer from '@commonComponentsIndependent/Format/Container';
 
 interface INewsItemDescriptionDetailsProps {
 	description: string;
@@ -16,72 +14,54 @@ interface INewsItemDescriptionDetailsProps {
 	handleSetIsModalVisible: (isModelShown: boolean) => void;
 }
 
-interface IHandleShowFullDetailsButtonProps {
-	handleIsFullDetailsShawn: (isFullDetailsShawn: boolean) => void;
-	isFullDetailsShawn: boolean;
-}
-
-const IsReturnedInP: FC<IIsReturnedInPProps> = ({
-	newsItemType,
-	description,
-}) =>
-	newsItemType === 'blog' ? (
-		<>{description}</>
-	) : (
-		<p
-			style={{
-				display: 'inline',
-			}}
-		>
-			{description}
-		</p>
-	);
-
-const HandleShowFullDetailsButton: FC<IHandleShowFullDetailsButtonProps> = ({
-	handleIsFullDetailsShawn,
-	isFullDetailsShawn,
-}) => (
-	<button
-		className={`${helpersClasses.textGlowSpecial} ${helpersClasses.displayInline}`}
-		title='see more'
-		onClick={() => handleIsFullDetailsShawn(!isFullDetailsShawn)}
-	>
-		{!isFullDetailsShawn ? (
-			<>
-				<span className={helpersClasses.fontWeightBold}>...</span>see more
-			</>
-		) : (
-			<>&nbsp;see less</>
-		)}
-	</button>
-);
-
 const NewsItemDescriptionDetails: FC<INewsItemDescriptionDetailsProps> = ({
 	description,
 	newsItemType,
 	handleSetIsModalVisible,
 }) => {
-	const [isFullDetailsShawn, setIsFullDetailsShawn] = useState(false);
-	const isDescriptionLong = description.replace(/\s\w+\s?$/, '').length > 150;
+	const [isFullDetailsShawn, setIsFullDetailsShawn] = useState(
+		!!(description.length <= 150)
+	);
+	const isDescriptionLong = description.length > 150;
 
 	const handleIsFullDetailsShawn = (isFullDetailsShawn: boolean) =>
 		setIsFullDetailsShawn(isFullDetailsShawn);
 
 	return (
-		<>
-			<IsReturnedInP
-				newsItemType={newsItemType}
-				description={
-					isDescriptionLong && !isFullDetailsShawn
-						? description.slice(0, 150).replace(/\s\w+\s?$/, '')
-						: description
-				}
-			/>
+		<FormatContainer className={classes.formatContainer}>
+			<div
+				className={`${classes.detailContainer} ${
+					!isFullDetailsShawn ? classes.notAllTheDetails : ''
+				}`}
+			>
+				<div className={classes.details}>
+					{newsItemType === 'blog' ? (
+						description
+					) : (
+						<p
+							style={{
+								display: 'inline',
+							}}
+						>
+							{description}
+						</p>
+					)}
+				</div>
+			</div>
 			{isDescriptionLong && (
-				<HandleShowFullDetailsButton
-					handleIsFullDetailsShawn={handleIsFullDetailsShawn}
-					isFullDetailsShawn={isFullDetailsShawn}
-				/>
+				<button
+					className={`${helpersClasses.textGlowSpecial} ${helpersClasses.displayInline}`}
+					title='see more'
+					onClick={() => handleIsFullDetailsShawn(!isFullDetailsShawn)}
+				>
+					{!isFullDetailsShawn ? (
+						<>
+							<span className={helpersClasses.fontWeightBold}>...</span>see more
+						</>
+					) : (
+						<>&nbsp;see less</>
+					)}
+				</button>
 			)}{' '}
 			<button
 				className={`${helpersClasses.textGlowSpecial} ${helpersClasses.displayInline}`}
@@ -90,7 +70,7 @@ const NewsItemDescriptionDetails: FC<INewsItemDescriptionDetailsProps> = ({
 			>
 				Keep Reading <FontAwesomeIcon icon={['fas', 'book-reader']} />
 			</button>
-		</>
+		</FormatContainer>
 	);
 };
 
