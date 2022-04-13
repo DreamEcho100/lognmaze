@@ -64,7 +64,7 @@ export const getStaticProps: GetStaticProps = async () => {
 			...profileData,
 			date: new Date().toISOString(),
 		},
-		revalidate: 60 * 60 * 5,
+		revalidate: 60 * 5,
 	};
 };
 
