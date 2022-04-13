@@ -121,7 +121,7 @@ const FractalTreeScreen = () => {
 		[]
 	);
 
-	const canvasPropertiesFieldsetElement = [
+	const canvasPropertiesFieldsetInputs = [
 		{
 			name: 'width',
 			type: 'number',
@@ -148,7 +148,7 @@ const FractalTreeScreen = () => {
 		},
 	];
 
-	const treePropertiesFieldsetElement = [
+	const treePropertiesFieldsetInputs = [
 		{
 			label: 'Initial Start X',
 			type: 'number',
@@ -537,7 +537,7 @@ const FractalTreeScreen = () => {
 					>
 						<fieldset className={classes.fieldset}>
 							<legend>Canvas Properties</legend>
-							{canvasPropertiesFieldsetElement
+							{canvasPropertiesFieldsetInputs
 								.sort((a, b) => a.label.localeCompare(b.label))
 								.map((item) => (
 									<FormControlComponent
@@ -568,7 +568,7 @@ const FractalTreeScreen = () => {
 						<fieldset className={classes.fieldset}>
 							<legend>Tree Properties</legend>
 
-							{treePropertiesFieldsetElement
+							{treePropertiesFieldsetInputs
 								.sort((a, b) => a.label.localeCompare(b.label))
 								.map((item) => (
 									<FormControlComponent

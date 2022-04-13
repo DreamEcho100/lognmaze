@@ -18,8 +18,8 @@ import LabelComponent from '@commonComponentsIndependent/Label';
 import FormComponent from '@commonComponentsIndependent/Form';
 import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
 import {
-	canvasPropertiesFieldsetElement,
-	treePropertiesFieldsetElement,
+	canvasPropertiesFieldsetInputs,
+	treePropertiesFieldsetInputs,
 } from './inputsFormData';
 
 type TDrawTree = ({
@@ -328,7 +328,7 @@ const FractalTreeScreen = () => {
 
 		if (isSizesChanged) {
 			canvasPropsRef.current.context?.scale(
-				canvasProps.width / 550,
+				canvasProps.width / 560,
 				canvasProps.height / 460
 			);
 		}
@@ -442,7 +442,7 @@ const FractalTreeScreen = () => {
 
 							if (isSizesChanged) {
 								canvasPropsRef.current.context?.scale(
-									canvasProps.width / 550,
+									canvasProps.width / 560,
 									canvasProps.height / 460
 								);
 							}
@@ -461,7 +461,7 @@ const FractalTreeScreen = () => {
 					>
 						<fieldset className={classes.fieldset}>
 							<legend>Canvas Properties</legend>
-							{canvasPropertiesFieldsetElement
+							{canvasPropertiesFieldsetInputs
 								.sort((a, b) => a.label.localeCompare(b.label))
 								.map((item) => (
 									<FormControlComponent
@@ -472,19 +472,29 @@ const FractalTreeScreen = () => {
 											{item.label}
 										</LabelComponent>
 										<InputComponent
-											onChange={(event: ChangeEvent<HTMLInputElement>) =>
-												setCanvasProps((prevProps) => ({
-													...prevProps,
-													[event.target.name]:
-														item.type === 'number'
-															? parseInt(event.target.value)
-															: event.target.value,
-												}))
-											}
+											onChange={(event: ChangeEvent<HTMLInputElement>) => {
+												if (
+													event.target.name === 'angle' ||
+													(item.type === 'number' &&
+														parseInt(event.target.value) < 1)
+												)
+													return;
+
+												setCanvasProps((prevProps) => {
+													return {
+														...prevProps,
+														[event.target.name]:
+															item.type === 'number'
+																? parseInt(event.target.value)
+																: event.target.value,
+													};
+												});
+											}}
 											value={canvasProps[item.name as keyof typeof canvasProps]}
 											type={item.type}
 											name={item.name}
 											id={item.id}
+											{...(item?.extraInputProps || {})}
 										/>
 									</FormControlComponent>
 								))}
@@ -492,7 +502,7 @@ const FractalTreeScreen = () => {
 						<fieldset className={classes.fieldset}>
 							<legend>Tree Properties</legend>
 
-							{treePropertiesFieldsetElement
+							{treePropertiesFieldsetInputs
 								.sort((a, b) => a.label.localeCompare(b.label))
 								.map((item) => (
 									<FormControlComponent
@@ -506,19 +516,29 @@ const FractalTreeScreen = () => {
 											) : null} */}
 										</LabelComponent>
 										<InputComponent
-											onChange={(event: ChangeEvent<HTMLInputElement>) =>
-												setTreeProps((prevProps) => ({
-													...prevProps,
-													[event.target.name]:
-														item.type === 'number'
-															? parseInt(event.target.value)
-															: event.target.value,
-												}))
-											}
+											onChange={(event: ChangeEvent<HTMLInputElement>) => {
+												if (
+													event.target.name === 'angle' ||
+													(item.type === 'number' &&
+														parseInt(event.target.value) < 1)
+												)
+													return;
+
+												setTreeProps((prevProps) => {
+													return {
+														...prevProps,
+														[event.target.name]:
+															item.type === 'number'
+																? parseInt(event.target.value)
+																: event.target.value,
+													};
+												});
+											}}
 											value={treeProps[item.name as keyof typeof treeProps]}
 											type={item.type}
 											name={item.name}
 											id={item.id}
+											{...(item?.extraInputProps || {})}
 										/>
 									</FormControlComponent>
 								))}
@@ -537,7 +557,7 @@ const FractalTreeScreen = () => {
 
 					<div className={classes.canvasSection}>
 						<div className={classes.canvasContainer}>
-							<canvas width={550} height={460} ref={canvasRef}></canvas>
+							<canvas width={560} height={460} ref={canvasRef}></canvas>
 						</div>
 						<button
 							className={classes.generateRandomTreeButton}
