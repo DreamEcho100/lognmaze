@@ -17,6 +17,10 @@ import FormControlComponent from '@commonComponentsIndependent/FormControl';
 import LabelComponent from '@commonComponentsIndependent/Label';
 import FormComponent from '@commonComponentsIndependent/Form';
 import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
+import {
+	canvasPropertiesFieldsetElement,
+	treePropertiesFieldsetElement,
+} from './inputsFormData';
 
 type TDrawTree = ({
 	startX,
@@ -220,14 +224,15 @@ const FractalTreeScreen = () => {
 
 			context.clearRect(0, 0, canvasElem.width, canvasElem.height);
 
-			if (generateButtonRef.current && generateRandomButtonRef.current) {
+			if (generateButtonRef.current) {
 				generateButtonRef.current.style.backgroundColor =
 					treePropsRef.current.color1;
 				generateButtonRef.current.style.borderColor =
 					treePropsRef.current.color2;
 				generateButtonRef.current.style.color = treePropsRef.current.color2;
 				generateButtonRef.current.disabled = true;
-
+			}
+			if (generateRandomButtonRef.current) {
 				generateRandomButtonRef.current.style.backgroundColor =
 					treePropsRef.current.color1;
 				generateRandomButtonRef.current.style.borderColor =
@@ -238,6 +243,9 @@ const FractalTreeScreen = () => {
 			}
 
 			setIsDrawingTree(true);
+			(async () =>
+				await new Promise((resolve) => setTimeout(() => resolve(null), 100)))();
+
 			drawTree({
 				startX: treePropsRef.current.initialStartX,
 				startY: treePropsRef.current.initialStartY,
@@ -253,10 +261,10 @@ const FractalTreeScreen = () => {
 			});
 			setIsDrawingTree(false);
 
-			if (generateButtonRef.current && generateRandomButtonRef.current) {
+			if (generateButtonRef.current) generateButtonRef.current.disabled = false;
+
+			if (generateRandomButtonRef.current)
 				generateRandomButtonRef.current.disabled = false;
-				generateButtonRef.current.disabled = false;
-			}
 		},
 		[drawTree, isDrawingTree]
 	);
@@ -284,7 +292,7 @@ const FractalTreeScreen = () => {
 		}));
 
 		// const shapeLengthMinLimit = Math.random() * 10 + 5;
-		await new Promise((resolve) => setTimeout(() => resolve(null), 0));
+		await new Promise((resolve) => setTimeout(() => resolve(null), 100));
 
 		if (canvasPropsRef.current)
 			generateTree({
@@ -332,13 +340,38 @@ const FractalTreeScreen = () => {
 		}));
 
 		async () =>
-			await new Promise((resolve) => setTimeout(() => resolve(null), 0));
+			await new Promise((resolve) => setTimeout(() => resolve(null), 100));
 
 		// if (!canvasPropsRef.current.init) {
 		generateRandomTree();
 		// canvasPropsRef.current.init = true;
 		// }
 	}, [generateRandomTree, setCanvasPropsRef, setTreePropsRef]);
+
+	useEffect(() => {
+		return () => {
+			setTreePropsRef({
+				initialStartX: 0,
+				initialStartY: 0,
+				initialShapeLength: 0,
+				initialAngle: 0,
+				initialBranchWidth: 0,
+				color1: '', // `#${Math.random().toString(16).slice(-6)}`,
+				color2: '', // `#${Math.random().toString(16).slice(-6)}`,
+				initialCurve1: 0,
+				initialCurve2: 0,
+				shapeLengthMinLimit: 0,
+				width: 0,
+				height: 0,
+			});
+
+			setCanvasPropsRef({
+				context: null,
+				width: 0,
+				height: 0,
+			});
+		};
+	}, [setCanvasPropsRef, setTreePropsRef]);
 
 	return (
 		<>
@@ -428,205 +461,67 @@ const FractalTreeScreen = () => {
 					>
 						<fieldset className={classes.fieldset}>
 							<legend>Canvas Properties</legend>
-							<FormControlComponent className={classes.formControl}>
-								<LabelComponent htmlFor='canvasWidth'>Width</LabelComponent>
-								<InputComponent
-									onChange={(event: ChangeEvent<HTMLInputElement>) =>
-										setCanvasProps((prevProps) => ({
-											...prevProps,
-											[event.target.name]: parseInt(event.target.value),
-										}))
-									}
-									value={canvasProps.width}
-									type='number'
-									name='width'
-									id='canvasWidth'
-								/>
-							</FormControlComponent>
-							<FormControlComponent className={classes.formControl}>
-								<LabelComponent htmlFor='canvasHeight'>Height</LabelComponent>
-								<InputComponent
-									onChange={(event: ChangeEvent<HTMLInputElement>) =>
-										setCanvasProps((prevProps) => ({
-											...prevProps,
-											[event.target.name]: parseInt(event.target.value),
-										}))
-									}
-									value={canvasProps.height}
-									type='number'
-									name='height'
-									id='canvasHeight'
-								/>
-							</FormControlComponent>
+							{canvasPropertiesFieldsetElement
+								.sort((a, b) => a.label.localeCompare(b.label))
+								.map((item) => (
+									<FormControlComponent
+										key={item.id}
+										className={classes.formControl}
+									>
+										<LabelComponent htmlFor={item.id}>
+											{item.label}
+										</LabelComponent>
+										<InputComponent
+											onChange={(event: ChangeEvent<HTMLInputElement>) =>
+												setCanvasProps((prevProps) => ({
+													...prevProps,
+													[event.target.name]:
+														item.type === 'number'
+															? parseInt(event.target.value)
+															: event.target.value,
+												}))
+											}
+											value={canvasProps[item.name as keyof typeof canvasProps]}
+											type={item.type}
+											name={item.name}
+											id={item.id}
+										/>
+									</FormControlComponent>
+								))}
 						</fieldset>
 						<fieldset className={classes.fieldset}>
 							<legend>Tree Properties</legend>
-							<FormControlComponent className={classes.formControl}>
-								<LabelComponent htmlFor='initialStartX'>
-									Initial Start X
-								</LabelComponent>
-								<InputComponent
-									onChange={(event: ChangeEvent<HTMLInputElement>) =>
-										setTreeProps((prevProps) => ({
-											...prevProps,
-											[event.target.name]: parseInt(event.target.value),
-										}))
-									}
-									value={treeProps.initialStartX}
-									type='number'
-									name='initialStartX'
-									id='initialStartX'
-								/>
-							</FormControlComponent>
-							<FormControlComponent className={classes.formControl}>
-								<LabelComponent htmlFor='initialStartY'>
-									Initial Start Y
-								</LabelComponent>
-								<InputComponent
-									onChange={(event: ChangeEvent<HTMLInputElement>) =>
-										setTreeProps((prevProps) => ({
-											...prevProps,
-											[event.target.name]: parseInt(event.target.value),
-										}))
-									}
-									value={treeProps.initialStartY}
-									type='number'
-									name='initialStartY'
-									id='initialStartY'
-								/>
-							</FormControlComponent>
-							<FormControlComponent className={classes.formControl}>
-								<LabelComponent htmlFor='initialShapeLength'>
-									Initial Shape Length X
-								</LabelComponent>
-								<InputComponent
-									onChange={(event: ChangeEvent<HTMLInputElement>) =>
-										setTreeProps((prevProps) => ({
-											...prevProps,
-											[event.target.name]: parseInt(event.target.value),
-										}))
-									}
-									value={treeProps.initialShapeLength}
-									type='number'
-									name='initialShapeLength'
-									id='initialShapeLength'
-								/>
-							</FormControlComponent>
-							<FormControlComponent className={classes.formControl}>
-								<LabelComponent htmlFor='initialAngle'>
-									Initial Angle
-								</LabelComponent>
-								<InputComponent
-									onChange={(event: ChangeEvent<HTMLInputElement>) =>
-										setTreeProps((prevProps) => ({
-											...prevProps,
-											[event.target.name]: parseInt(event.target.value),
-										}))
-									}
-									value={treeProps.initialAngle}
-									type='number'
-									name='initialAngle'
-									id='initialAngle'
-								/>
-							</FormControlComponent>
-							<FormControlComponent className={classes.formControl}>
-								<LabelComponent htmlFor='initialBranchWidth'>
-									Initial Branch Width
-								</LabelComponent>
-								<InputComponent
-									onChange={(event: ChangeEvent<HTMLInputElement>) =>
-										setTreeProps((prevProps) => ({
-											...prevProps,
-											[event.target.name]: parseInt(event.target.value),
-										}))
-									}
-									value={treeProps.initialBranchWidth}
-									type='number'
-									name='initialBranchWidth'
-									id='initialBranchWidth'
-								/>
-							</FormControlComponent>
-							<FormControlComponent className={classes.formControl}>
-								<LabelComponent htmlFor='color1'>Color 1</LabelComponent>
-								<InputComponent
-									onChange={(event: ChangeEvent<HTMLInputElement>) =>
-										setTreeProps((prevProps) => ({
-											...prevProps,
-											[event.target.name]: event.target.value,
-										}))
-									}
-									value={treeProps.color1}
-									type='color'
-									name='color1'
-									id='color1'
-								/>
-							</FormControlComponent>
-							<FormControlComponent className={classes.formControl}>
-								<LabelComponent htmlFor='color2'>Color 2</LabelComponent>
-								<InputComponent
-									onChange={(event: ChangeEvent<HTMLInputElement>) =>
-										setTreeProps((prevProps) => ({
-											...prevProps,
-											[event.target.name]: event.target.value,
-										}))
-									}
-									value={treeProps.color2}
-									type='color'
-									name='color2'
-									id='color2'
-								/>
-							</FormControlComponent>
-							<FormControlComponent className={classes.formControl}>
-								<LabelComponent htmlFor='initialCurve1'>
-									Initial Curve 1
-								</LabelComponent>
-								<InputComponent
-									onChange={(event: ChangeEvent<HTMLInputElement>) =>
-										setTreeProps((prevProps) => ({
-											...prevProps,
-											[event.target.name]: parseInt(event.target.value),
-										}))
-									}
-									value={treeProps.initialCurve1}
-									type='number'
-									name='initialCurve1'
-									id='initialCurve1'
-								/>
-							</FormControlComponent>
-							<FormControlComponent className={classes.formControl}>
-								<LabelComponent htmlFor='initialCurve2'>
-									Initial Curve 2
-								</LabelComponent>
-								<InputComponent
-									onChange={(event: ChangeEvent<HTMLInputElement>) =>
-										setTreeProps((prevProps) => ({
-											...prevProps,
-											[event.target.name]: parseInt(event.target.value),
-										}))
-									}
-									value={treeProps.initialCurve2}
-									type='number'
-									name='initialCurve2'
-									id='initialCurve2'
-								/>
-							</FormControlComponent>
-							<FormControlComponent className={classes.formControl}>
-								<LabelComponent htmlFor='shapeLengthMinLimit'>
-									Shape Length Min Limit
-								</LabelComponent>
-								<InputComponent
-									onChange={(event: ChangeEvent<HTMLInputElement>) =>
-										setTreeProps((prevProps) => ({
-											...prevProps,
-											[event.target.name]: parseInt(event.target.value),
-										}))
-									}
-									value={treeProps.shapeLengthMinLimit}
-									type='number'
-									name='shapeLengthMinLimit'
-									id='shapeLengthMinLimit'
-								/>
-							</FormControlComponent>
+
+							{treePropertiesFieldsetElement
+								.sort((a, b) => a.label.localeCompare(b.label))
+								.map((item) => (
+									<FormControlComponent
+										key={item.id}
+										className={classes.formControl}
+									>
+										<LabelComponent htmlFor={item.id}>
+											{item.label}{' '}
+											{/* {item?.labelSmallText ? (
+												<small>{item?.labelSmallText}</small>
+											) : null} */}
+										</LabelComponent>
+										<InputComponent
+											onChange={(event: ChangeEvent<HTMLInputElement>) =>
+												setTreeProps((prevProps) => ({
+													...prevProps,
+													[event.target.name]:
+														item.type === 'number'
+															? parseInt(event.target.value)
+															: event.target.value,
+												}))
+											}
+											value={treeProps[item.name as keyof typeof treeProps]}
+											type={item.type}
+											name={item.name}
+											id={item.id}
+										/>
+									</FormControlComponent>
+								))}
 						</fieldset>
 						<FormControlComponent className={classes.formControl}>
 							<button
