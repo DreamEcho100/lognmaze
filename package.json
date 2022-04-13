@@ -19,10 +19,10 @@
 		"@fortawesome/free-solid-svg-icons": "^6.1.1",
 		"@fortawesome/react-fontawesome": "^0.1.18",
 		"bcrypt": "^5.0.1",
-		"cookie": "^0.4.2",
+		"cookie": "^0.5.0",
 		"cross-env": "^7.0.3",
 		"jsonwebtoken": "^8.5.1",
-		"next": "^12.1.4",
+		"next": "^12.1.5",
 		"next-compose-plugins": "^2.2.1",
 		"next-connect": "^0.12.2",
 		"next-seo": "^5.4.0",
@@ -48,7 +48,7 @@
 		"@types/react-syntax-highlighter": "^13.5.2",
 		"@typescript-eslint/eslint-plugin": "^5.19.0",
 		"eslint": "^8.13.0",
-		"eslint-config-next": "^12.1.4",
+		"eslint-config-next": "^12.1.5",
 		"typescript": "^4.6.3"
 	}
 }

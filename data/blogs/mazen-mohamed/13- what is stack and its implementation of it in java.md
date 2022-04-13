@@ -3,10 +3,10 @@ title: what is a stack and its implementation of it in java
 tags: data-structure data structure programming stack java
 image_alt: push and pop example in a stack
 image_src: https://www.softwaretestinghelp.com/wp-content/qa/uploads/2019/06/pictorial-representation-of-stack.png
-description: Stack is a linear data structure that follows a particular order in which the operations are performed. The order may be LIFO(Last In First Out) or FILO(First In Last Out), we will implement it in java with various of its method like (push, pop, print all, clear all, indexOf).
+description: Stack is a linear data structure that follows a particular order in which the operations are performed. The order may be LIFO(Last In First Out) or FILO(First In Last Out), we will implement it in java with various of its method like (push, pop, print all, and clear all)
 ---
 
-A stack is a linear data structure that follows a particular order in which the operations are performed. The order may be LIFO(Last In First Out) or FILO(First In Last Out), we will implement it in java with various of its method like (push, pop, print all, clear all, indexOf).
+A stack is a linear data structure that follows a particular order in which the operations are performed. The order may be LIFO(Last In First Out) or FILO(First In Last Out), we will implement it in java with various of its method like (push, pop, print all, and clear all).
 
 ## Stack implementation in Java
 
@@ -123,23 +123,6 @@ public void clearAll() {
 - Firstly, we will just change the values of `stackTop` to -1 and `numberOfElements` to 0.
 - And then we will loop all over elements in `myArr` and assign them to 0.
 
-### Retrieve an element by its index from Stack in Java
-
-```java
-public int indexOf(int index) {
-  if (index > this.stackTop) {
-    // throw new Exception("Inedx is out of the Stack size!");
-    System.err.println("Inedx is out of the Stack size!");
-    System.exit(-1);
-  }
-
-  return this.myArr[index];
-}
-```
-
-- firstly, We will check if the index is bigger than the `stackTop` variable which holds the last element index, and if true we exit or you can throw an exception.
-- Else we will return the element with the specified index.
-
 ## Coming Soon
 
 - Peek or Top: Returns the top element of the stack.
@@ -216,16 +199,6 @@ public class MyStack {
   for (i = this.stackTop; i > 0; i--) {
    this.myArr[i] = 0;
   }
- }
-
- public int indexOf(int index) {
-  if (index > this.stackTop) {
-   // throw new Exception("Inedx is out of the Stack size!");
-   System.err.println("Inedx is out of the Stack size!");
-   System.exit(-1);
-  }
-
-  return this.myArr[index];
  }
 }
 

@@ -1,7 +1,7 @@
 .textarea {
 	width: 100%; /* calc(100% - var(--padding-main-1-half)); */
 	max-width: 100%; /* calc(100% - var(--padding-main-1-half)); */
-	min-height: 10rem;
+	min-height: 15rem;
 	padding: var(--padding-main-1-half);
 	transition: all var(--main-transition-duration) ease-in;
 }

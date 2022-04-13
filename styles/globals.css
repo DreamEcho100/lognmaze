@@ -276,13 +276,24 @@ a,
 button,
 label {
 	cursor: pointer;
-	font-size: inherit;
 }
 
 a,
 button,
 textarea {
 	color: inherit;
+}
+
+a,
+button,
+label {
+	font-size: inherit;
+}
+
+textarea,
+input,
+select {
+	font-size: 75%;
 }
 
 nav ol,
