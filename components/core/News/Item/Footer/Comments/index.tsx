@@ -21,13 +21,13 @@ import { useUserSharedState } from '@store/UserContext';
 
 import Comment from './Comment';
 import CommentTextarea from './CommentTextarea';
-import {
-	getMoreNewsItemCommentsMain,
-	initGetNewsItemCommentsMain,
-} from '@store/NewsContext/actions/comments';
+import { getMoreNewsItemCommentsMain } from '@store/NewsContext/actions/comments';
 import { useNewsSharedState } from '@store/NewsContext';
 import ButtonComponent from '@commonComponentsIndependent/Button';
-import { createNewsItemMainComment } from './utils/actions';
+import {
+	createNewsItemMainComment,
+	initGetNewsItemCommentsMain,
+} from './utils/actions';
 import commentsRequestsReducer from './utils/reducer';
 
 interface IProps {
@@ -63,8 +63,8 @@ const Comments: FC<IProps> = ({
 
 	const [isCommentTextarea, setIsCommentTextarea] = useState(true);
 
-	const initGetMainCommentsRequest =
-		newsItemsActions[newsItemData.news_id]?.requests?.init?.getMainComments;
+	// const initGetMainCommentsRequjest =
+	// 	newsItemsActions[newsItemData.news_id]?.requests?.init?.getMainComments;
 	const getMoreMainCommentsRequest =
 		newsItemsActions[newsItemData.news_id]?.requests?.getMoreMainComments;
 
@@ -172,13 +172,14 @@ const Comments: FC<IProps> = ({
 		)
 			return;
 		if (
-			!initGetMainCommentsRequest ||
-			(initGetMainCommentsRequest &&
-				!initGetMainCommentsRequest.isLoading &&
-				!initGetMainCommentsRequest.success)
+			!requestsActionsState?.initGetComments ||
+			(requestsActionsState.initGetComments &&
+				!requestsActionsState.initGetComments.isLoading &&
+				!requestsActionsState.initGetComments.success)
 		) {
 			(async () =>
-				await initGetNewsItemCommentsMain(newsDispatch, {
+				await initGetNewsItemCommentsMain(requestsActionsDispatch, {
+					newsDispatch,
 					news_id: newsItemData.news_id,
 					urlOptions: {
 						params: {
@@ -194,7 +195,7 @@ const Comments: FC<IProps> = ({
 		newsItemData.news_id,
 		newsDispatch,
 		newsItemComments.length,
-		initGetMainCommentsRequest,
+		requestsActionsState?.initGetComments,
 		newsItemData.hit_comments_limit,
 		newsItemData.comments_counter,
 	]);
@@ -219,16 +220,15 @@ const Comments: FC<IProps> = ({
 				</ButtonComponent>
 			)}
 			<div>
-				{initGetMainCommentsRequest?.isLoading && (
+				{requestsActionsState?.initGetComments?.isLoading && (
 					<p className='isLoadingLoader'>Loading...</p>
 				)}
-				{initGetMainCommentsRequest?.error && (
-					<p className='errorMessage'>{!initGetMainCommentsRequest.error}</p>
+				{requestsActionsState?.initGetComments?.error && (
+					<p className='errorMessage'>
+						{!requestsActionsState?.initGetComments.error}
+					</p>
 				)}
-				{initGetMainCommentsRequest &&
-					!initGetMainCommentsRequest.isLoading &&
-					initGetMainCommentsRequest.success &&
-					newsItemComments.length !== 0 &&
+				{newsItemComments.length !== 0 &&
 					newsItemComments.map((comment) => (
 						<Comment
 							commentType='comment_main'
@@ -245,7 +245,7 @@ const Comments: FC<IProps> = ({
 						<button
 							title='Load more comments'
 							disabled={
-								initGetMainCommentsRequest?.isLoading ||
+								requestsActionsState?.initGetComments?.isLoading ||
 								getMoreMainCommentsRequest?.isLoading
 							}
 							onClick={async () => await loadMoreNewsItemMainComments()}
@@ -256,7 +256,7 @@ const Comments: FC<IProps> = ({
 				<button
 					title='Hide comments'
 					disabled={
-						initGetMainCommentsRequest?.isLoading ||
+						requestsActionsState?.initGetComments?.isLoading ||
 						getMoreMainCommentsRequest?.isLoading
 					}
 				>

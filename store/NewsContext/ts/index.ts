@@ -102,25 +102,12 @@ export interface INewsContextState {
 	};
 }
 
-interface IInitGetNewsItemCommentsMainPending {
-	type: NewsItemContextConstants.INIT_GET_COMMENTS_PENDING;
-	payload: {
-		news_id: TNewsItemData['news_id'];
-	};
-}
-interface IInitGetNewsItemCommentsMainSuccess {
-	type: NewsItemContextConstants.INIT_GET_COMMENTS_SUCCESS;
+interface IAddMainCommentsToNewsItem {
+	type: NewsItemContextConstants.ADD_MAIN_COMMENTS;
 	payload: {
 		news_id: TNewsItemData['news_id'];
 		commentsMainData: TNewsItemCommentsMain;
 		hit_comments_limit: boolean;
-	};
-}
-interface IInitGetNewsItemCommentsMainFail {
-	type: NewsItemContextConstants.INIT_GET_COMMENTS_FAIL;
-	payload: {
-		news_id: TNewsItemData['news_id'];
-		error: string;
 	};
 }
 
@@ -355,9 +342,7 @@ interface IDeleteNewsItemReset {
 }
 
 export type TNewsContextReducerAction =
-	| IInitGetNewsItemCommentsMainPending
-	| IInitGetNewsItemCommentsMainSuccess
-	| IInitGetNewsItemCommentsMainFail
+	| IAddMainCommentsToNewsItem
 	| IInitGetNewsItemTypeBlogDetailsTypeContentPending
 	| IInitGetNewsItemTypeBlogDetailsTypeContentSuccess
 	| IInitGetNewsItemTypeBlogDetailsTypeContentFail
@@ -393,16 +378,6 @@ export type TNewsContextDispatch =
 	| Dispatch<TNewsContextReducerAction>
 	| ((value: TNewsContextReducerAction) => void);
 
-export type TInitGetNewsItemCommentsMain = (
-	newsDispatch: TNewsContextDispatch,
-	{
-		news_id,
-		urlOptions,
-	}: {
-		news_id: TNewsItemData['news_id'];
-		urlOptions: IGetNewsItemCommentsReqArgs['urlOptions'];
-	}
-) => Promise<void>;
 export type TInitGetNewsItemTypeBlogContent = (
 	newsDispatch: TNewsContextDispatch,
 	{

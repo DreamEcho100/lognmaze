@@ -32,6 +32,6 @@
 
 .detailContainer.notAllTheDetails .details,
 .detailContainer.notAllTheDetails .cover {
-	border-bottom-right-radius: 1.5rem;
-	border-bottom-left-radius: 1.5rem;
+	border-bottom-right-radius: 0.5rem;
+	border-bottom-left-radius: 0.5rem;
 }

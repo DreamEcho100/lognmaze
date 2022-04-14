@@ -11,10 +11,10 @@ const useNewsState = () => useReducer(reducer, initialState);
 
 let createdContainer = createContainer(useNewsState);
 
-export let NewsContextSharedProvider = createdContainer.Provider;
-export let useNewsSharedState = createdContainer.useTracked;
+export const NewsContextSharedProvider = createdContainer.Provider;
+export const useNewsSharedState = createdContainer.useTracked;
 
-let NewsContextStore = {
+const NewsContextStore = {
 	NewsContextSharedProvider,
 	useNewsSharedState,
 };

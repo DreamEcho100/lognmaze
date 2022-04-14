@@ -56,10 +56,6 @@ const NewsItemDescriptionDetails: FC<INewsItemDescriptionDetailsProps> = ({
 							setIsFullDetailsVisible(false);
 							if (detailsRef.current) {
 								detailsRef.current.scrollIntoView();
-								console.log(
-									'detailsRef.current.getBoundingClientRect()',
-									detailsRef.current.getBoundingClientRect()
-								);
 							}
 						}}
 					>

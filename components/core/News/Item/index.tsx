@@ -157,6 +157,8 @@ export const NewsItemProvidedContextMiddleware = (
 		if (!isModalVisible) {
 			document.body.style.overflowX = 'hidden';
 			document.body.style.overflowY = 'auto';
+		} else {
+			document.body.style.overflow = 'hidden';
 		}
 	};
 
@@ -178,9 +180,7 @@ export const NewsItemProvidedContextMiddleware = (
 			{isModalVisible && (
 				<DynamicModalComponent
 					isModalVisible={isModalVisible}
-					modalVisibilityHandler={{
-						handleSetIsModalVisible,
-					}}
+					modalVisibilityHandler={handleSetIsModalVisible}
 					modalClasses={{
 						container: {
 							new: classes.modalContainer,

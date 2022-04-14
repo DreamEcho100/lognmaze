@@ -54,7 +54,6 @@ const NewsItemFooter: FC<IProps> = ({
 
 	// 		if (!footerRef.current && footerRef?.current?.scrollIntoView)
 	// 			footerRef.current.scrollIntoView();
-	// 		console.log(isCommentsCounterVisible);
 	// 	}
 	// }, [isCommentsVisible, newsItemData.news_id]);
 	// isCommentsVisible, newsItemData.news_id, isCommentsCounterVisible

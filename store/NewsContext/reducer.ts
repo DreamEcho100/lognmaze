@@ -25,34 +25,7 @@ const reducer: TNewsContextStateReducer = (
 
 	switch (actions.type) {
 		//
-		case NewsItemContextConstants.INIT_GET_COMMENTS_PENDING: {
-			const { news_id } = actions.payload;
-
-			return {
-				...state,
-				actions: {
-					...state.actions,
-					items: {
-						...state.actions.items,
-						[news_id]: {
-							...(state.actions.items[news_id] || {}),
-							requests: {
-								...(state.actions.items[news_id]?.requests || {}),
-								init: {
-									...(state.actions.items[news_id]?.requests?.init || {}),
-									getMainComments: {
-										isLoading: true,
-										error: '',
-										success: false,
-									},
-								},
-							},
-						},
-					},
-				},
-			};
-		}
-		case NewsItemContextConstants.INIT_GET_COMMENTS_SUCCESS: {
+		case NewsItemContextConstants.ADD_MAIN_COMMENTS: {
 			const { news_id, commentsMainData, hit_comments_limit } = actions.payload;
 
 			return {
@@ -63,59 +36,12 @@ const reducer: TNewsContextStateReducer = (
 						if (item.news_id === news_id)
 							return {
 								...item,
-								comments: commentsMainData,
+								comments: [...(item.comments || []), ...commentsMainData],
 								hit_comments_limit,
 							};
 
 						return item;
 					}),
-				},
-				actions: {
-					...state.actions,
-					items: {
-						...state.actions.items,
-						[news_id]: {
-							...(state.actions.items[news_id] || {}),
-							requests: {
-								...(state.actions.items[news_id]?.requests || {}),
-								init: {
-									...(state.actions.items[news_id]?.requests?.init || {}),
-									getMainComments: {
-										isLoading: false,
-										error: '',
-										success: true,
-									},
-								},
-							},
-						},
-					},
-				},
-			};
-		}
-		case NewsItemContextConstants.INIT_GET_COMMENTS_FAIL: {
-			const { news_id, error } = actions.payload;
-
-			return {
-				...state,
-				actions: {
-					...state.actions,
-					items: {
-						...state.actions.items,
-						[news_id]: {
-							...(state.actions.items[news_id] || {}),
-							requests: {
-								...(state.actions.items[news_id]?.requests || {}),
-								init: {
-									...(state.actions.items[news_id]?.requests?.init || {}),
-									getMainComments: {
-										isLoading: false,
-										error,
-										success: false,
-									},
-								},
-							},
-						},
-					},
 				},
 			};
 		}

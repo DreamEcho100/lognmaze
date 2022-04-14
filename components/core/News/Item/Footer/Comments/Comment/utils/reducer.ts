@@ -32,15 +32,19 @@ const commentRequestsReducer = (
 	state: TCommentRequestsState = {
 		type: 'comment_main',
 	},
-	action: TCommentRequestsReducerAction
+	actions: TCommentRequestsReducerAction
 ): TCommentRequestsState => {
-	switch (action.type) {
+	if (process.env.NODE_ENV !== 'production') {
+		console.log('actions.type', actions.type);
+	}
+
+	switch (actions.type) {
 		case ECommentConstants.CREATE_REPLY_FOR_MAIN_COMMENT:
 		case ECommentConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT:
 		case ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT:
 
 		case ECommentConstants.GET_REPLIES_FOR_MAIN_COMMENT: {
-			const actionType = actionsTypeMap(action.type);
+			const actionType = actionsTypeMap(actions.type);
 
 			if (!actionType) return state;
 
@@ -54,7 +58,7 @@ const commentRequestsReducer = (
 		case ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT_PENDING:
 
 		case ECommentConstants.GET_REPLIES_FOR_MAIN_COMMENT_PENDING: {
-			const actionType = actionsTypeMap(action.type);
+			const actionType = actionsTypeMap(actions.type);
 
 			if (!actionType) return state;
 
@@ -68,7 +72,7 @@ const commentRequestsReducer = (
 		case ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS:
 
 		case ECommentConstants.GET_REPLIES_FOR_MAIN_COMMENT_SUCCESS: {
-			const actionType = actionsTypeMap(action.type);
+			const actionType = actionsTypeMap(actions.type);
 
 			if (!actionType) return state;
 
@@ -82,8 +86,8 @@ const commentRequestsReducer = (
 		case ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT_FAIL:
 
 		case ECommentConstants.GET_REPLIES_FOR_MAIN_COMMENT_FAIL: {
-			const { error } = action.payload;
-			const actionType = actionsTypeMap(action.type);
+			const { error } = actions.payload;
+			const actionType = actionsTypeMap(actions.type);
 
 			if (!actionType) return state;
 

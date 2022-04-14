@@ -13,6 +13,8 @@ const requestInit = (props?: Partial<IRequestInit>): IRequestInit => ({
 });
 
 const actionsTypeMap = (actionType: string) => {
+	if (actionType.startsWith(ECommentConstants.INIT_GET_COMMENTS_MAIN))
+		return 'initGetComments';
 	if (actionType.startsWith(ECommentConstants.CREATE_MAIN_COMMENT))
 		return 'create';
 	return 'create';
@@ -20,11 +22,16 @@ const actionsTypeMap = (actionType: string) => {
 
 const commentsRequestsReducer = (
 	state: TCommentRequestsState = {},
-	action: TCommentRequestsReducerAction
+	actions: TCommentRequestsReducerAction
 ): TCommentRequestsState => {
-	switch (action.type) {
+	if (process.env.NODE_ENV !== 'production') {
+		console.log('actions.type', actions.type);
+	}
+
+	switch (actions.type) {
+		case ECommentConstants.INIT_GET_COMMENTS_MAIN:
 		case ECommentConstants.CREATE_MAIN_COMMENT: {
-			const actionType = actionsTypeMap(action.type);
+			const actionType = actionsTypeMap(actions.type);
 
 			if (!actionType) return state;
 
@@ -33,8 +40,9 @@ const commentsRequestsReducer = (
 				[actionType]: requestInit(),
 			};
 		}
+		case ECommentConstants.INIT_GET_COMMENTS_MAIN_PENDING:
 		case ECommentConstants.CREATE_MAIN_COMMENT_PENDING: {
-			const actionType = actionsTypeMap(action.type);
+			const actionType = actionsTypeMap(actions.type);
 
 			if (!actionType) return state;
 
@@ -43,8 +51,9 @@ const commentsRequestsReducer = (
 				[actionType]: requestInit({ isLoading: true }),
 			};
 		}
+		case ECommentConstants.INIT_GET_COMMENTS_MAIN_SUCCESS:
 		case ECommentConstants.CREATE_MAIN_COMMENT_SUCCESS: {
-			const actionType = actionsTypeMap(action.type);
+			const actionType = actionsTypeMap(actions.type);
 
 			if (!actionType) return state;
 
@@ -53,9 +62,10 @@ const commentsRequestsReducer = (
 				[actionType]: requestInit({ success: true }),
 			};
 		}
+		case ECommentConstants.INIT_GET_COMMENTS_MAIN_FAIL:
 		case ECommentConstants.CREATE_MAIN_COMMENT_FAIL: {
-			const { error } = action.payload;
-			const actionType = actionsTypeMap(action.type);
+			const { error } = actions.payload;
+			const actionType = actionsTypeMap(actions.type);
 
 			if (!actionType) return state;
 

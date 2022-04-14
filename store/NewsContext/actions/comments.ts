@@ -1,12 +1,9 @@
 import networkReqArgs from '@coreLib/networkReqArgs';
 import { TNewsItemCommentsMain, TNewsItemData } from '@coreLib/ts/global';
-import {
-	TGetMoreNewsItemCommentsMain,
-	TInitGetNewsItemCommentsMain,
-} from '../ts';
+import { TGetMoreNewsItemCommentsMain } from '../ts';
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 
-const returnBearerToken = (token: string) => `Bearer ${token}`;
+// const returnBearerToken = (token: string) => `Bearer ${token}`;
 
 const handleLoadingChanges = async <
 	TData,
@@ -30,66 +27,22 @@ const handleLoadingChanges = async <
 	};
 	responseSuccessType?: 'json' | 'text';
 }) => {
-	const response = await onInit(extraData?.init || ({} as TInitExtraData));
+	const response = await onInit(
+		extraData?.init || ({} as unknown as TInitExtraData)
+	);
 
 	if (!response.ok)
 		return onError(
 			await response.text(),
-			extraData?.error || ({} as TErrorExtraData)
+			extraData?.error || ({} as unknown as TErrorExtraData)
 		);
 
 	onSuccess(
 		responseSuccessType === 'json'
 			? await response.json()
 			: await response.text(),
-		extraData?.success || ({} as TSuccessExtraData)
+		extraData?.success || ({} as unknown as TSuccessExtraData)
 	);
-};
-
-export const initGetNewsItemCommentsMain: TInitGetNewsItemCommentsMain = async (
-	newsDispatch,
-	{ news_id, urlOptions }
-) => {
-	await handleLoadingChanges<
-		{ comments: TNewsItemCommentsMain; hit_comments_limit: boolean },
-		undefined,
-		{ news_id: TNewsItemData['news_id'] },
-		{ news_id: TNewsItemData['news_id'] }
-	>({
-		onInit: async () => {
-			newsDispatch({
-				type: NewsItemContextConstants.INIT_GET_COMMENTS_PENDING,
-				payload: { news_id },
-			});
-
-			const { requestInfo, requestInit } =
-				networkReqArgs._app.news.item.comments.get({
-					urlOptions,
-				});
-
-			return await fetch(requestInfo, requestInit);
-		},
-		onError: (error, errorExtraData) => {
-			return newsDispatch({
-				type: NewsItemContextConstants.INIT_GET_COMMENTS_FAIL,
-				payload: { error, news_id: errorExtraData.news_id },
-			});
-		},
-		onSuccess: ({ comments, hit_comments_limit }, errorExtraData) => {
-			newsDispatch({
-				type: NewsItemContextConstants.INIT_GET_COMMENTS_SUCCESS,
-				payload: {
-					news_id: errorExtraData.news_id,
-					commentsMainData: comments,
-					hit_comments_limit,
-				},
-			});
-		},
-		extraData: {
-			error: { news_id },
-			success: { news_id },
-		},
-	});
 };
 
 type IGetMoreNewsItemCommentsMainExtraProps = {

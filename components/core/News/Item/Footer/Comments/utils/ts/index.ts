@@ -1,5 +1,12 @@
-import { ICreateNewsItemCommentReqArgsPropsBodyContentTypeCommentMain } from '@coreLib/networkReqArgs/_app/news/[news_id]/comments/ts';
-import { IUserBasicData, TNewsItemCommentTypeMain } from '@coreLib/ts/global';
+import {
+	ICreateNewsItemCommentReqArgsPropsBodyContentTypeCommentMain,
+	IGetNewsItemCommentsReqArgs,
+} from '@coreLib/networkReqArgs/_app/news/[news_id]/comments/ts';
+import {
+	IUserBasicData,
+	TNewsItemCommentTypeMain,
+	TNewsItemData,
+} from '@coreLib/ts/global';
 // import {
 // IUserBasicData,
 // TNewsItemCommentBasicData,
@@ -19,6 +26,7 @@ export interface IRequestInit {
 
 export type TCommentRequestsState = {
 	create?: IRequestInit;
+	initGetComments?: IRequestInit;
 };
 
 // type TCommentType =
@@ -42,11 +50,32 @@ interface ICreateNewsItemMainCommentFail {
 	payload: { error: string };
 }
 
+interface IInitGetMainComments {
+	type: ECommentConstants.INIT_GET_COMMENTS_MAIN;
+	// payload: { type: TCommentType };
+}
+interface IInitGetMainCommentsPending {
+	type: ECommentConstants.INIT_GET_COMMENTS_MAIN_PENDING;
+	// payload: { type: TCommentType };
+}
+interface IInitGetMainCommentsSuccess {
+	type: ECommentConstants.INIT_GET_COMMENTS_MAIN_SUCCESS;
+	// payload: { type: TCommentType };
+}
+interface IInitGetMainCommentsFail {
+	type: ECommentConstants.INIT_GET_COMMENTS_MAIN_FAIL;
+	payload: { error: string };
+}
+
 export type TCommentRequestsReducerAction =
 	| ICreateNewsItemMainComment
 	| ICreateNewsItemMainCommentPending
 	| ICreateNewsItemMainCommentSuccess
-	| ICreateNewsItemMainCommentFail;
+	| ICreateNewsItemMainCommentFail
+	| IInitGetMainComments
+	| IInitGetMainCommentsPending
+	| IInitGetMainCommentsSuccess
+	| IInitGetMainCommentsFail;
 
 export type TCommentRequestsDispatch =
 	| Dispatch<TCommentRequestsReducerAction>
@@ -69,3 +98,12 @@ export type TCreateNewsItemMainComment = (
 		token?: string;
 	}
 ) => Promise<boolean>;
+
+export type TAddMainCommentsToNewsItem = (
+	commentDispatch: TCommentRequestsDispatch,
+	props: {
+		newsDispatch: (value: TNewsContextReducerAction) => void;
+		news_id: TNewsItemData['news_id'];
+		urlOptions: IGetNewsItemCommentsReqArgs['urlOptions'];
+	}
+) => Promise<void>;
