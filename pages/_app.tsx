@@ -61,7 +61,8 @@ library.add(
 	] as IconDefinition[])
 );
 
-import '../styles/globals.css';
+import '@styles/globals.css';
+import '@styles/customNProgressStyles.css';
 
 import { UserContextSharedProvider } from '@store/UserContext';
 import SEODefaults from '../next-seo.config';
