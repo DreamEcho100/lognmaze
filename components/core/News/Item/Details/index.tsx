@@ -40,7 +40,6 @@ const DetailsType_Map: IDetailsType_Map = {
 	description: ({ details, newsItemType, handleSetIsModalVisible }) => (
 		<NewsItemDescriptionDetails
 			description={details}
-			newsItemType={newsItemType}
 			handleSetIsModalVisible={handleSetIsModalVisible}
 		/>
 	),
