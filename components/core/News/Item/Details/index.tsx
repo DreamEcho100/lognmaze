@@ -1,7 +1,5 @@
 import { FC } from 'react';
 
-import classes from './index.module.css';
-
 import { TNewsItemData } from '@coreLib/ts/global';
 
 import NewsItemContentDetails from './Content';
@@ -37,7 +35,7 @@ interface INewsItemDetails {
 const NotFound = () => <h2>Not Found</h2>;
 
 const DetailsType_Map: IDetailsType_Map = {
-	description: ({ details, newsItemType, handleSetIsModalVisible }) => (
+	description: ({ details, handleSetIsModalVisible }) => (
 		<NewsItemDescriptionDetails
 			description={details}
 			handleSetIsModalVisible={handleSetIsModalVisible}

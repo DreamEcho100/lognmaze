@@ -1,10 +1,5 @@
 import { ICreateNewsItemCommentReqArgsPropsBodyContentTypeCommentMain } from '@coreLib/networkReqArgs/_app/news/[news_id]/comments/ts';
-import {
-	IUserBasicData,
-	TNewsItemCommentBasicData,
-	TNewsItemCommentTypeMain,
-	TNewsItemData,
-} from '@coreLib/ts/global';
+import { IUserBasicData, TNewsItemCommentTypeMain } from '@coreLib/ts/global';
 // import {
 // IUserBasicData,
 // TNewsItemCommentBasicData,
