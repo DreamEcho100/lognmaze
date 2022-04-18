@@ -1,6 +1,10 @@
 import pgActions from '@coreLib/db/pg/actions';
 import { TNewsData } from '@coreLib/ts/global';
 import HomeScreen from '@screens/Home';
+import {
+	ISetNewsContextStoreProps,
+	setNewsContextStore,
+} from '@store/NewsContext';
 import type { GetStaticProps, NextPage } from 'next';
 
 interface IProps {
@@ -8,12 +12,38 @@ interface IProps {
 }
 
 const HomePage: NextPage<IProps> = ({ newsData }) => {
+	const newsExtra: ISetNewsContextStoreProps['data']['newsExtra'] = {};
+	const actions: ISetNewsContextStoreProps['actions'] = {
+		items: {},
+	};
+
+	newsData.news.forEach((item, index) => {
+		if (index === 0) {
+			actions.items[item.news_id] = {
+				priorityForHeaderImage: true,
+			};
+		}
+
+		newsExtra[item.news_id] = {
+			hit_comments_limit: false,
+			newsItemDetailsType: 'description',
+			newsItemModelDetailsType: 'content',
+		};
+	});
+
+	const { NewsContextSharedProvider } = setNewsContextStore({
+		data: {
+			news: newsData.news,
+			newsExtra,
+			hit_news_items_limit: !!newsData.hit_news_items_limit,
+		},
+		actions,
+	});
+
 	return (
-		<>
-			{/* <NewsContextSharedProvider> */}
-			<HomeScreen newsData={newsData} />
-			{/* </NewsContextSharedProvider> */}
-		</>
+		<NewsContextSharedProvider>
+			<HomeScreen />
+		</NewsContextSharedProvider>
 	);
 };
 

@@ -94,7 +94,7 @@ const PostScreen = () => {
 			/>
 			<main className={helpersClasses.main}>
 				<SectionWrapper className={classes.mainNewsItemData}>
-					<NewsItem newsItemData={newsItemData} />
+					<NewsItem newsItemData={newsItemData} detailsType='content' />
 				</SectionWrapper>
 			</main>
 		</>

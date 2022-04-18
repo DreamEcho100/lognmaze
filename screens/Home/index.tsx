@@ -9,20 +9,10 @@ import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
 import NewsFeed from '@coreComponents/News/Feed';
 import ButtonComponent from '@commonComponentsIndependent/Button';
 import NewsItemActionButton from '@coreComponents/News/Item/Action/UI/Button';
-import {
-	ISetNewsContextStoreProps,
-	setNewsContextStore,
-} from '@store/NewsContext';
-import { FC } from 'react';
-import { TNewsData } from '@coreLib/ts/global';
 // import { WebPageJsonLd } from 'next-seo';
 // import SEODefaults from 'next-seo.config';
 
-interface IProps {
-	newsData: { news: TNewsData; hit_news_items_limit: boolean };
-}
-
-const HomeScreen: FC<IProps> = ({ newsData }) => {
+const HomeScreen = () => {
 	const router = useRouter();
 
 	const [
@@ -30,34 +20,6 @@ const HomeScreen: FC<IProps> = ({ newsData }) => {
 			data: { user: userData, token: userToken },
 		},
 	] = useUserSharedState();
-
-	const newsExtra: ISetNewsContextStoreProps['data']['newsExtra'] = {};
-	const actions: ISetNewsContextStoreProps['actions'] = {
-		items: {},
-	};
-
-	newsData.news.forEach((item, index) => {
-		if (index === 0) {
-			actions.items[item.news_id] = {
-				priorityForHeaderImage: true,
-			};
-		}
-
-		newsExtra[item.news_id] = {
-			hit_comments_limit: false,
-			newsItemDetailsType: 'description',
-			newsItemModelDetailsType: 'content',
-		};
-	});
-
-	const { NewsContextSharedProvider } = setNewsContextStore({
-		data: {
-			news: newsData.news,
-			newsExtra,
-			hit_news_items_limit: !!newsData.hit_news_items_limit,
-		},
-		actions,
-	});
 
 	return (
 		<>
@@ -72,9 +34,7 @@ const HomeScreen: FC<IProps> = ({ newsData }) => {
 			/> */}
 			<main className={helpersClasses.main}>
 				<div className={helpersClasses.mainContent}>
-					<NewsContextSharedProvider>
-						<NewsFeed />
-					</NewsContextSharedProvider>
+					<NewsFeed />
 					<div>
 						<SectionWrapper className={classes.sectionWrapper}>
 							{userData?.id ? (
