@@ -1,6 +1,6 @@
 {
 	"name": "lognmaze",
-	"version": "0.2.0-canary.6",
+	"version": "0.2.0-canary.7",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
