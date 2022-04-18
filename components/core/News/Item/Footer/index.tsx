@@ -14,12 +14,23 @@ const DynamicComments = dynamic(() => import('./Comments'), {
 import Status from './Status';
 
 interface IProps {
-	newsItemData: TNewsItemData;
 	hideFooterSettings?: boolean;
+	// isThisAModal?: boolean;
+
+	// newsItemData: TNewsItemData;
+	news_id: TNewsItemData['news_id'];
+	comments_counter: TNewsItemData['comments_counter'];
+	comments: TNewsItemData['comments'];
+	hit_comments_limit: TNewsItemData['hit_comments_limit'];
 }
 
 const NewsItemFooter: FC<IProps> = ({
-	newsItemData,
+	// newsItemData,
+	news_id,
+	comments_counter,
+	comments,
+	hit_comments_limit,
+	// isThisAModal,
 	// userData,
 	// isFooterSettingsVisible,
 	// handleIsFooterSettingsVisible,
@@ -38,7 +49,7 @@ const NewsItemFooter: FC<IProps> = ({
 	// ] = useNewsSharedState();
 
 	// const initGetMainComments =
-	// 	newsItemsActions[newsItemData.news_id]?.requests?.init?.getMainComments;
+	// 	newsItemsActions[news_id]?.requests?.init?.getMainComments;
 
 	const handleSetIsCommentsVisible = (isCommentsVisible?: boolean) => {
 		if (isCommentsVisible) return setIsCommentsVisible(isCommentsVisible);
@@ -48,32 +59,32 @@ const NewsItemFooter: FC<IProps> = ({
 	// useEffect(() => {
 	// 	setIsCommentsCounterVisible((prev) => prev + 1);
 	// 	setIsCommentsVisible(false);
-	// 	if (!isCommentsVisible || !newsItemData.news_id || !footerRef.current || isCommentsCounterVisible === 0) {
+	// 	if (!isCommentsVisible || !news_id || !footerRef.current || isCommentsCounterVisible === 0) {
 
 	// 		// if (isCommentsCounterVisible === 0) return;
 
 	// 		if (!footerRef.current && footerRef?.current?.scrollIntoView)
 	// 			footerRef.current.scrollIntoView();
 	// 	}
-	// }, [isCommentsVisible, newsItemData.news_id]);
-	// isCommentsVisible, newsItemData.news_id, isCommentsCounterVisible
+	// }, [isCommentsVisible, news_id]);
+	// isCommentsVisible, news_id, isCommentsCounterVisible
 
-	if (!newsItemData.news_id) {
+	if (!news_id) {
 		return <></>;
 	}
 
 	return (
 		<footer ref={footerRef}>
 			<Status
-				newsItemData={newsItemData}
+				comments_counter={comments_counter}
 				isCommentsVisible={isCommentsVisible}
 				handleSetIsCommentsVisible={handleSetIsCommentsVisible}
 			/>
 			{/* {!hideFooterSettings && (
 				<Settings
 					newsItemData={newsItemData}
-					comments={newsItemData.comments}
-					user_vote_type={newsItemData.user_vote_type}
+					comments={comments}
+					user_vote_type={user_vote_type}
 					setIsCommentsVisible={setIsCommentsVisible}
 					setFocusCommentTextarea={setFocusCommentTextarea}
 					isCommentsVisible={isCommentsVisible}
@@ -83,12 +94,16 @@ const NewsItemFooter: FC<IProps> = ({
 			)} */}
 			{isCommentsVisible && (
 				<DynamicComments
-					newsItemComments={newsItemData.comments || []}
+					newsItemComments={comments || []}
 					// className={classes.comments}
 					handleSetIsCommentsVisible={handleSetIsCommentsVisible}
 					// setFocusCommentTextarea={setFocusCommentTextarea}
 					isCommentsVisible={isCommentsVisible}
-					newsItemData={newsItemData} // focusCommentTextarea={focusCommentTextarea}
+					// newsItemData={newsItemData} // focusCommentTextarea={focusCommentTextarea}
+					news_id={news_id}
+					comments_counter={comments_counter}
+					hit_comments_limit={hit_comments_limit}
+					comments={comments}
 				/>
 			)}
 		</footer>

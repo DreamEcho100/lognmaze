@@ -3,10 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import classes from './index.module.css';
 
-import { TNewsItemData } from '@coreLib/ts/global';
-
 interface IProps {
-	newsItemData: TNewsItemData;
+	comments_counter: number;
 	isCommentsVisible: boolean;
 	handleSetIsCommentsVisible: (isCommentsVisible?: boolean) => void;
 }
@@ -14,7 +12,7 @@ interface IProps {
 const Status: FC<IProps> = ({
 	isCommentsVisible,
 	handleSetIsCommentsVisible,
-	newsItemData,
+	comments_counter,
 }) => {
 	// const hit_comments_limit =
 	// 	newsExtraData[newsItemData.news_id]?.hit_comments_limit;
@@ -73,20 +71,18 @@ const Status: FC<IProps> = ({
 				}}
 				className={`${classes.comments_counter} ${classes['status-item']}`}
 			>
-				{newsItemData.comments_counter === 0 ? (
+				{comments_counter === 0 ? (
 					<button title='No Comment'>
 						<FontAwesomeIcon icon={['fas', 'comment-slash']} />{' '}
-						{newsItemData.comments_counter}
+						{comments_counter}
 					</button>
-				) : newsItemData.comments_counter === 1 ? (
+				) : comments_counter === 1 ? (
 					<button title='1 Comment'>
-						<FontAwesomeIcon icon={['fas', 'comment']} />{' '}
-						{newsItemData.comments_counter}
+						<FontAwesomeIcon icon={['fas', 'comment']} /> {comments_counter}
 					</button>
 				) : (
-					<button title={`${newsItemData.comments_counter} Comments`}>
-						<FontAwesomeIcon icon={['fas', 'comments']} />{' '}
-						{newsItemData.comments_counter}
+					<button title={`${comments_counter} Comments`}>
+						<FontAwesomeIcon icon={['fas', 'comments']} /> {comments_counter}
 					</button>
 				)}{' '}
 			</div>

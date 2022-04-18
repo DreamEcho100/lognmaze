@@ -476,7 +476,7 @@ const FractalTreeScreen = () => {
 												if (
 													event.target.name === 'angle' ||
 													(item.type === 'number' &&
-														parseInt(event.target.value) < 1)
+														event.target.valueAsNumber < 1)
 												)
 													return;
 
@@ -485,7 +485,7 @@ const FractalTreeScreen = () => {
 														...prevProps,
 														[event.target.name]:
 															item.type === 'number'
-																? parseInt(event.target.value)
+																? event.target.valueAsNumber
 																: event.target.value,
 													};
 												});
@@ -520,7 +520,7 @@ const FractalTreeScreen = () => {
 												if (
 													event.target.name === 'angle' ||
 													(item.type === 'number' &&
-														parseInt(event.target.value) < 1)
+														event.target.valueAsNumber < 1)
 												)
 													return;
 
@@ -529,7 +529,7 @@ const FractalTreeScreen = () => {
 														...prevProps,
 														[event.target.name]:
 															item.type === 'number'
-																? parseInt(event.target.value)
+																? event.target.valueAsNumber
 																: event.target.value,
 													};
 												});

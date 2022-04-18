@@ -1,0 +1,4 @@
+.footer.isLoading {
+	--skeleton-loading-width: 100%;
+	--skeleton-loading-height: 5rem;
+}

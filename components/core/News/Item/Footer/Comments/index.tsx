@@ -34,14 +34,21 @@ interface IProps {
 	newsItemComments: TNewsItemCommentsMain;
 	handleSetIsCommentsVisible: (isCommentsVisible?: boolean) => void;
 	isCommentsVisible: boolean;
-	newsItemData: TNewsItemData;
+
+	news_id: TNewsItemData['news_id'];
+	comments_counter: TNewsItemData['comments_counter'];
+	hit_comments_limit: TNewsItemData['hit_comments_limit'];
+	comments: TNewsItemData['comments'];
 }
 
 const Comments: FC<IProps> = ({
 	newsItemComments,
 	handleSetIsCommentsVisible,
 	isCommentsVisible,
-	newsItemData,
+	news_id,
+	comments_counter,
+	hit_comments_limit,
+	comments,
 }) => {
 	const [
 		{
@@ -64,9 +71,9 @@ const Comments: FC<IProps> = ({
 	const [isCommentTextarea, setIsCommentTextarea] = useState(true);
 
 	// const initGetMainCommentsRequjest =
-	// 	newsItemsActions[newsItemData.news_id]?.requests?.init?.getMainComments;
+	// 	newsItemsActions[news_id]?.requests?.init?.getMainComments;
 	const getMoreMainCommentsRequest =
-		newsItemsActions[newsItemData.news_id]?.requests?.getMoreMainComments;
+		newsItemsActions[news_id]?.requests?.getMoreMainComments;
 
 	// const [userData, userDispatch] = useUserSharedState();
 	// const [newsDataState, newsDispatch] = useNewsSharedState();
@@ -95,7 +102,7 @@ const Comments: FC<IProps> = ({
 		// 	newsDispatch,
 		// 	commentType: 'comment_main',
 		// 	commentContent: values.content,
-		// 	news_id: newsItemData.news_id,
+		// 	news_id: news_id,
 		// 	user: userData.user,
 		// 	token: userData.token,
 		// });
@@ -105,7 +112,7 @@ const Comments: FC<IProps> = ({
 			bodyContent: {
 				comment_type: 'comment_main',
 				content: values.content,
-				news_id: newsItemData.news_id,
+				news_id: news_id,
 			},
 			newsDispatch,
 			requiredExtraData: {
@@ -127,34 +134,28 @@ const Comments: FC<IProps> = ({
 
 	const loadMoreNewsItemMainComments = useCallback(async () => {
 		if (
-			parseInt(newsItemData.comments_counter + '') === 0 ||
-			newsItemData.hit_comments_limit ||
-			!newsItemData.comments ||
-			newsItemData.comments.length === 0
+			parseInt(comments_counter + '') === 0 ||
+			hit_comments_limit ||
+			!comments ||
+			comments.length === 0
 		)
 			return;
 
 		await getMoreNewsItemCommentsMain(newsDispatch, {
-			news_id: newsItemData.news_id,
+			news_id: news_id,
 			urlOptions: {
 				params: {
-					news_id: newsItemData.news_id,
+					news_id: news_id,
 				},
 				queries: {
 					comment_type: 'comment_main',
 					last_comment_created_at: new Date(
-						newsItemData.comments[newsItemData.comments.length - 1].created_at
+						comments[comments.length - 1].created_at
 					).toISOString(),
 				},
 			},
 		});
-	}, [
-		newsDispatch,
-		newsItemData.comments,
-		newsItemData.comments_counter,
-		newsItemData.hit_comments_limit,
-		newsItemData.news_id,
-	]);
+	}, [newsDispatch, comments, comments_counter, hit_comments_limit, news_id]);
 
 	const handleIsUpdatingContentVisible = (isVisible?: boolean) => {
 		setIsCommentTextarea((prevState) =>
@@ -166,8 +167,8 @@ const Comments: FC<IProps> = ({
 
 	useEffect(() => {
 		if (
-			parseInt(newsItemData.comments_counter + '') === 0 ||
-			newsItemData.hit_comments_limit ||
+			parseInt(comments_counter + '') === 0 ||
+			hit_comments_limit ||
 			newsItemComments.length !== 0
 		)
 			return;
@@ -180,10 +181,10 @@ const Comments: FC<IProps> = ({
 			(async () =>
 				await initGetNewsItemCommentsMain(requestsActionsDispatch, {
 					newsDispatch,
-					news_id: newsItemData.news_id,
+					news_id: news_id,
 					urlOptions: {
 						params: {
-							news_id: newsItemData.news_id,
+							news_id: news_id,
 						},
 						queries: {
 							comment_type: 'comment_main',
@@ -192,12 +193,12 @@ const Comments: FC<IProps> = ({
 				}))();
 		}
 	}, [
-		newsItemData.news_id,
+		news_id,
 		newsDispatch,
 		newsItemComments.length,
 		requestsActionsState?.initGetComments,
-		newsItemData.hit_comments_limit,
-		newsItemData.comments_counter,
+		hit_comments_limit,
+		comments_counter,
 	]);
 
 	return (
@@ -234,25 +235,23 @@ const Comments: FC<IProps> = ({
 							commentType='comment_main'
 							key={comment.news_comment_id}
 							comment={comment}
-							newsItemData={newsItemData}
+							news_id={news_id}
 						/>
 					))}
 			</div>
 			<div className='buttons-holder'>
-				{!newsItemData.hit_comments_limit &&
-					newsItemData.comments &&
-					newsItemData.comments.length !== 0 && (
-						<button
-							title='Load more comments'
-							disabled={
-								requestsActionsState?.initGetComments?.isLoading ||
-								getMoreMainCommentsRequest?.isLoading
-							}
-							onClick={async () => await loadMoreNewsItemMainComments()}
-						>
-							<span className={helpersClasses.fontWeightBold}>Load More</span>
-						</button>
-					)}{' '}
+				{!hit_comments_limit && comments && comments.length !== 0 && (
+					<button
+						title='Load more comments'
+						disabled={
+							requestsActionsState?.initGetComments?.isLoading ||
+							getMoreMainCommentsRequest?.isLoading
+						}
+						onClick={async () => await loadMoreNewsItemMainComments()}
+					>
+						<span className={helpersClasses.fontWeightBold}>Load More</span>
+					</button>
+				)}{' '}
 				<button
 					title='Hide comments'
 					disabled={

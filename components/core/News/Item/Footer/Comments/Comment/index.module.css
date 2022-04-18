@@ -17,6 +17,16 @@
 	margin-right: var(--padding-main-1-half);
 }
 
+.commentContainer {
+	background-color: var(--main-bg-color-2);
+	padding: 0.5em;
+	border-radius: 1rem;
+}
+
+.type-comment_main_reply .commentContainer {
+	border-radius: 2rem;
+}
+
 .header {
 	width: 100%;
 	display: flex;

@@ -43,6 +43,15 @@ const reducer: TNewsContextStateReducer = (
 						return item;
 					}),
 				},
+				actions: {
+					...state.actions,
+					items: {
+						...state.actions.items,
+						[news_id]: {
+							updatedToRenderDate: Date.now(),
+						},
+					},
+				},
 			};
 		}
 
@@ -58,6 +67,7 @@ const reducer: TNewsContextStateReducer = (
 						...state.actions.items,
 						[news_id]: {
 							...(state.actions.items[news_id] || {}),
+							updatedToRenderDate: Date.now(),
 							requests: {
 								...(state.actions.items[news_id]?.requests || {}),
 								init: {
@@ -104,6 +114,7 @@ const reducer: TNewsContextStateReducer = (
 						...state.actions.items,
 						[news_id]: {
 							...(state.actions.items[news_id] || {}),
+							updatedToRenderDate: Date.now(),
 							requests: {
 								...(state.actions.items[news_id]?.requests || {}),
 								init: {
@@ -135,6 +146,7 @@ const reducer: TNewsContextStateReducer = (
 						...state.actions.items,
 						[news_id]: {
 							...(state.actions.items[news_id] || {}),
+							updatedToRenderDate: Date.now(),
 							requests: {
 								...(state.actions.items[news_id]?.requests || {}),
 								init: {
@@ -247,6 +259,7 @@ const reducer: TNewsContextStateReducer = (
 						...state.actions.items,
 						[news_id]: {
 							...(state.actions.items[news_id] || {}),
+							updatedToRenderDate: Date.now(),
 							requests: {
 								...(state.actions.items[news_id]?.requests || {}),
 								getMoreMainComments: {
@@ -285,6 +298,7 @@ const reducer: TNewsContextStateReducer = (
 						...state.actions.items,
 						[news_id]: {
 							...(state.actions.items[news_id] || {}),
+							updatedToRenderDate: Date.now(),
 							requests: {
 								...(state.actions.items[news_id]?.requests || {}),
 								getMoreMainComments: {
@@ -309,6 +323,7 @@ const reducer: TNewsContextStateReducer = (
 						...state.actions.items,
 						[news_id]: {
 							...(state.actions.items[news_id] || {}),
+							updatedToRenderDate: Date.now(),
 							requests: {
 								...(state.actions.items[news_id]?.requests || {}),
 								getMoreMainComments: {
@@ -361,6 +376,15 @@ const reducer: TNewsContextStateReducer = (
 						return newsItem;
 					}),
 				},
+				actions: {
+					...state.actions,
+					items: {
+						...state.actions.items,
+						[news_id]: {
+							updatedToRenderDate: Date.now(),
+						},
+					},
+				},
 			};
 		}
 		//
@@ -401,6 +425,15 @@ const reducer: TNewsContextStateReducer = (
 
 						return item;
 					}),
+				},
+				actions: {
+					...state.actions,
+					items: {
+						...state.actions.items,
+						[news_id]: {
+							updatedToRenderDate: Date.now(),
+						},
+					},
 				},
 			};
 		}
@@ -452,6 +485,15 @@ const reducer: TNewsContextStateReducer = (
 						return item;
 					}),
 				},
+				actions: {
+					...state.actions,
+					items: {
+						...state.actions.items,
+						[payload.news_id]: {
+							updatedToRenderDate: Date.now(),
+						},
+					},
+				},
 			};
 		}
 
@@ -495,6 +537,15 @@ const reducer: TNewsContextStateReducer = (
 
 						return item;
 					}),
+				},
+				actions: {
+					...state.actions,
+					items: {
+						...state.actions.items,
+						[payload.news_id]: {
+							updatedToRenderDate: Date.now(),
+						},
+					},
 				},
 			};
 		}
@@ -610,6 +661,7 @@ const reducer: TNewsContextStateReducer = (
 						...state.actions.items,
 						[news_id]: {
 							...(state.actions.items[news_id] || {}),
+							updatedToRenderDate: Date.now(),
 							requests: {
 								...(state.actions.items[news_id]?.requests || {}),
 								update: {
@@ -699,6 +751,7 @@ const reducer: TNewsContextStateReducer = (
 						...state.actions.items,
 						[news_id]: {
 							...(state.actions.items[news_id] || {}),
+							updatedToRenderDate: Date.now(),
 							requests: {
 								...(state.actions.items[news_id]?.requests || {}),
 								update: {
@@ -723,6 +776,7 @@ const reducer: TNewsContextStateReducer = (
 						...state.actions.items,
 						[news_id]: {
 							...(state.actions.items[news_id] || {}),
+							updatedToRenderDate: Date.now(),
 							requests: {
 								...(state.actions.items[news_id]?.requests || {}),
 								update: {
@@ -747,6 +801,7 @@ const reducer: TNewsContextStateReducer = (
 						...state.actions.items,
 						[news_id]: {
 							...(state.actions.items[news_id] || {}),
+							updatedToRenderDate: Date.now(),
 							requests: {
 								...(state.actions.items[news_id]?.requests || {}),
 								update: {
@@ -773,6 +828,7 @@ const reducer: TNewsContextStateReducer = (
 						...state.actions.items,
 						[news_id]: {
 							...(state.actions.items[news_id] || {}),
+							updatedToRenderDate: Date.now(),
 							requests: {
 								...(state.actions.items[news_id]?.requests || {}),
 								delete: {
@@ -801,6 +857,7 @@ const reducer: TNewsContextStateReducer = (
 						...state.actions.items,
 						[news_id]: {
 							...(state.actions.items[news_id] || {}),
+							updatedToRenderDate: Date.now(),
 							requests: {
 								...(state.actions.items[news_id]?.requests || {}),
 								delete: {
@@ -825,6 +882,7 @@ const reducer: TNewsContextStateReducer = (
 						...state.actions.items,
 						[news_id]: {
 							...(state.actions.items[news_id] || {}),
+							updatedToRenderDate: Date.now(),
 							requests: {
 								...(state.actions.items[news_id]?.requests || {}),
 								delete: {
@@ -849,6 +907,7 @@ const reducer: TNewsContextStateReducer = (
 						...state.actions.items,
 						[news_id]: {
 							...(state.actions.items[news_id] || {}),
+							updatedToRenderDate: Date.now(),
 							requests: {
 								...(state.actions.items[news_id]?.requests || {}),
 								delete: {

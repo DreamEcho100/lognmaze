@@ -65,7 +65,12 @@ const NewsFeed: FC<IProps> = ({
 						key={`NewsFeed-${index}-${item.news_id}`}
 						className={classes.SectionWrapper}
 					>
-						<NewsItem newsItemData={item} />
+						<NewsItem
+							newsItemData={item}
+							updatedToRenderDate={
+								newsActions.items?.[item.news_id]?.updatedToRenderDate
+							}
+						/>
 					</SectionWrapper>
 				))}
 			{newsData.length !== 0 && !newsState.data.hit_news_items_limit && (

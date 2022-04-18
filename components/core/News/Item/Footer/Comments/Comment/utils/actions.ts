@@ -90,19 +90,23 @@ export const createNewsItemReplyForMainComment: TCreateNewsItemReplyForMainComme
 				commentDispatch({
 					type: ECommentConstants.CREATE_REPLY_FOR_MAIN_COMMENT_SUCCESS,
 				});
-				newsDispatch({
-					type: NewsItemContextConstants.ADD_NEW_MAIN_COMMENT,
-					payload: {
-						news_id: requiredData.news_id,
-						newCommentData: {
-							...requiredData,
-							news_comment_id,
-							type: 'comment_main_reply',
-							created_at: new Date().getTime(),
-							updated_at: new Date().getTime(),
-						},
-					},
-				});
+				setTimeout(
+					() =>
+						newsDispatch({
+							type: NewsItemContextConstants.ADD_NEW_MAIN_COMMENT,
+							payload: {
+								news_id: requiredData.news_id,
+								newCommentData: {
+									...requiredData,
+									news_comment_id,
+									type: 'comment_main_reply',
+									created_at: new Date().getTime(),
+									updated_at: new Date().getTime(),
+								},
+							},
+						}),
+					0
+				);
 			},
 		});
 	};

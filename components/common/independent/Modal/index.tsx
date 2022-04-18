@@ -26,7 +26,7 @@ interface IPropsHandler1 {
 	handleSetIsModalVisibleOptions?: { [key: string]: any };
 }
 
-interface IProps {
+export interface IModalComponentProps {
 	children: JSX.Element | JSX.Element[]; // ReactNode;
 	// setIsModalVisible?: IntrinsicAttributes & INewsItemProvidedContextProps & { children?: ReactNode; };
 	isModalVisible: boolean;
@@ -70,7 +70,7 @@ const focusableSelectors = [
 	'[tabindex]:not([tabindex^="-"])',
 ];
 
-const ModalComponent: FC<IProps> = ({
+const ModalComponent: FC<IModalComponentProps> = ({
 	children,
 	// handleSetIsModalVisible,
 	// handleSetIsModalVisibleOptions,

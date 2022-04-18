@@ -52,25 +52,34 @@ import { imagesWeservNlLoader } from '@commonLibIndependent/image';
 interface ICommentMainProps {
 	commentType: TNewsItemCommentTypeMain['type'];
 	comment: TNewsItemCommentTypeMain;
-	newsItemData: TNewsItemData;
+	// newsItemData: {
+
+	// };
+	news_id: TNewsItemData['news_id'];
 	parent_data?: null;
 	// ...props
 }
 interface ICommentMainReplyProps {
 	commentType: TNewsItemCommentTypeReplyMain['type'];
 	comment: TNewsItemCommentTypeReplyMain;
-	newsItemData: TNewsItemData;
+	// newsItemData: {
+
+	// };
+	news_id: TNewsItemData['news_id'];
 	parent_data: TNewsItemCommentTypeMain;
 	// ...props
 }
 
 const Replies = ({
 	replies,
-	newsItemData,
+	news_id,
 	parent_data,
 }: {
 	replies: TNewsItemCommentTypeReplyMain[];
-	newsItemData: TNewsItemData;
+	// newsItemData: {
+
+	// };
+	news_id: TNewsItemData['news_id'];
 	parent_data: TNewsItemCommentTypeMain;
 }): JSX.Element => {
 	if (replies)
@@ -81,7 +90,7 @@ const Replies = ({
 						key={reply.news_comment_id}
 						commentType={reply.type}
 						comment={reply}
-						newsItemData={newsItemData}
+						news_id={news_id}
 						parent_data={parent_data}
 					/>
 				))}{' '}
@@ -94,7 +103,7 @@ const Replies = ({
 const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 	// props.commentType,
 	// props.comment,
-	newsItemData,
+	news_id,
 	...props
 }) => {
 	// const [userData, userDispatch] = useUserSharedState();
@@ -150,7 +159,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 				token: userToken,
 				requiredData: {
 					news_comment_id: props.comment.news_comment_id,
-					news_id: newsItemData.news_id,
+					news_id: news_id,
 					// parent_id:
 					...(() => {
 						if (props.comment.type === 'comment_main_reply') {
@@ -181,7 +190,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 				requiredData: {
 					newContent: values.content,
 					news_comment_id: props.comment.news_comment_id,
-					news_id: newsItemData.news_id,
+					news_id: news_id,
 					...(() => {
 						if (props.comment.type === 'comment_main_reply') {
 							return {
@@ -216,7 +225,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 				author_last_name: userData.last_name,
 				author_profile_picture: userData.profile_picture,
 				content: values.comment_reply,
-				news_id: newsItemData.news_id,
+				news_id: news_id,
 				parent_id:
 					props.comment.type === 'comment_main_reply' && props.parent_data
 						? props.parent_data.news_comment_id
@@ -260,10 +269,10 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		await getRepliesForMainComment(requestsActionsDispatch, {
 			newsDispatch,
 			parent_id: props.comment.news_comment_id,
-			news_id: newsItemData.news_id,
+			news_id: news_id,
 			urlOptions: {
 				params: {
-					news_id: newsItemData.news_id,
+					news_id: news_id,
 				},
 				queries: {
 					comment_type: 'comment_main_reply',
@@ -301,7 +310,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 										bodyObj = {
 											type: props.commentType,
 											news_comment_id: props.comment.news_comment_id,
-											parent_id: newsItemData.news_id,
+											parent_id: news_id,
 										};
 									} else if (props.commentType === 'comment_main_reply') {
 										bodyObj = {
@@ -386,87 +395,89 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		<div
 			className={`${classes.comment} ${classes[`type-${props.commentType}`]}`}
 		>
-			<header className={classes.header}>
-				<nav className={classes.nav}>
-					{props.comment.author_profile_picture && (
-						<Link
-							prefetch={false}
-							// passHref
-							href={`/users/${props.comment.author_user_name_id}`}
-						>
-							<a>
-								<CustomNextImage
-									src={imagesWeservNlLoader({
-										url: props.comment.author_profile_picture,
-										w: 300,
-										h: 300,
-									})}
-									alt=''
-									className={classes['profile_picture-container']}
-								/>
-							</a>
-						</Link>
-					)}
-					<div className={classes['author-info']}>
-						<p>
+			<div className={classes.commentContainer}>
+				<header className={classes.header}>
+					<nav className={classes.nav}>
+						{props.comment.author_profile_picture && (
 							<Link
 								prefetch={false}
 								// passHref
 								href={`/users/${props.comment.author_user_name_id}`}
 							>
-								<a className={helpersClasses.fontWeightBold}>
-									{props.comment.author_user_name_id}
+								<a>
+									<CustomNextImage
+										src={imagesWeservNlLoader({
+											url: props.comment.author_profile_picture,
+											w: 300,
+											h: 300,
+										})}
+										alt=''
+										className={classes['profile_picture-container']}
+									/>
 								</a>
 							</Link>
-						</p>
-						<p>
-							<em>
-								<small>
-									{props.comment.author_first_name}{' '}
-									{props.comment.author_last_name}
-								</small>
-							</em>
-						</p>
-					</div>
-				</nav>
-				{/* {userData?.user.id === props.comment.author_id && (
+						)}
+						<div className={classes['author-info']}>
+							<p>
+								<Link
+									prefetch={false}
+									// passHref
+									href={`/users/${props.comment.author_user_name_id}`}
+								>
+									<a className={helpersClasses.fontWeightBold}>
+										{props.comment.author_user_name_id}
+									</a>
+								</Link>
+							</p>
+							<p>
+								<em>
+									<small>
+										{props.comment.author_first_name}{' '}
+										{props.comment.author_last_name}
+									</small>
+								</em>
+							</p>
+						</div>
+					</nav>
+					{/* {userData?.user.id === props.comment.author_id && (
 					<DropdownMenu items={items} />
 				)} */}
-			</header>
-			{isUpdatingContentVisible && (
-				<FormatContainer className={classes.comment_content}>
-					<MdToHTMLFormatter content={props.comment.content} />
-				</FormatContainer>
-			)}
-			{userData?.id &&
-				userData.id === props.comment.author_id &&
-				!isUpdatingContentVisible && (
-					<CommentTextarea
-						handleSubmit={handleUpdatingComment}
-						name='content'
-						setValues={setValues}
-						value={values.content}
-						disableSubmitButton={editButtonsDisabled}
-						commentToType={props.comment.type}
-						handleIsCommentTextareaIsVisible={() =>
-							handleIsUpdatingContentVisible(false)
-						}
+				</header>
+				{isUpdatingContentVisible && (
+					<FormatContainer className={classes.comment_content}>
+						<MdToHTMLFormatter content={props.comment.content} />
+					</FormatContainer>
+				)}
+				{userData?.id &&
+					userData.id === props.comment.author_id &&
+					!isUpdatingContentVisible && (
+						<CommentTextarea
+							handleSubmit={handleUpdatingComment}
+							name='content'
+							setValues={setValues}
+							value={values.content}
+							disableSubmitButton={editButtonsDisabled}
+							commentToType={props.comment.type}
+							handleIsCommentTextareaIsVisible={() =>
+								handleIsUpdatingContentVisible(false)
+							}
+						/>
+					)}
+				<footer className={classes.footer}>
+					<TimeAndDate
+						created_at={props.comment.created_at}
+						updated_at={props.comment.updated_at}
 					/>
-				)}
-			<footer className={classes.footer}>
-				<TimeAndDate
-					created_at={props.comment.created_at}
-					updated_at={props.comment.updated_at}
-				/>
-				{userData?.id && (
-					<button
-						title='Reply To A Comment'
-						onClick={() => setShowReplyTextarea((prev) => !prev)}
-					>
-						Reply
-					</button>
-				)}
-			</footer>
+					{userData?.id && (
+						<button
+							title='Reply To A Comment'
+							onClick={() => setShowReplyTextarea((prev) => !prev)}
+						>
+							Reply
+						</button>
+					)}
+				</footer>
+			</div>
 			{props.commentType === 'comment_main' &&
 				props.comment.replies_counter !== 0 &&
 				!showReplies && (
@@ -516,7 +527,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 				commentMain.replies?.length !== 0 && (
 					<Replies
 						replies={commentMain.replies}
-						newsItemData={newsItemData}
+						news_id={news_id}
 						parent_data={commentMain}
 					/>
 				)}

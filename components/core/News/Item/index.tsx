@@ -1,22 +1,22 @@
 import dynamic from 'next/dynamic';
-import { FC, Fragment, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import classes from './index.module.css';
 
-import { TNewsItemData } from '@coreLib/ts/global';
+import { TDate, TNewsItemData } from '@coreLib/ts/global';
 import { useNewsSharedState } from '@store/NewsContext';
 import { handleAllClasses } from '@commonLibIndependent/className';
 
 import NewsItemHeader from './Header';
 import NewsItemDetails from './Details';
 import NewsItemFooter from './Footer';
-const DynamicModalComponent = dynamic(
-	() => import('@commonComponentsIndependent/Modal'),
-	{
-		ssr: false,
-	}
-);
+// import TempNewsItemFooter from './_temp_Footer';
+
+const DynamicNewsItemModal = dynamic(() => import('./Modal'), {
+	ssr: false,
+});
 import { initGetNewsItemTypeBlogContent } from '@store/NewsContext/actions';
+import { memo } from 'react-tracked';
 
 interface INewsItemProvidedContextProps {
 	defaultClasses?: string;
@@ -26,29 +26,32 @@ interface INewsItemProvidedContextProps {
 	isThisAModal?: boolean;
 	hideHeaderSettings?: boolean;
 	hideFooterSettings?: boolean;
+	updatedToRenderDate?: TDate;
 }
 
-interface INewsItemProps extends INewsItemProvidedContextProps {
-	handleSetIsModalVisible: (isModalVisible: boolean) => void;
+export interface INewsItemProps extends INewsItemProvidedContextProps {
+	// handleSetIsModalVisible: (isModalVisible: boolean) => void;
 	// isFooterSettingsVisible: boolean;
 	// handleIsFooterSettingsVisible: (isFooterSettingsVisible: boolean) => void;
 	hideHeaderSettings?: boolean;
 	hideFooterSettings?: boolean;
 }
 
-const NewsItem: FC<INewsItemProps> = ({
-	newsItemData,
-	handleSetIsModalVisible,
-	// isFooterSettingsVisible,
-	// handleIsFooterSettingsVisible,
-	// isModalVisible,
-	isThisAModal,
-	hideHeaderSettings,
-	hideFooterSettings,
-	defaultClasses,
-	extraClasses,
-	className,
-}) => {
+const NewsItem: FC<INewsItemProps> = (props) => {
+	const {
+		newsItemData,
+		// handleSetIsModalVisible,
+		// isFooterSettingsVisible,
+		// handleIsFooterSettingsVisible,
+		// isModalVisible,
+		isThisAModal,
+		hideHeaderSettings,
+		hideFooterSettings,
+		defaultClasses,
+		extraClasses,
+		className,
+		// updatedToRenderDate,
+	} = props;
 	const [
 		{
 			data: { newsExtra: newsExtraData },
@@ -62,6 +65,43 @@ const NewsItem: FC<INewsItemProps> = ({
 		},
 		newsDispatch,
 	] = useNewsSharedState();
+
+	const [isModalVisible, setIsModalVisible] = useState(false);
+	// const [isFooterSettingsVisible, setIsFooterSettingsVisible] = useState(false);
+	// const [isCommentsVisible, setIsCommentsVisible] = useState({
+	// 	main: false,
+	// 	modal: false,
+	// });
+	// const [isCommentsCounterVisible, setIsCommentsCounterVisible] = useState(0);
+	// const [focusCommentTextarea, setFocusCommentTextarea] = useState(false);
+
+	// const [
+	// 	{
+	// 		actions: { items: newsItemsActions },
+	// 	},
+	// ] = useNewsSharedState();
+
+	// const initGetMainComments =
+	// 	newsItemsActions[newsItemData.news_id]?.requests?.init?.getMainComments;
+
+	// const handleSetIsCommentsVisible = (
+	// 	isCommentsVisible: SetStateAction<{ main: boolean; modal: boolean }>
+	// ) => {
+	// 	return setIsCommentsVisible(isCommentsVisible);
+	// };
+
+	const handleSetIsModalVisible = (isModalVisible?: boolean) => {
+		setIsModalVisible((prevState) =>
+			typeof isModalVisible === 'boolean' ? isModalVisible : !prevState
+		);
+
+		if (!isModalVisible) {
+			document.body.style.overflowX = 'hidden';
+			document.body.style.overflowY = 'auto';
+		} else {
+			document.body.style.overflow = 'hidden';
+		}
+	};
 
 	const getTypeBlogContent =
 		itemsActions[newsItemData.news_id]?.requests?.init?.modal
@@ -121,28 +161,56 @@ const NewsItem: FC<INewsItemProps> = ({
 	};
 
 	return (
-		<article {...newsItemProps}>
-			<NewsItemHeader
+		<>
+			<article {...newsItemProps}>
+				<NewsItemHeader
+					newsItemData={newsItemData}
+					hideHeaderSettings={hideHeaderSettings}
+				/>
+				<NewsItemDetails
+					newsItemData={newsItemData}
+					handleSetIsModalVisible={handleSetIsModalVisible}
+					isThisAModal={isThisAModal}
+					newsItemDetailsType={newsItemDetailsType}
+					newsItemModelDetailsType={newsItemModelDetailsType}
+				/>
+				<NewsItemFooter
+					// newsItemData={newsItemData}
+					news_id={newsItemData.news_id}
+					comments_counter={newsItemData.comments_counter}
+					comments={newsItemData.comments}
+					hit_comments_limit={newsItemData.hit_comments_limit}
+					// isFooterSettingsVisible={isFooterSettingsVisible}
+					// handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
+					hideFooterSettings={hideFooterSettings}
+					// isThisAModal={isThisAModal}
+				/>
+				{/* <TempNewsItemFooter
+					isLoadingSkeleton={undefined}
+					hideFooterSettings={undefined}
+					isLoadingUserVote={undefined}
+
+					
 				newsItemData={newsItemData}
-				hideHeaderSettings={hideHeaderSettings}
+				/> */}
+			</article>
+			<DynamicNewsItemModal
+				modalProps={{
+					isModalVisible: isModalVisible,
+					modalVisibilityHandler: handleSetIsModalVisible,
+					modalClasses: {
+						container: {
+							new: classes.modalContainer,
+						},
+					},
+				}}
+				newsItemProps={props}
 			/>
-			<NewsItemDetails
-				newsItemData={newsItemData}
-				handleSetIsModalVisible={handleSetIsModalVisible}
-				isThisAModal={isThisAModal}
-				newsItemDetailsType={newsItemDetailsType}
-				newsItemModelDetailsType={newsItemModelDetailsType}
-			/>
-			<NewsItemFooter
-				newsItemData={newsItemData}
-				// isFooterSettingsVisible={isFooterSettingsVisible}
-				// handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
-				hideFooterSettings={hideFooterSettings}
-			/>
-		</article>
+		</>
 	);
 };
 
+/*
 export const NewsItemProvidedContextMiddleware = (
 	props: INewsItemProvidedContextProps
 ) => {
@@ -178,6 +246,22 @@ export const NewsItemProvidedContextMiddleware = (
 				// handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
 			/>
 			{isModalVisible && (
+				<>
+					<NewsItemModal
+						modalProps={{
+							isModalVisible: isModalVisible,
+							modalVisibilityHandler: handleSetIsModalVisible,
+							modalClasses:{
+								container: {
+									new: classes.modalContainer,
+								},
+							}
+						}}
+						newsItemProps={{
+							...props,
+							handleSetIsModalVisible: handleSetIsModalVisible
+						}}
+					/>
 				<DynamicModalComponent
 					isModalVisible={isModalVisible}
 					modalVisibilityHandler={handleSetIsModalVisible}
@@ -197,9 +281,13 @@ export const NewsItemProvidedContextMiddleware = (
 						/>
 					</Fragment>
 				</DynamicModalComponent>
+				</>
 			)}
 		</>
 	);
 };
+*/
 
-export default NewsItemProvidedContextMiddleware;
+export default memo(NewsItem, (prevProps, nextProps) => {
+	return prevProps.updatedToRenderDate === nextProps.updatedToRenderDate;
+});

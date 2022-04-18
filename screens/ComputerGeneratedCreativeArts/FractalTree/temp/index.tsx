@@ -549,13 +549,10 @@ const FractalTreeScreen = () => {
 										</LabelComponent>
 										<InputComponent
 											onChange={(event: ChangeEvent<HTMLInputElement>) =>
-												setCanvasProps((prevProps) => {
-													console.log(event.target.name);
-													return {
-														...prevProps,
-														[event.target.name]: parseInt(event.target.value),
-													};
-												})
+												setCanvasProps((prevProps) => ({
+													...prevProps,
+													[event.target.name]: parseInt(event.target.value),
+												}))
 											}
 											value={canvasProps[item.name as keyof typeof canvasProps]}
 											type={item.type}

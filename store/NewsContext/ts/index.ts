@@ -9,6 +9,7 @@ import {
 	TNewsItemCommentBasicData,
 	TNewsItemCommentTypeReplyMain,
 	TNewsItemCommentTypeMain,
+	TDate,
 	// IUserBasicData,
 	// INewsItemTypeBlogBasicData,
 	// INewsItemTypePostBasicData,
@@ -45,13 +46,9 @@ export interface INewsContextState {
 		items: {
 			[key: string]: {
 				priorityForHeaderImage?: boolean;
+				updatedToRenderDate?: TDate;
 				requests?: {
 					init?: {
-						getMainComments?: {
-							isLoading: boolean;
-							error: string;
-							success: boolean;
-						};
 						modal?: {
 							getTypeBlogContent?: {
 								isLoading: boolean;
