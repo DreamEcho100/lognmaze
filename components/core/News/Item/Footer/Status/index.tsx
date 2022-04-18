@@ -31,7 +31,7 @@ const Status: FC<IProps> = ({
 				!initGetMainComments.isLoading &&
 				!hit_comments_limit)
 		)
-			await initGetNewsItemCommentsMain(newsDispatch, {
+			await getMoreNewsItemCommentsMain(newsDispatch, {
 				news_id: newsItemData.news_id,
 				urlOptions: {
 					params: {

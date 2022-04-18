@@ -9,11 +9,14 @@ import { handleAllClasses } from '@commonLibIndependent/className';
 
 import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
 import NewsItem from '@coreComponents/News/Item';
+import { TNewsItemData } from '@coreLib/ts/global';
 
 interface IProps {
 	defaultClasses?: string;
 	extraClasses?: string;
 	className?: string;
+	detailsType?: 'description' | 'content';
+	modelDetailsType?: 'description' | 'content';
 	// newsFetchRouteQuery: { [key: string]: any };
 }
 
@@ -21,6 +24,8 @@ const NewsFeed: FC<IProps> = ({
 	defaultClasses = 'feed',
 	extraClasses = '',
 	className = '',
+	detailsType = 'description',
+	modelDetailsType = 'content',
 	// newsFetchRouteQuery,
 	...props
 }) => {
@@ -60,7 +65,8 @@ const NewsFeed: FC<IProps> = ({
 	return (
 		<section {...feedProps}>
 			{newsData.length !== 0 &&
-				newsData.map((item, index) => (
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				newsData.map((item: TNewsItemData, index: any) => (
 					<SectionWrapper
 						key={`NewsFeed-${index}-${item.news_id}`}
 						className={classes.SectionWrapper}
@@ -70,6 +76,8 @@ const NewsFeed: FC<IProps> = ({
 							updatedToRenderDate={
 								newsActions.items?.[item.news_id]?.updatedToRenderDate
 							}
+							detailsType={detailsType}
+							modelDetailsType={modelDetailsType}
 						/>
 					</SectionWrapper>
 				))}

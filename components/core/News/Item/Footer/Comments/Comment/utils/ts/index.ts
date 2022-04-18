@@ -1,3 +1,5 @@
+// import { INewsItemExtraDataContextReducerAction } from '@coreComponents/News/Item/context/ts';
+import { INewsItemExtraDataContextReducerAction } from '@coreComponents/News/Item/context/ts';
 import { IGetNewsItemCommentsReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/comments/ts';
 import {
 	IUserBasicData,
@@ -6,7 +8,6 @@ import {
 	TNewsItemCommentTypeReplyMain,
 	TNewsItemData,
 } from '@coreLib/ts/global';
-import { TNewsContextReducerAction } from '@store/NewsContext/ts';
 import { Dispatch } from 'react';
 import ECommentConstants from '../constants';
 
@@ -158,7 +159,9 @@ export type TCreateNewsItemReplyForMainComment = (
 		// 			// eslint-disable-next-line no-mixed-spaces-and-tabs
 		// 	  }
 		// );
-		newsDispatch: (value: TNewsContextReducerAction) => void;
+		newsItemExtraDataDispatch:
+			| Dispatch<INewsItemExtraDataContextReducerAction>
+			| ((value: INewsItemExtraDataContextReducerAction) => void);
 		token?: string;
 	}
 ) => Promise<boolean>;
@@ -179,7 +182,9 @@ export type TUpdateNewsItemMainOrMainReplyComment = (
 			  }
 			| { type: TNewsItemCommentTypeMain['type'] }
 		);
-		newsDispatch: (value: TNewsContextReducerAction) => void;
+		newsItemExtraDataDispatch:
+			| Dispatch<INewsItemExtraDataContextReducerAction>
+			| ((value: INewsItemExtraDataContextReducerAction) => void);
 		token?: string;
 	}
 ) => Promise<boolean>;
@@ -194,20 +199,20 @@ export type TDeleteNewsItemMainOrMainReplyComment = (
 			| { type: TNewsItemCommentTypeMain['type'] }
 			| Pick<TNewsItemCommentTypeReplyMain, 'type' | 'parent_id'>
 		);
-		newsDispatch: (value: TNewsContextReducerAction) => void;
+		newsItemExtraDataDispatch:
+			| Dispatch<INewsItemExtraDataContextReducerAction>
+			| ((value: INewsItemExtraDataContextReducerAction) => void);
 		token?: string;
 	}
 ) => Promise<boolean>;
 
 export type TGetRepliesForMainComment = (
 	commentDispatch: TCommentRequestsDispatch,
-	{
-		news_id,
-		urlOptions,
-		parent_id,
-	}: {
-		newsDispatch: (value: TNewsContextReducerAction) => void;
-		news_id: TNewsItemData['news_id'];
+	props: {
+		newsItemExtraDataDispatch:
+			| Dispatch<INewsItemExtraDataContextReducerAction>
+			| ((value: INewsItemExtraDataContextReducerAction) => void);
+		// news_id: TNewsItemData['news_id'];
 		parent_id: TNewsItemCommentTypeReplyMain['parent_id'];
 		urlOptions: IGetNewsItemCommentsReqArgs['urlOptions'];
 	}

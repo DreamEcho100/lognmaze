@@ -1,3 +1,5 @@
+// import { INewsItemExtraDataContextReducerAction } from '@coreComponents/News/Item/context/ts';
+import { INewsItemExtraDataContextReducerAction } from '@coreComponents/News/Item/context/ts';
 import {
 	ICreateNewsItemCommentReqArgsPropsBodyContentTypeCommentMain,
 	IGetNewsItemCommentsReqArgs,
@@ -14,7 +16,6 @@ import {
 // TNewsItemCommentTypeReplyMain,
 // TNewsItemData,
 // } from '@coreLib/ts/global';
-import { TNewsContextReducerAction } from '@store/NewsContext/ts';
 import { Dispatch } from 'react';
 import ECommentConstants from '../constants';
 
@@ -51,19 +52,19 @@ interface ICreateNewsItemMainCommentFail {
 }
 
 interface IInitGetMainComments {
-	type: ECommentConstants.INIT_GET_COMMENTS_MAIN;
+	type: ECommentConstants.GET_COMMENTS_MAIN;
 	// payload: { type: TCommentType };
 }
 interface IInitGetMainCommentsPending {
-	type: ECommentConstants.INIT_GET_COMMENTS_MAIN_PENDING;
+	type: ECommentConstants.GET_COMMENTS_MAIN_PENDING;
 	// payload: { type: TCommentType };
 }
 interface IInitGetMainCommentsSuccess {
-	type: ECommentConstants.INIT_GET_COMMENTS_MAIN_SUCCESS;
+	type: ECommentConstants.GET_COMMENTS_MAIN_SUCCESS;
 	// payload: { type: TCommentType };
 }
 interface IInitGetMainCommentsFail {
-	type: ECommentConstants.INIT_GET_COMMENTS_MAIN_FAIL;
+	type: ECommentConstants.GET_COMMENTS_MAIN_FAIL;
 	payload: { error: string };
 }
 
@@ -94,7 +95,9 @@ export type TCreateNewsItemMainComment = (
 
 			type: TNewsItemCommentTypeMain['type'];
 		};
-		newsDispatch: (value: TNewsContextReducerAction) => void;
+		newsItemExtraDataDispatch:
+			| Dispatch<INewsItemExtraDataContextReducerAction>
+			| ((value: INewsItemExtraDataContextReducerAction) => void);
 		token?: string;
 	}
 ) => Promise<boolean>;
@@ -102,7 +105,9 @@ export type TCreateNewsItemMainComment = (
 export type TAddMainCommentsToNewsItem = (
 	commentDispatch: TCommentRequestsDispatch,
 	props: {
-		newsDispatch: (value: TNewsContextReducerAction) => void;
+		newsItemExtraDataDispatch:
+			| Dispatch<INewsItemExtraDataContextReducerAction>
+			| ((value: INewsItemExtraDataContextReducerAction) => void);
 		news_id: TNewsItemData['news_id'];
 		urlOptions: IGetNewsItemCommentsReqArgs['urlOptions'];
 	}

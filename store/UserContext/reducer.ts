@@ -84,7 +84,7 @@ const reducer = (
 			};
 		}
 
-		case UserContextConstants.LOGOUT_REQUEST_RESET:
+		case UserContextConstants.LOGOUT_REQUEST_PENDING:
 		case UserContextConstants.SIGNUP_REQUEST_PENDING:
 		case UserContextConstants.LOGIN_REQUEST_PENDING: {
 			return {

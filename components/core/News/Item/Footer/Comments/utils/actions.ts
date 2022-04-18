@@ -2,12 +2,12 @@ import {
 	handleRequestStateChanges,
 	returnBearerTokenIfExist,
 } from '@commonLibIndependent/fetch';
-import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
+import ENewsItemExtraData from '@coreComponents/News/Item/context/constants';
 import networkReqArgs from '@coreLib/networkReqArgs';
 import {
 	TNewsItemCommentBasicData,
 	TNewsItemCommentsMain,
-	// TNewsItemCommentMainReplies,
+	TNewsItemCommentTypeMain,
 	TNewsItemData,
 } from '@coreLib/ts/global';
 import ECommentConstants from './constants';
@@ -18,24 +18,17 @@ interface IGetMoreNewsItemCommentRepliesMainExtraProps {
 	parent_id: TNewsItemCommentBasicData['news_comment_id'];
 }
 
-// interface IGetRepliesForMainCommentSuccessData {
-// 	hit_replies_limit: boolean;
-// 	comments: TNewsItemCommentMainReplies;
-// }
-
-export const initGetNewsItemCommentsMain: TAddMainCommentsToNewsItem = async (
+export const getMoreNewsItemCommentsMain: TAddMainCommentsToNewsItem = async (
 	commentDispatch,
-	{ newsDispatch, news_id, urlOptions }
+	{ newsItemExtraDataDispatch, urlOptions }
 ) => {
-	await handleRequestStateChanges<
-		{ comments: TNewsItemCommentsMain; hit_comments_limit: boolean },
-		undefined,
-		{ news_id: TNewsItemData['news_id'] },
-		{ news_id: TNewsItemData['news_id'] }
-	>({
+	await handleRequestStateChanges<{
+		comments: TNewsItemCommentsMain;
+		hit_comments_limit: boolean;
+	}>({
 		onInit: async () => {
 			commentDispatch({
-				type: ECommentConstants.INIT_GET_COMMENTS_MAIN_PENDING,
+				type: ECommentConstants.GET_COMMENTS_MAIN_PENDING,
 			});
 
 			const { requestInfo, requestInit } =
@@ -47,18 +40,25 @@ export const initGetNewsItemCommentsMain: TAddMainCommentsToNewsItem = async (
 		},
 		onError: (error) => {
 			return commentDispatch({
-				type: ECommentConstants.INIT_GET_COMMENTS_MAIN_FAIL,
+				type: ECommentConstants.GET_COMMENTS_MAIN_FAIL,
 				payload: { error },
 			});
 		},
 		onSuccess: ({ comments, hit_comments_limit }) => {
 			commentDispatch({
-				type: ECommentConstants.INIT_GET_COMMENTS_MAIN_SUCCESS,
+				type: ECommentConstants.GET_COMMENTS_MAIN_SUCCESS,
 			});
-			newsDispatch({
-				type: NewsItemContextConstants.ADD_MAIN_COMMENTS,
+			// console.log('Render?');
+			// (async () =>
+			// 	await new Promise((resolve) =>
+			// 		setTimeout(() => {
+			// 			console.log('Render!');
+			// 			resolve(null);
+			// 		}, 3000)
+			// 	))();
+			newsItemExtraDataDispatch({
+				type: ENewsItemExtraData.ADD_MAIN_COMMENTS,
 				payload: {
-					news_id,
 					commentsMainData: comments,
 					hit_comments_limit,
 				},
@@ -69,7 +69,7 @@ export const initGetNewsItemCommentsMain: TAddMainCommentsToNewsItem = async (
 
 export const createNewsItemMainComment: TCreateNewsItemMainComment = async (
 	commentDispatch,
-	{ newsDispatch, bodyContent, requiredExtraData, token }
+	{ newsItemExtraDataDispatch, bodyContent, requiredExtraData, token }
 ) => {
 	return await handleRequestStateChanges<
 		{
@@ -113,21 +113,23 @@ export const createNewsItemMainComment: TCreateNewsItemMainComment = async (
 			commentDispatch({
 				type: ECommentConstants.CREATE_MAIN_COMMENT_SUCCESS,
 			});
-			newsDispatch({
-				type: NewsItemContextConstants.ADD_NEW_MAIN_COMMENT,
-				payload: {
-					// type: 'comment_main',
-					news_id: bodyContent.news_id,
-					newCommentData: {
-						...requiredExtraData,
-						...bodyContent,
-						news_comment_id,
-						replies_counter: 0,
-						created_at: new Date().getTime(),
-						updated_at: new Date().getTime(),
+
+			if (requiredExtraData.type === 'comment_main')
+				newsItemExtraDataDispatch({
+					type: ENewsItemExtraData.ADD_NEW_MAIN_OR_MAIN_REPLY_COMMENT,
+					payload: {
+						// type: 'comment_main',
+						newCommentData: {
+							...requiredExtraData,
+							...(bodyContent as unknown as TNewsItemCommentTypeMain),
+							type: 'comment_main',
+							news_comment_id,
+							// replies_counter: 0,
+							created_at: new Date().getTime(),
+							updated_at: new Date().getTime(),
+						},
 					},
-				},
-			});
+				});
 		},
 	});
 };

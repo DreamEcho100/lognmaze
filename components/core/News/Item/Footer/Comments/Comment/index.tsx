@@ -17,7 +17,6 @@ import {
 } from '@coreLib/ts/global';
 
 import { useUserSharedState } from '@store/UserContext';
-import { useNewsSharedState } from '@store/NewsContext';
 
 // import {
 // 	handleDeletingMainOrReplyCommentInNewsItem,
@@ -48,6 +47,7 @@ import {
 	updateNewsItemMainOrMainReplyComment,
 } from './utils/actions';
 import { imagesWeservNlLoader } from '@commonLibIndependent/image';
+import { useNewsItemExtraDataSharedState } from '@coreComponents/News/Item/context';
 
 interface ICommentMainProps {
 	commentType: TNewsItemCommentTypeMain['type'];
@@ -115,7 +115,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		},
 	] = useUserSharedState();
 
-	const [, newsDispatch] = useNewsSharedState();
+	const [, newsItemExtraDataDispatch] = useNewsItemExtraDataSharedState();
 
 	const [requestsActionsState, requestsActionsDispatch] = useReducer(
 		commentRequestsReducer,
@@ -185,7 +185,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		const result = await updateNewsItemMainOrMainReplyComment(
 			requestsActionsDispatch,
 			{
-				newsDispatch,
+				newsItemExtraDataDispatch,
 				token: userToken,
 				requiredData: {
 					newContent: values.content,
@@ -216,7 +216,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		if (!userData || values.comment_reply.length < 2) return;
 
 		await createNewsItemReplyForMainComment(requestsActionsDispatch, {
-			newsDispatch,
+			newsItemExtraDataDispatch,
 			token: userToken,
 			requiredData: {
 				author_id: userData.id,
@@ -267,9 +267,8 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		}
 
 		await getRepliesForMainComment(requestsActionsDispatch, {
-			newsDispatch,
+			newsItemExtraDataDispatch,
 			parent_id: props.comment.news_comment_id,
-			news_id: news_id,
 			urlOptions: {
 				params: {
 					news_id: news_id,

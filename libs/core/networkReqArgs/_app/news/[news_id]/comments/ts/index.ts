@@ -1,11 +1,11 @@
 import { TNewsItemCommentTypeMain } from '@coreLib/ts/global';
 
-interface IUrlOptionsQueriesTypeCommentMain {
+export interface IUrlOptionsQueriesTypeCommentMain {
 	comment_type: 'comment_main';
 	last_comment_created_at?: string;
 	comments_to_not_fetch?: string[];
 }
-interface IUrlOptionsQueriesTypeCommentMainReply {
+export interface IUrlOptionsQueriesTypeCommentMainReply {
 	comment_type: 'comment_main_reply';
 	replies_to_not_fetch?: string[];
 	last_reply_created_at?: string;

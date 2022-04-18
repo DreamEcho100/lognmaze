@@ -1,9 +1,11 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import { TNewsItemData } from '@coreLib/ts/global';
 
 import NewsItemContentDetails from './Content';
 import NewsItemDescriptionDetails from './Description';
+import { useNewsSharedState } from '@store/NewsContext';
+import { initGetNewsItemTypeBlogContent } from '@store/NewsContext/actions';
 // import { useNewsSharedState } from '@store/newsContext';
 
 interface IDetailsType_MapDescriptionProps {
@@ -53,6 +55,22 @@ const NewsItemDetails: FC<INewsItemDetails> = ({
 	newsItemDetailsType,
 	newsItemModelDetailsType,
 }) => {
+	const [
+		{
+			actions: {
+				// 	init: {
+				// 		modal: { getTypeBlogContent },
+				// 	},
+				// },
+				items: itemsActions,
+			},
+		},
+		newsDispatch,
+	] = useNewsSharedState();
+
+	const getTypeBlogContent =
+		itemsActions[newsItemData.news_id]?.requests?.init?.modal
+			?.getTypeBlogContent;
 	// const [
 	// 	{
 	// 		data: { newsExtra: newsExtraData },
@@ -73,8 +91,6 @@ const NewsItemDetails: FC<INewsItemDetails> = ({
 			: newsItemData.type_data.content
 			? newsItemData.type_data.content
 			: 'The blog content is not present!';
-
-	if (!newsItemData.news_id) return <NotFound />;
 
 	const DetailsType = DetailsType_Map[detailsType];
 	const newsItemDetailsTypeProps = () => {
@@ -100,6 +116,47 @@ const NewsItemDetails: FC<INewsItemDetails> = ({
 		tempObj.newsItemData = newsItemData;
 		return tempObj as unknown as IDetailsType_MapContentProps;
 	};
+
+	useEffect(() => {
+		// let timeoutId: NodeJS.Timeout;
+		if (!newsItemData.news_id) return;
+
+		if (
+			// getTypeBlogContent &&
+			isThisAModal &&
+			newsItemData.type === 'blog' &&
+			!newsItemData.type_data.content &&
+			(!getTypeBlogContent ||
+				(getTypeBlogContent &&
+					!getTypeBlogContent.success &&
+					!getTypeBlogContent.isLoading))
+		) {
+			if (!getTypeBlogContent || !getTypeBlogContent?.error) {
+				initGetNewsItemTypeBlogContent(newsDispatch, {
+					news_id: newsItemData.news_id,
+					urlOptions: {
+						params: {
+							news_id: newsItemData.news_id,
+						},
+					},
+				});
+			} else {
+				console.warn('Error with loading the content!');
+			}
+			return;
+		}
+
+		// () => clearTimeout(timeoutId);
+	}, [
+		getTypeBlogContent,
+		isThisAModal,
+		newsDispatch,
+		newsItemData.news_id,
+		newsItemData.type,
+		newsItemData.type_data.content,
+	]);
+
+	if (!newsItemData.news_id) return <NotFound />;
 
 	return <DetailsType {...newsItemDetailsTypeProps()} />;
 };

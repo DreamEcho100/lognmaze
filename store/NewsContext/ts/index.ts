@@ -5,10 +5,6 @@ import {
 	TNewsItemCommentsMain,
 	INewsItemTypeBlogContent,
 	TNewsData,
-	TNewsItemCommentMainReplies,
-	TNewsItemCommentBasicData,
-	TNewsItemCommentTypeReplyMain,
-	TNewsItemCommentTypeMain,
 	TDate,
 	// IUserBasicData,
 	// INewsItemTypeBlogBasicData,
@@ -99,14 +95,14 @@ export interface INewsContextState {
 	};
 }
 
-interface IAddMainCommentsToNewsItem {
-	type: NewsItemContextConstants.ADD_MAIN_COMMENTS;
-	payload: {
-		news_id: TNewsItemData['news_id'];
-		commentsMainData: TNewsItemCommentsMain;
-		hit_comments_limit: boolean;
-	};
-}
+// interface IAddMainCommentsToNewsItem {
+// 	type: NewsItemContextConstants.ADD_MAIN_COMMENTS;
+// 	payload: {
+// 		news_id: TNewsItemData['news_id'];
+// 		commentsMainData: TNewsItemCommentsMain;
+// 		hit_comments_limit: boolean;
+// 	};
+// }
 
 interface IInitGetNewsItemTypeBlogDetailsTypeContentPending {
 	type: NewsItemContextConstants.INIT_TYPE_BLOG_DETAILS_TYPE_CONTENT_CONTENT_PENDING;
@@ -146,115 +142,27 @@ interface IGetMoreNewsItemsFail {
 	};
 }
 
-interface IGetMoreNewsItemCommentsMainPending {
-	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENTS_PENDING;
-	payload: {
-		news_id: TNewsItemData['news_id'];
-	};
-}
-interface IGetMoreNewsItemCommentsMainSuccess {
-	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENTS_SUCCESS;
-	payload: {
-		news_id: TNewsItemData['news_id'];
-		newCommentsMainData: TNewsItemCommentsMain;
-		hit_comments_limit: boolean;
-	};
-}
-interface IGetMoreNewsItemCommentsMainFail {
-	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENTS_FAIL;
-	payload: {
-		news_id: TNewsItemData['news_id'];
-		error: string;
-	};
-}
-/*
-interface IGetMoreNewsItemCommentMainReplyPending {
-	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENT_REPLIES_PENDING;
-	payload: {
-		news_id: TNewsItemData['news_id'];
-		parent_id: TNewsItemCommentTypeReplyMain['parent_id'];
-	};
-}
-interface IGetMoreNewsItemCommentMainReplySuccess {
-	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENT_REPLIES_SUCCESS;
-	payload: {
-		news_id: TNewsItemData['news_id'];
-		parent_id: TNewsItemCommentTypeReplyMain['parent_id'];
-		newCommentMainRepliesData: TNewsItemCommentMainReplies;
-		hit_replies_limit: boolean;
-	};
-}
-interface IGetMoreNewsItemCommentMainReplyFail {
-	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENT_REPLIES_FAIL;
-	payload: {
-		news_id: TNewsItemData['news_id'];
-		parent_id: TNewsItemCommentTypeReplyMain['parent_id'];
-		error: string;
-	};
-}
-*/
-interface ICommentTypeMainCommon {
-	type: TNewsItemCommentTypeMain['type'];
-	news_id: TNewsItemData['news_id'];
-	news_comment_id: TNewsItemCommentTypeMain['news_comment_id'];
-}
-interface ICommentTypeMainReplyCommon {
-	type: TNewsItemCommentTypeReplyMain['type'];
-	news_id: TNewsItemData['news_id'];
-	news_comment_id: TNewsItemCommentTypeReplyMain['news_comment_id'];
-	parent_id: TNewsItemCommentTypeReplyMain['parent_id'];
-}
-
-interface IAddRepliesToCommentMain {
-	type: NewsItemContextConstants.ADD_REPLIES_TO_COMMENT_MAIN;
-	payload: {
-		news_id: TNewsItemData['news_id'];
-		parent_id: TNewsItemCommentTypeReplyMain['parent_id'];
-		newCommentMainRepliesData: TNewsItemCommentMainReplies;
-		hit_replies_limit: boolean;
-	};
-}
-interface IAddNewCommentTypeMainOrMainReply {
-	type: NewsItemContextConstants.ADD_NEW_MAIN_COMMENT;
-	payload:
-		| {
-				news_id: TNewsItemData['news_id'];
-				newCommentData: TNewsItemCommentTypeMain;
-		  }
-		| {
-				news_id: TNewsItemData['news_id'];
-				newCommentData: TNewsItemCommentTypeReplyMain;
-		  };
-}
-interface IUpdateNewsItemMainOrMainReplyComment {
-	type: NewsItemContextConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT;
-	payload: {
-		news_id: TNewsItemData['news_id'];
-		newContent: TNewsItemCommentBasicData['content'];
-	} & (
-		| {
-				type: TNewsItemCommentTypeReplyMain['type'];
-				news_comment_id: TNewsItemCommentTypeReplyMain['news_comment_id'];
-				parent_id: TNewsItemCommentTypeReplyMain['parent_id'];
-		  }
-		| {
-				type: TNewsItemCommentTypeMain['type'];
-				news_comment_id: TNewsItemCommentTypeMain['news_comment_id'];
-		  }
-	);
-}
-
-interface IDeleteMainOrReplyComment {
-	type: NewsItemContextConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT;
-	payload: {
-		news_comment_id: TNewsItemCommentBasicData['news_comment_id'];
-		news_id: TNewsItemData['news_id'];
-	} & (
-		| { type: TNewsItemCommentTypeMain['type'] }
-		| Pick<TNewsItemCommentTypeReplyMain, 'type' | 'parent_id'>
-	);
-}
-
+// interface IGetMoreNewsItemCommentsMainPending {
+// 	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENTS_PENDING;
+// 	payload: {
+// 		news_id: TNewsItemData['news_id'];
+// 	};
+// }
+// interface IGetMoreNewsItemCommentsMainSuccess {
+// 	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENTS_SUCCESS;
+// 	payload: {
+// 		news_id: TNewsItemData['news_id'];
+// 		newCommentsMainData: TNewsItemCommentsMain;
+// 		hit_comments_limit: boolean;
+// 	};
+// }
+// interface IGetMoreNewsItemCommentsMainFail {
+// 	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENTS_FAIL;
+// 	payload: {
+// 		news_id: TNewsItemData['news_id'];
+// 		error: string;
+// 	};
+// }
 interface ICreateNewsItemPending {
 	type: NewsItemContextConstants.CREATE_PENDING;
 }
@@ -339,7 +247,7 @@ interface IDeleteNewsItemReset {
 }
 
 export type TNewsContextReducerAction =
-	| IAddMainCommentsToNewsItem
+	// | IAddMainCommentsToNewsItem
 	| IInitGetNewsItemTypeBlogDetailsTypeContentPending
 	| IInitGetNewsItemTypeBlogDetailsTypeContentSuccess
 	| IInitGetNewsItemTypeBlogDetailsTypeContentFail
@@ -347,15 +255,15 @@ export type TNewsContextReducerAction =
 	| IGetMoreNewsItemsSuccess
 	| IGetMoreNewsItemsFail
 	//
-	| IGetMoreNewsItemCommentsMainPending
-	| IGetMoreNewsItemCommentsMainSuccess
-	| IGetMoreNewsItemCommentsMainFail
+	// | IGetMoreNewsItemCommentsMainPending
+	// | IGetMoreNewsItemCommentsMainSuccess
+	// | IGetMoreNewsItemCommentsMainFail
 	//
 	//
-	| IAddRepliesToCommentMain
-	| IAddNewCommentTypeMainOrMainReply
-	| IUpdateNewsItemMainOrMainReplyComment
-	| IDeleteMainOrReplyComment
+	// | IAddRepliesToCommentMain
+	// | IAddNewCommentTypeMainOrMainReply
+	// | IUpdateNewsItemMainOrMainReplyComment
+	// | IDeleteMainOrReplyComment
 	//
 	//
 	| ICreateNewsItemPending

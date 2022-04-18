@@ -1,10 +1,9 @@
-import dynamic from 'next/dynamic';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
+import { memo } from 'react';
 
 import classes from './index.module.css';
 
 import { TDate, TNewsItemData } from '@coreLib/ts/global';
-import { useNewsSharedState } from '@store/NewsContext';
 import { handleAllClasses } from '@commonLibIndependent/className';
 
 import NewsItemHeader from './Header';
@@ -12,11 +11,8 @@ import NewsItemDetails from './Details';
 import NewsItemFooter from './Footer';
 // import TempNewsItemFooter from './_temp_Footer';
 
-const DynamicNewsItemModal = dynamic(() => import('./Modal'), {
-	ssr: false,
-});
-import { initGetNewsItemTypeBlogContent } from '@store/NewsContext/actions';
-import { memo } from 'react-tracked';
+import NewsItemModal from './Modal';
+import { setNewsItemExtraDataContextStore } from './context';
 
 interface INewsItemProvidedContextProps {
 	defaultClasses?: string;
@@ -27,6 +23,8 @@ interface INewsItemProvidedContextProps {
 	hideHeaderSettings?: boolean;
 	hideFooterSettings?: boolean;
 	updatedToRenderDate?: TDate;
+	detailsType?: 'description' | 'content';
+	modelDetailsType?: 'description' | 'content';
 }
 
 export interface INewsItemProps extends INewsItemProvidedContextProps {
@@ -47,24 +45,13 @@ const NewsItem: FC<INewsItemProps> = (props) => {
 		isThisAModal,
 		hideHeaderSettings,
 		hideFooterSettings,
+		detailsType = 'description',
+		modelDetailsType = 'content',
 		defaultClasses,
 		extraClasses,
 		className,
 		// updatedToRenderDate,
 	} = props;
-	const [
-		{
-			data: { newsExtra: newsExtraData },
-			actions: {
-				// 	init: {
-				// 		modal: { getTypeBlogContent },
-				// 	},
-				// },
-				items: itemsActions,
-			},
-		},
-		newsDispatch,
-	] = useNewsSharedState();
 
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	// const [isFooterSettingsVisible, setIsFooterSettingsVisible] = useState(false);
@@ -94,22 +81,7 @@ const NewsItem: FC<INewsItemProps> = (props) => {
 		setIsModalVisible((prevState) =>
 			typeof isModalVisible === 'boolean' ? isModalVisible : !prevState
 		);
-
-		if (!isModalVisible) {
-			document.body.style.overflowX = 'hidden';
-			document.body.style.overflowY = 'auto';
-		} else {
-			document.body.style.overflow = 'hidden';
-		}
 	};
-
-	const getTypeBlogContent =
-		itemsActions[newsItemData.news_id]?.requests?.init?.modal
-			?.getTypeBlogContent;
-	const newsItemDetailsType =
-		newsExtraData[newsItemData.news_id]?.newsItemDetailsType || 'description';
-	const newsItemModelDetailsType =
-		newsExtraData[newsItemData.news_id]?.newsItemModelDetailsType || 'content';
 
 	const allClasses = handleAllClasses({
 		classes,
@@ -118,50 +90,23 @@ const NewsItem: FC<INewsItemProps> = (props) => {
 		className,
 	});
 
-	useEffect(() => {
-		// let timeoutId: NodeJS.Timeout;
-
-		if (
-			// getTypeBlogContent &&
-			isThisAModal &&
-			newsItemData.type === 'blog' &&
-			!newsItemData.type_data.content &&
-			(!getTypeBlogContent ||
-				(getTypeBlogContent &&
-					!getTypeBlogContent.success &&
-					!getTypeBlogContent.isLoading))
-		) {
-			if (!getTypeBlogContent || !getTypeBlogContent?.error) {
-				initGetNewsItemTypeBlogContent(newsDispatch, {
-					news_id: newsItemData.news_id,
-					urlOptions: {
-						params: {
-							news_id: newsItemData.news_id,
-						},
-					},
-				});
-			} else {
-				console.warn('Error with loading the content!');
-			}
-			return;
-		}
-
-		// () => clearTimeout(timeoutId);
-	}, [
-		getTypeBlogContent,
-		isThisAModal,
-		newsDispatch,
-		newsItemData.news_id,
-		newsItemData.type,
-		newsItemData.type_data.content,
-	]);
-
 	const newsItemProps = {
 		className: allClasses,
 	};
 
+	const {
+		NewsItemExtraDataContextSharedProvider,
+		// , useNewsItemExtraDataSharedState
+	} = setNewsItemExtraDataContextStore({
+		data: {
+			comments: [],
+			comments_counter: newsItemData.comments_counter,
+			hit_comments_limit: newsItemData.comments_counter === 0,
+		},
+	});
+
 	return (
-		<>
+		<NewsItemExtraDataContextSharedProvider>
 			<article {...newsItemProps}>
 				<NewsItemHeader
 					newsItemData={newsItemData}
@@ -171,15 +116,12 @@ const NewsItem: FC<INewsItemProps> = (props) => {
 					newsItemData={newsItemData}
 					handleSetIsModalVisible={handleSetIsModalVisible}
 					isThisAModal={isThisAModal}
-					newsItemDetailsType={newsItemDetailsType}
-					newsItemModelDetailsType={newsItemModelDetailsType}
+					newsItemDetailsType={detailsType}
+					newsItemModelDetailsType={modelDetailsType}
 				/>
 				<NewsItemFooter
 					// newsItemData={newsItemData}
 					news_id={newsItemData.news_id}
-					comments_counter={newsItemData.comments_counter}
-					comments={newsItemData.comments}
-					hit_comments_limit={newsItemData.hit_comments_limit}
 					// isFooterSettingsVisible={isFooterSettingsVisible}
 					// handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
 					hideFooterSettings={hideFooterSettings}
@@ -194,9 +136,9 @@ const NewsItem: FC<INewsItemProps> = (props) => {
 				newsItemData={newsItemData}
 				/> */}
 			</article>
-			<DynamicNewsItemModal
+			<NewsItemModal
 				modalProps={{
-					isModalVisible: isModalVisible,
+					isModalVisible,
 					modalVisibilityHandler: handleSetIsModalVisible,
 					modalClasses: {
 						container: {
@@ -206,7 +148,7 @@ const NewsItem: FC<INewsItemProps> = (props) => {
 				}}
 				newsItemProps={props}
 			/>
-		</>
+		</NewsItemExtraDataContextSharedProvider>
 	);
 };
 

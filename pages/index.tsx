@@ -1,10 +1,6 @@
 import pgActions from '@coreLib/db/pg/actions';
 import { TNewsData } from '@coreLib/ts/global';
 import HomeScreen from '@screens/Home';
-import {
-	ISetNewsContextStoreProps,
-	setNewsContextStore,
-} from '@store/NewsContext';
 import type { GetStaticProps, NextPage } from 'next';
 
 interface IProps {

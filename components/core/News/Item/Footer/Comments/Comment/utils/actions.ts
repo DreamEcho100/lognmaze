@@ -2,7 +2,9 @@ import {
 	handleRequestStateChanges,
 	returnBearerTokenIfExist,
 } from '@commonLibIndependent/fetch';
-import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
+import ENewsItemExtraData from '@coreComponents/News/Item/context/constants';
+// import ENewsItemExtraData from '@coreComponents/News/Item/context/constants';
+// import ENewsItemExtraData from '@coreLib/constants/store/types/NewsContext/Item';
 import networkReqArgs from '@coreLib/networkReqArgs';
 import {
 	TNewsItemCommentBasicData,
@@ -28,7 +30,10 @@ interface IGetRepliesForMainCommentSuccessData {
 }
 
 export const createNewsItemReplyForMainComment: TCreateNewsItemReplyForMainComment =
-	async (commentDispatch, { newsDispatch, requiredData, token }) => {
+	async (
+		commentDispatch,
+		{ newsItemExtraDataDispatch, requiredData, token }
+	) => {
 		return await handleRequestStateChanges<
 			{
 				news_comment_id: TNewsItemCommentBasicData['news_comment_id'];
@@ -92,10 +97,10 @@ export const createNewsItemReplyForMainComment: TCreateNewsItemReplyForMainComme
 				});
 				setTimeout(
 					() =>
-						newsDispatch({
-							type: NewsItemContextConstants.ADD_NEW_MAIN_COMMENT,
+						newsItemExtraDataDispatch({
+							type: ENewsItemExtraData.ADD_NEW_MAIN_OR_MAIN_REPLY_COMMENT,
 							payload: {
-								news_id: requiredData.news_id,
+								// news_id: requiredData.news_id,
 								newCommentData: {
 									...requiredData,
 									news_comment_id,
@@ -112,7 +117,10 @@ export const createNewsItemReplyForMainComment: TCreateNewsItemReplyForMainComme
 	};
 
 export const updateNewsItemMainOrMainReplyComment: TUpdateNewsItemMainOrMainReplyComment =
-	async (commentDispatch, { newsDispatch, requiredData, token }) => {
+	async (
+		commentDispatch,
+		{ newsItemExtraDataDispatch, requiredData, token }
+	) => {
 		return await handleRequestStateChanges<
 			{
 				comments: TNewsItemCommentMainReplies;
@@ -156,8 +164,8 @@ export const updateNewsItemMainOrMainReplyComment: TUpdateNewsItemMainOrMainRepl
 				commentDispatch({
 					type: ECommentConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS,
 				});
-				newsDispatch({
-					type: NewsItemContextConstants.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT,
+				newsItemExtraDataDispatch({
+					type: ENewsItemExtraData.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT,
 					payload: {
 						...requiredData,
 						newContent: requiredData.newContent,
@@ -169,7 +177,7 @@ export const updateNewsItemMainOrMainReplyComment: TUpdateNewsItemMainOrMainRepl
 
 export const getRepliesForMainComment: TGetRepliesForMainComment = async (
 	commentDispatch,
-	{ newsDispatch, urlOptions, news_id, parent_id }
+	{ newsItemExtraDataDispatch, urlOptions, parent_id }
 ) => {
 	return await handleRequestStateChanges<IGetRepliesForMainCommentSuccessData>({
 		onInit: async () => {
@@ -198,12 +206,12 @@ export const getRepliesForMainComment: TGetRepliesForMainComment = async (
 				type: ECommentConstants.GET_REPLIES_FOR_MAIN_COMMENT_SUCCESS,
 			});
 
-			newsDispatch({
-				type: NewsItemContextConstants.ADD_REPLIES_TO_COMMENT_MAIN,
+			newsItemExtraDataDispatch({
+				type: ENewsItemExtraData.ADD_REPLIES_TO_COMMENT_MAIN,
 				payload: {
 					newCommentMainRepliesData: comments,
 					hit_replies_limit,
-					news_id,
+					// news_id,
 					parent_id,
 				},
 			});
@@ -212,7 +220,10 @@ export const getRepliesForMainComment: TGetRepliesForMainComment = async (
 };
 
 export const deleteNewsItemMainOrMainReplyComment: TDeleteNewsItemMainOrMainReplyComment =
-	async (commentDispatch, { newsDispatch, requiredData, token }) => {
+	async (
+		commentDispatch,
+		{ newsItemExtraDataDispatch, requiredData, token }
+	) => {
 		return await handleRequestStateChanges<
 			{
 				comments: TNewsItemCommentMainReplies;
@@ -264,8 +275,8 @@ export const deleteNewsItemMainOrMainReplyComment: TDeleteNewsItemMainOrMainRepl
 				commentDispatch({
 					type: ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS,
 				});
-				newsDispatch({
-					type: NewsItemContextConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT,
+				newsItemExtraDataDispatch({
+					type: ENewsItemExtraData.DELETE_MAIN_OR_MAIN_REPLY_COMMENT,
 					payload: {
 						...requiredData,
 					},

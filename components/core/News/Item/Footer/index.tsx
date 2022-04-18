@@ -12,6 +12,8 @@ const DynamicComments = dynamic(() => import('./Comments'), {
 });
 // import Settings from './Settings';
 import Status from './Status';
+import { memo } from 'react-tracked';
+import { useNewsItemExtraDataSharedState } from '../context';
 
 interface IProps {
 	hideFooterSettings?: boolean;
@@ -19,17 +21,14 @@ interface IProps {
 
 	// newsItemData: TNewsItemData;
 	news_id: TNewsItemData['news_id'];
-	comments_counter: TNewsItemData['comments_counter'];
-	comments: TNewsItemData['comments'];
-	hit_comments_limit: TNewsItemData['hit_comments_limit'];
 }
 
 const NewsItemFooter: FC<IProps> = ({
 	// newsItemData,
 	news_id,
-	comments_counter,
-	comments,
-	hit_comments_limit,
+	// comments_counter,
+	// comments,
+	// hit_comments_limit,
 	// isThisAModal,
 	// userData,
 	// isFooterSettingsVisible,
@@ -50,6 +49,12 @@ const NewsItemFooter: FC<IProps> = ({
 
 	// const initGetMainComments =
 	// 	newsItemsActions[news_id]?.requests?.init?.getMainComments;
+
+	const [
+		{
+			data: { comments, comments_counter, hit_comments_limit },
+		},
+	] = useNewsItemExtraDataSharedState();
 
 	const handleSetIsCommentsVisible = (isCommentsVisible?: boolean) => {
 		if (isCommentsVisible) return setIsCommentsVisible(isCommentsVisible);
@@ -110,4 +115,4 @@ const NewsItemFooter: FC<IProps> = ({
 	);
 };
 
-export default NewsItemFooter;
+export default memo(NewsItemFooter);

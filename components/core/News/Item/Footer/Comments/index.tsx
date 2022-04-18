@@ -21,14 +21,16 @@ import { useUserSharedState } from '@store/UserContext';
 
 import Comment from './Comment';
 import CommentTextarea from './CommentTextarea';
-import { getMoreNewsItemCommentsMain } from '@store/NewsContext/actions/comments';
+// import { getMoreNewsItemCommentsMain } from '@store/NewsContext/actions/comments';
 import { useNewsSharedState } from '@store/NewsContext';
 import ButtonComponent from '@commonComponentsIndependent/Button';
 import {
 	createNewsItemMainComment,
-	initGetNewsItemCommentsMain,
+	getMoreNewsItemCommentsMain,
 } from './utils/actions';
 import commentsRequestsReducer from './utils/reducer';
+import { useNewsItemExtraDataSharedState } from '../../context';
+// import { useNewsItemExtraDataSharedState } from '../../context';
 
 interface IProps {
 	newsItemComments: TNewsItemCommentsMain;
@@ -83,7 +85,7 @@ const Comments: FC<IProps> = ({
 	});
 
 	const isSendCommentButtonDisable = !!(
-		!userData || requestsActionsState.create
+		!userData || requestsActionsState.create?.isLoading
 	);
 	// , setisSendCommentButtonDisable] =
 	// useState(false);
@@ -95,7 +97,12 @@ const Comments: FC<IProps> = ({
 
 		// setisSendCommentButtonDisable(true);
 
-		if (!userData || requestsActionsState.create || values.content.length < 2)
+		if (
+			!userData ||
+			!requestsActionsState.create ||
+			requestsActionsState.create.isLoading ||
+			values.content.length < 2
+		)
 			return;
 
 		// await handlePostingCommentToNewsItem({
@@ -114,7 +121,7 @@ const Comments: FC<IProps> = ({
 				content: values.content,
 				news_id: news_id,
 			},
-			newsDispatch,
+			newsItemExtraDataDispatch,
 			requiredExtraData: {
 				author_id: userData.id,
 				author_user_name_id: userData.user_name_id,
@@ -132,6 +139,9 @@ const Comments: FC<IProps> = ({
 		// setisSendCommentButtonDisable(false);
 	};
 
+	const [newsItemExtraDataSharedState, newsItemExtraDataDispatch] =
+		useNewsItemExtraDataSharedState();
+
 	const loadMoreNewsItemMainComments = useCallback(async () => {
 		if (
 			parseInt(comments_counter + '') === 0 ||
@@ -141,7 +151,8 @@ const Comments: FC<IProps> = ({
 		)
 			return;
 
-		await getMoreNewsItemCommentsMain(newsDispatch, {
+		await getMoreNewsItemCommentsMain(requestsActionsDispatch, {
+			newsItemExtraDataDispatch,
 			news_id: news_id,
 			urlOptions: {
 				params: {
@@ -155,15 +166,19 @@ const Comments: FC<IProps> = ({
 				},
 			},
 		});
-	}, [newsDispatch, comments, comments_counter, hit_comments_limit, news_id]);
+	}, [
+		comments_counter,
+		hit_comments_limit,
+		comments,
+		newsItemExtraDataDispatch,
+		news_id,
+	]);
 
 	const handleIsUpdatingContentVisible = (isVisible?: boolean) => {
 		setIsCommentTextarea((prevState) =>
 			typeof isVisible === 'boolean' ? isVisible : !prevState
 		);
 	};
-
-	// useEffect(() => loadMoreNewsItemMainComments(), [loadMoreNewsItemMainComments]);
 
 	useEffect(() => {
 		if (
@@ -179,8 +194,8 @@ const Comments: FC<IProps> = ({
 				!requestsActionsState.initGetComments.success)
 		) {
 			(async () =>
-				await initGetNewsItemCommentsMain(requestsActionsDispatch, {
-					newsDispatch,
+				await getMoreNewsItemCommentsMain(requestsActionsDispatch, {
+					newsItemExtraDataDispatch,
 					news_id: news_id,
 					urlOptions: {
 						params: {
@@ -196,9 +211,11 @@ const Comments: FC<IProps> = ({
 		news_id,
 		newsDispatch,
 		newsItemComments.length,
-		requestsActionsState?.initGetComments,
+		requestsActionsState.initGetComments,
 		hit_comments_limit,
 		comments_counter,
+		newsItemExtraDataSharedState,
+		newsItemExtraDataDispatch,
 	]);
 
 	return (
