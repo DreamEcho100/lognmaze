@@ -52,8 +52,6 @@ const NewsItemFormTypePost = ({
 			isLoadingContentProps,
 		});
 
-	// const isLoadingContent = !values.content && contentRequestAction.isLoading;
-
 	const itemsDisabled = useMemo(
 		() =>
 			!!(

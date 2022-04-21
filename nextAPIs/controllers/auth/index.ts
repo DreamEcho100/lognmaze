@@ -107,7 +107,6 @@ export const authLogin = async (req: NextApiRequest, res: NextApiResponse) => {
 		}),
 	]);
 
-
 	res.status(200).json({ user });
 };
 
@@ -206,7 +205,6 @@ export const authSignup = async (req: NextApiRequest, res: NextApiResponse) => {
           
           SELECT * FROM add_new_user_profile, add_new_user_address;
         `,
-              // ,address_of_resident
 				[
 					response.rows[0].id,
 					user_name_id,

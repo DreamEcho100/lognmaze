@@ -1,9 +1,6 @@
 import {
-	INewsItemBasicData,
-	// INewsItemTypeBlog,
 	INewsItemTypeBlogBasicData,
 	INewsItemTypeBlogContent,
-	// INewsItemTypePost,
 	INewsItemTypePostBasicData,
 } from '@coreLib/ts/global.d';
 
@@ -25,7 +22,6 @@ export interface IGetNewsReqArgs {
 interface ICreateNewsItemReqArgsBodyContentTypeBlog {
 	type: INewsItemTypeBlogBasicData['type'];
 	type_data: {
-		// user_vote_type: null;
 		title: INewsItemTypeBlogBasicData['type_data']['title'];
 		slug: INewsItemTypeBlogBasicData['type_data']['slug'];
 		iso_language: INewsItemTypeBlogBasicData['type_data']['iso_language'];
@@ -37,13 +33,7 @@ interface ICreateNewsItemReqArgsBodyContentTypeBlog {
 		content: INewsItemTypeBlogContent;
 	};
 }
-interface ICreateNewsItemReqArgsBodyContentTypePost
-	extends INewsItemTypePostBasicData {
-	// type: INewsItemTypePostBasicData['type'];
-	// type_data: {
-	// 	content: INewsItemTypePostBasicData['type_data']['content'];
-	// };
-}
+type ICreateNewsItemReqArgsBodyContentTypePost = INewsItemTypePostBasicData;
 export interface ICreateNewsItemReqArgs {
 	bodyContent: {
 		newsItemBasicData:

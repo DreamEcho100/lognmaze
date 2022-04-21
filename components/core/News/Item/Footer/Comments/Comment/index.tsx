@@ -1,11 +1,5 @@
-import {
-	FC,
-	FormEvent,
-	useEffect,
-	// useEffect,
-	useReducer,
-	useState,
-} from 'react';
+import { FC, FormEvent, useEffect, useReducer, useState } from 'react';
+import Link from 'next/link';
 
 import classes from './index.module.css';
 import helpersClasses from '@styles/helpers.module.css';
@@ -18,56 +12,35 @@ import {
 
 import { useUserSharedState } from '@store/UserContext';
 
-// import {
-// 	handleDeletingMainOrReplyCommentInNewsItem,
-// 	handleLoadingCommentRepliesInNewsItem,
-// 	handleReplyingToMainOrReplyCommentInNewsItem,
-// 	handleUpdatingMainOrReplyCommentInNewsItem,
-// } from '@store/NewsContext/actions';
-// // import NewsContext from '@store/NewsContext';
-// import { useNewsSharedState } from '@store/NewsContext';
-// import { useUserSharedState } from '@store/UserContext';
-// import { dateToHumanReadableDate } from '@lib/v1/time';
-
-// import Md from '@components/UI/V1/Format/Md';
-// import FormatterContainer from '@components/UI/V1/Format/Container';
-
-// import DropdownMenu from '@components/UI/V1/DropdownMenu';
-import CommentTextarea from '../CommentTextarea';
-import CustomNextImage from '@commonComponentsDependent/CustomNextImage';
-import MdToHTMLFormatter from '@commonComponentsDependent/Format/MdToHTML';
-import FormatContainer from '@commonComponentsIndependent/Format/Container';
-import TimeAndDate from '@coreComponents/News/Item/TimeAndDate';
-import Link from 'next/link';
-// import { getMoreNewsItemCommentRepliesMain } from '@store/NewsContext/actions/comments';
 import commentRequestsReducer from './utils/reducer';
 import {
 	createNewsItemReplyForMainComment,
 	getRepliesForMainComment,
 	updateNewsItemMainOrMainReplyComment,
+	deleteNewsItemMainOrMainReplyComment,
 } from './utils/actions';
 import { imagesWeservNlLoader } from '@commonLibIndependent/image';
 import { useNewsItemExtraDataSharedState } from '@coreComponents/News/Item/context';
 
+import CustomDropdown from './CustomDropdown';
+import DropdownMenuItem from '@commonComponentsIndependent/Dropdown/Item';
+import CommentTextarea from '../CommentTextarea';
+import CustomNextImage from '@commonComponentsDependent/CustomNextImage';
+import MdToHTMLFormatter from '@commonComponentsDependent/Format/MdToHTML';
+import FormatContainer from '@commonComponentsIndependent/Format/Container';
+import TimeAndDate from '@coreComponents/News/Item/TimeAndDate';
+
 interface ICommentMainProps {
 	commentType: TNewsItemCommentTypeMain['type'];
 	comment: TNewsItemCommentTypeMain;
-	// newsItemData: {
-
-	// };
 	news_id: TNewsItemData['news_id'];
 	parent_data?: null;
-	// ...props
 }
 interface ICommentMainReplyProps {
 	commentType: TNewsItemCommentTypeReplyMain['type'];
 	comment: TNewsItemCommentTypeReplyMain;
-	// newsItemData: {
-
-	// };
 	news_id: TNewsItemData['news_id'];
 	parent_data: TNewsItemCommentTypeMain;
-	// ...props
 }
 
 const Replies = ({
@@ -76,9 +49,6 @@ const Replies = ({
 	parent_data,
 }: {
 	replies: TNewsItemCommentTypeReplyMain[];
-	// newsItemData: {
-
-	// };
 	news_id: TNewsItemData['news_id'];
 	parent_data: TNewsItemCommentTypeMain;
 }): JSX.Element => {
@@ -101,14 +71,9 @@ const Replies = ({
 };
 
 const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
-	// props.commentType,
-	// props.comment,
 	news_id,
 	...props
 }) => {
-	// const [userData, userDispatch] = useUserSharedState();
-	// const [newsState, newsDispatch] = useNewsSharedState();
-
 	const [
 		{
 			data: { user: userData, token: userToken },
@@ -128,86 +93,44 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		(props.commentType === 'comment_main' && props.comment) || undefined;
 
 	const [isUpdatingContentVisible, setIsUpdatingContentVisible] =
-		useState(true);
+		useState(false);
 	const [showReplyTextarea, setShowReplyTextarea] = useState(false);
 	const [showReplies, setShowReplies] = useState(false);
 
-	// const [focusTextarea, setFocusCommentTextarea] = useState(false);
-	const [editButtonsDisabled /* setEditButtonsDisabled */] = useState(false);
-
-	// const [deleteButtonsDisabled, setDeleteButtonsDisabled] =
-	// 	useState(false);
-	// const [commentReplyButtonsDisabled /* setCommentReplyButtonsDisabled */] =
-	// 	useState(false);
-	// const [focusCommentReplyTextarea, setFocusCommentReplyTextarea] =
-	// 	useState(false);
-
-	// const [loadingReplies, setLoadingReplies] = useState(false);
+	const [isDropdownListVisible, setIsDropdownListVisible] = useState(false);
 
 	const [values, setValues] = useState({
 		content: props.comment.content,
 		comment_reply: '',
 	});
 
-	/*
-	const handleDeleteComment = async () =>
-		// bodyObj
-		{
-			setDeleteButtonsDisabled(true);
-			deleteNewsItemMainOrMainReplyComment(requestsActionsDispatch, {
-				newsDispatch,
-				token: userToken,
-				requiredData: {
-					news_comment_id: props.comment.news_comment_id,
-					news_id: news_id,
-					// parent_id:
-					...(() => {
-						if (props.comment.type === 'comment_main_reply') {
-							return {
-								type: props.comment.type,
-								parent_id: props.comment.parent_id,
-							};
-						}
-
-						return {
-							type: props.comment.type,
-						};
-					})(),
-				},
-			});
-	};
-	*/
-
 	const handleUpdatingComment = async (event: FormEvent) => {
 		event.preventDefault();
 		if (!userData) return;
 
-		const result = await updateNewsItemMainOrMainReplyComment(
-			requestsActionsDispatch,
-			{
-				newsItemExtraDataDispatch,
-				token: userToken,
-				requiredData: {
-					newContent: values.content,
-					news_comment_id: props.comment.news_comment_id,
-					news_id: news_id,
-					...(() => {
-						if (props.comment.type === 'comment_main_reply') {
-							return {
-								parent_id: props.comment.parent_id,
-								type: props.comment.type,
-							};
-						}
-
+		await updateNewsItemMainOrMainReplyComment(requestsActionsDispatch, {
+			newsItemExtraDataDispatch,
+			token: userToken,
+			requiredData: {
+				newContent: values.content,
+				news_comment_id: props.comment.news_comment_id,
+				news_id: news_id,
+				...(() => {
+					if (props.comment.type === 'comment_main_reply') {
 						return {
+							parent_id: props.comment.parent_id,
 							type: props.comment.type,
 						};
-					})(),
-				},
-			}
-		);
+					}
 
-		if (result) setIsUpdatingContentVisible(false);
+					return {
+						type: props.comment.type,
+					};
+				})(),
+			},
+		});
+
+		setIsUpdatingContentVisible(false);
 	};
 
 	const handleSubmitCommentReply = async (event: FormEvent) => {
@@ -282,103 +205,6 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		});
 	};
 
-	// useEffect(() => {
-	/*
-		if (userData?.userExist) {
-			setItems([
-				{
-					props: {
-						handleDeleteComment,
-						props.comment,
-						newsItemData,
-						deleteButtonsDisabled,
-					},
-					Element: function Element({
-						handleDeleteComment,
-						props.comment,
-						newsItemData,
-						deleteButtonsDisabled,
-					}) {
-						return (
-							<button
-								title='Delete Comment'
-								disabled={deleteButtonsDisabled}
-								onClick={() => {
-									let bodyObj = {};
-									if (props.commentType === 'comment_main') {
-										bodyObj = {
-											type: props.commentType,
-											news_comment_id: props.comment.news_comment_id,
-											parent_id: news_id,
-										};
-									} else if (props.commentType === 'comment_main_reply') {
-										bodyObj = {
-											type: props.commentType,
-											news_comment_id: props.comment.news_comment_id,
-											parent_id: props.parent_data.news_comment_id,
-										};
-
-										if (props.comment.reply_to_comment_id)
-											bodyObj.reply_to_comment_id = props.comment.reply_to_comment_id;
-									}
-
-									handleDeleteComment(bodyObj);
-								}}
-							>
-								Delete
-							</button>
-						);
-					},
-				},
-				{
-					props: {
-						setShowContent,
-						setFocusCommentTextarea,
-					},
-					Element: function Element({
-						setShowContent,
-						setFocusCommentTextarea,
-					}) {
-						return (
-							<button
-								title='Edit Comment'
-								onClick={() => {
-									setShowContent(false);
-									setFocusCommentTextarea(true);
-								}}
-							>
-								Edit
-							</button>
-						);
-					},
-				},
-			]);
-		} else {
-			if (items.length > 0) setItems([]);
-		}
-		*/
-	// }, [
-	// 	props.comment,
-	// 	deleteButtonsDisabled,
-	// 	items.length,
-	// 	newsItemData,
-	// 	commentPropsMainReplyParentData?.news_comment_id,
-	// 	// userData?.userExist,
-	// ]);
-
-	// useEffect(() => {
-	/*
-		if (
-			props.commentType === 'comment_main' &&
-			!showReplies &&
-			props.comment.replies &&
-			props.comment.replies.length !== 0
-		) {
-			setShowReplies(true);
-		}
-		*/
-	// }, [commentMain?.replies, props.commentType, showReplies]);
-
 	const handleIsReplyTextareaIsVisible = (isVisible?: boolean) => {
 		setShowReplyTextarea((prevState) =>
 			typeof isVisible === 'boolean' ? isVisible : !prevState
@@ -400,7 +226,6 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 						{props.comment.author_profile_picture && (
 							<Link
 								prefetch={false}
-								// passHref
 								href={`/users/${props.comment.author_user_name_id}`}
 							>
 								<a>
@@ -420,7 +245,6 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 							<p>
 								<Link
 									prefetch={false}
-									// passHref
 									href={`/users/${props.comment.author_user_name_id}`}
 								>
 									<a className={helpersClasses.fontWeightBold}>
@@ -438,24 +262,83 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 							</p>
 						</div>
 					</nav>
-					{/* {userData?.user.id === props.comment.author_id && (
-					<DropdownMenu items={items} />
-				)} */}
+					{userData?.id === props.comment.author_id && (
+						<CustomDropdown
+							isDropdownListVisible={isDropdownListVisible}
+							setIsDropdownListVisible={setIsDropdownListVisible}
+						>
+							<DropdownMenuItem
+								setIsDropdownListVisible={setIsDropdownListVisible}
+							>
+								<button
+									disabled={
+										requestsActionsState.update?.isLoading ||
+										isUpdatingContentVisible
+									}
+									onClick={() => handleIsUpdatingContentVisible(true)}
+								>
+									update
+								</button>
+							</DropdownMenuItem>
+							<DropdownMenuItem
+								setIsDropdownListVisible={setIsDropdownListVisible}
+							>
+								<button
+									disabled={requestsActionsState.delete?.isLoading}
+									onClick={async () => {
+										if (
+											confirm('Are you sure you want to delete this comment?')
+										) {
+											console.log('DELETE');
+											await deleteNewsItemMainOrMainReplyComment(
+												requestsActionsDispatch,
+												{
+													newsItemExtraDataDispatch,
+													token: userToken,
+													requiredData: {
+														news_comment_id: props.comment.news_comment_id,
+														news_id: news_id,
+														...(() => {
+															if (props.comment.type === 'comment_main_reply') {
+																console.log('props.comment.parent_id');
+																return {
+																	parent_id:
+																		props.parent_data?.news_comment_id ||
+																		props.comment.parent_id,
+																	type: props.comment.type,
+																};
+															}
+
+															return {
+																type: props.comment.type,
+															};
+														})(),
+													},
+												}
+											);
+										}
+									}}
+								>
+									delete
+								</button>
+							</DropdownMenuItem>
+						</CustomDropdown>
+					)}
 				</header>
-				{isUpdatingContentVisible && (
+				{!isUpdatingContentVisible && (
 					<FormatContainer className={classes.comment_content}>
 						<MdToHTMLFormatter content={props.comment.content} />
 					</FormatContainer>
 				)}
 				{userData?.id &&
 					userData.id === props.comment.author_id &&
-					!isUpdatingContentVisible && (
+					isUpdatingContentVisible && (
 						<CommentTextarea
 							handleSubmit={handleUpdatingComment}
 							name='content'
 							setValues={setValues}
 							value={values.content}
-							disableSubmitButton={editButtonsDisabled}
+							disableSubmitButton={requestsActionsState.update?.isLoading}
 							commentToType={props.comment.type}
 							handleIsCommentTextareaIsVisible={() =>
 								handleIsUpdatingContentVisible(false)
@@ -463,10 +346,12 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 						/>
 					)}
 				<footer className={classes.footer}>
-					<TimeAndDate
-						created_at={props.comment.created_at}
-						updated_at={props.comment.updated_at}
-					/>
+					<small>
+						<TimeAndDate
+							created_at={props.comment.created_at}
+							updated_at={props.comment.updated_at}
+						/>
+					</small>
 					{userData?.id && (
 						<button
 							title='Reply To A Comment'
@@ -509,8 +394,6 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 			{userData?.id && showReplyTextarea && (
 				<CommentTextarea
 					handleSubmit={handleSubmitCommentReply}
-					// focusTextarea={focusCommentReplyTextarea}
-					// setFocusCommentTextarea={setFocusCommentReplyTextarea}
 					name='comment_reply'
 					setValues={setValues}
 					value={values.comment_reply}

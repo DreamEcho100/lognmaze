@@ -13,9 +13,6 @@ interface IPosRef {
 	oldXTranslate: number;
 	currXTranslate: number;
 	sliderXPos: number;
-	// {[key: string]: string | number | boolean | null}
-	//HTMLDivElement['getBoundingClientRect'];
-	// ClientRect | DOMRect
 	outerSliderCoordination?: DOMRect;
 	innerSliderCoordination?: DOMRect;
 	firstSliderCoordination?: DOMRect;
@@ -107,19 +104,13 @@ const Slider = ({
 	};
 
 	const touchStart = (event: TouchEvent | MouseEvent) => {
-		// event.preventDefault();
-
 		if (!outerSliderRef.current) return;
 
 		posRef.current.isPointing = true;
 		posRef.current.oldXTranslate = getPositionX(event);
-		// posRef.current.isDragging = true;
-		// outerSliderRef.current.style.cursor = 'grabbing';
 	};
 
 	const touchEnd = (event: TouchEvent | MouseEvent) => {
-		// event.preventDefault();
-
 		if (
 			!outerSliderRef.current ||
 			!outerSliderMaskRef.current ||
@@ -131,7 +122,6 @@ const Slider = ({
 			event.preventDefault();
 
 			posRef.current.isDragging = false;
-			// outerSliderRef.current.style.cursor = 'grab';
 			outerSliderMaskRef.current.style.pointerEvents = 'none';
 			outerSliderMaskRef.current.style.cursor = 'grab';
 			cancelAnimationFrame(posRef.current.sliderDragAnimationID);
@@ -190,7 +180,6 @@ const Slider = ({
 
 	useEffect(() => {
 		const refCurrent = posRef.current;
-		// resetSlider(refCurrent);
 
 		return () => {
 			resetSlider(refCurrent);
@@ -228,8 +217,6 @@ const Slider = ({
 					event.preventDefault();
 					event.stopPropagation();
 					return false;
-					// if (posRef.current.isDragging) {
-					// }
 				}}
 			></div>
 			<div

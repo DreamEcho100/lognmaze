@@ -21,8 +21,6 @@ const reducer = (
 		case UserProfilePageConstants.SET_VISITOR_STATUS_SUCCUSS: {
 			const { visitorStatus } = actions.payload;
 
-			// if (!state.data || !state.data.user) return state;
-
 			return {
 				...state,
 				data: {
@@ -34,18 +32,12 @@ const reducer = (
 		case UserProfilePageConstants.SET_VISITOR_STATUS_FAIL: {
 			const { error } = actions.payload;
 
-			// if (!state.data || !state.data.user) return state;
-
 			return {
 				...state,
 				data: {
 					...(state.data || {}),
 					visitorStatus: VISITOR_PROFILE_GUEST,
 				},
-				// data: {
-				// 	...(state.data || {}),
-				// 	visitorStatus: VISITOR_PROFILE_GUEST,
-				// },
 			};
 		}
 

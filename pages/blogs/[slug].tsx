@@ -139,16 +139,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 					WHERE news_blog.slug = $1
 					;
 				`,
-				[
-					// slugsToReplace[slug] ||
-					params.slug,
-				]
+				[params.slug]
 			)
 			.then((response) => response.rows[0]);
 
 		if (!result) {
-			// res.statusCode = 404;
-
 			return {
 				props: {
 					newsItemData: {},
@@ -163,7 +158,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 		if (result) {
 			return {
 				props: {
-					newsItemData: result, // JSON.stringify(result)
+					newsItemData: result,
 				},
 				revalidate: 60,
 			};

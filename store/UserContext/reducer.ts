@@ -14,20 +14,6 @@ const reducer = (
 	}
 
 	switch (actions.type) {
-		// case UserContextConstants.INIT_DATA: {
-		// 	return {
-		// 		...state,
-		// 		data: {
-		// 			user: ls.get<IUserAuthenticatedData | undefined>('userData', undefined),
-		// 			token: getCookie('accessToken'),
-		// 		},
-		// 	}
-		// }
-
-		// INIT_STORE_DATA_PENDING
-		// INIT_STORE_DATA_SUCCESS
-		// INIT_STORE_DATA_FAIL
-
 		case UserContextConstants.INIT_STORE_DATA_PENDING: {
 			return {
 				...state,

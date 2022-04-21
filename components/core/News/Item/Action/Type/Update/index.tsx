@@ -20,27 +20,19 @@ const NewsItemActionTypeUpdate = ({
 	userToken,
 	modalVisibilityHandler,
 	isModalVisible,
-}: // ...props
-IProps) => {
+}: IProps) => {
 	const handleSubmit: THandleSubmitForCreateAndUpdateNewsItemActionType =
 		async (newsDispatch, props) => {
-			// if (createItemRequest?.isLoading) return;
-
 			const fieldsCheck: string[] = [];
 
 			if (!props.type_data?.content)
 				fieldsCheck.push('Content is not provided!');
-
-			// const formattedValues = values;
 
 			if (props.type === 'blog') {
 				if (props.type_data?.title.replace(/\s{2,}/g, '').length < 20)
 					fieldsCheck.push('Title is less than 25 characters.');
 				else if (props.type_data?.title.replace(/\s{2,}/g, '').length > 120)
 					fieldsCheck.push('Title is more than 120 characters.');
-
-				// if (props.type_data?.slug.replace(/\s{2,}/g, '').length < 25)
-				// 	fieldsCheck.push('Slug is less than 25 characters.');
 
 				if (props.type_data?.tags.length < 2)
 					fieldsCheck.push('At least there should be 2 tags.');
@@ -109,15 +101,12 @@ IProps) => {
 					let item: keyof typeof props.type_data;
 					for (item in props.type_data) {
 						if (
-							// !Array.isArray(props.type_data[item]) &&
 							typeof props.type_data[item] === 'string' &&
-							// !['tags', 'slug', 'type'].includes(item) &&
 							item !== 'slug' &&
 							item !== 'tags' &&
 							(props.type_data[item] as string)?.trim() !==
 								(newsItemData.type_data[item] as string)?.trim()
 						) {
-							// if (item !== 'slug' && item !== 'tags')
 							bodyContent.dataToUpdate[item] = props.type_data[item];
 						} else {
 							if (item === 'tags') {
@@ -153,8 +142,6 @@ IProps) => {
 					bodyContent,
 				});
 				modalVisibilityHandler();
-				/*
-				 */
 			}
 		};
 

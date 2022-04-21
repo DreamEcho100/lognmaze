@@ -24,8 +24,6 @@ export const isAuthorizedMiddleware: Middleware<
 		const cookies = cookie.parse(req.headers.cookie || '');
 		if (!req.headers.authorization) throw new Error('Not Authorized!');
 
-		// const { payload: user } = await isAuthorized(res, req.headers.authorization);
-
 		const token = req.headers.authorization.split(' ')[1];
 		const accessTokenObj = (await verifyJwtToken(token)) as
 			| IObjFromJwtToken
@@ -59,6 +57,7 @@ export const isAuthorizedMiddleware: Middleware<
 				`,
 					[refreshTokenObj.payload.user_session_id]
 				)
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				.then((response: { rows: any[] }) => response.rows[0]);
 
 			if (userSession && !userSession.logout_date) {

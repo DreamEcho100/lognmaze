@@ -16,7 +16,6 @@ const CustomNextImage = ({
 	src,
 	alt = '',
 	placeholder = 'empty',
-	// role = 'img',
 	blurDataURL,
 	...props
 }: ICustomNextImageProps) => {
@@ -29,7 +28,6 @@ const CustomNextImage = ({
 			layout,
 			src,
 			placeholder,
-			// role,
 			...props,
 		};
 

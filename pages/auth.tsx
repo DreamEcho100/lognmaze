@@ -31,7 +31,6 @@ export const getStaticProps: GetStaticProps = async () => {
 		'https://www.universal-tutorial.com/api/getaccesstoken',
 		{
 			method: 'GET',
-			// Accept: 'application/json',
 			headers: {
 				'Content-Type': 'application/json',
 				'api-token':

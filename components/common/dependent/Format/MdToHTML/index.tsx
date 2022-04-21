@@ -8,7 +8,6 @@ import remarkGfm from 'remark-gfm';
 
 const SyntaxHighlighterDynamic = dynamic(() => import('./SyntaxHighlighter'));
 
-// import classes from './index.module.css';
 import helpersClasses from '@styles/helpers.module.css';
 
 import { imagesWeservNlLoader } from '@commonLibIndependent/image';

@@ -25,7 +25,7 @@ type SetCookieOptionsType = {
 
 export const setCookie = (
 	cookieName: string,
-	cookieValue: string = '',
+	cookieValue = '',
 	{
 		path = '/',
 		sameSite = 'lax',
@@ -44,11 +44,6 @@ export const setCookie = (
 
 	document.cookie = cookieString;
 };
-
-// type TGetCookie = <T = string>(
-// 	cookieName: string,
-// 	source?: string
-// ) => T | undefined;
 
 export const getCookie = <T = string>(cookieName: string, source?: string) => {
 	if (!source) {
@@ -82,17 +77,10 @@ export const checkCookieByNameAndValue = (
 
 export const deleteCookie = (
 	cookieName: string,
+	// eslint-disable-next-line @typescript-eslint/ban-types
 	options: SetCookieOptionsType | {} = {}
 ): void =>
 	setCookie(cookieName, '', {
 		...options,
 		expires: new Date('Thu, 01 Jan 1970 00:00:00 GMT'),
 	});
-
-// export default {
-//   set: setCookie,
-//   get: getCookie,
-//   checkByName: checkCookieByName,
-//   checkByNameAndValue: checkCookieByNameAndValue,
-//   delete: deleteCookie,
-// }

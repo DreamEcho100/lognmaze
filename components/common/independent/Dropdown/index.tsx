@@ -1,7 +1,5 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 
-// import { handleAllClasses } from '@lib/v1/className';
-
 import classes from './index.module.css';
 
 import { bundleClassesIfExist } from '@commonLibIndependent/className';

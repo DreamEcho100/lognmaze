@@ -3,8 +3,6 @@ import {
 	returnBearerTokenIfExist,
 } from '@commonLibIndependent/fetch';
 import ENewsItemExtraData from '@coreComponents/News/Item/context/constants';
-// import ENewsItemExtraData from '@coreComponents/News/Item/context/constants';
-// import ENewsItemExtraData from '@coreLib/constants/store/types/NewsContext/Item';
 import networkReqArgs from '@coreLib/networkReqArgs';
 import {
 	TNewsItemCommentBasicData,
@@ -52,7 +50,6 @@ export const createNewsItemReplyForMainComment: TCreateNewsItemReplyForMainComme
 					networkReqArgs._app.news.item.comment.create({
 						urlOptions: {
 							params: {
-								// news_comment_id: requiredData.news_comment_id,
 								news_id: requiredData.news_id,
 							},
 						},
@@ -63,18 +60,7 @@ export const createNewsItemReplyForMainComment: TCreateNewsItemReplyForMainComme
 							reply_to_comment_id: requiredData.reply_to_comment_id,
 							content: requiredData.content,
 							news_id: requiredData.news_id,
-							// eslint-disable-next-line no-mixed-spaces-and-tabs
 						},
-						// {
-						// 	...(requiredData.type === 'comment_main_reply'
-						// 		?
-						// 		: {
-						// 				comment_type: 'comment_main',
-						// 				content: requiredData.content,
-						// 				news_id: requiredData.news_id,
-						// 				// eslint-disable-next-line no-mixed-spaces-and-tabs
-						// 		  }),
-						// },
 						headersList: {
 							Authorization: token && returnBearerTokenIfExist(token),
 						},
@@ -100,7 +86,6 @@ export const createNewsItemReplyForMainComment: TCreateNewsItemReplyForMainComme
 						newsItemExtraDataDispatch({
 							type: ENewsItemExtraData.ADD_NEW_MAIN_OR_MAIN_REPLY_COMMENT,
 							payload: {
-								// news_id: requiredData.news_id,
 								newCommentData: {
 									...requiredData,
 									news_comment_id,
@@ -211,7 +196,6 @@ export const getRepliesForMainComment: TGetRepliesForMainComment = async (
 				payload: {
 					newCommentMainRepliesData: comments,
 					hit_replies_limit,
-					// news_id,
 					parent_id,
 				},
 			});
@@ -275,6 +259,7 @@ export const deleteNewsItemMainOrMainReplyComment: TDeleteNewsItemMainOrMainRepl
 				commentDispatch({
 					type: ECommentConstants.DELETE_MAIN_OR_MAIN_REPLY_COMMENT_SUCCESS,
 				});
+				console.log('requiredData', requiredData);
 				newsItemExtraDataDispatch({
 					type: ENewsItemExtraData.DELETE_MAIN_OR_MAIN_REPLY_COMMENT,
 					payload: {

@@ -2,13 +2,9 @@ import { Dispatch } from 'react';
 
 import {
 	TNewsItemData,
-	TNewsItemCommentsMain,
 	INewsItemTypeBlogContent,
 	TNewsData,
 	TDate,
-	// IUserBasicData,
-	// INewsItemTypeBlogBasicData,
-	// INewsItemTypePostBasicData,
 } from '@coreLib/ts/global';
 
 import { IGetNewsItemCommentsReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/comments/ts';
@@ -22,7 +18,6 @@ import {
 	IDeleteNewsItemReqArgs,
 	IUpdateNewsItemReqArgs,
 } from '@coreLib/networkReqArgs/_app/news/[news_id]/ts';
-// import { IUpdateNewsItemCommentReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/comments/[comment_id]/ts';
 
 export type INewsContextStateData = {
 	news: TNewsData;
@@ -95,15 +90,6 @@ export interface INewsContextState {
 	};
 }
 
-// interface IAddMainCommentsToNewsItem {
-// 	type: NewsItemContextConstants.ADD_MAIN_COMMENTS;
-// 	payload: {
-// 		news_id: TNewsItemData['news_id'];
-// 		commentsMainData: TNewsItemCommentsMain;
-// 		hit_comments_limit: boolean;
-// 	};
-// }
-
 interface IInitGetNewsItemTypeBlogDetailsTypeContentPending {
 	type: NewsItemContextConstants.INIT_TYPE_BLOG_DETAILS_TYPE_CONTENT_CONTENT_PENDING;
 	payload: {
@@ -142,35 +128,12 @@ interface IGetMoreNewsItemsFail {
 	};
 }
 
-// interface IGetMoreNewsItemCommentsMainPending {
-// 	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENTS_PENDING;
-// 	payload: {
-// 		news_id: TNewsItemData['news_id'];
-// 	};
-// }
-// interface IGetMoreNewsItemCommentsMainSuccess {
-// 	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENTS_SUCCESS;
-// 	payload: {
-// 		news_id: TNewsItemData['news_id'];
-// 		newCommentsMainData: TNewsItemCommentsMain;
-// 		hit_comments_limit: boolean;
-// 	};
-// }
-// interface IGetMoreNewsItemCommentsMainFail {
-// 	type: NewsItemContextConstants.GET_MORE_MAIN_COMMENTS_FAIL;
-// 	payload: {
-// 		news_id: TNewsItemData['news_id'];
-// 		error: string;
-// 	};
-// }
 interface ICreateNewsItemPending {
 	type: NewsItemContextConstants.CREATE_PENDING;
 }
 interface ICreateNewsItemSuccess {
 	type: NewsItemContextConstants.CREATE_SUCCESS;
 	payload: {
-		// newNewsItemData: ICreateNewsItemReqArgs['bodyContent'];
-		// newNewsItemType
 		newsItemBasicData: ICreateNewsItemReqArgs['bodyContent']['newsItemBasicData'];
 		newNewsItemId: TNewsItemData['news_id'];
 		newNewsItemAuthorData: {
@@ -247,24 +210,12 @@ interface IDeleteNewsItemReset {
 }
 
 export type TNewsContextReducerAction =
-	// | IAddMainCommentsToNewsItem
 	| IInitGetNewsItemTypeBlogDetailsTypeContentPending
 	| IInitGetNewsItemTypeBlogDetailsTypeContentSuccess
 	| IInitGetNewsItemTypeBlogDetailsTypeContentFail
 	| IGetMoreNewsItemsPending
 	| IGetMoreNewsItemsSuccess
 	| IGetMoreNewsItemsFail
-	//
-	// | IGetMoreNewsItemCommentsMainPending
-	// | IGetMoreNewsItemCommentsMainSuccess
-	// | IGetMoreNewsItemCommentsMainFail
-	//
-	//
-	// | IAddRepliesToCommentMain
-	// | IAddNewCommentTypeMainOrMainReply
-	// | IUpdateNewsItemMainOrMainReplyComment
-	// | IDeleteMainOrReplyComment
-	//
 	//
 	| ICreateNewsItemPending
 	| ICreateNewsItemSuccess
@@ -371,6 +322,6 @@ export type TResetDeleteNewsItemAction = (
 ) => void;
 
 export type TNewsContextStateReducer = (
-	state: INewsContextState, // | undefined,
+	state: INewsContextState,
 	actions: TNewsContextReducerAction
 ) => INewsContextState;

@@ -37,7 +37,6 @@ const AuthScreen = ({
 
 	const [objective, setObjective] = useState<'login' | 'signup'>('login');
 	const [redirectPath, setRedirectPath] = useState('');
-	const [isRedirecting, setIsRedirecting] = useState(false);
 
 	useEffect(() => {
 		setObjective(
@@ -66,7 +65,6 @@ const AuthScreen = ({
 		loginRequest.success,
 		signupRequest.success,
 		userDispatch,
-		isRedirecting,
 		redirectPath,
 		router,
 		isRedirectingFromAuth,
@@ -132,28 +130,17 @@ const AuthScreen = ({
 						</div>
 					)}
 				</header>
-				{
-					(!isRedirectingFromAuth &&
-						{
-							login: <LoginComponent />,
-							signup: (
-								<SignUpComponent
-									UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
-										UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN
-									}
-								/>
-							),
-						}[objective]) || <></>
-					// (objective === 'login' ? (
-					// 	<LoginComponent />
-					// ) : objective === 'signup' ? (
-					// 	<SignUpComponent
-					// 		UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
-					// 			UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN
-					// 		}
-					// 	/>
-					// ))
-				}
+				{(!isRedirectingFromAuth &&
+					{
+						login: <LoginComponent />,
+						signup: (
+							<SignUpComponent
+								UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
+									UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN
+								}
+							/>
+						),
+					}[objective]) || <></>}
 			</main>
 		</>
 	);

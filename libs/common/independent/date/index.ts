@@ -203,6 +203,7 @@ export const formatDate: TFormatDate = (providedDate, options) => {
 		? addZeroToStringStartIfLessThanLimit(
 				providedDate.toLocaleDateString(options.locales, options.format),
 				2
+				// eslint-disable-next-line no-mixed-spaces-and-tabs
 		  )
 		: addZeroToStringStartIfLessThanLimit(providedDate.toLocaleDateString(), 2);
 
@@ -212,7 +213,6 @@ export const formatDate: TFormatDate = (providedDate, options) => {
 		return {
 			date: tempArray[0],
 		};
-	// const tempArray2: string[] = [];
 
 	const fullTimeString: string = tempArray[tempArray.length - 1];
 
@@ -220,11 +220,9 @@ export const formatDate: TFormatDate = (providedDate, options) => {
 
 	let time: string;
 	let timeZoneName: string;
-	let withTimeZoneName: boolean = false;
-	// let withHour12: boolean = false;
+	let withTimeZoneName = false;
 
 	if (options?.format?.timeZoneName) withTimeZoneName = true;
-	// if (options?.format?.hour12) withHour12 = true;
 
 	if (withTimeZoneName) {
 		time = fullTimeString.split(/ \w+\+\d$/)[0];

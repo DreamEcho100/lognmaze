@@ -19,18 +19,12 @@ export const shuffleArray = <T>(array: T[]): T[] => {
 };
 
 export const removeArrayDuplicates = <T>(arr: T[]): T[] => {
-	// return options?.objectsDeepCheck
-	// 	? [...new Set(arr.map((item) => JSON.stringify(item)))].map((item) =>
-	// 			JSON.parse(item)
-	// 	  )
-	// 	: [...new Set(arr)];
-
 	const newArr: T[] = [];
 	const items: {
 		[key: string]: boolean;
 	} = {};
 
-	let itemStringified: string = '';
+	let itemStringified = '';
 
 	arr.forEach((item) => {
 		if ((item && typeof item === 'object') || Array.isArray(item)) {
@@ -48,12 +42,6 @@ export const removeArrayDuplicates = <T>(arr: T[]): T[] => {
 	});
 
 	return newArr;
-
-	// return options?.objectsDeepCheck
-	// ? [...new Set(arr.map((item) => JSON.stringify(item)))].map((item) =>
-	// 		JSON.parse(item)
-	// 	)
-	// : [...new Set(arr)];
 };
 
 export const differenceBetweenTwoArrays = <T>(

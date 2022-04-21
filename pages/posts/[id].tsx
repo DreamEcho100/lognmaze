@@ -9,12 +9,6 @@ import {
 
 import PostScreen from '@screens/Post';
 
-// import { useSetNewsContextStore } from '@store/NewsContext';
-// import { pool } from '@lib/v1/pg';
-// import { XMLCharactersEncoding } from '@lib/v1/regex';
-
-// import OneNewsContent from '@components/OneNewsContent';
-
 /*
 			// https://schema.org/DiscussionForumPosting *
 			<script
@@ -101,7 +95,6 @@ export const getServerSideProps: GetServerSideProps = async ({
 	try {
 		if (!query.id) {
 			res.statusCode = 404;
-			// throw new Error('The id is not provided!');
 			return {
 				props: {
 					message: 'The id is not provided!',
@@ -146,7 +139,6 @@ export const getServerSideProps: GetServerSideProps = async ({
 
 		if (!result) {
 			res.statusCode = 404;
-			// throw new Error('There is no data found!');
 			return {
 				props: {
 					message: 'There is no data found!',
@@ -156,15 +148,16 @@ export const getServerSideProps: GetServerSideProps = async ({
 			};
 		}
 
-		// throw new Error('');
-
 		result.created_at = result.created_at.toString();
 		result.updated_at = result.updated_at.toString();
 
-		res.setHeader(
-			'Cache-Control',
-			'public, s-maxage=60, stale-while-revalidate=60'
-		);
+		if (process.env.NoDE_ENV === 'production') {
+			res.setHeader(
+				'Cache-Control',
+				'public, s-maxage=60, stale-while-revalidate=60'
+			);
+		}
+
 		return {
 			props: {
 				newsItemData: result,
@@ -175,7 +168,6 @@ export const getServerSideProps: GetServerSideProps = async ({
 
 		if (res.statusCode < 400) res.statusCode = 500;
 		res.statusMessage = `Error, ${error}`;
-		// res.end();
 
 		return {
 			props: {

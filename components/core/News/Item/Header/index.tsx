@@ -17,7 +17,6 @@ interface Props {
 const NewsItemHeader: FC<Props> = ({ newsItemData, hideHeaderSettings }) => {
 	const [
 		{
-			// data: { newsItem: newsItemData, newsItemDetailsType },
 			data: { newsExtra },
 			actions: { items: newsItemsActions },
 		},

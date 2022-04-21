@@ -5,8 +5,6 @@ export interface IUpdateByUserNameIdReqArgs {
 		};
 	};
 	bodyContent: {
-		// Needs more work :(
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		[key: string]: any;
 	};
 	headerList: { Authorization: string };

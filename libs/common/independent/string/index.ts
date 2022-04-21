@@ -29,9 +29,6 @@ export const pad0: TPad0 = (str, options = pad0OptionsDefault) => {
 	return str;
 };
 
-// t = 'TestReadingTimeFunction '.repeat(300) + ' ' + 'TestReadingTimeFunction '.repeat(299);
-// t = ('TestReadingTimeFunction '.repeat(299)).repeat(2);
-// console.log(readingTime(t));
 const readingTimeOptions: IReadingTimeOptions = {
 	wordsPerMinute: 300,
 };
@@ -84,7 +81,7 @@ export const splitStringToSentences: ISplitStringToSentences = (str: string) =>
 	// str
 	// 	.replace(/(\.+|\:|\!|\?)(\"*|\'*|\)*|}*|]*)(\s|\n|\r|\r\n)/gm, '$1$2|_!_|')
 	// 	.split('|_!_|');
-	str.match(/^\w.+(\.+|\:|\!|\?|\"*|\'*|\)*|}*|]*|\s|\n|\r|\r\n)$/gim);
+	str.match(/^\w.+(\.+|:|!|\?|"*|'*|\)*|}*|]*|\s|\n|\r|\r\n)$/gim);
 
 // https://stackoverflow.com/a/67572651/13961420
 export const splitStringToParagraphs: ISplitStringToParagraphs = (
@@ -132,7 +129,7 @@ export const caseConvertor: TCaseConvertor = (str, choosedCase) => {
 		}
 	}
 
-	const wordsRegex: RegExp =
+	const wordsRegex =
 		/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g;
 
 	switch (choosedCase) {
@@ -151,14 +148,6 @@ export const caseConvertor: TCaseConvertor = (str, choosedCase) => {
 
 		// Credit to: [toTitleCase](https://www.30secondsofcode.org/js/s/to-title-case)
 		case stringUtilsConstants.CAPITAL_CASE: {
-			// return wordsRegexArr
-			// 	.map((x) => x.charAt(0).toUpperCase() + x.slice(1))
-			// 	.join(' ');
-
-			// const wordsRegexArr: RegExpMatchArray | null = str.match(wordsRegex);
-
-			// if (!wordsRegexArr) return '';
-
 			return str.replace(wordsRegex, (match, offset, string) => {
 				return (
 					// (offset > 0 && string[offset - 1] !== '\n' ? '-' : '') +
@@ -169,11 +158,6 @@ export const caseConvertor: TCaseConvertor = (str, choosedCase) => {
 
 		// Credit to: [toCamelCase](https://www.30secondsofcode.org/js/s/to-camel-case)
 		case stringUtilsConstants.CAMEL_CASE: {
-			// const tempStr = wordsRegexArr
-			// 	.map((x) => x.slice(0, 1).toUpperCase() + x.slice(1).toLowerCase())
-			// 	.join('');
-
-			// return tempStr.slice(0, 1).toLowerCase() + tempStr.slice(1);
 			return str
 				.replace(wordsRegex, (match, offset, string) => {
 					return match.slice(0, 1).toUpperCase() + match.slice(1).toLowerCase();
@@ -186,10 +170,6 @@ export const caseConvertor: TCaseConvertor = (str, choosedCase) => {
 
 		// Credit to: [toPascalCase](https://www.30secondsofcode.org/js/s/to-pascal-case)
 		case stringUtilsConstants.PASCAL_CASE: {
-			// return wordsRegexArr
-			// 	.map((x) => x.charAt(0).toUpperCase() + x.slice(1).toLowerCase())
-			// 	.join('');
-
 			return str
 				.replace(wordsRegex, (match, offset, string) => {
 					return match.slice(0, 1).toUpperCase() + match.slice(1).toLowerCase();
@@ -199,7 +179,6 @@ export const caseConvertor: TCaseConvertor = (str, choosedCase) => {
 
 		// // Credit to: [toSnakeCase](https://www.30secondsofcode.org/js/s/to-snake-case)
 		case stringUtilsConstants.SNAKE_CASE: {
-			// return wordsRegexArr.map((x) => x.toLowerCase()).join('_');
 			return str
 				.replace(wordsRegex, (match, offset, string) => {
 					return (
@@ -211,7 +190,6 @@ export const caseConvertor: TCaseConvertor = (str, choosedCase) => {
 		}
 
 		case stringUtilsConstants.CONSTANT_CASE: {
-			// return wordsRegexArr.map((x) => x.toUpperCase()).join('_');
 			return str
 				.replace(wordsRegex, (match, offset, string) => {
 					return (
@@ -224,9 +202,6 @@ export const caseConvertor: TCaseConvertor = (str, choosedCase) => {
 
 		// Credit to [toTitleCase](https://www.30secondsofcode.org/js/s/to-title-case)
 		case stringUtilsConstants.TITLE_CASE: {
-			// return str.match(wordsRegex)
-			// 	?.map(x => x.charAt(0).toUpperCase() + x.slice(1))
-			// 	.join(' ') || '';
 			return str
 				.replace(wordsRegex, (match, offset, string) => {
 					return match.slice(0, 1).toUpperCase() + match.slice(1).toLowerCase();

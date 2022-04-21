@@ -29,13 +29,7 @@ export const getByUserNameIdController = async (
 			let key: keyof typeof props.existingItems; // : TGetUsersPropFilterByOptions;
 			for (key in props.existingItems) {
 				props.existingItems[key].map((item) => {
-					if (
-						!item ||
-						!item.value
-						// ||
-						// !item.name
-					) {
-						// throw new Error('value or name is not defined');
+					if (!item || !item.value) {
 						return;
 					}
 
@@ -100,10 +94,12 @@ export const getByUserNameIdController = async (
 		throw new Error("User/s data doesn't exist");
 	}
 
-	res.setHeader(
-		'Cache-Control',
-		'public, s-maxage=10, stale-while-revalidate=59'
-	);
+	if (process.env.NoDE_ENV === 'production') {
+		res.setHeader(
+			'Cache-Control',
+			'public, s-maxage=10, stale-while-revalidate=59'
+		);
+	}
 
 	res.json(users[0]);
 };

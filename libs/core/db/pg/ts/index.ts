@@ -63,7 +63,7 @@ export interface IExtraReturns {
 export type TGetUsersPropFilterByTargetPriority = 'AND' | 'OR';
 
 export interface TGetUsersPropFilterByTarget {
-	name: string; // 'email' | 'first_name' | 'last_name',
+	name: string;
 	value: string | string[];
 	priority?: TGetUsersPropFilterByTargetPriority;
 }

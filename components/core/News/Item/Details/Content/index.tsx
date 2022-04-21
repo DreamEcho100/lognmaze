@@ -16,12 +16,7 @@ interface Props {
 const NewsItemContentDetails: FC<Props> = ({ newsItemData, content }) => {
 	const [
 		{
-			actions: {
-				items: itemsActions,
-				// init: {
-				// 	modal: { getTypeBlogContent },
-				// },
-			},
+			actions: { items: itemsActions },
 		},
 	] = useNewsSharedState();
 
@@ -35,8 +30,6 @@ const NewsItemContentDetails: FC<Props> = ({ newsItemData, content }) => {
 			!getTypeBlogContent.isLoading &&
 			!getTypeBlogContent.error)
 	);
-
-	// return <></>;
 
 	return (
 		<FormatContainer className={classes.formatContainer}>

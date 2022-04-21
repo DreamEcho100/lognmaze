@@ -40,9 +40,6 @@ export const verifyPassword = async ({
 };
 
 export const verifyJwtToken = async (token: string) => {
-	// try {
-	// const token = token;
-
 	if (!token) return;
 
 	if (typeof process.env.JWT_SECRET !== 'string')
@@ -51,20 +48,15 @@ export const verifyJwtToken = async (token: string) => {
 	const payload = jwt.verify(token, process.env.JWT_SECRET);
 
 	return payload;
-	// } catch (error) {
-	// 	throw new Error(
-	// 		error instanceof Error ? error.message : 'Something Wrong happened!'
-	// 	);
-	// }
 };
 
 export const jwtGenerator: TJWTGenerator = (
 	data,
-	maxAge = 3.15e10 /*1 year*/
+	maxAge = 3.15e10 // 1 year
 ) => {
 	const payload = {
 		...data,
-	} as jwt.JwtPayload;
+	} as unknown as jwt.JwtPayload;
 
 	// const maxAge = 20 * 24 * 60 * 60 * 1000; // 20 day;
 
@@ -88,11 +80,9 @@ export const returnObjFromJwtToken = async <
 	if (!authorization || !authorization?.split) return;
 
 	const token = authorization.split(' ')[1];
-	// let isAuthorized: T;
 
 	if (token && token.length !== 0) {
-		return (await verifyJwtToken(token)) as T;
-		// return isAuthorized;
+		return (await verifyJwtToken(token)) as unknown as T;
 	}
 
 	return;
@@ -102,16 +92,6 @@ export const isAuthorized = async (
 	res: NextApiResponse,
 	authorization: string
 ) => {
-	// const token = authorization.split(' ')[1];
-	// let isAuthorized: {
-	// 	id: string;
-	// } = {
-	// 	id: '',
-	// };
-
-	// if (token && token.length !== 0) {
-	// 	isAuthorized = await verifyJwtToken(token);
-	// }
 	const isAuthorized = await returnObjFromJwtToken<{
 		payload: {
 			id: string;

@@ -52,7 +52,6 @@ interface IInitStoreDataSuccess {
 			user: IUserAuthenticatedData;
 			token: IUserContextState['data'];
 		}['token'];
-		// user: IUserAuthenticatedData; token: string
 	};
 }
 interface IInitStoreDataFail {
@@ -124,13 +123,9 @@ export type IUserContextReducerAction =
 	| IUserRequestLogoutFail
 	| IUserRequestLogoutReset;
 
-//   import { ACTION_TYPE } from '@store/HBOProvider/reducer/ts/types';
-// import { InitialStateInterface } from '@store/HBOProvider/ts/interfaces';
-
 export type TUserContextDispatch =
 	| Dispatch<IUserContextReducerAction>
 	| ((value: IUserContextReducerAction) => void);
-// export type userType = InitialStateInterface['user'];
 
 // Actions
 export type TInitStoreDataAction = (dispatch: TUserContextDispatch) => void;

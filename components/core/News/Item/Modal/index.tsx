@@ -16,7 +16,6 @@ interface IProps {
 }
 
 const NewsItemModal: FC<IProps> = ({
-	// children,
 	modalProps: { isModalVisible, modalVisibilityHandler, modalClasses },
 	newsItemProps,
 }) => {
@@ -25,28 +24,14 @@ const NewsItemModal: FC<IProps> = ({
 			isModalVisible={isModalVisible}
 			modalVisibilityHandler={modalVisibilityHandler}
 			modalClasses={modalClasses}
-			// modalClasses={{
-			// 	container: {
-			// 		new: classes.modalContainer,
-			// 	},
-			// }}
 		>
 			<Fragment key='body'>
-				{/* <NewsItem
-					{...newsItemProps}
-					// handleSetIsModalVisible={modalVisibilityHandler}
-
-					// isFooterSettingsVisible={isFooterSettingsVisible}
-					// handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
-					isThisAModal
-				/> */}
 				<NewsItemHeader
 					newsItemData={newsItemProps.newsItemData}
 					hideHeaderSettings={newsItemProps.hideHeaderSettings}
 				/>
 				<NewsItemDetails
 					newsItemData={newsItemProps.newsItemData}
-					// handleSetIsModalVisible={newsItemProps.handleSetIsModalVisible}
 					isThisAModal={true}
 					newsItemDetailsType={newsItemProps.detailsType || 'content'}
 					newsItemModelDetailsType={
@@ -55,12 +40,8 @@ const NewsItemModal: FC<IProps> = ({
 					handleSetIsModalVisible={modalVisibilityHandler}
 				/>
 				<NewsItemFooter
-					// newsItemData={newsItemData}
 					news_id={newsItemProps.newsItemData.news_id}
-					// isFooterSettingsVisible={isFooterSettingsVisible}
-					// handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
 					hideFooterSettings={newsItemProps.hideFooterSettings}
-					// isThisAModal={isThisAModal}
 				/>
 			</Fragment>
 		</ModalComponent>

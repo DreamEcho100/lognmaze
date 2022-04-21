@@ -28,7 +28,6 @@ const reducer = (
 			};
 		}
 
-		// Create new main comment
 		case ENewsItemExtraData.ADD_NEW_MAIN_OR_MAIN_REPLY_COMMENT: {
 			const { newCommentData } = actions.payload;
 
@@ -92,7 +91,7 @@ const reducer = (
 				},
 			};
 		}
-		// update comment
+
 		case ENewsItemExtraData.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT: {
 			const payload = actions.payload;
 
@@ -135,7 +134,6 @@ const reducer = (
 			};
 		}
 
-		// Delete comment
 		case ENewsItemExtraData.DELETE_MAIN_OR_MAIN_REPLY_COMMENT: {
 			const payload = actions.payload;
 
@@ -151,6 +149,7 @@ const reducer = (
 									(comment) =>
 										comment.news_comment_id !== payload.news_comment_id
 								),
+								comments_counter: state.data.comments_counter - 1,
 							};
 						}
 
@@ -161,8 +160,9 @@ const reducer = (
 										...comment,
 										replies: (comment.replies || []).filter(
 											(reply) =>
-												reply.news_comment_id === payload.news_comment_id
+												reply.news_comment_id !== payload.news_comment_id
 										),
+										replies_counter: comment.replies_counter - 1,
 									};
 								}
 

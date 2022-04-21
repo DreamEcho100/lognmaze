@@ -76,7 +76,6 @@ export const updateNewsItemController = async (
 		let tags;
 		for (item in bodyContent.dataToUpdate) {
 			if (item === 'tags') {
-				// 'tags' in bodyContent.dataToUpdate
 				tags = bodyContent.dataToUpdate.tags;
 				continue;
 			}
@@ -94,8 +93,6 @@ export const updateNewsItemController = async (
 			`);
 			cteNames.push('update_item_2');
 		}
-
-		// const { tags } = req.body;
 
 		if (tags) {
 			const tagsAdded =
@@ -261,7 +258,6 @@ export const deleteNewsItemController = async (
 	res: NextApiResponse
 ) => {
 	if (
-		// req.body.type !== 'blog' ||
 		req.body.type !== 'post' &&
 		req.body.type === 'blog' &&
 		!Array.isArray(req.body.tags)
@@ -301,7 +297,7 @@ export const deleteNewsItemController = async (
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			.then((response: { rows: any[] }) => response.rows[0]);
 	} else {
-		/*const result2 = */ await pool
+		await pool
 			.query(
 				`
 				UPDATE user_profile SET news_${req.body.type}_counter = news_${req.body.type}_counter - 1

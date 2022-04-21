@@ -7,15 +7,6 @@ import {
 import UserProfilePageConstants from '@coreLib/constants/store/types/UserProfilePage';
 import { IUserAuthenticatedData, IUserBasicData } from '@coreLib/ts/global';
 
-// interface IPropsUserProfilePageDataAuthenticatedUser {
-// 	user: IUserAuthenticatedData;
-// 	visitorStatus: typeof VISITOR_PROFILE_OWNER;
-// }
-// interface IPropsUserProfilePageDataBasicUser {
-// 	user: IUserBasicData;
-// 	visitorStatus: typeof VISITOR_PROFILE_GUEST;
-// }
-
 export type IPropsUserProfilePageData = {
 	user: IUserBasicData;
 	visitorStatus: typeof VISITOR_PROFILE_GUEST | typeof VISITOR_PROFILE_OWNER;
@@ -23,13 +14,6 @@ export type IPropsUserProfilePageData = {
 
 export interface IUserProfilePageContextState {
 	data: IPropsUserProfilePageData;
-	// actions: {
-	// requests: {
-	// };
-
-	// init: {
-	// };
-	// };
 }
 
 export type ISetProfilePageVisitorStatusPending = {

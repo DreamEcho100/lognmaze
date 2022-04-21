@@ -14,11 +14,6 @@ const Status: FC<IProps> = ({
 	handleSetIsCommentsVisible,
 	comments_counter,
 }) => {
-	// const hit_comments_limit =
-	// 	newsExtraData[newsItemData.news_id]?.hit_comments_limit;
-	// const initGetMainComments =
-	// 	newsItemsActions[newsItemData.news_id]?.requests?.init?.getMainComments;
-
 	/*
 	const handleInitGetNewsItemCommentsMain = async () => {
 		if (

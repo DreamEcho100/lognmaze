@@ -1,19 +1,9 @@
-// import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/ts';
-// import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
-// import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
-
-// import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 import NewsContextConstants from '@coreLib/constants/store/types/NewsContext';
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 import { TNewsItemData } from '@coreLib/ts/global';
 import { returnNewsInitialState } from './initialState';
 
-import {
-	INewsContextState,
-	// TNewsContextReducerAction,
-	// INewsContextState,
-	TNewsContextStateReducer,
-} from './ts';
+import { INewsContextState, TNewsContextStateReducer } from './ts';
 
 const reducer: TNewsContextStateReducer = (
 	state: INewsContextState = returnNewsInitialState(),
@@ -244,7 +234,6 @@ const reducer: TNewsContextStateReducer = (
 					news: [
 						{
 							news_id: newNewsItemId,
-							// ...newsItemBasicData,
 							type: newsItemBasicData.type,
 							type_data: newsItemBasicData.type_data,
 							...newNewsItemAuthorData,

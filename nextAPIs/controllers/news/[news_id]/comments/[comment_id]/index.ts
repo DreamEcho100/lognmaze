@@ -14,8 +14,6 @@ export const updateCommentController = async (
 		throw new Error('Required data not provided');
 	}
 
-	const { content } = req.body;
-
 	const data = await pool
 		.query(
 			`
@@ -24,9 +22,9 @@ export const updateCommentController = async (
 				WHERE news_comment_id = ($3) AND author_id = ($4) RETURNING news_comment_id
 			`,
 			[
-				content,
+				req.body.content,
 				new Date().toISOString(),
-				req.query.news_comment_id,
+				req.query.comment_id,
 				req.user.id,
 			]
 		)
@@ -49,8 +47,9 @@ export const deleteCommentController = async (
 	res: NextApiResponse
 ) => {
 	if (
-		req.body.type !== 'blog' ||
-		req.body.type !== 'post' ||
+		req.body.type !== 'comment_main' &&
+		req.body.type !== 'comment_main_reply' &&
+		req.body.type === 'comment_main_reply' &&
 		!req.body.parent_id
 	) {
 		res.status(400);
@@ -66,7 +65,7 @@ export const deleteCommentController = async (
 				WHERE news_comment_id = ($1) AND author_id = ($2)
 				RETURNING news_comment_id
 			`,
-			[req.query.news_comment_id, req.user.id]
+			[req.query.comment_id, req.user.id]
 		)
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		.then((response: { rows: any[] }) => response.rows[0]);
@@ -86,7 +85,7 @@ export const deleteCommentController = async (
 				SET comments_counter = comments_counter - 1
 				WHERE news_id = ($1)	
 			`,
-				[req.body.parent_id]
+				[req.query.news_id]
 			)
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			.then((response: { rows: any[] }) => response.rows[0]);

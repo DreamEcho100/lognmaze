@@ -45,14 +45,11 @@ const CommentTextarea: FC<IProps> = ({
 				<TextareaComponent
 					name={name}
 					setValues={setValues}
-					// onChange={onChange}
 					value={value}
 					className={`${borderClasses.default} ${classes.textarea}`}
 				/>
 			</FormControlComponent>
-			<div
-			/// className='buttons-holder'
-			>
+			<div>
 				<ButtonComponent
 					title={SendButtonComponent_Map[commentToType]}
 					type='submit'
@@ -60,7 +57,6 @@ const CommentTextarea: FC<IProps> = ({
 				>
 					Send
 				</ButtonComponent>{' '}
-				{/* {closeButton && ( */}
 				<ButtonComponent
 					title={closeButtonComponent_Map[commentToType]}
 					disabled={disableSubmitButton}
@@ -68,7 +64,6 @@ const CommentTextarea: FC<IProps> = ({
 				>
 					Close
 				</ButtonComponent>
-				{/* )} */}
 			</div>
 		</FormComponent>
 	);

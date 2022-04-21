@@ -9,9 +9,6 @@ const MainIntroComponent = () => {
 
 	useEffect(() => {
 		setRemoveIntro(true);
-		// const timeoutId = setTimeout(() => setRemoveIntro(true), 100);
-
-		// return () => clearTimeout(timeoutId);
 	}, []);
 
 	return (

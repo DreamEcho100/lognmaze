@@ -1,8 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const setItem = (name: string, value: any): void => {
-	if (
-		typeof value !== 'string'
-		// (value && typeof value === 'object') || Array.isArray(value)
-	)
+	if (typeof value !== 'string')
 		localStorage.setItem(name, JSON.stringify(value));
 	else localStorage.setItem(name, value);
 };
@@ -12,7 +10,7 @@ export const getItem = <R>(name: string, defaultReturn: R): R => {
 
 	const item: string | null = localStorage.getItem(name);
 	if (item) {
-		if (item.startsWith('{') || item.startsWith('[')) return JSON.parse(item!);
+		if (item.startsWith('{') || item.startsWith('[')) return JSON.parse(item);
 		return item as unknown as R;
 	}
 
@@ -38,4 +36,4 @@ const ls = {
 	remove: removeItem,
 };
 
-export default ls; 
+export default ls;

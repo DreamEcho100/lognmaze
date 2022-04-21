@@ -319,10 +319,6 @@ const NewsItemFormTypeBlog = ({
 						}`,
 						minLength: 100,
 					})}
-					// onClick={() => setShowFormatConvertorModal(true)}
-					// className={`${classes['width-100-percent']} ${
-					// 	isLoadingContent ? 'disable' : ''
-					// }`}
 				/>
 			</FormControlComponent>
 

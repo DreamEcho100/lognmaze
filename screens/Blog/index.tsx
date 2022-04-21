@@ -12,7 +12,6 @@ const BlogScreen = () => {
 		{
 			data: { news: newsData },
 		},
-		// userDispatch,
 	] = useNewsSharedState();
 
 	if (newsData[0].type !== 'blog') return <></>;
@@ -38,8 +37,6 @@ const BlogScreen = () => {
 					article: {
 						publishedTime: new Date(newsItemData.created_at).toISOString(),
 						modifiedTime: new Date(newsItemData.updated_at).toISOString(),
-						// expirationTime: '2022-12-21T22:04:11Z',
-						// section: 'Section II',
 						authors: [
 							`${newsItemData.author_first_name} ${newsItemData.author_last_name} - @${newsItemData.author_user_name_id}`,
 						],

@@ -4,10 +4,7 @@ import classes from './index.module.css';
 import borderClasses from '@styles/border.module.css';
 import boxShadowClasses from '@styles/boxShadow.module.css';
 
-import {
-	// IUserAuthenticatedData,
-	TUserAuthenticatedDataEmail,
-} from '@coreLib/ts/global';
+import { TUserAuthenticatedDataEmail } from '@coreLib/ts/global';
 import { useUserSharedState } from '@store/UserContext';
 import { loginUserRequestAction } from '@store/UserContext/actions';
 import { validateEmail } from '@commonLibIndependent/validate';
@@ -54,13 +51,6 @@ const LoginComponent = () => {
 			fieldsCheck.push('Password is less than 8 characters.');
 
 		if (fieldsCheck.length > 0) {
-			// setAfterFormSubmitMessage(() => (
-			// 	<ul>
-			// 		{fieldsCheck.map((item, index) => (
-			// 			<li key={index}>{item}</li>
-			// 		))}
-			// 	</ul>
-			// ));
 			setIsButtonsDisabled(false);
 			return;
 		}

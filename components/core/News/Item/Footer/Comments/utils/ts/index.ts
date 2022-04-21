@@ -1,4 +1,3 @@
-// import { INewsItemExtraDataContextReducerAction } from '@coreComponents/News/Item/context/ts';
 import { INewsItemExtraDataContextReducerAction } from '@coreComponents/News/Item/context/ts';
 import {
 	ICreateNewsItemCommentReqArgsPropsBodyContentTypeCommentMain,
@@ -9,13 +8,6 @@ import {
 	TNewsItemCommentTypeMain,
 	TNewsItemData,
 } from '@coreLib/ts/global';
-// import {
-// IUserBasicData,
-// TNewsItemCommentBasicData,
-// TNewsItemCommentTypeMain,
-// TNewsItemCommentTypeReplyMain,
-// TNewsItemData,
-// } from '@coreLib/ts/global';
 import { Dispatch } from 'react';
 import ECommentConstants from '../constants';
 
@@ -30,21 +22,14 @@ export type TCommentRequestsState = {
 	initGetComments?: IRequestInit;
 };
 
-// type TCommentType =
-// 	| TNewsItemCommentTypeMain['type']
-// 	| TNewsItemCommentTypeReplyMain['type'];
-
 interface ICreateNewsItemMainComment {
 	type: ECommentConstants.CREATE_MAIN_COMMENT;
-	// payload: { type: TCommentType };
 }
 interface ICreateNewsItemMainCommentPending {
 	type: ECommentConstants.CREATE_MAIN_COMMENT_PENDING;
-	// payload: { type: TCommentType };
 }
 interface ICreateNewsItemMainCommentSuccess {
 	type: ECommentConstants.CREATE_MAIN_COMMENT_SUCCESS;
-	// payload: { type: TCommentType };
 }
 interface ICreateNewsItemMainCommentFail {
 	type: ECommentConstants.CREATE_MAIN_COMMENT_FAIL;
@@ -53,15 +38,12 @@ interface ICreateNewsItemMainCommentFail {
 
 interface IInitGetMainComments {
 	type: ECommentConstants.GET_COMMENTS_MAIN;
-	// payload: { type: TCommentType };
 }
 interface IInitGetMainCommentsPending {
 	type: ECommentConstants.GET_COMMENTS_MAIN_PENDING;
-	// payload: { type: TCommentType };
 }
 interface IInitGetMainCommentsSuccess {
 	type: ECommentConstants.GET_COMMENTS_MAIN_SUCCESS;
-	// payload: { type: TCommentType };
 }
 interface IInitGetMainCommentsFail {
 	type: ECommentConstants.GET_COMMENTS_MAIN_FAIL;

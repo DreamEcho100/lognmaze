@@ -28,9 +28,6 @@ interface INewsItemProvidedContextProps {
 }
 
 export interface INewsItemProps extends INewsItemProvidedContextProps {
-	// handleSetIsModalVisible: (isModalVisible: boolean) => void;
-	// isFooterSettingsVisible: boolean;
-	// handleIsFooterSettingsVisible: (isFooterSettingsVisible: boolean) => void;
 	hideHeaderSettings?: boolean;
 	hideFooterSettings?: boolean;
 }
@@ -38,10 +35,6 @@ export interface INewsItemProps extends INewsItemProvidedContextProps {
 const NewsItem: FC<INewsItemProps> = (props) => {
 	const {
 		newsItemData,
-		// handleSetIsModalVisible,
-		// isFooterSettingsVisible,
-		// handleIsFooterSettingsVisible,
-		// isModalVisible,
 		isThisAModal,
 		hideHeaderSettings,
 		hideFooterSettings,
@@ -50,33 +43,9 @@ const NewsItem: FC<INewsItemProps> = (props) => {
 		defaultClasses,
 		extraClasses,
 		className,
-		// updatedToRenderDate,
 	} = props;
 
 	const [isModalVisible, setIsModalVisible] = useState(false);
-	// const [isFooterSettingsVisible, setIsFooterSettingsVisible] = useState(false);
-	// const [isCommentsVisible, setIsCommentsVisible] = useState({
-	// 	main: false,
-	// 	modal: false,
-	// });
-	// const [isCommentsCounterVisible, setIsCommentsCounterVisible] = useState(0);
-	// const [focusCommentTextarea, setFocusCommentTextarea] = useState(false);
-
-	// const [
-	// 	{
-	// 		actions: { items: newsItemsActions },
-	// 	},
-	// ] = useNewsSharedState();
-
-	// const initGetMainComments =
-	// 	newsItemsActions[newsItemData.news_id]?.requests?.init?.getMainComments;
-
-	// const handleSetIsCommentsVisible = (
-	// 	isCommentsVisible: SetStateAction<{ main: boolean; modal: boolean }>
-	// ) => {
-	// 	return setIsCommentsVisible(isCommentsVisible);
-	// };
-
 	const handleSetIsModalVisible = (isModalVisible?: boolean) => {
 		setIsModalVisible((prevState) =>
 			typeof isModalVisible === 'boolean' ? isModalVisible : !prevState
@@ -94,16 +63,14 @@ const NewsItem: FC<INewsItemProps> = (props) => {
 		className: allClasses,
 	};
 
-	const {
-		NewsItemExtraDataContextSharedProvider,
-		// , useNewsItemExtraDataSharedState
-	} = setNewsItemExtraDataContextStore({
-		data: {
-			comments: [],
-			comments_counter: newsItemData.comments_counter,
-			hit_comments_limit: newsItemData.comments_counter === 0,
-		},
-	});
+	const { NewsItemExtraDataContextSharedProvider } =
+		setNewsItemExtraDataContextStore({
+			data: {
+				comments: [],
+				comments_counter: newsItemData.comments_counter,
+				hit_comments_limit: newsItemData.comments_counter === 0,
+			},
+		});
 
 	return (
 		<NewsItemExtraDataContextSharedProvider>
@@ -120,21 +87,9 @@ const NewsItem: FC<INewsItemProps> = (props) => {
 					newsItemModelDetailsType={modelDetailsType}
 				/>
 				<NewsItemFooter
-					// newsItemData={newsItemData}
 					news_id={newsItemData.news_id}
-					// isFooterSettingsVisible={isFooterSettingsVisible}
-					// handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
 					hideFooterSettings={hideFooterSettings}
-					// isThisAModal={isThisAModal}
 				/>
-				{/* <TempNewsItemFooter
-					isLoadingSkeleton={undefined}
-					hideFooterSettings={undefined}
-					isLoadingUserVote={undefined}
-
-					
-				newsItemData={newsItemData}
-				/> */}
 			</article>
 			<NewsItemModal
 				modalProps={{
@@ -151,84 +106,6 @@ const NewsItem: FC<INewsItemProps> = (props) => {
 		</NewsItemExtraDataContextSharedProvider>
 	);
 };
-
-/*
-export const NewsItemProvidedContextMiddleware = (
-	props: INewsItemProvidedContextProps
-) => {
-	const [isModalVisible, setIsModalVisible] = useState(false);
-	// const [isFooterSettingsVisible, setIsFooterSettingsVisible] = useState(false);
-
-	const handleSetIsModalVisible = (isModalVisible?: boolean) => {
-		setIsModalVisible((prevState) =>
-			typeof isModalVisible === 'boolean' ? isModalVisible : !prevState
-		);
-
-		if (!isModalVisible) {
-			document.body.style.overflowX = 'hidden';
-			document.body.style.overflowY = 'auto';
-		} else {
-			document.body.style.overflow = 'hidden';
-		}
-	};
-
-	// const handleIsFooterSettingsVisible = (isFooterSettingsVisible: boolean) => {
-	// 	if (isFooterSettingsVisible)
-	// 		return setIsFooterSettingsVisible(isFooterSettingsVisible);
-	// 	if (isFooterSettingsVisible)
-	// 		return setIsFooterSettingsVisible((prevState) => !prevState);
-	// };
-
-	return (
-		<>
-			<NewsItem
-				{...props}
-				handleSetIsModalVisible={handleSetIsModalVisible}
-				// isFooterSettingsVisible={isFooterSettingsVisible}
-				// handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
-			/>
-			{isModalVisible && (
-				<>
-					<NewsItemModal
-						modalProps={{
-							isModalVisible: isModalVisible,
-							modalVisibilityHandler: handleSetIsModalVisible,
-							modalClasses:{
-								container: {
-									new: classes.modalContainer,
-								},
-							}
-						}}
-						newsItemProps={{
-							...props,
-							handleSetIsModalVisible: handleSetIsModalVisible
-						}}
-					/>
-				<DynamicModalComponent
-					isModalVisible={isModalVisible}
-					modalVisibilityHandler={handleSetIsModalVisible}
-					modalClasses={{
-						container: {
-							new: classes.modalContainer,
-						},
-					}}
-				>
-					<Fragment key='body'>
-						<NewsItem
-							{...props}
-							handleSetIsModalVisible={handleSetIsModalVisible}
-							// isFooterSettingsVisible={isFooterSettingsVisible}
-							// handleIsFooterSettingsVisible={handleIsFooterSettingsVisible}
-							isThisAModal
-						/>
-					</Fragment>
-				</DynamicModalComponent>
-				</>
-			)}
-		</>
-	);
-};
-*/
 
 export default memo(NewsItem, (prevProps, nextProps) => {
 	return prevProps.updatedToRenderDate === nextProps.updatedToRenderDate;

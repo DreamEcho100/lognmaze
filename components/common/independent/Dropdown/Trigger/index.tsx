@@ -13,7 +13,6 @@ interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const DropdownTriggerMenu: FC<IProps> = ({
 	defaultClassName = 'settingsButton',
 	className = '',
-	// isDropdownListVisible,
 	setIsDropdownListVisible,
 	children,
 	...props

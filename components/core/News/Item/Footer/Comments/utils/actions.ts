@@ -48,14 +48,6 @@ export const getMoreNewsItemCommentsMain: TAddMainCommentsToNewsItem = async (
 			commentDispatch({
 				type: ECommentConstants.GET_COMMENTS_MAIN_SUCCESS,
 			});
-			// console.log('Render?');
-			// (async () =>
-			// 	await new Promise((resolve) =>
-			// 		setTimeout(() => {
-			// 			console.log('Render!');
-			// 			resolve(null);
-			// 		}, 3000)
-			// 	))();
 			newsItemExtraDataDispatch({
 				type: ENewsItemExtraData.ADD_MAIN_COMMENTS,
 				payload: {
@@ -118,13 +110,11 @@ export const createNewsItemMainComment: TCreateNewsItemMainComment = async (
 				newsItemExtraDataDispatch({
 					type: ENewsItemExtraData.ADD_NEW_MAIN_OR_MAIN_REPLY_COMMENT,
 					payload: {
-						// type: 'comment_main',
 						newCommentData: {
 							...requiredExtraData,
 							...(bodyContent as unknown as TNewsItemCommentTypeMain),
 							type: 'comment_main',
 							news_comment_id,
-							// replies_counter: 0,
 							created_at: new Date().getTime(),
 							updated_at: new Date().getTime(),
 						},

@@ -11,8 +11,6 @@ export interface IUrlOptionsQueriesTypeCommentMainReply {
 	last_reply_created_at?: string;
 	parent_id: TNewsItemCommentTypeMain['news_comment_id'];
 }
-// comment_main
-// comment_main_reply
 export interface IGetNewsItemCommentsReqArgs {
 	urlOptions: {
 		params: {

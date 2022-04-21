@@ -1,54 +1,25 @@
 import { FC, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 
-import {
-	// IUserAuthenticatedData,
-	// IUserBasicData,
-	TNewsItemData,
-} from '@coreLib/ts/global';
+import { TNewsItemData } from '@coreLib/ts/global';
 
 const DynamicComments = dynamic(() => import('./Comments'), {
 	ssr: false,
 });
-// import Settings from './Settings';
 import Status from './Status';
 import { memo } from 'react-tracked';
 import { useNewsItemExtraDataSharedState } from '../context';
 
 interface IProps {
 	hideFooterSettings?: boolean;
-	// isThisAModal?: boolean;
 
-	// newsItemData: TNewsItemData;
 	news_id: TNewsItemData['news_id'];
 }
 
-const NewsItemFooter: FC<IProps> = ({
-	// newsItemData,
-	news_id,
-	// comments_counter,
-	// comments,
-	// hit_comments_limit,
-	// isThisAModal,
-	// userData,
-	// isFooterSettingsVisible,
-	// handleIsFooterSettingsVisible,
-	// hideFooterSettings,
-}) => {
+const NewsItemFooter: FC<IProps> = ({ news_id }) => {
 	const footerRef = useRef<HTMLDivElement>(null);
 
 	const [isCommentsVisible, setIsCommentsVisible] = useState(false);
-	// const [isCommentsCounterVisible, setIsCommentsCounterVisible] = useState(0);
-	// const [focusCommentTextarea, setFocusCommentTextarea] = useState(false);
-
-	// const [
-	// 	{
-	// 		actions: { items: newsItemsActions },
-	// 	},
-	// ] = useNewsSharedState();
-
-	// const initGetMainComments =
-	// 	newsItemsActions[news_id]?.requests?.init?.getMainComments;
 
 	const [
 		{
@@ -60,19 +31,6 @@ const NewsItemFooter: FC<IProps> = ({
 		if (isCommentsVisible) return setIsCommentsVisible(isCommentsVisible);
 		setIsCommentsVisible((prevState) => !prevState);
 	};
-
-	// useEffect(() => {
-	// 	setIsCommentsCounterVisible((prev) => prev + 1);
-	// 	setIsCommentsVisible(false);
-	// 	if (!isCommentsVisible || !news_id || !footerRef.current || isCommentsCounterVisible === 0) {
-
-	// 		// if (isCommentsCounterVisible === 0) return;
-
-	// 		if (!footerRef.current && footerRef?.current?.scrollIntoView)
-	// 			footerRef.current.scrollIntoView();
-	// 	}
-	// }, [isCommentsVisible, news_id]);
-	// isCommentsVisible, news_id, isCommentsCounterVisible
 
 	if (!news_id) {
 		return <></>;
@@ -100,11 +58,8 @@ const NewsItemFooter: FC<IProps> = ({
 			{isCommentsVisible && (
 				<DynamicComments
 					newsItemComments={comments || []}
-					// className={classes.comments}
 					handleSetIsCommentsVisible={handleSetIsCommentsVisible}
-					// setFocusCommentTextarea={setFocusCommentTextarea}
 					isCommentsVisible={isCommentsVisible}
-					// newsItemData={newsItemData} // focusCommentTextarea={focusCommentTextarea}
 					news_id={news_id}
 					comments_counter={comments_counter}
 					hit_comments_limit={hit_comments_limit}

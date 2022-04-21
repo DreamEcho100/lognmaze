@@ -85,6 +85,7 @@ export const getUsers: TGetUsers = async ({
 	const { user_id, user_password, user_news_counter, sensitiveInfo } =
 		extraReturns;
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const paramsArr: any[] = [];
 	const paramsObj: { [key: string]: number } = {};
 	let whereFilter = '';
@@ -144,11 +145,10 @@ export const getUsers: TGetUsers = async ({
 		ON user_address.user_address_id = user_account.user_account_id
     ${whereFilter}
 		`;
-	// ${sensitiveInfo ? ',user_address.address_of_resident' : ''}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const result: any | { errorMessage: string } = await pool
 		.query(sqlQuery, paramsArr)
-		// .then((response: { rows: any[] }) => response.rows)
 		.catch((error: Error) => {
 			return {
 				errorMessage:
@@ -186,6 +186,7 @@ const createUserSession = async (
 	`,
 			[user_id, login_start_date, login_end_date]
 		)
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		.then((response: { rows: any[] }) => response.rows[0]);
 
 	return userSession;

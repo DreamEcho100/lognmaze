@@ -34,8 +34,7 @@ export interface INewsItemExtraDataContext {
 interface IAddMainCommentsToNewsItem {
 	type: ENewsItemExtraData.ADD_MAIN_COMMENTS;
 	payload: {
-		// news_id: TNewsItemData['news_id'];
-		commentsMainData: TNewsItemCommentsMain; // | TNewsItemCommentMainReplies;
+		commentsMainData: TNewsItemCommentsMain;
 		hit_comments_limit: boolean;
 	};
 }
@@ -43,7 +42,6 @@ interface IAddMainCommentsToNewsItem {
 interface IAddRepliesToCommentMain {
 	type: ENewsItemExtraData.ADD_REPLIES_TO_COMMENT_MAIN;
 	payload: {
-		// news_id: TNewsItemData['news_id'];
 		parent_id: TNewsItemCommentTypeReplyMain['parent_id'];
 		newCommentMainRepliesData: TNewsItemCommentMainReplies;
 		hit_replies_limit: boolean;
@@ -53,7 +51,6 @@ interface IAddNewCommentTypeMainOrMainReply {
 	type: ENewsItemExtraData.ADD_NEW_MAIN_OR_MAIN_REPLY_COMMENT;
 	payload:
 		| {
-				// news_id: TNewsItemData['news_id'];
 				newCommentData: TNewsItemCommentTypeMain;
 				// eslint-disable-next-line no-mixed-spaces-and-tabs
 		  }
@@ -66,7 +63,6 @@ interface IAddNewCommentTypeMainOrMainReply {
 interface IUpdateNewsItemMainOrMainReplyComment {
 	type: ENewsItemExtraData.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT;
 	payload: {
-		// news_id: TNewsItemData['news_id'];
 		newContent: TNewsItemCommentBasicData['content'];
 	} & (
 		| {
@@ -87,7 +83,6 @@ interface IDeleteMainOrReplyComment {
 	type: ENewsItemExtraData.DELETE_MAIN_OR_MAIN_REPLY_COMMENT;
 	payload: {
 		news_comment_id: TNewsItemCommentBasicData['news_comment_id'];
-		// news_id: TNewsItemData['news_id'];
 	} & (
 		| { type: TNewsItemCommentTypeMain['type'] }
 		| Pick<TNewsItemCommentTypeReplyMain, 'type' | 'parent_id'>
@@ -115,102 +110,6 @@ export type TGetMoreNewsItemMainComments = (
 				news_id: string;
 			};
 			queries: IUrlOptionsQueriesTypeCommentMain;
-			// | IUrlOptionsQueriesTypeCommentMainReply;
-		} /*IGetNewsItemCommentsReqArgs['urlOptions'];*/;
+		};
 	}
 ) => Promise<void>;
-
-/*
-
-export type TInitGetNewsItemTypeBlogContent = (
-	newsDispatch: TNewsContextDispatch,
-	{
-		news_id,
-		urlOptions,
-	}: {
-		// news_id: TNewsItemData['news_id'];
-		urlOptions: IGetNewsItemBlogContentReqArgs['urlOptions'];
-	}
-) => Promise<void>;
-export type TGetMoreNewsItems = (
-	newsDispatch: TNewsContextDispatch,
-	{
-		urlOptions,
-	}: {
-		urlOptions: IGetNewsReqArgs['urlOptions'];
-	}
-) => Promise<void>;
-//
-export type TGetMoreNewsItemCommentsMain = (
-	newsDispatch: TNewsContextDispatch,
-	{
-		news_id,
-		urlOptions,
-	}: {
-		// news_id: TNewsItemData['news_id'];
-		urlOptions: IGetNewsItemCommentsReqArgs['urlOptions'];
-	}
-) => Promise<void>;
-
-//
-export type TCreateNewsItem = (
-	newsDispatch: TNewsContextDispatch,
-	{
-		newsItemBasicData,
-		newNewsItemAuthorData,
-		token,
-	}: {
-		newsItemBasicData: ICreateNewsItemSuccess['payload']['newsItemBasicData'];
-		newNewsItemAuthorData: ICreateNewsItemSuccess['payload']['newNewsItemAuthorData'];
-		token?: string;
-	}
-) => Promise<void>;
-export type TResetCreateNewsItemAction = (
-	newsDispatch: TNewsContextDispatch
-) => void;
-export type TUpdateNewsItem = (
-	newsDispatch: TNewsContextDispatch,
-	{
-		bodyContent,
-		news_id,
-		token,
-	}: {
-		bodyContent: IUpdateNewsItemReqArgs['bodyContent'];
-		// news_id: TNewsItemData['news_id'];
-		token?: string;
-	}
-) => Promise<void>;
-export type TResetUpdateNewsItemAction = (
-	newsDispatch: TNewsContextDispatch,
-	{
-		news_id,
-	}: {
-		// news_id: TNewsItemData['news_id'];
-	}
-) => void;
-export type TDeleteNewsItem = (
-	newsDispatch: TNewsContextDispatch,
-	{
-		bodyContent,
-		news_id,
-		token,
-	}: {
-		bodyContent: IDeleteNewsItemReqArgs['bodyContent'];
-		// news_id: TNewsItemData['news_id'];
-		token?: string;
-	}
-) => Promise<void>;
-export type TResetDeleteNewsItemAction = (
-	newsDispatch: TNewsContextDispatch,
-	{
-		news_id,
-	}: {
-		// news_id: TNewsItemData['news_id'];
-	}
-) => void;
-
-export type TNewsContextStateReducer = (
-	state: INewsContextState, // | undefined,
-	actions: TNewsContextReducerAction
-) => INewsContextState;
-*/

@@ -1,4 +1,3 @@
-// import { pool } from '@lib/v1/pg';
 import pool from '../../connection';
 import { TGetNews } from '../../ts';
 
@@ -10,15 +9,6 @@ const getNews: TGetNews = async ({
 	filterByBlogTagsOr,
 	filterByBlogTagsAnd,
 } = {}) => {
-	// const {
-	//   with_news_blog_content,
-	//   isNewsVotedByUser,
-	//   newsCreatedBefore,
-	//   newsByUserId,
-	//   filterByBlogTagsOr,
-	//   filterByBlogTagsAnd,
-	// } = req.query;
-
 	const queryParams = [];
 	let whereClause = 'WHERE type_data IS NOT NULL';
 	let blogTagsJoinCondition = 'TRUE';
@@ -129,6 +119,7 @@ const getNews: TGetNews = async ({
 
 	const result = await pool
 		.query(sqlQuery, queryParams)
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		.then(async (response: { rows: any[] }) => response.rows);
 
 	let hit_news_items_limit = false;

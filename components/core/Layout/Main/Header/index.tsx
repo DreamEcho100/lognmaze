@@ -1,8 +1,4 @@
-import {
-	// useCallback,
-	//  useEffect,
-	useState,
-} from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -16,12 +12,6 @@ import {
 import ButtonComponent from '@commonComponentsIndependent/Button';
 import { IUserAuthenticatedData } from '@coreLib/ts/global';
 
-// import { setDataFirstTime, handleSignOut } from '@store/UserContext/actions';
-// import { useUserSharedState } from '@store/UserContext';
-
-// import NavOnBigScreens from './NavOnBigScreens/NavOnBigScreens';
-// import NavOnSmallScreens from './NavOnSmallScreens/NavOnSmallScreens';
-// import Button from '@components/UI/V1/Button';
 const MainNavigation = () => {
 	const [
 		{
@@ -40,23 +30,11 @@ const MainNavigation = () => {
 
 	const [showNavOnSmallScreens, setShowNavOnSmallScreens] = useState(false);
 
-	// const CBSetDataFirstTime = useCallback(
-	// 	() => setDataFirstTime({ dispatch: userDispatch }),
-	// 	[userDispatch]
-	// );
-
-	// useEffect(() => {
-	// 	CBSetDataFirstTime();
-	// }, [CBSetDataFirstTime]);
-
 	const handleLogout = (id: IUserAuthenticatedData['id'], token?: string) => {
-		// let logoutUserRequestResetActionTimeoutId: NodeJS.Timeout;
-
 		logoutUserRequestAction(userDispatch, {
 			bodyContent: { id },
 			token,
 		});
-		// logoutUserRequestResetAction(userDispatch);
 
 		const logoutUserRequestResetActionTimeoutId = setTimeout(
 			() => logoutUserRequestResetAction(userDispatch),

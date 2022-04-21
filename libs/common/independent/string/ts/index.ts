@@ -35,7 +35,6 @@ export type TCase =
 	| typeof stringUtilsConstants.CONSTANT_CASE
 	| typeof stringUtilsConstants.TITLE_CASE
 	| typeof stringUtilsConstants.SENTENCE_CASE;
-// | 'header'
 export type TArrCaseConvertor = (
 	strArr: string[],
 	choosedCase: TCase
@@ -45,7 +44,6 @@ export type TCaseConvertor = (str: string, choosedCase: TCase) => string;
 export type TCasesConvertorOptions = {
 	cases?: TCases;
 };
-// interface ICaseConvertorOptions {}
 export type TCasesConvertor = (
 	str: string,
 	options: TCasesConvertorOptions

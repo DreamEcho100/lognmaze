@@ -1,19 +1,11 @@
 import { useEffect } from 'react';
-import {
-	NextSeo,
-	// ProfilePageJsonLd
-} from 'next-seo';
+import { NextSeo } from 'next-seo';
 
 import classes from './index.module.css';
 import helpersClasses from '@styles/helpers.module.css';
 
-// import {
-// 	VISITOR_PROFILE_GUEST,
-// 	VISITOR_PROFILE_OWNER,
-// } from '@coreLib/constants';
 import { VISITOR_PROFILE_OWNER } from '@coreLib/constants';
 import { useUserSharedState } from '@store/UserContext';
-// import { useNewsSharedState } from '@store/newsContext';
 import { useUserProfilePageSharedState } from '@store/ProfilePageContext';
 import { setProfilePageVisitorStatus } from '@store/ProfilePageContext/actions';
 
@@ -28,11 +20,9 @@ const UserProfileScreen = () => {
 		{
 			data: { user: userData, token: userToken },
 		},
-		// userDispatch,
 	] = useUserSharedState();
 	const [{ data: profilePageData }, profilePageDispatch] =
 		useUserProfilePageSharedState();
-	// const [newsDataState, newsDispatch] = useNewsSharedState();
 
 	const profilePageVisitorStatus = profilePageData?.visitorStatus;
 
@@ -80,6 +70,7 @@ const UserProfileScreen = () => {
 						gender: profilePageUserData.gender,
 					},
 					...(() => {
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
 						const images: any[] = [];
 
 						if (profilePageUserData.profile_picture)
@@ -112,16 +103,12 @@ const UserProfileScreen = () => {
 					})(),
 				}}
 			/>
-			{/* <ProfilePageJsonLd breadcrumb={''} /> */}
 			<main className={helpersClasses.main}>
 				<SectionWrapper className={classes.userProfileHeroSectionWrapper}>
 					<UserProfileHero />
 				</SectionWrapper>
 				<div className={helpersClasses.mainContent}>
-					<NewsFeed
-					// newsFetchRouteQuery={{}}
-					// priorityForHeaderImage={false}
-					/>
+					<NewsFeed />
 					<div>
 						<SectionWrapper className={classes.sectionWrapper}>
 							<ProfileBioSection bio={profilePageUserData.bio} />
@@ -131,8 +118,6 @@ const UserProfileScreen = () => {
 								<NewsItemActionButton
 									userToken={userToken}
 									actionType={'create'}
-									// newsItemData={undefined}
-									// newsItemDataType={'blog'}
 									userData={userData}
 								/>
 							</SectionWrapper>

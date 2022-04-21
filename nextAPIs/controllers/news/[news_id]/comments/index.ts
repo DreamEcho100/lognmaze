@@ -19,16 +19,12 @@ export const getCommentsController = async (
 		throw new Error('Data required not provided!');
 	}
 
-	if (
-		typeof req.query.news_id !== 'string'
-		// || typeof req.query.last_comment_created_at !== 'string'
-	) {
+	if (typeof req.query.news_id !== 'string') {
 		res.status(400);
 		throw new Error('Wrong queries');
 	}
 
 	const data: {
-		// [key: string]: string | boolean;
 		hit_comments_limit?: boolean;
 		hit_replies_limit?: boolean;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -58,16 +54,6 @@ export const getCommentsController = async (
 				WhereParamsIndex.comments_to_not_fetch.push(`$${queryParams.length}`);
 			});
 		}
-		// if (
-		// 	Array.isArray(req.query.comments_to_not_fetch) &&
-		// 	req.query.comments_to_not_fetch.length > 0 /*&&
-		// 	!Array.isArray(req.query.comments_to_not_fetch)*/
-		// ) {
-		// 	req.query.comments_to_not_fetch.forEach((item: string) => {
-		// 		queryParams.push(item);
-		// 		WhereParamsIndex.comments_to_not_fetch.push(`$${queryParams.length}`);
-		// 	});
-		// }
 
 		const sqlQuery = `
 		SELECT
@@ -139,15 +125,6 @@ export const getCommentsController = async (
 				WhereParamsIndex.replies_to_not_fetch.push(`$${queryParams.length}`);
 			});
 		}
-		// if (
-		// 	Array.isArray(req.query.replies_to_not_fetch) &&
-		// 	req.query.replies_to_not_fetch.length > 0
-		// ) {
-		// 	req.query.replies_to_not_fetch.forEach((item: any) => {
-		// 		queryParams.push(item);
-		// 		WhereParamsIndex.replies_to_not_fetch.push(`$${queryParams.length}`);
-		// 	});
-		// }
 
 		data.comments = await pool
 			.query(
@@ -198,10 +175,13 @@ export const getCommentsController = async (
 		}
 	}
 
-	res.setHeader(
-		'Cache-Control',
-		'public, s-maxage=10, stale-while-revalidate=59'
-	);
+	if (process.env.NoDE_ENV === 'production') {
+		res.setHeader(
+			'Cache-Control',
+			'public, s-maxage=10, stale-while-revalidate=59'
+		);
+	}
+
 	res.status(200).json(data);
 };
 

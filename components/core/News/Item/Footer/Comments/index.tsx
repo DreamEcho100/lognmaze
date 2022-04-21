@@ -10,18 +10,10 @@ import {
 import helpersClasses from '@styles/helpers.module.css';
 
 import { TNewsItemCommentsMain, TNewsItemData } from '@coreLib/ts/global';
-// import {
-// 	handleLoadingNewsItemComments,
-// 	handlePostingCommentToNewsItem,
-// } from '@store/NewsContext/actions';
-// import { useNewsSharedState } from '@store/NewsContext';
-// import { useUserSharedState } from '@store/UserContext';
 import { useUserSharedState } from '@store/UserContext';
-// import { useNewsSharedState } from '@store/newsContext';
 
 import Comment from './Comment';
 import CommentTextarea from './CommentTextarea';
-// import { getMoreNewsItemCommentsMain } from '@store/NewsContext/actions/comments';
 import { useNewsSharedState } from '@store/NewsContext';
 import ButtonComponent from '@commonComponentsIndependent/Button';
 import {
@@ -30,7 +22,6 @@ import {
 } from './utils/actions';
 import commentsRequestsReducer from './utils/reducer';
 import { useNewsItemExtraDataSharedState } from '../../context';
-// import { useNewsItemExtraDataSharedState } from '../../context';
 
 interface IProps {
 	newsItemComments: TNewsItemCommentsMain;
@@ -72,13 +63,8 @@ const Comments: FC<IProps> = ({
 
 	const [isCommentTextarea, setIsCommentTextarea] = useState(true);
 
-	// const initGetMainCommentsRequjest =
-	// 	newsItemsActions[news_id]?.requests?.init?.getMainComments;
 	const getMoreMainCommentsRequest =
 		newsItemsActions[news_id]?.requests?.getMoreMainComments;
-
-	// const [userData, userDispatch] = useUserSharedState();
-	// const [newsDataState, newsDispatch] = useNewsSharedState();
 
 	const [values, setValues] = useState({
 		content: '',
@@ -87,32 +73,16 @@ const Comments: FC<IProps> = ({
 	const isSendCommentButtonDisable = !!(
 		!userData || requestsActionsState.create?.isLoading
 	);
-	// , setisSendCommentButtonDisable] =
-	// useState(false);
-
-	// const [loadingComments, setLoadingComments] = useState(false);
 
 	const handleSubmit = async (event: FormEvent) => {
 		event.preventDefault();
 
-		// setisSendCommentButtonDisable(true);
-
 		if (
 			!userData ||
-			!requestsActionsState.create ||
-			requestsActionsState.create.isLoading ||
+			requestsActionsState.create?.isLoading ||
 			values.content.length < 2
 		)
 			return;
-
-		// await handlePostingCommentToNewsItem({
-		// 	newsDispatch,
-		// 	commentType: 'comment_main',
-		// 	commentContent: values.content,
-		// 	news_id: news_id,
-		// 	user: userData.user,
-		// 	token: userData.token,
-		// });
 
 		await createNewsItemMainComment(requestsActionsDispatch, {
 			token: userToken,
@@ -135,8 +105,6 @@ const Comments: FC<IProps> = ({
 		setValues({
 			content: '',
 		});
-
-		// setisSendCommentButtonDisable(false);
 	};
 
 	const [newsItemExtraDataSharedState, newsItemExtraDataDispatch] =

@@ -3,8 +3,6 @@ import { Dispatch, SetStateAction } from 'react';
 import {
 	INewsItemTypeBlogBasicData,
 	INewsItemTypePostBasicData,
-	// IUserAuthenticatedData,
-	// TNewsItemData,
 } from '@coreLib/ts/global';
 import { TNewsContextReducerAction } from '@store/NewsContext/ts';
 

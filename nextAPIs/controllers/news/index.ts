@@ -57,10 +57,13 @@ export const getNewsController = async (
 	const news = await pgActions.news.get({
 		...existingItems,
 	});
-	res.setHeader(
-		'Cache-Control',
-		'public, s-maxage=10, stale-while-revalidate=59'
-	);
+
+	if (process.env.NoDE_ENV === 'production') {
+		res.setHeader(
+			'Cache-Control',
+			'public, s-maxage=10, stale-while-revalidate=59'
+		);
+	}
 
 	res.json(news);
 };
@@ -112,11 +115,6 @@ export const createNewsItemController = async (
 
 			news_data = existingItems;
 			news_data.type = req.body.newsItemBasicData.type;
-			// if (atLeastOneItemExist) news_data = existingItems;
-			// else {
-			// 	res.status(400);
-			// 	throw new Error("Items doesn't exist");
-			// }
 		} else if (req.body.newsItemBasicData.type === 'post') {
 			if (
 				!req.body.newsItemBasicData ||
@@ -134,12 +132,6 @@ export const createNewsItemController = async (
 
 			news_data = existingItems;
 			news_data.type = req.body.newsItemBasicData.type;
-
-			// if (atLeastOneItemExist) news_data = existingItems;
-			// else {
-			// 	res.status(400);
-			// 	throw new Error("Items doesn't exist");
-			// }
 		} else {
 			res.status(400);
 			throw new Error("Items type doesn't exist");

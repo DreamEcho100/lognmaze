@@ -105,10 +105,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 			user: IUserBasicData;
 		};
 
-		// profileData.visitorStatus =
-		// 	visitorUserNameId && query.user_name_id === visitorUserNameId
-		// 		? VISITOR_PROFILE_OWNER
-		// 		: VISITOR_PROFILE_GUEST;
 		const userFilterBy: TGetUsersPropFilterBy = [
 			[
 				{
@@ -119,9 +115,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 		];
 		const userExtraReturns: IExtraReturns = {
 			user_id: true,
-			// sensitiveInfo: profileData.visitorStatus === VISITOR_PROFILE_OWNER,
-			// user_password
-			// user_news_counter
 		};
 
 		const user: IUserBasicData | undefined = await pgActions.users
@@ -135,13 +128,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 			);
 
 		if (!user) {
-			// res.statusCode = 404;
-			// res.statusMessage = 'User Not Found!';
-			// res.end();
 			return {
-				// props: {
-				// 	date: new Date().toISOString(),
-				// },
 				notFound: true,
 			};
 		}
@@ -150,33 +137,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 		profileData.user.last_sign_in = profileData.user.last_sign_in.toString();
 		profileData.user.created_at = profileData.user.created_at.toString();
-		// if (
-		// 	profileData.visitorStatus === VISITOR_PROFILE_OWNER &&
-		// 	profileData.user.date_of_birth
-		// ) {
-		// 	profileData.user.date_of_birth =
-		// 		profileData.user.date_of_birth.toString();
-		// }
 
 		const existingItems = {};
-		// const { existingItems } =
-		// 	itemsInObject(query, [
-		// 	'filterByBlogTagsAnd',
-		// 	'filterByBlogTagsOr',
-		// 	// 'newsByUserId',
-		// 	// 'newsCreatedBefore',
-		// 	'isNewsVotedByUser',
-		// 	// 'with_news_blog_content',
-		// ]);
-
-		// if (typeof existingItems.filterByBlogTagsAnd === 'string')
-		// 	existingItems.filterByBlogTagsAnd = JSON.parse(
-		// 		existingItems.filterByBlogTagsAnd
-		// 	);
-		// if (typeof existingItems.filterByBlogTagsOr === 'string')
-		// 	existingItems.filterByBlogTagsOr = JSON.parse(
-		// 		existingItems.filterByBlogTagsOr
-		// 	);
 
 		profileData.newsData = await pgActions.news.get({
 			...existingItems,

@@ -20,3 +20,8 @@
 [dir='rtl'] .settingsMenu {
 	list-style: none;
 }
+
+.settingsMenu,
+:not([dir='rtl']) .settingsMenu {
+	padding: 0;
+}

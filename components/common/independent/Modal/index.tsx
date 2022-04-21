@@ -27,7 +27,7 @@ interface IPropsHandler1 {
 }
 
 export interface IModalComponentProps {
-	children: JSX.Element | JSX.Element[]; // ReactNode;
+	children: JSX.Element | JSX.Element[];
 	// setIsModalVisible?: IntrinsicAttributes & INewsItemProvidedContextProps & { children?: ReactNode; };
 	isModalVisible: boolean;
 	modalVisibilityHandler: TPropsHandler0 | IPropsHandler1;
@@ -72,8 +72,6 @@ const focusableSelectors = [
 
 const ModalComponent: FC<IModalComponentProps> = ({
 	children,
-	// handleSetIsModalVisible,
-	// handleSetIsModalVisibleOptions,
 	modalVisibilityHandler,
 	isModalVisible,
 	modalClasses,
@@ -83,18 +81,16 @@ const ModalComponent: FC<IModalComponentProps> = ({
 	const modalProps = useRef<{
 		lastElementFocusedBeforeThisModal: Element | null;
 		bodyOverflowBeforeModal?: string;
-		// modalWrapperFocusableElements?: NodeListOf<Element>;
 	}>({
 		lastElementFocusedBeforeThisModal: null,
 		bodyOverflowBeforeModal: undefined,
-		// modalWrapperFocusableElements: undefined,
 	});
 	const modalContainerCloseButtonPropsProps = useRef<HTMLButtonElement>(null);
 
 	const modalWrapperRef = useRef<HTMLDivElement>(null);
 	const modalContainerBodyRef = useRef<HTMLDivElement>(null);
 
-	const ElementSelected = typeof window !== 'undefined' && document.body; // document.getElementById('__next');
+	const ElementSelected = typeof window !== 'undefined' && document.body;
 
 	const findByKey = (name: 'header' | 'body' | 'footer') => {
 		const ModalContainerElementMap = {
@@ -238,13 +234,8 @@ const ModalComponent: FC<IModalComponentProps> = ({
 
 			moveFocusIn();
 		} else {
-			// if (modalProps.current.bodyOverflowBeforeModal)
-			// 	document.body.style.overflow =
-			// 		modalProps.current.bodyOverflowBeforeModal;
-			// else {
 			document.body.style.overflowX = 'hidden';
 			document.body.style.overflowY = 'auto';
-			// }
 
 			if (
 				modalProps.current.lastElementFocusedBeforeThisModal instanceof
@@ -253,7 +244,6 @@ const ModalComponent: FC<IModalComponentProps> = ({
 				modalProps.current.lastElementFocusedBeforeThisModal.focus();
 			}
 		}
-		// }
 	}, [isModalVisible, moveFocusIn]);
 
 	if (!isModalVisible || !ElementSelected) {

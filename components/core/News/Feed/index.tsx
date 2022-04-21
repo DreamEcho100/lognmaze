@@ -26,15 +26,8 @@ const NewsFeed: FC<IProps> = ({
 	className = '',
 	detailsType = 'description',
 	modelDetailsType = 'content',
-	// newsFetchRouteQuery,
 	...props
 }) => {
-	// const [newsState, newsDispatch] = useNewsSharedState();
-
-	// const {
-	// 	actions: { items: newsItemsActions },
-	// } = newsState;
-
 	const allClasses = handleAllClasses({
 		classes,
 		defaultClasses,
@@ -48,11 +41,6 @@ const NewsFeed: FC<IProps> = ({
 		actions: newsActions,
 	} = newsState;
 
-	// const {
-	// 	actions: { items: newsItemsActions },
-	// } = newsState;
-
-	// const newsItemsActions = newsActions.items;
 	const getMoreNewsItemsRequest = newsActions.requests?.getMoreNewsItems;
 
 	const feedProps = {
@@ -95,18 +83,10 @@ const NewsFeed: FC<IProps> = ({
 					<button
 						disabled={getMoreNewsItemsRequest?.isLoading}
 						onClick={() => {
-							// handleLoadMoreNewsItems({
-							// 	newsDispatch,
-							// 	last_news_item_created_at:
-							// 		newsState.data.last_news_item_created_at,
-							// 	newsFetchRouteQuery,
-							// })
-
 							const newsCreatedBefore =
 								newsData[newsData.length - 1]?.created_at;
 
 							if (
-								// !isNaN(newsCreatedBefore) &&
 								newsCreatedBefore &&
 								(!getMoreNewsItemsRequest ||
 									!getMoreNewsItemsRequest?.isLoading)

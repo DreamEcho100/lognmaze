@@ -21,29 +21,23 @@ export const getUsersController = async (
 	};
 	const filterBy: TGetUsersPropFilterBy = [];
 
-	// let key: TKey;
-
-	let $any: TGetUsersPropFilterByOptions; // unknown as TGetUsersPropFilterByOptions
+	let $any: TGetUsersPropFilterByOptions;
 	if (
 		req.query['$any'] &&
 		typeof ($any = JSON.parse(req.query['$any'] as string)) === 'object'
 	)
 		filterByUsersHandler<TGetUsersPropFilterByOptions>({
-			itemsInObjectArr: [
-				// 'byUsersId', 'byUsersNameId', 'byUsersEmail'
-				'$any',
-			],
+			itemsInObjectArr: ['$any'],
 			objectToCheck: {
 				$any,
 			},
 			callBack: (props) => {
-				let key: keyof typeof props.existingItems; // : TGetUsersPropFilterByOptions;
+				let key: keyof typeof props.existingItems;
 				for (key in props.existingItems) {
 					if (
 						!props.existingItems[key] ||
 						props.existingItems[key].targets?.length === 0
 					) {
-						// throw new Error('targets not defined');
 						return;
 					}
 

@@ -53,7 +53,7 @@ const SignUpComponent = ({
 		first_name: IUserAuthenticatedData['first_name'];
 		last_name: IUserAuthenticatedData['last_name'];
 		user_name_id: IUserAuthenticatedData['user_name_id'];
-		email: TUserAuthenticatedDataEmail; // IUserAuthenticatedData['email'];
+		email: TUserAuthenticatedDataEmail;
 		password: string;
 		date_of_birth: string | number | Date;
 		country: IUserBasicDataCoverPhoto;
@@ -91,8 +91,6 @@ const SignUpComponent = ({
 	const [fetchErrorsList, setFetchErrorsList] = useState<string[]>([]);
 
 	const handleGetCities = useCallback(async () => {
-		// const state = values.state;
-
 		setValues((prev) => ({
 			...prev,
 			city: '',
@@ -137,8 +135,6 @@ const SignUpComponent = ({
 	}, [UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN, values.state]);
 
 	const handleGetStates = useCallback(async () => {
-		// const country = values.country;
-
 		setValues((prev) => ({
 			...prev,
 			state: '',
@@ -291,10 +287,7 @@ const SignUpComponent = ({
 		)
 			errorsList.push('City is not chosen.');
 
-		if (
-			!['male', 'female'].includes(values.gender)
-			// values.gender !== 'male' && values.gender !== 'female'
-		)
+		if (!['male', 'female'].includes(values.gender))
 			errorsList.push('Gender is not specified.');
 
 		if (errorsList.length === 0 && passwordRequirement.length === 0) {
@@ -374,7 +367,6 @@ const SignUpComponent = ({
 						required
 						value={values.first_name}
 						onChange={(event) => {
-							// if (true || !values.user_name_id) {
 							return setValues((prev) => ({
 								...prev,
 								user_name_id: `${event.target.value}-${values.last_name}`
@@ -387,7 +379,6 @@ const SignUpComponent = ({
 									.replace(/-$/, ''),
 								[event.target.name]: event.target.value,
 							}));
-							// }
 						}}
 					/>
 				</FormControlComponent>
@@ -413,7 +404,6 @@ const SignUpComponent = ({
 									.replace(/-$/, ''),
 								[event.target.name]: event.target.value,
 							}));
-							// }
 						}}
 					/>
 				</FormControlComponent>
@@ -588,12 +578,6 @@ const SignUpComponent = ({
 						value='male'
 						required
 						onClick={handleSetValuesOnClick}
-						// onClick={(event: Event) => setValues(prevState => (
-						// 	{
-						// 		...prevState,
-						// 		[(event.target as HTMLInputElement).name]: (event.target as HTMLInputElement).value)
-						// 	}
-						// ))}
 					/>
 				</FormControlComponent>
 
@@ -619,7 +603,6 @@ const SignUpComponent = ({
 					title='Sign Up'
 					disabled={isButtonsDisabled}
 					type='submit'
-					// className={classes.submitButton}
 				>
 					Sign Up
 				</ButtonComponent>

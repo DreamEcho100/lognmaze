@@ -28,8 +28,6 @@ export const getTableAndColumnNames: TGetTableAndColumnNames = (
 ) => `${tableAndItsColumns[name].table}.${tableAndItsColumns[name].column}`;
 
 const priorityOptions: {
-	// AND: 'AND',
-	// OR: 'OR',
 	[key: string]: string;
 } = {
 	AND: 'AND',

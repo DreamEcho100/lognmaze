@@ -93,22 +93,12 @@ export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
 		if (error instanceof Error) console.error(`Error, ${error.message}`);
 	}
 
-	// Add static pages
-	// const pages = ['/auth'];
-
-	// pages.map((url) => {
-	// 	links.push({
-	// 		url,
-	// 		lastmod: new Date().toISOString(),
-	// 		changefreq: 'daily',
-	// 		priority: 0.9,
-	// 	});
-	// });
-
-	res.setHeader(
-		'Cache-Control',
-		'public, s-maxage=86400, stale-while-revalidate=60'
-	);
+	if (process.env.NoDE_ENV === 'production') {
+		res.setHeader(
+			'Cache-Control',
+			'public, s-maxage=86400, stale-while-revalidate=60'
+		);
+	}
 
 	// Create a stream to write to
 	const stream = new SitemapStream({

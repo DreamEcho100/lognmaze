@@ -1,8 +1,3 @@
-import {
-	// NextApiRequest,
-	NextApiResponse,
-} from 'next';
-
 export type TDate = string | number | Date;
 
 export type NextApiRequestExtended = NextApiRequest & {
@@ -13,8 +8,6 @@ export type NextApiRequestExtended = NextApiRequest & {
 		login_end_date: string;
 	};
 };
-
-/* User */
 
 export type IUserBasicDataCoverPhoto = string;
 export type IUserBasicDataProfilePicture = string;
@@ -43,9 +36,7 @@ export interface IUserBasicData {
 export interface IUserAuthenticatedData extends IUserBasicData {
 	email?: TUserAuthenticatedDataEmail;
 	email_verified?: boolean;
-	// password?: TUserAuthenticatedDataPassword;
 	date_of_birth?: TUserAuthenticatedDataEmailDateOfBirth;
-	// address_of_resident?: TUserAuthenticatedDataEmailAddressOfResident;
 }
 
 /* */
@@ -100,7 +91,6 @@ export type INewsItemTypeBlogContent = string;
 export interface INewsItemTypeBlogBasicData {
 	type: 'blog';
 	type_data: {
-		// user_vote_type: null;
 		title: string;
 		slug: string;
 		iso_language: string;
@@ -115,7 +105,6 @@ export interface INewsItemTypeBlogBasicData {
 export type INewsItemTypeBlog = INewsItemBasicData & INewsItemTypeBlogBasicData;
 export interface INewsItemTypePostBasicData {
 	type: 'post';
-	// user_vote_type: null;
 	type_data: {
 		content: string;
 	};
