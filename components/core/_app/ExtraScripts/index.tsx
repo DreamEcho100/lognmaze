@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import * as gtag from '@commonLibIndependent/gtag';
 import pAddScript from './pAddScript';
 import CustomNextImage from '@commonComponentsDependent/CustomNextImage';
+import PungentTagAntiAdBlock from './Pungent tag Anti-AdBlock';
 
 const ExtraScripts = () => {
 	const router = useRouter();
@@ -35,10 +36,23 @@ const ExtraScripts = () => {
     /> */}
 			<Script
 				strategy='afterInteractive'
+				async
+				id='Interstitial'
+				data-cfasync='false'
+				src='//upgulpinon.com/1?z=5042305'
+			/>
+			<Script
+				strategy='afterInteractive'
 				// strategy='worker'
 				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
 			/>
-
+			<Script
+				id='Pungent tag Anti-AdBlock'
+				strategy='afterInteractive'
+				dangerouslySetInnerHTML={{
+					__html: PungentTagAntiAdBlock,
+				}}
+			/>
 			{/* <Script
 				strategy='worker'
 				id='googletagmanager'

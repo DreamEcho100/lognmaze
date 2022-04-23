@@ -170,55 +170,6 @@
 	--input-width: 25rem;
 }
 
-body.dark {
-	--main-bg-color-0: var(--color-1-0);
-	--main-bg-color-0-95: var(--color-1-0-95);
-
-	--main-bg-color-1: var(--color-1-10);
-	--main-bg-color-2: var(--color-1-20);
-	--main-bg-color-3: var(--color-1-70);
-	--main-bg-color-4: var(--color-1-85);
-	--main-bg-color-5: var(--color-1-95);
-
-	--main-font-color-0: var(--color-1-95);
-
-	--main-font-color-1: var(--color-1-95);
-	--main-font-color-2: var(--color-1-85);
-	--main-font-color-3: var(--color-1-25);
-	--main-font-color-4: var(--color-1-20);
-	--main-font-color-5: var(--color-1-10);
-
-	--sectionWrapper-box-shadow-length: 0.25rem;
-
-	--main-special-bg-color-5: var(--color-2-20);
-}
-
-/*.special-scrollbar*/
-::-webkit-scrollbar {
-	width: 1rem;
-	height: 1rem;
-}
-/*.special-scrollbar*/
-::-webkit-scrollbar-button {
-	/* background-color: var(--main-special-bg-color-5); */
-	width: 0;
-	height: 0;
-}
-/*.special-scrollbar*/
-::-webkit-scrollbar-thumb {
-	background-color: var(--main-special-bg-color-5);
-	border-radius: 1rem;
-}
-/*.special-scrollbar*/
-::-webkit-scrollbar-track {
-	background-color: var(--main-bg-color-2);
-}
-
-::selection {
-	color: var(--main-special-bg-color-3);
-	background-color: var(--main-special-font-color-4);
-}
-
 *,
 *::before,
 *::after {
@@ -247,6 +198,111 @@ body {
 	color: var(--main-font-color-1);
 	overflow-y: auto;
 	overflow-x: hidden;
+	color-scheme: dark light;
+	caret-color: var(--main-special-2-bg-color-5);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--main-bg-color-0: var(--color-1-0);
+		--main-bg-color-0-95: var(--color-1-0-95);
+
+		--main-bg-color-1: var(--color-1-10);
+		--main-bg-color-2: var(--color-1-15);
+		--main-bg-color-3: var(--color-1-60);
+		--main-bg-color-4: var(--color-1-80);
+		--main-bg-color-5: var(--color-1-90);
+
+		--main-font-color-0: var(--color-1-95);
+
+		--main-font-color-1: var(--color-1-85);
+		--main-font-color-2: var(--color-1-70);
+		--main-font-color-3: var(--color-1-25);
+		--main-font-color-4: var(--color-1-20);
+		--main-font-color-5: var(--color-1-15);
+
+		--sectionWrapper-box-shadow-length: 0.25rem;
+
+		--main-special-bg-color-5: var(--color-2-20);
+	}
+
+	body:not(.light) {
+		color-scheme: dark;
+		caret-color: var(--main-special-2-bg-color-5);
+	}
+}
+
+body.light {
+	--main-bg-color-0: var(--color-1-100);
+	--main-bg-color-0-95: var(--color-1-100-95);
+
+	--main-bg-color-1: var(--color-1-100);
+	--main-bg-color-2: var(--color-1-90);
+	--main-bg-color-3: var(--color-1-25);
+	--main-bg-color-4: var(--color-1-20);
+	--main-bg-color-5: var(--color-1-15);
+
+	--main-font-color-0: var(--color-1-0);
+	--main-font-color-1: var(--color-1-5);
+	--main-font-color-2: var(--color-1-15);
+	--main-font-color-3: var(--color-1-70);
+	--main-font-color-4: var(--color-1-90);
+	--main-font-color-5: var(--color-1-100);
+
+	--main-special-bg-color-5: var(--color-2-15);
+	color-scheme: light;
+	caret-color: var(--main-special-2-bg-color-3);
+}
+
+body.dark {
+	--main-bg-color-0: var(--color-1-5);
+	--main-bg-color-0-95: var(--color-1-0-95);
+
+	--main-bg-color-1: var(--color-1-10);
+	--main-bg-color-2: var(--color-1-15);
+	--main-bg-color-3: var(--color-1-60);
+	--main-bg-color-4: var(--color-1-80);
+	--main-bg-color-5: var(--color-1-90);
+
+	--main-font-color-0: var(--color-1-95);
+
+	--main-font-color-1: var(--color-1-85);
+	--main-font-color-2: var(--color-1-70);
+	--main-font-color-3: var(--color-1-25);
+	--main-font-color-4: var(--color-1-20);
+	--main-font-color-5: var(--color-1-15);
+
+	--sectionWrapper-box-shadow-length: 0.25rem;
+
+	--main-special-bg-color-5: var(--color-2-20);
+	color-scheme: dark;
+	caret-color: var(--main-special-2-bg-color-5);
+}
+
+/*.special-scrollbar*/
+::-webkit-scrollbar {
+	width: 1rem;
+	height: 1rem;
+}
+/*.special-scrollbar*/
+::-webkit-scrollbar-button {
+	/* background-color: var(--main-special-bg-color-5); */
+	width: 0;
+	height: 0;
+}
+/*.special-scrollbar*/
+::-webkit-scrollbar-thumb {
+	background-color: var(--main-special-bg-color-5);
+	border-radius: 1rem;
+}
+/*.special-scrollbar*/
+::-webkit-scrollbar-track {
+	background-color: var(--main-bg-color-2);
+}
+
+::selection {
+	color: var(--main-special-bg-color-3);
+	background-color: var(--main-special-font-color-4);
 }
 
 h1 {
