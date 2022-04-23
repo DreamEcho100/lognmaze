@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 
 import classes from './index.module.css';
 import helpersClasses from '@styles/helpers.module.css';
@@ -15,7 +16,6 @@ import {
 import ButtonComponent from '@commonComponentsIndependent/Button';
 import LoginComponent from '@coreComponents/Auth/Login';
 import SignUpComponent from '@coreComponents/Auth/SignUp';
-import { NextSeo } from 'next-seo';
 
 type Props = {
 	UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN: string;

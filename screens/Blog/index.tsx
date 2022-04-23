@@ -45,16 +45,16 @@ const BlogScreen = () => {
 					...(() => {
 						const images = [
 							{
-								url: 'https://lognmaze.com/favicon.ico',
-								width: 250,
-								height: 250,
-								alt: 'LogNMaze Logo',
-							},
-							{
 								url: newsItemData.type_data.image_src,
 								width: 850,
 								height: 650,
 								alt: newsItemData.type_data.image_alt,
+							},
+							{
+								url: 'https://lognmaze.com/favicon.ico',
+								width: 250,
+								height: 250,
+								alt: 'LogNMaze Logo',
 							},
 						];
 
@@ -84,8 +84,8 @@ const BlogScreen = () => {
 				authorName={`${newsItemData.author_first_name} ${newsItemData.author_last_name} - @${newsItemData.author_user_name_id}`}
 				{...(() => {
 					const images = [
-						'https://lognmaze.com/favicon.ico',
 						newsItemData.type_data.image_src,
+						'https://lognmaze.com/favicon.ico',
 					];
 
 					if (newsItemData.author_profile_picture)
