@@ -77,6 +77,12 @@ const NewsItemActionTypeUpdate = ({
 				const bodyContent: IUpdateNewsItemReqArgs['bodyContent'] = {
 					type: props.type,
 					dataToUpdate: {},
+					pathsToRevalidate: [
+						`/users/${newsItemData.author_user_name_id}`,
+						newsItemData.type === 'blog'
+							? `/blogs/${newsItemData.type_data.slug}`
+							: `/posts/${newsItemData.news_id}`,
+					],
 				};
 
 				if (

@@ -28,9 +28,12 @@ export interface IUpdateNewsItemReqArgsPropsBodyContentTypePost {
 	};
 }
 export interface IUpdateNewsItemReqArgs {
-	bodyContent:
+	bodyContent: (
 		| IUpdateNewsItemReqArgsPropsBodyContentTypeBlog
-		| IUpdateNewsItemReqArgsPropsBodyContentTypePost;
+		| IUpdateNewsItemReqArgsPropsBodyContentTypePost
+	) & {
+		pathsToRevalidate: string[];
+	};
 	headersList: {
 		Authorization?: string;
 	};
@@ -51,10 +54,11 @@ export interface IDeleteNewsItemReqArgs {
 			news_id: string;
 		};
 	};
-	bodyContent: ({
-		type: INewsItemTypePost['type']
-	} | {
-		type: INewsItemTypeBlog['type'];
-		tags: INewsItemTypeBlog['type_data']['tags']
-	});
+	bodyContent:
+		| { type: INewsItemTypePost['type'] }
+		| {
+				type: INewsItemTypeBlog['type'];
+				tags: INewsItemTypeBlog['type_data']['tags'];
+				// eslint-disable-next-line no-mixed-spaces-and-tabs
+		  };
 }

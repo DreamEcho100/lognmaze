@@ -20,6 +20,7 @@ export const updateNewsItemController = async (
 	const bodyContent: IUpdateNewsItemReqArgs['bodyContent'] = {
 		type: req.body.type,
 		dataToUpdate: req.body.dataToUpdate,
+		pathsToRevalidate: req.body.pathsToRevalidate,
 	};
 
 	// let dataToUpdate: INewsDataBlogToUpdate | INewsDataPostToUpdate;
@@ -244,6 +245,12 @@ export const updateNewsItemController = async (
 		)
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		.then((response: { rows: any[] }) => response.rows);
+
+	if (Array.isArray(req.body.pathsToRevalidate)) {
+		req.body.pathsToRevalidate.forEach(async (path: string) => {
+			await res.unstable_revalidate(path); // `/blogs/${}`
+		});
+	}
 
 	return res.status(200).json({
 		news_id: req.query.news_id,
