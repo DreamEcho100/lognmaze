@@ -38,8 +38,8 @@ const NewsItemActionTypeCreate = ({
 				fieldsCheck.push('Content is not provided!');
 
 			if (props.type === 'blog') {
-				if (props.type_data.title.replace(/\s{2,}/g, '').length < 20)
-					fieldsCheck.push('Title is less than 25 characters.');
+				if (props.type_data.title.replace(/\s{2,}/g, '').length < 15)
+					fieldsCheck.push('Title is less than 15 characters.');
 				else if (props.type_data.title.replace(/\s{2,}/g, '').length > 120)
 					fieldsCheck.push('Title is more than 120 characters.');
 
@@ -60,12 +60,16 @@ const NewsItemActionTypeCreate = ({
 
 				if (props.type_data.description.replace(/\s{2,}/g, '').length < 25)
 					fieldsCheck.push('Description is less than 25 characters.');
+				else if (props.type_data.description.length > 1000)
+					fieldsCheck.push('Description is more than 1000 characters.');
 
-				if (
-					!props.type_data.content ||
-					props.type_data.content.replace(/\s{2,}/g, '').length < 25
-				)
-					fieldsCheck.push('Content is less than 25 characters.');
+				if (!props.type_data.content) fieldsCheck.push('No content provided!');
+				else {
+					if (props.type_data.content.replace(/\s{2,}/g, '').length < 25)
+						fieldsCheck.push('Content is less than 25 characters.');
+					else if (props.type_data.content.length > 40000)
+						fieldsCheck.push('Content is more than 40000 characters.');
+				}
 			} else {
 				if (props.type_data.content.replace(/\s{2,}/g, '').length < 2)
 					fieldsCheck.push('Content is less than 2 characters.');

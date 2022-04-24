@@ -51,8 +51,8 @@ const NewsItemActionTypeUpdate = ({
 
 				if (props.type_data?.description.replace(/\s{2,}/g, '').length < 25)
 					fieldsCheck.push('Description is less than 25 characters.');
-				else if (props.type_data?.description.length > 500)
-					fieldsCheck.push('Description is more than 500 characters.');
+				else if (props.type_data?.description.length > 1000)
+					fieldsCheck.push('Description is more than 1000 characters.');
 
 				if (!props.type_data.content) fieldsCheck.push('No content provided!');
 				else {

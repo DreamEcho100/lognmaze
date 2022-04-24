@@ -9,7 +9,8 @@ description: a linear data structure where the elements are not stored in contig
 ## What is a LinkedList
 
 > Linked List is a part of the Collection framework present in java.util package. This class is an implementation of the LinkedList data structure which is a linear data structure where the elements are not stored in contiguous locations and every element is a separate object with a data part and address part. The elements are linked using pointers and addresses. Each element is known as a node. Due to the dynamicity and ease of insertions and deletions, they are preferred over the arrays. It also has a few disadvantages like the nodes cannot be accessed directly instead we need to start from the head and follow through the link to reach a node we wish to access.
->
+> By [LinkedList in Java (geeksforgeeks.org)](https://www.geeksforgeeks.org/linked-list-in-java/)
+
 > How Does LinkedList work Internally?
 > Since a LinkedList acts as a dynamic array and we do not have to specify the size while creating it, the size of the list automatically increases when we dynamically add and remove items. And also, the elements are not stored continuously. Therefore, there is no need to increase the size. Internally, the LinkedList is implemented using the doubly linked list data structure. The main difference between a normal linked list and a doubly LinkedList is that a doubly linked list contains an extra pointer, typically called the previous pointer, together with the next pointer and data which are there in the singly linked list.
 > By [LinkedList in Java (geeksforgeeks.org)](https://www.geeksforgeeks.org/linked-list-in-java/)
@@ -247,8 +248,8 @@ int removeFirst() {
     head = head.next;
 
     // Reset `tempRemovedNode` values
-    tempRemovedNode.next = null;
-    tempRemovedNode.data = 0;
+    // tempRemovedNode.next = null;
+    // tempRemovedNode.data = 0;
     tempRemovedNode = null;
   }
 
@@ -350,8 +351,8 @@ int removeLast() {
     tempNode.next = null;
 
     // Reset the `tempNode` (old last node)
-    tempRemovedNode.next = null;
-    tempRemovedNode.data = 0;
+    // tempRemovedNode.next = null;
+    // tempRemovedNode.data = 0;
     tempRemovedNode = null;
   }
 
@@ -542,8 +543,8 @@ int removeAt(int index) {
       head = head.next;
 
       // Reset the `tempRemovedNode` (the removed node)
-      tempRemovedNode.next = null;
-      tempRemovedNode.data = 0;
+      // tempRemovedNode.next = null;
+      // tempRemovedNode.data = 0;
       tempRemovedNode = null;
     }
   } else {
@@ -563,8 +564,8 @@ int removeAt(int index) {
     tempNode.next = tempNode.next.next;
 
     // Reset the `tempRemovedNode` (the removed node)
-    tempRemovedNode.next = null;
-    tempRemovedNode.data = 0;
+    // tempRemovedNode.next = null;
+    // tempRemovedNode.data = 0;
     tempRemovedNode = null;
   }
 
@@ -731,8 +732,8 @@ public class MyLinkedList {
       removedNodeValue = head.data;
       head = head.next;
 
-      tempRemovedNode.next = null;
-      tempRemovedNode.data = 0;
+      // tempRemovedNode.next = null;
+      // tempRemovedNode.data = 0;
       tempRemovedNode = null;
     }
 
@@ -765,8 +766,8 @@ public class MyLinkedList {
       tempRemovedNode = tempNode.next;
       tempNode.next = null;
 
-      tempRemovedNode.next = null;
-      tempNode.data = 0;
+      // tempRemovedNode.next = null;
+      // tempNode.data = 0;
       tempNode = null;
     }
 
@@ -820,8 +821,8 @@ public class MyLinkedList {
         removedNodeValue = head.data;
         head = head.next;
 
-        tempRemovedNode.next = null;
-        tempRemovedNode.data = 0;
+        // tempRemovedNode.next = null;
+        // tempRemovedNode.data = 0;
         tempRemovedNode = null;
       }
     } else {
@@ -837,8 +838,8 @@ public class MyLinkedList {
       tempRemovedNode = tempNode.next;
       tempNode.next = tempNode.next.next;
 
-      tempRemovedNode.next = null;
-      tempRemovedNode.data = 0;
+      // tempRemovedNode.next = null;
+      // tempRemovedNode.data = 0;
       tempRemovedNode = null;
     }
 
