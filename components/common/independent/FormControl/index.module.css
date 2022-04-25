@@ -7,7 +7,7 @@
 	margin: var(--padding-main-1-half) var(--padding-main-1-quarter);
 	display: flex;
 	flex-direction: column;
-	min-width: var(--FormControl-min-width);
+	min-width: calc(var(--FormControl-min-width) - var(--padding-main-1-quarter));
 	/* align-items: flex-start; */
 	justify-content: center;
 	transition: all ease-in var(--main-transition-duration);
