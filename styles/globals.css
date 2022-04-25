@@ -148,6 +148,7 @@
 	--lazy-load-image-background-height: auto;
 	--main-nav-height: 6rem;
 	--main-transition-duration: 0.3s;
+	--main-focus-outline-color: rgba(0, 0, 0, 0.5);
 
 	--padding-main-1: 1em;
 	--padding-main-1-three-quarters: 0.75em;
@@ -203,7 +204,7 @@ body {
 }
 
 @media (prefers-color-scheme: dark) {
-	:root {
+	body:not(.light) {
 		--main-bg-color-0: var(--color-1-0);
 		--main-bg-color-0-95: var(--color-1-0-95);
 
@@ -224,11 +225,12 @@ body {
 		--sectionWrapper-box-shadow-length: 0.25rem;
 
 		--main-special-bg-color-5: var(--color-2-20);
-	}
 
-	body:not(.light) {
 		color-scheme: dark;
 		caret-color: var(--main-special-2-bg-color-5);
+		--main-focus-outline-color: rgba(255, 255, 255, 0.5);
+
+		--modalContainer-background-color: var(--main-bg-color-0-95);
 	}
 }
 
@@ -249,9 +251,12 @@ body.light {
 	--main-font-color-4: var(--color-1-90);
 	--main-font-color-5: var(--color-1-100);
 
+	caret-color: var(--main-special-2-bg-color-3);
 	--main-special-bg-color-5: var(--color-2-15);
 	color-scheme: light;
-	caret-color: var(--main-special-2-bg-color-3);
+	--main-focus-outline-color: rgba(0, 0, 0, 0.25);
+
+	--modalContainer-background-color: var(--main-bg-color-0-95);
 }
 
 body.dark {
@@ -274,9 +279,12 @@ body.dark {
 
 	--sectionWrapper-box-shadow-length: 0.25rem;
 
+	caret-color: var(--main-special-2-bg-color-5);
 	--main-special-bg-color-5: var(--color-2-20);
 	color-scheme: dark;
-	caret-color: var(--main-special-2-bg-color-5);
+	--main-focus-outline-color: rgba(255, 255, 255, 0.5);
+
+	--modalContainer-background-color: var(--main-bg-color-0-95);
 }
 
 /*.special-scrollbar*/
@@ -332,6 +340,23 @@ a,
 button,
 label {
 	cursor: pointer;
+}
+
+a[href]:not([tabindex^='-']):focus,
+area[href]:not([tabindex^='-']):focus,
+input:not([type='hidden']):not([type='radio']):not([disabled]):not([tabindex^='-']):focus,
+input[type='radio']:not([disabled]):not([tabindex^='-']):checked:focus,
+select:not([disabled]):not([tabindex^='-']):focus,
+textarea:not([disabled]):not([tabindex^='-']):focus,
+button:not([disabled]):not([tabindex^='-']):focus,
+iframe:not([tabindex^='-']):focus,
+audio[controls]:not([tabindex^='-']):focus,
+video[controls]:not([tabindex^='-']):focus,
+[contenteditable]:not([tabindex^='-']):focus,
+[tabindex]:not([tabindex^='-']):focus {
+	outline-color: var(--main-focus-outline-color);
+	outline-style: solid;
+	outline-width: 0.25rem;
 }
 
 a,

@@ -16,7 +16,9 @@
 /**/
 .borderBottom {
 	border-color: rgba(255, 255, 255, 0.1);
-	outline-color: rgba(255, 255, 255, 0.1);
+	outline-color: rgba(0, 0, 0, 0.1);
+	outline-style: solid;
+	outline-width: 0.25rem;
 
 	border: 0rem solid transparent;
 	border-bottom: 0.2rem solid var(--main-special-bg-color-2);

@@ -134,7 +134,7 @@ const NewsItemFormTypePost = ({
 					disabled={itemsDisabled}
 					type='submit'
 				>
-					submit
+					Submit
 				</ButtonComponent>
 			</FormControlComponent>
 		</FormComponent>

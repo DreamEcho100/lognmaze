@@ -7,7 +7,9 @@
 	transition: all var(--main-transition-duration) ease-in;
 
 	border-color: rgba(255, 255, 255, 0.1);
-	outline-color: rgba(255, 255, 255, 0.1);
+	outline-color: rgba(0, 0, 0, 0.2);
+	outline-style: solid;
+	outline-width: 0rem;
 
 	border: 0rem solid transparent;
 	border-bottom: 0.15rem solid var(--main-special-bg-color-2);
@@ -27,6 +29,16 @@
 	background-color: var(--main-special-bg-color-1);
 
 	border-bottom: 0.45rem solid var(--main-special-bg-color-4);
+	padding: 0.75em 0.25em;
+}
+
+body:global(.dark) .input:not([type='checkbox']):focus {
+	background-color: transparent;
+}
+@media (prefers-color-scheme: dark) {
+	body:not(:global(.light)) .input:not([type='checkbox']):focus {
+		background-color: transparent;
+	}
 }
 
 /* .input-radio {
