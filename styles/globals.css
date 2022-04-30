@@ -194,12 +194,15 @@ body {
 	font-family: sans-serif, system-ui, monospace;
 	line-height: 1.15;
 	-webkit-text-size-adjust: 100%;
-	font-size: var(--current-font-size);
-	background-color: var(--main-bg-color-2);
-	color: var(--main-font-color-1);
 	overflow-y: auto;
 	overflow-x: hidden;
 	color-scheme: dark light;
+}
+
+.apply-basic-variables {
+	font-size: var(--current-font-size);
+	background-color: var(--main-bg-color-2);
+	color: var(--main-font-color-1);
 	caret-color: var(--main-special-2-bg-color-5);
 }
 
@@ -234,7 +237,7 @@ body {
 	}
 }
 
-body.light {
+.light {
 	--main-bg-color-0: var(--color-1-100);
 	--main-bg-color-0-95: var(--color-1-100-95);
 
@@ -259,7 +262,7 @@ body.light {
 	--modalContainer-background-color: var(--main-bg-color-0-95);
 }
 
-body.dark {
+.dark {
 	--main-bg-color-0: var(--color-1-5);
 	--main-bg-color-0-95: var(--color-1-0-95);
 

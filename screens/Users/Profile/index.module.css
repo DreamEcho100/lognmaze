@@ -2,3 +2,7 @@
 	background-color: var(--main-bg-color-0);
 	--sectionWrapper-margin-bottom: var(--padding-main-1-three-quarters);
 }
+
+.sectionWrapper {
+	max-width: 60rem;
+}

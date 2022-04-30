@@ -64,11 +64,11 @@
 	justify-content: flex-end;
 
 	height: 25vw;
-	max-height: 20rem;
+	max-height: 15rem;
 	min-height: 12.5rem;
 
 	width: 25vw;
-	max-width: 20rem;
+	max-width: 15rem;
 	min-width: 12.5rem;
 	margin: 0 var(--padding-main-1-three-quarters);
 }

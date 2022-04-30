@@ -12,9 +12,9 @@
 	width: 100%;
 	background-color: transparent;
 	border-color: transparent;
-	outline-color: rgba(0, 0, 0, 0.1);
-	outline-style: solid;
-	outline-width: 0.25rem;
+	/* outline-color: rgba(0, 0, 0, 0.1); */
+	/* outline-style: solid; */
+	/* outline-width: 0.25rem; */
 	font-weight: bold;
 	text-align: left;
 }

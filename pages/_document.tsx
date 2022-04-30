@@ -5,7 +5,7 @@ class MyDocument extends Document {
 		return (
 			<Html lang='en'>
 				<Head />
-				<body>
+				<body className='apply-basic-variables'>
 					<Main />
 					<NextScript />
 				</body>

@@ -17,16 +17,18 @@
 .mainContent {
 	display: flex;
 	align-items: flex-start;
-	justify-content: space-between;
+	justify-content: space-evenly; /* space-between; */
 	flex-wrap: wrap;
 	margin-bottom: var(--padding-main-1-three-quarters);
 }
 
 .mainContent > :nth-child(1) {
-	width: calc(75% - var(--padding-main-1-half));
+	max-width: calc(75% - var(--padding-main-1-half));
+	width: fit-content;
 }
 .mainContent > :nth-child(2) {
-	width: 25%; /*calc(25% - var(--padding-main-1-half));*/
+	max-width: 25%; /*calc(25% - var(--padding-main-1-half));*/
+	width: fit-content;
 	min-height: 10rem;
 	margin: 0;
 }
@@ -39,6 +41,7 @@
 	.mainContent > :nth-child(1),
 	.mainContent > :nth-child(2) {
 		width: 100%;
+		max-width: 100%;
 	}
 
 	.mainContent > :nth-child(1) {
@@ -49,6 +52,10 @@
 		order: 1;
 		min-height: initial;
 		margin-bottom: var(--padding-main-1-half);
+
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 	}
 }
 

@@ -69,9 +69,9 @@
 	.button:focus,
 	.nav-list li a:focus {
 		border: 0.1rem solid var(--main-special-bg-color-3);
-		outline-color: var(--main-special-font-color-3);
-		outline-style: solid;
-		outline-width: 0.25rem;
+		/* outline-color: var(--main-special-font-color-3); */
+		/* outline-style: solid; */
+		/* outline-width: 0.25rem; */
 	}
 }
 
