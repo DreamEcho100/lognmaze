@@ -1,0 +1,35 @@
+.default {
+	padding: var(--padding-main-1-quarter) 1rem;
+	border-radius: 0.4rem;
+	font-weight: bold;
+	background-color: var(--pc3);
+	/* outline-color: var(--pc3);
+	outline-style: solid;
+	outline-width: 0.25rem; */
+	color: var(--main-special-font-color-5);
+	border-color: transparent;
+	transition: all var(--main-transition-duration) ease;
+}
+
+.default:hover {
+	background-color: var(--pc2);
+	outline-color: var(--pc3);
+}
+button:not([disabled]):not([tabindex^='-']):hover.default,
+.default:hover {
+	outline-color: var(--pc3);
+}
+
+.default:focus {
+	box-shadow: 0rem 0rem 1rem var(--pc1);
+}
+button:not([disabled]):not([tabindex^='-']):focus.default,
+.default:focus {
+	outline-color: var(--pc2);
+}
+
+.default:disabled {
+	background-color: var(--main-font-color-light);
+	color: var(--main-font-color-dark);
+	cursor: not-allowed;
+}

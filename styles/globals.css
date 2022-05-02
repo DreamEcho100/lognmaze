@@ -118,11 +118,11 @@
 	--main-special-bg-color-0: var(--color-2-100);
 	--main-special-bg-color-0-95: var(--color-2-100-95);
 	--main-special-bg-color-1: var(--color-2-95);
-	--main-special-bg-color-2: var(--color-2-85);
+	/* --main-special-bg-color-2: var(--color-2-85); */ /* --pc1 */
 	--main-special-bg-color-3: var(--color-2-40);
-	--main-special-bg-color-4: var(--color-2-25);
-	--main-special-bg-color-5: var(--color-2-15);
-	--main-special-bg-color-5-95: var(--color-0-0-5);
+	/* --main-special-bg-color-4: var(--color-2-25); */ /* --pc2 */
+	/* --main-special-bg-color-5: var(--color-2-15); */ /* --pc3 */
+	/* --main-special-bg-color-5-95: var(--color-0-0-5); */
 
 	--main-special-font-color-0: var(--color-1-0);
 	--main-special-font-color-1: var(--color-1-10);
@@ -186,6 +186,8 @@ body {
 	width: 100%;
 	height: 100%;
 	/* min-height: 100vh; */
+	/* min-height: fill-available; stretch */
+	/* min-height: -webkit-fill-available; */
 	max-width: var(--body-max-width);
 	margin: auto;
 }
@@ -227,7 +229,8 @@ body {
 
 		--sectionWrapper-box-shadow-length: 0.25rem;
 
-		--main-special-bg-color-5: var(--color-2-20);
+		/* --pc3: var(--color-2-20); */
+		--pc3l: 15%;
 
 		color-scheme: dark;
 		caret-color: var(--main-special-2-bg-color-5);
@@ -255,7 +258,7 @@ body {
 	--main-font-color-5: var(--color-1-100);
 
 	caret-color: var(--main-special-2-bg-color-3);
-	--main-special-bg-color-5: var(--color-2-15);
+	/* --pc3: var(--color-2-15); */
 	color-scheme: light;
 	--main-focus-outline-color: rgba(0, 0, 0, 0.25);
 
@@ -283,7 +286,8 @@ body {
 	--sectionWrapper-box-shadow-length: 0.25rem;
 
 	caret-color: var(--main-special-2-bg-color-5);
-	--main-special-bg-color-5: var(--color-2-20);
+	/* --pc3: var(--color-2-20); */
+	--pc3l: 15%;
 	color-scheme: dark;
 	--main-focus-outline-color: rgba(255, 255, 255, 0.5);
 
@@ -297,13 +301,13 @@ body {
 }
 /*.special-scrollbar*/
 ::-webkit-scrollbar-button {
-	/* background-color: var(--main-special-bg-color-5); */
+	/* background-color: var(--pc3); */
 	width: 0;
 	height: 0;
 }
 /*.special-scrollbar*/
 ::-webkit-scrollbar-thumb {
-	background-color: var(--main-special-bg-color-5);
+	background-color: var(--pc3);
 	border-radius: 1rem;
 }
 /*.special-scrollbar*/
@@ -427,12 +431,12 @@ small {
 
 input[type='radio'],
 input[type='checkbox'] {
-	accent-color: var(--main-special-bg-color-5);
+	accent-color: var(--pc3);
 }
 
 /**/
 blockquote {
-	background-color: var(--main-special-bg-color-2);
+	background-color: var(--pc1);
 	padding: 0.1em 0.5em;
 	color: black;
 	position: relative;
@@ -450,7 +454,7 @@ blockquote::before {
 	position: absolute;
 	top: 0;
 	padding: 0.5em;
-	background-color: var(--main-special-bg-color-5);
+	background-color: var(--pc3);
 	height: 100%;
 }
 :not([dir='rtl']) blockquote::before {
@@ -481,7 +485,8 @@ code[data-code-inline='true'] {
 	position: relative;
 	min-width: 100%;
 	min-height: 100vh;
-	min-height: stretch; /* fill-available */
+	min-height: fill-available; /* stretch */
+	min-height: -webkit-fill-available;
 	/* overflow-x: hidden; */
 	display: flex;
 	flex-direction: column;
@@ -492,7 +497,7 @@ code[data-code-inline='true'] {
 
 @media screen and (max-width: 700px) {
 	:root {
-		/* font-size: 60%; */
+		font-size: 60%;
 
 		--header1: var(--size-22);
 		--header2: var(--size-20);

@@ -1,6 +1,6 @@
 import { FC, ButtonHTMLAttributes } from 'react';
 
-import classes from './index.module.css';
+import classes from '@styles/components/common/independent/Button/index.module.css';
 
 import { handleAllClasses } from '@commonLibIndependent/className';
 

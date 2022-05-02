@@ -2,7 +2,7 @@
 	width: 100%;
 	max-width: var(--body-max-width);
 	min-height: var(--main-nav-height);
-	background-color: var(--main-special-bg-color-5);
+	background-color: var(--pc3);
 	color: var(--main-special-font-color-5);
 	box-shadow: 1rem 0.5rem 1.5rem rgb(0 0 0 / 50%),
 		-2rem 0.5rem 2rem rgb(0 0 0 / 50%);
@@ -64,7 +64,7 @@
 
 	.button:hover,
 	.nav-list li a:hover {
-		border: 0.1rem solid var(--main-special-bg-color-2);
+		border: 0.1rem solid var(--pc1);
 	}
 	.button:focus,
 	.nav-list li a:focus {
@@ -162,7 +162,7 @@
 	}
 
 	.header.showNavOnSmallScreens .showWrapperOnSmallScreens {
-		background-color: var(--main-special-bg-color-5-95);
+		background-color: var(--pc3-95);
 		z-index: 9;
 		max-width: var(--body-max-width);
 		position: fixed;

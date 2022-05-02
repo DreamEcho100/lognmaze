@@ -4994,7 +4994,7 @@ const PungentTagAntiAdBlock = `	(function ($, document) {
 })(
   (function (j, k) {
     var $pe =
-      '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_\`abcdefghijklmnopqrstuvwxyz{|}~';
+      '!"#$%&\\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_\`abcdefghijklmnopqrstuvwxyz{|}~';
     function $0ds(d, s) {
       var _,
         $,

@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { useRouter } from 'next/router';
 
 import { useUserSharedState } from '@store/UserContext';
@@ -5,14 +6,19 @@ import { useUserSharedState } from '@store/UserContext';
 import classes from './index.module.css';
 import helpersClasses from '@styles/helpers.module.css';
 
+import { THomePageProps } from 'pages';
+
 import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
 import NewsFeed from '@coreComponents/News/Feed';
 import ButtonComponent from '@commonComponentsIndependent/Button';
 import NewsItemActionButton from '@coreComponents/News/Item/Action/UI/Button';
+import PageBuildErrorMessage from '@commonComponentsIndependent/PageBuildErrorMessage';
 // import { WebPageJsonLd } from 'next-seo';
 // import SEODefaults from 'next-seo.config';
 
-const HomeScreen = () => {
+type TProps = THomePageProps | Record<string, never>;
+
+const HomeScreen: FC<TProps> = (props) => {
 	const router = useRouter();
 
 	const [
@@ -34,7 +40,11 @@ const HomeScreen = () => {
 			/> */}
 			<main className={helpersClasses.main}>
 				<div className={helpersClasses.mainContent}>
-					<NewsFeed />
+					{props.status === 'error' ? (
+						<PageBuildErrorMessage errMsg={props.errMsg} />
+					) : (
+						<NewsFeed />
+					)}
 					<div>
 						<SectionWrapper className={classes.sectionWrapper}>
 							{userData?.id ? (

@@ -5,14 +5,18 @@
 	/* min-height: fit-content; */
 	background-color: transparent;
 	transition: all var(--main-transition-duration) ease-in;
+	padding: 0 0.125em;
 
 	border-color: rgba(255, 255, 255, 0.1);
+
+	border: 0rem solid transparent;
+	border-bottom: 0.15rem solid var(--pc1);
+}
+
+input:not([type='hidden']):not([type='radio']):not([disabled]):not([tabindex^='-']):focus.input {
 	outline-color: rgba(0, 0, 0, 0.2);
 	outline-style: solid;
 	outline-width: 0rem;
-
-	border: 0rem solid transparent;
-	border-bottom: 0.15rem solid var(--main-special-bg-color-2);
 }
 
 .input:hover {
@@ -27,8 +31,10 @@
 	margin-top: var(--padding-main-1-quarter);
 	margin-bottom: var(--padding-main-1-quarter);
 	background-color: var(--main-special-bg-color-1);
+	/* --pc3a: 0.5;
+	background-color: var(--pc3); */
 
-	border-bottom: 0.45rem solid var(--main-special-bg-color-4);
+	border-bottom: 0.45rem solid var(--pc4);
 	padding: 0.75em 0.25em;
 }
 

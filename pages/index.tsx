@@ -7,11 +7,25 @@ import {
 } from '@store/NewsContext';
 import type { GetStaticProps, NextPage } from 'next';
 
-interface IProps {
-	newsData: { news: TNewsData; hit_news_items_limit: boolean };
-}
+export type THomePageProps =
+	| {
+			status: 'success';
+			newsData: { news: TNewsData; hit_news_items_limit: boolean };
+			// eslint-disable-next-line no-mixed-spaces-and-tabs
+	  }
+	| {
+			status: 'error';
+			errMsg: string;
+			// eslint-disable-next-line no-mixed-spaces-and-tabs
+	  };
 
-const HomePage: NextPage<IProps> = ({ newsData }) => {
+const HomePage: NextPage<THomePageProps> = (props) => {
+	if (props.status === 'error') {
+		return <HomeScreen {...props} />;
+	}
+
+	const { newsData } = props;
+
 	const newsExtra: ISetNewsContextStoreProps['data']['newsExtra'] = {};
 	const actions: ISetNewsContextStoreProps['actions'] = {
 		items: {},
@@ -48,24 +62,39 @@ const HomePage: NextPage<IProps> = ({ newsData }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-	const profileData = {} as {
-		newsData: { news: TNewsData; hit_news_items_limit: boolean };
-	};
+	try {
+		const profileData = {} as {
+			newsData: { news: TNewsData; hit_news_items_limit: boolean };
+		};
 
-	profileData.newsData = await pgActions.news.get();
+		profileData.newsData = await pgActions.news.get();
 
-	profileData.newsData.news.forEach((item) => {
-		item.updated_at = item.updated_at.toString();
-		item.created_at = item.created_at.toString();
-	});
+		profileData.newsData.news.forEach((item) => {
+			item.updated_at = item.updated_at.toString();
+			item.created_at = item.created_at.toString();
+		});
 
-	return {
-		props: {
-			...profileData,
-			date: new Date().toISOString(),
-		},
-		revalidate: 60 * 5,
-	};
+		return {
+			props: {
+				...profileData,
+				status: 'success',
+				date: new Date().toISOString(),
+			},
+			revalidate: 60 * 5,
+		};
+	} catch (err) {
+		return {
+			props: {
+				status: 'error',
+				errMsg:
+					err instanceof Error
+						? err.message
+						: 'Ops, We&apos;re facing some technical problems \u{1F62D}, please try again later!',
+				date: new Date().toISOString(),
+			},
+			revalidate: 60 * 5,
+		};
+	}
 };
 
 export default HomePage;

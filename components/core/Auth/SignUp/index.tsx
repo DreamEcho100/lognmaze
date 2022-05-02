@@ -342,17 +342,6 @@ const SignUpComponent = ({
 		setIsButtonsDisabled(false);
 	}, [values.state, handleGetCities]);
 
-	if (!UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN) {
-		return (
-			<section>
-				<p className='heading-2'>
-					We&apos;re facing some technical problems, please try again later :
-					{'('}
-				</p>
-			</section>
-		);
-	}
-
 	return (
 		<FormComponent
 			className={`${classes.signUpForm} ${borderClasses.default} ${boxShadowClasses.default}`}

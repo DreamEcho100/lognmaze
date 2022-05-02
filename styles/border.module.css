@@ -1,6 +1,6 @@
 .default {
 	outline-color: rgba(255, 255, 255, 0.1);
-	border: 0.2rem solid var(--main-special-bg-color-2);
+	border: 0.2rem solid var(--pc1);
 }
 
 .default:hover {
@@ -8,7 +8,7 @@
 }
 
 .default:focus {
-	border: 0.45rem solid var(--main-special-bg-color-4);
+	border: 0.45rem solid var(--pc2);
 }
 
 /**/
@@ -21,7 +21,7 @@
 	outline-width: 0.25rem;
 
 	border: 0rem solid transparent;
-	border-bottom: 0.2rem solid var(--main-special-bg-color-2);
+	border-bottom: 0.2rem solid var(--pc1);
 }
 
 .borderBottom:hover {
@@ -29,7 +29,7 @@
 }
 
 .borderBottom:focus {
-	border-bottom: 0.45rem solid var(--main-special-bg-color-4);
+	border-bottom: 0.45rem solid var(--pc2);
 }
 
 /**/
@@ -42,9 +42,9 @@
 }
 
 .border2:hover {
-	border: 0.3rem solid var(--main-special-bg-color-2);
+	border: 0.3rem solid var(--pc1);
 }
 
 .border2:focus {
-	border: 0.15rem solid var(--main-special-bg-color-5);
+	border: 0.15rem solid var(--pc3);
 }

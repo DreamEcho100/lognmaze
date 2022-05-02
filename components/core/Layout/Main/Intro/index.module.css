@@ -10,7 +10,7 @@
 	min-height: 10rem;
 	max-width: 75rem;
 	max-height: 40rem;
-	background-color: var(--main-special-bg-color-5);
+	background-color: var(--pc3);
 	z-index: 10;
 	transform: translateX(-100%);
 	pointer-events: none;

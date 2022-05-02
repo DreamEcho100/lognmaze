@@ -90,8 +90,8 @@
 a.textGlowSpecial,
 button.textGlowSpecial,
 svg.textGlowSpecial {
-	--color: var(--main-special-bg-color-5);
-	--color-focus: var(--main-special-bg-color-4);
+	--color: var(--pc3);
+	--color-focus: var(--pc2);
 	--color-hover: var(--main-special-bg-color-3);
 	color: var(--color);
 	text-shadow: 0rem 0rem 0.1rem var(--color);

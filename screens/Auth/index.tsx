@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 
@@ -7,6 +7,7 @@ import helpersClasses from '@styles/helpers.module.css';
 import borderClasses from '@styles/border.module.css';
 import boxShadowClasses from '@styles/boxShadow.module.css';
 
+import { TAuthPageProps } from 'pages/auth';
 import { useUserSharedState } from '@store/UserContext';
 import {
 	loginUserRequestResetAction,
@@ -17,13 +18,7 @@ import ButtonComponent from '@commonComponentsIndependent/Button';
 import LoginComponent from '@coreComponents/Auth/Login';
 import SignUpComponent from '@coreComponents/Auth/SignUp';
 
-type Props = {
-	UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN: string;
-};
-
-const AuthScreen = ({
-	UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN,
-}: Props) => {
+const AuthScreen: FC<TAuthPageProps> = (props) => {
 	const router = useRouter();
 	const [
 		{
@@ -133,13 +128,14 @@ const AuthScreen = ({
 				{(!isRedirectingFromAuth &&
 					{
 						login: <LoginComponent />,
-						signup: (
-							<SignUpComponent
-								UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN={
-									UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_TOKEN
-								}
-							/>
-						),
+						signup:
+							props.status === 'success' ? (
+								<SignUpComponent {...props} />
+							) : (
+								<section>
+									<p className='heading-2'>{props.errMsg}</p>
+								</section>
+							),
 					}[objective]) || <></>}
 			</main>
 		</>

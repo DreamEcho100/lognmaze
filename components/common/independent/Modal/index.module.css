@@ -39,12 +39,12 @@
 	border-radius: 0% 100% 100% 0% / 100% 0% 100% 0%;
 	background: linear-gradient(
 		145deg,
-		var(--main-special-bg-color-4),
+		var(--pc2),
 		var(--main-special-bg-color-3)
 	);
 }
 .ModalCloseButton:focus {
-	box-shadow: 0.14rem 0.14rem 0.5rem var(--main-special-bg-color-5);
+	box-shadow: 0.14rem 0.14rem 0.5rem var(--pc3);
 }
 
 [dir='rtl'] .ModalCloseButton {
@@ -54,12 +54,12 @@
 	border-radius: 100% 0% 0% 100% / 0% 100% 0% 100%;
 	background: linear-gradient(
 		270deg,
-		var(--main-special-bg-color-4),
+		var(--pc2),
 		var(--main-special-bg-color-3)
 	);
 }
 [dir='rtl'] .ModalCloseButton:focus {
-	box-shadow: -0.14rem 0.14rem 0.5rem var(--main-special-bg-color-5);
+	box-shadow: -0.14rem 0.14rem 0.5rem var(--pc3);
 }
 
 .modalHeaderDefault {

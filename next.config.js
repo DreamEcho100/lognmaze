@@ -32,7 +32,7 @@ const nextConfig = (phase) => {
 			BACK_END_ROOT_URL: 'http://localhost:3000',
 			FRONT_END_DOMAIN: 'localhost',
 			PG_CONNECTION_STRING:
-				process.env.DEVELOPMENT_PG_SUPABASE_CONNECTION_STRING,
+				process.env.DEVELOPMENT_PG_LOCALHOST_CONNECTION_STRING,
 		};
 	} else {
 		//  process.env.VERCEL_URL

@@ -61,6 +61,7 @@ library.add(
 	] as IconDefinition[])
 );
 
+import '@styles/colors.css';
 import '@styles/globals.css';
 import '@styles/customNProgressStyles.css';
 
