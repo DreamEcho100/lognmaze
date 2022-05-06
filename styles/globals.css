@@ -223,7 +223,7 @@ body {
 
 		--main-font-color-0: var(--color-1-95);
 
-		--main-font-color-1: var(--color-1-85);
+		--main-font-color-1: var(--color-1-90);
 		--main-font-color-2: var(--color-1-70);
 		--main-font-color-3: var(--color-1-25);
 		--main-font-color-4: var(--color-1-20);
@@ -279,7 +279,7 @@ body {
 
 	--main-font-color-0: var(--color-1-95);
 
-	--main-font-color-1: var(--color-1-85);
+	--main-font-color-1: var(--color-1-90);
 	--main-font-color-2: var(--color-1-70);
 	--main-font-color-3: var(--color-1-25);
 	--main-font-color-4: var(--color-1-20);
@@ -438,30 +438,10 @@ input[type='checkbox'] {
 
 /**/
 blockquote {
-	padding: 0.1em 0.5em;
+	padding: 0.1em 0.25em;
+	border-left: 0.75rem solid var(--pc1);
 	position: relative;
 	margin: var(--padding-main-1) 0;
-}
-:not([dir='rtl']) blockquote {
-	padding-left: 1.5em;
-}
-[dir='rtl'] blockquote {
-	padding-right: 1.5em;
-}
-
-blockquote::before {
-	content: '';
-	position: absolute;
-	top: 0;
-	padding: 0.5em;
-	background-color: var(--pc3);
-	height: 100%;
-}
-:not([dir='rtl']) blockquote::before {
-	left: 0;
-}
-[dir='rtl'] blockquote::before {
-	right: 0;
 }
 /**/
 

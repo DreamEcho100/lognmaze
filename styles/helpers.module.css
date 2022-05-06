@@ -100,7 +100,7 @@ svg.textGlowSpecial {
 }
 .textGlowSpecial:hover {
 	color: var(--color-hover);
-	text-shadow: 0rem 0rem 0.4rem var(--color-hover);
+	text-shadow: 0rem 0rem 0.2rem var(--color-hover);
 }
 .textGlowSpecial:focus-within,
 .textGlowSpecial:active,

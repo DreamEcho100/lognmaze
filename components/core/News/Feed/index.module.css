@@ -10,7 +10,7 @@
 
 .SectionWrapper {
 	padding: var(--padding-main-1);
-	background-color: var(--main-bg-color-0);
+	/* background-color: var(--main-bg-color-0); */
 	/* margin: var(--padding-main-1-half)  0; */
 	max-width: 60rem;
 }
