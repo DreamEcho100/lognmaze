@@ -17,6 +17,7 @@ const Feed = ({
 	...props
 }) => {
 	const [newsState, newsDispatch] = useNewsSharedState();
+	console.log('newsState', newsState);
 
 	const allClasses = handleAllClasses({
 		classes,
@@ -32,7 +33,6 @@ const Feed = ({
 
 	if (!Array.isArray(newsState.news) || newsState.news.length === 0)
 		return <></>;
-
 	return (
 		<section {...feedProps}>
 			{/* {isLoadingSkeleton &&

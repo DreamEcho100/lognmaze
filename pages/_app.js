@@ -91,6 +91,8 @@ const MyApp = ({ Component, pageProps }) => {
 	const [isPlayingScripts, setIsPlayingScripts] = useState(false);
 
 	useEffect(() => {
+		if (process.env.NODE_ENV === 'development') return;
+
 		setTimeout(() => {
 			console.log('Playing extra scripts');
 			setIsPlayingScripts(true);
