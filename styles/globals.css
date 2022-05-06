@@ -150,7 +150,7 @@
 	--main-transition-duration: 0.3s;
 	--main-focus-outline-color: rgba(0, 0, 0, 0.5);
 	--main-focus-outline-style: solid;
-	--main-focus-outline-width: 0.25em;
+	--main-focus-outline-width: 0.25rem;
 
 	--padding-main-1: 1em;
 	--padding-main-1-three-quarters: 0.75em;
@@ -236,7 +236,7 @@ body {
 
 		color-scheme: dark;
 		caret-color: var(--main-special-2-bg-color-5);
-		--main-focus-outline-color: rgba(255, 255, 255, 0.5);
+		--main-focus-outline-color: rgba(255, 255, 255, 0.2);
 
 		--modalContainer-background-color: var(--main-bg-color-0-95);
 	}
@@ -291,7 +291,7 @@ body {
 	/* --pc3: var(--color-2-20); */
 	--pc3l: 15%;
 	color-scheme: dark;
-	--main-focus-outline-color: rgba(255, 255, 255, 0.5);
+	--main-focus-outline-color: rgba(255, 255, 255, 0.2);
 
 	--modalContainer-background-color: var(--main-bg-color-0-95);
 }
@@ -438,9 +438,7 @@ input[type='checkbox'] {
 
 /**/
 blockquote {
-	background-color: var(--pc1);
 	padding: 0.1em 0.5em;
-	color: black;
 	position: relative;
 	margin: var(--padding-main-1) 0;
 }

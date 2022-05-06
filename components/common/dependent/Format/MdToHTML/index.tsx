@@ -60,8 +60,14 @@ const MdToHTMLFormatter: FC<Props> = ({ content }) => {
 		code({ inline, className, children, ...props }) {
 			const match = /language-(\w+)/.exec(className || '');
 
+			const { style, ...withNoStyles } = props;
+
 			return !inline && match ? (
-				<SyntaxHighlighterDynamic language={match[1]} PreTag='div' {...props}>
+				<SyntaxHighlighterDynamic
+					language={match[1]}
+					PreTag='div'
+					{...withNoStyles}
+				>
 					{String(children).replace(/\n$/, '')}
 				</SyntaxHighlighterDynamic>
 			) : (

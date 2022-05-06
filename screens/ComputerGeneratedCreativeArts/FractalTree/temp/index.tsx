@@ -8,7 +8,7 @@ import {
 } from 'react';
 import { NextSeo } from 'next-seo';
 
-import ButtonComponentClasses from '@commonComponentsIndependent/Button/index.module.css';
+import ButtonComponentClasses from '@styles/components/common/independent/Button/index.module.css';
 import helpersClasses from '@styles/helpers.module.css';
 import classes from './index.module.css';
 
