@@ -108,7 +108,7 @@ const UserProfileScreen = () => {
 					<UserProfileHero />
 				</SectionWrapper>
 				<div className={helpersClasses.mainContent}>
-					<NewsFeed />
+					<NewsFeed className={classes.NewsFeed} />
 					<div>
 						<SectionWrapper className={classes.sectionWrapper}>
 							<ProfileBioSection bio={profilePageUserData.bio} />

@@ -17,18 +17,22 @@
 .mainContent {
 	display: flex;
 	align-items: flex-start;
-	justify-content: space-evenly; /* space-between; */
-	flex-wrap: wrap;
+	justify-content: space-between; /* space-between; */
 	margin-bottom: var(--padding-main-1-three-quarters);
 }
 
 .mainContent > :nth-child(1) {
-	max-width: calc(75% - var(--padding-main-1-half));
-	width: fit-content;
+	/* max-width: calc(75% - var(--padding-main-1-half));
+	width: fit-content; */
+	width: calc(75% - var(--padding-main-1-half));
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
 }
 .mainContent > :nth-child(2) {
-	max-width: 25%; /*calc(25% - var(--padding-main-1-half));*/
-	width: fit-content;
+	/* max-width: 25%; calc(25% - var(--padding-main-1-half));
+	width: fit-content; */
+	width: 25%;
 	min-height: 10rem;
 	margin: 0;
 }
@@ -36,6 +40,7 @@
 @media screen and (max-width: 700px) {
 	.mainContent {
 		flex-direction: column;
+		flex-wrap: wrap;
 	}
 
 	.mainContent > :nth-child(1),
@@ -92,7 +97,7 @@ button.textGlowSpecial,
 svg.textGlowSpecial {
 	--color: var(--pc3);
 	--color-focus: var(--pc2);
-	--color-hover: var(--main-special-bg-color-3);
+	--color-hover: var(--pc1);
 	color: var(--color);
 	text-shadow: 0rem 0rem 0.1rem var(--color);
 	transition: all var(--main-transition-duration)
@@ -108,6 +113,22 @@ svg.textGlowSpecial {
 	color: var(--color-focus);
 	text-shadow: 0rem 0rem 0rem var(--color-focus);
 	/* font-weight: 600; */
+}
+@media (prefers-color-scheme: dark) {
+	.textGlowSpecial,
+	a.textGlowSpecial,
+	button.textGlowSpecial,
+	svg.textGlowSpecial {
+		--pc3l: 25%;
+		--pc3: hsla(var(--pc3h), var(--pc3s), var(--pc3l), var(--pc3a));
+	}
+}
+.dark .textGlowSpecial,
+.dark a.textGlowSpecial,
+.dark button.textGlowSpecial,
+.dark svg.textGlowSpecial {
+	--pc3l: 25%;
+	--pc3: hsla(var(--pc3h), var(--pc3s), var(--pc3l), var(--pc3a));
 }
 
 body:global(.dark) .textGlowSpecial {

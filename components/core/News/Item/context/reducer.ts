@@ -40,7 +40,7 @@ const reducer = (
 							return {
 								comments: [newCommentData, ...(state.data.comments || [])],
 								comments_counter:
-									parseInt(state.data.comments_counter + '') + 1,
+									(parseInt(state.data.comments_counter + '') || 0) + 1,
 							};
 
 						return {
@@ -49,7 +49,8 @@ const reducer = (
 									return {
 										...comment,
 										replies: [...(comment.replies || []), newCommentData],
-										replies_counter: parseInt(comment.replies_counter + '') + 1,
+										replies_counter:
+											(parseInt(comment.replies_counter + '') || 0) + 1,
 									};
 								}
 

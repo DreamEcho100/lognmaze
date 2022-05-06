@@ -40,9 +40,14 @@ const CustomNextImage = ({
 	};
 
 	return (
-		<div {...wrapperProps}>
+		<span
+			style={{
+				display: 'block',
+			}}
+			{...wrapperProps}
+		>
 			<Image alt={alt} {...handleImageProps()} />
-		</div>
+		</span>
 	);
 };
 

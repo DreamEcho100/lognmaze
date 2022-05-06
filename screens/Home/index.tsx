@@ -43,10 +43,10 @@ const HomeScreen: FC<TProps> = (props) => {
 					{props.status === 'error' ? (
 						<PageBuildErrorMessage errMsg={props.errMsg} />
 					) : (
-						<NewsFeed />
+						<NewsFeed className={classes.NewsFeed} />
 					)}
 					<div>
-						<SectionWrapper className={classes.sectionWrapper}>
+						<SectionWrapper>
 							{userData?.id ? (
 								<p>Logged in &#x1F60E;</p>
 							) : (
@@ -71,7 +71,7 @@ const HomeScreen: FC<TProps> = (props) => {
 							)}
 						</SectionWrapper>
 						{userData?.id && (
-							<SectionWrapper className={classes.sectionWrapper}>
+							<SectionWrapper>
 								<NewsItemActionButton
 									userToken={userToken}
 									actionType={'create'}

@@ -1,3 +1,3 @@
-.sectionWrapper {
-	max-width: 60rem;
+.NewsFeed > :first-child {
+	max-width: 75rem;
 }

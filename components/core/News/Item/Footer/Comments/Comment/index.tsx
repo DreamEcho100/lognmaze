@@ -174,7 +174,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 	const loadRepliesHandler = async () => {
 		if (
 			props.comment.type !== 'comment_main' ||
-			parseInt(props.comment.replies_counter + '') === 0
+			(parseInt(props.comment.replies_counter + '') || 0) === 0
 		)
 			return;
 

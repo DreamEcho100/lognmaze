@@ -2,6 +2,6 @@
 	--sectionWrapper-margin-bottom: var(--padding-main-1-three-quarters);
 }
 
-.sectionWrapper {
-	max-width: 60rem;
+.NewsFeed > :first-child {
+	max-width: 75rem;
 }
