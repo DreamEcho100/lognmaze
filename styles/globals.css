@@ -149,6 +149,8 @@
 	--main-nav-height: 6rem;
 	--main-transition-duration: 0.3s;
 	--main-focus-outline-color: rgba(0, 0, 0, 0.5);
+	--main-focus-outline-style: solid;
+	--main-focus-outline-width: 0.25em;
 
 	--padding-main-1: 1em;
 	--padding-main-1-three-quarters: 0.75em;
@@ -362,8 +364,8 @@ video[controls]:not([tabindex^='-']):focus,
 [contenteditable]:not([tabindex^='-']):focus,
 [tabindex]:not([tabindex^='-']):focus {
 	outline-color: var(--main-focus-outline-color);
-	outline-style: solid;
-	outline-width: 0.25rem;
+	outline-style: var(--main-focus-outline-style);
+	outline-width: var(--main-focus-outline-width);
 }
 
 a,

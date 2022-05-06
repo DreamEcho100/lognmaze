@@ -11,12 +11,9 @@
 
 	border: 0rem solid transparent;
 	border-bottom: 0.15rem solid var(--pc1);
-}
-
-input:not([type='hidden']):not([type='radio']):not([disabled]):not([tabindex^='-']):focus.input {
-	outline-color: rgba(0, 0, 0, 0.2);
-	outline-style: solid;
-	outline-width: 0rem;
+	--main-focus-outline-color: rgba(0, 0, 0, 0.2);
+	--main-focus-outline-style: solid;
+	--main-focus-outline-width: 0rem;
 }
 
 .input:hover {

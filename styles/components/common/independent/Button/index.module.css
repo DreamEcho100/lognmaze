@@ -14,18 +14,12 @@
 .default:hover {
 	background-color: var(--pc2);
 	outline-color: var(--pc3);
-}
-button:not([disabled]):not([tabindex^='-']):hover.default,
-.default:hover {
-	outline-color: var(--pc3);
+	--main-focus-outline-color: var(--pc3);
 }
 
 .default:focus {
 	box-shadow: 0rem 0rem 1rem var(--pc1);
-}
-button:not([disabled]):not([tabindex^='-']):focus.default,
-.default:focus {
-	outline-color: var(--pc2);
+	--main-focus-outline-color: var(--pc2);
 }
 
 .default:disabled {
