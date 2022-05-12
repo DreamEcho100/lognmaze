@@ -57,6 +57,7 @@ const PostPage: NextPage<IProps> = ({ newsItemData }) => {
 	};
 
 	newsData.news.forEach((item, index) => {
+		if (!item) return;
 		if (index === 0) {
 			actions.items[item.news_id] = {
 				priorityForHeaderImage: true,

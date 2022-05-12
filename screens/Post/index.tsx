@@ -14,7 +14,7 @@ const PostScreen = () => {
 		},
 	] = useNewsSharedState();
 
-	if (newsData[0].type !== 'post') return <></>;
+	if (!newsData[0] || newsData[0].type !== 'post') return <></>;
 
 	const newsItemData = newsData[0];
 

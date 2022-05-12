@@ -1,5 +1,5 @@
 ---
-title: Basic guide to **JSONB** in PostgreSQL
+title: Basic guide to JSONB in PostgreSQL
 tags: sql postgresql json
 image_alt: PostgreSQL + json
 image_src: https://i.morioh.com/200728/b25ed22b.webp

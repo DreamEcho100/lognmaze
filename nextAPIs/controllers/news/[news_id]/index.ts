@@ -246,7 +246,10 @@ export const updateNewsItemController = async (
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		.then((response: { rows: any[] }) => response.rows);
 
-	if (Array.isArray(req.body.pathsToRevalidate)) {
+	if (
+		bodyContent.type === 'blog' &&
+		Array.isArray(req.body.pathsToRevalidate)
+	) {
 		req.body.pathsToRevalidate.forEach(async (path: string) => {
 			await res.unstable_revalidate(path); // `/blogs/${}`
 		});

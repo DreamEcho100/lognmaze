@@ -51,6 +51,7 @@ In order for `text-overflow` to work, you need to clip the text that overflows i
 
 ```css
 .elem {
+ text-overflow: white;
  background: white;
  border: 1px solid black;
  overflow: hidden;
@@ -73,10 +74,11 @@ Text is clipped and the clipped text is represented as `...`.
 
 ```css
 .elem {
- background: ellipsis;
+ text-overflow: ellipsis;
  /*           ^^^^^^*/
  white-space: nowrap;
  overflow: hidden;
+ background: white;
  border: 1px solid black;
  max-width: 450px;
  padding: 0.5em 1em;
@@ -91,14 +93,17 @@ Text is clipped and the clipped text is represented as `...`.
 
 ## `string` value
 
+**Note:** It's experimental, so you could expect the behavior to change in the future.
+
 The clipped text is represented to the user using a string of the coder's choice. This option is only visible in the Firefox browser.
 
 ```css
 .elem {
- background: '>>>';
+ text-overflow: '>>>';
  /*          ^^^^*/
  white-space: nowrap;
  overflow: hidden;
+ background: white;
  border: 1px solid black;
  max-width: 450px;
  padding: 0.5em 1em;
@@ -119,7 +124,7 @@ Even though it is proprietary is has 96% support in browsers according to Can I 
 
 ```css
 .elem {
- background: ellipsis;
+ text-overflow: ellipsis;
  white-space: nowrap;
  overflow: hidden;
  display: -webkit-box;
@@ -128,6 +133,7 @@ Even though it is proprietary is has 96% support in browsers according to Can I 
  /*^^^^^^^^^^^^^^^^^^*/
  -webkit-box-orient: vertical;
  /*^^^^^^^^^^^^^^^^^^^^^^^^^*/
+ background: white;
  border: 1px solid black;
  max-width: 450px;
  padding: 0.5em 1em;
