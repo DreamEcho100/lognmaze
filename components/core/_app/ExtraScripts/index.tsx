@@ -83,24 +83,6 @@ const ExtraScripts = () => {
 			/>
 			{/* <!-- Yandex.Metrika counter -->
 			<Script
-				strategy='afterInteractive'
-				id='YandexMetrika'
-				dangerouslySetInnerHTML={{
-					__html: `   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-					m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-					(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-			 
-					ym(85004128, "init", {
-							 clickmap:true,
-							 trackLinks:true,
-							 accurateTrackBounce:true,
-							 webvisor:true
-					});`,
-				}}
-			/> */}
-			{/* k */}
-			{/* <!-- Yandex.Metrika counter --> */}
-			<Script
 				id='lognmaze_metrika_yandex'
 				strategy='afterInteractive'
 				dangerouslySetInnerHTML={{
@@ -127,8 +109,39 @@ const ExtraScripts = () => {
 					/>
 				</div>
 			</noscript>
-			{/* <!-- /Yandex.Metrika counter --> */}
+			<!-- /Yandex.Metrika counter --> */}
 			{/* k */}
+
+			<Script
+				strategy='afterInteractive'
+				id='lognmaze-yandex-counter'
+				dangerouslySetInnerHTML={{
+					__html: `   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+					m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+					(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+			 
+					ym(85004128, "init", {
+							 clickmap:true,
+							 trackLinks:true,
+							 accurateTrackBounce:true,
+							 webvisor:true
+					});`,
+				}}
+			/>
+			<noscript>
+				<div>
+					<CustomNextImage
+						src='https://mc.yandex.ru/watch/85004128'
+						style={{
+							position: 'absolute',
+							left: '-9999px',
+						}}
+						alt=''
+						priority
+					/>
+				</div>
+			</noscript>
+			{/* <!-- /Yandex.Metrika counter --> */}
 			<Script
 				id='MicrosoftClarity'
 				strategy='afterInteractive'
@@ -140,20 +153,6 @@ const ExtraScripts = () => {
 				})(window, document, "clarity", "script", "8co4gbipfa");`,
 				}}
 			/>
-
-			<noscript>
-				<div>
-					<CustomNextImage
-						src='https://mc.yandex.ru/watch/85004128'
-						style={{
-							position: 'absolute',
-							left: '-9999px',
-						}}
-						alt=''
-					/>
-				</div>
-			</noscript>
-			{/* <!-- /Yandex.Metrika counter --> */}
 			<Script
 				id='superior-tag'
 				strategy='afterInteractive'
