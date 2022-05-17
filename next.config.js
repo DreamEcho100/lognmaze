@@ -33,8 +33,8 @@ const nextConfig = (phase) => {
 			FRONT_END_DOMAIN: 'localhost',
 			PG_CONNECTION_STRING:
 				process.env.DEVELOPMENT_PG_LOCALHOST_CONNECTION_STRING,
-			// UPSTASH_REST_API_DOMAIN: process.env.UPSTASH_REST_API_DOMAIN,
-			// UPSTASH_REST_API_TOKEN: process.env.UPSTASH_REST_API_TOKEN,
+			UPSTASH_REST_API_DOMAIN: process.env.UPSTASH_REST_API_DOMAIN,
+			UPSTASH_REST_API_TOKEN: process.env.UPSTASH_REST_API_TOKEN,
 		};
 	} else {
 		//  process.env.VERCEL_URL
@@ -82,6 +82,7 @@ const nextConfig = (phase) => {
 	};
 };
 
+// // eslint-disable-next-line @typescript-eslint/no-var-requires
 // const withBundleAnalyzer = require('@next/bundle-analyzer')({
 // 	enabled: process.env.ANALYZE === 'true',
 // });

@@ -1,9 +1,9 @@
-import type { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { ipRateLimit } from '@commonLibDependent/ip-rate-limit';
 
 export async function middleware(req: NextRequest) {
 	if (
-		process.env.NODE_ENV === 'production' &&
+		// process.env.NODE_ENV === 'production' &&
 		req.nextUrl.pathname.startsWith('/api')
 	) {
 		const res = await ipRateLimit(req);
@@ -11,9 +11,11 @@ export async function middleware(req: NextRequest) {
 
 		res.headers.set('content-type', 'application/json');
 
-		return new Response(JSON.stringify({ done: true }), {
-			status: 200,
-			headers: res.headers,
-		});
+		return NextResponse.next();
+
+		// return new Response(JSON.stringify({ done: true }), {
+		// 	status: 200,
+		// 	headers: res.headers,
+		// });
 	}
 }
