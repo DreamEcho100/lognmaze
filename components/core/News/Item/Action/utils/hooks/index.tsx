@@ -28,7 +28,7 @@ export const useCreateUpdateDeleteNewsItemNeeds = ({
 	const requestAction_map = {
 		create: newsActionsRequest?.create,
 		update: newsItemId && itemsActions[newsItemId]?.requests?.update,
-		delete: newsItemId && itemsActions[newsItemId]?.requests?.update,
+		delete: newsItemId && itemsActions[newsItemId]?.requests?.delete,
 	};
 
 	const createOrUpdateRequestAction = requestAction_map[actionType] || {
