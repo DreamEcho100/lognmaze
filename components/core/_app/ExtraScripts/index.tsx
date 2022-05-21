@@ -6,6 +6,7 @@ import * as gtag from '@commonLibIndependent/gtag';
 import pAddScript from './pAddScript';
 import CustomNextImage from '@commonComponentsDependent/CustomNextImage';
 import PungentTagAntiAdBlock from './Pungent tag Anti-AdBlock';
+import * as in_page_push_banner_tag_anti_adblock from './in_page_push_banner_tag_anti_adblock';
 
 const ExtraScripts = () => {
 	const router = useRouter();
@@ -48,7 +49,7 @@ const ExtraScripts = () => {
 				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
 			/>
 			<Script
-				id='Pungent tag Anti-AdBlock'
+				id='pungent_tag_anti_adBlock'
 				strategy='afterInteractive'
 				dangerouslySetInnerHTML={{
 					__html: PungentTagAntiAdBlock,
@@ -168,6 +169,20 @@ const ExtraScripts = () => {
 					__html: pAddScript,
 				}}
 				async
+			/>
+			<Script
+				id='in_page_push_banner_tag_anti_adblock-1'
+				strategy='afterInteractive'
+				dangerouslySetInnerHTML={{
+					__html: in_page_push_banner_tag_anti_adblock.tx1,
+				}}
+			/>
+			<Script
+				id='in_page_push_banner_tag_anti_adblock-2'
+				strategy='afterInteractive'
+				dangerouslySetInnerHTML={{
+					__html: in_page_push_banner_tag_anti_adblock.tx2,
+				}}
 			/>
 			{/* <Script
 				id='luminous-tag'
