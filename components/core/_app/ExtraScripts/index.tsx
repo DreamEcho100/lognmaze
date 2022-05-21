@@ -192,6 +192,13 @@ const ExtraScripts = () => {
 						"(function(s,u,z,p){s.src=u,s.setAttribute('data-zone',z),p.appendChild(s);})(document.createElement('script'),'https://inklinkor.com/tag.min.js',5011496,document.body||document.documentElement)",
 				}}
 			/> */}
+			<Script
+				id='Push-Notifications-tag-Anti-AdBlock'
+				strategy='afterInteractive'
+				src='https://boustahe.com/pfe/current/tag.min.js?z=5105214'
+				data-cfasync='false'
+				async
+			/>
 		</>
 	);
 };
