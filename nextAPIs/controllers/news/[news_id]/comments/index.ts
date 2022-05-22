@@ -83,7 +83,7 @@ export const getCommentsController = async (
 				  )})`
 				: ''
 		} ${
-			req.query.last_comment_created_at
+			typeof req.query.last_comment_created_at !== 'undefined'
 				? 'AND news_comment.created_at > ($2)'
 				: ''
 		}
@@ -158,7 +158,7 @@ export const getCommentsController = async (
 							  )})`
 							: ''
 					} ${
-					req.query.last_reply_created_at
+					typeof req.query.last_reply_created_at !== undefined
 						? 'AND news_comment.created_at > ($2)'
 						: ''
 				}

@@ -1,27 +1,34 @@
-import {
-	FC,
-	FormEvent,
-	useCallback,
-	useEffect,
-	useReducer,
-	useState,
-} from 'react';
+/* eslint-disable no-mixed-spaces-and-tabs */
+import { FC, FormEvent, useCallback, useEffect, useState } from 'react';
 
 import helpersClasses from '@styles/helpers.module.css';
 
-import { TNewsItemCommentsMain, TNewsItemData } from '@coreLib/ts/global';
+import {
+	TNewsItemCommentBasicData,
+	TNewsItemCommentsMain,
+	TNewsItemCommentTypeMain,
+	TNewsItemData,
+} from '@coreLib/ts/global';
 import { useUserSharedState } from '@store/UserContext';
 
 import Comment from './Comment';
 import CommentTextarea from './CommentTextarea';
 import { useNewsSharedState } from '@store/NewsContext';
 import ButtonComponent from '@commonComponentsIndependent/Button';
-import {
-	createNewsItemMainComment,
-	getMoreNewsItemCommentsMain,
-} from './utils/actions';
-import commentsRequestsReducer from './utils/reducer';
 import { useNewsItemExtraDataSharedState } from '../../context';
+import useRequestState from '@commonLibDependent/requestState';
+import ENewsItemExtraData from '../../context/constants';
+import {
+	handleRequestStateChanges,
+	returnBearerTokenIfExist,
+} from '@commonLibIndependent/fetch';
+import networkReqArgs from '@coreLib/networkReqArgs';
+import { ICreateNewsItemCommentReqArgsPropsBodyContentTypeCommentMain } from '@coreLib/networkReqArgs/_app/news/[news_id]/comments/ts';
+
+interface IGetMoreNewsItemCommentRepliesMainExtraProps {
+	news_id: TNewsItemData['news_id'];
+	parent_id: TNewsItemCommentBasicData['news_comment_id'];
+}
 
 interface IProps {
 	newsItemComments: TNewsItemCommentsMain;
@@ -56,10 +63,10 @@ const Comments: FC<IProps> = ({
 		newsDispatch,
 	] = useNewsSharedState();
 
-	const [requestsActionsState, requestsActionsDispatch] = useReducer(
-		commentsRequestsReducer,
-		{}
-	);
+	const { requestState, requestsActionsDispatch, requestsConstants } =
+		useRequestState({
+			requestString: 'initGetComments,create',
+		});
 
 	const [isCommentTextarea, setIsCommentTextarea] = useState(true);
 
@@ -70,45 +77,190 @@ const Comments: FC<IProps> = ({
 		content: '',
 	});
 
+	const [newsItemExtraDataSharedState, newsItemExtraDataDispatch] =
+		useNewsItemExtraDataSharedState();
+
 	const isSendCommentButtonDisable = !!(
-		!userData || requestsActionsState.create?.isLoading
+		!userData || requestState.create?.isLoading
 	);
 
-	const handleSubmit = async (event: FormEvent) => {
-		event.preventDefault();
+	const getMoreNewsItemCommentsMain = useCallback(async () => {
+		const queries: Parameters<
+			typeof networkReqArgs._app.news.item.comments.get
+		>['0']['urlOptions']['queries'] = {
+			comment_type: 'comment_main',
+		};
+
+		if (Array.isArray(comments) && comments[comments.length - 1]?.created_at) {
+			queries.last_comment_created_at = new Date(
+				comments[comments.length - 1].created_at
+			).toISOString();
+		}
+
+		return await handleRequestStateChanges<{
+			comments: TNewsItemCommentsMain;
+			hit_comments_limit: boolean;
+		}>({
+			onInit: async () => {
+				requestsActionsDispatch({
+					type: requestsConstants.IS_LOADING,
+					payload: {
+						target: 'initGetComments',
+					},
+				});
+
+				const { requestInfo, requestInit } =
+					networkReqArgs._app.news.item.comments.get({
+						urlOptions: {
+							params: {
+								news_id: news_id,
+							},
+							queries: queries,
+						},
+					});
+
+				return await fetch(requestInfo, requestInit);
+			},
+			onError: (error) => {
+				return requestsActionsDispatch({
+					type: requestsConstants.ERROR,
+					payload: {
+						target: 'initGetComments',
+						error,
+					},
+				});
+			},
+			onSuccess: ({ comments, hit_comments_limit }) => {
+				requestsActionsDispatch({
+					type: requestsConstants.SUCCESS,
+					payload: {
+						target: 'initGetComments',
+					},
+				});
+				newsItemExtraDataDispatch({
+					type: ENewsItemExtraData.ADD_MAIN_COMMENTS,
+					payload: {
+						commentsMainData: comments,
+						hit_comments_limit,
+					},
+				});
+			},
+		});
+	}, [
+		comments,
+		newsItemExtraDataDispatch,
+		news_id,
+		requestsActionsDispatch,
+		requestsConstants.ERROR,
+		requestsConstants.IS_LOADING,
+		requestsConstants.SUCCESS,
+	]);
+
+	const createNewsItemMainComment = async () => {
+		// 	commentDispatch,
+		// 	{ newsItemExtraDataDispatch, bodyContent, requiredExtraData, token }
+		// ) => {
 
 		if (
 			!userData ||
-			requestsActionsState.create?.isLoading ||
+			requestState.create?.isLoading ||
 			values.content.length < 2
 		)
 			return;
 
-		await createNewsItemMainComment(requestsActionsDispatch, {
-			token: userToken,
-			bodyContent: {
-				comment_type: 'comment_main',
-				content: values.content,
-				news_id: news_id,
-			},
-			newsItemExtraDataDispatch,
-			requiredExtraData: {
-				author_id: userData.id,
-				author_user_name_id: userData.user_name_id,
-				author_first_name: userData.first_name,
-				author_last_name: userData.last_name,
-				author_profile_picture: userData.profile_picture,
-				type: 'comment_main',
-			},
-		});
+		const token = userToken;
+		const bodyContent = {
+			comment_type: 'comment_main',
+			content: values.content,
+			news_id: news_id,
+		} as unknown as TNewsItemCommentTypeMain;
+		// newsItemExtraDataDispatch,
+		const requiredExtraData = {
+			author_id: userData.id,
+			author_user_name_id: userData.user_name_id,
+			author_first_name: userData.first_name,
+			author_last_name: userData.last_name,
+			author_profile_picture: userData.profile_picture,
+			type: 'comment_main',
+		};
 
-		setValues({
-			content: '',
+		return await handleRequestStateChanges<
+			{
+				news_comment_id: TNewsItemCommentBasicData['news_comment_id'];
+			},
+			boolean,
+			IGetMoreNewsItemCommentRepliesMainExtraProps,
+			IGetMoreNewsItemCommentRepliesMainExtraProps,
+			IGetMoreNewsItemCommentRepliesMainExtraProps
+		>({
+			onInit: async () => {
+				requestsActionsDispatch({
+					type: requestsConstants.IS_LOADING,
+					payload: {
+						target: 'create',
+					},
+				});
+
+				const { requestInfo, requestInit } =
+					networkReqArgs._app.news.item.comment.create({
+						urlOptions: {
+							params: {
+								// news_comment_id: requiredData.news_comment_id,
+								news_id: news_id,
+							},
+						},
+						bodyContent:
+							bodyContent as unknown as ICreateNewsItemCommentReqArgsPropsBodyContentTypeCommentMain,
+						headersList: {
+							Authorization: token && returnBearerTokenIfExist(token),
+						},
+					});
+
+				return await fetch(requestInfo, requestInit);
+			},
+			onError: (error) => {
+				requestsActionsDispatch({
+					type: requestsConstants.ERROR,
+					payload: {
+						target: 'create',
+						error,
+					},
+				});
+			},
+			onSuccess: ({ news_comment_id }) => {
+				requestsActionsDispatch({
+					type: requestsConstants.SUCCESS,
+					payload: {
+						target: 'create',
+					},
+				});
+
+				if (requiredExtraData.type === 'comment_main')
+					newsItemExtraDataDispatch({
+						type: ENewsItemExtraData.ADD_NEW_MAIN_OR_MAIN_REPLY_COMMENT,
+						payload: {
+							newCommentData: {
+								...requiredExtraData,
+								...(bodyContent as unknown as TNewsItemCommentTypeMain),
+								type: 'comment_main',
+								news_comment_id,
+								created_at: new Date().getTime(),
+								updated_at: new Date().getTime(),
+							},
+						},
+					});
+				setValues({
+					content: '',
+				});
+			},
 		});
 	};
 
-	const [newsItemExtraDataSharedState, newsItemExtraDataDispatch] =
-		useNewsItemExtraDataSharedState();
+	const handleSubmit = async (event: FormEvent) => {
+		event.preventDefault();
+
+		createNewsItemMainComment();
+	};
 
 	const loadMoreNewsItemMainComments = useCallback(async () => {
 		if (
@@ -119,27 +271,12 @@ const Comments: FC<IProps> = ({
 		)
 			return;
 
-		await getMoreNewsItemCommentsMain(requestsActionsDispatch, {
-			newsItemExtraDataDispatch,
-			news_id: news_id,
-			urlOptions: {
-				params: {
-					news_id: news_id,
-				},
-				queries: {
-					comment_type: 'comment_main',
-					last_comment_created_at: new Date(
-						comments[comments.length - 1].created_at
-					).toISOString(),
-				},
-			},
-		});
+		getMoreNewsItemCommentsMain();
 	}, [
 		comments_counter,
 		hit_comments_limit,
 		comments,
-		newsItemExtraDataDispatch,
-		news_id,
+		getMoreNewsItemCommentsMain,
 	]);
 
 	const handleIsUpdatingContentVisible = (isVisible?: boolean) => {
@@ -156,34 +293,24 @@ const Comments: FC<IProps> = ({
 		)
 			return;
 		if (
-			!requestsActionsState?.initGetComments ||
-			(requestsActionsState.initGetComments &&
-				!requestsActionsState.initGetComments.isLoading &&
-				!requestsActionsState.initGetComments.success)
+			!requestState.initGetComments ||
+			(requestState.initGetComments &&
+				!requestState.initGetComments.isLoading &&
+				!requestState.initGetComments.success &&
+				!requestState.initGetComments.error)
 		) {
-			(async () =>
-				await getMoreNewsItemCommentsMain(requestsActionsDispatch, {
-					newsItemExtraDataDispatch,
-					news_id: news_id,
-					urlOptions: {
-						params: {
-							news_id: news_id,
-						},
-						queries: {
-							comment_type: 'comment_main',
-						},
-					},
-				}))();
+			getMoreNewsItemCommentsMain();
 		}
 	}, [
 		news_id,
 		newsDispatch,
 		newsItemComments.length,
-		requestsActionsState.initGetComments,
+		requestState.initGetComments,
 		hit_comments_limit,
 		comments_counter,
 		newsItemExtraDataSharedState,
 		newsItemExtraDataDispatch,
+		getMoreNewsItemCommentsMain,
 	]);
 
 	return (
@@ -206,13 +333,11 @@ const Comments: FC<IProps> = ({
 				</ButtonComponent>
 			)}
 			<div>
-				{requestsActionsState?.initGetComments?.isLoading && (
+				{requestState.initGetComments?.isLoading && (
 					<p className='isLoadingLoader'>Loading...</p>
 				)}
-				{requestsActionsState?.initGetComments?.error && (
-					<p className='errorMessage'>
-						{!requestsActionsState?.initGetComments.error}
-					</p>
+				{requestState.initGetComments?.error && (
+					<p className='errorMessage'>{!requestState.initGetComments.error}</p>
 				)}
 				{newsItemComments.length !== 0 &&
 					newsItemComments.map((comment) => (
@@ -229,7 +354,7 @@ const Comments: FC<IProps> = ({
 					<button
 						title='Load more comments'
 						disabled={
-							requestsActionsState?.initGetComments?.isLoading ||
+							requestState.initGetComments?.isLoading ||
 							getMoreMainCommentsRequest?.isLoading
 						}
 						onClick={async () => await loadMoreNewsItemMainComments()}
@@ -240,7 +365,7 @@ const Comments: FC<IProps> = ({
 				<button
 					title='Hide comments'
 					disabled={
-						requestsActionsState?.initGetComments?.isLoading ||
+						requestState.initGetComments?.isLoading ||
 						getMoreMainCommentsRequest?.isLoading
 					}
 				>
