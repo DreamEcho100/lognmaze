@@ -10,6 +10,12 @@ import {
 	TNewsItemData,
 } from '@coreLib/ts/global';
 import { useUserSharedState } from '@store/UserContext';
+import {
+	handleRequestStateChanges,
+	returnBearerTokenIfExist,
+} from '@commonLibIndependent/fetch';
+import networkReqArgs from '@coreLib/networkReqArgs';
+import { ICreateNewsItemCommentReqArgsPropsBodyContentTypeCommentMain } from '@coreLib/networkReqArgs/_app/news/[news_id]/comments/ts';
 
 import Comment from './Comment';
 import CommentTextarea from './CommentTextarea';
@@ -18,12 +24,6 @@ import ButtonComponent from '@commonComponentsIndependent/Button';
 import { useNewsItemExtraDataSharedState } from '../../context';
 import useRequestState from '@commonLibDependent/requestState';
 import ENewsItemExtraData from '../../context/constants';
-import {
-	handleRequestStateChanges,
-	returnBearerTokenIfExist,
-} from '@commonLibIndependent/fetch';
-import networkReqArgs from '@coreLib/networkReqArgs';
-import { ICreateNewsItemCommentReqArgsPropsBodyContentTypeCommentMain } from '@coreLib/networkReqArgs/_app/news/[news_id]/comments/ts';
 
 interface IGetMoreNewsItemCommentRepliesMainExtraProps {
 	news_id: TNewsItemData['news_id'];

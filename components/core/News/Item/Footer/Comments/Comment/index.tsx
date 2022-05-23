@@ -1,4 +1,4 @@
-import { FC, FormEvent, useEffect, useReducer, useState } from 'react';
+import { FC, FormEvent, useEffect, useState } from 'react';
 import Link from 'next/link';
 
 import classes from './index.module.css';
@@ -8,19 +8,21 @@ import {
 	TNewsItemData,
 	TNewsItemCommentTypeMain,
 	TNewsItemCommentTypeReplyMain,
+	TNewsItemCommentBasicData,
+	TNewsItemCommentMainReplies,
 } from '@coreLib/ts/global';
 
 import { useUserSharedState } from '@store/UserContext';
 
-import commentRequestsReducer from './utils/reducer';
-import {
-	createNewsItemReplyForMainComment,
-	getRepliesForMainComment,
-	updateNewsItemMainOrMainReplyComment,
-	deleteNewsItemMainOrMainReplyComment,
-} from './utils/actions';
 import { imagesWeservNlLoader } from '@commonLibIndependent/image';
 import { useNewsItemExtraDataSharedState } from '@coreComponents/News/Item/context';
+import useRequestState from '@commonLibDependent/requestState';
+import networkReqArgs from '@coreLib/networkReqArgs';
+import {
+	handleRequestStateChanges,
+	returnBearerTokenIfExist,
+} from '@commonLibIndependent/fetch';
+import ENewsItemExtraData from '@coreComponents/News/Item/context/constants';
 
 import CustomDropdown from './CustomDropdown';
 import DropdownMenuItem from '@commonComponentsIndependent/Dropdown/Item';
@@ -29,6 +31,15 @@ import CustomNextImage from '@commonComponentsDependent/CustomNextImage';
 import MdToHTMLFormatter from '@commonComponentsDependent/Format/MdToHTML';
 import FormatContainer from '@commonComponentsIndependent/Format/Container';
 import TimeAndDate from '@coreComponents/News/Item/TimeAndDate';
+
+interface IGetMoreNewsItemCommentRepliesMainExtraProps {
+	news_id: TNewsItemData['news_id'];
+	parent_id: TNewsItemCommentBasicData['news_comment_id'];
+}
+interface IGetRepliesForMainCommentSuccessData {
+	hit_replies_limit: boolean;
+	comments: TNewsItemCommentMainReplies;
+}
 
 interface ICommentMainProps {
 	commentType: TNewsItemCommentTypeMain['type'];
@@ -82,12 +93,12 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 
 	const [, newsItemExtraDataDispatch] = useNewsItemExtraDataSharedState();
 
-	const [requestsActionsState, requestsActionsDispatch] = useReducer(
-		commentRequestsReducer,
-		{
-			type: props.comment.type,
-		}
-	);
+	// const [requestsActionsState, requestsActionsDispatch] = useReducer(
+	// 	commentRequestsReducer,
+	// 	{
+	// 		type: props.comment.type,
+	// 	}
+	// );
 
 	const commentMain =
 		(props.commentType === 'comment_main' && props.comment) || undefined;
@@ -104,74 +115,211 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		comment_reply: '',
 	});
 
-	const handleUpdatingComment = async (event: FormEvent) => {
+	const { requestState, requestsActionsDispatch, requestsConstants } =
+		useRequestState({
+			requestString: 'create,getReplies,update,delete',
+		});
+
+	const handleUpdateNewsItemMainOrMainReplyComment = async (
+		event: FormEvent
+	) => {
 		event.preventDefault();
 		if (!userData) return;
 
-		await updateNewsItemMainOrMainReplyComment(requestsActionsDispatch, {
-			newsItemExtraDataDispatch,
-			token: userToken,
-			requiredData: {
-				newContent: values.content,
-				news_comment_id: props.comment.news_comment_id,
-				news_id: news_id,
-				...(() => {
-					if (props.comment.type === 'comment_main_reply') {
-						return {
-							parent_id: props.comment.parent_id,
-							type: props.comment.type,
-						};
-					}
-
+		const requiredData = {
+			newContent: values.content,
+			news_comment_id: props.comment.news_comment_id,
+			news_id: news_id,
+			...(() => {
+				if (props.comment.type === 'comment_main_reply') {
 					return {
+						parent_id: props.comment.parent_id,
 						type: props.comment.type,
 					};
-				})(),
+				}
+
+				return {
+					type: props.comment.type,
+				};
+			})(),
+		};
+
+		return await handleRequestStateChanges<
+			{
+				comments: TNewsItemCommentMainReplies;
+				hit_replies_limit: boolean;
+			},
+			true
+		>({
+			onInit: async () => {
+				requestsActionsDispatch({
+					type: requestsConstants.IS_LOADING,
+					payload: {
+						target: 'delete',
+					},
+				});
+
+				const { requestInfo, requestInit } =
+					networkReqArgs._app.news.item.comment.update({
+						urlOptions: {
+							params: {
+								news_comment_id: requiredData.news_comment_id,
+								news_id: requiredData.news_id,
+							},
+						},
+						bodyContent: {
+							content: requiredData.newContent,
+						},
+						headersList: {
+							Authorization: userToken && returnBearerTokenIfExist(userToken),
+						},
+					});
+
+				return await fetch(requestInfo, requestInit);
+			},
+			onError: (error) => {
+				requestsActionsDispatch({
+					type: requestsConstants.ERROR,
+					payload: {
+						target: 'delete',
+						error,
+					},
+				});
+			},
+			onSuccess: () => {
+				setIsUpdatingContentVisible(false);
+
+				newsItemExtraDataDispatch({
+					type: ENewsItemExtraData.UPDATE_MAIN_OR_MAIN_REPLY_COMMENT,
+					payload: {
+						...requiredData,
+						newContent: requiredData.newContent,
+					},
+				});
+				requestsActionsDispatch({
+					type: requestsConstants.SUCCESS,
+					payload: {
+						target: 'delete',
+					},
+				});
+
+				setIsUpdatingContentVisible(false);
 			},
 		});
+	};
 
-		setIsUpdatingContentVisible(false);
+	const createNewsItemReplyForMainComment = async () => {
+		if (!userData || values.comment_reply.length < 2) return;
+
+		const requiredData = {
+			author_id: userData.id,
+			author_user_name_id: userData.user_name_id,
+			author_first_name: userData.first_name,
+			author_last_name: userData.last_name,
+			author_profile_picture: userData.profile_picture,
+			content: values.comment_reply,
+			news_id: news_id,
+			parent_id:
+				props.comment.type === 'comment_main_reply' && props.parent_data
+					? props.parent_data.news_comment_id
+					: props.comment.news_comment_id,
+			reply_to_user_id: props.comment.author_id,
+			reply_to_comment_id:
+				props.comment.type === 'comment_main_reply' && props.parent_data
+					? props.parent_data.news_comment_id
+					: undefined,
+		};
+
+		return await handleRequestStateChanges<
+			{
+				news_comment_id: TNewsItemCommentBasicData['news_comment_id'];
+			},
+			boolean,
+			IGetMoreNewsItemCommentRepliesMainExtraProps,
+			IGetMoreNewsItemCommentRepliesMainExtraProps,
+			IGetMoreNewsItemCommentRepliesMainExtraProps
+		>({
+			onInit: async () => {
+				requestsActionsDispatch({
+					type: requestsConstants.IS_LOADING,
+					payload: {
+						target: 'create',
+					},
+				});
+
+				const { requestInfo, requestInit } =
+					networkReqArgs._app.news.item.comment.create({
+						urlOptions: {
+							params: {
+								news_id: requiredData.news_id,
+							},
+						},
+						bodyContent: {
+							comment_type: 'comment_main_reply',
+							parent_id: requiredData.parent_id,
+							reply_to_user_id: requiredData.reply_to_user_id,
+							reply_to_comment_id: requiredData.reply_to_comment_id,
+							content: requiredData.content,
+							news_id: requiredData.news_id,
+						},
+						headersList: {
+							Authorization: userToken && returnBearerTokenIfExist(userToken),
+						},
+					});
+
+				return await fetch(requestInfo, requestInit);
+			},
+			onError: (error) => {
+				requestsActionsDispatch({
+					type: requestsConstants.ERROR,
+					payload: {
+						target: 'create',
+						error,
+					},
+				});
+			},
+			onSuccess: ({ news_comment_id }) => {
+				setTimeout(
+					() =>
+						newsItemExtraDataDispatch({
+							type: ENewsItemExtraData.ADD_NEW_MAIN_OR_MAIN_REPLY_COMMENT,
+							payload: {
+								newCommentData: {
+									...requiredData,
+									news_comment_id,
+									type: 'comment_main_reply',
+									created_at: new Date().getTime(),
+									updated_at: new Date().getTime(),
+								},
+							},
+						}),
+					0
+				);
+				requestsActionsDispatch({
+					type: requestsConstants.SUCCESS,
+					payload: {
+						target: 'create',
+					},
+				});
+			},
+		});
 	};
 
 	const handleSubmitCommentReply = async (event: FormEvent) => {
 		event.preventDefault();
-
-		if (!userData || values.comment_reply.length < 2) return;
-
-		await createNewsItemReplyForMainComment(requestsActionsDispatch, {
-			newsItemExtraDataDispatch,
-			token: userToken,
-			requiredData: {
-				author_id: userData.id,
-				author_user_name_id: userData.user_name_id,
-				author_first_name: userData.first_name,
-				author_last_name: userData.last_name,
-				author_profile_picture: userData.profile_picture,
-				content: values.comment_reply,
-				news_id: news_id,
-				parent_id:
-					props.comment.type === 'comment_main_reply' && props.parent_data
-						? props.parent_data.news_comment_id
-						: props.comment.news_comment_id,
-				reply_to_user_id: props.comment.author_id,
-				reply_to_comment_id:
-					props.comment.type === 'comment_main_reply' && props.parent_data
-						? props.parent_data.news_comment_id
-						: undefined,
-			},
-		});
+		await createNewsItemReplyForMainComment();
 	};
 
 	useEffect(() => {
-		if (requestsActionsState.create?.success) {
+		if (requestState.create?.success) {
 			setValues((prevState) => ({
 				...prevState,
 				comment_reply: '',
 			}));
 		}
-	}, [requestsActionsState.create?.success]);
+	}, [requestState.create?.success]);
 
-	const loadRepliesHandler = async () => {
+	const getRepliesForMainComment = async () => {
 		if (
 			props.comment.type !== 'comment_main' ||
 			(parseInt(props.comment.replies_counter + '') || 0) === 0
@@ -189,20 +337,68 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 			if (error instanceof Error) console.error(error.message);
 		}
 
-		await getRepliesForMainComment(requestsActionsDispatch, {
-			newsItemExtraDataDispatch,
-			parent_id: props.comment.news_comment_id,
-			urlOptions: {
-				params: {
-					news_id: news_id,
-				},
-				queries: {
-					comment_type: 'comment_main_reply',
-					last_reply_created_at,
-					parent_id: props.comment.news_comment_id,
-				},
+		const parent_id = props.comment.news_comment_id;
+		const urlOptions: Parameters<
+			typeof networkReqArgs._app.news.item.comments.get
+		>['0']['urlOptions'] = {
+			params: {
+				news_id: news_id,
+			},
+			queries: {
+				comment_type: 'comment_main_reply',
+				last_reply_created_at,
+				parent_id: props.comment.news_comment_id,
+			},
+		};
+
+		return handleRequestStateChanges<IGetRepliesForMainCommentSuccessData>({
+			onInit: async () => {
+				requestsActionsDispatch({
+					type: requestsConstants.IS_LOADING,
+					payload: {
+						target: 'getReplies',
+					},
+				});
+
+				const { requestInfo, requestInit } =
+					networkReqArgs._app.news.item.comments.get({
+						urlOptions,
+					});
+
+				return await fetch(requestInfo, requestInit);
+			},
+			onError: (error) => {
+				requestsActionsDispatch({
+					type: requestsConstants.ERROR,
+					payload: {
+						target: 'getReplies',
+						error,
+					},
+				});
+				return false;
+			},
+			onSuccess: ({ comments, hit_replies_limit }) => {
+				requestsActionsDispatch({
+					type: requestsConstants.SUCCESS,
+					payload: {
+						target: 'getReplies',
+					},
+				});
+
+				newsItemExtraDataDispatch({
+					type: ENewsItemExtraData.ADD_REPLIES_TO_COMMENT_MAIN,
+					payload: {
+						newCommentMainRepliesData: comments,
+						hit_replies_limit,
+						parent_id,
+					},
+				});
 			},
 		});
+	};
+
+	const loadRepliesHandler = async () => {
+		await getRepliesForMainComment();
 	};
 
 	const handleIsReplyTextareaIsVisible = (isVisible?: boolean) => {
@@ -214,6 +410,96 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		setIsUpdatingContentVisible((prevState) =>
 			typeof isVisible === 'boolean' ? isVisible : !prevState
 		);
+	};
+
+	const deleteNewsItemMainOrMainReplyComment = async () => {
+		if (!confirm('Are you sure you want to delete this comment?')) return;
+
+		const requiredData = {
+			news_comment_id: props.comment.news_comment_id,
+			news_id: news_id,
+			...(() => {
+				if (props.comment.type === 'comment_main_reply') {
+					console.log('props.comment.parent_id');
+					return {
+						parent_id:
+							props.parent_data?.news_comment_id || props.comment.parent_id,
+						type: props.comment.type,
+					};
+				}
+
+				return {
+					type: props.comment.type,
+				};
+			})(),
+		};
+
+		return await handleRequestStateChanges<
+			{
+				comments: TNewsItemCommentMainReplies;
+				hit_replies_limit: boolean;
+			},
+			true
+		>({
+			onInit: async () => {
+				requestsActionsDispatch({
+					type: requestsConstants.IS_LOADING,
+					payload: {
+						target: 'delete',
+					},
+				});
+
+				const { requestInfo, requestInit } =
+					networkReqArgs._app.news.item.comment.delete({
+						urlOptions: {
+							params: {
+								news_comment_id: requiredData.news_comment_id,
+								news_id: requiredData.news_id,
+							},
+						},
+						bodyContent:
+							requiredData.type === 'comment_main_reply'
+								? {
+										type: requiredData.type,
+										parent_id: requiredData.parent_id,
+										// eslint-disable-next-line no-mixed-spaces-and-tabs
+								  }
+								: {
+										type: requiredData.type,
+										// eslint-disable-next-line no-mixed-spaces-and-tabs
+								  },
+						headersList: {
+							Authorization: userToken && returnBearerTokenIfExist(userToken),
+						},
+					});
+
+				return await fetch(requestInfo, requestInit);
+			},
+			onError: (error) => {
+				requestsActionsDispatch({
+					type: requestsConstants.ERROR,
+					payload: {
+						target: 'delete',
+						error,
+					},
+				});
+			},
+			onSuccess: () => {
+				requestsActionsDispatch({
+					type: requestsConstants.SUCCESS,
+					payload: {
+						target: 'delete',
+					},
+				});
+				console.log('requiredData', requiredData);
+				newsItemExtraDataDispatch({
+					type: ENewsItemExtraData.DELETE_MAIN_OR_MAIN_REPLY_COMMENT,
+					payload: {
+						...requiredData,
+					},
+				});
+			},
+		});
 	};
 
 	return (
@@ -272,8 +558,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 							>
 								<button
 									disabled={
-										requestsActionsState.update?.isLoading ||
-										isUpdatingContentVisible
+										requestState.update?.isLoading || isUpdatingContentVisible
 									}
 									onClick={() => handleIsUpdatingContentVisible(true)}
 								>
@@ -284,40 +569,10 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 								setIsDropdownListVisible={setIsDropdownListVisible}
 							>
 								<button
-									disabled={requestsActionsState.delete?.isLoading}
-									onClick={async () => {
-										if (
-											confirm('Are you sure you want to delete this comment?')
-										) {
-											console.log('DELETE');
-											await deleteNewsItemMainOrMainReplyComment(
-												requestsActionsDispatch,
-												{
-													newsItemExtraDataDispatch,
-													token: userToken,
-													requiredData: {
-														news_comment_id: props.comment.news_comment_id,
-														news_id: news_id,
-														...(() => {
-															if (props.comment.type === 'comment_main_reply') {
-																console.log('props.comment.parent_id');
-																return {
-																	parent_id:
-																		props.parent_data?.news_comment_id ||
-																		props.comment.parent_id,
-																	type: props.comment.type,
-																};
-															}
-
-															return {
-																type: props.comment.type,
-															};
-														})(),
-													},
-												}
-											);
-										}
-									}}
+									disabled={requestState.delete?.isLoading}
+									onClick={async () =>
+										await deleteNewsItemMainOrMainReplyComment()
+									}
 								>
 									delete
 								</button>
@@ -334,11 +589,11 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					userData.id === props.comment.author_id &&
 					isUpdatingContentVisible && (
 						<CommentTextarea
-							handleSubmit={handleUpdatingComment}
+							handleSubmit={handleUpdateNewsItemMainOrMainReplyComment}
 							name='content'
 							setValues={setValues}
 							value={values.content}
-							disableSubmitButton={requestsActionsState.update?.isLoading}
+							disableSubmitButton={requestState.update?.isLoading}
 							commentToType={props.comment.type}
 							handleIsCommentTextareaIsVisible={() =>
 								handleIsUpdatingContentVisible(false)
@@ -370,8 +625,9 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 							props.comment.replies_counter === 1 ? 'Reply' : 'Replies'
 						} ${props.comment.replies_counter}`}
 						disabled={
-							requestsActionsState.type === 'comment_main' &&
-							requestsActionsState?.getReplies?.isLoading
+							props.comment.type === 'comment_main' &&
+							// requestState.type === 'comment_main' &&
+							requestState?.getReplies?.isLoading
 						}
 						onClick={() => {
 							if (
@@ -397,7 +653,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					name='comment_reply'
 					setValues={setValues}
 					value={values.comment_reply}
-					disableSubmitButton={requestsActionsState.create?.isLoading}
+					disableSubmitButton={requestState.create?.isLoading}
 					commentToType={props.comment.type}
 					handleIsCommentTextareaIsVisible={() =>
 						handleIsReplyTextareaIsVisible(false)
@@ -414,15 +670,16 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					/>
 				)}
 
-			{requestsActionsState.type === 'comment_main' &&
-				requestsActionsState?.getReplies?.isLoading && (
+			{props.comment.type === 'comment_main' &&
+				// requestState.type === 'comment_main' &&
+				requestState?.getReplies?.isLoading && (
 					<p className='isLoadingLoader'>Loading...</p>
 				)}
 
 			<div className='buttons-holder'>
 				{showReplies &&
 					props.comment.type === 'comment_main' &&
-					requestsActionsState.type === 'comment_main' &&
+					// requestState.type === 'comment_main' &&
 					props.comment?.replies &&
 					props.comment?.replies.length !== 0 &&
 					!props.comment.hit_replies_limit &&
@@ -430,7 +687,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					props.comment.replies_counter !== props.comment?.replies?.length && (
 						<button
 							title='Load More'
-							disabled={requestsActionsState?.getReplies?.isLoading}
+							disabled={requestState?.getReplies?.isLoading}
 							onClick={() => {
 								if (
 									props.comment.type === 'comment_main' &&
@@ -454,13 +711,13 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					)}
 
 				{props.comment.type === 'comment_main' &&
-					requestsActionsState.type === 'comment_main' &&
+					// requestState.type === 'comment_main' &&
 					showReplies &&
 					props.comment?.replies &&
 					props.comment?.replies.length !== 0 && (
 						<button
 							title='Hide Replies'
-							disabled={requestsActionsState?.getReplies?.isLoading}
+							disabled={requestState?.getReplies?.isLoading}
 							onClick={() => setShowReplies(false)}
 						>
 							<span className={helpersClasses.fontWeightBold}>
