@@ -93,13 +93,6 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 
 	const [, newsItemExtraDataDispatch] = useNewsItemExtraDataSharedState();
 
-	// const [requestsActionsState, requestsActionsDispatch] = useReducer(
-	// 	commentRequestsReducer,
-	// 	{
-	// 		type: props.comment.type,
-	// 	}
-	// );
-
 	const commentMain =
 		(props.commentType === 'comment_main' && props.comment) || undefined;
 
@@ -119,6 +112,18 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		useRequestState({
 			requestString: 'create,getReplies,update,delete',
 		});
+
+	const handleIsReplyTextareaIsVisible = (isVisible?: boolean) => {
+		setShowReplyTextarea((prevState) =>
+			typeof isVisible === 'boolean' ? isVisible : !prevState
+		);
+	};
+
+	const handleIsUpdatingContentVisible = (isVisible?: boolean) => {
+		setIsUpdatingContentVisible((prevState) =>
+			typeof isVisible === 'boolean' ? isVisible : !prevState
+		);
+	};
 
 	const handleUpdateNewsItemMainOrMainReplyComment = async (
 		event: FormEvent
@@ -208,7 +213,8 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		});
 	};
 
-	const createNewsItemReplyForMainComment = async () => {
+	const handleCreateNewsItemReplyForMainComment = async (event: FormEvent) => {
+		event.preventDefault();
 		if (!userData || values.comment_reply.length < 2) return;
 
 		const requiredData = {
@@ -305,21 +311,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		});
 	};
 
-	const handleSubmitCommentReply = async (event: FormEvent) => {
-		event.preventDefault();
-		await createNewsItemReplyForMainComment();
-	};
-
-	useEffect(() => {
-		if (requestState.create?.success) {
-			setValues((prevState) => ({
-				...prevState,
-				comment_reply: '',
-			}));
-		}
-	}, [requestState.create?.success]);
-
-	const getRepliesForMainComment = async () => {
+	const handleGetRepliesForMainComment = async () => {
 		if (
 			props.comment.type !== 'comment_main' ||
 			(parseInt(props.comment.replies_counter + '') || 0) === 0
@@ -397,22 +389,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		});
 	};
 
-	const loadRepliesHandler = async () => {
-		await getRepliesForMainComment();
-	};
-
-	const handleIsReplyTextareaIsVisible = (isVisible?: boolean) => {
-		setShowReplyTextarea((prevState) =>
-			typeof isVisible === 'boolean' ? isVisible : !prevState
-		);
-	};
-	const handleIsUpdatingContentVisible = (isVisible?: boolean) => {
-		setIsUpdatingContentVisible((prevState) =>
-			typeof isVisible === 'boolean' ? isVisible : !prevState
-		);
-	};
-
-	const deleteNewsItemMainOrMainReplyComment = async () => {
+	const handleDeleteNewsItemMainOrMainReplyComment = async () => {
 		if (!confirm('Are you sure you want to delete this comment?')) return;
 
 		const requiredData = {
@@ -502,6 +479,15 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		});
 	};
 
+	useEffect(() => {
+		if (requestState.create?.success) {
+			setValues((prevState) => ({
+				...prevState,
+				comment_reply: '',
+			}));
+		}
+	}, [requestState.create?.success]);
+
 	return (
 		<div
 			className={`${classes.comment} ${classes[`type-${props.commentType}`]}`}
@@ -571,7 +557,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 								<button
 									disabled={requestState.delete?.isLoading}
 									onClick={async () =>
-										await deleteNewsItemMainOrMainReplyComment()
+										await handleDeleteNewsItemMainOrMainReplyComment()
 									}
 								>
 									delete
@@ -629,14 +615,14 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 							// requestState.type === 'comment_main' &&
 							requestState?.getReplies?.isLoading
 						}
-						onClick={() => {
+						onClick={async () => {
 							if (
 								(!props.comment.replies ||
 									props.comment.replies.length !==
 										props.comment.replies_counter) &&
 								!props.comment.hit_replies_limit
 							) {
-								loadRepliesHandler();
+								await handleGetRepliesForMainComment();
 							}
 							setShowReplies(true);
 						}}
@@ -649,7 +635,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 				)}
 			{userData?.id && showReplyTextarea && (
 				<CommentTextarea
-					handleSubmit={handleSubmitCommentReply}
+					handleSubmit={handleCreateNewsItemReplyForMainComment}
 					name='comment_reply'
 					setValues={setValues}
 					value={values.comment_reply}
@@ -688,7 +674,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 						<button
 							title='Load More'
 							disabled={requestState?.getReplies?.isLoading}
-							onClick={() => {
+							onClick={async () => {
 								if (
 									props.comment.type === 'comment_main' &&
 									props.comment.replies &&
@@ -702,7 +688,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 									props.comment.replies &&
 									props.comment.replies.length !== props.comment.replies_counter
 								) {
-									loadRepliesHandler();
+									await handleGetRepliesForMainComment();
 								}
 							}}
 						>

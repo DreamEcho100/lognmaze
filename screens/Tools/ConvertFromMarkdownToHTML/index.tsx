@@ -80,8 +80,8 @@ const ConvertFromMarkdownToHTMLAppScreen = () => {
 							'The ability to add styles to the HTML result!',
 							'The ability to save stylesheets to use with your conversion in your localStorage!',
 							'Show Raw HTML!',
-						].map((item, index) => (
-							<li key={index}>{item}</li>
+						].map((item) => (
+							<li key={item.replace(/[\W]+/g, '-')}>{item}</li>
 						))}
 					</ul>
 				</footer>

@@ -192,8 +192,11 @@ const NewsItemFormTypeBlog = ({
 						required
 					>
 						<option disabled>Choose The ISO Language</option>
-						{iso_languagesKeys.map((item, index) => (
-							<option key={index} value={ISO639_1LanguageCodes[item]}>
+						{iso_languagesKeys.map((item) => (
+							<option
+								key={item.replace(/[\W]+/g, '-')}
+								value={ISO639_1LanguageCodes[item]}
+							>
 								{item}
 							</option>
 						))}
@@ -210,8 +213,11 @@ const NewsItemFormTypeBlog = ({
 						required
 					>
 						<option disabled>Choose The ISO Country</option>
-						{iso_countriesKeys.map((item, index) => (
-							<option key={index} value={ISOCountryCodesCountriesISOCode[item]}>
+						{iso_countriesKeys.map((item) => (
+							<option
+								key={item.replace(/[\W]+/g, '-')}
+								value={ISOCountryCodesCountriesISOCode[item]}
+							>
 								{item}
 							</option>
 						))}
@@ -328,8 +334,8 @@ const NewsItemFormTypeBlog = ({
 						{createOrUpdateRequestAction.error && (
 							<li>{createOrUpdateRequestAction.error}</li>
 						)}
-						{inputsError.map((item, index) => (
-							<li key={index}>{item}</li>
+						{inputsError.map((item) => (
+							<li key={item.replace(/[\W]+/g, '-')}>{item}</li>
 						))}
 					</ul>
 				))}

@@ -84,6 +84,12 @@ const Comments: FC<IProps> = ({
 		!userData || requestState.create?.isLoading
 	);
 
+	const handleIsUpdatingContentVisible = (isVisible?: boolean) => {
+		setIsCommentTextarea((prevState) =>
+			typeof isVisible === 'boolean' ? isVisible : !prevState
+		);
+	};
+
 	const getMoreNewsItemCommentsMain = useCallback(async () => {
 		const queries: Parameters<
 			typeof networkReqArgs._app.news.item.comments.get
@@ -156,10 +162,8 @@ const Comments: FC<IProps> = ({
 		requestsConstants.SUCCESS,
 	]);
 
-	const createNewsItemMainComment = async () => {
-		// 	commentDispatch,
-		// 	{ newsItemExtraDataDispatch, bodyContent, requiredExtraData, token }
-		// ) => {
+	const handleCreateNewsItemMainComment = async (event: FormEvent) => {
+		event.preventDefault();
 
 		if (
 			!userData ||
@@ -256,12 +260,6 @@ const Comments: FC<IProps> = ({
 		});
 	};
 
-	const handleSubmit = async (event: FormEvent) => {
-		event.preventDefault();
-
-		createNewsItemMainComment();
-	};
-
 	const loadMoreNewsItemMainComments = useCallback(async () => {
 		if (
 			parseInt(comments_counter + '') === 0 ||
@@ -278,12 +276,6 @@ const Comments: FC<IProps> = ({
 		comments,
 		getMoreNewsItemCommentsMain,
 	]);
-
-	const handleIsUpdatingContentVisible = (isVisible?: boolean) => {
-		setIsCommentTextarea((prevState) =>
-			typeof isVisible === 'boolean' ? isVisible : !prevState
-		);
-	};
 
 	useEffect(() => {
 		if (
@@ -317,7 +309,7 @@ const Comments: FC<IProps> = ({
 		<div>
 			{!!(userData?.id && isCommentTextarea) && (
 				<CommentTextarea
-					handleSubmit={handleSubmit}
+					handleSubmit={handleCreateNewsItemMainComment}
 					name='content'
 					setValues={setValues}
 					value={values.content}

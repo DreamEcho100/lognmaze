@@ -54,9 +54,9 @@ const NewsFeed: FC<IProps> = ({
 		<section {...feedProps}>
 			{newsData.length !== 0 &&
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				newsData.map((item: TNewsItemData, index: any) => (
+				newsData.map((item: TNewsItemData) => (
 					<SectionWrapper
-						key={`NewsFeed-${index}-${item.news_id}`}
+						key={`main-news-feed-${item.news_id}`}
 						className={classes.SectionWrapper}
 					>
 						<NewsItem

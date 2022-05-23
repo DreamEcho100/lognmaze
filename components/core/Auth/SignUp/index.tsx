@@ -480,11 +480,11 @@ const SignUpComponent = ({
 						Choose Your Country
 					</option>
 					{countries.map(
-						(
-							{ country_name /*, country_phone_code, country_short_name*/ },
-							index
-						) => (
-							<option key={index} value={country_name}>
+						({
+							country_name,
+							country_short_name /*, country_phone_code, country_short_name*/,
+						}) => (
+							<option key={country_short_name} value={country_name}>
 								{country_name}
 							</option>
 						)
@@ -514,8 +514,8 @@ const SignUpComponent = ({
 						<option value='' disabled>
 							Choose Your City
 						</option>
-						{states.map(({ state_name }, index) => (
-							<option key={index} value={state_name}>
+						{states.map(({ state_name }) => (
+							<option key={state_name} value={state_name}>
 								{state_name}
 							</option>
 						))}
@@ -543,8 +543,8 @@ const SignUpComponent = ({
 						<option value='' disabled>
 							Choose Your State
 						</option>
-						{cities.map(({ city_name }, index) => (
-							<option key={index} value={city_name}>
+						{cities.map(({ city_name }) => (
+							<option key={city_name} value={city_name}>
 								{city_name}
 							</option>
 						))}
@@ -605,8 +605,8 @@ const SignUpComponent = ({
 							<li>{signupRequest.errorMessage}</li>
 						)}
 						{[...passwordRequirement, ...fetchErrorsList, ...errorsList].map(
-							(item, index) => (
-								<li key={`${index}-${item}`}>{item}</li>
+							(item) => (
+								<li key={item.replace(/[\W]+/g, '-')}>{item}</li>
 							)
 						)}
 					</MessagesListComponent>

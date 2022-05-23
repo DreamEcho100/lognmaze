@@ -122,8 +122,8 @@ const NewsItemFormTypePost = ({
 						{createOrUpdateRequestAction.error && (
 							<li>{createOrUpdateRequestAction.error}</li>
 						)}
-						{inputsError.map((item, index) => (
-							<li key={index}>{item}</li>
+						{inputsError.map((item) => (
+							<li key={item.replace(/[\W]+/g, '-')}>{item}</li>
 						))}
 					</ul>
 				))}
