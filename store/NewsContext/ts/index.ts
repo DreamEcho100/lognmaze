@@ -122,6 +122,22 @@ interface IAddNewsItems {
 interface ICreateNewsItemPending {
 	type: NewsItemContextConstants.CREATE_PENDING;
 }
+
+interface ICreateNewNewsItem {
+	type: NewsItemContextConstants.CREATE_NEW_NEWS_ITEM;
+	payload: {
+		newsItemBasicData: ICreateNewsItemReqArgs['bodyContent']['newsItemBasicData'];
+		newNewsItemId: TNewsItemData['news_id'];
+		newNewsItemAuthorData: {
+			author_id: TNewsItemData['author_id'];
+			author_user_name_id: TNewsItemData['author_user_name_id'];
+			author_first_name: TNewsItemData['author_first_name'];
+			author_last_name: TNewsItemData['author_last_name'];
+			author_profile_picture: TNewsItemData['author_profile_picture'];
+			author_bio: TNewsItemData['author_bio'];
+		};
+	};
+}
 interface ICreateNewsItemSuccess {
 	type: NewsItemContextConstants.CREATE_SUCCESS;
 	payload: {
@@ -202,6 +218,7 @@ interface IDeleteNewsItemReset {
 
 export type TNewsContextReducerAction =
 	| IAddNewsItems
+	| ICreateNewNewsItem
 	| IInitGetNewsItemTypeBlogDetailsTypeContentPending
 	| IInitGetNewsItemTypeBlogDetailsTypeContentSuccess
 	| IInitGetNewsItemTypeBlogDetailsTypeContentFail

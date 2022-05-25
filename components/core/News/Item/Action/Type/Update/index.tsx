@@ -1,12 +1,23 @@
 import { TNewsItemData } from '@coreLib/ts/global';
 import { THandleSubmitForCreateAndUpdateNewsItemActionType } from '../../ts';
 import { IUpdateNewsItemReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/ts';
-import { updateNewsItem } from '@store/NewsContext/actions';
 import { differenceBetweenTwoArrays } from '@commonLibIndependent/array';
+import {
+	TRequestStateReducerActions,
+	requestsConstants,
+} from '@commonLibDependent/requestState';
+import networkReqArgs from '@coreLib/networkReqArgs';
+import {
+	handleRequestStateChanges,
+	returnBearerTokenIfExist,
+} from '@commonLibIndependent/fetch';
+import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 
 import NewsItemActionModal from '../../UI/Modal';
 import NewsItemFormTypeBlog from '../../UI/Form/Type/Blog';
 import NewsItemFormTypePost from '../../UI/Form/Type/Post';
+import { Dispatch } from 'react';
+import { TNewsContextReducerAction } from '@store/NewsContext/ts';
 
 interface IProps {
 	newsItemData: TNewsItemData;
@@ -21,8 +32,76 @@ const NewsItemActionTypeUpdate = ({
 	modalVisibilityHandler,
 	isModalVisible,
 }: IProps) => {
+	const updateNewsItem = async (
+		newsDispatch:
+			| Dispatch<TNewsContextReducerAction>
+			| ((value: TNewsContextReducerAction) => void),
+		{
+			bodyContent,
+			requestsActionsDispatch,
+		}: {
+			bodyContent: IUpdateNewsItemReqArgs['bodyContent'];
+			requestsActionsDispatch: Dispatch<TRequestStateReducerActions<'request'>>;
+		}
+	) => {
+		const news_id = newsItemData.news_id;
+
+		return await handleRequestStateChanges({
+			onInit: async () => {
+				requestsActionsDispatch({
+					type: requestsConstants.IS_LOADING,
+					payload: {
+						target: 'request',
+					},
+				});
+
+				const { requestInfo, requestInit } =
+					networkReqArgs._app.news.item.update({
+						bodyContent,
+						urlOptions: {
+							params: {
+								news_id,
+							},
+						},
+						headersList: {
+							Authorization:
+								(userToken && returnBearerTokenIfExist(userToken)) || undefined,
+						},
+					});
+
+				console.log('requestInfo', requestInfo);
+
+				return await fetch(requestInfo, requestInit);
+			},
+			onError: (error) => {
+				requestsActionsDispatch({
+					type: requestsConstants.ERROR,
+					payload: {
+						target: 'request',
+						error,
+					},
+				});
+			},
+			onSuccess: () => {
+				newsDispatch({
+					type: NewsItemContextConstants.UPDATE_SUCCESS,
+					payload: {
+						news_id,
+						dataToUpdate: bodyContent.dataToUpdate,
+					},
+				});
+				requestsActionsDispatch({
+					type: requestsConstants.SUCCESS,
+					payload: {
+						target: 'request',
+					},
+				});
+			},
+		});
+	};
+
 	const handleSubmit: THandleSubmitForCreateAndUpdateNewsItemActionType =
-		async (newsDispatch, props) => {
+		async (newsDispatch, requestsActionsDispatch, props) => {
 			const fieldsCheck: string[] = [];
 
 			if (!props.type_data?.content)
@@ -143,9 +222,8 @@ const NewsItemActionTypeUpdate = ({
 					return ['Nothing Changed!'];
 
 				await updateNewsItem(newsDispatch, {
-					news_id: newsItemData.news_id,
-					token: userToken,
 					bodyContent,
+					requestsActionsDispatch,
 				});
 				modalVisibilityHandler();
 			}
@@ -177,13 +255,8 @@ const NewsItemActionTypeUpdate = ({
 					{newsItemData.type === 'post' && (
 						<NewsItemFormTypePost
 							handleSubmit={handleSubmit}
-							actionType='update'
 							newsItemType={newsItemData.type}
 							newsItemData={newsItemData}
-							isLoadingContentProps={{
-								isModalVisible,
-								newsItemData,
-							}}
 						/>
 					)}
 				</>

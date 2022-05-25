@@ -13,7 +13,6 @@ import {
 	TActionCreateAndUpdateValuesTypePost,
 	THandleSubmitForCreateAndUpdateNewsItemActionType,
 } from '../../../../ts';
-import { useCreateUpdateDeleteNewsItemNeeds } from '@coreComponents/News/Item/Action/utils/hooks';
 import { sharedTextareaProps } from '@coreComponents/News/Item/Action/utils';
 
 import FormComponent from '@commonComponentsIndependent/Form';
@@ -21,50 +20,42 @@ import FormControlComponent from '@commonComponentsIndependent/FormControl';
 import LabelComponent from '@commonComponentsIndependent/Label';
 import TextareaComponent from '@commonComponentsIndependent/Textarea';
 import ButtonComponent from '@commonComponentsIndependent/Button';
+import { useNewsSharedState } from '@store/NewsContext';
+import useRequestState from '@commonLibDependent/requestState';
+// import { memo } from 'react-tracked';
 
 interface IProps {
 	newsItemType: 'blog' | 'post';
 	handleSubmit: THandleSubmitForCreateAndUpdateNewsItemActionType;
-	actionType: 'create' | 'update';
 	newsItemData?: INewsItemTypePost;
-	isLoadingContentProps?: Parameters<
-		typeof useCreateUpdateDeleteNewsItemNeeds
-	>['0']['isLoadingContentProps'];
 }
 
 const NewsItemFormTypePost = ({
 	newsItemType,
 	handleSubmit,
-	actionType = 'create',
 	newsItemData,
-	isLoadingContentProps,
-}: IProps) => {
+}: // requestState,
+IProps) => {
 	const [values, setValues] = useState<TActionCreateAndUpdateValuesTypePost>({
 		type: 'post',
 		content: newsItemData?.type_data?.content || '',
 	});
 	const [inputsError, setInputsError] = useState<string[]>([]);
 
-	const { createOrUpdateRequestAction, contentRequestAction, newsDispatch } =
-		useCreateUpdateDeleteNewsItemNeeds({
-			actionType,
-			newsItemId: newsItemData?.news_id,
-			isLoadingContentProps,
-		});
+	const [, newsDispatch] = useNewsSharedState();
+	const { requestsState, requestsActionsDispatch } = useRequestState({
+		requestString: 'request',
+	});
 
 	const itemsDisabled = useMemo(
 		() =>
 			!!(
-				createOrUpdateRequestAction.isLoading ||
-				(!values.content && contentRequestAction.isLoading) ||
-				contentRequestAction.error
+				requestsState.request.isLoading
+				// createOrUpdateRequestAction.isLoading ||
+				// (!values.content && contentRequestAction.isLoading) ||
+				// contentRequestAction.error
 			),
-		[
-			contentRequestAction.error,
-			contentRequestAction.isLoading,
-			createOrUpdateRequestAction.isLoading,
-			values.content,
-		]
+		[requestsState.request.isLoading]
 	);
 
 	return (
@@ -79,6 +70,7 @@ const NewsItemFormTypePost = ({
 				} as INewsItemTypeBlogBasicData | INewsItemTypePostBasicData;
 				const inputsErrorAfterSubmission = await handleSubmit(
 					newsDispatch,
+					requestsActionsDispatch,
 					props
 				);
 				if (
@@ -89,12 +81,6 @@ const NewsItemFormTypePost = ({
 			}}
 			className={classes.form}
 		>
-			{contentRequestAction.isLoading && (
-				<p className='isLoadingLoader'>Loading missing data...</p>
-			)}
-			{contentRequestAction.error && (
-				<p className='errorMessage'>{contentRequestAction.error}</p>
-			)}
 			<FormControlComponent className={classes.formControl}>
 				<LabelComponent htmlFor='content'>Content: </LabelComponent>
 				<TextareaComponent
@@ -116,11 +102,11 @@ const NewsItemFormTypePost = ({
 				/>
 			</FormControlComponent>
 
-			{createOrUpdateRequestAction.error ||
+			{requestsState.request.error ||
 				(inputsError.length !== 0 && (
 					<ul className='errorsMessagesList'>
-						{createOrUpdateRequestAction.error && (
-							<li>{createOrUpdateRequestAction.error}</li>
+						{requestsState.request.error && (
+							<li>{requestsState.request.error}</li>
 						)}
 						{inputsError.map((item) => (
 							<li key={item.replace(/[\W]+/g, '-')}>{item}</li>
@@ -142,3 +128,8 @@ const NewsItemFormTypePost = ({
 };
 
 export default NewsItemFormTypePost;
+// memo(NewsItemFormTypePost, (prevProps, nextProps) => {
+// 	return (
+// 		prevProps.newsItemData?.updated_at === nextProps.newsItemData?.updated_at
+// 	);
+// });

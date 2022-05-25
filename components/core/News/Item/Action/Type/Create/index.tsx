@@ -1,15 +1,25 @@
-import { useState } from 'react';
+import { Dispatch, useState } from 'react';
 
 import { IUserAuthenticatedData, TNewsItemData } from '@coreLib/ts/global';
-import { createNewsItem } from '@store/NewsContext/actions';
 import { ICreateNewsItemReqArgs } from '@coreLib/networkReqArgs/_app/news/ts';
+import { THandleSubmitForCreateAndUpdateNewsItemActionType } from '../../ts';
+import { TNewsContextReducerAction } from '@store/NewsContext/ts';
+import {
+	requestsConstants,
+	TRequestStateReducerActions,
+} from '@commonLibDependent/requestState';
+import networkReqArgs from '@coreLib/networkReqArgs';
+import {
+	handleRequestStateChanges,
+	returnBearerTokenIfExist,
+} from '@commonLibIndependent/fetch';
+import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 
 import ButtonComponent from '@commonComponentsIndependent/Button';
 import NewsItemActionModal from '../../UI/Modal';
 
 import NewsItemFormTypeBlog from '../../UI/Form/Type/Blog';
 import NewsItemFormTypePost from '../../UI/Form/Type/Post';
-import { THandleSubmitForCreateAndUpdateNewsItemActionType } from '../../ts';
 
 interface IProps {
 	newsItemType?: TNewsItemData['type'];
@@ -30,8 +40,81 @@ const NewsItemActionTypeCreate = ({
 		props.newsItemType || 'blog'
 	);
 
+	const createNewsItem = async (
+		newsDispatch:
+			| Dispatch<TNewsContextReducerAction>
+			| ((value: TNewsContextReducerAction) => void),
+		{
+			newsItemBasicData,
+			requestsActionsDispatch,
+		}: {
+			newsItemBasicData: ICreateNewsItemReqArgs['bodyContent']['newsItemBasicData'];
+			requestsActionsDispatch: Dispatch<TRequestStateReducerActions<'request'>>;
+		}
+	) => {
+		const newNewsItemAuthorData = {
+			author_bio: userData.bio || '',
+			author_first_name: userData.first_name,
+			author_last_name: userData.last_name,
+			author_id: userData.id,
+			author_profile_picture: userData.profile_picture || '',
+			author_user_name_id: userData.user_name_id,
+		};
+
+		return await handleRequestStateChanges<{
+			news_id: TNewsItemData['news_id'];
+		}>({
+			onInit: async () => {
+				requestsActionsDispatch({
+					type: requestsConstants.IS_LOADING,
+					payload: {
+						target: 'request',
+					},
+				});
+
+				const { requestInfo, requestInit } =
+					networkReqArgs._app.news.item.create({
+						bodyContent: {
+							newsItemBasicData: newsItemBasicData,
+						},
+						headersList: {
+							Authorization:
+								(userToken && returnBearerTokenIfExist(userToken)) || undefined,
+						},
+					});
+
+				return await fetch(requestInfo, requestInit);
+			},
+			onError: (error) => {
+				requestsActionsDispatch({
+					type: requestsConstants.ERROR,
+					payload: {
+						target: 'request',
+						error,
+					},
+				});
+			},
+			onSuccess: ({ news_id }) => {
+				newsDispatch({
+					type: NewsItemContextConstants.CREATE_NEW_NEWS_ITEM,
+					payload: {
+						newNewsItemId: news_id,
+						newNewsItemAuthorData,
+						newsItemBasicData,
+					},
+				});
+				requestsActionsDispatch({
+					type: requestsConstants.SUCCESS,
+					payload: {
+						target: 'request',
+					},
+				});
+			},
+		});
+	};
+
 	const handleSubmit: THandleSubmitForCreateAndUpdateNewsItemActionType =
-		async (newsDispatch, props) => {
+		async (newsDispatch, requestsActionsDispatch, props) => {
 			const fieldsCheck: string[] = [];
 
 			if (!props.type_data.content)
@@ -80,19 +163,11 @@ const NewsItemActionTypeCreate = ({
 				return fieldsCheck;
 			} else {
 				await createNewsItem(newsDispatch, {
-					newNewsItemAuthorData: {
-						author_bio: userData.bio || '',
-						author_first_name: userData.first_name,
-						author_last_name: userData.last_name,
-						author_id: userData.id,
-						author_profile_picture: userData.profile_picture || '',
-						author_user_name_id: userData.user_name_id,
-					},
+					requestsActionsDispatch,
 					newsItemBasicData: {
 						type: props.type,
 						type_data: props.type_data,
 					} as ICreateNewsItemReqArgs['bodyContent']['newsItemBasicData'],
-					token: userToken,
 				});
 				modalVisibilityHandler();
 			}
@@ -135,7 +210,6 @@ const NewsItemActionTypeCreate = ({
 					{newsItemType === 'post' && (
 						<NewsItemFormTypePost
 							handleSubmit={handleSubmit}
-							actionType='create'
 							newsItemType={newsItemType}
 						/>
 					)}

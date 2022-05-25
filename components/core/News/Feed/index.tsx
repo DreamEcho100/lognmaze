@@ -44,7 +44,7 @@ const NewsFeed: FC<IProps> = ({
 		actions: newsActions,
 	} = newsState;
 
-	const { requestState, requestsActionsDispatch, requestsConstants } =
+	const { requestsState, requestsActionsDispatch, requestsConstants } =
 		useRequestState({
 			requestString: 'getMoreNewsItems',
 		});
@@ -67,8 +67,8 @@ const NewsFeed: FC<IProps> = ({
 
 		if (
 			newsCreatedBefore &&
-			(!requestState.getMoreNewsItems ||
-				!requestState.getMoreNewsItems?.isLoading)
+			(!requestsState.getMoreNewsItems ||
+				!requestsState.getMoreNewsItems?.isLoading)
 		)
 			return await handleRequestStateChanges<{
 				news: TNewsData;
@@ -142,7 +142,7 @@ const NewsFeed: FC<IProps> = ({
 					}}
 				>
 					<button
-						disabled={requestState.getMoreNewsItems?.isLoading}
+						disabled={requestsState.getMoreNewsItems?.isLoading}
 						onClick={async () => await getMoreNewsItems()}
 						className={classes.getMoreNewsItemsButton}
 						title='Load more news items'

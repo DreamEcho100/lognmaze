@@ -5,11 +5,13 @@ import {
 	INewsItemTypePostBasicData,
 } from '@coreLib/ts/global';
 import { TNewsContextReducerAction } from '@store/NewsContext/ts';
+import { TRequestStateReducerActions } from '@commonLibDependent/requestState';
 
 export type THandleSubmitForCreateAndUpdateNewsItemActionType = (
 	newsDispatch:
 		| Dispatch<TNewsContextReducerAction>
 		| ((value: TNewsContextReducerAction) => void),
+	requestsActionsDispatch: Dispatch<TRequestStateReducerActions<'request'>>,
 	props: INewsItemTypeBlogBasicData | INewsItemTypePostBasicData
 ) => Promise<string[] | undefined>;
 

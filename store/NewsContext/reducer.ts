@@ -173,6 +173,7 @@ const reducer: TNewsContextStateReducer = (
 				},
 			};
 		}
+		case NewsItemContextConstants.CREATE_NEW_NEWS_ITEM:
 		case NewsItemContextConstants.CREATE_SUCCESS: {
 			const { newNewsItemAuthorData, newNewsItemId, newsItemBasicData } =
 				actions.payload;

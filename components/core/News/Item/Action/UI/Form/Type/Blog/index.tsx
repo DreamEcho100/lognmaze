@@ -1,4 +1,4 @@
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 
 import classes from '../index.module.css';
 import helperClasses from '@styles/helpers.module.css';
@@ -12,6 +12,7 @@ import {
 	INewsItemTypePostBasicData,
 	INewsItemTypeBlog,
 } from '@coreLib/ts/global';
+import { initGetNewsItemTypeBlogContent } from '@store/NewsContext/actions';
 import {
 	TActionCreateAndUpdateValuesTypeBlog,
 	THandleSubmitForCreateAndUpdateNewsItemActionType,
@@ -29,6 +30,8 @@ import LabelComponent from '@commonComponentsIndependent/Label';
 import SelectComponent from '@commonComponentsIndependent/Select';
 import TextareaComponent from '@commonComponentsIndependent/Textarea';
 import ButtonComponent from '@commonComponentsIndependent/Button';
+import { useNewsSharedState } from '@store/NewsContext';
+import useRequestState from '@commonLibDependent/requestState';
 
 const iso_languagesKeys = Object.keys(
 	ISO639_1LanguageCodes
@@ -53,7 +56,8 @@ const NewsItemFormTypeBlog = ({
 	newsItemType,
 	newsItemData,
 	isLoadingContentProps,
-}: IProps) => {
+}: // requestState,
+IProps) => {
 	const [values, setValues] = useState<TActionCreateAndUpdateValuesTypeBlog>({
 		type: 'blog',
 		title: newsItemData?.type_data.title || '',
@@ -67,28 +71,72 @@ const NewsItemFormTypeBlog = ({
 		content: newsItemData?.type_data?.content || '',
 	});
 	const [inputsError, setInputsError] = useState<string[]>([]);
+	const { requestsState, requestsActionsDispatch } = useRequestState({
+		requestString: 'request',
+	});
 
-	const { createOrUpdateRequestAction, contentRequestAction, newsDispatch } =
-		useCreateUpdateDeleteNewsItemNeeds({
-			actionType,
-			newsItemId: newsItemData?.news_id,
-			isLoadingContentProps,
-		});
+	const [
+		{
+			actions: { items: itemsActions },
+		},
+		newsDispatch,
+	] = useNewsSharedState();
+
+	const contentRequestAction = useMemo(
+		() =>
+			(newsItemData?.news_id &&
+				itemsActions[newsItemData?.news_id]?.requests?.init?.modal
+					?.getTypeBlogContent) || {
+				isLoading: false,
+				error: '',
+				success: false,
+			},
+		[itemsActions, newsItemData?.news_id]
+	);
 
 	const itemsDisabled = useMemo(
 		() =>
 			!!(
-				createOrUpdateRequestAction.isLoading ||
-				(!values.content && contentRequestAction.isLoading) ||
+				requestsState.request.isLoading ||
+				// (!values.content && contentRequestAction.isLoading) ||
+				(actionType === 'update' && !values.content) ||
 				contentRequestAction.error
 			),
 		[
+			actionType,
 			contentRequestAction.error,
-			contentRequestAction.isLoading,
-			createOrUpdateRequestAction.isLoading,
+			requestsState.request.isLoading,
 			values.content,
 		]
 	);
+
+	useEffect(() => {
+		// let timeoutId: NodeJS.Timeout;
+
+		if (
+			actionType === 'update' &&
+			isLoadingContentProps?.isModalVisible &&
+			isLoadingContentProps?.newsItemData &&
+			isLoadingContentProps.newsItemData.type === 'blog' &&
+			!isLoadingContentProps.newsItemData.type_data.content &&
+			!contentRequestAction.success &&
+			!contentRequestAction.isLoading
+		) {
+			if (!contentRequestAction || !contentRequestAction?.error) {
+				initGetNewsItemTypeBlogContent(newsDispatch, {
+					news_id: isLoadingContentProps.newsItemData.news_id,
+					urlOptions: {
+						params: {
+							news_id: isLoadingContentProps.newsItemData.news_id,
+						},
+					},
+				});
+			} else {
+				console.warn('Error with loading the content!');
+			}
+			return;
+		}
+	}, [actionType, contentRequestAction, isLoadingContentProps, newsDispatch]);
 
 	return (
 		<FormComponent
@@ -104,6 +152,7 @@ const NewsItemFormTypeBlog = ({
 				} as INewsItemTypeBlogBasicData | INewsItemTypePostBasicData;
 				const inputsErrorAfterSubmission = await handleSubmit(
 					newsDispatch,
+					requestsActionsDispatch,
 					props
 				);
 				if (
@@ -328,11 +377,11 @@ const NewsItemFormTypeBlog = ({
 				/>
 			</FormControlComponent>
 
-			{createOrUpdateRequestAction.error ||
+			{requestsState.request.error ||
 				(inputsError.length !== 0 && (
 					<ul className='errorsMessagesList'>
-						{createOrUpdateRequestAction.error && (
-							<li>{createOrUpdateRequestAction.error}</li>
+						{requestsState.request.error && (
+							<li>{requestsState.request.error}</li>
 						)}
 						{inputsError.map((item) => (
 							<li key={item.replace(/[\W]+/g, '-')}>{item}</li>

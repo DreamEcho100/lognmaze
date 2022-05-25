@@ -41,7 +41,7 @@ export type TRequestStateReducerActions<T> =
 	| IRequestStateReducerActionError<T>
 	| IRequestStateReducerActionSuccess<T>;
 
-interface IRequestState {
+export interface IRequestState {
 	isLoading: boolean;
 	success: boolean;
 	error: string;
@@ -56,17 +56,17 @@ interface IProps<T extends string> {
  * @example
  * ```tsx
  * const Example = () => {
- *   const { requestState, requestsActionsDispatch, requestsConstants } =
+ *   const { requestsState, requestsActionsDispatch, requestsConstants } =
  *     useRequestState({
  *       requestString: 'create,get,delete,update',
  *     });
- *   const getState = requestState.get;
+ *   const getState = requestsState.get;
  *   return <>{getState.isLoading && <p>Loading items...</p>}</>;
  * };
  * ```
  * @param requestString
  * @returns
- * requestState:,
+ * requestsState:,
  * requestsActionsDispatch:,
  * requestsConstants:,
  * requestKeys
@@ -89,11 +89,11 @@ const useRequestState = <T extends string>({
 
 	const requestKeys = requestString.split(',');
 
-	// requestStateReducer, initState
+	// requestsStateReducer, initState
 
-	const [requestState, requestsActionsDispatch] = useReducer(
+	const [requestsState, requestsActionsDispatch] = useReducer(
 		(
-			state: TRequestState, // ReturnType<TUseRequestState>['requestState'],
+			state: TRequestState, // ReturnType<TUseRequestState>['requestsState'],
 			actions: TRequestStateReducerActions<keyof TRequestState>
 		): TRequestState => {
 			if (process.env.NODE_ENV === 'development') {
@@ -157,7 +157,7 @@ const useRequestState = <T extends string>({
 	);
 
 	return {
-		requestState,
+		requestsState,
 		requestsActionsDispatch,
 		requestsConstants,
 		requestKeys,
@@ -169,14 +169,14 @@ export default useRequestState;
 /*
 const Example = () => {
 	const {
-		requestState,
+		requestsState,
 		requestsActionsDispatch,
 		requestsConstants,
 		requestKeys,
 	} = useRequestState({
 		requestString: 'create,get,delete,update,11111',
 	});
-	const getState = requestState.get;
+	const getState = requestsState.get;
 
 	const handleFetchedData = (data: any) => {
 		console.log(data);

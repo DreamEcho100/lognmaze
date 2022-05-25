@@ -63,7 +63,7 @@ const Comments: FC<IProps> = ({
 		newsDispatch,
 	] = useNewsSharedState();
 
-	const { requestState, requestsActionsDispatch, requestsConstants } =
+	const { requestsState, requestsActionsDispatch, requestsConstants } =
 		useRequestState({
 			requestString: 'initGetComments,create',
 		});
@@ -81,7 +81,7 @@ const Comments: FC<IProps> = ({
 		useNewsItemExtraDataSharedState();
 
 	const isSendCommentButtonDisable = !!(
-		!userData || requestState.create?.isLoading
+		!userData || requestsState.create?.isLoading
 	);
 
 	const handleIsUpdatingContentVisible = (isVisible?: boolean) => {
@@ -167,7 +167,7 @@ const Comments: FC<IProps> = ({
 
 		if (
 			!userData ||
-			requestState.create?.isLoading ||
+			requestsState.create?.isLoading ||
 			values.content.length < 2
 		)
 			return;
@@ -285,11 +285,11 @@ const Comments: FC<IProps> = ({
 		)
 			return;
 		if (
-			!requestState.initGetComments ||
-			(requestState.initGetComments &&
-				!requestState.initGetComments.isLoading &&
-				!requestState.initGetComments.success &&
-				!requestState.initGetComments.error)
+			!requestsState.initGetComments ||
+			(requestsState.initGetComments &&
+				!requestsState.initGetComments.isLoading &&
+				!requestsState.initGetComments.success &&
+				!requestsState.initGetComments.error)
 		) {
 			getMoreNewsItemCommentsMain();
 		}
@@ -297,7 +297,7 @@ const Comments: FC<IProps> = ({
 		news_id,
 		newsDispatch,
 		newsItemComments.length,
-		requestState.initGetComments,
+		requestsState.initGetComments,
 		hit_comments_limit,
 		comments_counter,
 		newsItemExtraDataSharedState,
@@ -325,11 +325,11 @@ const Comments: FC<IProps> = ({
 				</ButtonComponent>
 			)}
 			<div>
-				{requestState.initGetComments?.isLoading && (
+				{requestsState.initGetComments?.isLoading && (
 					<p className='isLoadingLoader'>Loading...</p>
 				)}
-				{requestState.initGetComments?.error && (
-					<p className='errorMessage'>{!requestState.initGetComments.error}</p>
+				{requestsState.initGetComments?.error && (
+					<p className='errorMessage'>{!requestsState.initGetComments.error}</p>
 				)}
 				{newsItemComments.length !== 0 &&
 					newsItemComments.map((comment) => (
@@ -346,7 +346,7 @@ const Comments: FC<IProps> = ({
 					<button
 						title='Load more comments'
 						disabled={
-							requestState.initGetComments?.isLoading ||
+							requestsState.initGetComments?.isLoading ||
 							getMoreMainCommentsRequest?.isLoading
 						}
 						onClick={async () => await loadMoreNewsItemMainComments()}
@@ -357,7 +357,7 @@ const Comments: FC<IProps> = ({
 				<button
 					title='Hide comments'
 					disabled={
-						requestState.initGetComments?.isLoading ||
+						requestsState.initGetComments?.isLoading ||
 						getMoreMainCommentsRequest?.isLoading
 					}
 				>

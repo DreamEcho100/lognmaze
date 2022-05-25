@@ -108,7 +108,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 		comment_reply: '',
 	});
 
-	const { requestState, requestsActionsDispatch, requestsConstants } =
+	const { requestsState, requestsActionsDispatch, requestsConstants } =
 		useRequestState({
 			requestString: 'create,getReplies,update,delete',
 		});
@@ -480,13 +480,13 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 	};
 
 	useEffect(() => {
-		if (requestState.create?.success) {
+		if (requestsState.create?.success) {
 			setValues((prevState) => ({
 				...prevState,
 				comment_reply: '',
 			}));
 		}
-	}, [requestState.create?.success]);
+	}, [requestsState.create?.success]);
 
 	return (
 		<div
@@ -544,7 +544,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 							>
 								<button
 									disabled={
-										requestState.update?.isLoading || isUpdatingContentVisible
+										requestsState.update?.isLoading || isUpdatingContentVisible
 									}
 									onClick={() => handleIsUpdatingContentVisible(true)}
 								>
@@ -555,7 +555,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 								setIsDropdownListVisible={setIsDropdownListVisible}
 							>
 								<button
-									disabled={requestState.delete?.isLoading}
+									disabled={requestsState.delete?.isLoading}
 									onClick={async () =>
 										await handleDeleteNewsItemMainOrMainReplyComment()
 									}
@@ -579,7 +579,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 							name='content'
 							setValues={setValues}
 							value={values.content}
-							disableSubmitButton={requestState.update?.isLoading}
+							disableSubmitButton={requestsState.update?.isLoading}
 							commentToType={props.comment.type}
 							handleIsCommentTextareaIsVisible={() =>
 								handleIsUpdatingContentVisible(false)
@@ -612,8 +612,8 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 						} ${props.comment.replies_counter}`}
 						disabled={
 							props.comment.type === 'comment_main' &&
-							// requestState.type === 'comment_main' &&
-							requestState?.getReplies?.isLoading
+							// requestsState.type === 'comment_main' &&
+							requestsState?.getReplies?.isLoading
 						}
 						onClick={async () => {
 							if (
@@ -639,7 +639,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					name='comment_reply'
 					setValues={setValues}
 					value={values.comment_reply}
-					disableSubmitButton={requestState.create?.isLoading}
+					disableSubmitButton={requestsState.create?.isLoading}
 					commentToType={props.comment.type}
 					handleIsCommentTextareaIsVisible={() =>
 						handleIsReplyTextareaIsVisible(false)
@@ -657,15 +657,15 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 				)}
 
 			{props.comment.type === 'comment_main' &&
-				// requestState.type === 'comment_main' &&
-				requestState?.getReplies?.isLoading && (
+				// requestsState.type === 'comment_main' &&
+				requestsState?.getReplies?.isLoading && (
 					<p className='isLoadingLoader'>Loading...</p>
 				)}
 
 			<div className='buttons-holder'>
 				{showReplies &&
 					props.comment.type === 'comment_main' &&
-					// requestState.type === 'comment_main' &&
+					// requestsState.type === 'comment_main' &&
 					props.comment?.replies &&
 					props.comment?.replies.length !== 0 &&
 					!props.comment.hit_replies_limit &&
@@ -673,7 +673,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					props.comment.replies_counter !== props.comment?.replies?.length && (
 						<button
 							title='Load More'
-							disabled={requestState?.getReplies?.isLoading}
+							disabled={requestsState?.getReplies?.isLoading}
 							onClick={async () => {
 								if (
 									props.comment.type === 'comment_main' &&
@@ -697,13 +697,13 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 					)}
 
 				{props.comment.type === 'comment_main' &&
-					// requestState.type === 'comment_main' &&
+					// requestsState.type === 'comment_main' &&
 					showReplies &&
 					props.comment?.replies &&
 					props.comment?.replies.length !== 0 && (
 						<button
 							title='Hide Replies'
-							disabled={requestState?.getReplies?.isLoading}
+							disabled={requestsState?.getReplies?.isLoading}
 							onClick={() => setShowReplies(false)}
 						>
 							<span className={helpersClasses.fontWeightBold}>
