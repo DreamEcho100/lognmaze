@@ -1,12 +1,8 @@
 import networkReqArgs from '@coreLib/networkReqArgs';
-import { INewsItemTypeBlogContent, TNewsItemData } from '@coreLib/ts/global';
+import { INewsItemTypeBlogContent } from '@coreLib/ts/global';
 import {
 	TInitGetNewsItemTypeBlogContent,
-	TCreateNewsItem,
-	TUpdateNewsItem,
 	TDeleteNewsItem,
-	TResetUpdateNewsItemAction,
-	TResetCreateNewsItemAction,
 	TResetDeleteNewsItemAction,
 } from '../ts';
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
@@ -82,118 +78,6 @@ export const initGetNewsItemTypeBlogContent: TInitGetNewsItemTypeBlogContent =
 			payload: { news_id, newsItemTypeBlogContent },
 		});
 	};
-
-export const createNewsItem: TCreateNewsItem = async (
-	newsDispatch,
-	{ newsItemBasicData, newNewsItemAuthorData, token }
-) => {
-	await handleLoadingChanges<{
-		news_id: TNewsItemData['news_id'];
-	}>({
-		onInit: async () => {
-			newsDispatch({
-				type: NewsItemContextConstants.CREATE_PENDING,
-			});
-
-			const { requestInfo, requestInit } = networkReqArgs._app.news.item.create(
-				{
-					bodyContent: {
-						newsItemBasicData: newsItemBasicData,
-					},
-					headersList: {
-						Authorization: (token && returnBearerToken(token)) || undefined,
-					},
-				}
-			);
-
-			return await fetch(requestInfo, requestInit);
-		},
-		onError: (error) => {
-			return newsDispatch({
-				type: NewsItemContextConstants.CREATE_FAIL,
-				payload: { error },
-			});
-		},
-		onSuccess: ({ news_id }) => {
-			newsDispatch({
-				type: NewsItemContextConstants.CREATE_SUCCESS,
-				payload: {
-					newNewsItemId: news_id,
-					newNewsItemAuthorData,
-					newsItemBasicData,
-				},
-			});
-		},
-	});
-};
-export const resetCreateNewsItemAction: TResetCreateNewsItemAction = (
-	newsDispatch
-) => {
-	newsDispatch({
-		type: NewsItemContextConstants.CREATE_RESET,
-	});
-};
-
-export const updateNewsItem: TUpdateNewsItem = async (
-	newsDispatch,
-	{ bodyContent, news_id, token }
-) => {
-	await handleLoadingChanges({
-		onInit: async () => {
-			newsDispatch({
-				type: NewsItemContextConstants.UPDATE_PENDING,
-				payload: {
-					news_id,
-				},
-			});
-
-			const { requestInfo, requestInit } = networkReqArgs._app.news.item.update(
-				{
-					bodyContent,
-					urlOptions: {
-						params: {
-							news_id,
-						},
-					},
-					headersList: {
-						Authorization: (token && returnBearerToken(token)) || undefined,
-					},
-				}
-			);
-
-			return await fetch(requestInfo, requestInit);
-		},
-		onError: (error) => {
-			return newsDispatch({
-				type: NewsItemContextConstants.UPDATE_FAIL,
-				payload: {
-					news_id,
-					error,
-				},
-			});
-		},
-		onSuccess: () => {
-			newsDispatch({
-				type: NewsItemContextConstants.UPDATE_SUCCESS,
-				payload: {
-					news_id,
-					dataToUpdate: bodyContent.dataToUpdate,
-				},
-			});
-		},
-	});
-};
-export const resetUpdateNewsItemAction: TResetUpdateNewsItemAction = (
-	newsDispatch,
-	{ news_id }
-) => {
-	newsDispatch({
-		type: NewsItemContextConstants.UPDATE_RESET,
-		payload: {
-			news_id,
-		},
-	});
-};
 
 export const deleteNewsItem: TDeleteNewsItem = async (
 	newsDispatch,

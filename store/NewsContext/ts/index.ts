@@ -119,10 +119,6 @@ interface IAddNewsItems {
 	};
 }
 
-interface ICreateNewsItemPending {
-	type: NewsItemContextConstants.CREATE_PENDING;
-}
-
 interface ICreateNewNewsItem {
 	type: NewsItemContextConstants.CREATE_NEW_NEWS_ITEM;
 	payload: {
@@ -138,55 +134,12 @@ interface ICreateNewNewsItem {
 		};
 	};
 }
-interface ICreateNewsItemSuccess {
-	type: NewsItemContextConstants.CREATE_SUCCESS;
-	payload: {
-		newsItemBasicData: ICreateNewsItemReqArgs['bodyContent']['newsItemBasicData'];
-		newNewsItemId: TNewsItemData['news_id'];
-		newNewsItemAuthorData: {
-			author_id: TNewsItemData['author_id'];
-			author_user_name_id: TNewsItemData['author_user_name_id'];
-			author_first_name: TNewsItemData['author_first_name'];
-			author_last_name: TNewsItemData['author_last_name'];
-			author_profile_picture: TNewsItemData['author_profile_picture'];
-			author_bio: TNewsItemData['author_bio'];
-		};
-	};
-}
-interface ICreateNewsItemFail {
-	type: NewsItemContextConstants.CREATE_FAIL;
-	payload: {
-		error: string;
-	};
-}
-interface ICreateNewsItemReset {
-	type: NewsItemContextConstants.CREATE_RESET;
-}
 
-interface IUpdateNewsItemPending {
-	type: NewsItemContextConstants.UPDATE_PENDING;
-	payload: {
-		news_id: TNewsItemData['news_id'];
-	};
-}
-interface IUpdateNewsItemSuccess {
-	type: NewsItemContextConstants.UPDATE_SUCCESS;
+interface IUpdateNewsItem {
+	type: NewsItemContextConstants.UPDATE_NEWS_ITEM;
 	payload: {
 		news_id: TNewsItemData['news_id'];
 		dataToUpdate: IUpdateNewsItemReqArgs['bodyContent']['dataToUpdate'];
-	};
-}
-interface IUpdateNewsItemFail {
-	type: NewsItemContextConstants.UPDATE_FAIL;
-	payload: {
-		news_id: TNewsItemData['news_id'];
-		error: string;
-	};
-}
-interface IUpdateNewsItemReset {
-	type: NewsItemContextConstants.UPDATE_RESET;
-	payload: {
-		news_id: TNewsItemData['news_id'];
 	};
 }
 
@@ -223,14 +176,7 @@ export type TNewsContextReducerAction =
 	| IInitGetNewsItemTypeBlogDetailsTypeContentSuccess
 	| IInitGetNewsItemTypeBlogDetailsTypeContentFail
 	//
-	| ICreateNewsItemPending
-	| ICreateNewsItemSuccess
-	| ICreateNewsItemFail
-	| ICreateNewsItemReset
-	| IUpdateNewsItemPending
-	| IUpdateNewsItemSuccess
-	| IUpdateNewsItemFail
-	| IUpdateNewsItemReset
+	| IUpdateNewsItem
 	| IDeleteNewsItemPending
 	| IDeleteNewsItemSuccess
 	| IDeleteNewsItemFail
@@ -278,8 +224,8 @@ export type TCreateNewsItem = (
 		newNewsItemAuthorData,
 		token,
 	}: {
-		newsItemBasicData: ICreateNewsItemSuccess['payload']['newsItemBasicData'];
-		newNewsItemAuthorData: ICreateNewsItemSuccess['payload']['newNewsItemAuthorData'];
+		newsItemBasicData: ICreateNewNewsItem['payload']['newsItemBasicData'];
+		newNewsItemAuthorData: ICreateNewNewsItem['payload']['newNewsItemAuthorData'];
 		token?: string;
 	}
 ) => Promise<void>;

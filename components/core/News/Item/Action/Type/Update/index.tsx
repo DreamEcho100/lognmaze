@@ -84,7 +84,7 @@ const NewsItemActionTypeUpdate = ({
 			},
 			onSuccess: () => {
 				newsDispatch({
-					type: NewsItemContextConstants.UPDATE_SUCCESS,
+					type: NewsItemContextConstants.UPDATE_NEWS_ITEM,
 					payload: {
 						news_id,
 						dataToUpdate: bodyContent.dataToUpdate,

@@ -157,24 +157,7 @@ const reducer: TNewsContextStateReducer = (
 		}
 
 		//
-		case NewsItemContextConstants.CREATE_PENDING: {
-			return {
-				...state,
-				actions: {
-					...state.actions,
-					requests: {
-						...state.actions.requests,
-						create: {
-							isLoading: true,
-							error: '',
-							success: false,
-						},
-					},
-				},
-			};
-		}
-		case NewsItemContextConstants.CREATE_NEW_NEWS_ITEM:
-		case NewsItemContextConstants.CREATE_SUCCESS: {
+		case NewsItemContextConstants.CREATE_NEW_NEWS_ITEM: {
 			const { newNewsItemAuthorData, newNewsItemId, newsItemBasicData } =
 				actions.payload;
 
@@ -220,68 +203,9 @@ const reducer: TNewsContextStateReducer = (
 				},
 			};
 		}
-		case NewsItemContextConstants.CREATE_FAIL: {
-			const { error } = actions.payload;
-
-			return {
-				...state,
-				actions: {
-					...state.actions,
-					requests: {
-						...state.actions.requests,
-						create: {
-							isLoading: false,
-							error,
-							success: false,
-						},
-					},
-				},
-			};
-		}
-		case NewsItemContextConstants.CREATE_RESET: {
-			return {
-				...state,
-				actions: {
-					...state.actions,
-					requests: {
-						...state.actions.requests,
-						create: {
-							isLoading: false,
-							error: '',
-							success: false,
-						},
-					},
-				},
-			};
-		}
 
 		//
-		case NewsItemContextConstants.UPDATE_PENDING: {
-			const { news_id } = actions.payload;
-
-			return {
-				...state,
-				actions: {
-					...state.actions,
-					items: {
-						...state.actions.items,
-						[news_id]: {
-							...(state.actions.items[news_id] || {}),
-							updatedToRenderDate: Date.now(),
-							requests: {
-								...(state.actions.items[news_id]?.requests || {}),
-								update: {
-									isLoading: true,
-									error: '',
-									success: false,
-								},
-							},
-						},
-					},
-				},
-			};
-		}
-		case NewsItemContextConstants.UPDATE_SUCCESS: {
+		case NewsItemContextConstants.UPDATE_NEWS_ITEM: {
 			const { news_id, dataToUpdate } = actions.payload;
 
 			const newDataToUpdate: Partial<TNewsItemData['type_data']> = {};
@@ -364,56 +288,6 @@ const reducer: TNewsContextStateReducer = (
 									isLoading: false,
 									error: '',
 									success: true,
-								},
-							},
-						},
-					},
-				},
-			};
-		}
-		case NewsItemContextConstants.UPDATE_FAIL: {
-			const { news_id, error } = actions.payload;
-
-			return {
-				...state,
-				actions: {
-					...state.actions,
-					items: {
-						...state.actions.items,
-						[news_id]: {
-							...(state.actions.items[news_id] || {}),
-							updatedToRenderDate: Date.now(),
-							requests: {
-								...(state.actions.items[news_id]?.requests || {}),
-								update: {
-									isLoading: false,
-									error,
-									success: false,
-								},
-							},
-						},
-					},
-				},
-			};
-		}
-		case NewsItemContextConstants.UPDATE_RESET: {
-			const { news_id } = actions.payload;
-
-			return {
-				...state,
-				actions: {
-					...state.actions,
-					items: {
-						...state.actions.items,
-						[news_id]: {
-							...(state.actions.items[news_id] || {}),
-							updatedToRenderDate: Date.now(),
-							requests: {
-								...(state.actions.items[news_id]?.requests || {}),
-								update: {
-									isLoading: false,
-									error: '',
-									success: false,
 								},
 							},
 						},
