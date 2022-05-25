@@ -97,6 +97,10 @@ const useRequestState = <T extends string>({ requestString }: IProps<T>) => {
 		state: TRequestState, // ReturnType<TUseRequestState>['requestState'],
 		actions: TRequestStateReducerActions<keyof TRequestState>
 	): TRequestState => {
+		if (process.env.NODE_ENV === 'development') {
+			console.log('actions.type', actions.type);
+		}
+
 		switch (actions.type) {
 			case ERequestStateConstants.IS_LOADING: {
 				const { target } = actions.payload;

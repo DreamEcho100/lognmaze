@@ -3,13 +3,17 @@ import { FC } from 'react';
 import classes from './index.module.css';
 import helpersClasses from '@styles/helpers.module.css';
 
-import { getMoreNewsItems } from '@store/NewsContext/actions';
+// import { getMoreNewsItems } from '@store/NewsContext/actions';
 import { useNewsSharedState } from '@store/NewsContext';
 import { handleAllClasses } from '@commonLibIndependent/className';
+import { TNewsData, TNewsItemData } from '@coreLib/ts/global';
+import useRequestState from '@commonLibDependent/requestState';
+import NewsContextConstants from '@coreLib/constants/store/types/NewsContext';
+import networkReqArgs from '@coreLib/networkReqArgs';
+import { handleRequestStateChanges } from '@commonLibIndependent/fetch';
 
 import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
 import NewsItem from '@coreComponents/News/Item';
-import { TNewsItemData } from '@coreLib/ts/global';
 
 interface IProps {
 	defaultClasses?: string;
@@ -41,7 +45,12 @@ const NewsFeed: FC<IProps> = ({
 		actions: newsActions,
 	} = newsState;
 
-	const getMoreNewsItemsRequest = newsActions.requests?.getMoreNewsItems;
+	// const getMoreNewsItemsRequest = newsActions.requests?.getMoreNewsItems;
+
+	const { requestState, requestsActionsDispatch, requestsConstants } =
+		useRequestState({
+			requestString: 'getMoreNewsItems',
+		});
 
 	const feedProps = {
 		className: allClasses,
@@ -50,10 +59,65 @@ const NewsFeed: FC<IProps> = ({
 
 	if (newsData.length === 0) return <></>;
 
+	const getMoreNewsItems = async () => {
+		const newsCreatedBefore = newsData[newsData.length - 1]?.created_at;
+
+		const urlOptions = {
+			queries: {
+				newsCreatedBefore: new Date(newsCreatedBefore).toISOString(),
+			},
+		};
+
+		if (
+			newsCreatedBefore &&
+			(!requestState.getMoreNewsItems ||
+				!requestState.getMoreNewsItems?.isLoading)
+		)
+			return await handleRequestStateChanges<{
+				news: TNewsData;
+				hit_news_items_limit: boolean;
+			}>({
+				onInit: async () => {
+					requestsActionsDispatch({
+						type: requestsConstants.IS_LOADING,
+						payload: {
+							target: 'getMoreNewsItems',
+						},
+					});
+
+					const { requestInfo, requestInit } = networkReqArgs._app.news.get({
+						urlOptions,
+					});
+
+					return await fetch(requestInfo, requestInit);
+				},
+				onError: (error) => {
+					requestsActionsDispatch({
+						type: requestsConstants.ERROR,
+						payload: {
+							target: 'getMoreNewsItems',
+							error,
+						},
+					});
+				},
+				onSuccess: ({ news, hit_news_items_limit }) => {
+					newsDispatch({
+						type: NewsContextConstants.ADD_NEWS_ITEMS,
+						payload: { newNewsItems: news, hit_news_items_limit },
+					});
+					requestsActionsDispatch({
+						type: requestsConstants.SUCCESS,
+						payload: {
+							target: 'getMoreNewsItems',
+						},
+					});
+				},
+			});
+	};
+
 	return (
 		<section {...feedProps}>
 			{newsData.length !== 0 &&
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				newsData.map((item: TNewsItemData) => (
 					<SectionWrapper
 						key={`main-news-feed-${item.news_id}`}
@@ -81,26 +145,8 @@ const NewsFeed: FC<IProps> = ({
 					}}
 				>
 					<button
-						disabled={getMoreNewsItemsRequest?.isLoading}
-						onClick={() => {
-							const newsCreatedBefore =
-								newsData[newsData.length - 1]?.created_at;
-
-							if (
-								newsCreatedBefore &&
-								(!getMoreNewsItemsRequest ||
-									!getMoreNewsItemsRequest?.isLoading)
-							)
-								getMoreNewsItems(newsDispatch, {
-									urlOptions: {
-										queries: {
-											newsCreatedBefore: new Date(
-												newsCreatedBefore
-											).toISOString(),
-										},
-									},
-								});
-						}}
+						disabled={requestState.getMoreNewsItems?.isLoading}
+						onClick={async () => await getMoreNewsItems()}
 						style={{
 							width: '100%',
 							height: '100%',

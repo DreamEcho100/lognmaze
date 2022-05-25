@@ -1,11 +1,6 @@
 import networkReqArgs from '@coreLib/networkReqArgs';
+import { INewsItemTypeBlogContent, TNewsItemData } from '@coreLib/ts/global';
 import {
-	INewsItemTypeBlogContent,
-	TNewsData,
-	TNewsItemData,
-} from '@coreLib/ts/global';
-import {
-	TGetMoreNewsItems,
 	TInitGetNewsItemTypeBlogContent,
 	TCreateNewsItem,
 	TUpdateNewsItem,
@@ -15,7 +10,6 @@ import {
 	TResetDeleteNewsItemAction,
 } from '../ts';
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
-import NewsContextConstants from '@coreLib/constants/store/types/NewsContext';
 
 const returnBearerToken = (token: string) => `Bearer ${token}`;
 
@@ -88,40 +82,6 @@ export const initGetNewsItemTypeBlogContent: TInitGetNewsItemTypeBlogContent =
 			payload: { news_id, newsItemTypeBlogContent },
 		});
 	};
-
-export const getMoreNewsItems: TGetMoreNewsItems = async (
-	newsDispatch,
-	{ urlOptions }
-) => {
-	await handleLoadingChanges<{
-		news: TNewsData;
-		hit_news_items_limit: boolean;
-	}>({
-		onInit: async () => {
-			newsDispatch({
-				type: NewsContextConstants.GET_MORE_ITEMS_PENDING,
-			});
-
-			const { requestInfo, requestInit } = networkReqArgs._app.news.get({
-				urlOptions,
-			});
-
-			return await fetch(requestInfo, requestInit);
-		},
-		onError: (error) => {
-			return newsDispatch({
-				type: NewsContextConstants.GET_MORE_ITEMS_FAIL,
-				payload: { error },
-			});
-		},
-		onSuccess: ({ news, hit_news_items_limit }) => {
-			newsDispatch({
-				type: NewsContextConstants.GET_MORE_ITEMS_SUCCESS,
-				payload: { newNewsItems: news, hit_news_items_limit },
-			});
-		},
-	});
-};
 
 export const createNewsItem: TCreateNewsItem = async (
 	newsDispatch,
@@ -273,7 +233,7 @@ export const deleteNewsItem: TDeleteNewsItem = async (
 				},
 			});
 		},
-		onSuccess: (data) => {
+		onSuccess: () => {
 			newsDispatch({
 				type: NewsItemContextConstants.DELETE_SUCCESS,
 				payload: {

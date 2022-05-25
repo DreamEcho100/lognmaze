@@ -128,24 +128,8 @@ const reducer: TNewsContextStateReducer = (
 			};
 		}
 
-		//
-		case NewsContextConstants.GET_MORE_ITEMS_PENDING: {
-			return {
-				...state,
-				actions: {
-					...state.actions,
-					requests: {
-						getMoreNewsItems: {
-							...(state.actions?.requests?.getMoreNewsItems || {}),
-							isLoading: true,
-							error: '',
-							success: false,
-						},
-					},
-				},
-			};
-		}
-		case NewsContextConstants.GET_MORE_ITEMS_SUCCESS: {
+		// refactored
+		case NewsContextConstants.ADD_NEWS_ITEMS: {
 			const { newNewsItems, hit_news_items_limit } = actions.payload;
 
 			const newNewsExtra: typeof state.data.newsExtra = {};
@@ -167,41 +151,6 @@ const reducer: TNewsContextStateReducer = (
 					newsExtra: {
 						...(state.data.newsExtra || {}),
 						...newNewsExtra,
-					},
-				},
-				actions: {
-					...state.actions,
-					items: {
-						...(state.actions.items || {}),
-						[newNewsItems[0].news_id]: {
-							priorityForHeaderImage: true,
-						},
-					},
-					requests: {
-						getMoreNewsItems: {
-							...(state.actions?.requests?.getMoreNewsItems || {}),
-							isLoading: false,
-							error: '',
-							success: false,
-						},
-					},
-				},
-			};
-		}
-		case NewsContextConstants.GET_MORE_ITEMS_FAIL: {
-			const { error } = actions.payload;
-
-			return {
-				...state,
-				actions: {
-					...state.actions,
-					requests: {
-						getMoreNewsItems: {
-							...(state.actions?.requests?.getMoreNewsItems || {}),
-							isLoading: false,
-							error,
-							success: false,
-						},
 					},
 				},
 			};

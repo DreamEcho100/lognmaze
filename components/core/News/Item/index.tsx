@@ -1,5 +1,4 @@
 import { FC, useState } from 'react';
-import { memo } from 'react';
 
 import classes from './index.module.css';
 
@@ -9,7 +8,6 @@ import { handleAllClasses } from '@commonLibIndependent/className';
 import NewsItemHeader from './Header';
 import NewsItemDetails from './Details';
 import NewsItemFooter from './Footer';
-// import TempNewsItemFooter from './_temp_Footer';
 
 import NewsItemModal from './Modal';
 import { setNewsItemExtraDataContextStore } from './context';
@@ -107,6 +105,7 @@ const NewsItem: FC<INewsItemProps> = (props) => {
 	);
 };
 
-export default memo(NewsItem, (prevProps, nextProps) => {
-	return prevProps.updatedToRenderDate === nextProps.updatedToRenderDate;
-});
+export default NewsItem;
+// memo(NewsItem, (prevProps, nextProps) => {
+// 	return prevProps.updatedToRenderDate === nextProps.updatedToRenderDate;
+// });

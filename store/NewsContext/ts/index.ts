@@ -111,20 +111,11 @@ interface IInitGetNewsItemTypeBlogDetailsTypeContentFail {
 	};
 }
 
-interface IGetMoreNewsItemsPending {
-	type: NewsContextConstants.GET_MORE_ITEMS_PENDING;
-}
-interface IGetMoreNewsItemsSuccess {
-	type: NewsContextConstants.GET_MORE_ITEMS_SUCCESS;
+interface IAddNewsItems {
+	type: NewsContextConstants.ADD_NEWS_ITEMS;
 	payload: {
 		newNewsItems: TNewsData;
 		hit_news_items_limit: boolean;
-	};
-}
-interface IGetMoreNewsItemsFail {
-	type: NewsContextConstants.GET_MORE_ITEMS_FAIL;
-	payload: {
-		error: string;
 	};
 }
 
@@ -210,12 +201,10 @@ interface IDeleteNewsItemReset {
 }
 
 export type TNewsContextReducerAction =
+	| IAddNewsItems
 	| IInitGetNewsItemTypeBlogDetailsTypeContentPending
 	| IInitGetNewsItemTypeBlogDetailsTypeContentSuccess
 	| IInitGetNewsItemTypeBlogDetailsTypeContentFail
-	| IGetMoreNewsItemsPending
-	| IGetMoreNewsItemsSuccess
-	| IGetMoreNewsItemsFail
 	//
 	| ICreateNewsItemPending
 	| ICreateNewsItemSuccess
