@@ -1,6 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // https://www.typescriptlang.org/play?#code/JYWwDg9gTgLgBAbzgZRlYA7A5gGjgVQ2AgzgF84AzKCEOAIhgGcBaGCCAGwCMBTTmPQDcAKBEB6cXADGJJvACOAV15QAnnAC8cAAbiAFrV4B+AIabKHAGTdNAdwh2doiVJhqwvOAEUV6rXDunhCUcMqqai6SgR5eyLyyGAAmvhEACqawAajo2AB0yGCcwDAAPKnqePTG9AB8ANoAjAC6UW6xPn5qAKKcvCC8GMzZaJhYBUUlpfGJKV0ZsFVWdW0xnp3pmaYgTAEIrnCH9RU9fQNDcJgb6r39g8z1GEogfFDNzQBciAeHRwDSvA0VxyYwmxTKP1+hxOt3OMBwkKh9E09ERcAaAAZ3l8QflCuDyl1YfcqiiGi1RNFDmRKVIyMciWd7kxHs9Xu9Vol5HAINwAFZfQjEDB5ACyqiwvEJmyg2yYtT2kNMX3olgg9ARVLg3BVDjsGoONLEXPglF4MGk+lxWACAHJpFBeKYYLwcJL4Ul+ObXUowElnbxbaIgl4ACoAMXNlutARDISoUato2wLhNgS+9XoDqdLo1DHdefonr6uaqvv9ueaATgmezAcLBaqxe9hfL9daYhDcAjiYBaiYC3g2jjoRgQkk1rBUx7FqTuVwDBwKzg0SaHYOXZnlr7TGJQ122kn+OnkdnO8HSxWYkwLqglFM0i8AElT9GYAHvodgEwADIQUxJGMXzcBwfSmBgoiHEwSjSI+TBMMBoFOhBIiHKoNBQF88jzqIZCdh0W76OeWw7IqRyETue7wFcFGAgOmQwKyLyqNin6-PUfaXKQR6TBCUKHLR-ZUQi-EMCiqG-JirEvomqABkIK5SDxBKCbuTJDKSdRrpB5C4fUqmDkx7LrmmCFCiQYoSlKBkkfKZFwO6Xz7FC35-gBQFUKYnBMK6ElQTBcEIZ53m+VC6HQF8tq2iJ5AxXWLpOX5ly-v+gHYF894hTF-mwbw8EZV5PnZXA4WYXAUUxWQMXNglbFfil7npcFRVJdBuX5c1oW-KVkXRRJVUSW2tXOb8rmpR5mUtVCbWBQVWVJT15V9dSIhkEAA
-import { useReducer } from 'react';
+import {
+	useReducer,
+	// useCallback,
+	// useEffect
+} from 'react';
 import { String, Union } from 'ts-toolbelt';
 
 enum ERequestStateConstants {
@@ -44,6 +49,7 @@ interface IRequestState {
 
 interface IProps<T extends string> {
 	requestString: T;
+	defaults?: { [key: string]: Partial<IRequestState> };
 }
 
 /**
@@ -65,7 +71,10 @@ interface IProps<T extends string> {
  * requestsConstants:,
  * requestKeys
  */
-const useRequestState = <T extends string>({ requestString }: IProps<T>) => {
+const useRequestState = <T extends string>({
+	requestString,
+	defaults,
+}: IProps<T>) => {
 	type TRequestString = typeof requestString;
 
 	type TRequestKeysPart = String.Split<TRequestString, ','>;
@@ -79,72 +88,73 @@ const useRequestState = <T extends string>({ requestString }: IProps<T>) => {
 	type TRequestState = Union.Merge<TRequestKeys>;
 
 	const requestKeys = requestString.split(',');
-	const initState = (() => {
-		const obj = {} as TRequestKeys;
 
-		requestKeys.forEach((item) => {
-			obj[item as keyof typeof obj] = {
-				isLoading: false,
-				success: false,
-				error: '',
-			};
-		});
+	// requestStateReducer, initState
 
-		return obj;
-	}) as TRequestState;
-
-	const requestStateReducer = (
-		state: TRequestState, // ReturnType<TUseRequestState>['requestState'],
-		actions: TRequestStateReducerActions<keyof TRequestState>
-	): TRequestState => {
-		if (process.env.NODE_ENV === 'development') {
-			console.log('actions.type', actions.type);
-		}
-
-		switch (actions.type) {
-			case ERequestStateConstants.IS_LOADING: {
-				const { target } = actions.payload;
-				return {
-					...state,
-					[target]: {
-						isLoading: true,
-						success: false,
-						error: '',
-					},
-				};
-			}
-			case ERequestStateConstants.ERROR: {
-				const { target, error } = actions.payload;
-				return {
-					...state,
-					[target]: {
-						isLoading: false,
-						success: false,
-						error,
-					},
-				};
-			}
-			case ERequestStateConstants.SUCCESS: {
-				const { target } = actions.payload;
-				return {
-					...state,
-					[target]: {
-						isLoading: false,
-						success: true,
-						error: '',
-					},
-				};
+	const [requestState, requestsActionsDispatch] = useReducer(
+		(
+			state: TRequestState, // ReturnType<TUseRequestState>['requestState'],
+			actions: TRequestStateReducerActions<keyof TRequestState>
+		): TRequestState => {
+			if (process.env.NODE_ENV === 'development') {
+				console.log('actions.type', actions.type);
 			}
 
-			default:
-				break;
-		}
-		return state;
-	};
+			switch (actions.type) {
+				case ERequestStateConstants.IS_LOADING: {
+					const { target } = actions.payload;
+					return {
+						...state,
+						[target]: {
+							isLoading: true,
+							success: false,
+							error: '',
+						},
+					};
+				}
+				case ERequestStateConstants.ERROR: {
+					const { target, error } = actions.payload;
+					return {
+						...state,
+						[target]: {
+							isLoading: false,
+							success: false,
+							error,
+						},
+					};
+				}
+				case ERequestStateConstants.SUCCESS: {
+					const { target } = actions.payload;
+					return {
+						...state,
+						[target]: {
+							isLoading: false,
+							success: true,
+							error: '',
+						},
+					};
+				}
 
-	const [requestState, requestsActionsDispatch] = useReducer<
-		typeof requestStateReducer
-	>(requestStateReducer, initState);
+				default:
+					break;
+			}
+			return state;
+		},
+		(() => {
+			const obj = {} as TRequestKeys;
+
+			requestKeys.forEach((item) => {
+				obj[item as keyof typeof obj] = {
+					isLoading: false,
+					success: false,
+					error: '',
+					...(() => (defaults && item in defaults ? defaults[item] : {}))(),
+				};
+			});
+
+			return obj as TRequestState;
+		})()
+	);
 
 	return {
 		requestState,
@@ -158,13 +168,18 @@ export default useRequestState;
 
 /*
 const Example = () => {
-	const { requestState, requestsActionsDispatch, requestsConstants, requestKeys } =
-		useRequestState({
-			requestString: 'create,get,delete,update',
-		});
+	const {
+		requestState,
+		requestsActionsDispatch,
+		requestsConstants,
+		requestKeys,
+	} = useRequestState({
+		requestString: 'create,get,delete,update,11111',
+	});
 	const getState = requestState.get;
 
-	const handleFetchedData = (data) => {
+	const handleFetchedData = (data: any) => {
+		console.log(data);
 		// ...
 	};
 

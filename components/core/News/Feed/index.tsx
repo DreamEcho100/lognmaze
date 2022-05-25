@@ -3,7 +3,6 @@ import { FC } from 'react';
 import classes from './index.module.css';
 import helpersClasses from '@styles/helpers.module.css';
 
-// import { getMoreNewsItems } from '@store/NewsContext/actions';
 import { useNewsSharedState } from '@store/NewsContext';
 import { handleAllClasses } from '@commonLibIndependent/className';
 import { TNewsData, TNewsItemData } from '@coreLib/ts/global';
@@ -44,8 +43,6 @@ const NewsFeed: FC<IProps> = ({
 		data: { news: newsData },
 		actions: newsActions,
 	} = newsState;
-
-	// const getMoreNewsItemsRequest = newsActions.requests?.getMoreNewsItems;
 
 	const { requestState, requestsActionsDispatch, requestsConstants } =
 		useRequestState({
