@@ -134,7 +134,7 @@ const reducer: TNewsContextStateReducer = (
 
 			const newNewsExtra: typeof state.data.newsExtra = {};
 
-			newNewsItems.forEach((item) => {
+			newNewsItems.forEach((item: { news_id: string }) => {
 				newNewsExtra[item.news_id] = {
 					hit_comments_limit: false,
 					newsItemDetailsType: 'description',
@@ -297,32 +297,7 @@ const reducer: TNewsContextStateReducer = (
 		}
 
 		//
-		case NewsItemContextConstants.DELETE_PENDING: {
-			const { news_id } = actions.payload;
-
-			return {
-				...state,
-				actions: {
-					...state.actions,
-					items: {
-						...state.actions.items,
-						[news_id]: {
-							...(state.actions.items[news_id] || {}),
-							updatedToRenderDate: Date.now(),
-							requests: {
-								...(state.actions.items[news_id]?.requests || {}),
-								delete: {
-									isLoading: true,
-									error: '',
-									success: false,
-								},
-							},
-						},
-					},
-				},
-			};
-		}
-		case NewsItemContextConstants.DELETE_SUCCESS: {
+		case NewsItemContextConstants.DELETE_NEWS_ITEM: {
 			const { news_id } = actions.payload;
 
 			return {
@@ -344,56 +319,6 @@ const reducer: TNewsContextStateReducer = (
 									isLoading: false,
 									error: '',
 									success: true,
-								},
-							},
-						},
-					},
-				},
-			};
-		}
-		case NewsItemContextConstants.DELETE_FAIL: {
-			const { news_id, error } = actions.payload;
-
-			return {
-				...state,
-				actions: {
-					...state.actions,
-					items: {
-						...state.actions.items,
-						[news_id]: {
-							...(state.actions.items[news_id] || {}),
-							updatedToRenderDate: Date.now(),
-							requests: {
-								...(state.actions.items[news_id]?.requests || {}),
-								delete: {
-									isLoading: false,
-									error,
-									success: false,
-								},
-							},
-						},
-					},
-				},
-			};
-		}
-		case NewsItemContextConstants.DELETE_RESET: {
-			const { news_id } = actions.payload;
-
-			return {
-				...state,
-				actions: {
-					...state.actions,
-					items: {
-						...state.actions.items,
-						[news_id]: {
-							...(state.actions.items[news_id] || {}),
-							updatedToRenderDate: Date.now(),
-							requests: {
-								...(state.actions.items[news_id]?.requests || {}),
-								delete: {
-									isLoading: false,
-									error: '',
-									success: false,
 								},
 							},
 						},

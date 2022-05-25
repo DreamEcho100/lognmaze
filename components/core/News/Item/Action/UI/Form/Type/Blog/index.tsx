@@ -11,13 +11,13 @@ import {
 	INewsItemTypeBlogBasicData,
 	INewsItemTypePostBasicData,
 	INewsItemTypeBlog,
+	TNewsItemData,
 } from '@coreLib/ts/global';
 import { initGetNewsItemTypeBlogContent } from '@store/NewsContext/actions';
 import {
 	TActionCreateAndUpdateValuesTypeBlog,
 	THandleSubmitForCreateAndUpdateNewsItemActionType,
 } from '../../../../ts';
-import { useCreateUpdateDeleteNewsItemNeeds } from '@coreComponents/News/Item/Action/utils/hooks';
 import {
 	sharedInputProps,
 	sharedTextareaProps,
@@ -45,9 +45,10 @@ interface IProps {
 	handleSubmit: THandleSubmitForCreateAndUpdateNewsItemActionType;
 	newsItemType: 'blog' | 'post';
 	newsItemData?: INewsItemTypeBlog;
-	isLoadingContentProps?: Parameters<
-		typeof useCreateUpdateDeleteNewsItemNeeds
-	>['0']['isLoadingContentProps'];
+	isLoadingContentProps?: {
+		isModalVisible?: boolean;
+		newsItemData?: TNewsItemData;
+	};
 }
 
 const NewsItemFormTypeBlog = ({

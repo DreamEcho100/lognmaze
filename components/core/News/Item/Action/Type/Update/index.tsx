@@ -1,6 +1,10 @@
+import { Dispatch } from 'react';
+
 import { TNewsItemData } from '@coreLib/ts/global';
+import { TNewsContextReducerAction } from '@store/NewsContext/ts';
 import { THandleSubmitForCreateAndUpdateNewsItemActionType } from '../../ts';
 import { IUpdateNewsItemReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/ts';
+
 import { differenceBetweenTwoArrays } from '@commonLibIndependent/array';
 import {
 	TRequestStateReducerActions,
@@ -16,8 +20,6 @@ import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext
 import NewsItemActionModal from '../../UI/Modal';
 import NewsItemFormTypeBlog from '../../UI/Form/Type/Blog';
 import NewsItemFormTypePost from '../../UI/Form/Type/Post';
-import { Dispatch } from 'react';
-import { TNewsContextReducerAction } from '@store/NewsContext/ts';
 
 interface IProps {
 	newsItemData: TNewsItemData;

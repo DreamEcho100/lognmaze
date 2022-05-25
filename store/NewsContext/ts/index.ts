@@ -7,17 +7,12 @@ import {
 	TDate,
 } from '@coreLib/ts/global';
 
-import { IGetNewsItemCommentsReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/comments/ts';
 import { ICreateNewsItemReqArgs } from '@coreLib/networkReqArgs/_app/news/ts';
 
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 import { IGetNewsItemBlogContentReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/blog/content/ts';
 import NewsContextConstants from '@coreLib/constants/store/types/NewsContext';
-import { IGetNewsReqArgs } from '@coreLib/networkReqArgs/_app/news/ts';
-import {
-	IDeleteNewsItemReqArgs,
-	IUpdateNewsItemReqArgs,
-} from '@coreLib/networkReqArgs/_app/news/[news_id]/ts';
+import { IUpdateNewsItemReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/ts';
 
 export type INewsContextStateData = {
 	news: TNewsData;
@@ -143,27 +138,8 @@ interface IUpdateNewsItem {
 	};
 }
 
-interface IDeleteNewsItemPending {
-	type: NewsItemContextConstants.DELETE_PENDING;
-	payload: {
-		news_id: TNewsItemData['news_id'];
-	};
-}
-interface IDeleteNewsItemSuccess {
-	type: NewsItemContextConstants.DELETE_SUCCESS;
-	payload: {
-		news_id: TNewsItemData['news_id'];
-	};
-}
-interface IDeleteNewsItemFail {
-	type: NewsItemContextConstants.DELETE_FAIL;
-	payload: {
-		news_id: TNewsItemData['news_id'];
-		error: string;
-	};
-}
-interface IDeleteNewsItemReset {
-	type: NewsItemContextConstants.DELETE_RESET;
+interface IDeleteNewsItem {
+	type: NewsItemContextConstants.DELETE_NEWS_ITEM;
 	payload: {
 		news_id: TNewsItemData['news_id'];
 	};
@@ -172,15 +148,12 @@ interface IDeleteNewsItemReset {
 export type TNewsContextReducerAction =
 	| IAddNewsItems
 	| ICreateNewNewsItem
+	| IDeleteNewsItem
 	| IInitGetNewsItemTypeBlogDetailsTypeContentPending
 	| IInitGetNewsItemTypeBlogDetailsTypeContentSuccess
 	| IInitGetNewsItemTypeBlogDetailsTypeContentFail
 	//
-	| IUpdateNewsItem
-	| IDeleteNewsItemPending
-	| IDeleteNewsItemSuccess
-	| IDeleteNewsItemFail
-	| IDeleteNewsItemReset;
+	| IUpdateNewsItem;
 
 export type TNewsContextDispatch =
 	| Dispatch<TNewsContextReducerAction>
@@ -196,82 +169,6 @@ export type TInitGetNewsItemTypeBlogContent = (
 		urlOptions: IGetNewsItemBlogContentReqArgs['urlOptions'];
 	}
 ) => Promise<void>;
-export type TGetMoreNewsItems = (
-	newsDispatch: TNewsContextDispatch,
-	{
-		urlOptions,
-	}: {
-		urlOptions: IGetNewsReqArgs['urlOptions'];
-	}
-) => Promise<void>;
-//
-export type TGetMoreNewsItemCommentsMain = (
-	newsDispatch: TNewsContextDispatch,
-	{
-		news_id,
-		urlOptions,
-	}: {
-		news_id: TNewsItemData['news_id'];
-		urlOptions: IGetNewsItemCommentsReqArgs['urlOptions'];
-	}
-) => Promise<void>;
-
-//
-export type TCreateNewsItem = (
-	newsDispatch: TNewsContextDispatch,
-	{
-		newsItemBasicData,
-		newNewsItemAuthorData,
-		token,
-	}: {
-		newsItemBasicData: ICreateNewNewsItem['payload']['newsItemBasicData'];
-		newNewsItemAuthorData: ICreateNewNewsItem['payload']['newNewsItemAuthorData'];
-		token?: string;
-	}
-) => Promise<void>;
-export type TResetCreateNewsItemAction = (
-	newsDispatch: TNewsContextDispatch
-) => void;
-export type TUpdateNewsItem = (
-	newsDispatch: TNewsContextDispatch,
-	{
-		bodyContent,
-		news_id,
-		token,
-	}: {
-		bodyContent: IUpdateNewsItemReqArgs['bodyContent'];
-		news_id: TNewsItemData['news_id'];
-		token?: string;
-	}
-) => Promise<void>;
-export type TResetUpdateNewsItemAction = (
-	newsDispatch: TNewsContextDispatch,
-	{
-		news_id,
-	}: {
-		news_id: TNewsItemData['news_id'];
-	}
-) => void;
-export type TDeleteNewsItem = (
-	newsDispatch: TNewsContextDispatch,
-	{
-		bodyContent,
-		news_id,
-		token,
-	}: {
-		bodyContent: IDeleteNewsItemReqArgs['bodyContent'];
-		news_id: TNewsItemData['news_id'];
-		token?: string;
-	}
-) => Promise<void>;
-export type TResetDeleteNewsItemAction = (
-	newsDispatch: TNewsContextDispatch,
-	{
-		news_id,
-	}: {
-		news_id: TNewsItemData['news_id'];
-	}
-) => void;
 
 export type TNewsContextStateReducer = (
 	state: INewsContextState,
