@@ -147,13 +147,7 @@ const NewsFeed: FC<IProps> = ({
 					<button
 						disabled={requestState.getMoreNewsItems?.isLoading}
 						onClick={async () => await getMoreNewsItems()}
-						style={{
-							width: '100%',
-							height: '100%',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-						}}
+						className={classes.getMoreNewsItemsButton}
 						title='Load more news items'
 					>
 						<span className={helpersClasses.fontWeightBold}>Load More</span>
