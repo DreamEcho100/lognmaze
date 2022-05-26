@@ -70,8 +70,8 @@ const Comments: FC<IProps> = ({
 
 	const [isCommentTextarea, setIsCommentTextarea] = useState(true);
 
-	const getMoreMainCommentsRequest =
-		newsItemsActions[news_id]?.requests?.getMoreMainComments;
+	// const getMoreMainCommentsRequest =
+	// 	newsItemsActions[news_id]?.requests?.getMoreMainComments;
 
 	const [values, setValues] = useState({
 		content: '',
@@ -346,8 +346,8 @@ const Comments: FC<IProps> = ({
 					<button
 						title='Load more comments'
 						disabled={
-							requestsState.initGetComments?.isLoading ||
-							getMoreMainCommentsRequest?.isLoading
+							requestsState.initGetComments?.isLoading
+							// || getMoreMainCommentsRequest?.isLoading
 						}
 						onClick={async () => await loadMoreNewsItemMainComments()}
 					>
@@ -357,8 +357,8 @@ const Comments: FC<IProps> = ({
 				<button
 					title='Hide comments'
 					disabled={
-						requestsState.initGetComments?.isLoading ||
-						getMoreMainCommentsRequest?.isLoading
+						requestsState.initGetComments?.isLoading
+						// || getMoreMainCommentsRequest?.isLoading
 					}
 				>
 					<span

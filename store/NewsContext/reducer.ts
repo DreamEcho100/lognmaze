@@ -190,17 +190,6 @@ const reducer: TNewsContextStateReducer = (
 						},
 					},
 				},
-				actions: {
-					...state.actions,
-					requests: {
-						...state.actions.requests,
-						create: {
-							isLoading: false,
-							error: '',
-							success: true,
-						},
-					},
-				},
 			};
 		}
 
@@ -275,24 +264,6 @@ const reducer: TNewsContextStateReducer = (
 						return item;
 					}),
 				},
-				actions: {
-					...state.actions,
-					items: {
-						...state.actions.items,
-						[news_id]: {
-							...(state.actions.items[news_id] || {}),
-							updatedToRenderDate: Date.now(),
-							requests: {
-								...(state.actions.items[news_id]?.requests || {}),
-								update: {
-									isLoading: false,
-									error: '',
-									success: true,
-								},
-							},
-						},
-					},
-				},
 			};
 		}
 
@@ -305,24 +276,6 @@ const reducer: TNewsContextStateReducer = (
 				data: {
 					...state.data,
 					news: state.data.news.filter((item) => item.news_id !== news_id),
-				},
-				actions: {
-					...state.actions,
-					items: {
-						...state.actions.items,
-						[news_id]: {
-							...(state.actions.items[news_id] || {}),
-							updatedToRenderDate: Date.now(),
-							requests: {
-								...(state.actions.items[news_id]?.requests || {}),
-								delete: {
-									isLoading: false,
-									error: '',
-									success: true,
-								},
-							},
-						},
-					},
 				},
 			};
 		}
