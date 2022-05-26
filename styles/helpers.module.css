@@ -118,16 +118,23 @@ svg.textGlowSpecial {
 	/* font-weight: 600; */
 }
 @media (prefers-color-scheme: dark) {
-	.textGlowSpecial,
-	a.textGlowSpecial,
-	button.textGlowSpecial,
-	svg.textGlowSpecial {
+	:global(:not(.light)) .textGlowSpecial,
+	:global(:not(.light)) a.textGlowSpecial,
+	:global(:not(.light)) button.textGlowSpecial,
+	:global(:not(.light)) svg.textGlowSpecial {
 		--pc3l: 25%;
 		--pc3: hsla(var(--pc3h), var(--pc3s), var(--pc3l), var(--pc3a));
 	}
 }
+:global(.dark) .textGlowSpecial,
+:global(.dark) a.textGlowSpecial,
+:global(.dark) button.textGlowSpecial,
+:global(.dark) svg.textGlowSpecial {
+	--pc3l: 25%;
+	--pc3: hsla(var(--pc3h), var(--pc3s), var(--pc3l), var(--pc3a));
+}
 
-body:global(.dark) .textGlowSpecial {
+:global(.dark) .textGlowSpecial {
 	--color: var(--main-special-bg-color-3);
 	--color-focus: var(--main-special-bg-color-3);
 	--color-hover: var(--main-special-bg-color-3);
