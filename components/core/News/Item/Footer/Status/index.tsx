@@ -41,7 +41,7 @@ const Status: FC<IProps> = ({
 	*/
 
 	return (
-		<section className={classes.status}>
+		<div className={classes.status}>
 			{/* <div className={`${classes.votes} ${classes['status-item']}`}>
 				<button
 					title='Up Vote'
@@ -81,7 +81,7 @@ const Status: FC<IProps> = ({
 					</button>
 				)}{' '}
 			</div>
-		</section>
+		</div>
 	);
 };
 
