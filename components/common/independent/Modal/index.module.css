@@ -26,7 +26,7 @@
 	border-radius: 0.5rem;
 	box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.33);
 	transition: all 0.3s ease;
-	background-color: var(--modalContainer-background-color);
+	overflow-x: hidden;
 }
 
 .ModalCloseButton {

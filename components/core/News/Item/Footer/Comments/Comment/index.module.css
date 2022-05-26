@@ -37,13 +37,19 @@
 .nav {
 	display: flex;
 	align-items: center;
+	gap: 1rem;
 }
 
-.profile_picture-container {
+.authorProfilePictureLink {
 	width: 4rem;
 	height: 4rem;
+	background-color: var(--main-bg-color-1);
 	border-radius: 50%;
 	overflow: hidden;
+}
+.profile_picture-container {
+	width: 100%;
+	height: 100%;
 	--lazy-load-image-background-height: 100%;
 }
 :not([dir='rtl']) .profile_picture-container {

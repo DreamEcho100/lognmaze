@@ -38,7 +38,7 @@ const NewsItem: FC<INewsItemProps> = (props) => {
 		hideFooterSettings,
 		detailsType = 'description',
 		modelDetailsType = 'content',
-		defaultClasses,
+		defaultClasses = 'newsItem',
 		extraClasses,
 		className,
 	} = props;

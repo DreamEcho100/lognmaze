@@ -1,3 +1,9 @@
 .modalContainer {
 	max-width: 80rem;
+	background-color: var(--main-bg-color-1);
+}
+
+.newsItem {
+	word-break: '-';
+	word-break: break-all;
 }

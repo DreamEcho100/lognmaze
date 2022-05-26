@@ -52,7 +52,11 @@ const HomeScreen: FC<TProps> = (props) => {
 							) : (
 								<>
 									<p>Not Signed up?</p>
-									<div>
+									<div
+										style={{
+											marginTop: '0.25em',
+										}}
+									>
 										<ButtonComponent
 											title='Sign In'
 											onClick={() => router.replace('/auth')}

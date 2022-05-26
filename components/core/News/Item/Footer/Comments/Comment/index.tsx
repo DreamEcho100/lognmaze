@@ -495,12 +495,12 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 			<div className={classes.commentContainer}>
 				<header className={classes.header}>
 					<nav className={classes.nav}>
-						{props.comment.author_profile_picture && (
-							<Link
-								prefetch={false}
-								href={`/users/${props.comment.author_user_name_id}`}
-							>
-								<a>
+						<Link
+							prefetch={false}
+							href={`/users/${props.comment.author_user_name_id}`}
+						>
+							<a className={classes.authorProfilePictureLink}>
+								{props.comment.author_profile_picture && (
 									<CustomNextImage
 										src={imagesWeservNlLoader({
 											url: props.comment.author_profile_picture,
@@ -510,10 +510,10 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 										alt=''
 										className={classes['profile_picture-container']}
 									/>
-								</a>
-							</Link>
-						)}
-						<div className={classes['author-info']}>
+								)}
+							</a>
+						</Link>
+						<small className={classes['author-info']}>
 							<p>
 								<Link
 									prefetch={false}
@@ -532,7 +532,7 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 									</small>
 								</em>
 							</p>
-						</div>
+						</small>
 					</nav>
 					{userData?.id === props.comment.author_id && (
 						<CustomDropdown

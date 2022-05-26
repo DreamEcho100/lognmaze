@@ -95,9 +95,12 @@
 a.textGlowSpecial,
 button.textGlowSpecial,
 svg.textGlowSpecial {
-	--color: var(--pc3);
+	--pc1: hsla(var(--pc1h), var(--pc1s), calc(var(--pc1l) * 0.8), var(--pc1a));
+	--pc3: hsla(var(--pc3h), var(--pc3s), calc(var(--pc3l) * 0.95), var(--pc3a));
+
+	--color: var(--pc1);
 	--color-focus: var(--pc2);
-	--color-hover: var(--pc1);
+	--color-hover: var(--pc3);
 	color: var(--color);
 	text-shadow: 0rem 0rem 0.1rem var(--color);
 	transition: all var(--main-transition-duration)
@@ -122,13 +125,6 @@ svg.textGlowSpecial {
 		--pc3l: 25%;
 		--pc3: hsla(var(--pc3h), var(--pc3s), var(--pc3l), var(--pc3a));
 	}
-}
-.dark .textGlowSpecial,
-.dark a.textGlowSpecial,
-.dark button.textGlowSpecial,
-.dark svg.textGlowSpecial {
-	--pc3l: 25%;
-	--pc3: hsla(var(--pc3h), var(--pc3s), var(--pc3l), var(--pc3a));
 }
 
 body:global(.dark) .textGlowSpecial {
