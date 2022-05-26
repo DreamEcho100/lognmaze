@@ -1,3 +1,7 @@
+import { useMemo } from 'react';
+
+import { IDeleteNewsItemReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/ts';
+
 import { TNewsItemData } from '@coreLib/ts/global';
 import useRequestState from '@commonLibDependent/requestState';
 import networkReqArgs from '@coreLib/networkReqArgs';
@@ -6,13 +10,11 @@ import {
 	returnBearerTokenIfExist,
 } from '@commonLibIndependent/fetch';
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
+import { useNewsSharedState } from '@store/NewsContext';
 
 import NewsItemActionModal from '../../UI/Modal';
 import ButtonComponent from '@commonComponentsIndependent/Button';
 import NewsItem from '@coreComponents/News/Item';
-import { useMemo } from 'react';
-import { IDeleteNewsItemReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/ts';
-import { useNewsSharedState } from '@store/NewsContext';
 
 interface IProps {
 	newsItemData: TNewsItemData;

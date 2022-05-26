@@ -43,44 +43,15 @@ export interface INewsContextState {
 							};
 						};
 					};
-					getMoreMainComments?: {
-						isLoading: boolean;
-						error: string;
-						success: boolean;
-					};
-					update?: {
-						isLoading: boolean;
-						error: string;
-						success: boolean;
-					};
-					delete?: {
-						isLoading: boolean;
-						error: string;
-						success: boolean;
-					};
-					mainComments?: {
-						[key: string]: {
-							create?: {
-								isLoading: boolean;
-								error: string;
-								success: boolean;
-							};
-						};
-					};
 				};
 			};
 		};
 		requests: {
-			getMoreNewsItems?: {
-				isLoading: boolean;
-				error: string;
-				success: boolean;
-			};
-			create?: {
-				isLoading: boolean;
-				error: string;
-				success: boolean;
-			};
+			// getMoreNewsItems?: {
+			// 	isLoading: boolean;
+			// 	error: string;
+			// 	success: boolean;
+			// };
 		};
 	};
 }

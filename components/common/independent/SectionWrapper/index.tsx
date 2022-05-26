@@ -18,7 +18,7 @@ const SectionWrapper = ({
 	extraClasses = '',
 	className = '',
 	children,
-	elemType = 'section',
+	elemType = 'div',
 	...props
 }: IProps) => {
 	const allClasses = handleAllClasses({

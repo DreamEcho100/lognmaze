@@ -44,7 +44,7 @@ const SEODefaults: DefaultSeoProps = {
 		},
 		{
 			httpEquiv: 'x-ua-compatible',
-			content: 'IE=edge; chrome=1',
+			content: 'IE=edge, chrome=1',
 		},
 		{
 			name: 'viewport',

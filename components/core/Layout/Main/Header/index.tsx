@@ -92,19 +92,9 @@ const MainNavigation = () => {
 					)}
 					{!userData?.id && (
 						<li>
-							<ButtonComponent
-								className={classes.button}
-								onClick={() => setShowNavOnSmallScreens(false)}
-								disabled={
-									initStoreData.isLoading ||
-									loginRequest.isLoading ||
-									signupRequest.isLoading
-								}
-							>
-								<Link href='/auth' prefetch={false}>
-									<a title='Go to sign In/Up page'>Sign In/Up</a>
-								</Link>
-							</ButtonComponent>
+							<Link className={classes.button} href='/auth' prefetch={false}>
+								<a title='Go to sign In/Up page'>Sign In/Up</a>
+							</Link>
 						</li>
 					)}
 					{userData?.id && (
@@ -116,7 +106,12 @@ const MainNavigation = () => {
 									handleLogout(userData.id, token);
 									setShowNavOnSmallScreens(false);
 								}}
-								disabled={logoutRequest.isLoading}
+								disabled={
+									initStoreData.isLoading ||
+									loginRequest.isLoading ||
+									signupRequest.isLoading ||
+									logoutRequest.isLoading
+								}
 							>
 								Sign Out
 							</ButtonComponent>
