@@ -474,10 +474,15 @@ code[data-code-inline='true'] {
 	justify-content: flex-start;
 }
 /**/
+@media all and (max-width: 900px) {
+	:root {
+		--root-font-size: 57.5%;
+	}
+}
 
 @media screen and (max-width: 700px) {
 	:root {
-		font-size: 60%;
+		font-size: 55%;
 
 		--header1: var(--size-22);
 		--header2: var(--size-20);
