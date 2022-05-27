@@ -1,3 +1,7 @@
+.modalContainer {
+	background-color: var(--main-bg-color-1);
+}
+
 .socialPlatform {
 	--border-color: black;
 	--bg-color: purple;

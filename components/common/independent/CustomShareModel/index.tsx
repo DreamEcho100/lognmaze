@@ -78,6 +78,11 @@ const CustomShareModelComponent = ({
 		<ModalComponent
 			isModalVisible={isModalVisible}
 			modalVisibilityHandler={modalVisibilityHandler}
+			modalClasses={{
+				container: {
+					new: classes.modalContainer,
+				},
+			}}
 		>
 			<Fragment key='header'>
 				<h2>Share In Your Favorite Social Media</h2>

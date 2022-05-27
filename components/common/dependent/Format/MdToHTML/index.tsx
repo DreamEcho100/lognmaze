@@ -72,7 +72,7 @@ const MdToHTMLFormatter: FC<Props> = ({ content }) => {
 				</SyntaxHighlighterDynamic>
 			) : (
 				<code className={className} {...props} data-code-inline='true'>
-					{children}
+					{JSON.stringify(children, null, 2)}
 				</code>
 			);
 		},
