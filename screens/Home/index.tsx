@@ -52,12 +52,9 @@ const HomeScreen: FC<TProps> = (props) => {
 							) : (
 								<>
 									<p>Not Signed up?</p>
-									<div
-										style={{
-											marginTop: '0.25em',
-										}}
-									>
+									<div>
 										<ButtonComponent
+											className={classes.authPageButton}
 											title='Sign In'
 											onClick={() => router.replace('/auth')}
 										>
@@ -65,6 +62,7 @@ const HomeScreen: FC<TProps> = (props) => {
 										</ButtonComponent>{' '}
 										/{' '}
 										<ButtonComponent
+											className={classes.authPageButton}
 											title='Sign Up'
 											onClick={() => router.replace('/auth?objective=signup')}
 										>
