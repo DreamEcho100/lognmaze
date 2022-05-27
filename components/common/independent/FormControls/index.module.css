@@ -1,4 +1,4 @@
-.FormControls {
+.default {
 	max-width: 100%;
 	margin: var(--padding-main-1-quarter);
 	margin-left: 0;
@@ -9,14 +9,14 @@
 	transition: all ease-in var(--main-transition-duration);
 }
 
-*:last-child .form-controls {
+*:last-child .default {
 	margin-bottom: 0;
 }
-
+/* 
 @media screen and (max-width: 700px) {
 	.form-controls-2 {
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 	}
-}
+} */

@@ -2,38 +2,26 @@ import { FC, FormHTMLAttributes } from 'react';
 
 import classes from './index.module.css';
 
-import { handleAllClasses } from '@commonLibIndependent/className';
-
-interface IProps extends FormHTMLAttributes<HTMLFormElement> {
-	defaultClasses?: string;
-	extraClasses?: string;
-	className?: string;
+interface IProps
+	extends Omit<FormHTMLAttributes<HTMLFormElement>, 'className'> {
+	className?: string | ((defaultClassName: string) => string);
 }
 
-const FormComponent: FC<IProps> = ({
-	defaultClasses = 'form',
-	extraClasses,
-	className,
-	children,
-	...props
-}) => {
-	const allClasses = handleAllClasses({
-		classes,
-		defaultClasses,
-		extraClasses,
-		className,
-	});
-
-	const handleFormProps = () => {
-		const formProps: FormHTMLAttributes<HTMLFormElement> = {
-			className: allClasses,
-			...props,
-		};
-
-		return formProps;
-	};
-
-	return <form {...handleFormProps()}>{children}</form>;
+const FormComponent: FC<IProps> = ({ className, children, ...props }) => {
+	return (
+		<form
+			{...props}
+			className={
+				typeof className === 'function'
+					? className(classes.default)
+					: typeof className === 'string'
+					? `${classes.default} ${className}`
+					: classes.default
+			}
+		>
+			{children}
+		</form>
+	);
 };
 
 export default FormComponent;

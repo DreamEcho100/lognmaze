@@ -177,6 +177,7 @@ const NewsItemActionTypeCreate = ({
 		<NewsItemActionModal
 			modalVisibilityHandler={modalVisibilityHandler}
 			isModalVisible={isModalVisible}
+			actionType='create'
 			HeaderComponent={
 				<header>
 					<h2>Create News</h2>

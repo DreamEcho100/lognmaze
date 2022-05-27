@@ -8,12 +8,9 @@ import {
 
 import classes from './index.module.css';
 
-import { handleAllClasses } from '@commonLibIndependent/className';
-
-interface IProps extends InputHTMLAttributes<HTMLInputElement> {
-	defaultClasses?: string;
-	extraClasses?: string;
-	className?: string;
+interface IProps
+	extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className'> {
+	className?: string | ((defaultClassName: string) => string);
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	setValues?: Dispatch<SetStateAction<any>>;
 }
@@ -23,23 +20,19 @@ const InputComponent: FC<IProps & HTMLProps<HTMLInputElement>>
 */
 
 const InputComponent: FC<IProps> = ({
-	defaultClasses = 'input',
-	extraClasses,
 	className,
 	children,
 	setValues,
 	...props
 }) => {
-	const allClasses = handleAllClasses({
-		classes,
-		defaultClasses,
-		extraClasses,
-		className,
-	});
-
 	const handleInputProps = () => {
 		const inputProps: InputHTMLAttributes<HTMLInputElement> = {
-			className: allClasses,
+			className:
+				typeof className === 'function'
+					? className(classes.default)
+					: typeof className === 'string'
+					? `${classes.default} ${className}`
+					: classes.default,
 			...props,
 		};
 

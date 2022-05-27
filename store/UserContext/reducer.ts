@@ -1,6 +1,6 @@
 // import { getCookie } from '@commonLibIndependent/storage/cookie/document';
 // import ls from '@commonLibIndependent/storage/localStorage';
-import UserContextConstants from '@coreLib/constants/store/types/userContext';
+import { UserContextConstants } from '@coreLib/constants';
 import { returnUserContextInitialState } from './initialState';
 // import { IUserAuthenticatedData } from '@coreLib/ts/global';
 import { IUserContextReducerAction, IUserContextState } from './ts';

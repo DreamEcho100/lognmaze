@@ -2,10 +2,10 @@
 	--form-min-width: fit-content;
 } */
 
-.form {
+.default {
 	background-color: var(--main-bg-color-1);
 	padding: var(--padding-main-1-half) var(--padding-main-1-quarter);
-	width: var(--form-min-width);
+	width: var(--default-min-width);
 	margin: 0 auto;
 	border-radius: 1.5rem;
 	transition: var(--main-transition-duration) all ease-in;
@@ -13,9 +13,9 @@
 	display: flex;
 	flex-direction: column;
 }
-.form:hover {
+.default:hover {
 	border-radius: 1rem;
 }
-.form:focus-within {
+.default:focus-within {
 	border-radius: 0.5rem;
 }

@@ -8,34 +8,27 @@ import {
 
 import classes from './index.module.css';
 
-import { handleAllClasses } from '@commonLibIndependent/className';
-
-interface IProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-	defaultClasses?: string;
-	extraClasses?: string;
-	className?: string;
+interface IProps
+	extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'className'> {
+	className?: string | ((defaultClassName: string) => string);
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	setValues?: Dispatch<SetStateAction<any>>;
 }
 
 const TextareaComponent: FC<IProps> = ({
-	defaultClasses = 'textarea',
-	extraClasses,
 	className,
 	children,
 	setValues,
 	...props
 }) => {
-	const allClasses = handleAllClasses({
-		classes,
-		defaultClasses,
-		extraClasses,
-		className,
-	});
-
 	const handleTextareaProps = () => {
 		const textareaProps: TextareaHTMLAttributes<HTMLTextAreaElement> = {
-			className: allClasses,
+			className:
+				typeof className === 'function'
+					? className(classes.default)
+					: typeof className === 'string'
+					? `${classes.default} ${className}`
+					: classes.default,
 			...props,
 		};
 

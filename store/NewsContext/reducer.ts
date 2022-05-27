@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-import NewsContextConstants from '@coreLib/constants/store/types/NewsContext';
+import { NewsContextConstants } from '@coreLib/constants';
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 import { TNewsItemData } from '@coreLib/ts/global';
 import { returnNewsInitialState } from './initialState';

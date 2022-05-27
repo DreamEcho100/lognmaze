@@ -5,4 +5,8 @@
 
 .container {
 	max-width: 80rem;
+	background-color: var(--main-bg-color-0);
+}
+.deleteModalContainer {
+	background-color: var(--main-bg-color-1);
 }

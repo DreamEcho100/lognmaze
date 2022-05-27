@@ -2,38 +2,26 @@ import { FC, LabelHTMLAttributes } from 'react';
 
 import classes from './index.module.css';
 
-import { handleAllClasses } from '@commonLibIndependent/className';
-
-interface IProps extends LabelHTMLAttributes<HTMLLabelElement> {
-	defaultClasses?: string;
-	extraClasses?: string;
-	className?: string;
+interface IProps
+	extends Omit<LabelHTMLAttributes<HTMLLabelElement>, 'className'> {
+	className?: string | ((defaultClassName: string) => string);
 }
 
-const LabelComponent: FC<IProps> = ({
-	defaultClasses = 'label',
-	extraClasses,
-	className,
-	children,
-	...props
-}) => {
-	const allClasses = handleAllClasses({
-		classes,
-		defaultClasses,
-		extraClasses,
-		className,
-	});
-
-	const handleLabelProps = () => {
-		const labelProps: LabelHTMLAttributes<HTMLLabelElement> = {
-			className: allClasses,
-			...props,
-		};
-
-		return labelProps;
-	};
-
-	return <label {...handleLabelProps()}>{children}</label>;
+const LabelComponent: FC<IProps> = ({ className, children, ...props }) => {
+	return (
+		<label
+			{...props}
+			className={
+				typeof className === 'function'
+					? className(classes.default)
+					: typeof className === 'string'
+					? `${classes.default} ${className}`
+					: classes.default
+			}
+		>
+			{children}
+		</label>
+	);
 };
 
 export default LabelComponent;

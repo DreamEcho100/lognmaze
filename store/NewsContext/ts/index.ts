@@ -11,7 +11,7 @@ import { ICreateNewsItemReqArgs } from '@coreLib/networkReqArgs/_app/news/ts';
 
 import NewsItemContextConstants from '@coreLib/constants/store/types/NewsContext/Item';
 import { IGetNewsItemBlogContentReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/blog/content/ts';
-import NewsContextConstants from '@coreLib/constants/store/types/NewsContext';
+import { NewsContextConstants } from '@coreLib/constants';
 import { IUpdateNewsItemReqArgs } from '@coreLib/networkReqArgs/_app/news/[news_id]/ts';
 
 export type INewsContextStateData = {

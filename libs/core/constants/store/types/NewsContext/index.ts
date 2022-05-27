@@ -1,4 +1,4 @@
-enum NewsContextConstants {
+export enum NewsContextConstants {
 	ADD_NEWS_ITEMS = 'ADD_NEWS_ITEMS',
 }
 

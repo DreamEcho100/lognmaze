@@ -1,8 +1,8 @@
-/* body .FormControl {
+/* body .default {
 	--FormControl-min-width: none;
 } */
 
-.FormControl {
+.default {
 	max-width: 100%;
 	margin: var(--padding-main-1-half) var(--padding-main-1-quarter);
 	display: flex;

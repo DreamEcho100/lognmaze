@@ -397,7 +397,6 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 			news_id: news_id,
 			...(() => {
 				if (props.comment.type === 'comment_main_reply') {
-					console.log('props.comment.parent_id');
 					return {
 						parent_id:
 							props.parent_data?.news_comment_id || props.comment.parent_id,
@@ -468,7 +467,6 @@ const Comment: FC<ICommentMainProps | ICommentMainReplyProps> = ({
 						target: 'delete',
 					},
 				});
-				console.log('requiredData', requiredData);
 				newsItemExtraDataDispatch({
 					type: ENewsItemExtraData.DELETE_MAIN_OR_MAIN_REPLY_COMMENT,
 					payload: {

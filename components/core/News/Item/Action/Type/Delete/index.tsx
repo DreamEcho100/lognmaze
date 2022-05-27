@@ -138,6 +138,7 @@ const NewsItemActionTypeDelete = ({
 		<NewsItemActionModal
 			modalVisibilityHandler={modalVisibilityHandler}
 			isModalVisible={isModalVisible}
+			actionType='delete'
 			HeaderComponent={
 				<header>
 					<h2>Are you sure you want to delete it?</h2>

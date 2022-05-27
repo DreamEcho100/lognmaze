@@ -1,33 +1,46 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, HTMLAttributes, SetStateAction } from 'react';
 
 import classes from './index.module.css';
 
-import { bundleClassesIfExist } from '@commonLibIndependent/className';
-
-interface IProps {
-	defaultClassName?: string;
-	className?: string;
+interface IWrapperProps extends Omit<HTMLAttributes<HTMLElement>, 'className'> {
+	className?: string | ((defaultClassName: string) => string);
+}
+interface IProps extends Omit<HTMLAttributes<HTMLElement>, 'className'> {
+	className?: string | ((defaultClassName: string) => string);
 	isDropdownListVisible: boolean;
 	setIsDropdownListVisible: Dispatch<SetStateAction<boolean>>;
+	wrapperProps?: IWrapperProps;
 }
 
 const DropdownRoot: FC<IProps> = ({
-	defaultClassName = 'settingsWrapper',
-	className = '',
+	className,
 	isDropdownListVisible,
 	setIsDropdownListVisible,
 	children,
+	wrapperProps = {
+		className: classes.wrapper,
+	},
+	...props
 }) => {
-	const allClasses = bundleClassesIfExist([
-		classes[defaultClassName],
-		className,
-	]);
-
 	return (
-		<div className={allClasses}>
+		<div
+			className={
+				typeof className === 'function'
+					? className(classes.default)
+					: typeof className === 'string'
+					? `${classes.default} ${className}`
+					: classes.default
+			}
+			{...props}
+		>
 			{isDropdownListVisible && (
 				<div
-					className={classes.wrapper}
+					{...wrapperProps}
+					className={
+						typeof wrapperProps.className === 'function'
+							? wrapperProps.className(classes.default)
+							: wrapperProps.className
+					}
 					onClick={() => setIsDropdownListVisible((prev) => !prev)}
 				></div>
 			)}

@@ -2,7 +2,7 @@ import {
 	// VISITOR_PROFILE_GUEST,
 	VISITOR_PROFILE_OWNER,
 } from '@coreLib/constants';
-import UserProfilePageConstants from '@coreLib/constants/store/types/UserProfilePage';
+import { UserProfilePageConstants } from '@coreLib/constants';
 import { TSetProfilePageVisitorStatus } from './ts';
 
 export const setProfilePageVisitorStatus: TSetProfilePageVisitorStatus = (

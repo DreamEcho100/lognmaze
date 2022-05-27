@@ -1,5 +1,5 @@
 import { VISITOR_PROFILE_GUEST } from '@coreLib/constants';
-import UserProfilePageConstants from '@coreLib/constants/store/types/UserProfilePage';
+import { UserProfilePageConstants } from '@coreLib/constants';
 import { returnProfilePageStoreInitialState } from './initialState';
 import {
 	IUserProfilePageContextReducerAction,

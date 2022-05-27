@@ -71,8 +71,6 @@ const NewsItemActionTypeUpdate = ({
 						},
 					});
 
-				console.log('requestInfo', requestInfo);
-
 				return await fetch(requestInfo, requestInit);
 			},
 			onError: (error) => {
@@ -235,6 +233,7 @@ const NewsItemActionTypeUpdate = ({
 		<NewsItemActionModal
 			modalVisibilityHandler={modalVisibilityHandler}
 			isModalVisible={isModalVisible}
+			actionType='update'
 			HeaderComponent={
 				<header>
 					<h2>Update News</h2>

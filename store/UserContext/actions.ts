@@ -14,7 +14,7 @@ import {
 	getCookie,
 } from '@commonLibIndependent/storage/cookie/document';
 import ls from '@commonLibIndependent/storage/localStorage';
-import UserContextConstants from '@coreLib/constants/store/types/userContext';
+import { UserContextConstants } from '@coreLib/constants';
 import networkReqArgs from '@coreLib/networkReqArgs';
 
 const returnBearerToken = (token: string) => `Bearer ${token}`;

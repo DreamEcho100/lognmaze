@@ -4,7 +4,7 @@ import {
 	VISITOR_PROFILE_GUEST,
 	VISITOR_PROFILE_OWNER,
 } from '@coreLib/constants';
-import UserProfilePageConstants from '@coreLib/constants/store/types/UserProfilePage';
+import { UserProfilePageConstants } from '@coreLib/constants';
 import { IUserAuthenticatedData, IUserBasicData } from '@coreLib/ts/global';
 
 export type IPropsUserProfilePageData = {

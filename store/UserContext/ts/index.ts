@@ -1,6 +1,6 @@
 import { Dispatch } from 'react';
 
-import UserContextConstants from '@coreLib/constants/store/types/userContext';
+import { UserContextConstants } from '@coreLib/constants';
 import {
 	ILoginReqArgsProps,
 	ILogoutReqArgsProps,

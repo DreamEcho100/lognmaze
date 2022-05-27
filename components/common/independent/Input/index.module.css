@@ -1,4 +1,4 @@
-.input {
+.default {
 	height: 2.5rem;
 	max-width: 100%;
 	width: var(--input-width);
@@ -16,12 +16,12 @@
 	--main-focus-outline-width: 0rem;
 }
 
-.input:hover {
+.default:hover {
 	border-bottom: 0.3rem solid var(--main-special-bg-color-3);
 }
 
-.input:not([type='text']):focus,
-.input:not([type='checkbox']):focus {
+.default:not([type='text']):focus,
+.default:not([type='checkbox']):focus {
 	min-height: 3rem;
 	font-size: calc(var(--current-font-size) + 0.2rem);
 	padding: 0.125em var(--padding-main-1-quarter);
@@ -35,14 +35,14 @@
 	padding: 0.75em 0.25em;
 }
 
-body:global(.dark) .input:not([type='checkbox']):focus {
+body:global(.dark) .default:not([type='checkbox']):focus {
 	background-color: transparent;
 }
 @media (prefers-color-scheme: dark) {
-	body:not(:global(.light)) .input:not([type='checkbox']):focus {
+	body:not(:global(.light)) .default:not([type='checkbox']):focus {
 		background-color: transparent;
 	}
 }
 
-/* .input-radio {
+/* .default-radio {
 } */

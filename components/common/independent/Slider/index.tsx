@@ -1,7 +1,6 @@
-import { MouseEvent, ReactNode, TouchEvent, useEffect, useRef } from 'react';
+import { FC, MouseEvent, TouchEvent, useEffect, useRef } from 'react';
 
-interface Props {
-	children: ReactNode;
+interface IProps {
 	outerSliderClassName?: string;
 	innerSliderClassName?: string;
 }
@@ -19,11 +18,11 @@ interface IPosRef {
 	lastSliderCoordination?: DOMRect;
 }
 
-const Slider = ({
+const Slider: FC<IProps> = ({
 	children,
 	outerSliderClassName,
 	innerSliderClassName,
-}: Props) => {
+}) => {
 	const outerSliderRef = useRef<HTMLDivElement>(null);
 	const innerSliderRef = useRef<HTMLDivElement>(null);
 	const outerSliderMaskRef = useRef<HTMLDivElement>(null);

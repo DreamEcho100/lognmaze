@@ -1,24 +1,24 @@
-.list {
+.default {
 	list-style: none;
 	margin-top: var(--padding-main-1);
 	padding: var(--padding-main-1-half);
 	border-radius: 1rem;
 }
 
-.list li {
+.default li {
 	margin: var(--padding-main-1-half);
 }
-[dir='ltr'] .list li,
-.list li {
+[dir='ltr'] .default li,
+.default li {
 	margin-left: 0;
 }
-[dir='rtl'] .list li {
+[dir='rtl'] .default li {
 	margin-right: 0;
 }
-.list li:first-child {
+.default li:first-child {
 	margin-top: 0;
 }
-.list li:last-child {
+.default li:last-child {
 	margin-bottom: 0;
 }
 

@@ -1,6 +1,8 @@
-.settingsWrapper {
+.default {
 	position: relative;
 	max-width: fit-content;
+	max-width: -webkit-fit-content;
+	max-width: -moz-fit-content;
 }
 
 .wrapper {

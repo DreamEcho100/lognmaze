@@ -7,7 +7,7 @@ import { useNewsSharedState } from '@store/NewsContext';
 import { handleAllClasses } from '@commonLibIndependent/className';
 import { TNewsData, TNewsItemData } from '@coreLib/ts/global';
 import useRequestState from '@commonLibDependent/requestState';
-import NewsContextConstants from '@coreLib/constants/store/types/NewsContext';
+import { NewsContextConstants } from '@coreLib/constants';
 import networkReqArgs from '@coreLib/networkReqArgs';
 import { handleRequestStateChanges } from '@commonLibIndependent/fetch';
 

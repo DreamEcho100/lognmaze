@@ -1,38 +1,38 @@
-.format-md {
+.default {
 	/* line-height: 1.35; */
 	line-height: 1.25;
 	letter-spacing: 0.05em;
 }
 
-.format-md h1,
-.format-md h2,
-.format-md h3,
-.format-md h4,
-.format-md h5,
-.format-md h6 {
+.default h1,
+.default h2,
+.default h3,
+.default h4,
+.default h5,
+.default h6 {
 	line-height: 1;
 }
 
-.format-md h1 {
+.default h1 {
 	margin: 0.25em 0;
 }
-.format-md h2 {
+.default h2 {
 	margin: 0.8em 0 0.25em 0;
 }
-.format-md h3 {
+.default h3 {
 	margin: 0.7em 0 0.25em 0;
 }
-.format-md h4 {
+.default h4 {
 	margin: 0.6em 0 0.25em 0;
 }
-.format-md h5 {
+.default h5 {
 	margin: 0.5em 0 0.25em 0;
 }
-.format-md h6 {
+.default h6 {
 	margin: 0.25em 0 0.25em 0;
 }
 
-.format-md img {
+.default img {
 	width: 100%;
 	max-width: min(100%, 150rem);
 	margin: var(--padding-main-1-half);

@@ -6,6 +6,7 @@ import classes from './index.module.css';
 type Props = {
 	isModalVisible: boolean;
 	modalVisibilityHandler: () => void;
+	actionType: 'create' | 'update' | 'delete';
 	HeaderComponent?: JSX.Element;
 	BodyComponent: JSX.Element;
 	FooterComponent?: JSX.Element;
@@ -14,6 +15,7 @@ type Props = {
 const NewsItemActionModal = ({
 	isModalVisible,
 	modalVisibilityHandler,
+	actionType,
 	HeaderComponent,
 	BodyComponent,
 	FooterComponent,
@@ -27,7 +29,10 @@ const NewsItemActionModal = ({
 					new: classes.containerBody,
 				},
 				container: {
-					new: classes.container,
+					new:
+						actionType === 'delete'
+							? `${classes.container} ${classes.deleteModalContainer}`
+							: classes.container,
 				},
 			}}
 		>

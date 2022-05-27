@@ -1,4 +1,4 @@
-.select {
+.default {
 	--color: var(--main-bg-color-0-95);
 	appearance: none;
 	width: 100%;
@@ -18,35 +18,35 @@
 
 	transition: all var(--main-transition-duration) ease-in;
 }
-.select::-ms-expand {
+.default::-ms-expand {
 	display: none;
 }
 /* // remove dotted firefox border */
 @-moz-document url-prefix() {
-	.select {
+	.default {
 		color: rgba(0, 0, 0, 0);
 		text-shadow: 0 0 0 var(--color);
 	}
 }
 
-.select:hover {
+.default:hover {
 	--bg-color-hover: var(--pc2);
 }
-.select:focus {
+.default:focus {
 	--bg-color-focus: var(--pc3);
 	box-shadow: 0 0 1rem var(--color);
 }
 
 @media (prefers-color-scheme: light) {
-	.select,
-	.select:hover,
-	.select:focus {
+	.default,
+	.default:hover,
+	.default:focus {
 		--bg-color: transparent;
 		color: inherit;
 	}
 }
 
-body:global(.light) .select {
+body:global(.light) .default {
 	--bg-color: transparent;
 	--bg-color-hover: transparent;
 	--bg-color-focus: transparent;
