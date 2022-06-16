@@ -12,7 +12,7 @@
 		"analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
 	},
 	"dependencies": {
-		"@builder.io/partytown": "^0.5.4",
+		"@builder.io/partytown": "^0.6.0",
 		"@fortawesome/fontawesome-svg-core": "^6.1.1",
 		"@fortawesome/free-brands-svg-icons": "^6.1.1",
 		"@fortawesome/free-regular-svg-icons": "^6.1.1",
