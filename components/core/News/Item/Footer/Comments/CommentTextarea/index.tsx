@@ -17,6 +17,7 @@ interface IProps {
 	disableSubmitButton?: boolean;
 	commentToType?: 'news_item' | 'comment_main' | 'comment_main_reply';
 	handleIsCommentTextareaIsVisible: (isVisible?: boolean) => void;
+	autoFocus?: boolean;
 }
 
 const CommentTextarea: FC<IProps> = ({
@@ -27,6 +28,7 @@ const CommentTextarea: FC<IProps> = ({
 	disableSubmitButton,
 	commentToType = 'news_item',
 	handleIsCommentTextareaIsVisible,
+	autoFocus,
 }) => {
 	const SendButtonComponent_Map = {
 		news_item: 'Submit comment replying a news item',
@@ -47,6 +49,7 @@ const CommentTextarea: FC<IProps> = ({
 					setValues={setValues}
 					value={value}
 					className={`${borderClasses.default} ${classes.textarea}`}
+					autoFocus={autoFocus}
 				/>
 			</FormControlComponent>
 			<div>

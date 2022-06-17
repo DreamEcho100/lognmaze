@@ -447,6 +447,7 @@ blockquote {
 
 /**/
 code[data-code-inline='true'] {
+	font-size: 90%;
 	vertical-align: bottom;
 	display: inline-block;
 	background-color: var(--main-font-color-3);

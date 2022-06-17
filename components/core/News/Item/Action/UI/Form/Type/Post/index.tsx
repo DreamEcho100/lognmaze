@@ -93,6 +93,7 @@ IProps) => {
 							[event.target.name]: event.target.value,
 						}))
 					}
+					autoFocus
 					{...sharedTextareaProps({
 						className: `${classes.textarea} ${borderClasses.default} ${
 							itemsDisabled && helperClasses.disabled

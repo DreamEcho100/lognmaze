@@ -193,6 +193,7 @@ IProps) => {
 									: prev.slug,
 						}));
 					}}
+					autoFocus
 					{...sharedInputProps({
 						className: `${classes.input} ${
 							itemsDisabled && helperClasses.disabled

@@ -317,6 +317,7 @@ const Comments: FC<IProps> = ({
 					handleIsCommentTextareaIsVisible={() =>
 						handleIsUpdatingContentVisible(false)
 					}
+					autoFocus
 				/>
 			)}
 			{!!(userData?.id && !isCommentTextarea) && (
