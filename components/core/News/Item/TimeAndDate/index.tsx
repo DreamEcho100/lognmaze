@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import helpersClasses from '@styles/helpers.module.css';
 
@@ -10,6 +10,10 @@ interface Props {
 }
 
 const TimeAndDate: FC<Props> = ({ created_at, updated_at }) => {
+	const [date, setDate] = useState({
+		created_at,
+		updated_at,
+	});
 	const handleFormateDate = (dateProvided: string | number | Date) => {
 		const { date, time } = formatDate(new Date(dateProvided), {
 			format: {
@@ -26,19 +30,26 @@ const TimeAndDate: FC<Props> = ({ created_at, updated_at }) => {
 		return `${date}, ${time}`;
 	};
 
+	useEffect(() => {
+		setDate((prev) => ({
+			created_at: handleFormateDate(prev.created_at),
+			updated_at: handleFormateDate(prev.updated_at),
+		}));
+	}, []);
+
 	return (
 		<span>
 			<time dateTime={new Date(created_at).toISOString()}>
 				<small>
 					<span className={helpersClasses.fontWeightBold}>Created At:</span>{' '}
-					<em>{handleFormateDate(created_at)}</em>
+					<em>{date.created_at.toString()}</em>
 				</small>
 			</time>
 			{created_at !== updated_at && (
 				<time dateTime={new Date(updated_at).toISOString()}>
 					<small>
 						, <span className={helpersClasses.fontWeightBold}>Updated On:</span>{' '}
-						<em>{handleFormateDate(updated_at)}</em>
+						<em>{date.updated_at.toString()}</em>
 					</small>
 				</time>
 			)}

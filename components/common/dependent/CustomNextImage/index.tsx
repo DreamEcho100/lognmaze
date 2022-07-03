@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from 'next/future/image';
 import { ImageProps } from 'next/dist/client/image.d';
 
 import classes from './index.module.css';
@@ -28,6 +28,7 @@ const CustomNextImage = ({
 			layout,
 			src,
 			placeholder,
+			className: `${className} ${classes['img-container']} ${classes['layout-fill']}`,
 			...props,
 		};
 
@@ -39,16 +40,7 @@ const CustomNextImage = ({
 		return imageProps;
 	};
 
-	return (
-		<span
-			style={{
-				display: 'block',
-			}}
-			{...wrapperProps}
-		>
-			<Image alt={alt} {...handleImageProps()} />
-		</span>
-	);
+	return <Image alt={alt} {...handleImageProps()} />;
 };
 
 export default CustomNextImage;

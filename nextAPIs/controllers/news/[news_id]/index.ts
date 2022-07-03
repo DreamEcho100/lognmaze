@@ -251,7 +251,7 @@ export const updateNewsItemController = async (
 		Array.isArray(req.body.pathsToRevalidate)
 	) {
 		req.body.pathsToRevalidate.forEach(async (path: string) => {
-			await res.unstable_revalidate(path); // `/blogs/${}`
+			await res.revalidate(path); // `/blogs/${}`
 		});
 	}
 

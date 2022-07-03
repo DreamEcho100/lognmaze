@@ -22,6 +22,11 @@ export const getByUserNameIdController = async (
 	const filterBy: TGetUsersPropFilterBy = [];
 	const filterByItemsArr: TGetUsersPropFilterByTarget[] = [];
 
+	if (!req.query.user_name_id) {
+		res.status(404);
+		throw new Error("'user_name_id' doesn't wasn't found!");
+	}
+
 	filterByUsersHandler<TGetUsersPropFilterByTarget[]>({
 		itemsInObjectArr: ['target'],
 		objectToCheck: req.body,

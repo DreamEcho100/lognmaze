@@ -466,8 +466,7 @@ code[data-code-inline='true'] {
 	position: relative;
 	min-width: 100%;
 	min-height: 100vh;
-	min-height: fill-available; /* stretch */
-	min-height: -webkit-fill-available;
+	/* min-height: fill-available; stretch */
 	/* overflow-x: hidden; */
 	display: flex;
 	flex-direction: column;

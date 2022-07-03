@@ -49,7 +49,7 @@ const NewsItemHeaderBlogInfo: FC<Props> = ({
 				src={imagesWeservNlLoader({
 					url: newsItemBlogData.type_data.image_src,
 					w: 800,
-					h: 500,
+					// h: 500,
 				})}
 				alt={newsItemBlogData.type_data.image_alt}
 				className={classes.img_wrapper}

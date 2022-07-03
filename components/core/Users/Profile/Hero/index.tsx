@@ -36,7 +36,7 @@ const UserProfileHero = () => {
 								src={imagesWeservNlLoader({
 									url: profilePageUserData.cover_photo,
 									w: 300,
-									h: 300,
+									// h: 300,
 								})}
 								alt='cover photo'
 								className={classes.coverPhoto}

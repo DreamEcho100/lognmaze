@@ -54,13 +54,14 @@ const nextConfig = (phase) => {
 
 	return {
 		// images: {
-		// 	domains: [
-		// 		'external-content.duckduckgo.com',
-		// 		'miro.medium.com',
-		// 		'*',
-		// 		'*.com',
-		// 	],
-		// 	deviceSizes: [400, 800, 1200, 1600, 2000], // [640, 750, 828, 1080, 1200, 1920, 2048, 3840]
+		// 	// domains: [
+		// 	// 	'external-content.duckduckgo.com',
+		// 	// 	'miro.medium.com',
+		// 	// 	'*',
+		// 	// 	'*.com',
+		// 	// ],
+		// 	// deviceSizes: [400, 800, 1200, 1600, 2000], // [640, 750, 828, 1080, 1200, 1920, 2048, 3840]
+		// 	allowFutureImage: true,
 		// },
 		env,
 		eslint: {
@@ -70,7 +71,7 @@ const nextConfig = (phase) => {
 		},
 		swcMinify: true,
 		experimental: {
-			reactRoot: true,
+			images: { allowFutureImage: true },
 			// hydrateRoot: true
 		},
 		compiler: {

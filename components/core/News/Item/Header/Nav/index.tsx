@@ -9,7 +9,7 @@ import { imagesWeservNlLoader } from '@commonLibIndependent/image';
 
 import CustomNextImage from '@commonComponentsDependent/CustomNextImage';
 const DynamicCustomDropdown = dynamic(() => import('./CustomDropdown'), {
-	ssr: false
+	ssr: false,
 });
 
 interface Props {
@@ -37,7 +37,7 @@ const NewsItemHeaderNav = ({
 									src={imagesWeservNlLoader({
 										url: newsItemData.author_profile_picture,
 										w: 300,
-										h: 300,
+										// h: 300,
 									})}
 									alt=''
 									className={classes.author_profile_picture}

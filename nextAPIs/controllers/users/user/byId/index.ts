@@ -87,9 +87,9 @@ export const updateUserByIdController = async (
 	}
 
 	let sqlQuery = '';
-	let sqlQuerySet = [];
-	let sqlQueryReturning: TTablesColumns[] = [];
-	let sqlQueryParams = [];
+	const sqlQuerySet = [];
+	const sqlQueryReturning: TTablesColumns[] = [];
+	const sqlQueryParams = [];
 	let targetedTable = '';
 	// let sqlQueryParamsIndex = {};
 	let requirePassword = false;

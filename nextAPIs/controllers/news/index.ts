@@ -242,7 +242,7 @@ export const createNewsItemController = async (
 				return response.rows[0];
 			});
 
-		return res.status(200).json(newPost);
+		return res.status(201).json(newPost);
 	} catch (error) {
 		if (news_id_to_delete) {
 			/* const result = */ await pool

@@ -20,12 +20,12 @@ export const getNewsItemBlogContentController = async (
 		throw new Error('Content Not Found :(');
 	}
 
-	if (process.env.NoDE_ENV === 'production') {
-		res.setHeader(
-			'Cache-Control',
-			'public, s-maxage=10, stale-while-revalidate=59'
-		);
-	}
+	// if (process.env.NoDE_ENV === 'production') {
+	// 	res.setHeader(
+	// 		'Cache-Control',
+	// 		'public, s-maxage=10, stale-while-revalidate=59'
+	// 	);
+	// }
 
 	res.status(200).json(result);
 };
