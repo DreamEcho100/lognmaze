@@ -2,6 +2,7 @@ import {
 	ChangeEvent,
 	Dispatch,
 	FC,
+	ReactNode,
 	SetStateAction,
 	TextareaHTMLAttributes,
 } from 'react';
@@ -13,6 +14,7 @@ interface IProps
 	className?: string | ((defaultClassName: string) => string);
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	setValues?: Dispatch<SetStateAction<any>>;
+	children?: ReactNode;
 }
 
 const TextareaComponent: FC<IProps> = ({

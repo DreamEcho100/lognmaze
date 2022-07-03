@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, ReactNode, SetStateAction } from 'react';
 
 import classes from './index.module.css';
 
@@ -8,6 +8,7 @@ interface IProps {
 	defaultClassName?: string;
 	className?: string;
 	setIsDropdownListVisible: Dispatch<SetStateAction<boolean>>;
+	children: ReactNode;
 }
 
 const DropdownMenuItem: FC<IProps> = ({

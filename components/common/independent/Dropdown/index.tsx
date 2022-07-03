@@ -1,4 +1,4 @@
-import { Dispatch, FC, HTMLAttributes, SetStateAction } from 'react';
+import { Dispatch, FC, HTMLAttributes, ReactNode, SetStateAction } from 'react';
 
 import classes from './index.module.css';
 
@@ -10,6 +10,7 @@ interface IProps extends Omit<HTMLAttributes<HTMLElement>, 'className'> {
 	isDropdownListVisible: boolean;
 	setIsDropdownListVisible: Dispatch<SetStateAction<boolean>>;
 	wrapperProps?: IWrapperProps;
+	children: ReactNode;
 }
 
 const DropdownRoot: FC<IProps> = ({

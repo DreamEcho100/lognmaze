@@ -1,10 +1,11 @@
-import { FC, OlHTMLAttributes } from 'react';
+import { FC, OlHTMLAttributes, ReactNode } from 'react';
 
 import classes from './index.module.css';
 
 interface IProps extends Omit<OlHTMLAttributes<HTMLUListElement>, 'className'> {
 	className?: string | ((defaultClassName: string) => string);
 	variant: 'danger';
+	children: ReactNode;
 }
 
 const MessagesListComponent: FC<IProps> = ({

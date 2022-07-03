@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 
 import classes from './index.module.css';
 
@@ -8,6 +8,7 @@ interface IProps {
 	defaultClassName?: string;
 	className?: string;
 	isDropdownListVisible: boolean;
+	children: ReactNode;
 }
 
 const DropdownList: FC<IProps> = ({

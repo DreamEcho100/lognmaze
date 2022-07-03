@@ -1,8 +1,16 @@
-import { FC, MouseEvent, TouchEvent, useEffect, useRef } from 'react';
+import {
+	FC,
+	MouseEvent,
+	ReactNode,
+	TouchEvent,
+	useEffect,
+	useRef,
+} from 'react';
 
 interface IProps {
 	outerSliderClassName?: string;
 	innerSliderClassName?: string;
+	children: ReactNode;
 }
 
 interface IPosRef {

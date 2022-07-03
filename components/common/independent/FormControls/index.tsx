@@ -1,9 +1,10 @@
-import { FC, HTMLAttributes } from 'react';
+import { FC, HTMLAttributes, ReactNode } from 'react';
 
 import classes from './index.module.css';
 
 interface IProps extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
 	className?: string | ((defaultClassName: string) => string);
+	children: ReactNode;
 }
 
 const FormControlsComponent: FC<IProps> = ({

@@ -4,6 +4,7 @@ import {
 	FC,
 	SetStateAction,
 	SelectHTMLAttributes,
+	ReactNode,
 } from 'react';
 
 import classes from './index.module.css';
@@ -13,6 +14,7 @@ interface IProps
 	className?: string | ((defaultClassName: string) => string);
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	setValues?: Dispatch<SetStateAction<any>>;
+	children: ReactNode;
 }
 
 const SelectComponent: FC<IProps> = ({

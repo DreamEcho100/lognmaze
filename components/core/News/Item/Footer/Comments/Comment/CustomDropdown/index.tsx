@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, ReactNode, SetStateAction } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import DropdownRoot from '@commonComponentsIndependent/Dropdown';
@@ -8,6 +8,7 @@ import DropdownList from '@commonComponentsIndependent/Dropdown/List';
 interface IProps {
 	isDropdownListVisible: boolean;
 	setIsDropdownListVisible: Dispatch<SetStateAction<boolean>>;
+	children: ReactNode;
 }
 const CustomDropdown: FC<IProps> = ({
 	isDropdownListVisible,

@@ -1,9 +1,10 @@
-import { FC, HTMLAttributes } from 'react';
+import { FC, HTMLAttributes, ReactNode } from 'react';
 
 import classes from './index.module.css';
 
 interface IProps extends Omit<HTMLAttributes<HTMLElement>, 'className'> {
 	className?: string | ((defaultClassName: string) => string);
+	children: ReactNode;
 }
 
 const FormatContainer: FC<IProps> = ({ className, children, ...props }) => {

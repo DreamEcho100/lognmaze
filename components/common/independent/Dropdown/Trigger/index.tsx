@@ -1,4 +1,10 @@
-import { ButtonHTMLAttributes, Dispatch, FC, SetStateAction } from 'react';
+import {
+	ButtonHTMLAttributes,
+	Dispatch,
+	FC,
+	ReactNode,
+	SetStateAction,
+} from 'react';
 
 import classes from './index.module.css';
 
@@ -8,6 +14,7 @@ interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	defaultClassName?: string;
 	className?: string;
 	setIsDropdownListVisible: Dispatch<SetStateAction<boolean>>;
+	children: ReactNode;
 }
 
 const DropdownTriggerMenu: FC<IProps> = ({

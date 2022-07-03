@@ -3,6 +3,7 @@ import {
 	Dispatch,
 	FC,
 	InputHTMLAttributes,
+	ReactNode,
 	SetStateAction,
 } from 'react';
 
@@ -13,6 +14,7 @@ interface IProps
 	className?: string | ((defaultClassName: string) => string);
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	setValues?: Dispatch<SetStateAction<any>>;
+	children?: ReactNode;
 }
 
 /*
