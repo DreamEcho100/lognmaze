@@ -199,6 +199,76 @@ const reducer = (
 			};
 		}
 
+		case UserContextConstants.UPDATE_DATA_REQUEST_PENDING: {
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					requests: {
+						...state.actions.requests,
+						updateData: {
+							errorMessage: '',
+							isLoading: true,
+							success: false,
+						},
+					},
+				},
+			};
+		}
+		case UserContextConstants.UPDATE_DATA_REQUEST_SUCCESS: {
+			const { updatedUser } = actions.payload;
+			return {
+				...state,
+				data: {
+					...state.data,
+					user: updatedUser,
+				},
+				actions: {
+					...state.actions,
+					requests: {
+						...state.actions.requests,
+						updateData: {
+							errorMessage: '',
+							isLoading: false,
+							success: true,
+						},
+					},
+				},
+			};
+		}
+		case UserContextConstants.UPDATE_DATA_REQUEST_FAIL: {
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					requests: {
+						...state.actions.requests,
+						updateData: {
+							errorMessage: '',
+							isLoading: false,
+							success: false,
+						},
+					},
+				},
+			};
+		}
+		case UserContextConstants.UPDATE_DATA_REQUEST_RESET: {
+			return {
+				...state,
+				actions: {
+					...state.actions,
+					requests: {
+						...state.actions.requests,
+						updateData: {
+							errorMessage: '',
+							isLoading: false,
+							success: false,
+						},
+					},
+				},
+			};
+		}
+
 		default:
 			return state;
 	}

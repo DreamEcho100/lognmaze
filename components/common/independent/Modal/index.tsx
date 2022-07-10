@@ -76,7 +76,7 @@ const ModalComponent: FC<IModalComponentProps> = ({
 	isModalVisible,
 	modalClasses,
 }) => {
-	const isChildrenArray = Array.isArray(children);
+	// const isChildrenArray = Array.isArray(children);
 
 	const modalProps = useRef<{
 		lastElementFocusedBeforeThisModal: Element | null;
@@ -92,73 +92,10 @@ const ModalComponent: FC<IModalComponentProps> = ({
 
 	const ElementSelected = typeof window !== 'undefined' && document.body;
 
-	const findByKey = (name: 'header' | 'body' | 'footer') => {
-		const ModalContainerElementMap = {
-			header: ({ children }: { children: ReactNode }) => (
-				<header
-					className={`${
-						modalClasses?.containerHeader?.default
-							? modalClasses?.containerHeader?.default
-							: classes.modalHeaderDefault
-					} ${modalClasses?.containerHeader?.new || ''}`}
-				>
-					{children}
-				</header>
-			),
-			body: ({ children }: { children: ReactNode }) => (
-				<section
-					className={`${`${
-						modalClasses?.containerBody?.default
-							? modalClasses?.containerBody?.default
-							: classes.modalBodyDefault
-					} ${modalClasses?.containerBody?.new || ''}`} ${
-						!isChildrenArray ? classes.onlyModalBodyExistDefault : ''
-					}`}
-					ref={modalContainerBodyRef}
-				>
-					{children}
-				</section>
-			),
-			footer: ({ children }: { children: ReactNode }) => (
-				<footer
-					className={`${
-						modalClasses?.containerFooter?.default
-							? modalClasses?.containerFooter?.default
-							: classes.modalFooterDefault
-					} ${modalClasses?.containerFooter?.new || ''}`}
-				>
-					{children}
-				</footer>
-			),
-		};
-		if (
-			!children ||
-			typeof children === 'string' ||
-			typeof children === 'number' ||
-			typeof children === 'boolean'
-		)
-			return <></>;
-
-		if (!isChildrenArray) {
-			if (children.key === 'body') {
-				const ModalContainerElement = ModalContainerElementMap[name];
-
-				if (!ModalContainerElement) return <></>;
-
-				return <ModalContainerElement>{children}</ModalContainerElement>;
-			}
-
-			return <></>;
-		}
-
-		const Element = children.filter((child) => child.key === name);
-
-		if (!Element) return <></>;
-
-		const ModalContainerElement = ModalContainerElementMap[name];
-
-		return <ModalContainerElement>{Element}</ModalContainerElement>;
-	};
+	const findByKey = (
+		name: 'header' | 'body' | 'footer',
+		children: JSX.Element[]
+	) => children.filter((child) => child.key === name);
 
 	const getFocusableChildren = () => {
 		const elements: Element[] = [];
@@ -283,14 +220,56 @@ const ModalComponent: FC<IModalComponentProps> = ({
 					>
 						x
 					</button>
-					{isChildrenArray ? (
+					{Array.isArray(children) ? (
 						<>
-							{findByKey('header')}
-							{findByKey('body')}
-							{findByKey('footer')}
+							<header
+								className={`${
+									modalClasses?.containerHeader?.default
+										? modalClasses?.containerHeader?.default
+										: classes.modalHeaderDefault
+								} ${modalClasses?.containerHeader?.new || ''}`}
+							>
+								{findByKey('header', children)}
+							</header>
+							<section
+								className={`${`${
+									modalClasses?.containerBody?.default
+										? modalClasses?.containerBody?.default
+										: classes.modalBodyDefault
+								} ${modalClasses?.containerBody?.new || ''}`} ${
+									!Array.isArray(children)
+										? classes.onlyModalBodyExistDefault
+										: ''
+								}`}
+								ref={modalContainerBodyRef}
+							>
+								{findByKey('body', children)}
+							</section>
+							<footer
+								className={`${
+									modalClasses?.containerFooter?.default
+										? modalClasses?.containerFooter?.default
+										: classes.modalFooterDefault
+								} ${modalClasses?.containerFooter?.new || ''}`}
+							>
+								{findByKey('footer', children)}
+							</footer>
 						</>
 					) : (
-						findByKey('body')
+						<section
+							className={`${`${
+								modalClasses?.containerBody?.default
+									? modalClasses?.containerBody?.default
+									: classes.modalBodyDefault
+							} ${modalClasses?.containerBody?.new || ''}`} ${
+								!Array.isArray(children)
+									? classes.onlyModalBodyExistDefault
+									: ''
+							}`}
+							ref={modalContainerBodyRef}
+						>
+							{children}
+						</section>
 					)}
 				</div>
 				{/* </div> */}

@@ -30,6 +30,11 @@ export interface IUserContextState {
 				isLoading: boolean;
 				success: boolean;
 			};
+			updateData: {
+				errorMessage: string;
+				isLoading: boolean;
+				success: boolean;
+			};
 		};
 
 		init: {
@@ -102,6 +107,20 @@ interface IUserRequestLogoutFail {
 interface IUserRequestLogoutReset {
 	type: typeof UserContextConstants.LOGOUT_REQUEST_RESET;
 }
+interface IUserRequestUpdateDataPending {
+	type: typeof UserContextConstants.UPDATE_DATA_REQUEST_PENDING;
+}
+interface IUserRequestUpdateDataSuccess {
+	type: typeof UserContextConstants.UPDATE_DATA_REQUEST_SUCCESS;
+	payload: { updatedUser: IUserAuthenticatedData };
+}
+interface IUserRequestUpdateDataFail {
+	type: typeof UserContextConstants.UPDATE_DATA_REQUEST_FAIL;
+	payload: { errorMessage: string };
+}
+interface IUserRequestUpdateDataReset {
+	type: typeof UserContextConstants.UPDATE_DATA_REQUEST_RESET;
+}
 
 export type IUserContextReducerAction =
 	| IInitStoreDataPending
@@ -121,7 +140,11 @@ export type IUserContextReducerAction =
 	| IUserRequestLogoutPending
 	| IUserRequestLogoutSuccess
 	| IUserRequestLogoutFail
-	| IUserRequestLogoutReset;
+	| IUserRequestLogoutReset
+	| IUserRequestUpdateDataPending
+	| IUserRequestUpdateDataSuccess
+	| IUserRequestUpdateDataFail
+	| IUserRequestUpdateDataReset;
 
 export type TUserContextDispatch =
 	| Dispatch<IUserContextReducerAction>
@@ -157,5 +180,16 @@ export type TLogoutUserRequestAction = (
 	}
 ) => Promise<void>;
 export type TLogoutUserRequestResetAction = (
+	dispatch: TUserContextDispatch
+) => void;
+
+export type THandleUpdateUserData = (props: {
+	dispatch: TUserContextDispatch;
+	userData: IUserAuthenticatedData;
+	values: { [key: string]: any }; // IUpdateByUserNameIdReqArgs.bodyContent
+	token?: string;
+	password?: string;
+}) => void;
+export type THandleUpdateUserDataRequestResetAction = (
 	dispatch: TUserContextDispatch
 ) => void;

@@ -111,7 +111,10 @@ const UserProfileScreen = () => {
 					<NewsFeed className={classes.NewsFeed} />
 					<div>
 						<SectionWrapper className={classes.sectionWrapper}>
-							<ProfileBioSection bio={profilePageUserData.bio} />
+							<ProfileBioSection
+								bio={profilePageUserData.bio}
+								profilePageVisitorStatus={profilePageVisitorStatus}
+							/>
 						</SectionWrapper>
 						{userData?.id && (
 							<SectionWrapper className={classes.sectionWrapper}>

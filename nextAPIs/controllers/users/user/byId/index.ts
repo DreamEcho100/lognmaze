@@ -81,7 +81,7 @@ export const updateUserByIdController = async (
 
 	const authorizedUser = await isAuthorized(res, req.headers.authorization);
 
-	if (authorizedUser.payload.id !== req.query.user_id) {
+	if (authorizedUser.payload.id !== req.query.byId) {
 		res.status(401);
 		throw new Error("User authorization doesn't allow the access");
 	}
@@ -175,7 +175,7 @@ export const updateUserByIdController = async (
 		.query(sqlQuery, sqlQueryParams)
 		.then((response: { rows: any[] }) => response.rows[0]);
 
-	if (!updatedUser || !updatedUser.id) {
+	if (!updatedUser /*  || !updatedUser.id */) {
 		res.status(404);
 		throw new Error("User/s data doesn't exist");
 	}

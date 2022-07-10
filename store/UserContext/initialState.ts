@@ -19,6 +19,11 @@ export const returnUserContextInitialState = (): IUserContextState => ({
 				isLoading: false,
 				success: false,
 			},
+			updateData: {
+				errorMessage: '',
+				isLoading: false,
+				success: false,
+			},
 		},
 
 		init: {

@@ -7,11 +7,12 @@ export const updateByUserNameIdReqArgs = ({
 	bodyContent,
 	headerList,
 }: IUpdateByUserNameIdReqArgs) => {
-	const requestInfo: RequestInfo = `/api/users/user_name_id${
+	const requestInfo: RequestInfo = `/api/users/user/byId${
 		urlOptions?.queries
 			? '/?' + encodeObjectToUrlQueries(urlOptions.queries)
 			: ''
 	}`;
+	// const requestInfo: RequestInfo = `/api/users/user/byId`;
 	const requestInit: RequestInit = {
 		method: 'PUT',
 		headers: {

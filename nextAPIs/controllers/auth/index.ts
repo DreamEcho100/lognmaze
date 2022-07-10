@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import {
 	hashPassword,
 	jwtGenerator,
-	setUserNameIdToken,
+	// setUserNameIdToken,
 	verifyPassword,
 } from '@coreLib/auth';
 import pool from '@coreLib/db/pg/connection';
@@ -40,7 +40,7 @@ export const authLogin = async (req: NextApiRequest, res: NextApiResponse) => {
 		})
 		.then((response: { rows: any[] }) => response.rows[0]);
 
-	if (!user.id) {
+	if (!user?.id) {
 		res.status(404);
 		throw new Error("User doesn't exist!");
 	}

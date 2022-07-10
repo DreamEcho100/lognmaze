@@ -7,5 +7,5 @@ export interface IUpdateByUserNameIdReqArgs {
 	bodyContent: {
 		[key: string]: any;
 	};
-	headerList: { Authorization: string };
+	headerList: { Authorization?: string };
 }

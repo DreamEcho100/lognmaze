@@ -1,5 +1,7 @@
 import { IUserAuthenticatedData } from '@coreLib/ts/global';
 import {
+	THandleUpdateUserData,
+	THandleUpdateUserDataRequestResetAction,
 	TInitStoreDataAction,
 	TLoginUserRequestAction,
 	TLoginUserRequestResetAction,
@@ -200,6 +202,134 @@ export const logoutUserRequestResetAction: TLogoutUserRequestResetAction = (
 		type: UserContextConstants.LOGOUT_REQUEST_RESET,
 	});
 };
+
+export const handleUpdateUserData: THandleUpdateUserData = async ({
+	dispatch,
+	userData,
+	values = {},
+	password,
+	token,
+}) => {
+	try {
+		dispatch({
+			type: UserContextConstants.UPDATE_DATA_REQUEST_PENDING,
+		});
+		const bodyObj: {
+			targets: {
+				[key: string]: any;
+			};
+			password?: string;
+		} = {
+			targets: values,
+		};
+
+		if (password) bodyObj.password = password;
+
+		const { requestInfo, requestInit } =
+			networkReqArgs._app.users.user.byId.update({
+				bodyContent: bodyObj,
+				headerList: {
+					Authorization: token && returnBearerToken(token),
+				},
+				urlOptions: {
+					queries: {
+						byId: userData.id,
+					},
+				},
+			});
+
+		const { userUpdatedData }: { userUpdatedData: any } = await fetch(
+			requestInfo,
+			requestInit
+		).then((response) => response.json());
+
+		// const accessToken = getCookie('accessToken');
+		// if (!accessToken) throw new Error("Access token wasn't found!");
+
+		const updatedUser = {
+			...userData,
+			...values,
+		};
+
+		ls.set('userData', updatedUser);
+
+		dispatch({
+			type: UserContextConstants.UPDATE_DATA_REQUEST_SUCCESS,
+			payload: {
+				updatedUser,
+			},
+		});
+	} catch (error) {
+		dispatch({
+			type: UserContextConstants.UPDATE_DATA_REQUEST_FAIL,
+			payload: {
+				errorMessage:
+					error instanceof Error
+						? error.message
+						: 'Something wrong happened :(',
+			},
+		});
+	}
+
+	/*
+	const userResult = await fetch('/api/v1/users/user', {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json',
+			authorization: token ? `Bearer ${token}` : undefined,
+		},
+		body: JSON.stringify(bodyObj),
+	})
+		.then((response) => response.json())
+		.catch((error) => {
+			console.error(error.message);
+			return { status: 'error', message: error.message };
+		});
+
+	if (
+		userResult?.status === 'error' ||
+		Object.keys(userResult.data).length === 0
+	) {
+		return {
+			status: 'error',
+			message: userResult.message,
+		};
+	}
+
+	const user_expiry_deadline = getCookie({
+		cookieName: 'user_expiry_deadline',
+		cookieString: document.cookie,
+	});
+
+	const user_data = {
+		...userData,
+		...userResult.data,
+	};
+
+	setCookie({
+		cookieName: 'user_data',
+		cookieValue: JSON.stringify(user_data),
+		expiresDate: new Date(parseInt(user_expiry_deadline)),
+		// domain: process.env.FRONT_END_DOMAIN,
+		path: '/',
+	});
+
+	dispatch({
+		type: types.UPDATE_USER_DATA,
+		payload: { updatedData: userResult.data },
+	});
+
+	return {
+		status: userResult.status,
+		message: userResult.message,
+	};*/
+};
+export const handleUpdateUserDataRequestResetAction: THandleUpdateUserDataRequestResetAction =
+	(dispatch) => {
+		dispatch({
+			type: UserContextConstants.UPDATE_DATA_REQUEST_RESET,
+		});
+	};
 
 /*
 import {
