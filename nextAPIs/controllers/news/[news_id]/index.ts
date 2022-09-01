@@ -17,6 +17,7 @@ export const updateNewsItemController = async (
 	req: NextApiRequestExtended,
 	res: NextApiResponse
 ) => {
+	res.status(400);
 	const bodyContent: IUpdateNewsItemReqArgs['bodyContent'] = {
 		type: req.body.type,
 		dataToUpdate: req.body.dataToUpdate,
