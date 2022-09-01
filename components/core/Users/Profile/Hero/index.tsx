@@ -69,10 +69,11 @@ const UserProfileHero = () => {
 					{profilePageUserData.first_name} {profilePageUserData.last_name}
 				</p>
 				<p title='gender'>
-					{/* {typeof profilePageUserData.gender === 'string'
+					{profilePageUserData.gender === 'male' ||
+					profilePageUserData.gender === 'female'
 						? profilePageUserData.gender[0].toUpperCase() +
 						  profilePageUserData.gender.slice(1)
-						: 'M'} */}
+						: 'Male'}
 				</p>
 				<address>
 					{profilePageUserData.country_of_resident}
