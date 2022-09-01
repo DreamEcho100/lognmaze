@@ -30,6 +30,8 @@ const UserProfilePage: NextPage<IProps> = ({
 		news: [],
 	},
 }) => {
+	console.log('user', user);
+
 	const [
 		{
 			data: { user: userData },
