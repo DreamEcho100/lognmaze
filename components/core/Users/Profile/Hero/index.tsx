@@ -1,93 +1,97 @@
-import classes from './index.module.css';
+import classes from './index.module.css'
 
-import { useUserSharedState } from '@store/UserContext';
-import { useUserProfilePageSharedState } from '@store/ProfilePageContext';
-import { VISITOR_PROFILE_OWNER } from '@coreLib/constants';
+import { useUserSharedState } from '@store/UserContext'
+import { useUserProfilePageSharedState } from '@store/ProfilePageContext'
+import { VISITOR_PROFILE_OWNER } from '@coreLib/constants'
 
-import CustomNextImage from '@commonComponentsDependent/CustomNextImage';
-import { imagesWeservNlLoader } from '@commonLibIndependent/image';
+import CustomNextImage from '@commonComponentsDependent/CustomNextImage'
+import { imagesWeservNlLoader } from '@commonLibIndependent/image'
 // import SectionWrapper from '@commonComponentsIndependent/SectionWrapper';
 
 const UserProfileHero = () => {
-	const [
-		{
-			data: { user: userData },
-		},
-	] = useUserSharedState();
-	const [{ data: profilePageData }] = useUserProfilePageSharedState();
+  const [
+    {
+      data: { user: userData },
+    },
+  ] = useUserSharedState()
+  const [{ data: profilePageData }] = useUserProfilePageSharedState()
 
-	const profilePageVisitorStatus = profilePageData?.visitorStatus;
+  const profilePageVisitorStatus = profilePageData?.visitorStatus
 
-	const profilePageUserData =
-		profilePageVisitorStatus === VISITOR_PROFILE_OWNER && userData
-			? userData
-			: profilePageData?.user;
+  const profilePageUserData =
+    profilePageVisitorStatus === VISITOR_PROFILE_OWNER && userData
+      ? userData
+      : profilePageData?.user
 
-	if (!profilePageUserData?.id) return <></>;
+  if (!profilePageUserData?.id) return <></>
 
-	return (
-		<>
-			<div className={classes.profileAndCoverContainer}>
-				<div className={classes.coverPhotoOuterContainer}>
-					{/* <div className={classes.coverPhotoContainer}> */}
-					<div className={classes.coverPhotoInnerContainer}>
-						{profilePageUserData?.cover_photo && (
-							<CustomNextImage
-								src={imagesWeservNlLoader({
-									url: profilePageUserData.cover_photo,
-									w: 300,
-									// h: 300,
-								})}
-								alt='cover photo'
-								className={classes.coverPhoto}
-								priority
-							/>
-						)}
-					</div>
-					{/* </div> */}
-				</div>
-				<div className={classes.profilePictureOuterContainer}>
-					{/* <div className={classes.profilePictureContainer}> */}
-					<div className={classes.profilePictureInnerContainer}>
-						{profilePageUserData?.profile_picture && (
-							<CustomNextImage
-								src={imagesWeservNlLoader({
-									url: profilePageUserData.profile_picture,
-								})}
-								alt='profile picture'
-								className={classes.profilePicture}
-								priority
-							/>
-						)}
-					</div>
-					{/* </div> */}
-				</div>
-			</div>
-			<div className={classes.basicData}>
-				<p title='user name id'>{profilePageUserData.user_name_id}</p>
-				<p title='user name'>
-					{profilePageUserData.first_name} {profilePageUserData.last_name}
-				</p>
-				<p title='gender'>
-					{profilePageUserData.gender === 'male' ||
-					profilePageUserData.gender === 'female'
-						? profilePageUserData.gender[0].toUpperCase() +
-						  profilePageUserData.gender.slice(1)
-						: 'Male'}
-				</p>
-				<address>
-					{profilePageUserData.country_of_resident}
-					<br />
-					{profilePageUserData.state_of_resident}
-					{profilePageUserData?.city_of_resident && (
-						<>
-							<br /> {profilePageUserData.city_of_resident}
-						</>
-					)}
-				</address>
-			</div>
-		</>
-	);
-};
+  return (
+    <>
+      <div className={classes.profileAndCoverContainer}>
+        <div className={classes.coverPhotoOuterContainer}>
+          {/* <div className={classes.coverPhotoContainer}> */}
+          <div className={classes.coverPhotoInnerContainer}>
+            {profilePageUserData?.cover_photo && (
+              <CustomNextImage
+                src={imagesWeservNlLoader({
+                  url: profilePageUserData.cover_photo,
+                  w: 300,
+                  // h: 300,
+                })}
+                width={300}
+                height={300}
+                alt="cover photo"
+                className={classes.coverPhoto}
+                priority
+              />
+            )}
+          </div>
+          {/* </div> */}
+        </div>
+        <div className={classes.profilePictureOuterContainer}>
+          {/* <div className={classes.profilePictureContainer}> */}
+          <div className={classes.profilePictureInnerContainer}>
+            {profilePageUserData?.profile_picture && (
+              <CustomNextImage
+                src={imagesWeservNlLoader({
+                  url: profilePageUserData.profile_picture,
+                })}
+                width={400}
+                height={400}
+                alt="profile picture"
+                className={classes.profilePicture}
+                priority
+              />
+            )}
+          </div>
+          {/* </div> */}
+        </div>
+      </div>
+      <div className={classes.basicData}>
+        <p title="user name id">{profilePageUserData.user_name_id}</p>
+        <p title="user name">
+          {profilePageUserData.first_name} {profilePageUserData.last_name}
+        </p>
+        <p title="gender">
+          {profilePageUserData.gender === 'male' ||
+          profilePageUserData.gender === 'female'
+            ? profilePageUserData.gender[0].toUpperCase() +
+              profilePageUserData.gender.slice(1)
+            : 'Male'}
+        </p>
+        <address>
+          {profilePageUserData.country_of_resident}
+          <br />
+          {profilePageUserData.state_of_resident}
+          {profilePageUserData?.city_of_resident && (
+            <>
+              <br /> {profilePageUserData.city_of_resident}
+            </>
+          )}
+        </address>
+      </div>
+    </>
+  )
+}
 
-export default UserProfileHero;
+export default UserProfileHero

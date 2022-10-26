@@ -22,7 +22,7 @@ const nextConfig = (phase) => {
 			process.env.UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_API_TOKEN,
 		UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_USER_EMAIL:
 			process.env.UNIVERSAL_TUTORIAL_REST_API_FOR_COUNTRY_STATE_CITY_USER_EMAIL,
-		LOGNMAZE_SITEMAP_TOKEN: process.env.LOGNMAZE_SITEMAP_TOKEN,
+		LOGNMAZE_SITEMAP_TOKEN: process.env.LOGNMAZE_SITEMAP_TOKEN
 	};
 
 	if (phase === PHASE_DEVELOPMENT_SERVER) {
@@ -34,7 +34,7 @@ const nextConfig = (phase) => {
 			PG_CONNECTION_STRING:
 				process.env.DEVELOPMENT_PG_LOCALHOST_CONNECTION_STRING,
 			UPSTASH_REST_API_DOMAIN: process.env.UPSTASH_REST_API_DOMAIN,
-			UPSTASH_REST_API_TOKEN: process.env.UPSTASH_REST_API_TOKEN,
+			UPSTASH_REST_API_TOKEN: process.env.UPSTASH_REST_API_TOKEN
 		};
 	} else {
 		//  process.env.VERCEL_URL
@@ -48,7 +48,7 @@ const nextConfig = (phase) => {
 			PG_CONNECTION_STRING:
 				process.env.PRODUCTION_PG_SUPABASE_CONNECTION_STRING,
 			UPSTASH_REST_API_DOMAIN: process.env.UPSTASH_REST_API_DOMAIN,
-			UPSTASH_REST_API_TOKEN: process.env.UPSTASH_REST_API_TOKEN,
+			UPSTASH_REST_API_TOKEN: process.env.UPSTASH_REST_API_TOKEN
 		};
 	}
 
@@ -67,19 +67,15 @@ const nextConfig = (phase) => {
 		eslint: {
 			// Warning: This allows production builds to successfully complete even if
 			// your project has ESLint errors.
-			ignoreDuringBuilds: true,
+			ignoreDuringBuilds: true
 		},
 		swcMinify: true,
-		experimental: {
-			images: { allowFutureImage: true },
-			// hydrateRoot: true
-		},
 		compiler: {
 			removeConsole:
 				process.env.NODE_ENV === 'production'
 					? { exclude: ['error', 'warn'] }
-					: false,
-		},
+					: false
+		}
 	};
 };
 

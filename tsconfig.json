@@ -45,7 +45,9 @@
 		"require-await": "off",
 		"@typescript-eslint/require-await": 1,
 		"no-extra-semi": "off",
-		"@typescript-eslint/no-extra-semi": [1]
+		"@typescript-eslint/no-extra-semi": 1,
+		"@typescript-eslint/no-explicit-any": "off",
+		"no-mixed-spaces-and-tabs": "off"
 		// "no-extra-parens": "off",
 		// "@typescript-eslint/no-extra-parens": ["error"]
 		// "brace-style": "off",

@@ -1,20 +1,20 @@
-import { FC } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FC } from 'react'
+import { FaCommentSlash, FaComment, FaComments } from 'react-icons/fa'
 
-import classes from './index.module.css';
+import classes from './index.module.css'
 
 interface IProps {
-	comments_counter: number;
-	isCommentsVisible: boolean;
-	handleSetIsCommentsVisible: (isCommentsVisible?: boolean) => void;
+  comments_counter: number
+  isCommentsVisible: boolean
+  handleSetIsCommentsVisible: (isCommentsVisible?: boolean) => void
 }
 
 const Status: FC<IProps> = ({
-	isCommentsVisible,
-	handleSetIsCommentsVisible,
-	comments_counter,
+  isCommentsVisible,
+  handleSetIsCommentsVisible,
+  comments_counter,
 }) => {
-	/*
+  /*
 	const handleInitGetNewsItemCommentsMain = async () => {
 		if (
 			!initGetMainComments ||
@@ -40,9 +40,9 @@ const Status: FC<IProps> = ({
 	};
 	*/
 
-	return (
-		<div className={classes.status}>
-			{/* <div className={`${classes.votes} ${classes['status-item']}`}>
+  return (
+    <div className={classes.status}>
+      {/* <div className={`${classes.votes} ${classes['status-item']}`}>
 				<button
 					title='Up Vote'
 					className={`${classes.vote} ${classes['up-vote']}`}
@@ -59,30 +59,33 @@ const Status: FC<IProps> = ({
 					{newsItemData.down_votes_counter}
 				</button>
 			</div> */}
-			<div
-				onClick={() => {
-					if (!isCommentsVisible) handleSetIsCommentsVisible();
-					// handleInitGetNewsItemCommentsMain();
-				}}
-				className={`${classes.comments_counter} ${classes['status-item']}`}
-			>
-				{comments_counter === 0 ? (
-					<button title='No Comment'>
-						<FontAwesomeIcon icon={['fas', 'comment-slash']} />{' '}
-						{comments_counter}
-					</button>
-				) : comments_counter === 1 ? (
-					<button title='1 Comment'>
-						<FontAwesomeIcon icon={['fas', 'comment']} /> {comments_counter}
-					</button>
-				) : (
-					<button title={`${comments_counter} Comments`}>
-						<FontAwesomeIcon icon={['fas', 'comments']} /> {comments_counter}
-					</button>
-				)}{' '}
-			</div>
-		</div>
-	);
-};
+      <div
+        onClick={() => {
+          if (!isCommentsVisible) handleSetIsCommentsVisible()
+          // handleInitGetNewsItemCommentsMain();
+        }}
+        className={`${classes.comments_counter} ${classes['status-item']}`}
+      >
+        {comments_counter === 0 ? (
+          <button title="No Comment">
+            <FaCommentSlash />
+            &nbsp;
+            {comments_counter}
+          </button>
+        ) : comments_counter === 1 ? (
+          <button title="1 Comment">
+            <FaComment />
+            &nbsp;{comments_counter}
+          </button>
+        ) : (
+          <button title={`${comments_counter} Comments`}>
+            <FaComments />
+            &nbsp;{comments_counter}
+          </button>
+        )}{' '}
+      </div>
+    </div>
+  )
+}
 
-export default Status;
+export default Status

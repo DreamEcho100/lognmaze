@@ -1,5 +1,5 @@
 import { Dispatch, FC, ReactNode, SetStateAction } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FaEllipsisV } from 'react-icons/fa';
 
 import DropdownRoot from '@commonComponentsIndependent/Dropdown';
 import DropdownTriggerMenu from '@commonComponentsIndependent/Dropdown/Trigger';
@@ -25,7 +25,7 @@ const CustomDropdown: FC<IProps> = ({
 					title='News item setting button'
 					setIsDropdownListVisible={setIsDropdownListVisible}
 				>
-					<FontAwesomeIcon icon={['fas', 'ellipsis-v']} />
+					<FaEllipsisV />
 				</DropdownTriggerMenu>
 
 				<DropdownList isDropdownListVisible={isDropdownListVisible}>
