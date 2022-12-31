@@ -421,8 +421,8 @@ const CreativeWorkBlogPost = ({
 				<CustomNextImage
 					src={data.typeData.thumbnailUrl}
 					alt={data.typeData.title}
-					width={500}
-					height={300}
+					width={1024}
+					height={800}
 					className='h-full w-full object-contain object-center'
 					{...thumbnailProps}
 				/>

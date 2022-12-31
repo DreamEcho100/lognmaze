@@ -74,8 +74,8 @@ const MdToHTMLFormatter: FC<Props> = ({ content }) => {
 			return (
 				<CustomNextImage
 					src={image.src}
-					width={800}
-					height={500}
+					width={1024}
+					height={800}
 					alt={image.alt}
 				/>
 			);

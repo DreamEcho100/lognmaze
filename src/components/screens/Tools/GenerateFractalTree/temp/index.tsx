@@ -588,7 +588,7 @@ const FractalTreeScreen = () => {
 
 					<div className={classes.canvasSection}>
 						<div className={classes.canvasContainer}>
-							<canvas width={800} height={500} ref={canvasRef}></canvas>
+							<canvas width={1024} height={800} ref={canvasRef}></canvas>
 						</div>
 						<button
 							className={classes.generateRandomTreeButton}
