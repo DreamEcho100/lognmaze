@@ -22,7 +22,6 @@ const CreatePostForm = ({
 		<>
 			<PostForm
 				{...props}
-				onAddingCreativeWork={onAddingCreativeWork}
 				handleOnSubmit={async (event, data) => {
 					event.preventDefault();
 

@@ -8,10 +8,10 @@ import type {
 	SetStateAction,
 	SelectHTMLAttributes
 } from 'react';
-import { cx, VariantProps } from 'class-variance-authority';
+import type { VariantProps } from 'class-variance-authority';
 
 import { useId, useMemo } from 'react';
-import { cva } from 'class-variance-authority';
+import { cva, cx } from 'class-variance-authority';
 import { FaChevronDown } from 'react-icons/fa';
 
 interface ISharedFieldProps<T> {
@@ -30,15 +30,13 @@ interface ISharedFieldProps<T> {
 
 type TFormFieldInput<T> = InputHTMLAttributes<HTMLInputElement> &
 	ISharedFieldProps<T> & {
-		isATextarea?: false;
-		isADropdown?: false;
+		isA?: '';
 	};
 
-type TFormFieldComboBox<T> = SelectHTMLAttributes<HTMLSelectElement> &
+type TFormFieldDropdown<T> = SelectHTMLAttributes<HTMLSelectElement> &
 	ISharedFieldProps<T> & {
 		options?: OptionHTMLAttributes<HTMLOptionElement>[];
-		isATextarea?: false;
-		isADropdown: true;
+		isA: 'dropdown';
 		selectContainerVariants?: VariantProps<
 			typeof handleSelectContainerVariants
 		>;
@@ -49,19 +47,14 @@ type TFormFieldComboBox<T> = SelectHTMLAttributes<HTMLSelectElement> &
 
 type TFormFieldTextarea<T> = TextareaHTMLAttributes<HTMLTextAreaElement> &
 	ISharedFieldProps<T> & {
-		isATextarea: true;
-		isADropdown?: false;
+		isA: 'textarea';
 	};
 
-const TextareaField = <T,>({
-	isATextarea,
-	...props
-}: TFormFieldTextarea<T>) => {
+const TextareaField = <T,>(props: Omit<TFormFieldTextarea<T>, 'isA'>) => {
 	return <textarea rows={7.5} {...props} />;
 };
 
 const DropdownField = <T,>({
-	isADropdown,
 	children,
 	selectContainerVariants,
 	selectArrowVariants,
@@ -69,7 +62,7 @@ const DropdownField = <T,>({
 	selectArrowProps = {},
 	options,
 	...props
-}: TFormFieldComboBox<T>) => {
+}: Omit<TFormFieldDropdown<T>, 'isA'>) => {
 	return (
 		<div
 			{...selectContainerProps}
@@ -228,6 +221,16 @@ const handleTextareaVariants = cva(
 	}
 );
 
+const isATextarea = <T,>(
+	isA: unknown,
+	props: unknown
+): props is TFormFieldTextarea<T> => isA === 'textarea';
+
+const isADropdown = <T,>(
+	isA: unknown,
+	props: unknown
+): props is TFormFieldDropdown<T> => isA === 'dropdown';
+
 const FormField = <T,>({
 	labelVariants,
 	labelTextVariants,
@@ -241,17 +244,19 @@ const FormField = <T,>({
 	setValues,
 	values,
 	className = '',
-	...props
-}: TFormFieldInput<T> | TFormFieldTextarea<T> | TFormFieldComboBox<T>) => {
+	isA,
+	name,
+	onChange: _onChange,
+	value: _value,
+	..._props
+}: TFormFieldInput<T> | TFormFieldTextarea<T> | TFormFieldDropdown<T>) => {
 	const id = useId();
 
 	const onChange = useMemo(() => {
-		let onChange = props.onChange;
+		let onChange = _onChange;
 
-		if (setValues && typeof props.name === 'string') {
-			const name = props.name;
-
-			onChange = (event: Parameters<NonNullable<typeof onChange>>[0]) => {
+		if (setValues && typeof name === 'string') {
+			onChange = (event: Parameters<NonNullable<typeof _onChange>>[0]) => {
 				setValues((prev) => {
 					if (typeof prev !== 'object') return prev;
 
@@ -275,19 +280,17 @@ const FormField = <T,>({
 		}
 
 		return onChange;
-	}, [props.name, props.onChange, setValues]);
+	}, [_onChange, name, setValues]);
 
 	const value = useMemo(() => {
-		let value = props.value;
+		let value = _value;
 
 		if (
 			values &&
 			typeof values === 'object' &&
-			typeof props.name === 'string' &&
-			props.name in values
+			typeof name === 'string' &&
+			name in values
 		) {
-			const name = props.name as keyof typeof values;
-
 			const valuesTarget = values[name];
 			if (typeof valuesTarget === 'string') value = valuesTarget || '';
 
@@ -301,19 +304,21 @@ const FormField = <T,>({
 					dateArr[0]!.length === 1 ? `0${dateArr[0]}` : dateArr[0]
 				}-${dateArr[1]!.length === 1 ? `0${dateArr[1]}` : dateArr[1]}`;
 			}
-			//new Date().toLocaleDateString("en");
-			// `${valuesTarget.getFullYear()}-${add0IfLengthLessThan(
-			//     (valuesTarget.getMonth() + 1).toString(),
-			//     2
-			//   )}-${add0IfLengthLessThan(valuesTarget.getDay().toString(), 2)}`;
 		}
-		new Date().toDateString();
 
 		return value;
-	}, [props.name, props.value, values]);
+	}, [_value, name, values]);
 
 	const labelChildrenExist =
 		labelText || labelChildren || labelChildrenContainer?.children;
+
+	const props = {
+		id,
+		..._props,
+		onChange,
+		value,
+		name
+	};
 
 	return (
 		<label
@@ -329,27 +334,20 @@ const FormField = <T,>({
 					{labelChildrenExist}
 				</span>
 			)}
-			{props.isATextarea ? (
+			{isATextarea<T>(isA, props) ? (
 				<TextareaField<T>
-					id={id}
 					className={`${className} ${handleTextareaVariants(textareaVariants)}`}
 					{...props}
-					onChange={onChange as typeof props.onChange}
-					value={value}
 				/>
-			) : props.isADropdown ? (
+			) : isADropdown<T>(isA, props) ? (
 				<DropdownField<T>
-					id={id}
 					className={`${className} ${handleSelectVariants(selectVariants)}`}
 					{...props}
-					onChange={onChange as typeof props.onChange}
-					value={value}
 				/>
 			) : (
 				// 	: props.type === "checkbox" ? (
 				// <CheckBox
 				//   noLabel
-				//   id={id}
 				//   {...props}
 				//   onChange={onChange as typeof props.onChange}
 				//   value={value}
@@ -357,11 +355,8 @@ const FormField = <T,>({
 				// 	)
 				<input
 					type='text'
-					id={id}
 					className={`${className} ${handleInputVariants(inputVariants)}`}
-					{...props}
-					onChange={onChange as typeof props.onChange}
-					value={value}
+					{...(props as TFormFieldInput<T>)}
 				/>
 			)}
 		</label>

@@ -56,10 +56,10 @@ const CustomNextImage = ({
 							_src.startsWith('/') ? `${websiteBasePath}/${_src}` : _src
 					  )}&w=${props.width}${props.height ? `&h=${props.height}` : ''}${
 							isAnimated ? '&n=-1' : ''
-					  }&output=webp`
+					  }&output=webp&q=90`
 					: _src,
 			className: `${className} ${isLoaded ? '' : 'no-content'}`,
-			onLoadingComplete: (img) => {
+			onLoadingComplete: () => {
 				setIsLoaded(true);
 			},
 			unoptimized,

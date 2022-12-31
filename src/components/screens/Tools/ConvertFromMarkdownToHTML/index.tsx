@@ -56,7 +56,7 @@ const ConvertFromMarkdownToHTMLAppScreen = () => {
 						</header>
 						<div>
 							<FormField
-								isATextarea
+								isA='textarea'
 								setValues={setValues}
 								name='mdContent'
 								values={values}

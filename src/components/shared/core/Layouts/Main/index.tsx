@@ -113,7 +113,7 @@ const CompleteUserProfile = () => {
 					/>
 				</fieldset>
 				<FormField
-					isATextarea
+					isA='textarea'
 					labelText='bio'
 					name='bio'
 					values={formValues}

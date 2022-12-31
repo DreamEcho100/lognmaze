@@ -134,7 +134,7 @@ const BlogPostForm = ({
 			}}
 		>
 			<FormField
-				isADropdown
+				isA='dropdown'
 				options={creativeWorkStatusOptions}
 				values={creativeWorkValues}
 				setValues={setCreativeWork}
@@ -144,7 +144,7 @@ const BlogPostForm = ({
 				labelTextVariants={{ w: '20%max-6rem' }}
 			/>
 			<FormField
-				isADropdown
+				isA='dropdown'
 				options={LangsOptions}
 				values={typeDataValues}
 				setValues={setBlogPostValues}
@@ -186,7 +186,7 @@ const BlogPostForm = ({
 				}}
 			/>
 			<FormField
-				isATextarea
+				isA='textarea'
 				values={typeDataValues}
 				setValues={setBlogPostValues}
 				name='description'
@@ -196,7 +196,7 @@ const BlogPostForm = ({
 			/>
 			{/* toLoadContentIfNotFound? */}
 			<FormField
-				isATextarea
+				isA='textarea'
 				values={typeDataValues}
 				setValues={setBlogPostValues}
 				name='content'

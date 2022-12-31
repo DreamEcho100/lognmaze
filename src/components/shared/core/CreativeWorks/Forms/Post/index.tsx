@@ -1,13 +1,13 @@
 import type { inferRouterInputs } from '@trpc/server';
 import type { AppRouter } from '@server/trpc/router/_app';
 import type { FormEvent } from 'react';
+import type { TOnAddingCreativeWork } from '../utils/ts';
 
 import { CreativeWorkStatus } from '@prisma/client';
 import { useMemo, useState } from 'react';
 import FormField from '@components/shared/common/FormField';
 import SelectTags from '@components/shared/common/SelectTags';
 import Button from '@components/shared/common/Button';
-import { TOnAddingCreativeWork } from '../utils/ts';
 // import {
 // 	defaultLang,
 // 	IETF_BCP_47_STANDARD,
@@ -29,7 +29,6 @@ type PostFormInitProps = {
 };
 
 export type PostFormProps = PostFormInitProps & {
-	onAddingCreativeWork?: TOnAddingCreativeWork;
 	handleOnSubmit: (
 		event: FormEvent,
 		data: {
@@ -51,7 +50,6 @@ const PostForm = ({
 		status: CreativeWorkStatus.PUBLIC
 	},
 	tagsDefaults = [],
-	onAddingCreativeWork,
 	handleOnSubmit,
 	resetFormOnSuccessfulSubmission,
 	disabled
@@ -99,7 +97,7 @@ const PostForm = ({
 			}}
 		>
 			<FormField
-				isADropdown
+				isA='dropdown'
 				options={creativeWorkStatusOptions}
 				values={creativeWorkValues}
 				setValues={setCreativeWork}
@@ -109,7 +107,7 @@ const PostForm = ({
 				labelTextVariants={{ w: '20%max-6rem' }}
 			/>
 			{/* <FormField
-				isADropdown
+				isA='dropdown'
 				options={LangsOptions}
 				values={typeDataValues}
 				setValues={setPostValues}
@@ -120,7 +118,7 @@ const PostForm = ({
 				title={selectedLang?.description}
 			/> */}
 			<FormField
-				isATextarea
+				isA='textarea'
 				values={typeDataValues}
 				setValues={setPostValues}
 				name='content'

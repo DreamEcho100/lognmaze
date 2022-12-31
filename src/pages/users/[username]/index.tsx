@@ -95,8 +95,8 @@ const UserProfilePage: NextPage<UserProfilePageProps> = (props) => {
 					<CustomNextImage
 						priority
 						src={userData.profile.coverPhoto || '/svgs/bbblurry.svg'}
-						width={400}
-						height={1024}
+						width={1800}
+						height={400}
 						className='absolute top-0 right-0 bottom-0 left-0 aspect-video h-full w-full object-cover'
 					/>
 					<CustomNextImage

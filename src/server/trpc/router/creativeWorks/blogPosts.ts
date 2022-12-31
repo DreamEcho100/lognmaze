@@ -6,11 +6,9 @@ import {
 	checkIfIsAuthor,
 	CheckIfUserInSessionExist
 } from '@server/trpc/trpc';
-import type { OmitPickAndSetToNonNullable } from '@server/ts';
+import type { TCreativeWorkBlogPost } from '@ts/index';
 
 import { TRPCError } from '@trpc/server';
-
-import { TCreativeWorkBlogPost } from '@ts/index';
 
 import { z } from 'zod';
 
@@ -124,29 +122,3 @@ export const blogPostsRouter = router({
 			return data;
 		})
 });
-
-/*
-'{ profile: { work: string; education: string; firstName: string; lastName: string; profilePicture: string | null; } | null; name: string; }' is not assignable to type '{ name: string; profile: { firstName: string; lastName: string; education: string; work: string; profilePicture: string | null; }; }'.
-*/
-
-type tt = {
-	profile: {
-		work: string;
-		education: string;
-		firstName: string;
-		lastName: string;
-		profilePicture: string | null;
-	} | null;
-	name: string;
-};
-
-type ttt = {
-	name: string;
-	profile: {
-		firstName: string;
-		lastName: string;
-		education: string;
-		work: string;
-		profilePicture: string | null;
-	};
-};

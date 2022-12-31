@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react';
+import type { InputHTMLAttributes } from 'react';
 interface TFieldsetInput {
 	name: string;
 	type: string;
@@ -14,8 +14,8 @@ export const canvasPropertiesFieldsetInputs: TFieldsetInput[] = [
 		label: 'Canvas Width',
 		id: 'canvasWidth',
 		extraInputProps: {
-			min: 1,
-		},
+			min: 1
+		}
 	},
 	{
 		name: 'height',
@@ -23,9 +23,9 @@ export const canvasPropertiesFieldsetInputs: TFieldsetInput[] = [
 		label: 'Canvas Height',
 		id: 'canvasHeight',
 		extraInputProps: {
-			min: 1,
-		},
-	},
+			min: 1
+		}
+	}
 ];
 
 export const treePropertiesFieldsetInputs: TFieldsetInput[] = [
@@ -33,31 +33,31 @@ export const treePropertiesFieldsetInputs: TFieldsetInput[] = [
 		label: 'Initial Start X',
 		type: 'number',
 		name: 'initialStartX',
-		id: 'initialStartX',
+		id: 'initialStartX'
 	},
 	{
 		label: 'Initial Start Y',
 		type: 'number',
 		name: 'initialStartY',
-		id: 'initialStartY',
+		id: 'initialStartY'
 	},
 	{
 		label: 'Initial Shape Length X',
 		type: 'number',
 		name: 'initialShapeLength',
-		id: 'initialShapeLength',
+		id: 'initialShapeLength'
 	},
 	{
 		label: 'Initial Angle',
 		type: 'number',
 		name: 'initialAngle',
-		id: 'initialAngle',
+		id: 'initialAngle'
 	},
 	{
 		label: 'Initial Branch Width',
 		type: 'number',
 		name: 'initialBranchWidth',
-		id: 'initialBranchWidth',
+		id: 'initialBranchWidth'
 	},
 	{ label: 'InputComponent', type: 'color', name: 'color1', id: 'color1' },
 	{ label: 'InputComponent', type: 'color', name: 'color2', id: 'color2' },
@@ -65,18 +65,18 @@ export const treePropertiesFieldsetInputs: TFieldsetInput[] = [
 		label: 'Initial Curve 1',
 		type: 'number',
 		name: 'initialCurve1',
-		id: 'initialCurve1',
+		id: 'initialCurve1'
 	},
 	{
 		label: 'Initial Curve 2',
 		type: 'number',
 		name: 'initialCurve2',
-		id: 'initialCurve2',
+		id: 'initialCurve2'
 	},
 	{
 		label: 'Shape Length Min Limit',
 		type: 'number',
 		name: 'shapeLengthMinLimit',
-		id: 'shapeLengthMinLimit',
-	},
+		id: 'shapeLengthMinLimit'
+	}
 ];

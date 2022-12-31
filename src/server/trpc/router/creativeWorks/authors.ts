@@ -1,7 +1,8 @@
-import { CreativeWorkStatus, CreativeWorkType, Tag } from '@prisma/client';
+import type { Tag } from '@prisma/client';
+import type { OmitPickAndSetToNonNullable } from '@server/ts';
 
+import { CreativeWorkStatus, CreativeWorkType } from '@prisma/client';
 import { router, haveAuthorPrivilegesProcedure } from '@server/trpc/trpc';
-import { type OmitPickAndSetToNonNullable } from '@server/ts';
 import { updateCreativeWorkTags } from '@server/utils/core/controllers';
 
 import { z } from 'zod';
@@ -77,12 +78,14 @@ export const blogPostsRouter = router({
 							slug,
 							thumbnailUrl: input.typeData.thumbnailUrl,
 							title: input.typeData.title,
+							updatedAt: null,
 							languageTag: {
 								connect: { id: input.typeData.languageTagId }
 							},
 							// discussionForum: { connect: { id: discussionForm.id } }
 							discussionForum: {
 								create: {
+									updatedAt: null,
 									creativeWork: {
 										create: {
 											authorId: input.authorId,
@@ -219,9 +222,11 @@ export const postsRouter = router({
 					post: {
 						create: {
 							content: input.typeData.content,
+							updatedAt: null,
 							// discussionForum: { connect: { id: discussionForm.id } }
 							discussionForum: {
 								create: {
+									updatedAt: null,
 									creativeWork: {
 										create: {
 											authorId: input.authorId,
@@ -351,7 +356,8 @@ export const discussionFormsPostsRouter = router({
 					discussionForumPost: {
 						create: {
 							content: input.discussionForumPost.content,
-							discussionForumId: input.discussionForumPost.discussionForumId
+							discussionForumId: input.discussionForumPost.discussionForumId,
+							updatedAt: null
 						}
 					}
 				},

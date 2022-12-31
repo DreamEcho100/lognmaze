@@ -5,8 +5,9 @@ import { withSuperjson } from 'next-superjson'
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
  * This is especially useful for Docker builds.
  */
-// !process.env.SKIP_ENV_VALIDATION &&
-//   (async () => await import('./src/env/server.mjs'))()
+
+!process.env.SKIP_ENV_VALIDATION &&
+  (async () => await import('./src/env/server.mjs'))()
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -44,6 +45,12 @@ const config = {
     ]
   },
 }
+
+// import bundleAnalyzer from '@next/bundle-analyzer'
+// const withBundleAnalyzer = bundleAnalyzer({
+//   enabled: !!process.env.ANALYZE,
+// })
+// const nextConfig = withBundleAnalyzer(withSuperjson()(config))
 
 const nextConfig = withSuperjson()(config)
 
