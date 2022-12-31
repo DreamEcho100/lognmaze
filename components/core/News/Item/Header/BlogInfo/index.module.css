@@ -1,7 +1,0 @@
-.img_wrapper {
-	width: 100%;
-	margin: var(--padding-main-1-half) 0;
-	aspect-ratio: 16 /9;
-	display: block;
-	height: auto;
-}

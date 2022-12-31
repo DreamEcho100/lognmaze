@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"target": "es5",
+		"target": "es2017",
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
 		"skipLibCheck": true,
@@ -14,54 +14,48 @@
 		"isolatedModules": true,
 		"jsx": "preserve",
 		"incremental": true,
-		"downlevelIteration": true /* Emit more compliant, but verbose and less performant JavaScript for iteration. */,
-		"baseUrl": "./",
+		"noUncheckedIndexedAccess": true,
+		"baseUrl": ".",
 		"paths": {
-			"@data/*": ["data/*"],
-			"@coreComponents/*": ["components/core/*"],
-			"@commonComponentsDependent/*": ["components/common/dependent/*"],
-			"@commonComponentsIndependent/*": ["components/common/independent/*"],
-			"@coreLib/*": ["libs/core/*"],
-			// "@commonLib/*": ["libs/common/*"],
-			"@commonLibDependent/*": ["libs/common/dependent/*"],
-			"@commonLibIndependent/*": ["libs/common/independent/*"],
-			"@screens/*": ["screens/*"],
-			"@nextAPIs/*": ["nextAPIs/*"],
-			"@styles/*": ["styles/*"],
-			"@store/*": ["store/*"]
-		}
-		// "plugins": ["@typescript-eslint", "react-hooks", "react"]
+			// "@app/*": ["./src/app/*"],
+			"@components/*": ["./src/components/*"],
+			"@env/*": ["./src/env/*"],
+			"@pages/*": ["./src/pages/*"],
+			"@styles/*": ["./src/styles/*"],
+			"@server/*": ["./src/server/*"],
+			"@ts/*": ["./src/types/*"],
+			"@utils/*": ["./src/utils/*"]
+		},
+		"plugins": [
+			{
+				"name": "next"
+			}
+		]
 	},
-	"rules": {
-		// 	"no-unused-vars": [1, { "args": "after-used", "argsIgnorePattern": "^_" }]
-		// "@typescript-eslint/no-unused-vars": ["error"],
-		// "noUnusedLocals": true,
-		// "noUnusedParameters": true
-		"no-unused-vars": "off",
-		"@typescript-eslint/no-unused-vars": [
-			1,
-			{ "args": "after-used", "argsIgnorePattern": "^_" }
-		],
-		"require-await": "off",
-		"@typescript-eslint/require-await": 1,
-		"no-extra-semi": "off",
-		"@typescript-eslint/no-extra-semi": 1,
-		"@typescript-eslint/no-explicit-any": "off",
-		"no-mixed-spaces-and-tabs": "off"
-		// "no-extra-parens": "off",
-		// "@typescript-eslint/no-extra-parens": ["error"]
-		// "brace-style": "off",
-		// "@typescript-eslint/brace-style": ["error"]
-	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-	"exclude": [
-		"node_modules",
-		"___",
-		"**/___/*",
-		"**/___/*.ts",
-		"**/___/*.tsx",
-		"___deprecated",
-		"___old",
-		"./temp/**"
-	]
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.json",
+		"**/*.tsx",
+		"**/*.cjs",
+		"**/*.mjs",
+		"prisma/seed",
+		".next/types/**/*.ts"
+	],
+	"exclude": ["node_modules", "/___old", "___do_not_commit"],
+	// This is an alias to @tsconfig/node16: https://github.com/tsconfig/bases
+	// "extends": "ts-node/node16/tsconfig.json",
+	// Most ts-node options can be specified here using their programmatic names.
+	"ts-node": {
+		// https://github.com/TypeStrong/ts-node
+		"swc": true,
+		// Do not forget to `npm i -D tsconfig-paths`
+		"require": ["tsconfig-paths/register"],
+		"esm": true,
+		"experimentalSpecifierResolution": "node",
+		// It is faster to skip typechecking.
+		// Remove if you want ts-node to do typechecking.
+		"transpileOnly": true
+		// "files": true
+	}
 }

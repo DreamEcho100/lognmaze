@@ -1,14 +1,11 @@
 {
-	"extends": [
-		"next/core-web-vitals",
-		"eslint:recommended",
-		"plugin:@typescript-eslint/eslint-recommended",
-		"plugin:@typescript-eslint/recommended"
-	],
-	// "extends": ["next", "next/core-web-vitals", "eslint:recommended"],
-	"globals": {
-		"React": "readonly",
-		"JSX": "readonly",
-		"NodeJS": "readonly"
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"project": "./tsconfig.json"
+	},
+	"plugins": ["@typescript-eslint"],
+	"extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+	"rules": {
+		"@typescript-eslint/consistent-type-imports": "warn"
 	}
 }

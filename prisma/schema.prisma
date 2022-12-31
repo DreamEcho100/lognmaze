@@ -1,0 +1,378 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// NOTE: When using postgresql, mysql or sqlserver, undiscussionForumPost the @db.Text annotations in model Account below
+// https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
+// https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
+// Further reading:
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+// Next steps:
+//   yarn prisma db push
+//   yarn dev
+
+// model Example {
+//   id        String   @id @default(uuid())
+//   createdAt DateTime @default(now()) @map("created_at")
+//   updatedAt DateTime? @updatedAt @map("updated_at")
+// }
+
+// https://pris.ly/d/relation-mode-prisma-indexes
+
+enum UserGender {
+  M
+  F
+}
+
+enum CreativeWorkType {
+  POST
+  BLOG_POST
+  DISCUSSION_FORUM
+  DISCUSSION_FORUM_POST
+}
+
+enum CreativeWorkStatus {
+  PUBLIC
+  PRIVATE
+  DELETED
+}
+
+enum LanguageTagType {
+  IETF_BCP_47_STANDARD
+}
+
+enum Role {
+  USER
+  AUTHOR
+  ADMIN
+}
+
+// Necessary for Next auth
+model Account {
+  id                String   @id @default(uuid())
+  userId            String   @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String   @map("provider_account_id")
+  refresh_token     String?  @db.Text
+  access_token      String?  @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?  @db.Text
+  session_state     String?
+  createdAt         DateTime @default(now()) @map("created_at")
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([createdAt(sort: Desc)])
+  @@map("accounts")
+}
+
+model Session {
+  id           String @id @default(uuid())
+  sessionToken String @unique @map("session_token")
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  expires DateTime
+
+  @@index([createdAt(sort: Desc)])
+  @@map("sessions")
+}
+
+model User {
+  id String @id @default(uuid())
+
+  name          String    @unique
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  role          Role?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  // updatedAt DateTime? @updatedAt @map("updated_at")
+
+  // profileId String?      @unique @map("profile_id")
+  // profile UserProfile? @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  profile         UserProfile?
+  basicStatistics UserBasicStatistics?
+  accounts        Account[]
+  sessions        Session[]
+  creativeWorks   CreativeWork[]
+
+  ratingsForCreativeWork UserRatingForCreativeWork[]
+  // creativeWorksRatings RatingForCreativeWork[]
+
+  @@index([createdAt(sort: Desc)])
+  @@map("users")
+}
+
+model UserProfile {
+  id String @id @default(uuid())
+
+  // user User?
+  userId String @unique @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  firstName      String  @map("first_name")
+  lastName       String  @map("last_name")
+  bio            String? @db.Text // <= 200
+  profilePicture String? @map("profile_picture")
+  coverPhoto     String? @map("cover_photo")
+
+  gender     UserGender @default(M)
+  genderData Gender     @relation(fields: [gender], references: [name], onDelete: Cascade)
+
+  work     String
+  workData Work   @relation(fields: [work], references: [name], onDelete: Cascade)
+
+  education     String
+  educationData Education @relation(fields: [education], references: [name], onDelete: Cascade)
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  @@index([createdAt(sort: Desc)])
+  @@map("users_profiles")
+}
+
+model Work {
+  name  String @id
+  count Int    @default(0)
+
+  UserProfile UserProfile[]
+
+  @@map("works")
+}
+
+model Education {
+  name  String @id
+  count Int    @default(0)
+
+  UserProfile UserProfile[]
+
+  @@map("educations")
+}
+
+model Gender {
+  name  UserGender @id
+  count Int        @default(0)
+
+  UserProfile UserProfile[]
+
+  @@map("genders")
+}
+
+// work
+// education
+
+model UserBasicStatistics {
+  id String @id @default(uuid())
+
+  userId String @unique @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  postsCount                Int @default(0) @map("posts_count")
+  blogPostsCount            Int @default(0) @map("blog_posts_count")
+  discussionForumsCount     Int @default(0) @map("discussion_forums_count")
+  discussionForumPostsCount Int @default(0) @map("discussion_forum_posts_count")
+
+  @@map("users_basic_statistics")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model LanguageTag {
+  id          String          @id
+  // languageTag  String @id
+  code        String          @map("code")
+  name        String
+  countryCode String          @map("country_code")
+  region      String
+  description String?
+  type        LanguageTagType @default(IETF_BCP_47_STANDARD)
+
+  blogPosts BlogPost[]
+
+  @@unique([code, countryCode])
+  @@map("languages_tags")
+}
+
+model Tag {
+  name String @id @unique
+
+  // creativeWorksWithTag TagOnCreativeWork[]
+  creativeWorks   CreativeWork[]
+  basicStatistics TagBasicStatistics?
+
+  @@map("tags")
+}
+
+model TagBasicStatistics {
+  id String @id @default(uuid())
+
+  tagName String @unique @map("tag_name")
+  tag     Tag    @relation(fields: [tagName], references: [name], onDelete: Cascade)
+
+  postsCount                Int @default(0) @map("posts_count")
+  blogPostsCount            Int @default(0) @map("blog_posts_count")
+  discussionForumsCount     Int @default(0) @map("discussion_forums_count")
+  discussionForumPostsCount Int @default(0) @map("discussion_forum_posts_count")
+
+  @@map("tags_basic_statistics")
+}
+
+// https://schema.org/CreativeWork
+model CreativeWork {
+  id String @id @default(uuid())
+
+  authorId String @map("author_id")
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  status CreativeWorkStatus @default(PUBLIC)
+  type   CreativeWorkType //` @default(POST)
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  tags    Tag[]
+  ratings RatingForCreativeWork[]
+
+  blogPost            BlogPost?
+  post                Post?
+  discussionForum     DiscussionForum?
+  discussionForumPost DiscussionForumPost?
+
+  @@index([createdAt(sort: Desc)])
+  @@map("creative_works")
+}
+
+model Post {
+  id String @id @default(uuid())
+
+  creativeWorkId String       @unique @map("creative_work_id")
+  creativeWork   CreativeWork @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade)
+
+  discussionForumId String          @unique @map("discussion_forum_id")
+  discussionForum   DiscussionForum @relation(fields: [discussionForumId], references: [creativeWorkId], onDelete: Cascade)
+
+  content String @db.Text
+
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  @@map("posts")
+}
+
+model BlogPost {
+  id String @id @default(uuid())
+
+  creativeWorkId String       @unique @map("creative_work_id")
+  creativeWork   CreativeWork @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade)
+
+  discussionForumId String          @unique @map("discussion_forum_id")
+  discussionForum   DiscussionForum @relation(fields: [discussionForumId], references: [creativeWorkId], onDelete: Cascade)
+
+  slug         String @unique
+  title        String
+  thumbnailUrl String @map("thumbnail_url")
+  description  String
+  content      String @db.Text
+
+  languageTagId String      @map("language_tag_id")
+  languageTag   LanguageTag @relation(fields: [languageTagId], references: [id], onDelete: Cascade)
+
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  @@map("blog_posts")
+}
+
+model DiscussionForum {
+  id String @id @default(uuid())
+
+  creativeWorkId String       @unique @map("creative_work_id")
+  creativeWork   CreativeWork @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade)
+
+  size Int @default(0)
+  // title String
+  // description String
+
+  updatedAt DateTime? @map("updated_at") // @updatedAt
+
+  discussionForumPosts DiscussionForumPost[]
+  // postsOnDiscussionForum PostOnDiscussionForum[]
+  BlogPost             BlogPost?
+  Post                 Post?
+
+  @@map("discussion_forums")
+}
+
+model DiscussionForumPost {
+  id String @id @default(uuid())
+
+  content      String @db.Text
+  repliesCount Int    @default(0) @map("replies_count")
+
+  replyToId String?              @unique @map("reply_to_discussion_forum_post_Id")
+  replyTo   DiscussionForumPost? @relation("postReplies", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  creativeWorkId String       @unique @map("creative_work_id")
+  creativeWork   CreativeWork @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade)
+
+  discussionForumId String          @map("discussion_forum_id")
+  discussionForum   DiscussionForum @relation(fields: [discussionForumId], references: [id], onDelete: Cascade)
+
+  updatedAt DateTime? @map("updated_at") // @updatedAt
+
+  replies DiscussionForumPost[] @relation("postReplies")
+
+  @@map("discussions_forums_posts")
+}
+
+model RatingForCreativeWork {
+  id String @id @default(uuid())
+
+  // rating Int @default(0) @map("total_rating") // rating is from range 0 to 10
+  totalRating  Int @default(0) @map("total_rating") // One rating is from range 0 to 10
+  ratingsCount Int @default(0) @map("ratings_count")
+
+  creativeWorkId String       @map("creative_work_id")
+  creativeWork   CreativeWork @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade)
+
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  usersRatingForCreativeWork UserRatingForCreativeWork[]
+
+  // @@unique([userId, CreativeWorkId])
+  @@map("ratings_for_creative_works")
+}
+
+model UserRatingForCreativeWork {
+  id String @id @default(uuid())
+
+  creativeWorkRatingId String                @map("creative_work_rating_id")
+  creativeWorkRating   RatingForCreativeWork @relation(fields: [creativeWorkRatingId], references: [id], onDelete: Cascade)
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("users_ratings_for_creative_works")
+}
