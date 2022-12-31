@@ -21,6 +21,7 @@ const CustomNextImage = ({
 	alt = '',
 	placeholder = 'blur',
 	blurDataURL = '/svgs/bbblurry.svg',
+	quality = 90,
 	...props
 }: CustomNextImageProps) => {
 	const [isWeservNlOptimized, setIsWeservNlOptimized] =
@@ -56,12 +57,13 @@ const CustomNextImage = ({
 							_src.startsWith('/') ? `${websiteBasePath}/${_src}` : _src
 					  )}&w=${props.width}${props.height ? `&h=${props.height}` : ''}${
 							isAnimated ? '&n=-1' : ''
-					  }&output=webp&q=90`
+					  }&q=${quality}&output=webp`
 					: _src,
 			className: `${className} ${isLoaded ? '' : 'no-content'}`,
 			onLoadingComplete: () => {
 				setIsLoaded(true);
 			},
+			quality,
 			unoptimized,
 			placeholder,
 			blurDataURL,
