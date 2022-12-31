@@ -10,8 +10,8 @@ import type {
 import type { HTMLAttributes, CSSProperties } from 'react';
 import type { BlogPostFormProps } from './Forms/BlogPost';
 import type { PostFormProps } from './Forms/Post';
+import type { CreativeWorkType } from '@prisma/client';
 
-import { CreativeWorkType } from '@prisma/client';
 import { Fragment, useState } from 'react';
 import CustomNextImage from '@components/shared/common/CustomNextImage';
 import { cx } from 'class-variance-authority';
@@ -314,7 +314,10 @@ const HeaderSettings = ({ data }: { data: TCreativeWorkTypeData }) => {
 		<>
 			<Menu as='div' className='relative inline-block text-left'>
 				<div>
-					<Menu.Button className='inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 p-2 font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'>
+					<Menu.Button
+						title='settings and other options'
+						className='inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 p-2 font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'
+					>
 						<BsThreeDotsVertical
 							className='text-violet-100'
 							aria-hidden='true'
