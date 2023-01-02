@@ -3,12 +3,12 @@ import type { FormEvent } from 'react';
 
 import { useState } from 'react';
 import QRCode from 'qrcode'; // or you can use QRcode.js
-import CustomNextSeo from '@components/shared/common/CustomNextSeo';
-import { textToQRCodeConverterTool } from '@utils/core/appData/tools';
 import FormField from '@components/shared/common/FormField';
 import Button from '@components/shared/common/Button';
+import { textToQRCodeConverterTool } from '@utils/core/appData/tools/converters-and-transformers';
+import ToolSEOTags from '@components/screens/Tools/components/ToolSEOTags';
 
-const TextToQRCodeConverter = () => {
+const TextToQRCodeConverterScreen = () => {
 	const [text, setText] = useState('');
 	const [qrCodeUrl, setQrCodeUrl] = useState('');
 
@@ -21,10 +21,7 @@ const TextToQRCodeConverter = () => {
 
 	return (
 		<>
-			<CustomNextSeo
-				pageTitle={textToQRCodeConverterTool.title}
-				pageDescription={textToQRCodeConverterTool.description}
-			/>
+			<ToolSEOTags data={textToQRCodeConverterTool} />
 			<section className='section-p flex flex-col gap-4'>
 				<header className='text-center'>
 					<h1 className='text-h1'>Text to QR Code Converter</h1>
@@ -60,4 +57,4 @@ const TextToQRCodeConverter = () => {
 	);
 };
 
-export default TextToQRCodeConverter;
+export default TextToQRCodeConverterScreen;

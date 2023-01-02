@@ -39,7 +39,28 @@ const config = {
       },
       {
         source: '/tools/convert_from_markdown_to_html',
-        destination: '/tools/convert-from-markdown-to-html',
+        destination: '/tools/markdown-to-html-converter',
+        permanent: true,
+      },
+      {
+        source: '/tools/text-to-url-slug-converter',
+        destination: '/tools/converters-and-transformers/text-to-url-slug',
+        permanent: true,
+      },
+      {
+        source: '/tools/text-to-qr-code-converter',
+        destination: '/tools/converters-and-transformers/text-to-qr-code',
+        permanent: true,
+      },
+      {
+        source: '/tools/convert-from-markdown-to-html',
+        destination:
+          '/tools/converters-and-transformers/markdown-to-html-converter',
+        permanent: true,
+      },
+      {
+        source: '/tools/generate-fractal-tree',
+        destination: '/tools/cg-arts/generate-fractal-tree',
         permanent: true,
       },
     ]

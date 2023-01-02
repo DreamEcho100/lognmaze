@@ -90,19 +90,17 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 		where: { role: { not: null } }
 	});
 
-	const toolsDataBasePath = toolsData.basePath.startsWith('/')
-		? toolsData.basePath.slice(1)
-		: toolsData.basePath;
+	const toolsRelativePaths = toolsData.pages
+		.map((page) => [
+			`${toolsData.relativePath}/${page.relativePath}`,
+			page.pages.map(
+				(subPage) =>
+					`${toolsData.relativePath}/${page.relativePath}/${subPage.relativePath}`
+			)
+		])
+		.flat(2);
 
-	const staticPaths = [
-		'auth',
-		// 'faqs',
-		// 'policies/privacy-policy',
-		// 'policies/terms-of-service'
-		...toolsData.pages.map(
-			(page) => `${toolsDataBasePath}/${page.relativePath}`
-		)
-	];
+	const staticPaths = ['auth', ...toolsRelativePaths];
 
 	// We generate the XML sitemap with the products data
 	const sitemap = generateSiteMap({ blogPosts, users, staticPaths });

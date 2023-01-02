@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { NextSeo } from 'next-seo';
 
 import MdToHTMLFormatter from '@components/shared/common/Format/MdToHTML';
 import FormField from '@components/shared/common/FormField';
 import { Tab } from '@headlessui/react';
 import { handleButtonVariants } from '@components/shared/common/Button';
+import ToolSEOTags from '@components/screens/Tools/components/ToolSEOTags';
+import { convertFromMarkdownToHTMLTool } from '@utils/core/appData/tools/converters-and-transformers';
 
 // import MdToHTMLFormatter from '@commonComponentsDependent/Format/MdToHTML';
 // import TextareaComponent from '@commonComponentsIndependent/Textarea';
@@ -18,24 +19,7 @@ const ConvertFromMarkdownToHTMLAppScreen = () => {
 
 	return (
 		<>
-			<NextSeo
-				title='Free Markdown to HTML Converter | LogNMaze'
-				description='Convert your markdown to HTML in one easy steps - for free! | LogNMaze'
-				canonical='https://lognmaze.com/tools/convert_from_markdown_to_html'
-				openGraph={{
-					title: 'Free Markdown to HTML Converter | LogNMaze',
-					description:
-						'Convert your markdown to HTML in one easy steps - for free! | LogNMaze',
-					images: [
-						{
-							url: 'https://lognmaze.com/favicon.ico',
-							width: 250,
-							height: 250,
-							alt: 'LogNMaze Logo'
-						}
-					]
-				}}
-			/>
+			<ToolSEOTags data={convertFromMarkdownToHTMLTool} />
 			<section className='section-p flex flex-col gap-4'>
 				<header className='flex flex-col gap-2 text-center'>
 					<h1 className='text-h1'>

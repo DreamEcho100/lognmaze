@@ -1,18 +1,15 @@
-import CustomNextSeo from '@components/shared/common/CustomNextSeo';
 import FormField from '@components/shared/common/FormField';
-import { textToURLSlugConverterTool } from '@utils/core/appData/tools';
+import { textToURLSlugConverterTool } from '@utils/core/appData/tools/converters-and-transformers';
 import { useState } from 'react';
 import slug from 'slug';
+import ToolSEOTags from '@components/screens/Tools/components/ToolSEOTags';
 
-const TextToURLSlugConverterPage = () => {
+const TextToURLSlugConverterScreen = () => {
 	const [inputText, setInputText] = useState('Text to URL Slug Converter');
 
 	return (
 		<>
-			<CustomNextSeo
-				pageTitle={textToURLSlugConverterTool.title}
-				pageDescription={textToURLSlugConverterTool.description}
-			/>
+			<ToolSEOTags data={textToURLSlugConverterTool} />
 			<section className='section-p flex flex-col gap-4'>
 				<header className='flex flex-col gap-2 text-center'>
 					<h1 className='text-h1'>Text to URL Slug Converter</h1>
@@ -37,4 +34,4 @@ const TextToURLSlugConverterPage = () => {
 	);
 };
 
-export default TextToURLSlugConverterPage;
+export default TextToURLSlugConverterScreen;

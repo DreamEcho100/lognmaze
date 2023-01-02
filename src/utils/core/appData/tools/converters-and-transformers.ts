@@ -1,13 +1,7 @@
-const generateCommonTags = () => [
-	'custom',
-	'online',
-	'tool',
-	'free',
-	'website'
-];
+import { generateCommonTags } from './utils';
 
 export const convertFromMarkdownToHTMLTool = {
-	relativePath: 'convert-from-markdown-to-html',
+	relativePath: 'markdown-to-html-converter',
 	title:
 		'Markdown to HTML Converter - Quickly and Easily Convert Your Markdown Text to HTML',
 	shortTitle: 'Markdown to HTML Converter',
@@ -16,7 +10,7 @@ export const convertFromMarkdownToHTMLTool = {
 	shortDescription:
 		'Convert markdown text to HTML with our user-friendly tool.',
 	tags: ['markdown', 'html', 'converter', 'convert', ...generateCommonTags()],
-	questionsAndAnswers: [
+	faqs: [
 		{
 			question: 'How do I use your Markdown to HTML converter?',
 			answer:
@@ -67,12 +61,11 @@ export const convertFromMarkdownToHTMLTool = {
 			answer:
 				'There are no limitations to the converter. You can use it to convert as much markdown text to HTML as you like.'
 		}
-	],
-	mainTag: 'converter'
+	]
 };
 
 export const textToURLSlugConverterTool = {
-	relativePath: 'text-to-url-slug-converter',
+	relativePath: 'text-to-url-slug',
 	title:
 		'Text to URL Slug Converter - Convert your text to a unique and SEO-friendly URL slug',
 	shortTitle: 'Text to URL Slug Converter',
@@ -88,7 +81,7 @@ export const textToURLSlugConverterTool = {
 		'convert',
 		...generateCommonTags()
 	],
-	questionsAndAnswers: [
+	faqs: [
 		{
 			question: 'How do I use the text to URL slug converter?',
 			answer:
@@ -140,12 +133,11 @@ export const textToURLSlugConverterTool = {
 			answer:
 				'There are several factors that contribute to a URL slug being SEO-friendly, such as length, readability, and keyword relevance. You can use an SEO tool or consult with an SEO specialist to determine the SEO-friendliness of your generated URL slug.'
 		}
-	],
-	mainTag: 'converter'
+	]
 };
 
 export const textToQRCodeConverterTool = {
-	relativePath: 'text-to-qr-code-converter',
+	relativePath: 'text-to-qr-code',
 	title:
 		'Text to QR Code Converter - Quickly and Easily Convert Your Text to a QR Code',
 	shortTitle: 'Text to QR Code Converter',
@@ -161,7 +153,7 @@ export const textToQRCodeConverterTool = {
 		'generate',
 		...generateCommonTags()
 	],
-	questionsAndAnswers: [
+	faqs: [
 		{
 			question: 'How do I use the Text to QR Code converter?',
 			answer:
@@ -218,133 +210,38 @@ export const textToQRCodeConverterTool = {
 			answer:
 				'You can test the readability of your generated QR code by scanning it with a QR code scanner app on your smartphone or other device. If the QR code is readable, the scanner should be able to successfully interpret and display the encoded data.'
 		}
-	],
-	mainTag: ''
-};
-
-export const generateFractalTreeTool = {
-	relativePath: 'generate-fractal-tree',
-	title: 'Generate Beautiful Fractal Trees with Our Online Tool',
-	shortTitle: 'Fractal Tree Generator',
-	description:
-		'Our online tool allows you to generate stunning fractal trees with custom parameters or randomly generated values. Explore the infinite possibilities of fractal tree design and create your own unique creations!',
-	shortDescription:
-		'Generate beautiful fractal trees with custom or random parameters with our online tool.',
-	tags: [
-		'fractal-tree',
-		'generator',
-		'computer-generated-arts',
-		'generate',
-		'random',
-		'design',
-		'unique',
-		...generateCommonTags()
-	],
-	questionsAndAnswers: [
-		{
-			question: 'How do I use the fractal tree generator?',
-			answer:
-				'Simply enter your desired parameters or choose to generate a random tree, and hit the "Generate" button to see your fractal tree design.'
-		},
-		{
-			question: 'Can I customize the parameters of my fractal tree?',
-			answer:
-				'Yes, you can adjust the branch length, branch angle, and recursion depth to create the exact fractal tree you want.'
-		},
-		{
-			question: 'Can I save my fractal tree designs?',
-			answer:
-				'Yes, you can download your fractal tree as an image file or save it to your account for later use.'
-		},
-		{
-			question: 'How many different fractal tree designs can I create?',
-			answer:
-				'With the customizable parameters and the ability to generate random trees, the possibilities are virtually infinite. Explore and create your own unique fractal tree designs.'
-		},
-		{
-			question: 'Is the fractal tree generator free to use?',
-			answer: 'Yes, our fractal tree generator is completely free to use.'
-		},
-		{
-			question: 'Is the fractal tree generator mobile-friendly?',
-			answer:
-				'Yes, our fractal tree generator is fully optimized for use on mobile devices.'
-		},
-		{
-			question: 'Are there any limitations to the fractal tree generator?',
-			answer:
-				'There are no limitations to the number of fractal trees you can generate or the parameters you can use. Explore and create as many designs as you like.'
-		},
-		{
-			question:
-				'Can I share my fractal tree designs on social media or other platforms?',
-			answer:
-				"Yes, you can share your fractal tree designs on social media or other platforms by saving the design and uploading it to the platform of your choice, just don't forget to give us the credit"
-		},
-		{
-			question:
-				'How do I know which parameters will create the best fractal tree design?',
-			answer:
-				'Experimenting with different parameter values and previewing the generated fractal tree can help you determine which parameters will create the best design for your needs.'
-		},
-		{
-			question: 'Can I use the fractal tree generator for commercial purposes?',
-			answer:
-				"Yes, you can use the fractal tree generator for commercial purposes, just don't forget to give us the credit."
-		},
-		{
-			question:
-				'How is the random fractal tree generator different from using custom parameters?',
-			answer:
-				'The random fractal tree generator creates a unique fractal tree design using randomly generated values for the parameters, while using custom parameters allows you to specify specific values for the parameters to generate a fractal tree.'
-		},
-		{
-			question: 'How do I know if my fractal tree design is unique?',
-			answer:
-				'You can compare your fractal tree design to other designs generated by the tool to determine if it is unique, or you can use a search engine to check if the design has been used elsewhere online.'
-		},
-		{
-			questions: 'How does the fractal tree generator ensure unique designs?',
-			answers:
-				'The fractal tree generator uses advanced algorithms to generate unique designs based on the parameters or random values inputted.'
-		},
-		{
-			questions:
-				'How does the depth of the fractal tree affect its appearance?',
-			answers:
-				'The depth of the fractal tree affects its appearance by determining how many iterations of the branching pattern are drawn. A deeper fractal tree will have more branches and a more complex appearance, while a shallower tree will have fewer branches and a simpler appearance.'
-		},
-		{
-			questions:
-				'What are some creative ways to use fractal trees in design projects?',
-			answers:
-				'Some creative ways to use fractal trees in design projects include using them as backgrounds, incorporating them into logos or graphics, and using them as inspiration for hand-drawn art.'
-		}
-	],
-	mainTag: 'computer-generated-arts'
-};
-
-const toolsData = {
-	basePath: '/tools',
-	pages: [
-		textToURLSlugConverterTool,
-		textToQRCodeConverterTool,
-		convertFromMarkdownToHTMLTool,
-		generateFractalTreeTool
 	]
 };
 
-export default toolsData;
-
-// <meta name="revisit-after" content="7 days">: This tag tells search engines how often to revisit the page for updates.
-/*
-export const tempTool = {
-	relativePath: '',
-	title: '',
-	shortTitle: '',
-	description: '',
-	shortDescription: '',
-	tags: ['markdown', 'html', 'converter', 'convert', ...generateCommonTags()],
-	mainTag: ''
+const convertersAndTransformersTools = {
+	relativePath: 'converters-and-transformers',
+	title:
+		'Converters and Transformers - A Wide Range of Online Tools for Your Needs',
+	shortTitle: 'Converters and Transformers',
+	shortDescription:
+		'Explore our collection of online converters and transformers for various tasks.',
+	description:
+		'Whether you need to convert text to HTML, generate a QR code, or transform data in some other way, our collection of online converters and transformers has you covered. Explore our wide range of tools and customize the inputs to fit your needs. Plus, check out our helpful Q&As to get the most out of our tools.',
+	tags: [
+		'converter',
+		'transformer',
+		'data',
+		'conversion',
+		'transformation',
+		'tool',
+		'online',
+		'Q&A'
+	],
+	faqs: [{ question: '', answer: '' }],
+	// description:
+	// 	'The word "transformer" is typically used to describe a device that converts electrical energy from one form to another, such as a transformer that converts alternating current (AC) to direct current (DC) or vice versa. In this context, the word "converter" is often used interchangeably with "transformer."\nOn the other hand, the word "converter" can also be used more generally to refer to any device or software that converts one form of data, information, or media into another. For example, a file converter is a software tool that converts a file from one format to another, such as a video converter that converts a video file from MP4 to AVI. In this context, the word "transformer" would not be used.',
+	// shortDescription:
+	// 	'A transformer is a device that changes the characteristics of an electric current, such as its voltage or frequency. A converter is a device that changes one type of data or signal into another type, such as converting text to a QR code or converting audio to a digital file. Both transformers and converters involve the process of changing one form or type into another, but they apply to different types of electrical or data processing systems.',
+	pages: [
+		textToURLSlugConverterTool,
+		textToQRCodeConverterTool,
+		convertFromMarkdownToHTMLTool
+	]
 };
-*/
+
+export default convertersAndTransformersTools;
