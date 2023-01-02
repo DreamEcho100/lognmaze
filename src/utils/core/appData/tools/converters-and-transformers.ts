@@ -1,7 +1,7 @@
 import { generateCommonTags } from './utils';
 
 export const convertFromMarkdownToHTMLTool = {
-	relativePath: 'markdown-to-html-converter',
+	relativePath: 'markdown-to-html',
 	title:
 		'Markdown to HTML Converter - Quickly and Easily Convert Your Markdown Text to HTML',
 	shortTitle: 'Markdown to HTML Converter',

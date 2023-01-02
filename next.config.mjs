@@ -34,12 +34,12 @@ const config = {
       },
       {
         source: '/cg_creative_arts/fractal_tree',
-        destination: '/tools/fractal-tree',
+        destination: '/tools/cg-arts/fractal-tree',
         permanent: true,
       },
       {
         source: '/tools/convert_from_markdown_to_html',
-        destination: '/tools/markdown-to-html-converter',
+        destination: '/tools/converters-and-transformers/markdown-to-html',
         permanent: true,
       },
       {
@@ -54,8 +54,7 @@ const config = {
       },
       {
         source: '/tools/convert-from-markdown-to-html',
-        destination:
-          '/tools/converters-and-transformers/markdown-to-html-converter',
+        destination: '/tools/converters-and-transformers/markdown-to-html',
         permanent: true,
       },
       {
