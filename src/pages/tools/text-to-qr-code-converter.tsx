@@ -15,12 +15,8 @@ const TextToQRCodeConverter = () => {
 	const generateQRCode = (event: FormEvent) => {
 		event.preventDefault();
 		QRCode.toDataURL(text)
-			.then((url) => {
-				setQrCodeUrl(url);
-			})
-			.catch((err) => {
-				console.error(err);
-			});
+			.then((url) => setQrCodeUrl(url))
+			.catch((err) => console.error(err));
 	};
 
 	return (
