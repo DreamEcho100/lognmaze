@@ -90,13 +90,17 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 		where: { role: { not: null } }
 	});
 
+	const toolsDataBasePath = toolsData.basePath.startsWith('/')
+		? toolsData.basePath.slice(1)
+		: toolsData.basePath;
+
 	const staticPaths = [
 		'auth',
 		// 'faqs',
 		// 'policies/privacy-policy',
 		// 'policies/terms-of-service'
 		...toolsData.pages.map(
-			(page) => `${toolsData.basePath}/${page.relativePath}`
+			(page) => `${toolsDataBasePath}/${page.relativePath}`
 		)
 	];
 
