@@ -23,6 +23,12 @@ const config = {
   async redirects() {
     return [
       {
+        source: '/blogs/what-is-json-and-what-the-advantages-of-it',
+        destination:
+          '/users/dreamecho100/creative-works/blog-posts/what-is-json-and-what-are-the-advantages-of-it',
+        permanent: true,
+      },
+      {
         source: '/blogs/:slug*',
         destination: '/users/dreamecho100/creative-works/blog-posts/:slug*',
         permanent: true,
