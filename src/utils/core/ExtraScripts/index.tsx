@@ -3,10 +3,6 @@ import { useEffect, useState } from 'react';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
 import * as gtag from '@utils/common/gtag';
-// import pAddScript from './pAddScript';
-// import CustomNextImage from '@commonComponentsDependent/CustomNextImage'
-import PungentTagAntiAdBlock from './Pungent tag Anti-AdBlock';
-// import * as in_page_push_banner_tag_anti_adblock from './in_page_push_banner_tag_anti_adblock';
 import CustomNextImage from '@components/shared/common/CustomNextImage';
 
 const ExtraScripts = () => {
@@ -42,33 +38,10 @@ const ExtraScripts = () => {
 
 	return (
 		<>
-			{/* <script
-      id='ad-client-script'
-      async
-      crossOrigin='anonymous'
-      src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
-      // {...adsbygoogleProps}
-      data-ad-client='ca-pub-8030984398568253'
-      // data-checked-head={false}
-    /> */}
-			<Script
-				strategy='lazyOnload'
-				async
-				id='Interstitial'
-				data-cfasync='false'
-				src='//upgulpinon.com/1?z=5042305'
-			/>
 			<Script
 				strategy='lazyOnload'
 				// strategy='lazyOnload'
 				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
-			/>
-			<Script
-				id='pungent_tag_anti_adBlock'
-				strategy='lazyOnload'
-				dangerouslySetInnerHTML={{
-					__html: PungentTagAntiAdBlock
-				}}
 			/>
 			{/* <Script
 				strategy='lazyOnload'
@@ -170,52 +143,6 @@ const ExtraScripts = () => {
 				})(window, document, "clarity", "script", "8co4gbipfa");`
 				}}
 			/>
-			{/* <Script
-				id='superior-tag'
-				strategy='lazyOnload'
-				src='https://uwoaptee.com/pfe/current/tag.min.js?z=5012612'
-				data-cfasync='false'
-				async
-			/>
-			<Script
-				strategy='lazyOnload'
-				// strategy='lazyOnload'
-				id='pAddScript'
-				data-cfasync={false}
-				dangerouslySetInnerHTML={{
-					__html: pAddScript
-				}}
-				async
-			/>
-			<Script
-				id='in_page_push_banner_tag_anti_adblock-1'
-				strategy='lazyOnload'
-				dangerouslySetInnerHTML={{
-					__html: in_page_push_banner_tag_anti_adblock.tx1
-				}}
-			/>
-			<Script
-				id='in_page_push_banner_tag_anti_adblock-2'
-				strategy='lazyOnload'
-				dangerouslySetInnerHTML={{
-					__html: in_page_push_banner_tag_anti_adblock.tx2
-				}}
-			/> */}
-			{/* <Script
-				id='luminous-tag'
-				strategy='lazyOnload'
-				dangerouslySetInnerHTML={{
-					__html:
-						"(function(s,u,z,p){s.src=u,s.setAttribute('data-zone',z),p.appendChild(s);})(document.createElement('script'),'https://inklinkor.com/tag.min.js',5011496,document.body||document.documentElement)",
-				}}
-			/> */}
-			{/* <Script
-				id='Push-Notifications-tag-Anti-AdBlock'
-				strategy='lazyOnload'
-				src='https://boustahe.com/pfe/current/tag.min.js?z=5105214'
-				data-cfasync='false'
-				async
-			/> */}
 		</>
 	);
 };

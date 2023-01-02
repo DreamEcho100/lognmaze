@@ -3,6 +3,7 @@ import type { GetServerSideProps } from 'next';
 import { websiteBasePath } from '@utils/core/app';
 import { prisma } from '@server/db/client';
 import { CreativeWorkStatus } from '@prisma/client';
+import toolsData from '@utils/core/appData/tools';
 
 //pages/sitemap.xml.js
 
@@ -90,10 +91,13 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 	});
 
 	const staticPaths = [
-		'auth'
+		'auth',
 		// 'faqs',
 		// 'policies/privacy-policy',
 		// 'policies/terms-of-service'
+		...toolsData.pages.map(
+			(page) => `${toolsData.basePath}/${page.relativePath}`
+		)
 	];
 
 	// We generate the XML sitemap with the products data
