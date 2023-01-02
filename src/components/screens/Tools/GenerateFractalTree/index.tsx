@@ -1,13 +1,13 @@
 import type { ChangeEvent, FormEvent } from 'react';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { NextSeo } from 'next-seo';
 
 import {
 	canvasPropertiesFieldsetInputs,
 	treePropertiesFieldsetInputs
 } from './inputsFormData';
 import FormField from '@components/shared/common/FormField';
+import { handleButtonVariants } from '@components/shared/common/Button';
 
 type TDrawTree = ({
 	startX,
@@ -207,7 +207,7 @@ const GenerateFractalTreeScreen = () => {
 			context: CanvasRenderingContext2D;
 			canvasElem: /*RefObject<HTMLCanvasElement>.current: */ HTMLCanvasElement;
 		}) => {
-			if (isDrawingTree) return;
+			if (isDrawingTree || !context) return;
 
 			context.clearRect(0, 0, canvasElem.width, canvasElem.height);
 
@@ -361,190 +361,163 @@ const GenerateFractalTreeScreen = () => {
 	}, [setCanvasPropsRef, setTreePropsRef]);
 
 	return (
-		<>
-			<NextSeo
-				title={'Drawing Fractal Tree Animation | LogNMaze'}
-				description="Generate fractal tree randomly or you can define and change its properties. Fractals are never-ending patterns created by repeating mathematical equations, which on any scale, on any level of zoom, look roughly the same. In other words, a geometric object which's basic structure, rough or fragmented, repeats itself in different scales."
-				canonical={'https://lognmaze.com/cg_creative_art/fractal_tree'}
-				// openGraph={{
-				// 	locale: `${newsItemData.type_data.iso_language}_${newsItemData.type_data.iso_country}`,
-				// }}
-
-				openGraph={{
-					title: 'Drawing Fractal Tree Animation | LogNMaze',
-					description:
-						"Generate fractal tree randomly or you can define and change its properties. Fractals are never-ending patterns created by repeating mathematical equations, which on any scale, on any level of zoom, look roughly the same. In other words, a geometric object which's basic structure, rough or fragmented, repeats itself in different scales.",
-					url: 'https://lognmaze.com/cg_creative_art/fractal_tree',
-					type: 'article',
-
-					...(() => {
-						const images = [
-							{
-								url: 'https://lognmaze.com/favicon.ico',
-								width: 250,
-								height: 250,
-								alt: 'LogNMaze Logo'
-							}
-						];
-
-						return {
-							images
-						};
-					})()
-				}}
-			/>
-			<header>
-				<section>
-					<h1>Drawing Fractal Tree Animation</h1>
-				</section>
+		<section className='section-p flex flex-col gap-4'>
+			<header className='text-center'>
+				<h1 className='text-h1'>Drawing Fractal Tree Animation</h1>
 			</header>
-			<section>
-				<form
-					onSubmit={(event: FormEvent) => {
-						event.preventDefault();
+			<form
+				className='flex flex-col gap-2'
+				onSubmit={(event: FormEvent) => {
+					event.preventDefault();
 
-						if (!canvasRef.current || !canvasPropsRef.current.context) return;
+					if (!canvasRef.current || !canvasPropsRef.current.context) return;
 
-						if (!canvasPropsRef.current.context || !canvasRef.current) return;
-						treePropsRef.current = treeProps;
+					if (!canvasPropsRef.current.context || !canvasRef.current) return;
+					treePropsRef.current = treeProps;
 
-						const tempCanvasProps = {
-							width: parseInt(getComputedStyle(canvasRef.current).width),
-							height: parseInt(getComputedStyle(canvasRef.current).height)
-						};
+					const tempCanvasProps = {
+						width: parseInt(getComputedStyle(canvasRef.current).width),
+						height: parseInt(getComputedStyle(canvasRef.current).height)
+					};
 
-						let isSizesChanged = false;
-						if (tempCanvasProps.width !== canvasProps.width) {
-							// canvasRef.current.style.width = canvasProps.width / 10 + 'rem';
-							canvasRef.current.width = canvasProps.width;
-							isSizesChanged = true;
-						}
-						if (tempCanvasProps.height !== canvasProps.height) {
-							// canvasRef.current.style.height = canvasProps.height / 10 + 'rem';
-							canvasRef.current.height = canvasProps.height;
-							isSizesChanged = true;
-						}
+					let isSizesChanged = false;
+					if (tempCanvasProps.width !== canvasProps.width) {
+						// canvasRef.current.style.width = canvasProps.width / 10 + 'rem';
+						canvasRef.current.width = canvasProps.width;
+						isSizesChanged = true;
+					}
+					if (tempCanvasProps.height !== canvasProps.height) {
+						// canvasRef.current.style.height = canvasProps.height / 10 + 'rem';
+						canvasRef.current.height = canvasProps.height;
+						isSizesChanged = true;
+					}
 
-						if (isSizesChanged) {
-							canvasPropsRef.current.context?.scale(
-								canvasProps.width / 560,
-								canvasProps.height / 460
-							);
-						}
-						setCanvasPropsRef(canvasProps);
+					if (isSizesChanged) {
+						canvasPropsRef.current.context?.scale(
+							canvasProps.width / 560,
+							canvasProps.height / 460
+						);
+					}
+					setCanvasPropsRef(canvasProps);
 
-						async () =>
-							await new Promise((resolve) =>
-								setTimeout(() => resolve(null), 0)
-							);
+					async () =>
+						await new Promise((resolve) => setTimeout(() => resolve(null), 0));
 
-						generateTree({
-							context: canvasPropsRef.current.context,
-							canvasElem: canvasRef.current
-						});
-					}}
+					generateTree({
+						context: canvasPropsRef.current.context,
+						canvasElem: canvasRef.current
+					});
+				}}
+			>
+				<fieldset className='flex flex-wrap justify-center gap-4'>
+					<legend className='mx-auto'>
+						<h2 className='text-h2'>Canvas Properties</h2>
+					</legend>
+					{canvasPropertiesFieldsetInputs
+						.sort((a, b) => a.label.localeCompare(b.label))
+						.map((item) => (
+							<FormField
+								labelVariants={{ w: 'fit' }}
+								key={item.id}
+								labelText={item.label}
+								onChange={(event: ChangeEvent<HTMLInputElement>) => {
+									if (
+										event.target.name === 'angle' ||
+										(item.type === 'number' && event.target.valueAsNumber < 1)
+									)
+										return;
+
+									setCanvasProps((prevProps) => {
+										return {
+											...prevProps,
+											[event.target.name]:
+												item.type === 'number'
+													? event.target.valueAsNumber
+													: event.target.value
+										};
+									});
+								}}
+								value={canvasProps[item.name as keyof typeof canvasProps]}
+								type={item.type}
+								name={item.name}
+								id={item.id}
+								{...(item?.extraInputProps || {})}
+							/>
+						))}
+				</fieldset>
+				<fieldset className='flex flex-wrap justify-center gap-4'>
+					<legend className='mx-auto'>
+						<h2 className='text-h2'>Tree Properties</h2>
+					</legend>
+
+					{treePropertiesFieldsetInputs
+						.sort((a, b) => a.label.localeCompare(b.label))
+						.map((item) => (
+							<FormField
+								labelVariants={{ w: 'fit' }}
+								key={item.id}
+								onChange={(event: ChangeEvent<HTMLInputElement>) => {
+									if (
+										event.target.name === 'angle' ||
+										(item.type === 'number' && event.target.valueAsNumber < 1)
+									)
+										return;
+
+									setTreeProps((prevProps) => {
+										return {
+											...prevProps,
+											[event.target.name]:
+												item.type === 'number'
+													? event.target.valueAsNumber
+													: event.target.value
+										};
+									});
+								}}
+								value={treeProps[item.name as keyof typeof treeProps]}
+								type={item.type}
+								name={item.name}
+								id={item.id}
+								{...(item?.extraInputProps || {})}
+							/>
+						))}
+				</fieldset>
+				<button
+					className={handleButtonVariants()}
+					ref={generateButtonRef}
+					type='submit'
+					disabled={isDrawingTree}
 				>
-					<fieldset>
-						<legend>Canvas Properties</legend>
-						{canvasPropertiesFieldsetInputs
-							.sort((a, b) => a.label.localeCompare(b.label))
-							.map((item) => (
-								<FormField
-									key={item.id}
-									labelText={item.label}
-									onChange={(event: ChangeEvent<HTMLInputElement>) => {
-										if (
-											event.target.name === 'angle' ||
-											(item.type === 'number' && event.target.valueAsNumber < 1)
-										)
-											return;
+					Generate
+				</button>
+			</form>
 
-										setCanvasProps((prevProps) => {
-											return {
-												...prevProps,
-												[event.target.name]:
-													item.type === 'number'
-														? event.target.valueAsNumber
-														: event.target.value
-											};
-										});
-									}}
-									value={canvasProps[item.name as keyof typeof canvasProps]}
-									type={item.type}
-									name={item.name}
-									id={item.id}
-									{...(item?.extraInputProps || {})}
-								/>
-							))}
-					</fieldset>
-					<fieldset>
-						<legend>Tree Properties</legend>
-
-						{treePropertiesFieldsetInputs
-							.sort((a, b) => a.label.localeCompare(b.label))
-							.map((item) => (
-								<FormField
-									key={item.id}
-									onChange={(event: ChangeEvent<HTMLInputElement>) => {
-										if (
-											event.target.name === 'angle' ||
-											(item.type === 'number' && event.target.valueAsNumber < 1)
-										)
-											return;
-
-										setTreeProps((prevProps) => {
-											return {
-												...prevProps,
-												[event.target.name]:
-													item.type === 'number'
-														? event.target.valueAsNumber
-														: event.target.value
-											};
-										});
-									}}
-									value={treeProps[item.name as keyof typeof treeProps]}
-									type={item.type}
-									name={item.name}
-									id={item.id}
-									{...(item?.extraInputProps || {})}
-								/>
-							))}
-					</fieldset>
-					<div>
-						<button
-							ref={generateButtonRef}
-							type='submit'
-							disabled={isDrawingTree}
-						>
-							Generate
-						</button>
-					</div>
-				</form>
-
+			<div>
 				<div>
-					<div>
-						<canvas width={560} height={460} ref={canvasRef}></canvas>
-					</div>
-					<button
-						ref={generateRandomButtonRef}
-						onClick={() => generateRandomTree()}
-						disabled={isDrawingTree}
-					>
-						Generate Randomly
-					</button>
+					<canvas
+						className='mx-auto'
+						width={560}
+						height={460}
+						ref={canvasRef}
+					></canvas>
 				</div>
-			</section>
-			<footer>
-				<section>
-					<p>
-						Fractals are never-ending patterns created by repeating mathematical
-						equations, which on any scale, on any level of zoom, look roughly
-						the same. In other words, a geometric object which&apos;s basic
-						structure, rough or fragmented, repeats itself in different scales.
-					</p>
-				</section>
+				<button
+					className={handleButtonVariants({ className: 'w-full' })}
+					ref={generateRandomButtonRef}
+					onClick={() => generateRandomTree()}
+					disabled={isDrawingTree}
+				>
+					Generate Randomly
+				</button>
+			</div>
+			<footer className='text-center'>
+				<p>
+					Fractals are never-ending patterns created by repeating mathematical
+					equations, which on any scale, on any level of zoom, look roughly the
+					same. In other words, a geometric object which&apos;s basic structure,
+					rough or fragmented, repeats itself in different scales.
+				</p>
 			</footer>
-		</>
+		</section>
 	);
 };
 

@@ -3,12 +3,12 @@ import Link from 'next/link';
 
 const ToolsScreen = () => {
 	return (
-		<section>
+		<section className='section-p'>
 			<ul>
 				{toolsData.pages.map((page) => (
 					<li key={page.relativePath}>
 						<Link href={`${toolsData.basePath}/${page.relativePath}`}>
-							{page.title}
+							{page.shortTitle}
 						</Link>
 					</li>
 				))}

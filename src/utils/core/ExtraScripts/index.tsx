@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
 import * as gtag from '@utils/common/gtag';
-import pAddScript from './pAddScript';
+// import pAddScript from './pAddScript';
 // import CustomNextImage from '@commonComponentsDependent/CustomNextImage'
 import PungentTagAntiAdBlock from './Pungent tag Anti-AdBlock';
-import * as in_page_push_banner_tag_anti_adblock from './in_page_push_banner_tag_anti_adblock';
+// import * as in_page_push_banner_tag_anti_adblock from './in_page_push_banner_tag_anti_adblock';
 import CustomNextImage from '@components/shared/common/CustomNextImage';
 
 const ExtraScripts = () => {
@@ -170,7 +170,7 @@ const ExtraScripts = () => {
 				})(window, document, "clarity", "script", "8co4gbipfa");`
 				}}
 			/>
-			<Script
+			{/* <Script
 				id='superior-tag'
 				strategy='lazyOnload'
 				src='https://uwoaptee.com/pfe/current/tag.min.js?z=5012612'
@@ -200,7 +200,7 @@ const ExtraScripts = () => {
 				dangerouslySetInnerHTML={{
 					__html: in_page_push_banner_tag_anti_adblock.tx2
 				}}
-			/>
+			/> */}
 			{/* <Script
 				id='luminous-tag'
 				strategy='lazyOnload'
@@ -209,13 +209,13 @@ const ExtraScripts = () => {
 						"(function(s,u,z,p){s.src=u,s.setAttribute('data-zone',z),p.appendChild(s);})(document.createElement('script'),'https://inklinkor.com/tag.min.js',5011496,document.body||document.documentElement)",
 				}}
 			/> */}
-			<Script
+			{/* <Script
 				id='Push-Notifications-tag-Anti-AdBlock'
 				strategy='lazyOnload'
 				src='https://boustahe.com/pfe/current/tag.min.js?z=5105214'
 				data-cfasync='false'
 				async
-			/>
+			/> */}
 		</>
 	);
 };
