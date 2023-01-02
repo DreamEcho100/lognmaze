@@ -10,6 +10,7 @@ import { DefaultSeo } from 'next-seo';
 import NextSEODefaults from '@utils/core/next-seo.config';
 import dynamic from 'next/dynamic';
 import ExtraScripts from '@utils/core/ExtraScripts';
+import Head from 'next/head';
 const DynamicTopProgressBar = dynamic(
 	() => import('@components/shared/common/TopProgressBar'),
 	{ ssr: false }
@@ -33,6 +34,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
 			refetchInterval={60 * 30}
 		>
 			<DefaultSeo {...NextSEODefaults} />
+			<Head>
+				<script
+					async
+					src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8030984398568253'
+					crossOrigin='anonymous'
+				></script>
+			</Head>
 			<MainLayout>
 				<DynamicTopProgressBar />
 				<Component {...pageProps} />
