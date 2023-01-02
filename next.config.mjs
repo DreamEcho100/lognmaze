@@ -34,7 +34,7 @@ const config = {
       },
       {
         source: '/cg_creative_arts/fractal_tree',
-        destination: '/tools/generate-fractal-tree',
+        destination: '/tools/fractal-tree',
         permanent: true,
       },
       {
@@ -60,7 +60,7 @@ const config = {
       },
       {
         source: '/tools/generate-fractal-tree',
-        destination: '/tools/cg-arts/generate-fractal-tree',
+        destination: '/tools/cg-arts/fractal-tree',
         permanent: true,
       },
     ]

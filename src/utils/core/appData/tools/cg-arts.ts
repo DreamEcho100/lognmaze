@@ -1,7 +1,7 @@
 import { generateCommonTags } from './utils';
 
 export const generateFractalTreeTool = {
-	relativePath: 'generate-fractal-tree',
+	relativePath: 'fractal-tree',
 	title: 'Generate Beautiful Fractal Trees with Our Online Tool',
 	shortTitle: 'Fractal Tree Generator',
 	description:
