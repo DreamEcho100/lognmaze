@@ -39,18 +39,18 @@ const ExtraScripts = () => {
 	return (
 		<>
 			<Script
-				strategy='afterInteractive'
-				// strategy='afterInteractive'
+				strategy='lazyOnload'
+				// strategy='lazyOnload'
 				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
 			/>
 			{/* <Script
-				strategy='afterInteractive'
+				strategy='lazyOnload'
 				id='googletagmanager'
-				// strategy='afterInteractive'
+				// strategy='lazyOnload'
 				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
 			/> */}
 			<Script
-				strategy='afterInteractive'
+				strategy='worker'
 				id='gogleanalytics'
 				dangerouslySetInnerHTML={{
 					__html: `
@@ -64,8 +64,8 @@ const ExtraScripts = () => {
 				}}
 			/>
 			<Script
-				// strategy='afterInteractive'
-				strategy='afterInteractive'
+				// strategy='lazyOnload'
+				strategy='worker'
 				id='google-analytics-script'
 				src='https://stootsou.net/pfe/current/tag.min.js?z=4990432'
 				async
@@ -73,7 +73,7 @@ const ExtraScripts = () => {
 			{/* <!-- Yandex.Metrika counter -->
 			<Script
 				id='lognmaze_metrika_yandex'
-				strategy='afterInteractive'
+				strategy='lazyOnload'
 				dangerouslySetInnerHTML={{
 					__html: `(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
 					m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
@@ -102,7 +102,7 @@ const ExtraScripts = () => {
 			{/* k */}
 
 			<Script
-				strategy='afterInteractive'
+				strategy='lazyOnload'
 				id='lognmaze-yandex-counter'
 				dangerouslySetInnerHTML={{
 					__html: `(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -134,7 +134,7 @@ const ExtraScripts = () => {
 			{/* <!-- /Yandex.Metrika counter --> */}
 			<Script
 				id='MicrosoftClarity'
-				strategy='afterInteractive'
+				strategy='worker'
 				dangerouslySetInnerHTML={{
 					__html: `    (function(c,l,a,r,i,t,y){
 						c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
