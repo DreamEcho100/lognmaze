@@ -155,8 +155,9 @@ strong {
 	padding: 0.5em;
 }
 
-:root {
-	--skeleton-loading-animation-duration: 2s;
+/* https://www.labnol.org/hide-adsense-ad-units-220130 */
+ins.adsbygoogle[data-ad-status='unfilled'] {
+	display: none !important;
 }
 
 .skeleton-loading {
@@ -178,7 +179,7 @@ strong {
 	left: 0%;
 	z-index: 2;
 	transform: translateX(-100%);
-	animation: move var(--skeleton-loading-animation-duration) infinite;
+	animation: move var(--skeleton-loading-animation-duration, 2s) infinite;
 }
 
 @keyframes move {
