@@ -143,6 +143,14 @@ const ExtraScripts = () => {
 				})(window, document, "clarity", "script", "8co4gbipfa");`
 				}}
 			/>
+
+			{/* google-adsense-h-responsive-image-v1 */}
+			{/* id='google-adsense-h-responsive-image-v1' */}
+			<Script
+				async
+				src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8030984398568253'
+				crossOrigin='anonymous'
+			/>
 		</>
 	);
 };

@@ -5,7 +5,7 @@ import type { TOnAddingCreativeWork } from '@components/shared/core/CreativeWork
 
 import { CreativeWorkStatus } from '@prisma/client';
 import { useTypedSession } from '@utils/common/hooks';
-import { useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import Button from '@components/shared/common/Button';
 
 import { trpcAPI } from '@utils/trpc';
@@ -14,6 +14,7 @@ import {
 	CreativeWorkComp
 } from '@components/shared/core/CreativeWorks';
 import CreateCreativeWorkDialog from '@components/shared/core/CreativeWorks/Dialogs/Create';
+import GoogleAdsenseHResponsiveImageV1 from '@utils/core/GoogleAdsense/HResponsiveImageV1';
 
 const FeelingCreativeButton = ({
 	authorId,
@@ -165,85 +166,87 @@ const CreativeWorksFeed = ({
 						.repeat(9)
 						.split('break')
 						.map((_, index) => <CreateWorkLoading key={index} />)
-				: data.map((item) => (
-						<CreativeWorkComp
-							key={item.id}
-							data={item}
-							onDeletingCreativeWork={(props) => {
-								updateGetAllCreativeWorksOnStore((prevData) => {
-									if (!prevData) return prevData;
+				: data.map((item, index) => (
+						<Fragment key={item.id}>
+							<CreativeWorkComp
+								data={item}
+								onDeletingCreativeWork={(props) => {
+									updateGetAllCreativeWorksOnStore((prevData) => {
+										if (!prevData) return prevData;
 
-									let isItemFounded = false;
+										let isItemFounded = false;
 
-									return {
-										...prevData,
-										pages: prevData.pages.map((page) => {
-											if (isItemFounded) return page;
+										return {
+											...prevData,
+											pages: prevData.pages.map((page) => {
+												if (isItemFounded) return page;
 
-											const items = page.items.filter(
-												(item) => item.id !== props.creativeWorkId
-											);
+												const items = page.items.filter(
+													(item) => item.id !== props.creativeWorkId
+												);
 
-											if (items.length !== page.items.length)
-												isItemFounded = true;
+												if (items.length !== page.items.length)
+													isItemFounded = true;
 
-											return { ...page, items };
-										})
-									};
-								});
-							}}
-							onUpdatingCreativeWork={(props) => {
-								updateGetAllCreativeWorksOnStore((prevData) => {
-									if (!prevData) return prevData;
+												return { ...page, items };
+											})
+										};
+									});
+								}}
+								onUpdatingCreativeWork={(props) => {
+									updateGetAllCreativeWorksOnStore((prevData) => {
+										if (!prevData) return prevData;
 
-									let isItemFounded = false;
-									const removedTags = props.removedTags;
-									const addedTags = props.addedTags;
+										let isItemFounded = false;
+										const removedTags = props.removedTags;
+										const addedTags = props.addedTags;
 
-									return {
-										...prevData,
-										pages: prevData.pages.map((page) => {
-											if (isItemFounded) return page;
+										return {
+											...prevData,
+											pages: prevData.pages.map((page) => {
+												if (isItemFounded) return page;
 
-											return {
-												...page,
-												items: page.items.map((item) => {
-													if (
-														!isItemFounded &&
-														item.id === props.creativeWorkId &&
-														item.type === props.type
-													) {
-														isItemFounded = true;
+												return {
+													...page,
+													items: page.items.map((item) => {
+														if (
+															!isItemFounded &&
+															item.id === props.creativeWorkId &&
+															item.type === props.type
+														) {
+															isItemFounded = true;
 
-														return {
-															...item,
-															tags: [
-																...(Array.isArray(removedTags) &&
-																removedTags.length !== 0
-																	? item.tags.filter((tag) =>
-																			removedTags.includes(tag.name)
-																	  )
-																	: item.tags),
-																...(addedTags || []).map((tagName) => ({
-																	name: tagName
-																}))
-															],
-															...((props.updatedCreativeWork || {}) as any),
-															typeData: {
-																...item.typeData,
-																...(props.updatedTypeData || {})
-															}
-														};
-													}
+															return {
+																...item,
+																tags: [
+																	...(Array.isArray(removedTags) &&
+																	removedTags.length !== 0
+																		? item.tags.filter((tag) =>
+																				removedTags.includes(tag.name)
+																		  )
+																		: item.tags),
+																	...(addedTags || []).map((tagName) => ({
+																		name: tagName
+																	}))
+																],
+																...((props.updatedCreativeWork || {}) as any),
+																typeData: {
+																	...item.typeData,
+																	...(props.updatedTypeData || {})
+																}
+															};
+														}
 
-													return item;
-												})
-											};
-										})
-									};
-								});
-							}}
-						/>
+														return item;
+													})
+												};
+											})
+										};
+									});
+								}}
+							/>
+							{index !== 0 && index % 2 && <GoogleAdsenseHResponsiveImageV1 />}
+						</Fragment>
 				  ))}
 			<Button
 				disabled={
