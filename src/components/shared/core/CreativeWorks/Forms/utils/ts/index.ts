@@ -1,6 +1,6 @@
 import type { inferRouterInputs } from '@trpc/server';
 import type { AppRouter } from '@server/trpc/router/_app';
-import type { CreativeWorkType } from '@prisma/client/edge';
+import type { CreativeWorkType } from '@prisma/client';
 
 export type TOnAddingCreativeWork = (
 	props: { creativeWorkId: string; typeDataId: string } & (

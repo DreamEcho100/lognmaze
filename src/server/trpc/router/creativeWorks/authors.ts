@@ -1,7 +1,7 @@
-import type { Tag } from '@prisma/client/edge';
+import type { Tag } from '@prisma/client';
 import type { OmitPickAndSetToNonNullable } from '@server/ts';
 
-import { CreativeWorkStatus, CreativeWorkType } from '@prisma/client/edge';
+import { CreativeWorkStatus, CreativeWorkType } from '@prisma/client';
 import { router, haveAuthorPrivilegesProcedure } from '@server/trpc/trpc';
 import { updateCreativeWorkTags } from '@server/utils/core/controllers';
 

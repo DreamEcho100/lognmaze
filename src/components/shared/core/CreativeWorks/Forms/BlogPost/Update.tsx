@@ -4,7 +4,7 @@ import { trpcAPI } from '@utils/trpc';
 import BlogPostForm from '.';
 import { objChanges } from '@utils/common/ds/objects';
 import { arrChanges } from '@utils/common/ds/array';
-import { CreativeWorkType } from '@prisma/client/edge';
+import { CreativeWorkType } from '@prisma/client';
 import { useCreativeWorkSharedState } from '../..';
 
 export type UpdateBlogPostFormProps = Omit<

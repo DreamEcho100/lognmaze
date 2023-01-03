@@ -2,7 +2,7 @@ import type { GetServerSideProps } from 'next';
 
 import { websiteBasePath } from '@utils/core/app';
 import { prisma } from '@server/db/client';
-import { CreativeWorkStatus } from '@prisma/client/edge';
+import { CreativeWorkStatus } from '@prisma/client';
 import toolsData from '@utils/core/appData/tools';
 
 //pages/sitemap.xml.js

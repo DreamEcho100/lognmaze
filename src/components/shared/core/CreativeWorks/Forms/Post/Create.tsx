@@ -3,7 +3,7 @@ import type { TOnAddingCreativeWork } from '../utils/ts';
 
 import { trpcAPI } from '@utils/trpc';
 import PostForm from '.';
-import { CreativeWorkType } from '@prisma/client/edge';
+import { CreativeWorkType } from '@prisma/client';
 
 export type CreatePostFormProps = Omit<PostFormProps, 'handleOnSubmit'> & {
 	authorId: string;

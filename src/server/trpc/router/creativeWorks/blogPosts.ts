@@ -1,4 +1,4 @@
-import { CreativeWorkStatus, CreativeWorkType } from '@prisma/client/edge';
+import { CreativeWorkStatus, CreativeWorkType } from '@prisma/client';
 
 import {
 	router,

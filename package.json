@@ -7,7 +7,7 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"postinstall": "npx prisma generate --data-proxy",
+		"postinstall": "prisma generate",
 		"lint": "next lint",
 		"format": "prettier --check --ignore-path .gitignore .",
 		"format:fix": "prettier --write --ignore-path .gitignore .",

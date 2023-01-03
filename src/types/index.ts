@@ -3,7 +3,7 @@ import type {
 	CreativeWorkType,
 	User,
 	UserProfile
-} from '@prisma/client/edge';
+} from '@prisma/client';
 
 import type {
 	getCreativeWorkTypeBlogPostsData,

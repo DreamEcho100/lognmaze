@@ -10,7 +10,7 @@ import { BsFillPersonFill } from 'react-icons/bs';
 import FormField from '@components/shared/common/FormField';
 import { trpcAPI } from '@utils/trpc';
 import { useState } from 'react';
-import { UserGender } from '@prisma/client/edge';
+import { UserGender } from '@prisma/client';
 import { reloadSession } from '@utils/common/next-auth';
 import Button from '@components/shared/common/Button';
 import { useRouter } from 'next/router';

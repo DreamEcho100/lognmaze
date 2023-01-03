@@ -3,7 +3,7 @@ import type { inferRouterInputs } from '@trpc/server';
 import type { AppRouter } from '@server/trpc/router/_app';
 import type { TOnAddingCreativeWork } from '@components/shared/core/CreativeWorks/Forms/utils/ts';
 
-import { CreativeWorkStatus } from '@prisma/client/edge';
+import { CreativeWorkStatus } from '@prisma/client';
 import { useTypedSession } from '@utils/common/hooks';
 import { Fragment, useMemo, useState } from 'react';
 import Button from '@components/shared/common/Button';

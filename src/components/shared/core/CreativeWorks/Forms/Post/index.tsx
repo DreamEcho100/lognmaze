@@ -3,7 +3,7 @@ import type { AppRouter } from '@server/trpc/router/_app';
 import type { FormEvent } from 'react';
 import type { TOnAddingCreativeWork } from '../utils/ts';
 
-import { CreativeWorkStatus } from '@prisma/client/edge';
+import { CreativeWorkStatus } from '@prisma/client';
 import { useMemo, useState } from 'react';
 import FormField from '@components/shared/common/FormField';
 import SelectTags from '@components/shared/common/SelectTags';

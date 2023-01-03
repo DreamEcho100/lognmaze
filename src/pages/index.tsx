@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 
 import CreativeWorksFeed from '@components/shared/core/CreativeWorks/Feed';
 import { useTypedSession } from '@utils/common/hooks';
-import { CreativeWorkType } from '@prisma/client/edge';
+import { CreativeWorkType } from '@prisma/client';
 
 const Home: NextPage = () => {
 	const { data: session, status } = useTypedSession();
