@@ -3,7 +3,7 @@ import type { TOnAddingCreativeWork } from '../utils/ts';
 
 import { trpcAPI } from '@utils/trpc';
 import BlogPostForm from '.';
-import { CreativeWorkType } from '@prisma/client';
+import { CreativeWorkType } from '@prisma/client/edge';
 
 export type CreateBlogPostFormProps = Omit<
 	BlogPostFormProps,

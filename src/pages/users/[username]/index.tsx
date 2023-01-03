@@ -1,5 +1,9 @@
 import type { NextSeoProps } from 'next-seo';
-import type { User, UserProfile, UserBasicStatistics } from '@prisma/client';
+import type {
+	User,
+	UserProfile,
+	UserBasicStatistics
+} from '@prisma/client/edge';
 import type { GetStaticProps, NextPage, InferGetStaticPropsType } from 'next';
 import type { Person } from 'schema-dts';
 

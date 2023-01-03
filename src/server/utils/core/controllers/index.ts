@@ -2,7 +2,7 @@ import {
 	CreativeWorkStatus,
 	CreativeWorkType,
 	type PrismaClient
-} from '@prisma/client';
+} from '@prisma/client/edge';
 
 const creativeWorkType_TagBasicStatisticsName_Map = {
 	[CreativeWorkType.BLOG_POST]: 'blogPostsCount',

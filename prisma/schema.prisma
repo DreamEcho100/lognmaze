@@ -27,6 +27,8 @@ datasource db {
 
 // https://pris.ly/d/relation-mode-prisma-indexes
 
+// npx prisma generate --data-proxy
+
 enum UserGender {
   M
   F

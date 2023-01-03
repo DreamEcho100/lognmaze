@@ -1,4 +1,4 @@
-import type { Role, UserProfile } from '@prisma/client';
+import type { Role, UserProfile } from '@prisma/client/edge';
 
 import { type DefaultSession } from 'next-auth';
 

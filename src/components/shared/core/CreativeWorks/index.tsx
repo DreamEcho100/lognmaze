@@ -1,4 +1,4 @@
-import type { LanguageTag } from '@prisma/client';
+import type { LanguageTag } from '@prisma/client/edge';
 import type {
 	TCreativeWorkBlogPost,
 	TCreativeWorkDiscussionForum,
@@ -10,7 +10,7 @@ import type {
 import type { HTMLAttributes, CSSProperties } from 'react';
 import type { BlogPostFormProps } from './Forms/BlogPost';
 import type { PostFormProps } from './Forms/Post';
-import type { CreativeWorkType } from '@prisma/client';
+import type { CreativeWorkType } from '@prisma/client/edge';
 
 import { Fragment, useState } from 'react';
 import CustomNextImage from '@components/shared/common/CustomNextImage';

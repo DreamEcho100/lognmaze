@@ -5,7 +5,7 @@ import PostForm from '.';
 import { objChanges } from '@utils/common/ds/objects';
 import { arrChanges } from '@utils/common/ds/array';
 import { useCreativeWorkSharedState } from '../..';
-import { CreativeWorkType } from '@prisma/client';
+import { CreativeWorkType } from '@prisma/client/edge';
 
 export type UpdatePostFormProps = Omit<
 	Omit<

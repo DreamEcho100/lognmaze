@@ -3,8 +3,8 @@ import {
 	UserGender,
 	CreativeWorkType,
 	CreativeWorkStatus
-} from '@prisma/client';
-import { PrismaClient } from '@prisma/client';
+} from '@prisma/client/edge';
+import { PrismaClient } from '@prisma/client/edge';
 
 import fs from 'fs';
 

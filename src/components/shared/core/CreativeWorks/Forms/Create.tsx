@@ -2,7 +2,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import type { TOnAddingCreativeWork } from './utils/ts';
 
 import { Tab } from '@headlessui/react';
-import { CreativeWorkType } from '@prisma/client';
+import { CreativeWorkType } from '@prisma/client/edge';
 import CreateBlogPostForm from './BlogPost/Create';
 import CreatePostForm from './Post/Create';
 import { handleButtonVariants } from '@components/shared/common/Button';

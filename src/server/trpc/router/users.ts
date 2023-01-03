@@ -1,4 +1,4 @@
-import { Role, UserGender } from '@prisma/client';
+import { Role, UserGender } from '@prisma/client/edge';
 
 import { router, authedProcedure } from '@server/trpc/trpc';
 import { TRPCError } from '@trpc/server';

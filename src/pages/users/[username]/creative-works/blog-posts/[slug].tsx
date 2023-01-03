@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { jsonLdScriptProps } from 'react-schemaorg';
 import { prisma } from '@server/db/client';
 import { z } from 'zod';
-import { CreativeWorkStatus, CreativeWorkType } from '@prisma/client';
+import { CreativeWorkStatus, CreativeWorkType } from '@prisma/client/edge';
 import { CreativeWorkComp } from '@components/shared/core/CreativeWorks';
 import Head from 'next/head';
 import CustomNextSeo from '@components/shared/common/CustomNextSeo';
