@@ -14,7 +14,7 @@ import CustomNextSeo from '@components/shared/common/CustomNextSeo';
 import { defaultSiteName, websiteBasePath } from '@utils/core/app';
 import { useGetFullURLPathName } from '@components/shared/common/hooks';
 import { useRouter } from 'next/router';
-import GoogleAdsenseHResponsiveImageV1 from '@utils/core/GoogleAdsense/HResponsiveImageV1';
+import GoogleAdSenseHResponsiveImageV1 from '@components/shared/common/GoogleAdSense/HResponsiveImageV1';
 
 type BlogPostPageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -147,7 +147,7 @@ const BlogPostPage = (props: BlogPostPageProps) => {
 					});
 				}}
 			/>
-			<GoogleAdsenseHResponsiveImageV1 />
+			<GoogleAdSenseHResponsiveImageV1 />
 		</section>
 	);
 };

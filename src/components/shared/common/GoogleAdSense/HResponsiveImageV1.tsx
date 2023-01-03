@@ -1,21 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-const GoogleAdsenseHResponsiveImageV1 = () => {
-	// const [isPlayingScripts, setIsPlayingScripts] = useState(false);
-
-	// useEffect(() => {
-	// 	if (process.env.NODE_ENV === 'development') return;
-
-	// 	const timeoutId = setTimeout(() => {
-	// 		setIsPlayingScripts(true);
-	// 	}, 9000);
-
-	// 	return () => timeoutId && clearTimeout(timeoutId);
-	// }, []);
-
+const GoogleAdSenseHResponsiveImageV1 = () => {
 	useEffect(() => {
-		// if (!isPlayingScripts) return;
-
 		const pushAd = () => {
 			try {
 				const adsbygoogle = (window as any).adsbygoogle;
@@ -60,4 +46,4 @@ const GoogleAdsenseHResponsiveImageV1 = () => {
 	*/
 };
 
-export default GoogleAdsenseHResponsiveImageV1;
+export default GoogleAdSenseHResponsiveImageV1;

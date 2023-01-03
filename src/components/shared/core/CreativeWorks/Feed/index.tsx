@@ -14,7 +14,7 @@ import {
 	CreativeWorkComp
 } from '@components/shared/core/CreativeWorks';
 import CreateCreativeWorkDialog from '@components/shared/core/CreativeWorks/Dialogs/Create';
-import GoogleAdsenseHResponsiveImageV1 from '@utils/core/GoogleAdsense/HResponsiveImageV1';
+import GoogleAdSenseHResponsiveImageV1 from '@components/shared/common/GoogleAdSense/HResponsiveImageV1';
 
 const FeelingCreativeButton = ({
 	authorId,
@@ -246,7 +246,7 @@ const CreativeWorksFeed = ({
 								}}
 							/>
 							{!!(index !== 0 && index % 2) && (
-								<GoogleAdsenseHResponsiveImageV1 />
+								<GoogleAdSenseHResponsiveImageV1 />
 							)}
 						</Fragment>
 				  ))}

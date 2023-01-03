@@ -9,8 +9,8 @@ import MainLayout from '@components/shared/core/Layouts/Main';
 import { DefaultSeo } from 'next-seo';
 import NextSEODefaults from '@utils/core/next-seo.config';
 import dynamic from 'next/dynamic';
-import ExtraScripts from '@utils/core/ExtraScripts';
 import Head from 'next/head';
+import ExtraScripts from '@components/shared/core/ExtraScripts';
 const DynamicTopProgressBar = dynamic(
 	() => import('@components/shared/common/TopProgressBar'),
 	{ ssr: false }
