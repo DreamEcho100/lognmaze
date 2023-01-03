@@ -42,8 +42,7 @@ const GoogleAdsenseHResponsiveImageV1 = () => {
 
 	return (
 		<ins
-			className='adsbygoogle'
-			style={{ display: 'block' }}
+			className='adsbygoogle block aspect-video'
 			data-ad-client='ca-pub-8030984398568253'
 			data-ad-slot='3437464395'
 			data-ad-format='auto'
