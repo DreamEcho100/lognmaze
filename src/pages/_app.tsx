@@ -37,9 +37,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
 			<Head>
 				<script
 					id='google-analytics-script'
-					src='https://stootsou.net/pfe/current/tag.min.js?z=4990432'
 					async
-				/>
+					src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8030984398568253'
+					crossOrigin='anonymous'
+				></script>
 			</Head>
 			<MainLayout>
 				<DynamicTopProgressBar />
