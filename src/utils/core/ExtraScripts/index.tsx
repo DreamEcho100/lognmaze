@@ -63,13 +63,6 @@ const ExtraScripts = () => {
           `
 				}}
 			/>
-			<Script
-				// strategy='afterInteractive'
-				strategy='afterInteractive'
-				id='google-analytics-script'
-				src='https://stootsou.net/pfe/current/tag.min.js?z=4990432'
-				async
-			/>
 			{/* <!-- Yandex.Metrika counter -->
 			<Script
 				id='lognmaze_metrika_yandex'

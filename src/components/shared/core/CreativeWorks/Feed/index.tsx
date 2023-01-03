@@ -245,7 +245,9 @@ const CreativeWorksFeed = ({
 									});
 								}}
 							/>
-							{index !== 0 && index % 2 && <GoogleAdsenseHResponsiveImageV1 />}
+							{!!(index !== 0 && index % 2) && (
+								<GoogleAdsenseHResponsiveImageV1 />
+							)}
 						</Fragment>
 				  ))}
 			<Button

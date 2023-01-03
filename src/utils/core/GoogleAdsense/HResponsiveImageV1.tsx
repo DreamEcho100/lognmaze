@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react';
 
 const GoogleAdsenseHResponsiveImageV1 = () => {
-	const [isPlayingScripts, setIsPlayingScripts] = useState(false);
+	// const [isPlayingScripts, setIsPlayingScripts] = useState(false);
+
+	// useEffect(() => {
+	// 	if (process.env.NODE_ENV === 'development') return;
+
+	// 	const timeoutId = setTimeout(() => {
+	// 		setIsPlayingScripts(true);
+	// 	}, 9000);
+
+	// 	return () => timeoutId && clearTimeout(timeoutId);
+	// }, []);
 
 	useEffect(() => {
-		if (process.env.NODE_ENV === 'development') return;
-
-		const timeoutId = setTimeout(() => {
-			setIsPlayingScripts(true);
-		}, 9000);
-
-		return () => timeoutId && clearTimeout(timeoutId);
-	}, []);
-
-	useEffect(() => {
-		if (!isPlayingScripts) return;
+		// if (!isPlayingScripts) return;
 
 		const pushAd = () => {
 			try {
@@ -38,7 +38,7 @@ const GoogleAdsenseHResponsiveImageV1 = () => {
 		return () => {
 			clearInterval(interval);
 		};
-	}, [isPlayingScripts]);
+	}, []);
 
 	return (
 		<ins
