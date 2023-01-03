@@ -1,8 +1,10 @@
-import type { Account, NextAuthOptions } from 'next-auth';
-
 import { env } from '@env/server.mjs';
+
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
+
 import { prisma } from '@server/db/client';
+
+import type { Account, NextAuthOptions } from 'next-auth';
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
@@ -47,12 +49,12 @@ export const authOptions: NextAuthOptions = {
 
 			return props.session;
 		},
-		async jwt({ token, user, account, profile, isNewUser }) {
+		jwt({ token, user, account, profile, isNewUser }) {
 			user && (token.user = user);
 
 			return token;
 		},
-		async signIn(_props) {
+		signIn(_props) {
 			const props = _props as unknown as
 				| (Omit<typeof _props, 'account' | 'profile'> & {
 						account: Account & { provider: 'google' };
