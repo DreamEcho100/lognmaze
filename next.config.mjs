@@ -19,7 +19,7 @@ const config = {
   // },
   experimental: {
     appDir: true,
-    runtime: 'edge',
+    runtime: 'experimental-edge',
   },
   async redirects() {
     return [
