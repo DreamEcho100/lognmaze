@@ -50,7 +50,7 @@ const ExtraScripts = () => {
 				src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
 			/> */}
 			<Script
-				strategy='worker'
+				strategy='lazyOnload'
 				id='gogleanalytics'
 				dangerouslySetInnerHTML={{
 					__html: `
@@ -65,7 +65,7 @@ const ExtraScripts = () => {
 			/>
 			<Script
 				// strategy='lazyOnload'
-				strategy='worker'
+				strategy='lazyOnload'
 				id='google-analytics-script'
 				src='https://stootsou.net/pfe/current/tag.min.js?z=4990432'
 				async
@@ -134,7 +134,7 @@ const ExtraScripts = () => {
 			{/* <!-- /Yandex.Metrika counter --> */}
 			<Script
 				id='MicrosoftClarity'
-				strategy='worker'
+				strategy='lazyOnload'
 				dangerouslySetInnerHTML={{
 					__html: `    (function(c,l,a,r,i,t,y){
 						c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
