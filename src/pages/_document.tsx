@@ -9,7 +9,8 @@ class MyDocument extends Document {
 					<Script
 						strategy='beforeInteractive'
 						id='google-ad-sense-id'
-						async
+						// async
+						defer
 						src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8030984398568253'
 						crossOrigin='anonymous'
 						data-ad-client='ca-pub-8030984398568253'
