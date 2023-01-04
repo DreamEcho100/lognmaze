@@ -159,6 +159,9 @@ strong {
 ins.adsbygoogle[data-ad-status='unfilled'] {
 	display: none !important;
 }
+ins.adsbygoogle * {
+	max-width: 100% !important;
+}
 
 .skeleton-loading {
 	@apply color-theme-400 !important;
