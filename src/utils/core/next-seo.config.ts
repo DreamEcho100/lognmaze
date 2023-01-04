@@ -1,4 +1,5 @@
 import type { DefaultSeoProps } from 'next-seo';
+
 import {
 	websiteBasePath,
 	defaultDescription,

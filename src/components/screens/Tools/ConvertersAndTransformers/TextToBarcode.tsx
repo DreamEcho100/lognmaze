@@ -6,6 +6,9 @@ import { textToBarcodeTool } from '@utils/core/appData/tools/converters-and-tran
 import FTRSection from '@components/screens/Tools/components/FormToResultSection';
 import type { BaseOptions } from 'jsbarcode';
 
+// https://github.com/lindell/JsBarcode/wiki/Options#format
+// https://www.npmjs.com/package/jsbarcode
+
 const formatValues = [
 	'CODE39',
 	'CODE128',

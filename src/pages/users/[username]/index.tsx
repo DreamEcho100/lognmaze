@@ -1,5 +1,10 @@
 import type { NextSeoProps } from 'next-seo';
-import type { User, UserProfile, UserBasicStatistics } from '@prisma/client';
+import {
+	User,
+	UserProfile,
+	UserBasicStatistics,
+	UserGender
+} from '@prisma/client';
 import type { GetStaticProps, NextPage, InferGetStaticPropsType } from 'next';
 import type { Person } from 'schema-dts';
 
@@ -65,6 +70,13 @@ const UserProfilePage: NextPage<UserProfilePageProps> = (props) => {
 				title={`${userData.profile.firstName} ${userData.profile.lastName} - ${userData.name} | ${defaultSiteName}`}
 				description={userData.profile.bio || undefined}
 				openGraph={{
+					type: 'profile',
+					profile: {
+						firstName: userData.profile.firstName,
+						lastName: userData.profile.lastName,
+						username: userData.name,
+						gender: userData.profile.gender === UserGender.M ? 'male' : 'female'
+					},
 					images: !userData.profile.profilePicture
 						? undefined
 						: (() => {

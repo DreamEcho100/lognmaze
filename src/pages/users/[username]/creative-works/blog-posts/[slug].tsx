@@ -87,6 +87,16 @@ const BlogPostPage = (props: BlogPostPageProps) => {
 				title={`${creativeWork.typeData.title} | ${defaultSiteName}`}
 				description={creativeWork.typeData.description}
 				openGraph={{
+					type: 'article',
+					locale: `${creativeWork.typeData.languageTag.code.toLowerCase()}-${creativeWork.typeData.languageTag.countryCode.toUpperCase()}`,
+					article: {
+						publishedTime: creativeWork.createdAt.toISOString(),
+						modifiedTime: creativeWork.typeData.updatedAt?.toISOString(),
+						authors: creativeWork.author?.name
+							? [`${websiteBasePath}/users/${creativeWork.author.name}`]
+							: undefined,
+						tags: creativeWork.tags.map((tag) => tag.name)
+					},
 					images: (() => {
 						const images: NonNullable<NextSeoProps['openGraph']>['images'] = [
 							{

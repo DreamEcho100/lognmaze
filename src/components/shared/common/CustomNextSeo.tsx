@@ -32,6 +32,7 @@ const CustomNextSeo = ({
 			openGraph={{
 				title: pageTitle,
 				description: pageDescription,
+				url: canonical,
 				...openGraph
 			}}
 			{...props}
