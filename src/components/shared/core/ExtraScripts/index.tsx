@@ -144,6 +144,16 @@ const ExtraScripts = () => {
 				src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8030984398568253'
 				crossOrigin='anonymous'
 			/> */}
+			<Script
+				strategy='afterInteractive'
+				id='google-ad-sense-id'
+				async
+				// defer
+				src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8030984398568253'
+				crossOrigin='anonymous'
+				data-ad-client='ca-pub-8030984398568253'
+				onError={(err) => console.error('Script failed to load', err)}
+			></Script>
 		</>
 	);
 };
