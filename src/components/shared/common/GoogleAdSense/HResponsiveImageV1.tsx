@@ -17,11 +17,10 @@ const GoogleAdSenseHResponsiveImageV1 = () => {
 				if (!(window as any).adsbygoogle)
 					throw new Error("Can't find adsbygoogle");
 				const adsbygoogle = (window as any).adsbygoogle;
-				console.log({ adsbygoogle });
 				adsbygoogle.push({});
 				return true;
 			} catch (e) {
-				console.error(e);
+				console.warn(e);
 
 				configRef.current.retryCounter++;
 
