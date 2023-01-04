@@ -41,6 +41,17 @@ const GoogleAdSenseHResponsiveImageV1 = () => {
 		};
 	}, []);
 
+	useEffect(() => {
+		return () => {
+			configRef.current = {
+				retryCounter: 0,
+				maxRetries: 7,
+				currentRetryInterval: 1000,
+				retryIntervalArr: [1000, 3000, 5000, 7000, 1000]
+			};
+		};
+	}, []);
+
 	return (
 		<ins
 			className='adsbygoogle'
