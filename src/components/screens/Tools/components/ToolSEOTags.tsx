@@ -5,16 +5,16 @@ import Head from 'next/head';
 import { useGetFullURLPathName } from '@components/shared/common/hooks';
 import CustomNextSeo from '@components/shared/common/CustomNextSeo';
 
-const ToolSEOTags = ({
-	data
-}: {
+export type ToolSEOTagsProps = {
 	data: {
 		title: string;
 		description: string;
 		faqs: { question: string; answer: string }[];
 		tags: string[];
 	};
-}) => {
+};
+
+const ToolSEOTags = ({ data }: ToolSEOTagsProps) => {
 	const fullURLPathName = useGetFullURLPathName();
 
 	return (

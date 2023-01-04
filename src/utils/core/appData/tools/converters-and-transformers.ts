@@ -213,6 +213,69 @@ export const textToQRCodeConverterTool = {
 	]
 };
 
+export const textToBarcodeTool = {
+	relativePath: 'text-to-barcode',
+	title: 'Text to Barcode Converter - Customize Your Barcode Output',
+	shortTitle: 'Text to Barcode Converter',
+	description:
+		'Easily convert your text to a customizable barcode with our online converter tool. Simply type your text into the input field, adjust the barcode settings, and generate your barcode in real-time. Use the generated barcode for your own personal or commercial purposes.',
+	shortDescription:
+		'Convert text to customizable barcodes with our online converter tool.',
+	tags: ['text', 'barcode', 'customize', ...generateCommonTags()],
+	faqs: [
+		{
+			question: 'How do I adjust the barcode settings?',
+			answer:
+				'To use the Text to Barcode converter, simply type your text into the input field and adjust the barcode settings as desired. Then, click the generate button to see the real-time output of your customized barcode.'
+		},
+		{
+			question: 'Can I convert multiple pieces of text at once?',
+			answer:
+				'Yes, you can customize the appearance of the generated barcode by adjusting the settings in the input field. Options may include the barcode type, size, and color.'
+		},
+		{
+			question: 'Is the Text to Barcode converter mobile-friendly?',
+			answer:
+				'To save or download the generated barcode, you can use the "Save" or "Download" button provided by the converter tool. The specific method will depend on the tool you are using.'
+		},
+		{
+			question:
+				'How do I know if my generated barcode is readable by barcode scanners?',
+			answer:
+				'You can use the generated barcode for personal or commercial purposes, depending on the specific terms of use for the converter tool.'
+		},
+		{
+			question:
+				'Can I use the generated barcode on any platform or only on certain websites?',
+			answer:
+				'There may be limitations to the Text to Barcode converter, such as the maximum length of text that can be converted or the types of barcodes that can be generated. These limitations will vary depending on the specific tool you are using.'
+		},
+		{
+			question:
+				'How does the converter ensure the generated barcode is readable by barcode scanners?',
+			answer:
+				'The converter uses industry-standard algorithms and formats to generate barcodes that are compatible with most barcode scanners. You can also adjust the barcode settings to customize the appearance and encoding of the barcode to ensure it is readable by specific barcode scanners.'
+		},
+		{
+			question:
+				'Can I convert multiple pieces of text at once with the converter?',
+			answer:
+				'Yes, you can use the Text to Barcode converter to convert multiple pieces of text at once. Simply enter each piece of text into the input field, adjust the barcode settings as desired, and generate the barcodes.'
+		},
+		{
+			question: 'Is the Text to Barcode converter mobile-friendly?',
+			answer:
+				'Yes, the Text to Barcode converter is mobile-friendly and can be accessed and used on any device with a web browser.'
+		},
+		{
+			question:
+				'How do I know if my generated barcode is readable by barcode scanners?',
+			answer:
+				'You can test the readability of your generated barcode by scanning it with a barcode scanner or by using a barcode reader tool to verify the encoded data. You can also adjust the barcode settings and test the readability of the barcode to ensure it is readable by the specific barcode scanners you will be using.'
+		}
+	]
+};
+
 const convertersAndTransformersTools = {
 	relativePath: 'converters-and-transformers',
 	title:
@@ -228,9 +291,7 @@ const convertersAndTransformersTools = {
 		'data',
 		'conversion',
 		'transformation',
-		'tool',
-		'online',
-		'Q&A'
+		...generateCommonTags()
 	],
 	faqs: [{ question: '', answer: '' }],
 	// description:
@@ -238,6 +299,7 @@ const convertersAndTransformersTools = {
 	// shortDescription:
 	// 	'A transformer is a device that changes the characteristics of an electric current, such as its voltage or frequency. A converter is a device that changes one type of data or signal into another type, such as converting text to a QR code or converting audio to a digital file. Both transformers and converters involve the process of changing one form or type into another, but they apply to different types of electrical or data processing systems.',
 	pages: [
+		textToBarcodeTool,
 		textToURLSlugConverterTool,
 		textToQRCodeConverterTool,
 		convertFromMarkdownToHTMLTool
@@ -245,3 +307,20 @@ const convertersAndTransformersTools = {
 };
 
 export default convertersAndTransformersTools;
+
+/*
+{
+	relativePath: '',
+	title: '',
+	shortTitle: '',
+	description: '',
+	shortDescription: '',
+	tags: ['', ...generateCommonTags()],
+	faqs: [
+		{
+			question: '',
+			answer: ''
+		}
+	]
+};
+*/
