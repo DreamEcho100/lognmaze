@@ -1,4 +1,4 @@
-import type { WebPage } from 'schema-dts';
+import type { SoftwareApplication, WebPage } from 'schema-dts';
 
 import { jsonLdScriptProps } from 'react-schemaorg';
 import Head from 'next/head';
@@ -21,22 +21,48 @@ const ToolSEOTags = ({ data }: ToolSEOTagsProps) => {
 		<>
 			<Head>
 				<script
-					id='WebPageWithFAQs'
-					{...jsonLdScriptProps<WebPage>({
+					id='WebApplicationWithAggregateRatingAndFAQs'
+					{...jsonLdScriptProps<SoftwareApplication>({
 						'@context': 'https://schema.org',
 						'@id': fullURLPathName,
-						'@type': 'WebPage',
+						'@type': 'WebApplication',
 						name: data.title,
 						description: data.description,
+						applicationCategory: 'UtilitiesApplication',
 						keywords: data.tags.map((tag) => tag).join(','),
-						mainEntity: {
-							'@type': 'FAQPage',
-							mainEntity: data.faqs.map((faq) => ({
-								'@type': 'Question',
-								name: faq.question,
-								acceptedAnswer: { '@type': 'Answer', text: faq.answer }
-							}))
-						}
+						operatingSystem: 'any',
+						mainEntity: [
+							{
+								'@type': 'FAQPage',
+								'@id': `${fullURLPathName}/#faqs`,
+								name: `FAQs | ${data.title}`,
+								description: `FAQs | ${data.description}`,
+								keywords: data.tags.map((tag) => tag).join(','),
+								mainEntity: data.faqs.map((faq) => ({
+									'@type': 'Question',
+									name: faq.question,
+									acceptedAnswer: { '@type': 'Answer', text: faq.answer }
+								}))
+							},
+							{
+								'@type': 'AggregateRating',
+								'@id': `${fullURLPathName}/#aggregate-rating`,
+								name: `Aggregate Rating | ${data.title}`,
+								ratingCount: 1,
+								ratingValue: 5,
+								reviewCount: 0,
+								itemReviewed: {
+									'@type': 'WebApplication',
+									'@id': fullURLPathName
+								}
+							},
+							{
+								'@type': 'UnitPriceSpecification',
+								'@id': `${fullURLPathName}/#price`,
+								price: 0,
+								priceCurrency: 'USD'
+							}
+						]
 					})}
 				/>
 			</Head>
