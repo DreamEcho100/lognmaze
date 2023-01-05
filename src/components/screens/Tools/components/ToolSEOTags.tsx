@@ -19,6 +19,10 @@ const ToolSEOTags = ({ data }: ToolSEOTagsProps) => {
 
 	return (
 		<>
+			<CustomNextSeo
+				pageTitle={data.title}
+				pageDescription={data.description}
+			/>
 			<Head>
 				<script
 					id='WebApplicationWithAggregateRatingAndFAQs'
@@ -66,10 +70,6 @@ const ToolSEOTags = ({ data }: ToolSEOTagsProps) => {
 					})}
 				/>
 			</Head>
-			<CustomNextSeo
-				pageTitle={data.title}
-				pageDescription={data.description}
-			/>
 		</>
 	);
 };
