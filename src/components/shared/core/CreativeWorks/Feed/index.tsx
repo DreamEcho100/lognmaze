@@ -3,7 +3,7 @@ import type { inferRouterInputs } from '@trpc/server';
 import type { AppRouter } from '@server/trpc/router/_app';
 import type { TOnAddingCreativeWork } from '@components/shared/core/CreativeWorks/Forms/utils/ts';
 
-import { CreativeWorkStatus } from '@prisma/client';
+import { CreativeWorkStatus, CreativeWorkType } from '@prisma/client';
 import { useTypedSession } from '@utils/common/hooks';
 import { Fragment, useMemo, useState } from 'react';
 import Button from '@components/shared/common/Button';
@@ -114,7 +114,7 @@ const CreativeWorksFeed = ({
 			{session?.user?.profile?.id && (
 				<FeelingCreativeButton
 					authorId={session?.user?.id}
-					onAddingCreativeWork={({ creativeWorkId, slug, ...props }) => {
+					onAddingCreativeWork={({ creativeWorkId, ...props }) => {
 						updateGetAllCreativeWorksOnStore((prevData) => {
 							if (!prevData || !session?.user?.profile?.id) return prevData;
 
@@ -124,30 +124,49 @@ const CreativeWorksFeed = ({
 								items: []
 							};
 
+							const creativeWorkBasic = {
+								id: creativeWorkId,
+								tags:
+									props.input.tags?.map((tagName) => ({
+										name: tagName
+									})) || [],
+								createdAt: new Date(),
+								status: props.input.status || CreativeWorkStatus.PUBLIC,
+								type: props.type,
+								authorId: props.input.authorId,
+								author: {
+									name: session.user.name,
+									profile: session.user.profile
+								}
+							};
+
+							const typeWithData =
+								props.type === CreativeWorkType.BLOG_POST
+									? {
+											type: CreativeWorkType.BLOG_POST,
+											typeData: {
+												...props.input.typeData,
+												slug: props.slug,
+												id: props.typeDataId,
+												updatedAt: null
+											}
+									  }
+									: {
+											type: CreativeWorkType.POST,
+											typeData: {
+												...props.input.typeData,
+												id: props.typeDataId,
+												updatedAt: null
+											}
+									  };
+							// ...(props.input.typeData as any),
+
 							firstPage = {
 								...firstPage,
 								items: [
 									{
-										id: creativeWorkId,
-										tags:
-											props.input.tags?.map((tagName) => ({
-												name: tagName
-											})) || [],
-										createdAt: new Date(),
-										status: props.input.status || CreativeWorkStatus.PUBLIC,
-										type: props.type,
-										authorId: props.input.authorId,
-										typeData: {
-											...(props.input.typeData as any),
-											slug,
-											id: props.typeDataId,
-											createdAt: new Date(),
-											updatedAt: null
-										},
-										author: {
-											name: session.user.name,
-											profile: session.user.profile
-										}
+										...creativeWorkBasic,
+										...(typeWithData as any)
 									},
 									...firstPage.items
 								]
