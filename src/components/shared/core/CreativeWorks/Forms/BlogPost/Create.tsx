@@ -1,9 +1,12 @@
-import type { BlogPostFormProps } from '.';
-import type { TOnAddingCreativeWork } from '../utils/ts';
+import { CreativeWorkType } from '@prisma/client';
 
 import { trpcAPI } from '@utils/trpc';
+
+import type { TOnAddingCreativeWork } from '../utils/ts';
+
+import type { BlogPostFormProps } from '.';
 import BlogPostForm from '.';
-import { CreativeWorkType } from '@prisma/client';
+import slug from 'slug';
 
 export type CreateBlogPostFormProps = Omit<
 	BlogPostFormProps,
@@ -36,6 +39,7 @@ const CreateBlogPostForm = ({
 						.mutateAsync(input)
 						.then((result) => {
 							onAddingCreativeWork?.({
+								slug: slug(data.typeData.title),
 								type: CreativeWorkType.BLOG_POST,
 								input,
 								creativeWorkId: result.id,

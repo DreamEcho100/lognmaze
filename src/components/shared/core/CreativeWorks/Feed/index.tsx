@@ -114,7 +114,7 @@ const CreativeWorksFeed = ({
 			{session?.user?.profile?.id && (
 				<FeelingCreativeButton
 					authorId={session?.user?.id}
-					onAddingCreativeWork={({ creativeWorkId, ...props }) => {
+					onAddingCreativeWork={({ creativeWorkId, slug, ...props }) => {
 						updateGetAllCreativeWorksOnStore((prevData) => {
 							if (!prevData || !session?.user?.profile?.id) return prevData;
 
@@ -139,6 +139,7 @@ const CreativeWorksFeed = ({
 										authorId: props.input.authorId,
 										typeData: {
 											...(props.input.typeData as any),
+											slug,
 											id: props.typeDataId,
 											createdAt: new Date(),
 											updatedAt: null
