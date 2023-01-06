@@ -1,7 +1,7 @@
 import type { Tag } from '@prisma/client';
-import type { OmitPickAndSetToNonNullable } from '@server/ts';
-
 import { CreativeWorkStatus, CreativeWorkType } from '@prisma/client';
+
+import type { OmitPickAndSetToNonNullable } from '@server/ts';
 import { router, haveAuthorPrivilegesProcedure } from '@server/trpc/trpc';
 import { updateCreativeWorkTags } from '@server/utils/core/controllers';
 
@@ -98,7 +98,11 @@ export const blogPostsRouter = router({
 						}
 					}
 				},
-				include: { tags: true, blogPost: true, discussionForum: true }
+				include: {
+					tags: true,
+					blogPost: { include: { languageTag: true } },
+					discussionForum: true
+				}
 			});
 
 			ctx.prisma.tagBasicStatistics.updateMany({

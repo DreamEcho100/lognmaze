@@ -2,6 +2,10 @@ import type { AllowedFormTypeIndex } from '@components/shared/core/CreativeWorks
 import type { inferRouterInputs } from '@trpc/server';
 import type { AppRouter } from '@server/trpc/router/_app';
 import type { TOnAddingCreativeWork } from '@components/shared/core/CreativeWorks/Forms/utils/ts';
+import type {
+	TCreativeWorkBlogPostTypeData,
+	TCreativeWorkPostTypeData
+} from '@ts/index';
 
 import { CreativeWorkStatus, CreativeWorkType } from '@prisma/client';
 import { useTypedSession } from '@utils/common/hooks';
@@ -141,32 +145,29 @@ const CreativeWorksFeed = ({
 							};
 
 							const typeWithData =
+								props.type === CreativeWorkType.BLOG_POST &&
 								props.type === CreativeWorkType.BLOG_POST
-									? {
+									? ({
 											type: CreativeWorkType.BLOG_POST,
 											typeData: {
 												...props.input.typeData,
-												slug: props.slug,
-												id: props.typeDataId,
-												updatedAt: null
+												...props.result.blogPost
 											}
-									  }
-									: {
+									  } satisfies TCreativeWorkBlogPostTypeData)
+									: ({
 											type: CreativeWorkType.POST,
 											typeData: {
 												...props.input.typeData,
-												id: props.typeDataId,
-												updatedAt: null
+												...props.result.post
 											}
-									  };
-							// ...(props.input.typeData as any),
+									  } satisfies TCreativeWorkPostTypeData);
 
 							firstPage = {
 								...firstPage,
 								items: [
 									{
 										...creativeWorkBasic,
-										...(typeWithData as any)
+										...typeWithData
 									},
 									...firstPage.items
 								]

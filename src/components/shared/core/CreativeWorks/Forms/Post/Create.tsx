@@ -38,6 +38,7 @@ const CreatePostForm = ({
 							onAddingCreativeWork?.({
 								type: CreativeWorkType.POST,
 								input,
+								result,
 								creativeWorkId: result.id,
 								typeDataId: result.post.id
 							});
