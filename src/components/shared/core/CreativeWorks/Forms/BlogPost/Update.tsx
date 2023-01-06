@@ -92,7 +92,7 @@ const UpdateBlogPostForm = ({
 						})
 						.catch(() => false);
 				}}
-				disabled={updateBlogPost.isLoading || props.disabled}
+				isDisabled={updateBlogPost.isLoading || props.isDisabled}
 				creativeWorkDataToGetContentFor={{
 					creativeWorkId,
 					authorId

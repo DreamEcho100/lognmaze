@@ -1,7 +1,6 @@
 import type { inferRouterInputs } from '@trpc/server';
 import type { AppRouter } from '@server/trpc/router/_app';
 import type { FormEvent } from 'react';
-import type { TOnAddingCreativeWork } from '../utils/ts';
 
 import { CreativeWorkStatus } from '@prisma/client';
 import { useMemo, useState } from 'react';
@@ -37,7 +36,7 @@ export type PostFormProps = PostFormInitProps & {
 			creativeWork: NonNullable<PostFormInitProps['creativeWorkDefaults']>;
 		}
 	) => boolean | Promise<boolean>;
-	disabled?: boolean;
+	isDisabled?: boolean;
 	resetFormOnSuccessfulSubmission?: boolean;
 };
 
@@ -52,7 +51,7 @@ const PostForm = ({
 	tagsDefaults = [],
 	handleOnSubmit,
 	resetFormOnSuccessfulSubmission,
-	disabled
+	isDisabled = false
 }: PostFormProps) => {
 	const [typeDataValues, setPostValues] = useState(typeDataDefaults);
 	// const selectedLang = useMemo(
@@ -144,7 +143,7 @@ const PostForm = ({
 				}}
 			/>
 			<div className=''>
-				<Button disabled={disabled} type='submit'>
+				<Button disabled={isDisabled} type='submit'>
 					Submit
 				</Button>
 			</div>

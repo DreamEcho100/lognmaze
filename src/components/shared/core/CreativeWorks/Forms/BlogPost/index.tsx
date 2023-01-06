@@ -40,7 +40,7 @@ export type BlogPostFormProps = BlogPostFormInitProps & {
 		}
 	) => boolean | Promise<boolean>;
 	resetFormOnSuccessfulSubmission?: boolean;
-	disabled?: boolean;
+	isDisabled?: boolean;
 	creativeWorkDataToGetContentFor?: Omit<
 		inferRouterInputs<AppRouter>['creativeWorks']['blogPosts']['getContentOfOne'],
 		'authorId'
@@ -64,7 +64,7 @@ const BlogPostForm = ({
 	tagsDefaults = [],
 	handleOnSubmit,
 	resetFormOnSuccessfulSubmission,
-	disabled,
+	isDisabled = false,
 	creativeWorkDataToGetContentFor,
 	handleOnUpdatingCreativeWork
 }: BlogPostFormProps) => {
@@ -111,12 +111,15 @@ const BlogPostForm = ({
 		[]
 	);
 
+	const isSubmitButtonDisabled =
+		isDisabled ||
+		(!typeDataDefaults.content && getContentForCreativeWork.isLoading);
+
 	return (
 		<form
 			className='flex flex-col gap-4'
 			onSubmit={async (event) => {
-				if (!typeDataDefaults.content && getContentForCreativeWork.isLoading)
-					return;
+				if (isSubmitButtonDisabled) return;
 
 				if (
 					await handleOnSubmit(event, {
@@ -205,13 +208,7 @@ const BlogPostForm = ({
 				rows={6}
 			/>
 			<div className=''>
-				<Button
-					disabled={
-						disabled ||
-						(!typeDataDefaults.content && getContentForCreativeWork.isLoading)
-					}
-					type='submit'
-				>
+				<Button disabled={isSubmitButtonDisabled} type='submit'>
 					Submit
 				</Button>
 			</div>

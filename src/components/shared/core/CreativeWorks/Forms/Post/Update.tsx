@@ -88,7 +88,7 @@ const UpdatePostForm = ({
 						})
 						.catch(() => false);
 				}}
-				disabled={updatePost.isLoading || props.disabled}
+				isDisabled={updatePost.isLoading || props.isDisabled}
 			/>
 			{updatePost.isError && (
 				<p>

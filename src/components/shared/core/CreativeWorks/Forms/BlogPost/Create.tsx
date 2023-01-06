@@ -46,7 +46,7 @@ const CreateBlogPostForm = ({
 						.catch(() => false);
 				}}
 				resetFormOnSuccessfulSubmission
-				disabled={createBlogPost.isLoading || props.disabled}
+				isDisabled={createBlogPost.isLoading || props.isDisabled}
 			/>
 			{createBlogPost.isError && (
 				<p>
