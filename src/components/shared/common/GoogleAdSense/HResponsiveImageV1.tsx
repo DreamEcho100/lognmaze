@@ -38,8 +38,6 @@ const GoogleAdSenseHResponsiveImageV1 = () => {
 					pushAd()
 				)
 					return clearInterval(rePushTimeoutId);
-
-				rePushTimeout();
 			}, configRef.current.interval);
 		};
 
