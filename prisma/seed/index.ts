@@ -14,6 +14,8 @@ import grayMatter from 'gray-matter';
 
 import { z } from 'zod';
 
+import { default as slugify } from 'slug';
+
 import IETF_BCP_47_STANDARD from '../../src/utils/core/appData/IETF_BCP_47_STANDARD';
 
 export const prisma = new PrismaClient({
@@ -130,14 +132,7 @@ const seedingTheBlogPostsTable = async () => {
 							create: {
 								content,
 								description: data.description,
-								slug: data.title
-									.toLowerCase()
-									.replace(/[^\w\s-_]/gi, '')
-									.split(/[\s-]+/)
-									.join('-')
-									.replace(/(_{2,})/gi, '_')
-									.replace(/^[^\w]/gi, '')
-									.replace(/-$/, ''),
+								slug: slugify(data.title),
 								thumbnailUrl: data.thumbnailUrl,
 								title: data.title,
 								discussionForum: {
