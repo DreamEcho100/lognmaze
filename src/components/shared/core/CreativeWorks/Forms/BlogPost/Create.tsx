@@ -6,7 +6,6 @@ import type { TOnAddingCreativeWork } from '../utils/ts';
 
 import type { BlogPostFormProps } from '.';
 import BlogPostForm from '.';
-import slug from 'slug';
 
 export type CreateBlogPostFormProps = Omit<
 	BlogPostFormProps,
@@ -39,7 +38,7 @@ const CreateBlogPostForm = ({
 						.mutateAsync(input)
 						.then((result) => {
 							onAddingCreativeWork?.({
-								slug: slug(data.typeData.title),
+								slug: data.slug,
 								type: CreativeWorkType.BLOG_POST,
 								input,
 								creativeWorkId: result.id,

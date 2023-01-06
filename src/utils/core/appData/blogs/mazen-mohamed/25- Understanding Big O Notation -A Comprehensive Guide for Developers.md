@@ -1,7 +1,7 @@
 ---
 title: "Understanding Big O Notation: A Comprehensive Guide for Developers"
 description: Big O notation is a fundamental concept in computer science and algorithms, used to measure the efficiency of code. In this blog post, we will cover the basics of Big O notation, including its importance, how to calculate it, and common examples in Typescript. By the end of this post, you will have a strong understanding of how to analyze the performance of your own code and make informed decisions about optimization.
-tags: big-o-notation algorithms data-structure performance optimization computer-science typescript
+tags: big-o-notation time-complexity space-complexity algorithms data-structure performance optimization computer-science typescript
 thumbnailUrl: https://miro.medium.com/max/650/1*6mpaXFsrRPFXSKXK5Qgm8w.png
 ---
 
