@@ -1,7 +1,6 @@
 import type { PostFormProps } from '.';
 import type { TOnAddingCreativeWork } from '../utils/ts';
 
-import slug from 'slug';
 import { trpcAPI } from '@utils/trpc';
 import PostForm from '.';
 import { CreativeWorkType } from '@prisma/client';
@@ -37,7 +36,6 @@ const CreatePostForm = ({
 						.mutateAsync(input)
 						.then((result) => {
 							onAddingCreativeWork?.({
-								slug: slug(data.typeData.title),
 								type: CreativeWorkType.POST,
 								input,
 								creativeWorkId: result.id,

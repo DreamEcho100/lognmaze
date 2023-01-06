@@ -3,10 +3,11 @@ import type { AppRouter } from '@server/trpc/router/_app';
 import type { CreativeWorkType } from '@prisma/client';
 
 export type TOnAddingCreativeWork = (
-	props: { creativeWorkId: string; typeDataId: string; slug: string } & (
+	props: { creativeWorkId: string; typeDataId: string;  } & (
 		| {
 				type: typeof CreativeWorkType.BLOG_POST;
-				input: inferRouterInputs<AppRouter>['creativeWorks']['authors']['blogPosts']['createOne'];
+			input: inferRouterInputs<AppRouter>['creativeWorks']['authors']['blogPosts']['createOne'];
+			slug: string
 		  }
 		| {
 				type: typeof CreativeWorkType.POST;
