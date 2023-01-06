@@ -113,7 +113,9 @@ const BlogPostForm = ({
 
 	const isSubmitButtonDisabled =
 		isDisabled ||
-		(!typeDataDefaults.content && getContentForCreativeWork.isLoading);
+		(typeDataDefaults.content.length === 0 &&
+			getContentForCreativeWork.isLoading &&
+			getContentForCreativeWork.isFetching);
 
 	return (
 		<form
