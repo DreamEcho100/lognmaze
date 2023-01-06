@@ -54,7 +54,7 @@ const ToolSEOTags = ({ data }: ToolSEOTagsProps) => {
 								name: `Aggregate Rating | ${data.title}`,
 								ratingCount: 1,
 								ratingValue: 5,
-								reviewCount: 0,
+								reviewCount: 1,
 								itemReviewed: {
 									'@type': 'WebApplication',
 									'@id': fullURLPathName
