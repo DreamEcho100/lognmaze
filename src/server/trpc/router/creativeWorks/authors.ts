@@ -7,6 +7,8 @@ import { updateCreativeWorkTags } from '@server/utils/core/controllers';
 
 import { z } from 'zod';
 
+import { default as slugify } from 'slug';
+
 // const CreativeWorkStatusExcludeDeleted = Object.values(CreativeWorkStatus).filter(item => item === CreativeWorkStatus.DELETED)
 
 export const blogPostsRouter = router({
@@ -39,20 +41,10 @@ export const blogPostsRouter = router({
 			// 	}
 			// });
 
-			const slug = input.typeData.title
-				.trim()
-				.replace(/[^\w-]+/g, '_')
-				.replace(/_{2,}}/g, '_')
-				.toLowerCase();
+			const slug = slugify(input.typeData.title);
 
 			const filteredTags = input.tags
-				.map((tag) =>
-					tag
-						.trim()
-						.replace(/[^\w-]+/g, '_')
-						.replace(/_{2,}/g, '_')
-						.toLowerCase()
-				)
+				.map((tag) => slugify(tag))
 				.filter(Boolean);
 
 			const creativeWork = await ctx.prisma.creativeWork.create({
