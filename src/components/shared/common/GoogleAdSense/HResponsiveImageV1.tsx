@@ -3,7 +3,6 @@ import { useEffect, useRef } from 'react';
 
 const initConfigRef = () => ({
 	retryCounter: 0,
-	maxRetries: 7,
 	interval: 1000
 });
 
@@ -22,7 +21,6 @@ const GoogleAdSenseHResponsiveImageV1 = () => {
 				return true;
 			} catch (e) {
 				console.warn(e);
-
 				return false;
 			}
 		};
@@ -33,19 +31,14 @@ const GoogleAdSenseHResponsiveImageV1 = () => {
 
 		const rePushTimeout = () => {
 			rePushTimeoutId = setInterval(() => {
-				if (
-					configRef.current.maxRetries === configRef.current.retryCounter ||
-					pushAd()
-				)
-					return clearInterval(rePushTimeoutId);
+				configRef.current.retryCounter++;
+				if (pushAd()) return clearInterval(rePushTimeoutId);
 			}, configRef.current.interval);
 		};
 
 		rePushTimeout();
 
-		return () => {
-			clearInterval(rePushTimeoutId);
-		};
+		return () => clearInterval(rePushTimeoutId);
 	}, [router.isReady]);
 
 	useEffect(() => {

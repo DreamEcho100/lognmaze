@@ -276,6 +276,76 @@ export const textToBarcodeTool = {
 	]
 };
 
+export const htmlEntityEncoderDecoderTools = {
+	relativePath: 'html-entity',
+	title:
+		'HTML Entity Encoder/Decoder - Convert Special Characters to HTML Entities',
+	shortTitle: 'HTML Entity Encoder/Decoder',
+	description:
+		"Easily convert special characters to HTML entities or decode HTML entities back to their original characters with our online tool. Simply type or paste your text into the input field and click the 'Encode' or 'Decode' button to get the result in real-time.",
+	shortDescription:
+		'Convert special characters to HTML entities with our online tool.',
+	tags: [
+		'html entity',
+		'html entity converter',
+		'html entity encoder',
+		'html entity decoder',
+		'special characters',
+		'html entities',
+		...generateCommonTags()
+	],
+	faqs: [
+		{
+			question: 'How do I use the HTML Entity Encoder/Decoder tool?',
+			answer:
+				"To use the tool, simply type or paste your text into the input field and click the 'Encode' or 'Decode' button to get the result in real-time."
+		},
+		{
+			question:
+				'Can I encode or decode multiple pieces of text at once with the tool?',
+			answer:
+				'Yes, you can encode or decode multiple pieces of text at once using the tool. Simply enter all of the text that you want to encode or decode into the input field, and the tool will process it in real-time.'
+		},
+		{
+			question: 'Is the HTML Entity Encoder/Decoder tool free to use?',
+			answer:
+				'Yes, the HTML Entity Encoder/Decoder tool is free to use for personal or commercial purposes.'
+		},
+		{
+			question: 'Can I customize the output of the encoded or decoded text?',
+			answer:
+				'No, the tool does not currently offer any customization options for the encoded or decoded text.'
+		},
+		{
+			question:
+				'Are there any limitations to the HTML Entity Encoder/Decoder tool?',
+			answer:
+				'There are no known limitations to the HTML Entity Encoder/Decoder tool at this time. However, please note that the tool may not work correctly if you input invalid or malformed HTML code.'
+		},
+		{
+			question: 'How do I know if my encoded or decoded text is correct?',
+			answer:
+				'To check if your encoded or decoded text is correct, you can compare the output with the original text or use a validation tool to verify that the HTML entities have been properly encoded or decoded.'
+		},
+		{
+			question: 'Can I use the tool for commercial purposes?',
+			answer:
+				'Yes, you can use the HTML Entity Encoder/Decoder tool for commercial purposes as long as you adhere to any terms of use or licensing agreements that may apply.'
+		},
+		{
+			question: 'Is the HTML Entity Encoder/Decoder tool mobile-friendly?',
+			answer:
+				'Yes, the HTML Entity Encoder/Decoder tool is mobile-friendly and can be accessed from any device with an internet connection.'
+		},
+		{
+			question:
+				'How do I troubleshoot any issues or problems that I encounter while using the tool?',
+			answer:
+				"If you encounter any issues or problems while using the tool, you can try refreshing the page or clearing your browser cache. If the problem persists, you can try using a different browser or contacting the tool's support team for assistance."
+		}
+	]
+};
+
 const convertersAndTransformersTools = {
 	relativePath: 'converters-and-transformers',
 	title:
@@ -302,6 +372,7 @@ const convertersAndTransformersTools = {
 		textToBarcodeTool,
 		textToURLSlugConverterTool,
 		textToQRCodeConverterTool,
+		htmlEntityEncoderDecoderTools,
 		convertFromMarkdownToHTMLTool
 	]
 };
