@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
 const initConfigRef = () => ({
@@ -8,9 +9,10 @@ const initConfigRef = () => ({
 });
 
 const GoogleAdSenseHResponsiveImageV1 = () => {
+	const router = useRouter();
 	const configRef = useRef(initConfigRef());
 	useEffect(() => {
-		if (process.env.NODE_ENV !== 'production') return;
+		if (!router.isReady || process.env.NODE_ENV !== 'production') return;
 
 		const pushAd = () => {
 			try {
@@ -55,7 +57,7 @@ const GoogleAdSenseHResponsiveImageV1 = () => {
 		return () => {
 			clearTimeout(rePushTimeoutId);
 		};
-	}, []);
+	}, [router.isReady]);
 
 	useEffect(() => {
 		return () => {
