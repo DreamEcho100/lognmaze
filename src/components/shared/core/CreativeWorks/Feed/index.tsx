@@ -265,6 +265,14 @@ const CreativeWorksFeed = ({
 										};
 									});
 								}}
+								{...(index < 2
+									? {
+											compProps: {
+												thumbnailProps: { priority: true },
+												authorProfilePictureProps: { priority: true }
+											}
+									  }
+									: {})}
 							/>
 							{!!(index !== 0 && index % 2) && (
 								<GoogleAdSenseHResponsiveImageV1 />
