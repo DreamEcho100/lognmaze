@@ -298,7 +298,7 @@ export const htmlEntityEncoderDecoderTools = {
 		{
 			question: 'How do I use the HTML Entity Encoder/Decoder tool?',
 			answer:
-				"To use the tool, simply type or paste your text into the input field and click the 'Encode' or 'Decode' button to get the result in real-time."
+				'There are two inputs, the first when typing in it encodes it to the second input, and in the second input when typing in it decodes it to the first input in real-time.'
 		},
 		{
 			question:
