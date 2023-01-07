@@ -1,12 +1,15 @@
 import type { FC, ReactNode } from 'react';
 import type { Options } from 'react-markdown/lib/ast-to-react';
 
-import { useEffect, useState, isValidElement } from 'react';
+import { useEffect, useState, useRef, isValidElement } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
+const GoogleAdSenseHResponsiveImageV1 = dynamic(
+	() => import('@components/shared/common/GoogleAdSense/HResponsiveImageV1')
+);
 const SyntaxHighlighterDynamic = dynamic(() => import('./SyntaxHighlighter'));
 
 import CustomNextImage from '../../CustomNextImage';
@@ -59,6 +62,11 @@ function CodeCopyBtn({ children }: { children: ReactNode | ReactNode[] }) {
 }
 
 const MdToHTMLFormatter: FC<Props> = ({ content }) => {
+	const configRef = useRef({
+		counters: {
+			h2: 0
+		}
+	});
 	const customComponents: TCustomComponents = {
 		pre({ children }) {
 			return (
@@ -144,6 +152,19 @@ const MdToHTMLFormatter: FC<Props> = ({ content }) => {
 					{JSON.stringify(children, null, 2)}
 				</code>
 			);
+		},
+		h2: ({ children, level, node, ...props }) => {
+			configRef.current.counters.h2++;
+
+			if (configRef.current.counters.h2 % 2 === 0)
+				return (
+					<>
+						<GoogleAdSenseHResponsiveImageV1 />
+						<h2 {...props}>{children}</h2>
+					</>
+				);
+
+			return <h2 {...props}>{children}</h2>;
 		}
 	};
 
