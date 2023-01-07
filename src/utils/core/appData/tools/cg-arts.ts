@@ -109,12 +109,10 @@ const cgArtsTools = {
 	shortDescription:
 		'Discover the endless possibilities of computer generated art with our collection of online tools. Create your own unique designs with customizable options, or explore randomly generated art. Get inspired and learn more with our helpful Q&As.',
 	pages: [generateFractalTreeTool],
-	faqs: [
-		{
-			question: '',
-			answer: ''
-		}
-	],
+	faqs: [] as {
+		question: string;
+		answer: string;
+	}[],
 	tags: ['']
 };
 

@@ -3,6 +3,7 @@ import { textToURLSlugConverterTool } from '@utils/core/appData/tools/converters
 import { useState } from 'react';
 import slug from 'slug';
 import ToolSEOTags from '@components/screens/Tools/components/ToolSEOTags';
+import FAQs from '@components/screens/Tools/components/FAQs';
 
 const TextToURLSlugConverterScreen = () => {
 	const [inputText, setInputText] = useState('Text to URL Slug Converter');
@@ -29,6 +30,7 @@ const TextToURLSlugConverterScreen = () => {
 						Generated URL slug: <strong>{slug(inputText)}</strong>
 					</p>
 				</div>
+				<FAQs faqs={textToURLSlugConverterTool.faqs} />
 			</section>
 		</>
 	);

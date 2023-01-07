@@ -12,6 +12,7 @@ import {
 	canvasPropertiesFieldsetInputs,
 	treePropertiesFieldsetInputs
 } from './inputsFormData';
+import FAQs from '@components/screens/Tools/components/FAQs';
 
 type TDrawTree = ({
 	startX,
@@ -517,14 +518,15 @@ const GenerateFractalTreeScreen = () => {
 						Generate Randomly
 					</button>
 				</div>
-				<footer className='text-center'>
+				{/* <footer className='text-center'>
 					<p>
 						Fractals are never-ending patterns created by repeating mathematical
 						equations, which on any scale, on any level of zoom, look roughly
 						the same. In other words, a geometric object which&apos;s basic
 						structure, rough or fragmented, repeats itself in different scales.
 					</p>
-				</footer>
+				</footer> */}
+				<FAQs faqs={generateFractalTreeTool.faqs} />
 			</section>
 		</>
 	);

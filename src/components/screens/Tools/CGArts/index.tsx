@@ -1,6 +1,7 @@
 import cgArtsTools from '@utils/core/appData/tools/cg-arts';
 import Link from 'next/link';
 import ToolSEOTags from '@components/screens/Tools/components/ToolSEOTags';
+import FAQs from '../components/FAQs';
 
 const CGArtsToolsScreen = () => {
 	return (
@@ -16,6 +17,7 @@ const CGArtsToolsScreen = () => {
 						</li>
 					))}
 				</ul>
+				<FAQs faqs={cgArtsTools.faqs} />
 			</section>
 		</>
 	);

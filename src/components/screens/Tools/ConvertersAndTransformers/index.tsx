@@ -1,6 +1,7 @@
 import convertersAndTransformersTools from '@utils/core/appData/tools/converters-and-transformers';
 import Link from 'next/link';
 import ToolSEOTags from '@components/screens/Tools/components/ToolSEOTags';
+import FAQs from '../components/FAQs';
 
 const ConvertersAndTransformersToolsScreen = () => {
 	return (
@@ -16,6 +17,7 @@ const ConvertersAndTransformersToolsScreen = () => {
 						</li>
 					))}
 				</ul>
+				<FAQs faqs={convertersAndTransformersTools.faqs} />
 			</section>
 		</>
 	);

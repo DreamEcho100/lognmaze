@@ -6,6 +6,7 @@ import { Tab } from '@headlessui/react';
 import { handleButtonVariants } from '@components/shared/common/Button';
 import ToolSEOTags from '@components/screens/Tools/components/ToolSEOTags';
 import { convertFromMarkdownToHTMLTool } from '@utils/core/appData/tools/converters-and-transformers';
+import FAQs from '@components/screens/Tools/components/FAQs';
 
 // import MdToHTMLFormatter from '@commonComponentsDependent/Format/MdToHTML';
 // import TextareaComponent from '@commonComponentsIndependent/Textarea';
@@ -53,7 +54,7 @@ const ConvertFromMarkdownToHTMLAppScreen = () => {
 						<HTMLPart content={values.mdContent} />
 					</div>
 				</div>
-				<footer>
+				{/* <footer>
 					<h2 className='text-h2'>Coming Soon:</h2>
 					<ul>
 						{[
@@ -63,7 +64,8 @@ const ConvertFromMarkdownToHTMLAppScreen = () => {
 							<li key={item.replace(/[\W]+/g, '-')}>{item}</li>
 						))}
 					</ul>
-				</footer>
+				</footer> */}
+				<FAQs faqs={convertFromMarkdownToHTMLTool.faqs} />
 			</section>
 		</>
 	);

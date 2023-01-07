@@ -1,5 +1,6 @@
 import { cx } from 'class-variance-authority';
 import type { FormEvent, ReactNode } from 'react';
+import FAQs from './FAQs';
 import type { ToolSEOTagsProps } from './ToolSEOTags';
 
 import ToolSEOTags from './ToolSEOTags';
@@ -21,6 +22,7 @@ export const Container = ({
 					{header.description && <p>{header.description}</p>}
 				</header>
 				<div className='flex flex-col gap-4 md:flex-row'>{children}</div>
+				<FAQs faqs={data.faqs} />
 			</section>
 		</>
 	);

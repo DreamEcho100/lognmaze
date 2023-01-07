@@ -2987,6 +2987,11 @@ minimist@^1.2.0, minimist@^1.2.6:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.7.tgz#daa1c4d91f507390437c6a8bc01078e7000c4d18"
   integrity sha512-bzfL1YUZsP41gmu/qjrEk0Q6i2ix/cVeAhbCbqH9u3zYutS1cLg00qhrD0M2MVdCcx4Sc0UpP2eBWo9rotpq6g==
 
+morse-converter@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/morse-converter/-/morse-converter-1.2.0.tgz#55a84a204c05abb346f382d209cc6c5f437d139d"
+  integrity sha512-QIvjMx5qM9NJbDtL8q8j9Q5IX/PLwjcFpxhf9e7czEHDo5K7WNVdUksEZJXzxOzI8qnef4RLBf4/kQv9QRmSBg==
+
 mri@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/mri/-/mri-1.2.0.tgz#6721480fec2a11a4889861115a48b6cbe7cc8f0b"

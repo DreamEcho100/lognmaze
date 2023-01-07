@@ -286,12 +286,11 @@ export const htmlEntityEncoderDecoderTools = {
 	shortDescription:
 		'Convert special characters to HTML entities with our online tool.',
 	tags: [
-		'html entity',
-		'html entity converter',
-		'html entity encoder',
-		'html entity decoder',
-		'special characters',
-		'html entities',
+		'html-entity',
+		'html-entities',
+		'encoding',
+		'decoding',
+		'special-characters',
 		...generateCommonTags()
 	],
 	faqs: [
@@ -346,6 +345,60 @@ export const htmlEntityEncoderDecoderTools = {
 	]
 };
 
+export const morseCodeConverterTool = {
+	relativePath: 'morse-code',
+	title: 'Text to Morse Code Converter - Real-Time Encoding and Decoding',
+	shortTitle: 'Morse Code Converter',
+	description:
+		'Easily convert text to Morse code or decode Morse code back to text in real-time with our online converter tool. Simply type your text into the input field and the corresponding Morse code will appear in the other field, or vice versa. Use the tool for personal or commercial purposes.',
+	shortDescription: 'Real-time text-to-Morse code converter',
+	tags: ['morse-code', 'encoding', 'decoding', ...generateCommonTags()],
+	faqs: [
+		{
+			question: 'How do I use the Text to Morse Code converter?',
+			answer:
+				'To use the converter, simply type your text into the input field on the left side of the tool. The corresponding Morse code will automatically appear in the other input field on the right side. To decode Morse code back to text, simply type the Morse code into the right-side input field and the corresponding text will appear in the left-side input field.'
+		},
+		{
+			question: 'Can I customize the output of the encoded or decoded text?',
+			answer:
+				'No, the tool is designed to automatically convert text to and from Morse code in real-time as you type. There are no customization options available.'
+		},
+		{
+			question: 'Is the Text to Morse Code converter free to use?',
+			answer:
+				'Yes, the converter is free to use for personal or commercial purposes.'
+		},
+		{
+			question:
+				'Are there any limitations to the Text to Morse Code converter?',
+			answer:
+				'There are no limitations to the converter. You can use it to convert as much text as you like.'
+		},
+		{
+			question: 'How do I know if my encoded or decoded text is correct?',
+			answer:
+				'The converter should accurately encode and decode text to and from Morse code as long as you enter the text or Morse code correctly. If you are having trouble with the tool, please double-check your input to ensure it is correct.'
+		},
+		{
+			question: 'Can I use the converter for commercial purposes?',
+			answer:
+				'Yes, you are welcome to use the converter for commercial purposes.'
+		},
+		{
+			question: 'Is the Text to Morse Code converter mobile-friendly?',
+			answer:
+				'Yes, the converter is designed to be fully mobile-friendly and should work on all devices with a modern web browser.'
+		},
+		{
+			question:
+				'How do I troubleshoot any issues or problems that I encounter while using the tool?',
+			answer:
+				"If you are experiencing any issues or problems with the Text to Morse Code converter, please double-check your input to ensure it is correct. If the problem persists, try clearing your web browser's cache and cookies, or try accessing the tool on a different device or web browser. If you are still having trouble, please contact us for further assistance."
+		}
+	]
+};
+
 const convertersAndTransformersTools = {
 	relativePath: 'converters-and-transformers',
 	title:
@@ -363,7 +416,10 @@ const convertersAndTransformersTools = {
 		'transformation',
 		...generateCommonTags()
 	],
-	faqs: [{ question: '', answer: '' }],
+	faqs: [] satisfies {
+		question: string;
+		answer: string;
+	}[],
 	// description:
 	// 	'The word "transformer" is typically used to describe a device that converts electrical energy from one form to another, such as a transformer that converts alternating current (AC) to direct current (DC) or vice versa. In this context, the word "converter" is often used interchangeably with "transformer."\nOn the other hand, the word "converter" can also be used more generally to refer to any device or software that converts one form of data, information, or media into another. For example, a file converter is a software tool that converts a file from one format to another, such as a video converter that converts a video file from MP4 to AVI. In this context, the word "transformer" would not be used.',
 	// shortDescription:
@@ -373,7 +429,8 @@ const convertersAndTransformersTools = {
 		textToURLSlugConverterTool,
 		textToQRCodeConverterTool,
 		htmlEntityEncoderDecoderTools,
-		convertFromMarkdownToHTMLTool
+		convertFromMarkdownToHTMLTool,
+		morseCodeConverterTool
 	]
 };
 

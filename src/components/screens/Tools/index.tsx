@@ -1,6 +1,7 @@
 import toolsData from '@utils/core/appData/tools';
 import ToolSEOTags from '@components/screens/Tools/components/ToolSEOTags';
 import Link from 'next/link';
+import FAQs from './components/FAQs';
 
 const ToolsScreen = () => {
 	return (
@@ -27,6 +28,7 @@ const ToolsScreen = () => {
 						</li>
 					))}
 				</ul>
+				<FAQs faqs={toolsData.faqs} />
 			</section>
 		</>
 	);
