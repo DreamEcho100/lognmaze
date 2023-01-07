@@ -7,7 +7,7 @@ import type {
 	TCreativeWorkPost,
 	TCreativeWorkTypeData
 } from '@ts/index';
-import type { HTMLAttributes, CSSProperties } from 'react';
+import type { HTMLAttributes, CSSProperties, ComponentType } from 'react';
 import type { BlogPostFormProps } from './Forms/BlogPost';
 import type { PostFormProps } from './Forms/Post';
 import type { CreativeWorkType } from '@prisma/client';
@@ -26,7 +26,10 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import UpdateCreativeWorkDialog from './Dialogs/Update';
 import { createContainer } from 'react-tracked';
 import DeleteCreativeWorkDialog from './Dialogs/Delete';
-import MdToHTMLFormatter from '@components/shared/common/Format/MdToHTML';
+import dynamic from 'next/dist/shared/lib/dynamic';
+const DynamicMdToHTMLFormatter = dynamic(
+	() => import('@components/shared/common/Format/MdToHTML')
+);
 
 const CreateWorkContainer = ({
 	languageTag,
@@ -401,7 +404,7 @@ const CreativeWorkBlogPost = ({
 	thumbnailProps?: Partial<Parameters<typeof CustomNextImage>[0]>;
 	authorProfilePictureProps?: Partial<Parameters<typeof CustomNextImage>[0]>;
 }) => {
-	const { displayMode } = useCreativeWorkSharedState();
+	const { displayMode, MdContentFormatterComp } = useCreativeWorkSharedState();
 	const authorUserName = data.author?.name || "Can't find this author";
 
 	return (
@@ -451,7 +454,7 @@ const CreativeWorkBlogPost = ({
 							'prose-pre:p-0'
 						)}
 					>
-						<MdToHTMLFormatter content={data.typeData.content} />
+						<MdContentFormatterComp content={data.typeData.content} />
 					</div>
 				))}
 			<CreativeWorkFooter />
@@ -487,9 +490,13 @@ const CreativeWork_ = ({ data, compProps = {} }: CreativeWorkProps) => {
 
 export type CreativeWorkSharedState = {
 	onUpdatingCreativeWork: (
-		props: { authorId: string; creativeWorkId: string } & (
+		props: {
+			authorId: string;
+			creativeWorkId: string;
+		} & (
 			| {
 					type: typeof CreativeWorkType.BLOG_POST;
+
 					updatedTypeData?: Partial<
 						Parameters<BlogPostFormProps['handleOnSubmit']>['1']['typeData']
 					>;
@@ -512,6 +519,7 @@ export type CreativeWorkSharedState = {
 			  }
 		)
 	) => Promise<void> | void;
+	MdContentFormatterComp: ComponentType<{ content: string }>;
 	onDeletingCreativeWork: (props: {
 		creativeWorkId: string;
 	}) => Promise<void> | void;
@@ -536,15 +544,20 @@ type CreativeWorkCompProps = CreativeWorkProps &
 
 export const CreativeWorkComp = ({
 	displayMode = 'BASIC',
+	MdContentFormatterComp = DynamicMdToHTMLFormatter,
 	onDeletingCreativeWork,
 	onUpdatingCreativeWork,
 	...props
-}: CreativeWorkCompProps) => {
+}: Omit<CreativeWorkCompProps, 'displayMode' | 'MdContentFormatterComp'> & {
+	displayMode?: CreativeWorkCompProps['displayMode'];
+	MdContentFormatterComp?: CreativeWorkCompProps['MdContentFormatterComp'];
+}) => {
 	return (
 		<Provider
 			displayMode={displayMode}
 			onDeletingCreativeWork={onDeletingCreativeWork}
 			onUpdatingCreativeWork={onUpdatingCreativeWork}
+			MdContentFormatterComp={MdContentFormatterComp}
 		>
 			<CreativeWork_ {...props} />
 		</Provider>

@@ -15,6 +15,7 @@ import { defaultSiteName, websiteBasePath } from '@utils/core/app';
 import { useGetFullURLPathName } from '@components/shared/common/hooks';
 import { useRouter } from 'next/router';
 import GoogleAdSenseHResponsiveImageV1 from '@components/shared/common/GoogleAdSense/HResponsiveImageV1';
+import MdToHTMLFormatter from '@components/shared/common/Format/MdToHTML';
 
 type BlogPostPageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -120,6 +121,7 @@ const BlogPostPage = (props: BlogPostPageProps) => {
 					thumbnailProps: { priority: true },
 					authorProfilePictureProps: { priority: true }
 				}}
+				MdContentFormatterComp={MdToHTMLFormatter}
 				data={creativeWork}
 				displayMode='FULL'
 				onDeletingCreativeWork={() => {
