@@ -11,7 +11,7 @@ const CGArtsToolsScreen = () => {
 				<ul>
 					{cgArtsTools.pages.map((page) => (
 						<li key={page.relativePath}>
-							<Link href={`/tools/cg-arts/${page.relativePath}`}>
+							<Link href={`/tools/${cgArtsTools.relativePath}/${page.relativePath}`}>
 								<p>{page.shortTitle}</p>
 							</Link>
 						</li>

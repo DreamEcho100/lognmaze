@@ -11,7 +11,7 @@ const ConvertersAndTransformersToolsScreen = () => {
 				<ul>
 					{convertersAndTransformersTools.pages.map((page) => (
 						<li key={page.relativePath}>
-							<Link href={`/tools/${page.relativePath}/${page.relativePath}`}>
+							<Link href={`/tools/${convertersAndTransformersTools.relativePath}/${page.relativePath}`}>
 								<p>{page.shortTitle}</p>
 							</Link>
 						</li>
