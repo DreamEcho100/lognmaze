@@ -207,7 +207,26 @@ const MainLayout = ({ children }: Props) => {
 					children
 				)}
 			</main>
-			<footer id='primary-footer'></footer>
+			<footer id='primary-footer' className={cx('h-primary-footer flex')}>
+				<div className='color-theme-primary-700 mx-auto h-full w-full max-w-primary p-8 font-bold'>
+					<nav className={cx('flex flex-col gap-2 capitalize')}>
+						<ul>
+							<li>
+								<a
+									href='/sitemap.xml'
+									target='_blank'
+									rel='noopener noreferrer'
+								>
+									sitemap
+								</a>
+							</li>
+							<li>
+								<Link href='/tools'>Tools</Link>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</footer>
 		</>
 	);
 };
