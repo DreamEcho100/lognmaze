@@ -14,7 +14,7 @@ const ExtraScripts = () => {
 
 		const timeoutId = setTimeout(() => {
 			setIsPlayingScripts(true);
-		}, 7000);
+		}, 8000);
 
 		return () => timeoutId && clearTimeout(timeoutId);
 	}, []);
