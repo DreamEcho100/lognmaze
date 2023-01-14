@@ -15,6 +15,9 @@ const DynamicTopProgressBar = dynamic(
 	{ ssr: false }
 );
 
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+
 // import '@styles/dist.css';
 
 // yarn add -D concurrently
@@ -26,6 +29,18 @@ const MyApp: AppType<{ session: Session | null }> = ({
 	Component,
 	pageProps: { session, ...pageProps }
 }) => {
+	const router = useRouter();
+
+	useEffect(() => {
+		if (router.asPath.startsWith('/blogs/')) {
+			router.push(
+				`/users/dreamecho100/creative-works/blog-posts/${router.asPath.slice(
+					'/blogs/'.length
+				)}`
+			);
+		}
+	}, [router]);
+
 	return (
 		<SessionProvider
 			session={session}
