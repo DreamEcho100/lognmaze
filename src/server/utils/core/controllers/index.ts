@@ -137,7 +137,7 @@ export const updateCreativeWorkTags = async (
 				connectOrCreate: input.addedTags?.map((tag) => ({
 					create: {
 						name: tag,
-						basicStatistics: {
+						stats: {
 							connectOrCreate: { create: {}, where: { tagName: tag } }
 						}
 					},

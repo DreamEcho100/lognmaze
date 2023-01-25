@@ -56,7 +56,7 @@ export const blogPostsRouter = router({
 						connectOrCreate: filteredTags.map((tag) => ({
 							create: {
 								name: tag,
-								basicStatistics: {
+								stats: {
 									connectOrCreate: { create: {}, where: { tagName: tag } }
 								}
 							},
@@ -208,7 +208,7 @@ export const postsRouter = router({
 						connectOrCreate: input.tags?.map((tag) => ({
 							create: {
 								name: tag,
-								basicStatistics: {
+								stats: {
 									connectOrCreate: { create: {}, where: { tagName: tag } }
 								}
 							},
@@ -342,7 +342,7 @@ export const discussionFormsPostsRouter = router({
 						connectOrCreate: input.tags?.map((tag) => ({
 							create: {
 								name: tag,
-								basicStatistics: {
+								stats: {
 									connectOrCreate: { create: {}, where: { tagName: tag } }
 								}
 							},

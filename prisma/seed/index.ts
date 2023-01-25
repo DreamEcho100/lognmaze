@@ -118,7 +118,7 @@ const seedingTheBlogPostsTable = async () => {
 							connectOrCreate: data.tags.map((tag) => ({
 								create: {
 									name: tag,
-									basicStatistics: {
+									stats: {
 										connectOrCreate: {
 											create: { blogPostsCount: 0 },
 											where: { tagName: tag }

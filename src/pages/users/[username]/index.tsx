@@ -2,7 +2,7 @@ import type { NextSeoProps } from 'next-seo';
 import {
 	User,
 	UserProfile,
-	UserBasicStatistics,
+	UserStats,
 	UserGender
 } from '@prisma/client';
 import type { GetStaticProps, NextPage, InferGetStaticPropsType } from 'next';
@@ -46,7 +46,7 @@ const UserProfilePage: NextPage<UserProfilePageProps> = (props) => {
 		return userData;
 	}, [props.userData, session?.user, status]);
 
-	if (!userData?.profile.id || !userData?.basicStatistics.id) return <></>;
+	if (!userData?.profile.id || !userData?.stats.id) return <></>;
 
 	return (
 		<>
@@ -214,7 +214,7 @@ export const getStaticProps: GetStaticProps<{
 	userData: User & {
 		isVisitorTheOwner: boolean;
 		profile: UserProfile;
-		basicStatistics: UserBasicStatistics;
+		stats: UserStats;
 	};
 }> = async ({ params }) => {
 	const result = await z
@@ -228,7 +228,7 @@ export const getStaticProps: GetStaticProps<{
 	const userData = (await prisma.user.findFirstOrThrow({
 		include: {
 			profile: true,
-			basicStatistics: true
+			stats: true
 			// creativeWorks: {
 			// 	take: 10,
 			// 	orderBy: { createdAt: 'desc' }
@@ -239,11 +239,11 @@ export const getStaticProps: GetStaticProps<{
 		| (User & {
 				isVisitorTheOwner: boolean;
 				profile: UserProfile;
-				basicStatistics: UserBasicStatistics;
+				stats: UserStats;
 		  })
 		| null;
 
-	if (!userData || !userData.profile || !userData.basicStatistics)
+	if (!userData || !userData.profile || !userData.stats)
 		return { notFound: true };
 
 	userData.isVisitorTheOwner = false;
