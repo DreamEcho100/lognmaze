@@ -47,8 +47,8 @@ export const getCreativeWorkTypeBlogPostsData = async (
 		take: input.blogPostsCreativeWorkIds.length
 	});
 
-	return data as (Omit<typeof data[0], 'content'> & {
-		content?: typeof data[0]['content'];
+	return data as (Omit<(typeof data)[0], 'content'> & {
+		content?: (typeof data)[0]['content'];
 	})[];
 };
 
@@ -150,7 +150,7 @@ export const updateCreativeWorkTags = async (
 	});
 
 	if (input.addedTags && input.addedTags.length !== 0)
-		prisma.tagBasicStatistics.updateMany({
+		prisma.tagStats.updateMany({
 			data: {
 				[creativeWorkType_TagBasicStatisticsName_Map[input.creativeWorkType]]: {
 					increment: 1
@@ -160,7 +160,7 @@ export const updateCreativeWorkTags = async (
 		});
 
 	if (input.removedTags && input.removedTags.length !== 0)
-		prisma.tagBasicStatistics.updateMany({
+		prisma.tagStats.updateMany({
 			data: {
 				[creativeWorkType_TagBasicStatisticsName_Map[input.creativeWorkType]]: {
 					decrement: 1

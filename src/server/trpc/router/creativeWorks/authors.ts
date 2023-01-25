@@ -97,7 +97,7 @@ export const blogPostsRouter = router({
 				}
 			});
 
-			ctx.prisma.tagBasicStatistics.updateMany({
+			ctx.prisma.tagStats.updateMany({
 				data: {
 					blogPostsCount: { increment: 1 }
 				},
@@ -238,7 +238,7 @@ export const postsRouter = router({
 				include: { tags: true, post: true, discussionForum: true }
 			});
 
-			ctx.prisma.tagBasicStatistics.updateMany({
+			ctx.prisma.tagStats.updateMany({
 				data: {
 					postsCount: { increment: 1 }
 				},
@@ -360,7 +360,7 @@ export const discussionFormsPostsRouter = router({
 				include: { tags: true, discussionForumPost: true }
 			});
 
-			ctx.prisma.tagBasicStatistics.updateMany({
+			ctx.prisma.tagStats.updateMany({
 				data: {
 					postsCount: { increment: 1 }
 				},

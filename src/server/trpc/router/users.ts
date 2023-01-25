@@ -49,7 +49,7 @@ const usersProfilesRouter = router({
 						userId: ctx.session.user.id
 					}
 				}),
-				ctx.prisma.userBasicStatistics.create({
+				ctx.prisma.userStats.create({
 					data: { userId: ctx.session.user.id }
 				}),
 				ctx.prisma.gender.update({

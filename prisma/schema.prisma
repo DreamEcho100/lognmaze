@@ -109,11 +109,11 @@ model User {
   // profileId String?      @unique @map("profile_id")
   // profile UserProfile? @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
-  profile         UserProfile?
-  basicStatistics UserBasicStatistics?
-  accounts        Account[]
-  sessions        Session[]
-  creativeWorks   CreativeWork[]
+  profile       UserProfile?
+  stats         UserStats?
+  accounts      Account[]
+  sessions      Session[]
+  creativeWorks CreativeWork[]
 
   ratingsForCreativeWork UserRatingForCreativeWork[]
   // creativeWorksRatings RatingForCreativeWork[]
@@ -181,7 +181,7 @@ model Gender {
 // work
 // education
 
-model UserBasicStatistics {
+model UserStats {
   id String @id @default(uuid())
 
   userId String @unique @map("user_id")
@@ -192,7 +192,7 @@ model UserBasicStatistics {
   discussionForumsCount     Int @default(0) @map("discussion_forums_count")
   discussionForumPostsCount Int @default(0) @map("discussion_forum_posts_count")
 
-  @@map("users_basic_statistics")
+  @@map("users_stats")
 }
 
 model VerificationToken {
@@ -224,13 +224,13 @@ model Tag {
   name String @id @unique
 
   // creativeWorksWithTag TagOnCreativeWork[]
-  creativeWorks   CreativeWork[]
-  basicStatistics TagBasicStatistics?
+  creativeWorks CreativeWork[]
+  stats         TagStats?
 
   @@map("tags")
 }
 
-model TagBasicStatistics {
+model TagStats {
   id String @id @default(uuid())
 
   tagName String @unique @map("tag_name")
@@ -241,7 +241,7 @@ model TagBasicStatistics {
   discussionForumsCount     Int @default(0) @map("discussion_forums_count")
   discussionForumPostsCount Int @default(0) @map("discussion_forum_posts_count")
 
-  @@map("tags_basic_statistics")
+  @@map("tags_stats")
 }
 
 // https://schema.org/CreativeWork

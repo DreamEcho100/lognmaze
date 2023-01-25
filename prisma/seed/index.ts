@@ -83,7 +83,7 @@ const seedingTheBlogPostsTable = async () => {
 			})
 			.then(console.log);
 		await prisma.tag.deleteMany().then(console.log);
-		await prisma.tagBasicStatistics.deleteMany().then(console.log);
+		await prisma.tagStats.deleteMany().then(console.log);
 
 		for (const file of files) {
 			const filePath = path.join(directory, file);
@@ -176,8 +176,8 @@ const seedingTheBlogPostsTable = async () => {
 			}
 		}
 
-		console.log('Updating tagBasicStatistics table');
-		await prisma.tagBasicStatistics
+		console.log('Updating tagStats table');
+		await prisma.tagStats
 			.updateMany({
 				data: { blogPostsCount: { increment: 1 } },
 				where: { tagName: { in: tagsPages.flat(1).map((tagName) => tagName) } }
@@ -185,8 +185,8 @@ const seedingTheBlogPostsTable = async () => {
 			.then(console.log)
 			.catch(console.error);
 
-		console.log('Updating userBasicStatistics table');
-		await prisma.userBasicStatistics
+		console.log('Updating userStats table');
+		await prisma.userStats
 			.update({
 				data: { blogPostsCount: 0, postsCount: 0 },
 				where: { userId: authorId }
@@ -194,8 +194,8 @@ const seedingTheBlogPostsTable = async () => {
 			.then(console.log)
 			.catch(console.error);
 
-		console.log('Updating userBasicStatistics table');
-		await prisma.userBasicStatistics
+		console.log('Updating userStats table');
+		await prisma.userStats
 			.update({
 				data: { blogPostsCount: creativeWorksTypeBlogPostData.length },
 				where: { userId: authorId }
@@ -211,4 +211,4 @@ const seedingTheBlogPostsTable = async () => {
 
 // seedingTheLanguagesTagsTable();
 // seedingTheGendersTagsTable();
-seedingTheBlogPostsTable();
+// seedingTheBlogPostsTable();
