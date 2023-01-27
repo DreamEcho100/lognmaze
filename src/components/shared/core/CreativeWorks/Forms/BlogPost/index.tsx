@@ -14,6 +14,7 @@ import {
 	LangsOptions
 } from '@utils/core/Langs';
 import { trpcAPI } from '@utils/trpc';
+import slug from 'slug';
 
 type BlogPostFormInitProps = {
 	typeDataDefaults?: inferRouterInputs<AppRouter>['creativeWorks']['authors']['blogPosts']['createOne']['typeData'];
@@ -178,16 +179,20 @@ const BlogPostForm = ({
 				setTags={setTags}
 				filterFunc={(item) => (prevIem) => prevIem.value !== item.value}
 				addFunc={(prev, _item) => {
-					const item = _item
-						.trim()
-						.replace(/[^\w-]+/g, '_')
-						.replace(/_{2,}/g, '_')
-						.toLowerCase();
+					const items = _item
+						.split(/\s+/)
+						.map((item) => {
+							const slugifiedItem = slug(item);
+							return { key: slugifiedItem, value: slugifiedItem };
+						})
+						.filter(
+							(item) =>
+								item && !prev.some((prevItem) => prevItem.value === item.value)
+						);
 
-					if (!item || prev.some((prevItem) => prevItem.value === item))
-						return prev;
+					if (items.length === 0) return prev;
 
-					return [...prev, { key: item, value: item }];
+					return [...prev, ...items];
 				}}
 			/>
 			<FormField

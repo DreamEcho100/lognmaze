@@ -7,6 +7,7 @@ import { useMemo, useState } from 'react';
 import FormField from '@components/shared/common/FormField';
 import SelectTags from '@components/shared/common/SelectTags';
 import Button from '@components/shared/common/Button';
+import slug from 'slug';
 // import {
 // 	defaultLang,
 // 	IETF_BCP_47_STANDARD,
@@ -130,16 +131,20 @@ const PostForm = ({
 				setTags={setTags}
 				filterFunc={(item) => (prevIem) => prevIem.value !== item.value}
 				addFunc={(prev, _item) => {
-					const item = _item
-						.trim()
-						.replace(/[^\w-]+/g, '_')
-						.replace(/_{2,}/g, '_')
-						.toLowerCase();
+					const items = _item
+						.split(/\s+/)
+						.map((item) => {
+							const slugifiedItem = slug(item);
+							return { key: slugifiedItem, value: slugifiedItem };
+						})
+						.filter(
+							(item) =>
+								item && !prev.some((prevItem) => prevItem.value === item.value)
+						);
 
-					if (!item || prev.some((prevItem) => prevItem.value === item))
-						return prev;
+					if (items.length === 0) return prev;
 
-					return [...prev, { key: item, value: item }];
+					return [...prev, ...items];
 				}}
 			/>
 			<div className=''>
