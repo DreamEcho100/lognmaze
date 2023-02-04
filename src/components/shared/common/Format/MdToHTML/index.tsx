@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
 import type { Options } from 'react-markdown/lib/ast-to-react';
 
-import { useEffect, useState, useRef, isValidElement } from 'react';
+import { useEffect, useState, useRef, isValidElement, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
@@ -124,20 +124,28 @@ const MdToHTMLFormatter: FC<Props> = ({ content }) => {
 			const { style, ...withNoStyles } = props;
 
 			return !inline && match ? (
-				<SyntaxHighlighterDynamic
-					language={match[1]}
-					PreTag='div'
-					codeTagProps={{
-						style: { margin: '0 !important' },
-						className: 'py-4'
-					}}
-					lineProps={{
-						style: { margin: '0 !important' }
-					}}
-					{...withNoStyles}
+				<Suspense
+					fallback={
+						<pre>
+							<code>{JSON.stringify(children, null, 2)}</code>
+						</pre>
+					}
 				>
-					{String(children).replace(/\n$/, '')}
-				</SyntaxHighlighterDynamic>
+					<SyntaxHighlighterDynamic
+						language={match[1]}
+						PreTag='div'
+						codeTagProps={{
+							style: { margin: '0 !important' },
+							className: 'py-4'
+						}}
+						lineProps={{
+							style: { margin: '0 !important' }
+						}}
+						{...withNoStyles}
+					>
+						{String(children).replace(/\n$/, '')}
+					</SyntaxHighlighterDynamic>
+				</Suspense>
 			) : (
 				<code
 					className={cx(
