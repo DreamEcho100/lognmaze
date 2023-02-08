@@ -473,10 +473,16 @@ type CreativeWorkProps = {
 			type: TCreativeWorkPost['type'];
 			compProps?: Omit<Parameters<typeof CreativeWorkPost>[0], 'data'>;
 	  }
-	| { type: TCreativeWorkDiscussionForum['type']; compProps?: any }
-	| { type: TCreativeWorkDiscussionForumPost['type']; compProps?: any }
-	| { type: TCreativeWorkNoType['type']; compProps?: any }
-	| { type?: undefined; compProps?: any }
+	| {
+			type: TCreativeWorkDiscussionForum['type'];
+			compProps?: Record<string, unknown>;
+	  }
+	| {
+			type: TCreativeWorkDiscussionForumPost['type'];
+			compProps?: Record<string, unknown>;
+	  }
+	| { type: TCreativeWorkNoType['type']; compProps?: Record<string, unknown> }
+	| { type?: undefined; compProps?: Record<string, unknown> }
 );
 
 const CreativeWork_ = ({ data, compProps = {} }: CreativeWorkProps) => {

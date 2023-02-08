@@ -8,7 +8,7 @@ import type { Account, NextAuthOptions } from 'next-auth';
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
-export interface GoogleProfile extends Record<string, any> {
+export interface GoogleProfile extends Record<string, unknown> {
 	aud: string;
 	azp: string;
 	email: string;
@@ -31,7 +31,7 @@ export const authOptions: NextAuthOptions = {
 	callbacks: {
 		async session(_props) {
 			const props = _props as unknown as typeof _props & {
-				user: NonNullable<typeof _props.session['user']>;
+				user: NonNullable<(typeof _props.session)['user']>;
 			};
 
 			if (props.session.user && props?.user?.id) {
@@ -49,7 +49,7 @@ export const authOptions: NextAuthOptions = {
 
 			return props.session;
 		},
-		jwt({ token, user, account, profile, isNewUser }) {
+		jwt({ token, user }) {
 			user && (token.user = user);
 
 			return token;

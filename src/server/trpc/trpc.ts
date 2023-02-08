@@ -66,7 +66,7 @@ export const checkIfIsAuthor = ({
 	input
 }: {
 	session: Session;
-	input: any;
+	input: unknown;
 }) => {
 	const _session = CheckIfUserInSessionExist(session);
 

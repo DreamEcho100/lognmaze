@@ -1,4 +1,4 @@
-import type { SoftwareApplication, WebPage } from 'schema-dts';
+import type { SoftwareApplication } from 'schema-dts';
 
 import { jsonLdScriptProps } from 'react-schemaorg';
 import Head from 'next/head';

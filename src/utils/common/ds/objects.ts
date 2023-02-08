@@ -1,4 +1,4 @@
-export const objChanges = <T extends Record<string, any>>(
+export const objChanges = <T extends Record<string, unknown>>(
 	objToCompareTo: T,
 	objToCompareWith: T
 ) => {

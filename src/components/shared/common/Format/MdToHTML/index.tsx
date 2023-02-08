@@ -178,10 +178,7 @@ const MdToHTMLFormatter: FC<Props> = ({ content }) => {
 
 	return (
 		<>
-			<ReactMarkdown
-				components={customComponents}
-				remarkPlugins={[remarkGfm as any]}
-			>
+			<ReactMarkdown components={customComponents} remarkPlugins={[remarkGfm]}>
 				{content}
 			</ReactMarkdown>
 		</>

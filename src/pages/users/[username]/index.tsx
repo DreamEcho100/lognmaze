@@ -1,13 +1,9 @@
 import type { NextSeoProps } from 'next-seo';
-import {
-	User,
-	UserProfile,
-	UserStats,
-	UserGender
-} from '@prisma/client';
+import type { User, UserProfile, UserStats } from '@prisma/client';
 import type { GetStaticProps, NextPage, InferGetStaticPropsType } from 'next';
 import type { Person } from 'schema-dts';
 
+import { UserGender } from '@prisma/client';
 import { z } from 'zod';
 import { prisma } from '@server/db/client';
 import { useTypedSession } from '@utils/common/hooks';
