@@ -171,8 +171,8 @@ model BlogPost {
   content             String
   languageTagId       String
   updatedAt           DateTime?
-  CreativeWork        CreativeWork    @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "blog_posts_creative_work_id_fkey")
-  DiscussionForum     DiscussionForum @relation(fields: [discussion_forum_id], references: [creativeWorkId], onDelete: Cascade, map: "blog_posts_discussion_forum_id_fkey")
+  creativeWork        CreativeWork    @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "blog_posts_creative_work_id_fkey")
+  discussionForum     DiscussionForum @relation(fields: [discussion_forum_id], references: [creativeWorkId], onDelete: Cascade, map: "blog_posts_discussion_forum_id_fkey")
   LanguageTag         LanguageTag     @relation(fields: [languageTagId], references: [id], onDelete: Cascade, map: "blog_posts_language_tag_id_fkey")
 }
 
@@ -181,24 +181,24 @@ model DiscussionForum {
   creativeWorkId      String                @unique(map: "discussion_forums_creative_work_id_key")
   size                Int                   @default(0)
   updatedAt           DateTime?
-  BlogPost            BlogPost?
-  CreativeWork        CreativeWork          @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "discussion_forums_creative_work_id_fkey")
-  DiscussionForumPost DiscussionForumPost[]
+  blogPost            BlogPost?
+  creativeWork        CreativeWork          @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "discussion_forums_creative_work_id_fkey")
+  discussionForumPost DiscussionForumPost[]
   Post                Post?
 }
 
 model DiscussionForumPost {
-  id                        String               @id(map: "discussions_forums_posts_pkey")
-  content                   String
-  replies_count             Int                  @default(0)
-  replyToId                 String?              @unique(map: "discussions_forums_posts_reply_to_discussion_forum_post_Id_key")
-  creativeWorkId            String               @unique(map: "discussions_forums_posts_creative_work_id_key")
-  discussionForumId         String
-  updatedAt                 DateTime?
-  CreativeWork              CreativeWork         @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "discussions_forums_posts_creative_work_id_fkey")
-  DiscussionForum           DiscussionForum      @relation(fields: [discussionForumId], references: [id], onDelete: Cascade, map: "discussions_forums_posts_discussion_forum_id_fkey")
-  DiscussionForumPost       DiscussionForumPost? @relation("DiscussionForumPostToDiscussionForumPost", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "discussions_forums_posts_reply_to_discussion_forum_post_Id_fkey")
-  other_DiscussionForumPost DiscussionForumPost? @relation("DiscussionForumPostToDiscussionForumPost")
+  id                                String               @id(map: "discussions_forums_posts_pkey")
+  content                           String
+  replies_count                     Int                  @default(0)
+  replyToId                         String?              @unique(map: "discussions_forums_posts_reply_to_discussion_forum_post_Id_key")
+  creativeWorkId                    String               @unique(map: "discussions_forums_posts_creative_work_id_key")
+  discussionForumId                 String
+  updatedAt                         DateTime?
+  CreativeWork                      CreativeWork         @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "discussions_forums_posts_creative_work_id_fkey")
+  discussionForum                   DiscussionForum      @relation(fields: [discussionForumId], references: [id], onDelete: Cascade, map: "discussions_forums_posts_discussion_forum_id_fkey")
+  discussionForumPost               DiscussionForumPost? @relation("DiscussionForumPostToDiscussionForumPost", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "discussions_forums_posts_reply_to_discussion_forum_post_Id_fkey")
+  repliesForThisDiscussionForumPost DiscussionForumPost? @relation("DiscussionForumPostToDiscussionForumPost")
 }
 
 model Post {
@@ -207,8 +207,8 @@ model Post {
   discussionForumId String          @unique(map: "posts_discussion_forum_id_key")
   content           String
   updatedAt         DateTime?
-  CreativeWork      CreativeWork    @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "posts_creative_work_id_fkey")
-  DiscussionForum   DiscussionForum @relation(fields: [discussionForumId], references: [creativeWorkId], onDelete: Cascade, map: "posts_discussion_forum_id_fkey")
+  creativeWork      CreativeWork    @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "posts_creative_work_id_fkey")
+  discussionForum   DiscussionForum @relation(fields: [discussionForumId], references: [creativeWorkId], onDelete: Cascade, map: "posts_discussion_forum_id_fkey")
 }
 
 model RatingForCreativeWork {
@@ -217,7 +217,7 @@ model RatingForCreativeWork {
   ratingsCount              Int                         @default(0)
   creativeWorkId            String
   updatedAt                 DateTime?
-  CreativeWork              CreativeWork                @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "ratings_for_creative_works_creative_work_id_fkey")
+  creativeWork              CreativeWork                @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "ratings_for_creative_works_creative_work_id_fkey")
   UserRatingForCreativeWork UserRatingForCreativeWork[]
 }
 
@@ -225,7 +225,7 @@ model UserRatingForCreativeWork {
   id                    String                @id(map: "users_ratings_for_creative_works_pkey")
   creativeWorkRatingId  String
   userId                String
-  RatingForCreativeWork RatingForCreativeWork @relation(fields: [creativeWorkRatingId], references: [id], onDelete: Cascade, map: "users_ratings_for_creative_works_creative_work_rating_id_fkey")
+  ratingForCreativeWork RatingForCreativeWork @relation(fields: [creativeWorkRatingId], references: [id], onDelete: Cascade, map: "users_ratings_for_creative_works_creative_work_rating_id_fkey")
   User                  User                  @relation(fields: [userId], references: [id], onDelete: Cascade, map: "users_ratings_for_creative_works_user_id_fkey")
 }
 
