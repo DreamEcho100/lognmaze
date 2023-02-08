@@ -60,6 +60,8 @@ const seedingTheBlogPostsTable = async () => {
 	const authorId = await prisma.user
 		.findFirstOrThrow({ where: { email: 'maze6572198@gmail.com' } })
 		.then((result) => result.id);
+	if (typeof authorId !== 'string') throw new Error('Invalid author id');
+
 	const languageTagId = await prisma.languageTag
 		.findFirstOrThrow({
 			where: { code: 'en', countryCode: 'us' }
