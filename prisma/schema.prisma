@@ -133,12 +133,12 @@ model CreativeWork {
   status                CreativeWorkStatus      @default(PUBLIC)
   type                  CreativeWorkType
   createdAt             DateTime                @default(now())
-  BlogPost              BlogPost?
-  User                  User                    @relation(fields: [authorId], references: [id], onDelete: Cascade, map: "creative_works_author_id_fkey")
-  DiscussionForum       DiscussionForum?
-  DiscussionForumPost   DiscussionForumPost?
-  Post                  Post?
-  RatingForCreativeWork RatingForCreativeWork[]
+  blogPost              BlogPost?
+  user                  User                    @relation(fields: [authorId], references: [id], onDelete: Cascade, map: "creative_works_author_id_fkey")
+  discussionForum       DiscussionForum?
+  discussionForumPost   DiscussionForumPost?
+  post                  Post?
+  ratingForCreativeWork RatingForCreativeWork[]
   tags                  Tag[]                   @relation("CreativeWorkToTag")
 
   @@index([createdAt(sort: Desc)], map: "creative_works_created_at_idx")
