@@ -21,7 +21,7 @@ export const ValueContainer = <T extends { value: string | number | boolean }>({
 			<button
 				onClick={() => setTags((prev) => prev.filter(filterFunc(item)))}
 				className='color-theme-primary-500 py-1 px-2'
-				title={`remove '${item.value}' from the Tags list`}
+				title={`remove '${item.value}' from the tags list`}
 			>
 				x
 			</button>
@@ -38,22 +38,20 @@ export const ValueContainer = <T extends { value: string | number | boolean }>({
 	);
 };
 
-const SelectTags = <
-	T extends { key: string | number; value: string | number | boolean }
->({
+const SelectTags = <T extends { key: string; value: string }>({
 	setTags,
 	filterFunc,
 	addFunc,
-	Tags,
+	tags,
 	ValueContainer: ValueContainerComp = ValueContainer
 }: {
 	setTags: Dispatch<SetStateAction<T[]>>;
-	Tags: T[];
+	tags: T[];
 	addFunc: (prev: T[], tag: string) => T[];
 	filterFunc: (item: T) => (prevIem: T, index: number, array: T[]) => boolean;
 	ValueContainer?: <
 		T extends {
-			value: string | number | boolean;
+			value: string;
 		}
 	>({
 		item,
@@ -72,11 +70,11 @@ const SelectTags = <
 
 	return (
 		<div className='color-theme-300 flex flex-col gap-1 px-2 py-4'>
-			<label htmlFor={`Tags-${inputId}`} className='font-bold'>
-				Tags
+			<label htmlFor={`tags-${inputId}`} className='font-bold'>
+				tags
 			</label>
 			<ul className='flex flex-wrap items-center gap-2 overflow-hidden'>
-				{Tags.map((item) => (
+				{tags.map((item) => (
 					<ValueContainerComp
 						key={item.key}
 						filterFunc={filterFunc}
@@ -86,7 +84,7 @@ const SelectTags = <
 				))}
 			</ul>
 			<input
-				id={`Tags-${inputId}`}
+				id={`tags-${inputId}`}
 				value={tag}
 				onChange={(event) => setTag(event.target.value)}
 				onKeyDown={(event) => {

@@ -10,7 +10,7 @@ export type ToolSEOTagsProps = {
 		title: string;
 		description: string;
 		faqs: { question: string; answer: string }[];
-		Tags: string[];
+		tags: string[];
 	};
 };
 
@@ -33,7 +33,7 @@ const ToolSEOTags = ({ data }: ToolSEOTagsProps) => {
 						name: data.title,
 						description: data.description,
 						applicationCategory: 'UtilitiesApplication',
-						keywords: data.Tags.map((tag) => tag).join(','),
+						keywords: data.tags.map((tag) => tag).join(','),
 						operatingSystem: 'any',
 						mainEntity: [
 							{
@@ -41,7 +41,7 @@ const ToolSEOTags = ({ data }: ToolSEOTagsProps) => {
 								'@id': `${fullURLPathName}/#faqs`,
 								name: `FAQs | ${data.title}`,
 								description: `FAQs | ${data.description}`,
-								keywords: data.Tags.map((tag) => tag).join(','),
+								keywords: data.tags.map((tag) => tag).join(','),
 								mainEntity: data.faqs.map((faq) => ({
 									'@type': 'Question',
 									name: faq.question,

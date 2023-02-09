@@ -243,7 +243,7 @@ const CreativeWorkTime = ({
 const CreativeWorkTags = ({ Tags }: { Tags: { name: string }[] }) => {
 	return (
 		<small>
-			<strong>Tags:</strong>&nbsp;
+			<strong>tags:</strong>&nbsp;
 			{Tags.map((tag) => tag.name).join(', ')}
 		</small>
 	);
