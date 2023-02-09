@@ -1,12 +1,12 @@
 ---
 title: difference between raster images and vector images
-tags: raster vector images multimedia
+Tags: raster vector images multimedia
 image_alt:
 thumbnailUrl: https://miro.medium.com/max/720/1*Zvu9qnSezm__-1X4ClWe7A.webp
 description: When it comes to creating and storing images, there are two main types, raster images and vector images. While they may seem similar at first glance, there are actually several key differences between these two types of images that make them more suitable for different types of use cases.
 ---
 
-In this blog post, we will be taking a closer look at the differences between **raster images** and **vector images**. **Raster images** are made up of a grid of pixels, while **vector images** are made up of lines and curves defined by mathematical equations. We will discuss the pros and cons of each type of image, as well as the types of use cases they are best suited for.
+In this blog Post, we will be taking a closer look at the differences between **raster images** and **vector images**. **Raster images** are made up of a grid of pixels, while **vector images** are made up of lines and curves defined by mathematical equations. We will discuss the pros and cons of each type of image, as well as the types of use cases they are best suited for.
 
 When it comes to creating and storing images, there are two main types: **raster images** and **vector images**. While they may seem similar at first glance, there are actually several key differences between these two types of images that make them more suitable for different types of use cases.
 

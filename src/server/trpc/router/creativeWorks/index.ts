@@ -44,11 +44,11 @@ export const creativeWorksRouter = router({
 
 			const creativeWorks = (await ctx.prisma.creativeWork.findMany({
 				include: {
-					tags: { select: { name: true } },
-					author: {
+					Tags: { select: { name: true } },
+					Author: {
 						select: {
 							name: true,
-							profile: {
+							Profile: {
 								select: {
 									firstName: true,
 									lastName: true,
@@ -151,7 +151,7 @@ export const creativeWorksRouter = router({
 								targetedCreativeWork &&
 								item.type === targetedCreativeWork.type
 							)
-								(targetedCreativeWork as any).typeData = subItem;
+								targetedCreativeWork.typeData = subItem;
 						}
 					});
 				});

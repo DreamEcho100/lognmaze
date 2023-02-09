@@ -23,11 +23,11 @@ const BlogPostPage = (props: BlogPostPageProps) => {
 	const router = useRouter();
 	const fullPathName = useGetFullURLPathName();
 
-	const [creativeWork, setCreativeWork] = useState(props.creativeWork);
+	const [CreativeWork, setCreativeWork] = useState(props.CreativeWork);
 
 	if (
-		!creativeWork?.status ||
-		creativeWork.status === CreativeWorkStatus.DELETED
+		!CreativeWork?.status ||
+		CreativeWork.status === CreativeWorkStatus.DELETED
 	)
 		return (
 			<section className='section-p-y xl-2-sm:section-p mx-auto w-full max-w-[120ch]'>
@@ -44,23 +44,23 @@ const BlogPostPage = (props: BlogPostPageProps) => {
 					{...jsonLdScriptProps<BlogPosting>({
 						'@context': 'https://schema.org',
 						'@type': 'BlogPosting',
-						name: creativeWork.typeData.title,
+						name: CreativeWork.typeData.title,
 						url: fullPathName,
-						description: creativeWork.typeData.description,
+						description: CreativeWork.typeData.description,
 						commentCount: 0,
 						mainEntityOfPage: {
 							'@type': 'WebPage',
 							'@id': fullPathName
 						},
-						inLanguage: creativeWork.typeData.languageTag.code,
-						headline: creativeWork.typeData.title,
-						image: creativeWork.typeData.thumbnailUrl,
-						author: creativeWork.author?.profile
+						inLanguage: CreativeWork.typeData.LanguageTag.code,
+						headline: CreativeWork.typeData.title,
+						image: CreativeWork.typeData.thumbnailUrl,
+						author: CreativeWork.Author?.Profile
 							? {
 									'@type': 'Person',
-									name: `${creativeWork.author.profile.firstName} ${creativeWork.author.profile.lastName} - ${creativeWork.author.name}`,
-									url: `${websiteBasePath}/users/${creativeWork.author.name}`, // creativeWork.author.profile.profilePicture || undefined,
-									jobTitle: creativeWork.author.profile.work || undefined
+									name: `${CreativeWork.Author.Profile.firstName} ${CreativeWork.Author.Profile.lastName} - ${CreativeWork.Author.name}`,
+									url: `${websiteBasePath}/users/${CreativeWork.Author.name}`, // CreativeWork.Author.Profile.profilePicture || undefined,
+									jobTitle: CreativeWork.Author.Profile.work || undefined
 							  }
 							: undefined,
 						publisher: {
@@ -72,10 +72,10 @@ const BlogPostPage = (props: BlogPostPageProps) => {
 							},
 							url: websiteBasePath
 						},
-						datePublished: creativeWork.createdAt.toISOString(),
+						datePublished: CreativeWork.createdAt.toISOString(),
 						dateModified:
-							creativeWork.typeData.updatedAt?.toISOString() || undefined,
-						keywords: creativeWork.tags.map((tag) => tag.name).join(',')
+							CreativeWork.typeData.updatedAt?.toISOString() || undefined,
+						keywords: CreativeWork.Tags.map((tag) => tag.name).join(',')
 						// aggregateRating: {
 						// 	'@type': 'AggregateRating',
 						// 	ratingValue: 5,
@@ -85,31 +85,31 @@ const BlogPostPage = (props: BlogPostPageProps) => {
 				/>
 			</Head>
 			<CustomNextSeo
-				title={`${creativeWork.typeData.title} | ${defaultSiteName}`}
-				description={creativeWork.typeData.description}
+				title={`${CreativeWork.typeData.title} | ${defaultSiteName}`}
+				description={CreativeWork.typeData.description}
 				openGraph={{
 					type: 'article',
-					locale: `${creativeWork.typeData.languageTag.code.toLowerCase()}-${creativeWork.typeData.languageTag.countryCode.toUpperCase()}`,
+					locale: `${CreativeWork.typeData.LanguageTag.code.toLowerCase()}-${CreativeWork.typeData.LanguageTag.countryCode.toUpperCase()}`,
 					article: {
-						publishedTime: creativeWork.createdAt.toISOString(),
-						modifiedTime: creativeWork.typeData.updatedAt?.toISOString(),
-						authors: creativeWork.author?.name
-							? [`${websiteBasePath}/users/${creativeWork.author.name}`]
+						publishedTime: CreativeWork.createdAt.toISOString(),
+						modifiedTime: CreativeWork.typeData.updatedAt?.toISOString(),
+						authors: CreativeWork.Author?.name
+							? [`${websiteBasePath}/users/${CreativeWork.Author.name}`]
 							: undefined,
-						tags: creativeWork.tags.map((tag) => tag.name)
+						tags: CreativeWork.Tags.map((tag) => tag.name)
 					},
 					images: (() => {
 						const images: NonNullable<NextSeoProps['openGraph']>['images'] = [
 							{
-								url: creativeWork.typeData.thumbnailUrl,
-								alt: creativeWork.typeData.title,
+								url: CreativeWork.typeData.thumbnailUrl,
+								alt: CreativeWork.typeData.title,
 								width: 800,
 								height: 500
 							}
 						];
 
-						// if (creativeWork.author?.profile?.profilePicture)
-						// 	images.push(creativeWork.author?.profile?.profilePicture);
+						// if (CreativeWork.Author?.Profile?.profilePicture)
+						// 	images.push(CreativeWork.Author?.Profile?.profilePicture);
 
 						return images;
 					})()
@@ -122,7 +122,7 @@ const BlogPostPage = (props: BlogPostPageProps) => {
 					authorProfilePictureProps: { priority: true }
 				}}
 				MdContentFormatterComp={MdToHTMLFormatter}
-				data={creativeWork}
+				data={CreativeWork}
 				displayMode='FULL'
 				onDeletingCreativeWork={() => {
 					setCreativeWork((prevData) => ({
@@ -140,17 +140,19 @@ const BlogPostPage = (props: BlogPostPageProps) => {
 
 						return {
 							...prevData,
-							tags: [
+							Tags: [
 								...(Array.isArray(removedTags) && removedTags.length !== 0
-									? prevData.tags.filter((tag) =>
+									? prevData.Tags.filter((tag) =>
 											removedTags.includes(tag.name)
 									  )
-									: prevData.tags),
+									: prevData.Tags),
 								...(addedTags || []).map((tagName) => ({
 									name: tagName
 								}))
 							],
-							...((props.updatedCreativeWork || {}) as any),
+							...((props.updatedCreativeWork || {}) satisfies Partial<
+								Omit<TCreativeWorkBlogPost, 'Tags'>
+							>),
 							typeData: {
 								...prevData.typeData,
 								...(props.updatedTypeData || {})
@@ -169,15 +171,15 @@ export const getStaticPaths = async () => {
 		.findMany({
 			select: {
 				slug: true,
-				creativeWork: { select: { author: { select: { name: true } } } }
+				CreativeWork: { select: { Author: { select: { name: true } } } }
 			},
-			where: { creativeWork: { status: CreativeWorkStatus.PUBLIC } }
+			where: { CreativeWork: { status: CreativeWorkStatus.PUBLIC } }
 		})
 		.then((result) =>
-			result.map((blogPost) => ({
+			result.map((BlogPost) => ({
 				params: {
-					slug: blogPost.slug,
-					username: blogPost.creativeWork.author.name
+					slug: BlogPost.slug,
+					username: BlogPost.CreativeWork.Author.name
 				}
 			}))
 		);
@@ -189,7 +191,7 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps<{
-	creativeWork: TCreativeWorkBlogPost;
+	CreativeWork: TCreativeWorkBlogPost;
 }> = async ({ params }) => {
 	const result = await z
 		.object({ slug: z.string(), username: z.string() })
@@ -201,13 +203,13 @@ export const getStaticProps: GetStaticProps<{
 
 	const _blogPost = await prisma.blogPost.findFirst({
 		include: {
-			creativeWork: {
+			CreativeWork: {
 				include: {
-					tags: true,
-					author: {
+					Tags: true,
+					Author: {
 						select: {
 							name: true,
-							profile: {
+							Profile: {
 								select: {
 									firstName: true,
 									lastName: true,
@@ -220,12 +222,12 @@ export const getStaticProps: GetStaticProps<{
 					}
 				}
 			},
-			languageTag: true
+			LanguageTag: true
 		},
 		where: {
 			slug,
 			AND: {
-				creativeWork: {
+				CreativeWork: {
 					status: CreativeWorkStatus.PUBLIC
 				}
 			}
@@ -234,16 +236,16 @@ export const getStaticProps: GetStaticProps<{
 
 	if (!_blogPost) return { notFound: true };
 
-	const { creativeWork, ...blogPost } = _blogPost;
+	const { CreativeWork, ...BlogPost } = _blogPost;
 
-	if (!blogPost?.id) return { notFound: true };
+	if (!BlogPost?.id) return { notFound: true };
 
 	return {
 		props: {
-			creativeWork: {
-				...creativeWork,
+			CreativeWork: {
+				...CreativeWork,
 				type: CreativeWorkType.BLOG_POST,
-				typeData: blogPost
+				typeData: BlogPost
 			} satisfies TCreativeWorkBlogPost
 		},
 		revalidate: 5 * 60

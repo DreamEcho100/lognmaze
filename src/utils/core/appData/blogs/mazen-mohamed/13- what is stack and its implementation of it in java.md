@@ -1,6 +1,6 @@
 ---
 title: what is a stack and its implementation of it in java
-tags: data-structure programming stack java
+Tags: data-structure programming stack java
 image_alt: push and pop example in a stack
 thumbnailUrl: https://www.softwaretestinghelp.com/wp-content/qa/uploads/2019/06/pictorial-representation-of-stack.png
 description: Stack is a linear data structure that follows a particular order in which the operations are performed. The order may be LIFO(Last In First Out) or FILO(First In Last Out), we will implement it in java with various of its method like (push, pop, print all, and clear all)

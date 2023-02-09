@@ -30,8 +30,8 @@ const CreateBlogPostForm = ({
 					const input = {
 						authorId,
 						typeData: data.typeData,
-						tags: data.tags,
-						status: data.creativeWork.status
+						Tags: data.Tags,
+						status: data.CreativeWork.status
 					};
 
 					return await createBlogPost
@@ -42,7 +42,7 @@ const CreateBlogPostForm = ({
 								input,
 								result,
 								creativeWorkId: result.id,
-								typeDataId: result.blogPost.id
+								typeDataId: result.BlogPost.id
 							});
 							return true;
 						})

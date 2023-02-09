@@ -1,6 +1,6 @@
 ---
 title: Truncate Text using CSS
-tags: truncate text css ellipses
+Tags: truncate text css ellipses
 image_alt: Three dots
 thumbnailUrl: https://pngimage.net/wp-content/uploads/2018/06/3-dots-png-5.png
 description: CSS can truncate single-line and multi-line Text using the property text-overflow

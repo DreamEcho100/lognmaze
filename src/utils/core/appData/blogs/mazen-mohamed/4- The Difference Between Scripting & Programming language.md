@@ -1,6 +1,6 @@
 ---
 title: What is a scripting language and the Difference Between it and programming language
-tags: scripting-language programming-language programming
+Tags: scripting-language programming-language programming
 image_alt: What is a Scripting language
 thumbnailUrl: https://vteams.com/wp-content/uploads/2021/01/scripting-languages.jpg
 description: A scripting language is a series of commands that can be executed without the need for compiling, it's interpreted line by line into machine code

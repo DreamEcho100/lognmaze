@@ -33,7 +33,7 @@ const seedingTheLanguagesTagsTable = async () => {
 	});
 
 	console.log(
-		"%cDone the 'languages tags' table",
+		"%cDone the 'languages Tags' table",
 		'font-size: 42px; font-weight: bold; color: green;'
 	);
 	console.log('data', JSON.stringify(data, null, 2));
@@ -51,6 +51,7 @@ const seedingTheGendersTagsTable = async () => {
 	console.log('data', JSON.stringify(data, null, 2));
 };
 
+/*
 const seedingTheBlogPostsTable = async () => {
 	const directory = path.join(process.cwd(), 'src/appData/blogs/mazen-mohamed');
 	const tagsPages: string[][] = [];
@@ -60,7 +61,7 @@ const seedingTheBlogPostsTable = async () => {
 	const authorId = await prisma.user
 		.findFirstOrThrow({ where: { email: 'maze6572198@gmail.com' } })
 		.then((result) => result.id);
-	if (typeof authorId !== 'string') throw new Error('Invalid author id');
+	if (typeof authorId !== 'string') throw new Error('Invalid Author id');
 
 	const languageTagId = await prisma.languageTag
 		.findFirstOrThrow({
@@ -100,7 +101,7 @@ const seedingTheBlogPostsTable = async () => {
 				const data = z
 					.object({
 						title: z.string().trim(),
-						tags: z
+						Tags: z
 							.string()
 							.trim()
 							.transform((item) => [...new Set(item.split(/\s+/))]),
@@ -110,17 +111,17 @@ const seedingTheBlogPostsTable = async () => {
 					})
 					.parse(parsed.data);
 
-				tagsPages.push(data.tags);
+				tagsPages.push(data.Tags);
 				creativeWorksTypeBlogPostData.push({
 					data: {
 						authorId,
 						type: CreativeWorkType.BLOG_POST,
 						status: CreativeWorkStatus.PUBLIC,
-						tags: {
-							connectOrCreate: data.tags.map((tag) => ({
+						Tags: {
+							connectOrCreate: data.Tags.map((tag) => ({
 								create: {
 									name: tag,
-									stats: {
+									Stats: {
 										connectOrCreate: {
 											create: { blogPostsCount: 0 },
 											where: { tagName: tag }
@@ -130,16 +131,16 @@ const seedingTheBlogPostsTable = async () => {
 								where: { name: tag }
 							}))
 						},
-						blogPost: {
+						BlogPost: {
 							create: {
 								content,
 								description: data.description,
 								slug: slugify(data.title),
 								thumbnailUrl: data.thumbnailUrl,
 								title: data.title,
-								discussionForum: {
+								DiscussionForum: {
 									create: {
-										creativeWork: {
+										CreativeWork: {
 											create: {
 												authorId: authorId,
 												status: CreativeWorkStatus.PUBLIC,
@@ -148,11 +149,11 @@ const seedingTheBlogPostsTable = async () => {
 										}
 									}
 								},
-								languageTag: { connect: { id: languageTagId } }
+								LanguageTag: { connect: { id: languageTagId } }
 							}
 						}
 					},
-					select: { id: true, blogPost: { select: { slug: true } } }
+					select: { id: true, BlogPost: { select: { slug: true } } }
 				});
 
 				// console.log('parsed', parsed);
@@ -161,17 +162,17 @@ const seedingTheBlogPostsTable = async () => {
 			}
 		}
 
-		console.log('Creating creative work type blog post');
+		console.log('Creating creative work type blog Post');
 		let i = 0;
 		for (; i < creativeWorksTypeBlogPostData.length; i++) {
 			const element = creativeWorksTypeBlogPostData[i];
 			if (element) {
-				console.log('element', element.data.blogPost?.create?.slug);
+				console.log('element', element.data.BlogPost?.create?.slug);
 				await prisma.creativeWork
 					.create(element)
 					.then(console.log)
 					.catch((error) => {
-						console.log('element', element.data.blogPost?.create?.slug);
+						console.log('element', element.data.BlogPost?.create?.slug);
 						console.error(error);
 						throw new Error('creative');
 					});
@@ -210,6 +211,7 @@ const seedingTheBlogPostsTable = async () => {
 
 	// const data = await prisma.blogPost.createMany
 };
+*/
 
 // seedingTheLanguagesTagsTable();
 // seedingTheGendersTagsTable();

@@ -1,6 +1,6 @@
 ---
 title: Queue in Java and some of its common methods
-tags: data-structure programming queue java
+Tags: data-structure programming queue java
 image_alt: Queue
 thumbnailUrl: https://cdn.programiz.com/sites/tutorial2program/files/queue-implementation.png
 description: A Queue is a linear structure that follows a particular order in which the operations are performed. The order is First In First Out (FIFO). A good example of a queue is any queue of consumers for a resource where the consumer that came first is served first. Here we will implement the queue in Java with some of its common methods like (enqueue, dequeue, peak, and print).

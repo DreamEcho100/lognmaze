@@ -2,7 +2,7 @@
 title: 'ID in SQL, Understanding the Different Types of IDs in SQL: Pros and Cons'
 description: We will explore the different types of IDs available. From natural keys to custom-generated IDs, we will discuss the advantages and disadvantages of each method and help you understand which ID type is best for your specific use case. Learn how to optimize your database structure and improve your data integrity.
 thumbnailUrl: https://res.cloudinary.com/practicaldev/image/fetch/s--u-PX2gHC--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/i/t8dy825w7cgnjde7brq3.jpg
-tags: sql id primary-key database-structure data-integrity natural-keys custom-generated-ids uuid time-based-ids auto-incrementing-ids
+Tags: sql id primary-key database-structure data-integrity natural-keys custom-generated-ids uuid time-based-ids auto-incrementing-ids
 ---
 
 In SQL, an ID is typically a unique identifier used to identify a specific record or row in a table. IDs are used as the primary key for a table and are used to create relationships between tables through foreign keys. An ID can be an integer, a string, or a combination of both, and it is unique for each record in the table.

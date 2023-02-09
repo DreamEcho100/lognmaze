@@ -1,11 +1,11 @@
 ---
 title: 'Mastering Array Methods in JavaScript: slice, split, and splice'
 description: Learn about the different ways to manipulate arrays in JavaScript using the slice, split, and splice methods. Discover benefits, common pitfalls and misconceptions about these methods.
-thumbnailUrl: https://velog.velcdn.com/images/dltkdals224/post/f93bfb9d-4b72-4297-9058-1d549e4d483a/image.jpeg
-tags: javascript array methods slice split splice programming
+thumbnailUrl: https://velog.velcdn.com/images/dltkdals224/Post/f93bfb9d-4b72-4297-9058-1d549e4d483a/image.jpeg
+Tags: javascript array methods slice split splice programming
 ---
 
-The `slice()`, `split()`, and `splice()` methods in JavaScript are powerful tools for manipulating arrays. Understanding the purpose, benefits, and pitfalls of each method is crucial for using them effectively in your code. With the knowledge provided in this blog post, you should be able to use these methods with confidence in your own projects.
+The `slice()`, `split()`, and `splice()` methods in JavaScript are powerful tools for manipulating arrays. Understanding the purpose, benefits, and pitfalls of each method is crucial for using them effectively in your code. With the knowledge provided in this blog Post, you should be able to use these methods with confidence in your own projects.
 
 ## slice method in JavaScript
 

@@ -21,7 +21,7 @@ export const ValueContainer = <T extends { value: string | number | boolean }>({
 			<button
 				onClick={() => setTags((prev) => prev.filter(filterFunc(item)))}
 				className='color-theme-primary-500 py-1 px-2'
-				title={`remove '${item.value}' from the tags list`}
+				title={`remove '${item.value}' from the Tags list`}
 			>
 				x
 			</button>
@@ -44,11 +44,11 @@ const SelectTags = <
 	setTags,
 	filterFunc,
 	addFunc,
-	tags,
+	Tags,
 	ValueContainer: ValueContainerComp = ValueContainer
 }: {
 	setTags: Dispatch<SetStateAction<T[]>>;
-	tags: T[];
+	Tags: T[];
 	addFunc: (prev: T[], tag: string) => T[];
 	filterFunc: (item: T) => (prevIem: T, index: number, array: T[]) => boolean;
 	ValueContainer?: <
@@ -72,11 +72,11 @@ const SelectTags = <
 
 	return (
 		<div className='color-theme-300 flex flex-col gap-1 px-2 py-4'>
-			<label htmlFor={`tags-${inputId}`} className='font-bold'>
+			<label htmlFor={`Tags-${inputId}`} className='font-bold'>
 				Tags
 			</label>
 			<ul className='flex flex-wrap items-center gap-2 overflow-hidden'>
-				{tags.map((item) => (
+				{Tags.map((item) => (
 					<ValueContainerComp
 						key={item.key}
 						filterFunc={filterFunc}
@@ -86,7 +86,7 @@ const SelectTags = <
 				))}
 			</ul>
 			<input
-				id={`tags-${inputId}`}
+				id={`Tags-${inputId}`}
 				value={tag}
 				onChange={(event) => setTag(event.target.value)}
 				onKeyDown={(event) => {

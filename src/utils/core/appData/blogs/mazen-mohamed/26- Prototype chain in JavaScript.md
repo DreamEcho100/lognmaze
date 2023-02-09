@@ -1,11 +1,11 @@
 ---
 title: "JavaScript's Prototype Chain: A Guide"
 description: A comprehensive guide to understanding and implementing prototype chains in JavaScript, including explanations of similarities and differences with other OOP languages.
-tags: javascript prototype prototype-chain inheritance oop class syntax extends static getters setters
-thumbnailUrl: https://velog.velcdn.com/images/dltkdals224/post/f93bfb9d-4b72-4297-9058-1d549e4d483a/image.jpeg
+Tags: javascript prototype prototype-chain inheritance oop class syntax extends static getters setters
+thumbnailUrl: https://velog.velcdn.com/images/dltkdals224/Post/f93bfb9d-4b72-4297-9058-1d549e4d483a/image.jpeg
 ---
 
-> Note we won't be talking about the JavaScript ES6 class here, since it will have it's own separate blog post directory, and I will post the link for it on the comments when it's ready.
+> Note we won't be talking about the JavaScript ES6 class here, since it will have it's own separate blog Post directory, and I will Post the link for it on the comments when it's ready.
 
 In JavaScript, `prototype` is a property of the constructor function that creates a new object, **it's defined as an object that serves as a blueprint for new objects created using that constructor**. When a new object is created using a constructor, it gets an internal property `[[Prototype]]` that points to the prototype of the constructor, this is not directly accessible, but you can use `Object.getPrototypeOf(myObject)` or `myObject.__proto__` to access it.
 

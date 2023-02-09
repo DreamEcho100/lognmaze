@@ -1,4 +1,10 @@
+import CustomNextImage from '@components/shared/common/CustomNextImage';
+
+import { Menu, Transition } from '@headlessui/react';
+
 import type { LanguageTag } from '@prisma/client';
+import type { CreativeWorkType } from '@prisma/client';
+
 import type {
 	TCreativeWorkBlogPost,
 	TCreativeWorkDiscussionForum,
@@ -7,41 +13,45 @@ import type {
 	TCreativeWorkPost,
 	TCreativeWorkTypeData
 } from '@ts/index';
-import type { HTMLAttributes, CSSProperties, ComponentType } from 'react';
-import type { BlogPostFormProps } from './Forms/BlogPost';
-import type { PostFormProps } from './Forms/Post';
-import type { CreativeWorkType } from '@prisma/client';
 
-import { Fragment, useState } from 'react';
-import CustomNextImage from '@components/shared/common/CustomNextImage';
-import { cx } from 'class-variance-authority';
-import Link from 'next/link';
 import {
 	isCreativeWorABlogPost,
 	isCreativeWorAPost
 } from '@utils/core/creative-works';
 import { useTypedSession } from '@utils/common/hooks';
-import { Menu, Transition } from '@headlessui/react';
+
+import type { HTMLAttributes, CSSProperties, ComponentType } from 'react';
+import { Fragment, useState } from 'react';
+
+import { cx } from 'class-variance-authority';
+
+import Link from 'next/link';
+
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import UpdateCreativeWorkDialog from './Dialogs/Update';
+
 import { createContainer } from 'react-tracked';
-import DeleteCreativeWorkDialog from './Dialogs/Delete';
+
 import dynamic from 'next/dist/shared/lib/dynamic';
+
+import DeleteCreativeWorkDialog from './Dialogs/Delete';
+import UpdateCreativeWorkDialog from './Dialogs/Update';
+import type { BlogPostFormProps } from './Forms/BlogPost';
+import type { PostFormProps } from './Forms/Post';
 const DynamicMdToHTMLFormatter = dynamic(
 	() => import('@components/shared/common/Format/MdToHTML')
 );
 
 const CreateWorkContainer = ({
-	languageTag,
+	LanguageTag,
 	...props
 }: {
-	languageTag?: LanguageTag | null;
+	LanguageTag?: LanguageTag | null;
 } & HTMLAttributes<HTMLElement>) => {
 	return (
 		<article
 			lang={
-				languageTag
-					? `${languageTag.code.toLowerCase()}-${languageTag.countryCode.toLowerCase()}`
+				LanguageTag
+					? `${LanguageTag.code.toLowerCase()}-${LanguageTag.countryCode.toLowerCase()}`
 					: undefined
 			}
 			className={cx(
@@ -152,24 +162,24 @@ export const CreateWorkLoading = () => {
 };
 
 const CreativeWorkAuthor = ({
-	author,
+	Author,
 	authorProfilePictureProps = {}
 }: {
-	author: TCreativeWorkTypeData['author'];
+	Author: TCreativeWorkTypeData['Author'];
 	authorProfilePictureProps?: Partial<Parameters<typeof CustomNextImage>[0]>;
 }) => {
-	const authorUserName = author?.name || "Can't find this author";
-	const authorName = author?.profile
-		? `${author.profile.firstName} ${author.profile.lastName}`
-		: "Can't find this author";
+	const authorUserName = Author?.name || "Can't find this Author";
+	const authorName = Author?.Profile
+		? `${Author.Profile.firstName} ${Author.Profile.lastName}`
+		: "Can't find this Author";
 
 	return (
 		<div className='flex gap-2'>
 			<div className='aspect-square h-16 w-16 min-w-fit overflow-hidden rounded-full bg-theme-bg-700'>
-				{author?.profile?.profilePicture && (
+				{Author?.Profile?.profilePicture && (
 					<Link href={`/users/${authorUserName}`}>
 						<CustomNextImage
-							src={author.profile.profilePicture}
+							src={Author.Profile.profilePicture}
 							alt={authorUserName}
 							width={250}
 							height={250}
@@ -184,7 +194,7 @@ const CreativeWorkAuthor = ({
 					className='max-w-full overflow-hidden text-ellipsis'
 					title={authorUserName}
 				>
-					{!author ? (
+					{!Author ? (
 						<p>{authorUserName}</p>
 					) : (
 						<Link href={`/users/${authorUserName}`}>{authorUserName}</Link>
@@ -230,11 +240,11 @@ const CreativeWorkTime = ({
 		</small>
 	);
 };
-const CreativeWorkTags = ({ tags }: { tags: { name: string }[] }) => {
+const CreativeWorkTags = ({ Tags }: { Tags: { name: string }[] }) => {
 	return (
 		<small>
-			<strong>tags:</strong>&nbsp;
-			{tags.map((tag) => tag.name).join(', ')}
+			<strong>Tags:</strong>&nbsp;
+			{Tags.map((tag) => tag.name).join(', ')}
 		</small>
 	);
 };
@@ -242,7 +252,7 @@ const CreativeWorkTags = ({ tags }: { tags: { name: string }[] }) => {
 const CreativeWorkFooter = () => {
 	return (
 		<footer className='flex flex-col gap-2'>
-			{/* <CreativeWorkAuthor author={author} /> */}
+			{/* <CreativeWorkAuthor Author={Author} /> */}
 		</footer>
 	);
 };
@@ -251,8 +261,8 @@ const CreativeWorkHeader = ({
 	data,
 	createdAt,
 	updatedAt,
-	tags,
-	author,
+	Tags,
+	Author,
 	title,
 	titleHref,
 	authorProfilePictureProps
@@ -280,12 +290,12 @@ const CreativeWorkHeader = ({
 					)}
 				</div>
 				<CreativeWorkAuthor
-					author={author}
+					Author={Author}
 					authorProfilePictureProps={authorProfilePictureProps}
 				/>
 				<div className='flex flex-col px-2'>
 					<CreativeWorkTime createdAt={createdAt} updatedAt={updatedAt} />
-					<CreativeWorkTags tags={tags} />
+					<CreativeWorkTags Tags={Tags} />
 				</div>
 			</div>
 		</header>
@@ -385,8 +395,8 @@ const CreativeWorkPost = ({ data }: { data: TCreativeWorkPost }) => {
 				data={data}
 				createdAt={data.createdAt}
 				updatedAt={data.typeData.updatedAt}
-				tags={data.tags}
-				author={data.author}
+				Tags={data.Tags}
+				Author={data.Author}
 			/>
 			<div className='color-theme-200 bg-opacity-50 p-2 font-medium'>
 				{data.typeData.content}
@@ -405,22 +415,22 @@ const CreativeWorkBlogPost = ({
 	authorProfilePictureProps?: Partial<Parameters<typeof CustomNextImage>[0]>;
 }) => {
 	const { displayMode, MdContentFormatterComp } = useCreativeWorkSharedState();
-	const authorUserName = data.author?.name || "Can't find this author";
+	const authorUserName = data.Author?.name || "Can't find this Author";
 
 	return (
-		<CreateWorkContainer languageTag={data.typeData.languageTag}>
+		<CreateWorkContainer LanguageTag={data.typeData.LanguageTag}>
 			<CreativeWorkHeader
 				data={data}
 				title={data.typeData.title}
 				titleHref={
-					!!data.author && displayMode !== 'FULL'
+					!!data.Author && displayMode !== 'FULL'
 						? `/users/${authorUserName}/creative-works/blog-posts/${data.typeData.slug}`
 						: undefined
 				}
 				createdAt={data.createdAt}
 				updatedAt={data.typeData.updatedAt}
-				tags={data.tags}
-				author={data.author}
+				Tags={data.Tags}
+				Author={data.Author}
 				authorProfilePictureProps={authorProfilePictureProps}
 			/>
 			<div className='aspect-video w-full bg-theme-bg-900 opacity-90'>
@@ -507,7 +517,7 @@ export type CreativeWorkSharedState = {
 						Parameters<BlogPostFormProps['handleOnSubmit']>['1']['typeData']
 					>;
 					updatedCreativeWork?: Partial<
-						Parameters<BlogPostFormProps['handleOnSubmit']>['1']['creativeWork']
+						Parameters<BlogPostFormProps['handleOnSubmit']>['1']['CreativeWork']
 					>;
 					addedTags?: string[];
 					removedTags?: string[];
@@ -518,7 +528,7 @@ export type CreativeWorkSharedState = {
 						Parameters<PostFormProps['handleOnSubmit']>['1']['typeData']
 					>;
 					updatedCreativeWork: Partial<
-						Parameters<PostFormProps['handleOnSubmit']>['1']['creativeWork']
+						Parameters<PostFormProps['handleOnSubmit']>['1']['CreativeWork']
 					>;
 					addedTags?: string[];
 					removedTags?: string[];

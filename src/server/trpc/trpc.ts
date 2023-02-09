@@ -79,7 +79,7 @@ export const checkIfIsAuthor = ({
 	// )
 	//   throw new TRPCError({
 	//     code: "UNAUTHORIZED",
-	//     message: "You're not the author",
+	//     message: "You're not the Author",
 	//   });
 
 	z.object({

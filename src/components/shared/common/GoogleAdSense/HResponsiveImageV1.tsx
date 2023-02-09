@@ -14,9 +14,14 @@ const GoogleAdSenseHResponsiveImageV1 = () => {
 
 		const pushAd = () => {
 			try {
-				if (!(window as any).adsbygoogle)
+				if (
+					!(window as unknown as { adsbygoogle: Record<string, unknown>[] })
+						.adsbygoogle
+				)
 					throw new Error("Can't find adsbygoogle");
-				const adsbygoogle = (window as any).adsbygoogle;
+				const adsbygoogle = (
+					window as unknown as { adsbygoogle: Record<string, unknown>[] }
+				).adsbygoogle;
 				adsbygoogle.push({});
 				return true;
 			} catch (e) {

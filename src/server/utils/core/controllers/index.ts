@@ -31,13 +31,13 @@ export const getCreativeWorkTypeBlogPostsData = async (
 			languageTagId: true,
 			slug: true,
 			thumbnailUrl: true,
-			languageTag: true
+			LanguageTag: true
 		},
-		orderBy: { creativeWork: { createdAt: 'desc' } },
+		orderBy: { CreativeWork: { createdAt: 'desc' } },
 		where: {
 			creativeWorkId: { in: input.blogPostsCreativeWorkIds },
 			AND: {
-				creativeWork: {
+				CreativeWork: {
 					status: input.authorId
 						? { in: [CreativeWorkStatus.PUBLIC, CreativeWorkStatus.PRIVATE] }
 						: CreativeWorkStatus.PUBLIC
@@ -60,11 +60,11 @@ export const getCreativeWorkTypePostsData = async (
 	}
 ) => {
 	return await prisma.post.findMany({
-		orderBy: { creativeWork: { createdAt: 'desc' } },
+		orderBy: { CreativeWork: { createdAt: 'desc' } },
 		where: {
 			creativeWorkId: { in: input.postsCreativeWorkIds },
 			AND: {
-				creativeWork: {
+				CreativeWork: {
 					status: input.authorId
 						? { in: [CreativeWorkStatus.PUBLIC, CreativeWorkStatus.PRIVATE] }
 						: CreativeWorkStatus.PUBLIC
@@ -83,11 +83,11 @@ export const getCreativeWorkTypeDiscussionForumsData = async (
 	}
 ) => {
 	return await prisma.discussionForum.findMany({
-		orderBy: { creativeWork: { createdAt: 'desc' } },
+		orderBy: { CreativeWork: { createdAt: 'desc' } },
 		where: {
 			creativeWorkId: { in: input.discussionForumsCreativeWorkIds },
 			AND: {
-				creativeWork: {
+				CreativeWork: {
 					status: input.authorId
 						? { in: [CreativeWorkStatus.PUBLIC, CreativeWorkStatus.PRIVATE] }
 						: CreativeWorkStatus.PUBLIC
@@ -106,11 +106,11 @@ export const getCreativeWorkTypeDiscussionForumsPostsData = async (
 	}
 ) => {
 	return await prisma.discussionForumPost.findMany({
-		orderBy: { creativeWork: { createdAt: 'desc' } },
+		orderBy: { CreativeWork: { createdAt: 'desc' } },
 		where: {
 			creativeWorkId: { in: input.discussionForumsPostsCreativeWorkIds },
 			AND: {
-				creativeWork: {
+				CreativeWork: {
 					status: input.authorId
 						? { in: [CreativeWorkStatus.PUBLIC, CreativeWorkStatus.PRIVATE] }
 						: CreativeWorkStatus.PUBLIC
@@ -133,11 +133,11 @@ export const updateCreativeWorkTags = async (
 	const data = await prisma.creativeWork.update({
 		where: { id: input.creativeWorkId },
 		data: {
-			tags: {
+			Tags: {
 				connectOrCreate: input.addedTags?.map((tag) => ({
 					create: {
 						name: tag,
-						stats: {
+						Stats: {
 							connectOrCreate: { create: {}, where: { tagName: tag } }
 						}
 					},
@@ -146,7 +146,7 @@ export const updateCreativeWorkTags = async (
 				disconnect: input.removedTags?.map((tag) => ({ name: tag }))
 			}
 		},
-		select: { tags: true }
+		select: { Tags: true }
 	});
 
 	if (input.addedTags && input.addedTags.length !== 0)

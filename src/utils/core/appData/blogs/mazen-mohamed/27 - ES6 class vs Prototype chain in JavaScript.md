@@ -1,8 +1,8 @@
 ---
 title: ES6 class vs Prototype chain in JavaScript
 description: We will covers the differences between the class syntax introduced in ES6 and the prototype chain, both ways to work with objects and inheritance in JavaScript. It covers the different ways to create new objects, implement inheritance, work with static properties and methods, and getters and setters. It also highlights the advantages and disadvantages of each approach and provides examples of code written in both styles.
-tags: es6 class syntax javascript prototype-chain inheritance objects static-properties methods getters setters
-thumbnailUrl: https://velog.velcdn.com/images/dltkdals224/post/f93bfb9d-4b72-4297-9058-1d549e4d483a/image.jpeg
+Tags: es6 class syntax javascript prototype-chain inheritance objects static-properties methods getters setters
+thumbnailUrl: https://velog.velcdn.com/images/dltkdals224/Post/f93bfb9d-4b72-4297-9058-1d549e4d483a/image.jpeg
 ---
 
 ES6 introduced the class syntax, which is a more modern way of creating objects and working with the prototype chain in JavaScript. The class syntax provides a more familiar and traditional way of creating objects and working with inheritance, similar to the way it is done in other object-oriented languages like Java and C++.

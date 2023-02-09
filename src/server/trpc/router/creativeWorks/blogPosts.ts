@@ -32,11 +32,11 @@ export const blogPostsRouter = router({
 
 			const _data = await ctx.prisma.creativeWork.findFirstOrThrow({
 				include: {
-					tags: true,
-					author: {
+					Tags: true,
+					Author: {
 						select: {
 							name: true,
-							profile: {
+							Profile: {
 								select: {
 									firstName: true,
 									lastName: true,
@@ -47,7 +47,7 @@ export const blogPostsRouter = router({
 							}
 						}
 					},
-					blogPost: {
+					BlogPost: {
 						select: {
 							languageTagId: true,
 							content: input.withContent,
@@ -58,7 +58,7 @@ export const blogPostsRouter = router({
 							title: true,
 							updatedAt: true,
 							id: true,
-							languageTag: true,
+							LanguageTag: true,
 							discussionForumId: true
 						}
 					}
@@ -75,15 +75,15 @@ export const blogPostsRouter = router({
 				}
 			});
 
-			const { blogPost, author, ...data } = _data;
+			const { BlogPost, Author, ...data } = _data;
 
-			if (!blogPost) throw new TRPCError({ code: 'BAD_REQUEST' });
+			if (!BlogPost) throw new TRPCError({ code: 'BAD_REQUEST' });
 
 			return {
 				...data,
 				type: CreativeWorkType.BLOG_POST,
-				author,
-				typeData: blogPost
+				Author,
+				typeData: BlogPost
 			} satisfies TCreativeWorkBlogPost;
 		}),
 	getContentOfOne: publicProcedure
@@ -109,7 +109,7 @@ export const blogPostsRouter = router({
 				where: {
 					creativeWorkId: input.creativeWorkId,
 					AND: {
-						creativeWork: {
+						CreativeWork: {
 							authorId: isAuthor ? isAuthor.input.authorId : undefined,
 							status: isAuthor
 								? { not: CreativeWorkStatus.DELETED }

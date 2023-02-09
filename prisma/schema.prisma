@@ -9,25 +9,25 @@ datasource db {
 }
 
 model User {
-  id                        String                      @id
-  email                     String?                     @unique
-  emailVerified             DateTime?
-  image                     String?
-  createdAt                 DateTime                    @default(now())
-  name                      String                      @unique
-  role                      Role?
-  Account                   Account[]
-  CreativeWork              CreativeWork[]
-  Session                   Session[]
-  UserProfile               UserProfile?
-  UserRatingForCreativeWork UserRatingForCreativeWork[]
-  UserStats                 UserStats?
+  id                    String                      @id @default(uuid())
+  email                 String?                     @unique
+  emailVerified         DateTime?
+  image                 String?
+  createdAt             DateTime                    @default(now())
+  name                  String                      @unique
+  role                  Role?
+  Account               Account[]
+  CreativeWork          CreativeWork[]
+  Session               Session[]
+  Profile               UserProfile?
+  RatingForCreativeWork UserRatingForCreativeWork[]
+  Stats                 UserStats?
 
   @@index([createdAt(sort: Desc)])
 }
 
 model Account {
-  id                String   @id
+  id                String   @id @default(uuid())
   userId            String
   type              String
   provider          String
@@ -47,7 +47,7 @@ model Account {
 }
 
 model Session {
-  id           String   @id
+  id           String   @id @default(uuid())
   sessionToken String   @unique
   user_id      String
   createdAt    DateTime @default(now())
@@ -58,7 +58,7 @@ model Session {
 }
 
 model UserProfile {
-  id             String     @id
+  id             String     @id @default(uuid())
   userId         String     @unique
   firstName      String
   lastName       String
@@ -97,7 +97,7 @@ model Work {
 }
 
 model LanguageTag {
-  id          String          @id
+  id          String          @id @default(uuid())
   code        String
   name        String
   countryCode String
@@ -110,7 +110,7 @@ model LanguageTag {
 }
 
 model UserStats {
-  id                        String @id(map: "users_stats_pkey")
+  id                        String @id(map: "users_stats_pkey") @default(uuid())
   userId                    String @unique(map: "users_stats_user_id_key")
   postsCount                Int    @default(0)
   blogPostsCount            Int    @default(0)
@@ -128,30 +128,30 @@ model VerificationToken {
 }
 
 model CreativeWork {
-  id                    String                  @id(map: "creative_works_pkey")
+  id                    String                  @id(map: "creative_works_pkey") @default(uuid())
   authorId              String
   status                CreativeWorkStatus      @default(PUBLIC)
   type                  CreativeWorkType
   createdAt             DateTime                @default(now())
-  blogPost              BlogPost?
-  user                  User                    @relation(fields: [authorId], references: [id], onDelete: Cascade, map: "creative_works_author_id_fkey")
-  discussionForum       DiscussionForum?
-  discussionForumPost   DiscussionForumPost?
-  post                  Post?
-  ratingForCreativeWork RatingForCreativeWork[]
-  tags                  Tag[]                   @relation("CreativeWorkToTag")
+  BlogPost              BlogPost?
+  Author                User                    @relation(fields: [authorId], references: [id], onDelete: Cascade, map: "creative_works_author_id_fkey")
+  DiscussionForum       DiscussionForum?
+  DiscussionForumPost   DiscussionForumPost?
+  Post                  Post?
+  RatingForCreativeWork RatingForCreativeWork[]
+  Tags                  Tag[]                   @relation("CreativeWorkToTag")
 
   @@index([createdAt(sort: Desc)], map: "creative_works_created_at_idx")
 }
 
 model Tag {
-  name          String         @id(map: "tags_pkey") @unique(map: "tags_name_key")
-  TagStats      TagStats?
-  creativeWorks CreativeWork[] @relation("CreativeWorkToTag")
+  name         String         @id(map: "tags_pkey") @unique(map: "tags_name_key")
+  TagStats     TagStats?
+  CreativeWork CreativeWork[] @relation("CreativeWorkToTag")
 }
 
 model TagStats {
-  id                        String @id(map: "tags_stats_pkey")
+  id                        String @id(map: "tags_stats_pkey") @default(uuid())
   tagName                   String @unique(map: "tags_stats_tag_name_key")
   postsCount                Int    @default(0)
   blogPostsCount            Int    @default(0)
@@ -161,34 +161,34 @@ model TagStats {
 }
 
 model BlogPost {
-  id                  String          @id(map: "blog_posts_pkey")
-  creativeWorkId      String          @unique(map: "blog_posts_creative_work_id_key")
-  discussion_forum_id String          @unique(map: "blog_posts_discussion_forum_id_key")
-  slug                String          @unique(map: "blog_posts_slug_key")
-  title               String
-  thumbnailUrl        String
-  description         String
-  content             String
-  languageTagId       String
-  updatedAt           DateTime?
-  creativeWork        CreativeWork    @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "blog_posts_creative_work_id_fkey")
-  discussionForum     DiscussionForum @relation(fields: [discussion_forum_id], references: [creativeWorkId], onDelete: Cascade, map: "blog_posts_discussion_forum_id_fkey")
-  LanguageTag         LanguageTag     @relation(fields: [languageTagId], references: [id], onDelete: Cascade, map: "blog_posts_language_tag_id_fkey")
+  id                String          @id(map: "blog_posts_pkey") @default(uuid())
+  creativeWorkId    String          @unique(map: "blog_posts_creative_work_id_key")
+  discussionForumId String          @unique(map: "blog_posts_discussion_forum_id_key")
+  slug              String          @unique(map: "blog_posts_slug_key")
+  title             String
+  thumbnailUrl      String
+  description       String
+  content           String
+  languageTagId     String
+  updatedAt         DateTime?
+  CreativeWork      CreativeWork    @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "blog_posts_creative_work_id_fkey")
+  DiscussionForum   DiscussionForum @relation(fields: [discussionForumId], references: [creativeWorkId], onDelete: Cascade, map: "blog_posts_discussion_forum_id_fkey")
+  LanguageTag       LanguageTag     @relation(fields: [languageTagId], references: [id], onDelete: Cascade, map: "blog_posts_language_tag_id_fkey")
 }
 
 model DiscussionForum {
-  id                  String                @id(map: "discussion_forums_pkey")
+  id                  String                @id(map: "discussion_forums_pkey") @default(uuid())
   creativeWorkId      String                @unique(map: "discussion_forums_creative_work_id_key")
   size                Int                   @default(0)
   updatedAt           DateTime?
-  blogPost            BlogPost?
-  creativeWork        CreativeWork          @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "discussion_forums_creative_work_id_fkey")
-  discussionForumPost DiscussionForumPost[]
+  BlogPost            BlogPost?
+  CreativeWork        CreativeWork          @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "discussion_forums_creative_work_id_fkey")
+  DiscussionForumPost DiscussionForumPost[]
   Post                Post?
 }
 
 model DiscussionForumPost {
-  id                                String               @id(map: "discussions_forums_posts_pkey")
+  id                                String               @id(map: "discussions_forums_posts_pkey") @default(uuid())
   content                           String
   replies_count                     Int                  @default(0)
   replyToId                         String?              @unique(map: "discussions_forums_posts_reply_to_discussion_forum_post_Id_key")
@@ -196,36 +196,36 @@ model DiscussionForumPost {
   discussionForumId                 String
   updatedAt                         DateTime?
   CreativeWork                      CreativeWork         @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "discussions_forums_posts_creative_work_id_fkey")
-  discussionForum                   DiscussionForum      @relation(fields: [discussionForumId], references: [id], onDelete: Cascade, map: "discussions_forums_posts_discussion_forum_id_fkey")
-  discussionForumPost               DiscussionForumPost? @relation("DiscussionForumPostToDiscussionForumPost", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "discussions_forums_posts_reply_to_discussion_forum_post_Id_fkey")
-  repliesForThisDiscussionForumPost DiscussionForumPost? @relation("DiscussionForumPostToDiscussionForumPost")
+  DiscussionForum                   DiscussionForum      @relation(fields: [discussionForumId], references: [id], onDelete: Cascade, map: "discussions_forums_posts_discussion_forum_id_fkey")
+  DiscussionForumPost               DiscussionForumPost? @relation("DiscussionForumPostToDiscussionForumPost", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "discussions_forums_posts_reply_to_discussion_forum_post_Id_fkey")
+  RepliesForThisDiscussionForumPost DiscussionForumPost? @relation("DiscussionForumPostToDiscussionForumPost")
 }
 
 model Post {
-  id                String          @id(map: "posts_pkey")
+  id                String          @id(map: "posts_pkey") @default(uuid())
   creativeWorkId    String          @unique(map: "posts_creative_work_id_key")
   discussionForumId String          @unique(map: "posts_discussion_forum_id_key")
   content           String
   updatedAt         DateTime?
-  creativeWork      CreativeWork    @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "posts_creative_work_id_fkey")
-  discussionForum   DiscussionForum @relation(fields: [discussionForumId], references: [creativeWorkId], onDelete: Cascade, map: "posts_discussion_forum_id_fkey")
+  CreativeWork      CreativeWork    @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "posts_creative_work_id_fkey")
+  DiscussionForum   DiscussionForum @relation(fields: [discussionForumId], references: [creativeWorkId], onDelete: Cascade, map: "posts_discussion_forum_id_fkey")
 }
 
 model RatingForCreativeWork {
-  id                        String                      @id(map: "ratings_for_creative_works_pkey")
+  id                        String                      @id(map: "ratings_for_creative_works_pkey") @default(uuid())
   totalRating               Int                         @default(0)
   ratingsCount              Int                         @default(0)
   creativeWorkId            String
   updatedAt                 DateTime?
-  creativeWork              CreativeWork                @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "ratings_for_creative_works_creative_work_id_fkey")
+  CreativeWork              CreativeWork                @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade, map: "ratings_for_creative_works_creative_work_id_fkey")
   UserRatingForCreativeWork UserRatingForCreativeWork[]
 }
 
 model UserRatingForCreativeWork {
-  id                    String                @id(map: "users_ratings_for_creative_works_pkey")
+  id                    String                @id(map: "users_ratings_for_creative_works_pkey") @default(uuid())
   creativeWorkRatingId  String
   userId                String
-  ratingForCreativeWork RatingForCreativeWork @relation(fields: [creativeWorkRatingId], references: [id], onDelete: Cascade, map: "users_ratings_for_creative_works_creative_work_rating_id_fkey")
+  RatingForCreativeWork RatingForCreativeWork @relation(fields: [creativeWorkRatingId], references: [id], onDelete: Cascade, map: "users_ratings_for_creative_works_creative_work_rating_id_fkey")
   User                  User                  @relation(fields: [userId], references: [id], onDelete: Cascade, map: "users_ratings_for_creative_works_user_id_fkey")
 }
 

@@ -1,6 +1,6 @@
 ---
 title: Create a dynamic sitemap with Next.js
-tags: sitemap next.js
+Tags: sitemap next.js
 image_alt: Create a dynamic sitemap with Next.js
 thumbnailUrl: https://codebycorey.com/static/images/nextjs-sitemap/header.png
 description: Generate a dynamic sitemap for your Next.js based site or app to improve the discoverability of your site for search engines like Google, Bing, and DuckDuckGo
@@ -165,7 +165,7 @@ In terms of what we're returning here we return the XML content expected by a we
 
 ## Adding paths dynamically to the sitemap
 
-Let's say we have a dynamic path like `profile/[user_name_id]` or `article/[slug]` how can we add them to the sitemap without adding them manually every single time.
+Let's say we have a dynamic path like `Profile/[user_name_id]` or `article/[slug]` how can we add them to the sitemap without adding them manually every single time.
 
 > **_Super easy barely an unconvinced_**
 
@@ -241,9 +241,9 @@ export const getServerSideProps = async ({ res }) => {
 	});
 
 	await getAllUsersNameId().then((profiles = []) => {
-		profiles.map((profile) => {
+		profiles.map((Profile) => {
 			links.push({
-				url: `/profile/${profile.user_name_id}`,
+				url: `/Profile/${Profile.user_name_id}`,
 				lastmod: new Date().toISOString(),
 				changefreq: 'weekly',
 				priority: 0.9
@@ -320,13 +320,13 @@ And now when we visit `localhost:3000/sitemap.xml` in the browser we get:
 		<priority>0.9</priority>
 	</url>
 	<url>
-		<loc>https://localhost:3000/profile/mazen-mohamed</loc>
+		<loc>https://localhost:3000/Profile/mazen-mohamed</loc>
 		<lastmod>2021-09-09T20:21:47.688Z</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.9</priority>
 	</url>
 	<url>
-		<loc>https://localhost:3000/profile/mohamed-bek</loc>
+		<loc>https://localhost:3000/Profile/mohamed-bek</loc>
 		<lastmod>2021-09-09T20:21:47.688Z</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.9</priority>

@@ -18,9 +18,9 @@ export type AllowedFormTypeIndex = keyof typeof allowedFormsTypeIndex;
 
 const isFormsTypeIndexAllowed = (
 	index: number,
-	isHidden: { blogPost?: boolean } = {}
+	isHidden: { BlogPost?: boolean } = {}
 ): index is AllowedFormTypeIndex =>
-	(index === 0 && !isHidden.blogPost) ||
+	(index === 0 && !isHidden.BlogPost) ||
 	index === 1 ||
 	index === 2 ||
 	index === 3;
@@ -28,8 +28,8 @@ const isFormsTypeIndexAllowed = (
 type Props = {
 	setSelectedIndex: Dispatch<SetStateAction<AllowedFormTypeIndex>>;
 	selectedIndex: AllowedFormTypeIndex;
-	blogPost?: boolean;
-	post?: boolean;
+	BlogPost?: boolean;
+	Post?: boolean;
 	discussionForm?: boolean;
 	discussionFormPost?: boolean;
 	// | {
@@ -43,10 +43,10 @@ const CreateCreativeWork = ({
 	authorId,
 	selectedIndex,
 	setSelectedIndex,
-	blogPost,
+	BlogPost,
 	discussionForm,
 	discussionFormPost,
-	post,
+	Post,
 	onAddingCreativeWork
 }: Props) => {
 	return (
@@ -54,15 +54,15 @@ const CreateCreativeWork = ({
 			selectedIndex={selectedIndex}
 			onChange={(index) =>
 				isFormsTypeIndexAllowed(index, {
-					blogPost: !blogPost
+					BlogPost: !BlogPost
 				}) && setSelectedIndex(index)
 			}
 		>
 			<Tab.List className='flex items-center justify-center gap-2'>
-				<Tab className={handleButtonVariants({ p: 'sm' })} hidden={!blogPost}>
+				<Tab className={handleButtonVariants({ p: 'sm' })} hidden={!BlogPost}>
 					Blog Post
 				</Tab>
-				<Tab className={handleButtonVariants({ p: 'sm' })} hidden={!post}>
+				<Tab className={handleButtonVariants({ p: 'sm' })} hidden={!Post}>
 					Post
 				</Tab>
 				<Tab
@@ -79,13 +79,13 @@ const CreateCreativeWork = ({
 				</Tab>
 			</Tab.List>
 			<Tab.Panels>
-				<Tab.Panel hidden={!blogPost}>
+				<Tab.Panel hidden={!BlogPost}>
 					<CreateBlogPostForm
 						authorId={authorId}
 						onAddingCreativeWork={onAddingCreativeWork}
 					/>
 				</Tab.Panel>
-				<Tab.Panel hidden={!post}>
+				<Tab.Panel hidden={!Post}>
 					<CreatePostForm
 						authorId={authorId}
 						onAddingCreativeWork={onAddingCreativeWork}

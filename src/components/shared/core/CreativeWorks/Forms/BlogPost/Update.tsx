@@ -41,7 +41,7 @@ const UpdateBlogPostForm = ({
 
 					const { added: addedTags, removed: removedTags } = arrChanges(
 						props.tagsDefaults.map((tag) => tag.value),
-						data.tags
+						data.Tags
 					);
 
 					const updatedTypeData = objChanges(
@@ -50,16 +50,16 @@ const UpdateBlogPostForm = ({
 					);
 					const updatedCreativeWork = objChanges(
 						props.creativeWorkDefaults,
-						data.creativeWork
+						data.CreativeWork
 					);
 
-					let tags:
+					let Tags:
 						| { added: string[] | undefined; removed: string[] | undefined }
 						| undefined = {
 						added: addedTags.length !== 0 ? addedTags : undefined,
 						removed: removedTags.length !== 0 ? removedTags : undefined
 					};
-					if (Object.keys(tags).length === 0) tags = undefined;
+					if (Object.keys(Tags).length === 0) Tags = undefined;
 
 					let creativeWorkBasics: typeof updatedCreativeWork | undefined =
 						updatedCreativeWork;
@@ -73,7 +73,7 @@ const UpdateBlogPostForm = ({
 						.mutateAsync({
 							authorId,
 							creativeWorkId,
-							tags,
+							Tags,
 							creativeWorkBasics,
 							typeData
 						})

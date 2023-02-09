@@ -1,15 +1,16 @@
 ---
 title: List different multimedia applications
-tags: multimedia audio-editing-software video-editing-software image-editing-software audio-and-video-players presentation-software
+Tags: multimedia audio-editing-software video-editing-software image-editing-software audio-and-video-players presentation-software
 image_alt:
 thumbnailUrl: https://leverageedu.com/blog/wp-content/uploads/2020/08/Applications-of-Multimedia.png
 description: Nowadays, it is nearly impossible for an organization or company to work without integrating different multimedia platforms to conduct its day to day operations. Catering to the demand of various types, multimedia has different usages at a given situation. These are some of the popular applications of multimedia.
 ---
-In this blog post, we will be exploring the different types of multimedia applications available and how they can be used. Multimedia applications are software programs that allow users to create, edit, and interact with a variety of media types, including audio, video, and images.
+
+In this blog Post, we will be exploring the different types of multimedia applications available and how they can be used. Multimedia applications are software programs that allow users to create, edit, and interact with a variety of media types, including audio, video, and images.
 
 Nowadays, it is nearly impossible for an organization or company to work without integrating different multimedia platforms to conduct its day to day operations. Catering to the demand of various types, multimedia has different usages at a given situation. These are some of the popular applications of multimedia.
 
-Multimedia applications are software programs that allow users to create, edit, and interact with a variety of media types, including audio, video, and images. In this blog post, we will take a closer look at some of the most common types of multimedia applications and how they can be used.
+Multimedia applications are software programs that allow users to create, edit, and interact with a variety of media types, including audio, video, and images. In this blog Post, we will take a closer look at some of the most common types of multimedia applications and how they can be used.
 
 ## Audio Editing Software
 

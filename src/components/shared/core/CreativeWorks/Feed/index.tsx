@@ -1,24 +1,31 @@
 import type { AllowedFormTypeIndex } from '@components/shared/core/CreativeWorks/Forms/Create';
-import type { inferRouterInputs } from '@trpc/server';
-import type { AppRouter } from '@server/trpc/router/_app';
 import type { TOnAddingCreativeWork } from '@components/shared/core/CreativeWorks/Forms/utils/ts';
-import type {
-	TCreativeWorkBlogPostTypeData,
-	TCreativeWorkPostTypeData
-} from '@ts/index';
-
-import { CreativeWorkStatus, CreativeWorkType } from '@prisma/client';
-import { useTypedSession } from '@utils/common/hooks';
-import { Fragment, useMemo, useState } from 'react';
 import Button from '@components/shared/common/Button';
-
-import { trpcAPI } from '@utils/trpc';
 import {
 	CreateWorkLoading,
 	CreativeWorkComp
 } from '@components/shared/core/CreativeWorks';
 import CreateCreativeWorkDialog from '@components/shared/core/CreativeWorks/Dialogs/Create';
 import GoogleAdSenseHResponsiveImageV1 from '@components/shared/common/GoogleAdSense/HResponsiveImageV1';
+
+import { CreativeWorkStatus, CreativeWorkType } from '@prisma/client';
+
+import type { AppRouter } from '@server/trpc/router/_app';
+
+import type { inferRouterInputs } from '@trpc/server';
+
+import type {
+	TCreativeWorkBlogPostTypeData,
+	TCreativeWorkPostTypeData,
+	TCreativeWork,
+	TCreativeWorkBlogPost,
+	TCreativeWorkPost
+} from '@ts/index';
+
+import { useTypedSession } from '@utils/common/hooks';
+import { trpcAPI } from '@utils/trpc';
+
+import { Fragment, useMemo, useState } from 'react';
 
 const FeelingCreativeButton = ({
 	authorId,
@@ -115,12 +122,12 @@ const CreativeWorksFeed = ({
 
 	return (
 		<section className='section-p-y-sm xl-2-sm:section-p-sm color-theme-100 flex flex-col gap-4'>
-			{session?.user?.profile?.id && (
+			{session?.user?.Profile?.id && (
 				<FeelingCreativeButton
 					authorId={session?.user?.id}
 					onAddingCreativeWork={({ creativeWorkId, ...props }) => {
 						updateGetAllCreativeWorksOnStore((prevData) => {
-							if (!prevData || !session?.user?.profile?.id) return prevData;
+							if (!prevData || !session?.user?.Profile?.id) return prevData;
 
 							let firstPage = prevData.pages[0] || {
 								nextCursor: undefined,
@@ -130,47 +137,49 @@ const CreativeWorksFeed = ({
 
 							const creativeWorkBasic = {
 								id: creativeWorkId,
-								tags:
-									props.input.tags?.map((tagName) => ({
+								Tags:
+									props.input.Tags?.map((tagName) => ({
 										name: tagName
 									})) || [],
 								createdAt: new Date(),
 								status: props.input.status || CreativeWorkStatus.PUBLIC,
-								type: props.type,
 								authorId: props.input.authorId,
-								author: {
+								Author: {
 									name: session.user.name,
-									profile: session.user.profile
+									Profile: session.user.Profile
 								}
-							};
+							} satisfies TCreativeWork;
 
 							const typeWithData =
 								props.type === CreativeWorkType.BLOG_POST &&
 								props.type === CreativeWorkType.BLOG_POST
-									? ({
+									? {
 											type: CreativeWorkType.BLOG_POST,
 											typeData: {
-												...props.input.typeData,
-												...props.result.blogPost
+												...(props.input.typeData satisfies Partial<
+													TCreativeWorkBlogPostTypeData['typeData']
+												>),
+												...props.result.BlogPost
 											}
-									  } satisfies TCreativeWorkBlogPostTypeData)
-									: ({
+									  }
+									: {
 											type: CreativeWorkType.POST,
 											typeData: {
-												...props.input.typeData,
-												...props.result.post
+												...(props.input.typeData satisfies Partial<
+													TCreativeWorkPostTypeData['typeData']
+												>),
+												...props.result.Post
 											}
-									  } satisfies TCreativeWorkPostTypeData);
+									  };
+
+							const newItem: TCreativeWorkBlogPost | TCreativeWorkPost = {
+								...creativeWorkBasic,
+								...typeWithData
+							};
 
 							firstPage = {
 								...firstPage,
-								items: [
-									{
-										...creativeWorkBasic,
-										...typeWithData
-									},
-									...firstPage.items
-								]
+								items: [newItem, ...firstPage.items]
 							};
 
 							return {
@@ -239,13 +248,13 @@ const CreativeWorksFeed = ({
 
 															return {
 																...item,
-																tags: [
+																Tags: [
 																	...(Array.isArray(removedTags) &&
 																	removedTags.length !== 0
-																		? item.tags.filter((tag) =>
+																		? item.Tags.filter((tag) =>
 																				removedTags.includes(tag.name)
 																		  )
-																		: item.tags),
+																		: item.Tags),
 																	...(addedTags || []).map((tagName) => ({
 																		name: tagName
 																	}))

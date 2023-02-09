@@ -1,6 +1,6 @@
 ---
 title: Algorithms to Practice arrays and stack in Java - 1
-tags: java algorithms arrays stack data-structure
+Tags: java algorithms arrays stack data-structure
 image_alt: Java
 thumbnailUrl: https://www.datasciencecentral.com/wp-content/uploads/2021/10/8667507462.jpeg
 description: 5 problems/Algorithms to Practice arrays and stack in Java - 1

@@ -1,6 +1,6 @@
 ---
 title: Basic guide to JSONB in PostgreSQL
-tags: sql postgresql json
+Tags: sql postgresql json
 image_alt: PostgreSQL + json
 thumbnailUrl: https://i.morioh.com/200728/b25ed22b.webp
 description: Basic guide to JSONB in PostgreSQL You may encounter (or have already encountered) a situation you are dealing with JSON in your application and you want to store it in your database. Or have unpredictable data or have one or multiple columns in the table that are optional. In these situations an object-oriented, NoSQL database makes sense. But you're probably going to have to learn a new data query syntax, data creation statement, install new software, and run some new servers in production. Now rather than developing your features, you are going to be spending valuable time learning, experimenting. Well my friend you can rest at ease since we will talk a little about how you can use PostgreSQL for all your JSON needs.

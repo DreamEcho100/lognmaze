@@ -41,7 +41,7 @@ export const authOptions: NextAuthOptions = {
 				props.session.user.role = props.user.role;
 
 				if (props.session.user.role) {
-					props.session.user.profile = await prisma.userProfile.findFirst({
+					props.session.user.Profile = await prisma.userProfile.findFirst({
 						where: { userId: props.session.user.id }
 					});
 				}
@@ -56,16 +56,16 @@ export const authOptions: NextAuthOptions = {
 		},
 		signIn(_props) {
 			const props = _props as unknown as
-				| (Omit<typeof _props, 'account' | 'profile'> & {
+				| (Omit<typeof _props, 'account' | 'Profile'> & {
 						account: Account & { provider: 'google' };
-						profile: GoogleProfile;
+						Profile: GoogleProfile;
 				  })
-				| (Omit<typeof _props, 'profile'> & {
-						profile: undefined;
+				| (Omit<typeof _props, 'Profile'> & {
+						Profile: undefined;
 				  });
 
-			if (props.account?.provider === 'google' && props.profile?.email) {
-				return props.profile.email_verified;
+			if (props.account?.provider === 'google' && props.Profile?.email) {
+				return props.Profile.email_verified;
 			}
 
 			return true;

@@ -1,18 +1,18 @@
 ---
 title: the difference between a library an a framework on programming
-tags: library framework programming react-js tailwind-css jquery next-js angular-js bootstrap
+Tags: library framework programming react-js tailwind-css jquery next-js angular-js bootstrap
 image_alt: Library vs Framework
 thumbnailUrl: https://lavapi-bucket.s3.amazonaws.com/lavapi-official-website/articles/yQ9lrjGBEvsMnNaQlFLxf9pveR39Sw5NyUTmItcD.jpg
-description: In this blog post, we will be exploring the difference between a library and a framework in the context of programming. We will look at the various ways in which these two concepts are used, and how they differ in terms of their purpose and functionality.
+description: In this blog Post, we will be exploring the difference between a library and a framework in the context of programming. We will look at the various ways in which these two concepts are used, and how they differ in terms of their purpose and functionality.
 ---
 
-In this blog post, we will be exploring the difference between a **library** and a **framework** in the context of programming. We will look at the various ways in which these two concepts are used, and how they differ in terms of their purpose and functionality.
+In this blog Post, we will be exploring the difference between a **library** and a **framework** in the context of programming. We will look at the various ways in which these two concepts are used, and how they differ in terms of their purpose and functionality.
 
 **Libraries** are collections of pre-written code that can be used to perform common tasks, such as manipulating strings or working with data structures. They are typically called by the programmer and provide a specific implementation of a particular piece of functionality.
 
 On the other hand, **frameworks** are sets of conventions and tools for building applications. They provide a structure for organizing code and often include pre-built **libraries** and other resources that can be used to build an application. Unlike **libraries**, **frameworks** determine the flow of the application and call the programmer's code at certain points, giving the programmer less control over the specific flow of the application but more of a set structure to work within.
 
-In this post, we will delve deeper into the differences between **libraries** and **frameworks**, and examine some examples of each to better understand how they are used in practice. We will also discuss the pros and cons of each approach, and consider some of the factors that you should consider when deciding which one to use in your own projects. Whether you are a beginner or an experienced programmer, this post will provide valuable insights into the world of **libraries** and **frameworks**, and help you make informed decisions about how to use them in your work.
+In this Post, we will delve deeper into the differences between **libraries** and **frameworks**, and examine some examples of each to better understand how they are used in practice. We will also discuss the pros and cons of each approach, and consider some of the factors that you should consider when deciding which one to use in your own projects. Whether you are a beginner or an experienced programmer, this Post will provide valuable insights into the world of **libraries** and **frameworks**, and help you make informed decisions about how to use them in your work.
 
 ## Library vs Framework
 

@@ -1,11 +1,11 @@
 ---
-title: "Understanding Big O Notation: A Comprehensive Guide for Developers"
-description: Big O notation is a fundamental concept in computer science and algorithms, used to measure the efficiency of code. In this blog post, we will cover the basics of Big O notation, including its importance, how to calculate it, and common examples in Typescript. By the end of this post, you will have a strong understanding of how to analyze the performance of your own code and make informed decisions about optimization.
-tags: big-o-notation time-complexity space-complexity algorithms data-structure performance optimization computer-science typescript
+title: 'Understanding Big O Notation: A Comprehensive Guide for Developers'
+description: Big O notation is a fundamental concept in computer science and algorithms, used to measure the efficiency of code. In this blog Post, we will cover the basics of Big O notation, including its importance, how to calculate it, and common examples in Typescript. By the end of this Post, you will have a strong understanding of how to analyze the performance of your own code and make informed decisions about optimization.
+Tags: big-o-notation time-complexity space-complexity algorithms data-structure performance optimization computer-science typescript
 thumbnailUrl: https://miro.medium.com/max/650/1*6mpaXFsrRPFXSKXK5Qgm8w.png
 ---
 
-Welcome, In this post, we'll dive into the important concepts of _Big O notation_, how it's used in programming, and how to calculate its complexity. We'll also discuss why constants are dropped in Big O calculations and the importance of considering the worst case scenario. By the end of this post, you'll have a solid understanding of _Big O notation_ and how to use it in your own coding projects.
+Welcome, In this Post, we'll dive into the important concepts of _Big O notation_, how it's used in programming, and how to calculate its complexity. We'll also discuss why constants are dropped in Big O calculations and the importance of considering the worst case scenario. By the end of this Post, you'll have a solid understanding of _Big O notation_ and how to use it in your own coding projects.
 
 ## What is Big O notation in programming?
 
@@ -37,45 +37,45 @@ Here is an example of **Big O notation** in Typescript:
 ```ts
 // O(1) - Constant time complexity
 function getFirstElement(array: number[]) {
- return array[0];
+	return array[0];
 }
 
 // O(n) - Linear time complexity
 function findElement(array: number[], element: number) {
- for (let i = 0; i < array.length; i++) {
-  if (array[i] === element) {
-   return true;
-  }
- }
- return false;
+	for (let i = 0; i < array.length; i++) {
+		if (array[i] === element) {
+			return true;
+		}
+	}
+	return false;
 }
 
 // O(n^2) - Quadratic time complexity
 function findDuplicates(array: number[]) {
- for (let i = 0; i < array.length; i++) {
-  for (let j = 0; j < array.length; j++) {
-   if (i !== j && array[i] === array[j]) {
-    console.log(array[i]);
-   }
-  }
- }
+	for (let i = 0; i < array.length; i++) {
+		for (let j = 0; j < array.length; j++) {
+			if (i !== j && array[i] === array[j]) {
+				console.log(array[i]);
+			}
+		}
+	}
 }
 
 // O(log n) - Logarithmic time complexity
 function binarySearch(array: number[], element: number) {
- let left = 0;
- let right = array.length - 1;
- while (left <= right) {
-  let mid = Math.floor((left + right) / 2);
-  if (array[mid] === element) {
-   return mid;
-  } else if (array[mid] < element) {
-   left = mid + 1;
-  } else {
-   right = mid - 1;
-  }
- }
- return -1;
+	let left = 0;
+	let right = array.length - 1;
+	while (left <= right) {
+		let mid = Math.floor((left + right) / 2);
+		if (array[mid] === element) {
+			return mid;
+		} else if (array[mid] < element) {
+			left = mid + 1;
+		} else {
+			right = mid - 1;
+		}
+	}
+	return -1;
 }
 ```
 
@@ -122,13 +122,13 @@ To find the complexity of an algorithm using _Big O notation_, you can use the f
 
 ```ts
 function findLargestNumber(arr: number[]) {
- let largest = 0;
- for (let i = 0; i < arr.length; i++) {
-  if (arr[i] > largest) {
-   largest = arr[i];
-  }
- }
- return largest;
+	let largest = 0;
+	for (let i = 0; i < arr.length; i++) {
+		if (arr[i] > largest) {
+			largest = arr[i];
+		}
+	}
+	return largest;
 }
 ```
 
@@ -138,15 +138,15 @@ This is because the number of basic operations performed (i.e. the comparison in
 
 ```ts
 function example(n) {
- // The first for loop has a complexity of O(n)
- for (let i = 0; i < n; i++) {
-  console.log(i);
- }
+	// The first for loop has a complexity of O(n)
+	for (let i = 0; i < n; i++) {
+		console.log(i);
+	}
 
- // The second for loop has a complexity of O(n)
- for (let j = 0; j < n; j++) {
-  console.log(j);
- }
+	// The second for loop has a complexity of O(n)
+	for (let j = 0; j < n; j++) {
+		console.log(j);
+	}
 }
 ```
 
@@ -156,15 +156,15 @@ The overall complexity of this function is _O(2n)_, which can be simplified to _
 
 ```ts
 function bubbleSort(arr: number[]) {
- for (let i = 0; i < arr.length; i++) {
-  for (let j = 0; j < arr.length - i - 1; j++) {
-   if (arr[j] > arr[j + 1]) {
-    let temp = arr[j];
-    arr[j] = arr[j + 1];
-    arr[j + 1] = temp;
-   }
-  }
- }
+	for (let i = 0; i < arr.length; i++) {
+		for (let j = 0; j < arr.length - i - 1; j++) {
+			if (arr[j] > arr[j + 1]) {
+				let temp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp;
+			}
+		}
+	}
 }
 ```
 
@@ -172,23 +172,23 @@ In this example, we implemented **a bubble sort** is which an example of an _O(n
 
 ```ts
 function quickSort(arr: number[]) {
- if (arr.length <= 1) {
-  return arr;
- }
+	if (arr.length <= 1) {
+		return arr;
+	}
 
- const pivot = arr[0];
- const left = [];
- const right = [];
+	const pivot = arr[0];
+	const left = [];
+	const right = [];
 
- for (let i = 1; i < arr.length; i++) {
-  if (arr[i] < pivot) {
-   left.push(arr[i]);
-  } else {
-   right.push(arr[i]);
-  }
- }
+	for (let i = 1; i < arr.length; i++) {
+		if (arr[i] < pivot) {
+			left.push(arr[i]);
+		} else {
+			right.push(arr[i]);
+		}
+	}
 
- return [...quickSort(left), pivot, ...quickSort(right)];
+	return [...quickSort(left), pivot, ...quickSort(right)];
 }
 ```
 
@@ -209,32 +209,32 @@ consider the following two implementations of quicksort in Typescript:
 ```ts
 // Implementation 1
 function quicksort(arr: number[]) {
- if (arr.length <= 1) return arr;
- const pivot = arr[0];
- const left = [];
- const right = [];
- for (let i = 1; i < arr.length; i++) {
-  if (arr[i] < pivot) left.push(arr[i]);
-  else right.push(arr[i]);
- }
- return quicksort(left).concat(pivot, quicksort(right));
+	if (arr.length <= 1) return arr;
+	const pivot = arr[0];
+	const left = [];
+	const right = [];
+	for (let i = 1; i < arr.length; i++) {
+		if (arr[i] < pivot) left.push(arr[i]);
+		else right.push(arr[i]);
+	}
+	return quicksort(left).concat(pivot, quicksort(right));
 }
 ```
 
 ```ts
 // Implementation 2
 function quicksort(arr: number[]) {
- if (arr.length <= 1) return arr;
- const pivotIndex = Math.floor(arr.length / 2);
- const pivot = arr[pivotIndex];
- const left = [];
- const right = [];
- for (let i = 0; i < arr.length; i++) {
-  if (i === pivotIndex) continue;
-  if (arr[i] < pivot) left.push(arr[i]);
-  else right.push(arr[i]);
- }
- return quicksort(left).concat(pivot, quicksort(right));
+	if (arr.length <= 1) return arr;
+	const pivotIndex = Math.floor(arr.length / 2);
+	const pivot = arr[pivotIndex];
+	const left = [];
+	const right = [];
+	for (let i = 0; i < arr.length; i++) {
+		if (i === pivotIndex) continue;
+		if (arr[i] < pivot) left.push(arr[i]);
+		else right.push(arr[i]);
+	}
+	return quicksort(left).concat(pivot, quicksort(right));
 }
 ```
 
@@ -250,11 +250,11 @@ Let's say we have the following function in Typescript:
 
 ```ts
 function constantExample(n) {
- let sum = 0;
- for (let i = 0; i < n; i++) {
-  sum += i;
- }
- return sum;
+	let sum = 0;
+	for (let i = 0; i < n; i++) {
+		sum += i;
+	}
+	return sum;
 }
 ```
 
@@ -285,16 +285,16 @@ Here is an example of this sorting algorithm in Typescript:
 
 ```ts
 function sort(arr) {
- for (let i = 0; i < arr.length - 1; i++) {
-  for (let j = 0; j < arr.length - i - 1; j++) {
-   if (arr[j] > arr[j + 1]) {
-    // Swap elements
-    let temp = arr[j];
-    arr[j] = arr[j + 1];
-    arr[j + 1] = temp;
-   }
-  }
- }
+	for (let i = 0; i < arr.length - 1; i++) {
+		for (let j = 0; j < arr.length - i - 1; j++) {
+			if (arr[j] > arr[j + 1]) {
+				// Swap elements
+				let temp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp;
+			}
+		}
+	}
 }
 ```
 
@@ -306,11 +306,11 @@ In the context of _Big O notation_, "growth with respect to input" refers to how
 
 ```ts
 function sum(arr) {
- let total = 0;
- for (let i = 0; i < arr.length; i++) {
-  total += arr[i];
- }
- return total;
+	let total = 0;
+	for (let i = 0; i < arr.length; i++) {
+		total += arr[i];
+	}
+	return total;
 }
 ```
 

@@ -8,7 +8,7 @@ export const generateFractalTreeTool = {
 		'Our online tool allows you to generate stunning fractal trees with custom parameters or randomly generated values. Explore the infinite possibilities of fractal tree design and create your own unique creations!',
 	shortDescription:
 		'Generate beautiful fractal trees with custom or random parameters with our online tool.',
-	tags: [
+	Tags: [
 		'fractal-tree',
 		'generator',
 		'computer-generated-arts',
@@ -113,7 +113,7 @@ const cgArtsTools = {
 		question: string;
 		answer: string;
 	}[],
-	tags: ['']
+	Tags: ['']
 };
 
 export default cgArtsTools;
