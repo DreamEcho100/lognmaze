@@ -175,7 +175,7 @@ const BlogPostForm = ({
 				min={3}
 			/>
 			<SelectTags
-				Tags={Tags}
+				tags={Tags}
 				setTags={setTags}
 				filterFunc={(item) => (prevIem) => prevIem.value !== item.value}
 				addFunc={(prev, _item) => {
