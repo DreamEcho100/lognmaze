@@ -1,6 +1,6 @@
 ---
 title: What is the difference between the dot operator . operator and arrow operator -> in C++
-Tags: cpp c arrow-operator dot-operator
+tags: cpp c arrow-operator dot-operator
 image_alt: c++
 thumbnailUrl: https://miro.medium.com/max/1400/1*oFfl-1UKLtd8XOswpwgriA.png
 description: The arrow operator is syntactic sugar. `foo->member` is the same as `(*foo).member`, The `.` operator is for direct member access and The `->` operator is for indirect member access.

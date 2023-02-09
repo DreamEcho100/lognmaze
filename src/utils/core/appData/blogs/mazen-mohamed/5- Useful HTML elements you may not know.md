@@ -1,6 +1,6 @@
 ---
 title: Useful HTML elements you may not know
-Tags: html frontend-web-development semantic-markup Tags
+tags: html frontend-web-development semantic-markup tags
 image_alt: HTML stands for Hyper Text Markup Language
 thumbnailUrl: https://www.ravedigital.agency/wp-content/uploads/2015/06/html51.jpg
 description: As a web developer, HTML is one of the first languages we learn but it is tricky to learn everything about it and utilize its full potential since it has so many to offer and some of it you may never need and the demand to keep up and update your other skills like in CSS, JavaScript, any other languages, or frameworks/libraries you Know or want to learn
@@ -8,9 +8,9 @@ description: As a web developer, HTML is one of the first languages we learn but
 
 As a web developer **HTML** is one of the first languages we learn but it's tricky to learn everything about it and utilize its full potential since it has so many to offer and some of it you may never need and the demand to keep up and update your other skills like in `CSS`, `JavaScript`, any other languages, or **frameworks**_/_**libraries** you Know or want to learn.
 
-Since **semantic HTML** has become common, so many new Tags are introduced. But we usually stick to the common ones like `<nav></nav>` `<header></header>` `<footer></footer>` etc... .
+Since **semantic HTML** has become common, so many new tags are introduced. But we usually stick to the common ones like `<nav></nav>` `<header></header>` `<footer></footer>` etc... .
 
-But it's never too late to learn about the useful Tags that get overlooked or misunderstood despite their benefit. So here in this blog, we will cover some rare and useful **HTML** Tags that I think developers probably don’t know to help you discover the power of some under-used Tags.
+But it's never too late to learn about the useful tags that get overlooked or misunderstood despite their benefit. So here in this blog, we will cover some rare and useful **HTML** tags that I think developers probably don’t know to help you discover the power of some under-used tags.
 
 ## Address (\<address></address>)
 
@@ -111,7 +111,7 @@ In **HTML5** [`<small>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Eleme
 
 ## Details (\<details></details>)
 
-By default, content within the [`<details>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) Tags are hidden but can be shown by clicking on it. Each element should display a summary of what it’s about when it’s hidden.
+By default, content within the [`<details>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) tags are hidden but can be shown by clicking on it. Each element should display a summary of what it’s about when it’s hidden.
 
 It creates a disclosure widget in which information is visible only when the widget is toggled into an "open" state. A summary or label must be provided using the [`<summary>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary) element.
 
@@ -295,9 +295,9 @@ So, if you want to indicate that a Fuel level is 50% remains, you can write:
 
 ## In Conclusion
 
-In this article, we’ve discussed a number of **HTML** Tags that are less used and often forgotten. I suggest you read the complete list of **HTML** Tags available from [here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) or [here](https://html.spec.whatwg.org/multipage/#auto-toc-4) from time to time. In this way, you’ll refresh your knowledge of semantic elements
+In this article, we’ve discussed a number of **HTML** tags that are less used and often forgotten. I suggest you read the complete list of **HTML** tags available from [here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) or [here](https://html.spec.whatwg.org/multipage/#auto-toc-4) from time to time. In this way, you’ll refresh your knowledge of semantic elements
 
-## Other Tags to look and search for
+## Other tags to look and search for
 
 - [`<template></template>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template)
 
@@ -327,14 +327,14 @@ In this article, we’ve discussed a number of **HTML** Tags that are less used 
 
 ## Resources and further reading
 
-> Note there is a lot of researching and resource gathered from MDN, and the links for them is provided in the Tags name like in [`<address>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address) feel free to check them to read more about the topic.
+> Note there is a lot of researching and resource gathered from MDN, and the links for them is provided in the tags name like in [`<address>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address) feel free to check them to read more about the topic.
 
-- [8 Rare and Useful **HTML** Tags You Probably Don’t Know (widgetcore.com)](https://widgetcore.com/8-rare-and-useful-html-Tags-you-probably-dont-know/)
+- [8 Rare and Useful **HTML** tags You Probably Don’t Know (widgetcore.com)](https://widgetcore.com/8-rare-and-useful-html-tags-you-probably-dont-know/)
 
-- [10 **HTML** Tags You May Not Be Using (sitepoint.com)](https://www.sitepoint.com/10-html-Tags-not-using/)
+- [10 **HTML** tags You May Not Be Using (sitepoint.com)](https://www.sitepoint.com/10-html-tags-not-using/)
 
-- [Five Obscure but Useful **HTML** Tags (section.io)](https://www.section.io/engineering-education/obscure-html/)
+- [Five Obscure but Useful **HTML** tags (section.io)](https://www.section.io/engineering-education/obscure-html/)
 
-- [10 Rare **HTML** Tags You Really Should Know (code.tutsplus.com)](https://code.tutsplus.com/articles/10-rare-html-Tags-you-really-should-know--net-3908)
+- [10 Rare **HTML** tags You Really Should Know (code.tutsplus.com)](https://code.tutsplus.com/articles/10-rare-html-tags-you-really-should-know--net-3908)
 
 - [10 **HTML** Elements You Didn't Know You Needed (dev.to)](https://dev.to/emmabostian/10-html-element-you-didnt-know-you-needed-3jo4)

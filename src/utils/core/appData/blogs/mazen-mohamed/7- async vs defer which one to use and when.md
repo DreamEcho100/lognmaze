@@ -1,6 +1,6 @@
 ---
 title: async vs defer which one to use and when
-Tags: javascript async vs defer
+tags: javascript async vs defer
 image_alt: the difference between async and defer
 thumbnailUrl: https://res.cloudinary.com/josefzacek/image/upload/v1520507339/blog/whats-the-difference-between-async-vs-defer-attributes.jpg
 description: both async and defer attributes downloaded the external script in parallel to parsing the page, but the difference is in their execution time
@@ -62,9 +62,9 @@ And `defer` you should use it for all other scripts.
 
 - [How and when to use Async and Defer attributes (zellwk.com)](https://zellwk.com/blog/javascript-async-and-defer/)
 
-- [HTML **script** **async** Attribute (w3schools.com)](https://www.w3schools.com/Tags/att_script_async.asp)
+- [HTML **script** **async** Attribute (w3schools.com)](https://www.w3schools.com/tags/att_script_async.asp)
 
-- [HTML **script** **defer** Attribute (w3schools.com)](https://www.w3schools.com/Tags/att_script_defer.asp)
+- [HTML **script** **defer** Attribute (w3schools.com)](https://www.w3schools.com/tags/att_script_defer.asp)
 
 - [When to use async vs defer when loading scripts? (stackoverflow.com)](https://stackoverflow.com/questions/44443870/when-to-use-async-vs-defer-when-loading-scripts)
 

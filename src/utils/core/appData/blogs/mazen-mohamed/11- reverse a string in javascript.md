@@ -1,6 +1,6 @@
 ---
 title: 10 ways to reverse a string in JavaScript
-Tags: reverse string javascript js algorithm algorithms
+tags: reverse string javascript js algorithm algorithms
 image_alt: Book with JavaScript on it
 thumbnailUrl: https://res.cloudinary.com/practicaldev/image/fetch/s--_pyWGSyD--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://thepracticaldev.s3.amazonaws.com/i/w9u60357jk4ozdho7urq.jpg
 description: Reversing a string is one of the most commonly asked JavaScript questions in the technical round of interviews. Interviewers may ask you to write different ways to reverse a string, reverse a string without using in-built methods, or they may even ask you to reverse a string using recursion!

@@ -1,7 +1,7 @@
 ---
 title: "JavaScript's Prototype Chain: A Guide"
 description: A comprehensive guide to understanding and implementing prototype chains in JavaScript, including explanations of similarities and differences with other OOP languages.
-Tags: javascript prototype prototype-chain inheritance oop class syntax extends static getters setters
+tags: javascript prototype prototype-chain inheritance oop class syntax extends static getters setters
 thumbnailUrl: https://velog.velcdn.com/images/dltkdals224/Post/f93bfb9d-4b72-4297-9058-1d549e4d483a/image.jpeg
 ---
 

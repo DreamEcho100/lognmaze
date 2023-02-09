@@ -1,6 +1,6 @@
 ---
 title: what is a Data Structure and a discussing some of its applications
-Tags: data-structure programming
+tags: data-structure programming
 image_alt: Nodes connecting to their siblings in a tree like Structure
 thumbnailUrl: https://img.favpng.com/6/17/18/data-structures-and-algorithms-algorithms-data-structures-programs-computer-science-png-favpng-WLB6bjNKJudwXf5EVbHqwXNsF.jpg
 description: A data structure is a particular way of organizing data in a computer so that it can be used effectively. it consists of a set of nodes that contain the necessary data items or elements that are needed by computer applications.

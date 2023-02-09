@@ -1,6 +1,6 @@
 ---
 title: Listing different image file formats and differentiate between them
-Tags: multimedia image-file-format jpeg png gif tiff bmp
+tags: multimedia image-file-format jpeg png gif tiff bmp
 image_alt:
 thumbnailUrl: https://cc-prod.scene7.com/is/image/CCProdAuthor/hero-jpeg-vs-png?$pjpeg$&jpegSize=200&wid=900
 description: When it comes to storing and sharing images, there are numerous image file formats to choose from. Each format has its own unique characteristics and is suitable for different types of images and use cases. In this blog, we will take a closer look at some of the most common image file formats and discuss the differences between them.

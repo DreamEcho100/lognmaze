@@ -33,7 +33,7 @@ const seedingTheLanguagesTagsTable = async () => {
 	});
 
 	console.log(
-		"%cDone the 'languages Tags' table",
+		"%cDone the 'languages tags' table",
 		'font-size: 42px; font-weight: bold; color: green;'
 	);
 	console.log('data', JSON.stringify(data, null, 2));
@@ -51,9 +51,11 @@ const seedingTheGendersTagsTable = async () => {
 	console.log('data', JSON.stringify(data, null, 2));
 };
 
-/*
 const seedingTheBlogPostsTable = async () => {
-	const directory = path.join(process.cwd(), 'src/appData/blogs/mazen-mohamed');
+	const directory = path.join(
+		process.cwd(),
+		'src/utils/core/appData/blogs/mazen-mohamed'
+	);
 	const tagsPages: string[][] = [];
 	const creativeWorksTypeBlogPostData: NonNullable<
 		Parameters<typeof prisma.creativeWork.create>['0']
@@ -96,12 +98,13 @@ const seedingTheBlogPostsTable = async () => {
 				console.log('file', file);
 				const fileContent = await fs.readFileSync(filePath, 'utf8');
 				const parsed = grayMatter(fileContent);
-				const content = parsed.content;
+				const content = parsed.content.trim();
 
+				console.log('parsed.data', parsed.data);
 				const data = z
 					.object({
 						title: z.string().trim(),
-						Tags: z
+						tags: z
 							.string()
 							.trim()
 							.transform((item) => [...new Set(item.split(/\s+/))]),
@@ -111,14 +114,14 @@ const seedingTheBlogPostsTable = async () => {
 					})
 					.parse(parsed.data);
 
-				tagsPages.push(data.Tags);
+				tagsPages.push(data.tags);
 				creativeWorksTypeBlogPostData.push({
 					data: {
 						authorId,
 						type: CreativeWorkType.BLOG_POST,
 						status: CreativeWorkStatus.PUBLIC,
 						Tags: {
-							connectOrCreate: data.Tags.map((tag) => ({
+							connectOrCreate: data.tags.map((tag) => ({
 								create: {
 									name: tag,
 									Stats: {
@@ -211,8 +214,7 @@ const seedingTheBlogPostsTable = async () => {
 
 	// const data = await prisma.blogPost.createMany
 };
-*/
 
 // seedingTheLanguagesTagsTable();
 // seedingTheGendersTagsTable();
-// seedingTheBlogPostsTable();
+seedingTheBlogPostsTable();

@@ -1,6 +1,6 @@
 ---
 title: Extends vs implements in TypScript
-Tags: typscript ts extends implements
+tags: typscript ts extends implements
 image_alt: typScript advance concepts extends vs implements
 thumbnailUrl: https://www.educative.io/v2api/editorpage/6232248928960512/image/6474120549105664
 description: Extends vs implements, Extends means it gets all from its parent. implements, in this case, is almost like implementing an interface, A child object can pretend that it is a parent, but it doesn't get any implementation

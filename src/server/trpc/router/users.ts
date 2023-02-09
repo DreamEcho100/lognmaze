@@ -14,7 +14,7 @@ const usersProfilesRouter = router({
 				coverPhoto: z.string().trim().optional(),
 				work: z.string().trim().min(3),
 				education: z.string().trim().min(3),
-				gender: z.nativeEnum(UserGender),
+				gender: z.nativeEnum(UserGender).default(UserGender.M),
 				firstName: z.string().trim().min(2),
 				lastName: z.string().trim()
 			})

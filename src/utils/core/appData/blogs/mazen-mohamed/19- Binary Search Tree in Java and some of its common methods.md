@@ -1,6 +1,6 @@
 ---
 title: Binary Search Tree (BTS) in Java and some of its common methods
-Tags: data-structure programming binary-search-tree bts java
+tags: data-structure programming binary-search-tree bts java
 image_alt: Binary Search Tree
 thumbnailUrl: https://static.packt-cdn.com/products/9781789801736/graphics/C09581_08_02.jpg
 description: Values of keys in the left sub-tree of the root should be smaller than or equal to the values of the key at the root and the keys in the right sub-tree of the root should be larger than or equal to the values of the key at the root. The left and right subtree each must also be a binary search tree.

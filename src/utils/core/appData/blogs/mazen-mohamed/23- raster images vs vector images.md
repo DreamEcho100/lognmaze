@@ -1,6 +1,6 @@
 ---
 title: difference between raster images and vector images
-Tags: raster vector images multimedia
+tags: raster vector images multimedia
 image_alt:
 thumbnailUrl: https://miro.medium.com/max/720/1*Zvu9qnSezm__-1X4ClWe7A.webp
 description: When it comes to creating and storing images, there are two main types, raster images and vector images. While they may seem similar at first glance, there are actually several key differences between these two types of images that make them more suitable for different types of use cases.

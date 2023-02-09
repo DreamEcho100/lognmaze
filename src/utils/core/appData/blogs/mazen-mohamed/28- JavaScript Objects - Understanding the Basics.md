@@ -1,7 +1,7 @@
 ---
 title: 'JavaScript Objects: Understanding the Basics'
 description: JavaScript's Object class is the foundation for all objects in the language. This guide provides an overview of the basics of JavaScript objects, including creation methods such as object literals, constructors, and factory functions. Additionally, it covers the prototype-based nature of JavaScript, which allows for dynamic modification of objects, and the ways to leverage inheritance and the prototype chain to organize and extend your code. With this guide, you will have a solid understanding of the building blocks of JavaScript objects.
-Tags: javascript objects object-creation object-literals prototype-based factory-functions beginner guide dynamic-objects prototype-chain
+tags: javascript objects object-creation object-literals prototype-based factory-functions beginner guide dynamic-objects prototype-chain
 thumbnailUrl: https://velog.velcdn.com/images/dltkdals224/Post/f93bfb9d-4b72-4297-9058-1d549e4d483a/image.jpeg
 ---
 

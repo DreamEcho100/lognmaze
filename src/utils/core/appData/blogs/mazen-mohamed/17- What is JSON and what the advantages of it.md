@@ -1,6 +1,6 @@
 ---
 title: What is JSON and what are the advantages of it
-Tags: json programming developer
+tags: json programming developer
 image_alt: JSON
 thumbnailUrl: https://miro.medium.com/max/1024/1*M7ayIrIeF9Ss-VNwes7uBw.png
 description: JSON is a language-independent data format. It was derived from JavaScript, it stands for JavaScript Object Notation and it is often used when data is sent from a server to a web page

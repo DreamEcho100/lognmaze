@@ -1,6 +1,6 @@
 ---
 title: Useful HTML Attribute you may not know
-Tags: html frontend-web-development frontend web-development attribute
+tags: html frontend-web-development frontend web-development attribute
 image_alt: HTML (Hyper Text Markup Language)
 thumbnailUrl: https://revisezone.com/Imagedata/GraphicsWeb/attribute.jpg
 description: From the SEO perspective, these attributes provide additional semantics to the code, which should be something positive for a search engine. HTML is the core of web development. Yet, many aspiring programmers merely learn about the surface of it, the little that gets them to know enough to move to CSS, JavaScript, etc. missing its full potential.
@@ -51,7 +51,7 @@ Valid for the email and file **input types** and the `<select>`.
 
 ## [`cite`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote#attr-cite) in `<blockquote>`, `<del>`, `<ins>`, and `<q>`
 
-The value will be an URL containing an online resource in which contains the quoted reference (or the insertion/deletion information in the case of `<ins>` and `<del>` Tags respectively).
+The value will be an URL containing an online resource in which contains the quoted reference (or the insertion/deletion information in the case of `<ins>` and `<del>` tags respectively).
 
 It is not a required attribute, but it can be interesting if we are citing an online article or document.
 
@@ -117,7 +117,7 @@ For `ins` and `<del>`, the `datetime` will indicate the moment of the insertion/
 </p>
 ```
 
-## [`spellcheck`](https://www.w3schools.com/Tags/att_global_spellcheck.asp) in `<textarea>`, `<input>` and `contenteditable` elements
+## [`spellcheck`](https://www.w3schools.com/tags/att_global_spellcheck.asp) in `<textarea>`, `<input>` and `contenteditable` elements
 
 The `spellcheck` attribute tells a browser whether or not to check the spelling/grammar of the text in an editable element.
 
@@ -319,12 +319,12 @@ If the value is omitted, the original filename is used.
 
 - [7 interesting **HTML** attributes (you may not know) (dev.to)](https://dev.to/alvaromontoro/7-interesting-html-attributes-you-may-not-know-58j0)
 
-- [10 **HTML** Tags and attributes maybe you didn't know!😶 (dev.to)](https://dev.to/iftekhs/10-html-Tags-and-attributes-maybe-you-didn-t-know-ake)
+- [10 **HTML** tags and attributes maybe you didn't know!😶 (dev.to)](https://dev.to/iftekhs/10-html-tags-and-attributes-maybe-you-didn-t-know-ake)
 
 - [10 useful HTML5 features, you may not be using (blog.greenroots.info)](https://blog.greenroots.info/10-useful-html5-features-you-may-not-be-using)
 
 - [HTML5 Forms: SpellCheck Type Attribute (wufoo.com)](https://www.wufoo.com/html5/spellcheck-attribute/)
 
-- [**HTML** Global title Attribute (w3schools.com)](https://www.w3schools.com/Tags/att_global_title.asp)
+- [**HTML** Global title Attribute (w3schools.com)](https://www.w3schools.com/tags/att_global_title.asp)
 
-- [**HTML** **a** tag download Attribute](https://www.w3schools.com/Tags/att_a_download.asp)
+- [**HTML** **a** tag download Attribute](https://www.w3schools.com/tags/att_a_download.asp)

@@ -1,6 +1,6 @@
 ---
 title: List different multimedia applications
-Tags: multimedia audio-editing-software video-editing-software image-editing-software audio-and-video-players presentation-software
+tags: multimedia audio-editing-software video-editing-software image-editing-software audio-and-video-players presentation-software
 image_alt:
 thumbnailUrl: https://leverageedu.com/blog/wp-content/uploads/2020/08/Applications-of-Multimedia.png
 description: Nowadays, it is nearly impossible for an organization or company to work without integrating different multimedia platforms to conduct its day to day operations. Catering to the demand of various types, multimedia has different usages at a given situation. These are some of the popular applications of multimedia.

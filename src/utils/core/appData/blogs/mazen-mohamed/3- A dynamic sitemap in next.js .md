@@ -1,6 +1,6 @@
 ---
 title: Create a dynamic sitemap with Next.js
-Tags: sitemap next.js
+tags: sitemap next.js
 image_alt: Create a dynamic sitemap with Next.js
 thumbnailUrl: https://codebycorey.com/static/images/nextjs-sitemap/header.png
 description: Generate a dynamic sitemap for your Next.js based site or app to improve the discoverability of your site for search engines like Google, Bing, and DuckDuckGo

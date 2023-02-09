@@ -1,6 +1,6 @@
 ---
 title: Error Could not connect to any servers in your MongoDB Atlas cluster
-Tags: mongodb cloud atlas connection error
+tags: mongodb cloud atlas connection error
 image_alt: mongodb
 thumbnailUrl: https://a.storyblok.com/f/114452/1080x608/f0f1d42a22/mongodb.png
 description: When trying to connect to MongoDB you could encounter the following error Could not connect to any servers in your MongoDB Atlas cluster could happen for multiple reasons

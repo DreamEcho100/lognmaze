@@ -9,7 +9,7 @@ const toolsData = {
 		'Explore our collection of online converters and generators for various types of text and art. Convert your text to a unique and SEO-friendly URL slug, generate a QR code for your text, convert your markdown to HTML, or create stunning fractal trees with custom or random parameters. Our tools are user-friendly and offer various customization options, and we have helpful Q&As to guide you through the process. Try out our converters and generators now and unleash your creativity!',
 	shortDescription:
 		'Easily convert and generate text, URLs, QR codes, and art with our online tools',
-	Tags: [
+	tags: [
 		'converters',
 		'generators',
 		'text',
@@ -86,7 +86,7 @@ export const tempTool = {
 	shortTitle: '',
 	description: '',
 	shortDescription: '',
-	Tags: ['markdown', 'html', 'converter', 'convert', ...generateCommonTags()],
+	tags: ['markdown', 'html', 'converter', 'convert', ...generateCommonTags()],
 };
 		{
 			relativePath: '',

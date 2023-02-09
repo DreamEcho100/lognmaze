@@ -1,6 +1,6 @@
 ---
 title: the difference between a library an a framework on programming
-Tags: library framework programming react-js tailwind-css jquery next-js angular-js bootstrap
+tags: library framework programming react-js tailwind-css jquery next-js angular-js bootstrap
 image_alt: Library vs Framework
 thumbnailUrl: https://lavapi-bucket.s3.amazonaws.com/lavapi-official-website/articles/yQ9lrjGBEvsMnNaQlFLxf9pveR39Sw5NyUTmItcD.jpg
 description: In this blog Post, we will be exploring the difference between a library and a framework in the context of programming. We will look at the various ways in which these two concepts are used, and how they differ in terms of their purpose and functionality.

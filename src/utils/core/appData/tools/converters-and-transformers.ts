@@ -9,7 +9,7 @@ export const convertFromMarkdownToHTMLTool = {
 		'Use our simple and user-friendly Markdown to HTML converter to quickly and easily convert your markdown text to HTML. Simply type your markdown text in the textarea and see the output in real-time, and easily copy the HTML output to your clipboard.',
 	shortDescription:
 		'Convert markdown text to HTML with our user-friendly tool.',
-	Tags: ['markdown', 'html', 'converter', 'convert', ...generateCommonTags()],
+	tags: ['markdown', 'html', 'converter', 'convert', ...generateCommonTags()],
 	faqs: [
 		{
 			question: 'How do I use your Markdown to HTML converter?',
@@ -73,7 +73,7 @@ export const textToURLSlugConverterTool = {
 		'Easily convert your text to a unique and SEO-friendly URL slug with our online converter tool. Simply type your text into the input field and copy the generated slug to use on your website or blog.',
 	shortDescription:
 		'Convert your text to a unique and SEO-friendly URL slug with our online converter tool.',
-	Tags: [
+	tags: [
 		'slug',
 		'url',
 		'text',
@@ -145,7 +145,7 @@ export const textToQRCodeConverterTool = {
 		'Use our simple and user-friendly Text to QR Code converter to quickly and easily convert your text to a QR code. Simply type your text in the textarea, click the generate button, and scan the generated QR code with your smartphone or QR code reader.',
 	shortDescription:
 		'Quickly and easily convert your text to a QR code with our online converter tool.',
-	Tags: [
+	tags: [
 		'text',
 		'qr-code',
 		'converter',
@@ -221,7 +221,7 @@ export const textToBarcodeTool = {
 		'Easily convert your text to a customizable barcode with our online converter tool. Simply type your text into the input field, adjust the barcode settings, and generate your barcode in real-time. Use the generated barcode for your own personal or commercial purposes.',
 	shortDescription:
 		'Convert text to customizable barcodes with our online converter tool.',
-	Tags: ['text', 'barcode', 'customize', ...generateCommonTags()],
+	tags: ['text', 'barcode', 'customize', ...generateCommonTags()],
 	faqs: [
 		{
 			question: 'How do I adjust the barcode settings?',
@@ -285,7 +285,7 @@ export const htmlEntityEncoderDecoderTools = {
 		"Easily convert special characters to HTML entities or decode HTML entities back to their original characters with our online tool. Simply type or paste your text into the input field and click the 'Encode' or 'Decode' button to get the result in real-time.",
 	shortDescription:
 		'Convert special characters to HTML entities with our online tool.',
-	Tags: [
+	tags: [
 		'html-entity',
 		'html-entities',
 		'encoding',
@@ -352,7 +352,7 @@ export const morseCodeConverterTool = {
 	description:
 		'Easily convert text to Morse code or decode Morse code back to text in real-time with our online converter tool. Simply type your text into the input field and the corresponding Morse code will appear in the other field, or vice versa. Use the tool for personal or commercial purposes.',
 	shortDescription: 'Real-time text-to-Morse code converter',
-	Tags: ['morse-code', 'encoding', 'decoding', ...generateCommonTags()],
+	tags: ['morse-code', 'encoding', 'decoding', ...generateCommonTags()],
 	faqs: [
 		{
 			question: 'How do I use the Text to Morse Code converter?',
@@ -408,7 +408,7 @@ const convertersAndTransformersTools = {
 		'Explore our collection of online converters and transformers for various tasks.',
 	description:
 		'Whether you need to convert text to HTML, generate a QR code, or transform data in some other way, our collection of online converters and transformers has you covered. Explore our wide range of tools and customize the inputs to fit your needs. Plus, check out our helpful Q&As to get the most out of our tools.',
-	Tags: [
+	tags: [
 		'converter',
 		'transformer',
 		'data',
@@ -443,7 +443,7 @@ export default convertersAndTransformersTools;
 	shortTitle: '',
 	description: '',
 	shortDescription: '',
-	Tags: ['', ...generateCommonTags()],
+	tags: ['', ...generateCommonTags()],
 	faqs: [
 		{
 			question: '',

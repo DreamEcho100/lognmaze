@@ -1,8 +1,8 @@
 ---
 title: 'Improving Website Usability with cursor: pointer; CSS Rule'
-Description: 'The cursor: pointer; CSS rule and how it can be used to improve the usability of a website. It covers common use cases for the rule, such as buttons, links, and other interactive elements, as well as the advantages and considerations of using the rule.'
+description: 'The cursor: pointer; CSS rule and how it can be used to improve the usability of a website. It covers common use cases for the rule, such as buttons, links, and other interactive elements, as well as the advantages and considerations of using the rule.'
 thumbnailUrl: https://colorlib.com/wp/wp-content/uploads/sites/2/creative-css3-tutorials.jpg
-Tags: cursor pointer css rule usability website clickable buttons links interactive-elements visual-feedback improved-usability clear-identification common-use cases considerations disadvantages device-compatibility
+tags: cursor pointer css rule usability website clickable buttons links interactive-elements visual-feedback improved-usability clear-identification common-use cases considerations disadvantages device-compatibility
 ---
 
 The `cursor: pointer;` CSS rule is used to change the cursor's appearance when the mouse pointer is over an element, to a hand icon, indicating that the element is clickable.
