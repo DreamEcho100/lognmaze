@@ -74,6 +74,9 @@ const seedingTheBlogPostsTable = async () => {
 	console.log('authorId', authorId);
 	console.log('languageTagId', languageTagId);
 
+	throw new Error('Remember to update the blog post tags correctly!');
+
+	/*
 	try {
 		const files = await fs
 			.readdirSync(directory)
@@ -168,17 +171,17 @@ const seedingTheBlogPostsTable = async () => {
 		let i = 0;
 		for (; i < creativeWorksTypeBlogPostData.length; i++) {
 			const element = creativeWorksTypeBlogPostData[i];
-			if (element) {
-				console.log('element', element.data.BlogPost?.create?.slug);
-				await prisma.creativeWork
-					.create(element)
-					.then(console.log)
-					.catch((error) => {
-						console.log('element', element.data.BlogPost?.create?.slug);
-						console.error(error);
-						throw new Error('creative');
-					});
-			}
+			if (!element) break;
+
+			console.log('element', element.data.BlogPost?.create?.slug);
+			await prisma.creativeWork
+				.create(element)
+				.then(console.log)
+				.catch((error) => {
+					console.log('element', element.data.BlogPost?.create?.slug);
+					console.error(error);
+					throw new Error('creative');
+				});
 		}
 
 		console.log('Updating tagStats table');
@@ -210,10 +213,37 @@ const seedingTheBlogPostsTable = async () => {
 	} catch (err) {
 		console.error(err);
 	}
+	*/
 
 	// const data = await prisma.blogPost.createMany
 };
 
+// const updatingTagsBlogStatsCounter = async () => {
+// 	const blogPostsCreativeWork = await prisma.creativeWork.findMany({
+// 		select: { Tags: true },
+// 		where: { type: CreativeWorkType.BLOG_POST }
+// 	});
+
+// 	const tagNameToCountMap: Record<string, number> = {};
+
+// 	blogPostsCreativeWork.forEach((blogPost) => {
+// 		blogPost.Tags.forEach((tag) => {
+// 			tagNameToCountMap[tag.name] = (tagNameToCountMap[tag.name] || 0) + 1;
+// 		});
+// 	});
+
+// 	console.log('tagNameToCountMap', tagNameToCountMap);
+
+// 	await prisma.$transaction(
+// 		Object.entries(tagNameToCountMap).map((item) =>
+// 			prisma.tagStats.update({
+// 				data: { blogPostsCount: item[1] },
+// 				where: { tagName: item[0] }
+// 			})
+// 		)
+// 	);
+// };
+
 // seedingTheLanguagesTagsTable();
 // seedingTheGendersTagsTable();
-seedingTheBlogPostsTable();
+// seedingTheBlogPostsTable();
