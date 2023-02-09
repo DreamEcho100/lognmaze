@@ -159,7 +159,6 @@ const seedingTheBlogPostsTable = async () => {
 					select: { id: true, BlogPost: { select: { slug: true } } }
 				});
 
-				// console.log('parsed', parsed);
 				// This is a regular .md file.
 				// You can read the file using fs.readFile or any other method.
 			}

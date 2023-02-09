@@ -1,5 +1,8 @@
 {
 	"marquee.widgets.npm-Stats.packageNames": ["lognmaze"],
 	"typescript.tsdk": "node_modules\\typescript\\lib",
-	"typescript.enablePromptUseWorkspaceTsdk": true
+	"typescript.enablePromptUseWorkspaceTsdk": true,
+	"marquee.widgets.npm-stats.packageNames": [
+		"lognmaze"
+	]
 }
