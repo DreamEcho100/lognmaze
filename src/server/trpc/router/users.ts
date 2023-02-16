@@ -2,6 +2,8 @@ import { Role, UserGender } from '@prisma/client';
 
 import { router, authedProcedure } from '@server/trpc/trpc';
 
+import { TRPCError } from '@trpc/server';
+
 import { z } from 'zod';
 
 const usersProfilesRouter = router({
@@ -20,6 +22,12 @@ const usersProfilesRouter = router({
 			})
 		)
 		.mutation(async ({ ctx, input }) => {
+			if (ctx.session.user.Profile?.userId)
+				throw new TRPCError({
+					code: 'FORBIDDEN',
+					message: "You can't recreate a profile"
+				});
+
 			const work = input.work.trim().replace(/\s+/g, ' ');
 			const education = input.education.trim().replace(/\s+/g, ' ');
 
