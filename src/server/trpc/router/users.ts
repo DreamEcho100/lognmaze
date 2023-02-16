@@ -1,7 +1,6 @@
 import { Role, UserGender } from '@prisma/client';
 
 import { router, authedProcedure } from '@server/trpc/trpc';
-import { TRPCError } from '@trpc/server';
 
 import { z } from 'zod';
 
@@ -9,6 +8,7 @@ const usersProfilesRouter = router({
 	createOne: authedProcedure
 		.input(
 			z.object({
+				username: z.string().trim().min(3),
 				bio: z.string().trim().min(3).optional(),
 				profilePicture: z.string().trim().optional(),
 				coverPhoto: z.string().trim().optional(),
@@ -24,60 +24,57 @@ const usersProfilesRouter = router({
 			const education = input.education.trim().replace(/\s+/g, ' ');
 
 			const data = await ctx.prisma.$transaction([
-				ctx.prisma.work.upsert({
-					create: { name: work, count: 1 },
-					update: { count: { increment: 1 } },
-					where: { name: work }
-				}),
-				ctx.prisma.education.upsert({
-					create: { name: education, count: 1 },
-					update: { count: { increment: 1 } },
-					where: { name: education }
-				}),
-				ctx.prisma.userProfile.create({
+				ctx.prisma.user.update({
+					where: { id: ctx.session.user.id },
 					data: {
-						bio: input.bio,
-						coverPhoto: input.coverPhoto,
-						firstName: input.firstName,
-						lastName: input.lastName,
-						profilePicture: input.profilePicture,
-
-						education: input.education,
-						work: work,
-						gender: input.gender,
-
-						userId: ctx.session.user.id
+						name: input.username,
+						role: Role.USER,
+						Profile: {
+							create: {
+								bio: input.bio,
+								coverPhoto: input.coverPhoto,
+								firstName: input.firstName,
+								lastName: input.lastName,
+								profilePicture: input.profilePicture,
+								Gender: { connect: { name: input.gender } },
+								Work: {
+									connectOrCreate: {
+										create: { name: work },
+										where: { name: work }
+									}
+								},
+								Education: {
+									connectOrCreate: {
+										create: { name: education },
+										where: { name: education }
+									}
+								}
+							}
+						},
+						Stats: { create: {} }
 					}
 				}),
-				ctx.prisma.userStats.create({
-					data: { userId: ctx.session.user.id }
+				ctx.prisma.work.update({
+					data: { count: { increment: 1 } },
+					where: { name: work }
+				}),
+				ctx.prisma.education.update({
+					data: { count: { increment: 1 } },
+					where: { name: education }
 				}),
 				ctx.prisma.gender.update({
 					data: { count: { increment: 1 } },
 					where: { name: input.gender }
-				}),
-				ctx.prisma.user.update({
-					data: { role: Role.USER },
-					where: { id: ctx.session.user.id },
-					select: { id: true, name: true }
 				})
 			]);
 
-			const user = data[data.length - 1];
-
-			if (!user || !('name' in user))
-				throw new TRPCError({ code: 'BAD_REQUEST' });
-
 			return {
-				username: user.name,
+				username: data[0].name,
 				data
 			};
 		})
 });
 
 export const usersRouter = router({
-	// getSession: publicProcedure.query(({ ctx }) => {
-	// 	return ctx.session;
-	// }),
 	profiles: usersProfilesRouter
 });

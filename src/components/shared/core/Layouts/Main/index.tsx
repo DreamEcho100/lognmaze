@@ -3,7 +3,7 @@ import type { AppRouter } from '@server/trpc/router/_app';
 import type { ReactNode } from 'react';
 
 import Link from 'next/link';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { cx } from 'class-variance-authority';
 import { useTypedSession } from '@utils/common/hooks';
 import { BsFillPersonFill } from 'react-icons/bs';
@@ -21,9 +21,11 @@ interface Props {
 
 const CompleteUserProfile = () => {
 	const router = useRouter();
+	const { data: sessionData } = useSession();
 	const [formValues, setFormValues] = useState<
 		inferRouterInputs<AppRouter>['users']['profiles']['createOne']
 	>({
+		username: sessionData?.user?.name || '',
 		education: '',
 		firstName: '',
 		gender: UserGender.M,
@@ -35,8 +37,8 @@ const CompleteUserProfile = () => {
 	});
 
 	const createUserProfile = trpcAPI.users.profiles.createOne.useMutation({
-		onSuccess: (result) => {
-			reloadSession();
+		onSuccess: async (result) => {
+			await reloadSession();
 			router.push(`/users/${result.username}`);
 		}
 	});
@@ -52,6 +54,12 @@ const CompleteUserProfile = () => {
 					createUserProfile.mutate(formValues);
 				}}
 			>
+				<FormField
+					labelText='Username'
+					name='username'
+					values={formValues}
+					setValues={setFormValues}
+				/>
 				<FormField
 					labelText='First Name'
 					name='firstName'
@@ -94,6 +102,7 @@ const CompleteUserProfile = () => {
 						type='radio'
 						labelText='Male'
 						name='gender'
+						checked={formValues.gender === UserGender.M}
 						value={UserGender.M}
 						onChange={(event) =>
 							event.target.checked &&
@@ -105,6 +114,7 @@ const CompleteUserProfile = () => {
 						type='radio'
 						labelText='Female'
 						name='gender'
+						checked={formValues.gender === UserGender.F}
 						value={UserGender.F}
 						onChange={(event) =>
 							event.target.checked &&

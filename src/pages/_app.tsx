@@ -42,11 +42,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 	}, [router]);
 
 	return (
-		<SessionProvider
-			session={session}
-			refetchOnWindowFocus={false}
-			refetchInterval={60 * 30}
-		>
+		<SessionProvider session={session} refetchInterval={60 * 30}>
 			<DefaultSeo {...NextSEODefaults} />
 			<MainLayout>
 				<DynamicTopProgressBar />

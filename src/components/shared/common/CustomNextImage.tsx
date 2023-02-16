@@ -48,7 +48,7 @@ const CustomNextImage = ({
 				setIsLoaded(true);
 				setSrc(
 					// '/images/image-error.png'
-					'/svg/bbblurry.svg'
+					'/svgs/bbblurry.svg'
 				);
 			},
 			src:
