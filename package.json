@@ -17,7 +17,7 @@
 		"analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
 	},
 	"dependencies": {
-		"@builder.io/partytown": "^0.7.5",
+		"@builder.io/partytown": "^0.8.0",
 		"@headlessui/react": "^1.7.11",
 		"@next-auth/prisma-adapter": "^1.0.4",
 		"@next/bundle-analyzer": "^13.1.6",
@@ -27,14 +27,14 @@
 		"@trpc/next": "^10.11.1",
 		"@trpc/react-query": "^10.11.1",
 		"@trpc/server": "^10.11.1",
-		"class-variance-authority": "^0.4.0",
+		"class-variance-authority": "^0.6.0",
 		"cross-env": "^7.0.3",
 		"he": "^1.2.0",
 		"jsbarcode": "^3.11.5",
 		"morse-converter": "^1.2.0",
 		"next": "^13.1.6",
 		"next-auth": "^4.19.2",
-		"next-seo": "^5.15.0",
+		"next-seo": "^6.0.0",
 		"next-superjson": "^0.0.4",
 		"nprogress": "^0.2.0",
 		"qrcode": "^1.5.1",
@@ -58,7 +58,7 @@
 		"@tailwindcss/typography": "^0.5.9",
 		"@types/gtag.js": "^0.0.12",
 		"@types/he": "^1.2.0",
-		"@types/node": "^18.13.0",
+		"@types/node": "^20.2.5",
 		"@types/nprogress": "^0.2.0",
 		"@types/qrcode": "^1.5.0",
 		"@types/react": "^18.0.28",
@@ -73,14 +73,14 @@
 		"gray-matter": "^4.0.3",
 		"postcss": "^8.4.21",
 		"prettier": "^2.8.4",
-		"prettier-plugin-tailwindcss": "^0.2.3",
+		"prettier-plugin-tailwindcss": "^0.3.0",
 		"prisma": "^4.10.1",
 		"schema-dts": "^1.1.0",
 		"tailwindcss": "^3.2.6",
 		"tailwindcss-brand-colors": "^0.3.3",
 		"tailwindcss-debug-screens": "^2.2.1",
 		"ts-node": "^10.9.1",
-		"typescript": "^4.9.5"
+		"typescript": "^5.0.4"
 	},
 	"ct3aMetadata": {
 		"initVersion": "6.10.1"
