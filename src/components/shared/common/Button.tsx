@@ -45,7 +45,13 @@ const Button = ({ variants, ...props }: Props) => {
 		return <Link {..._props} className={handleButtonVariants(variants)} />;
 	}
 
-	return <button {...props} className={handleButtonVariants(variants)} />;
+	return (
+		<button
+			type='button'
+			{...props}
+			className={handleButtonVariants(variants)}
+		/>
+	);
 };
 
 export default Button;
