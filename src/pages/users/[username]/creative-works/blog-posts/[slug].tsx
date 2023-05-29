@@ -161,8 +161,7 @@ export const getStaticPaths = async () => {
 				slug: true,
 				CreativeWork: { select: { Author: { select: { name: true } } } }
 			},
-			where: { CreativeWork: { status: CreativeWorkStatus.PUBLIC } },
-			take: 30
+			where: { CreativeWork: { status: CreativeWorkStatus.PUBLIC } }
 		})
 		.then((result) =>
 			result.map((BlogPost) => ({
