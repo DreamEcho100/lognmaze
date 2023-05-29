@@ -206,8 +206,6 @@ module.exports = {
     require('tailwindcss-debug-screens'),
     // https://github.com/praveenjuge/tailwindcss-brand-colors
     require('tailwindcss-brand-colors'),
-    // https://github.com/tailwindlabs/tailwindcss-line-clamp
-    require('@tailwindcss/line-clamp'),
     // https://tailwindcss.com/docs/typography-plugin
     // <article class="prose lg:prose-xl"></article>
     require('@tailwindcss/typography'),

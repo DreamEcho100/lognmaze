@@ -1,21 +1,23 @@
 import type { GetStaticProps, InferGetStaticPropsType } from 'next';
-import type { TCreativeWorkBlogPost } from '@ts/index';
-import type { BlogPosting } from 'schema-dts';
-import type { NextSeoProps } from 'next-seo';
+import { NextSeoProps, ArticleJsonLd } from 'next-seo';
 
 import { useState } from 'react';
-import { jsonLdScriptProps } from 'react-schemaorg';
 import { prisma } from '@server/db/client';
 import { z } from 'zod';
 import { CreativeWorkStatus, CreativeWorkType } from '@prisma/client';
 import { CreativeWorkComp } from '@components/shared/core/CreativeWorks';
-import Head from 'next/head';
 import CustomNextSeo from '@components/shared/common/CustomNextSeo';
 import { defaultSiteName, websiteBasePath } from '@utils/core/app';
 import { useGetFullURLPathName } from '@components/shared/common/hooks';
 import { useRouter } from 'next/router';
-import GoogleAdSenseHResponsiveImageV1 from '@components/shared/common/GoogleAdSense/HResponsiveImageV1';
 import MdToHTMLFormatter from '@components/shared/common/Format/MdToHTML';
+
+import dynamic from 'next/dynamic';
+import { TCreativeWorkBlogPost } from '@ts/index';
+
+const GoogleAdSenseHResponsiveImageV1 = dynamic(
+	() => import('@components/shared/common/GoogleAdSense/HResponsiveImageV1')
+);
 
 type BlogPostPageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -37,25 +39,7 @@ const BlogPostPage = (props: BlogPostPageProps) => {
 
 	return (
 		<section className='section-p-y xl-2-sm:section-p mx-auto w-full max-w-[120ch]'>
-			{/* https://developers.google.com/search/docs/appearance/structured-data/ */}
-			<Head>
-				<script
-					id='jsonLdBlogPostingScript'
-					{...jsonLdScriptProps<BlogPosting>({
-						'@context': 'https://schema.org',
-						'@type': 'BlogPosting',
-						name: CreativeWork.typeData.title,
-						url: fullPathName,
-						description: CreativeWork.typeData.description,
-						commentCount: 0,
-						mainEntityOfPage: {
-							'@type': 'WebPage',
-							'@id': fullPathName
-						},
-						inLanguage: CreativeWork.typeData.LanguageTag.code,
-						headline: CreativeWork.typeData.title,
-						image: CreativeWork.typeData.thumbnailUrl,
-						author: CreativeWork.Author?.Profile
+			{/* author: CreativeWork.Author?.Profile
 							? {
 									'@type': 'Person',
 									name: `${CreativeWork.Author.Profile.firstName} ${CreativeWork.Author.Profile.lastName} - ${CreativeWork.Author.name}`,
@@ -71,19 +55,7 @@ const BlogPostPage = (props: BlogPostPageProps) => {
 								url: `${websiteBasePath}/favicon.ico`
 							},
 							url: websiteBasePath
-						},
-						datePublished: CreativeWork.createdAt.toISOString(),
-						dateModified:
-							CreativeWork.typeData.updatedAt?.toISOString() || undefined,
-						keywords: CreativeWork.Tags.map((tag) => tag.name).join(',')
-						// aggregateRating: {
-						// 	'@type': 'AggregateRating',
-						// 	ratingValue: 5,
-						// 	ratingCount: 1
-						// }
-					})}
-				/>
-			</Head>
+						}, */}
 			<CustomNextSeo
 				title={`${CreativeWork.typeData.title} | ${defaultSiteName}`}
 				description={CreativeWork.typeData.description}
@@ -114,6 +86,22 @@ const BlogPostPage = (props: BlogPostPageProps) => {
 						return images;
 					})()
 				}}
+			/>
+
+			<ArticleJsonLd
+				type='BlogPosting'
+				url={CreativeWork.typeData.title}
+				title={fullPathName}
+				images={[CreativeWork.typeData.thumbnailUrl]}
+				datePublished={CreativeWork.createdAt.toISOString()}
+				dateModified={
+					CreativeWork.typeData.updatedAt?.toISOString() || undefined
+				}
+				keywords={CreativeWork.Tags.map((tag) => tag.name).join(',')}
+				authorName={CreativeWork.Author?.name}
+				description={CreativeWork.typeData.description}
+				inLanguage={CreativeWork.typeData.LanguageTag.code}
+				commentCount={0}
 			/>
 
 			<CreativeWorkComp
@@ -173,7 +161,8 @@ export const getStaticPaths = async () => {
 				slug: true,
 				CreativeWork: { select: { Author: { select: { name: true } } } }
 			},
-			where: { CreativeWork: { status: CreativeWorkStatus.PUBLIC } }
+			where: { CreativeWork: { status: CreativeWorkStatus.PUBLIC } },
+			take: 30
 		})
 		.then((result) =>
 			result.map((BlogPost) => ({
