@@ -18,9 +18,9 @@ export type AllowedFormTypeIndex = keyof typeof allowedFormsTypeIndex;
 
 const isFormsTypeIndexAllowed = (
 	index: number,
-	isHidden: { BlogPost?: boolean } = {}
+	isHidden: { blogPost?: boolean } = {}
 ): index is AllowedFormTypeIndex =>
-	(index === 0 && !isHidden.BlogPost) ||
+	(index === 0 && !isHidden.blogPost) ||
 	index === 1 ||
 	index === 2 ||
 	index === 3;
@@ -28,7 +28,7 @@ const isFormsTypeIndexAllowed = (
 type Props = {
 	setSelectedIndex: Dispatch<SetStateAction<AllowedFormTypeIndex>>;
 	selectedIndex: AllowedFormTypeIndex;
-	BlogPost?: boolean;
+	blogPost?: boolean;
 	Post?: boolean;
 	discussionForm?: boolean;
 	discussionFormPost?: boolean;
@@ -43,7 +43,7 @@ const CreateCreativeWork = ({
 	authorId,
 	selectedIndex,
 	setSelectedIndex,
-	BlogPost,
+	blogPost,
 	discussionForm,
 	discussionFormPost,
 	Post,
@@ -54,12 +54,12 @@ const CreateCreativeWork = ({
 			selectedIndex={selectedIndex}
 			onChange={(index) =>
 				isFormsTypeIndexAllowed(index, {
-					BlogPost: !BlogPost
+					blogPost: !blogPost
 				}) && setSelectedIndex(index)
 			}
 		>
 			<Tab.List className='flex items-center justify-center gap-2'>
-				<Tab className={handleButtonVariants({ p: 'sm' })} hidden={!BlogPost}>
+				<Tab className={handleButtonVariants({ p: 'sm' })} hidden={!blogPost}>
 					Blog Post
 				</Tab>
 				<Tab className={handleButtonVariants({ p: 'sm' })} hidden={!Post}>
@@ -79,7 +79,7 @@ const CreateCreativeWork = ({
 				</Tab>
 			</Tab.List>
 			<Tab.Panels>
-				<Tab.Panel hidden={!BlogPost}>
+				<Tab.Panel hidden={!blogPost}>
 					<CreateBlogPostForm
 						authorId={authorId}
 						onAddingCreativeWork={onAddingCreativeWork}

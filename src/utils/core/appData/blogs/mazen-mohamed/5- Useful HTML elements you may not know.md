@@ -16,12 +16,12 @@ But it's never too late to learn about the useful tags that get overlooked or mi
 
 As the name implies, [`<address>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/address) allows you to semantically markup addresses in **HTML**.
 
-It defines the contact information of the organization or person or the Author of an article. The contact information can be anything; it can be the address, phone number, email, or website URL.
+It defines the contact information of the organization or person or the author of an article. The contact information can be anything; it can be the address, phone number, email, or website URL.
 
 It will also italicize all of the data within the brackets, though the style can easily be changed through simple CSS.
 
 ```html
-<p>Author contact info:</p>
+<p>author contact info:</p>
 
 <address>
 	<a href="mailto:jim@rock.com">jim@rock.com</a><br />
@@ -251,7 +251,7 @@ The [`<mark>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark) t
 
 ### Quoting [MDN](https://developer.mozilla.org/en-us/docs/web/html/element/mark#usage_notes)
 
-> - When used in a quotation ([`<q>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/q)) or blockquote ([`<blockquote>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote)), it generally indicates text which is of special interest but is not marked in the original source material or material which needs special scrutiny even though the original Author didn't think it was of particular importance. Think of this like using a highlighter pen in a book to mark passages that you find of interest.
+> - When used in a quotation ([`<q>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/q)) or blockquote ([`<blockquote>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote)), it generally indicates text which is of special interest but is not marked in the original source material or material which needs special scrutiny even though the original author didn't think it was of particular importance. Think of this like using a highlighter pen in a book to mark passages that you find of interest.
 >
 > - Otherwise, [`<mark>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark) indicates a portion of the document's content that is likely to be relevant to the user's current activity. This might be used, for example, to indicate the words that matched a search operation.
 

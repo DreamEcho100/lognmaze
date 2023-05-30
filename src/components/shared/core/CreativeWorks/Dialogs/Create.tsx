@@ -40,7 +40,7 @@ const CreateCreativeWorkDialog = ({
 				authorId={authorId}
 				selectedIndex={selectedIndex}
 				setSelectedIndex={setSelectedIndex}
-				BlogPost
+				blogPost
 				Post
 			/>
 		</Dialog>

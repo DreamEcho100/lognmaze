@@ -73,7 +73,7 @@ const CompleteUserProfile = () => {
 					setValues={setFormValues}
 				/>
 				<FormField
-					labelText='Profile Picture'
+					labelText='profile Picture'
 					name='profilePicture'
 					values={formValues}
 					setValues={setFormValues}
@@ -145,7 +145,7 @@ const MainLayout = ({ children }: Props) => {
 				id='primary-header'
 				className={cx(
 					'flex h-primary-header',
-					'fixed top-0 left-0 right-0 z-10'
+					'fixed left-0 right-0 top-0 z-10'
 				)}
 			>
 				<nav

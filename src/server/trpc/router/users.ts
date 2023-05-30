@@ -22,7 +22,7 @@ const usersProfilesRouter = router({
 			})
 		)
 		.mutation(async ({ ctx, input }) => {
-			if (ctx.session.user.Profile?.userId)
+			if (ctx.session.user.profile?.userId)
 				throw new TRPCError({
 					code: 'FORBIDDEN',
 					message: "You can't recreate a profile"
@@ -37,7 +37,7 @@ const usersProfilesRouter = router({
 					data: {
 						name: input.username,
 						role: Role.USER,
-						Profile: {
+						profile: {
 							create: {
 								bio: input.bio,
 								coverPhoto: input.coverPhoto,

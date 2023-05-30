@@ -16,7 +16,7 @@ export const blogPostsRouter = router({
 		.input(
 			z.object({
 				authorId: z.string(),
-				Tags: z.array(z.string()).min(3),
+				tags: z.array(z.string()).min(3),
 				status: z
 					.enum([CreativeWorkStatus.PUBLIC, CreativeWorkStatus.PRIVATE])
 					.optional()
@@ -37,7 +37,7 @@ export const blogPostsRouter = router({
 			// 		authorId: input.authorId,
 			// 		status: input.status,
 			// 		type: CreativeWorkType.DISCUSSION_FORUM,
-			// 		DiscussionForum: { create: true }
+			// 		discussionForum: { create: true }
 			// 	}
 			// });
 
@@ -45,16 +45,16 @@ export const blogPostsRouter = router({
 
 			console.log('slug', slug);
 
-			const filteredTags = input.Tags.map((tag) => slugify(tag)).filter(
-				Boolean
-			);
+			const filteredTags = input.tags
+				.map((tag) => slugify(tag))
+				.filter(Boolean);
 
-			const CreativeWork = await ctx.prisma.creativeWork.create({
+			const creativeWork = await ctx.prisma.creativeWork.create({
 				data: {
 					authorId: input.authorId,
 					status: input.status,
 					type: CreativeWorkType.BLOG_POST,
-					Tags: {
+					tags: {
 						connectOrCreate: filteredTags.map((tag) => ({
 							create: {
 								name: tag,
@@ -65,7 +65,7 @@ export const blogPostsRouter = router({
 							where: { name: tag }
 						}))
 					},
-					BlogPost: {
+					blogPost: {
 						create: {
 							content: input.typeData.content,
 							description: input.typeData.description,
@@ -73,14 +73,14 @@ export const blogPostsRouter = router({
 							thumbnailUrl: input.typeData.thumbnailUrl,
 							title: input.typeData.title,
 							updatedAt: null,
-							LanguageTag: {
+							languageTag: {
 								connect: { id: input.typeData.languageTagId }
 							},
-							// DiscussionForum: { connect: { id: discussionForm.id } }
-							DiscussionForum: {
+							// discussionForum: { connect: { id: discussionForm.id } }
+							discussionForum: {
 								create: {
 									updatedAt: null,
-									CreativeWork: {
+									creativeWork: {
 										create: {
 											authorId: input.authorId,
 											status: input.status,
@@ -93,9 +93,9 @@ export const blogPostsRouter = router({
 					}
 				},
 				include: {
-					Tags: true,
-					BlogPost: { include: { LanguageTag: true } },
-					DiscussionForum: true
+					tags: true,
+					blogPost: { include: { languageTag: true } },
+					discussionForum: true
 				}
 			});
 
@@ -103,12 +103,12 @@ export const blogPostsRouter = router({
 				data: {
 					blogPostsCount: { increment: 1 }
 				},
-				where: { tagName: { in: CreativeWork.Tags.map((tag) => tag.name) } }
+				where: { tagName: { in: creativeWork.tags.map((tag) => tag.name) } }
 			});
 
-			return CreativeWork as OmitPickAndSetToNonNullable<
-				typeof CreativeWork,
-				'BlogPost' | 'DiscussionForum'
+			return creativeWork as OmitPickAndSetToNonNullable<
+				typeof creativeWork,
+				'blogPost' | 'discussionForum'
 			>;
 		}),
 	updateOne: haveAuthorPrivilegesProcedure
@@ -123,7 +123,7 @@ export const blogPostsRouter = router({
 							.optional()
 					})
 					.optional(),
-				Tags: z
+				tags: z
 					.object({
 						added: z.array(z.string()).optional(),
 						removed: z.array(z.string()).optional()
@@ -142,23 +142,23 @@ export const blogPostsRouter = router({
 			})
 		)
 		.mutation(async ({ ctx, input }) => {
-			let CreativeWork: { id: string } | undefined;
+			let creativeWork: { id: string } | undefined;
 			let typeData: { creativeWorkId: string } | undefined;
-			let Tags: { Tags: Tag[] } | undefined;
+			let tags: { tags: Tag[] } | undefined;
 
 			if (input.creativeWorkBasics)
-				CreativeWork = await ctx.prisma.creativeWork.update({
+				creativeWork = await ctx.prisma.creativeWork.update({
 					data: { status: input.creativeWorkBasics.status },
 					where: { id: input.creativeWorkId },
 					select: { id: true }
 				});
 
-			if (input.Tags) {
-				Tags = await updateCreativeWorkTags(ctx.prisma, {
+			if (input.tags) {
+				tags = await updateCreativeWorkTags(ctx.prisma, {
 					creativeWorkId: input.creativeWorkId,
 					creativeWorkType: CreativeWorkType.BLOG_POST,
-					addedTags: input.Tags.added,
-					removedTags: input.Tags.removed
+					addedTags: input.tags.added,
+					removedTags: input.tags.removed
 				});
 			}
 			if (input.typeData)
@@ -175,7 +175,7 @@ export const blogPostsRouter = router({
 					select: { creativeWorkId: true }
 				});
 
-			return { CreativeWork, typeData, Tags };
+			return { creativeWork, typeData, tags };
 		})
 });
 export const postsRouter = router({
@@ -183,7 +183,7 @@ export const postsRouter = router({
 		.input(
 			z.object({
 				authorId: z.string(),
-				Tags: z.array(z.string()).optional(),
+				tags: z.array(z.string()).optional(),
 				status: z
 					.enum([CreativeWorkStatus.PUBLIC, CreativeWorkStatus.PRIVATE])
 					.optional()
@@ -197,17 +197,17 @@ export const postsRouter = router({
 			// 		authorId: input.authorId,
 			// 		status: input.status,
 			// 		type: CreativeWorkType.DISCUSSION_FORUM,
-			// 		DiscussionForum: { create: true }
+			// 		discussionForum: { create: true }
 			// 	}
 			// });
 
-			const CreativeWork = await ctx.prisma.creativeWork.create({
+			const creativeWork = await ctx.prisma.creativeWork.create({
 				data: {
 					authorId: input.authorId,
 					status: input.status,
 					type: CreativeWorkType.POST,
-					Tags: {
-						connectOrCreate: input.Tags?.map((tag) => ({
+					tags: {
+						connectOrCreate: input.tags?.map((tag) => ({
 							create: {
 								name: tag,
 								Stats: {
@@ -221,11 +221,11 @@ export const postsRouter = router({
 						create: {
 							content: input.typeData.content,
 							updatedAt: null,
-							// DiscussionForum: { connect: { id: discussionForm.id } }
-							DiscussionForum: {
+							// discussionForum: { connect: { id: discussionForm.id } }
+							discussionForum: {
 								create: {
 									updatedAt: null,
-									CreativeWork: {
+									creativeWork: {
 										create: {
 											authorId: input.authorId,
 											status: input.status,
@@ -237,19 +237,19 @@ export const postsRouter = router({
 						}
 					}
 				},
-				include: { Tags: true, Post: true, DiscussionForum: true }
+				include: { tags: true, Post: true, discussionForum: true }
 			});
 
 			ctx.prisma.tagStats.updateMany({
 				data: {
 					postsCount: { increment: 1 }
 				},
-				where: { tagName: { in: CreativeWork.Tags.map((tag) => tag.name) } }
+				where: { tagName: { in: creativeWork.tags.map((tag) => tag.name) } }
 			});
 
-			return CreativeWork as OmitPickAndSetToNonNullable<
-				typeof CreativeWork,
-				'Post' | 'DiscussionForum'
+			return creativeWork as OmitPickAndSetToNonNullable<
+				typeof creativeWork,
+				'Post' | 'discussionForum'
 			>;
 		}),
 	updateOne: haveAuthorPrivilegesProcedure
@@ -264,7 +264,7 @@ export const postsRouter = router({
 							.optional()
 					})
 					.optional(),
-				Tags: z
+				tags: z
 					.object({
 						added: z.array(z.string()).optional(),
 						removed: z.array(z.string()).optional()
@@ -278,23 +278,23 @@ export const postsRouter = router({
 			})
 		)
 		.mutation(async ({ ctx, input }) => {
-			let CreativeWork: { id: string } | undefined;
+			let creativeWork: { id: string } | undefined;
 			let typeData: { creativeWorkId: string } | undefined;
-			let Tags: { Tags: Tag[] } | undefined;
+			let tags: { tags: Tag[] } | undefined;
 
 			if (input.creativeWorkBasics)
-				CreativeWork = await ctx.prisma.creativeWork.update({
+				creativeWork = await ctx.prisma.creativeWork.update({
 					data: { status: input.creativeWorkBasics.status },
 					where: { id: input.creativeWorkId },
 					select: { id: true }
 				});
 
-			if (input.Tags) {
-				Tags = await updateCreativeWorkTags(ctx.prisma, {
+			if (input.tags) {
+				tags = await updateCreativeWorkTags(ctx.prisma, {
 					creativeWorkId: input.creativeWorkId,
 					creativeWorkType: CreativeWorkType.BLOG_POST,
-					addedTags: input.Tags.added,
-					removedTags: input.Tags.removed
+					addedTags: input.tags.added,
+					removedTags: input.tags.removed
 				});
 			}
 			if (input.typeData)
@@ -306,7 +306,7 @@ export const postsRouter = router({
 					select: { creativeWorkId: true }
 				});
 
-			return { CreativeWork, typeData, Tags };
+			return { creativeWork, typeData, tags };
 		})
 });
 export const discussionFormsPostsRouter = router({
@@ -314,7 +314,7 @@ export const discussionFormsPostsRouter = router({
 		.input(
 			z.object({
 				authorId: z.string(),
-				Tags: z.array(z.string()).optional(),
+				tags: z.array(z.string()).optional(),
 				status: z
 					.enum([CreativeWorkStatus.PUBLIC, CreativeWorkStatus.PRIVATE])
 					.optional()
@@ -331,17 +331,17 @@ export const discussionFormsPostsRouter = router({
 			// 		authorId: input.authorId,
 			// 		status: input.status,
 			// 		type: CreativeWorkType.DISCUSSION_FORUM,
-			// 		DiscussionForum: { create: true }
+			// 		discussionForum: { create: true }
 			// 	}
 			// });
 
-			const CreativeWork = await ctx.prisma.creativeWork.create({
+			const creativeWork = await ctx.prisma.creativeWork.create({
 				data: {
 					authorId: input.authorId,
 					status: input.status,
 					type: CreativeWorkType.DISCUSSION_FORUM,
-					Tags: {
-						connectOrCreate: input.Tags?.map((tag) => ({
+					tags: {
+						connectOrCreate: input.tags?.map((tag) => ({
 							create: {
 								name: tag,
 								Stats: {
@@ -359,18 +359,18 @@ export const discussionFormsPostsRouter = router({
 						}
 					}
 				},
-				include: { Tags: true, DiscussionForumPost: true }
+				include: { tags: true, DiscussionForumPost: true }
 			});
 
 			ctx.prisma.tagStats.updateMany({
 				data: {
 					postsCount: { increment: 1 }
 				},
-				where: { tagName: { in: CreativeWork.Tags.map((tag) => tag.name) } }
+				where: { tagName: { in: creativeWork.tags.map((tag) => tag.name) } }
 			});
 
-			return CreativeWork as OmitPickAndSetToNonNullable<
-				typeof CreativeWork,
+			return creativeWork as OmitPickAndSetToNonNullable<
+				typeof creativeWork,
 				'DiscussionForumPost'
 			>;
 		}),
@@ -392,14 +392,14 @@ export const discussionFormsPostsRouter = router({
 				select: { creativeWorkId: true }
 			});
 
-			const Tags = await updateCreativeWorkTags(ctx.prisma, {
+			const tags = await updateCreativeWorkTags(ctx.prisma, {
 				creativeWorkId: DiscussionForumPost.creativeWorkId,
 				creativeWorkType: CreativeWorkType.POST,
 				addedTags: input.addedTags,
 				removedTags: input.removedTags
 			});
 
-			return { DiscussionForumPost, Tags };
+			return { DiscussionForumPost, tags };
 		})
 });
 

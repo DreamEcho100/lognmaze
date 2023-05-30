@@ -122,12 +122,12 @@ const CreativeWorksFeed = ({
 
 	return (
 		<section className='section-p-y-sm xl-2-sm:section-p-sm color-theme-100 flex flex-col gap-4'>
-			{session?.user?.Profile?.id && (
+			{session?.user?.profile?.id && (
 				<FeelingCreativeButton
 					authorId={session?.user?.id}
 					onAddingCreativeWork={({ creativeWorkId, ...props }) => {
 						updateGetAllCreativeWorksOnStore((prevData) => {
-							if (!prevData || !session?.user?.Profile?.id) return prevData;
+							if (!prevData || !session?.user?.profile?.id) return prevData;
 
 							let firstPage = prevData.pages[0] || {
 								nextCursor: undefined,
@@ -137,16 +137,16 @@ const CreativeWorksFeed = ({
 
 							const creativeWorkBasic = {
 								id: creativeWorkId,
-								Tags:
-									props.input.Tags?.map((tagName) => ({
+								tags:
+									props.input.tags?.map((tagName) => ({
 										name: tagName
 									})) || [],
 								createdAt: new Date(),
 								status: props.input.status || CreativeWorkStatus.PUBLIC,
 								authorId: props.input.authorId,
-								Author: {
+								author: {
 									name: session.user.name,
-									Profile: session.user.Profile
+									profile: session.user.profile
 								}
 							} satisfies TCreativeWork;
 
@@ -159,7 +159,7 @@ const CreativeWorksFeed = ({
 												...(props.input.typeData satisfies Partial<
 													TCreativeWorkBlogPostTypeData['typeData']
 												>),
-												...props.result.BlogPost
+												...props.result.blogPost
 											}
 									  }
 									: {
@@ -248,13 +248,13 @@ const CreativeWorksFeed = ({
 
 															return {
 																...item,
-																Tags: [
+																tags: [
 																	...(Array.isArray(removedTags) &&
 																	removedTags.length !== 0
-																		? item.Tags.filter((tag) =>
+																		? item.tags.filter((tag) =>
 																				removedTags.includes(tag.name)
 																		  )
-																		: item.Tags),
+																		: item.tags),
 																	...(addedTags || []).map((tagName) => ({
 																		name: tagName
 																	}))

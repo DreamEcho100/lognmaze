@@ -59,39 +59,39 @@ import { Readable } from 'stream';
 const Sitemap = () => {};
 
 export const getServerSideProps = ({ res }) => {
-	// An array with your links
-	const links = [];
+ // An array with your links
+ const links = [];
 
-	// Add static pages
-	const pages = ['/auth', '/about'];
+ // Add static pages
+ const pages = ['/auth', '/about'];
 
-	pages.map((url) => {
-		links.push({
-			url,
-			lastmod: new Date().toISOString(),
-			changefreq: 'monthly',
-			priority: 0.9,
-		});
-	});
+ pages.map((url) => {
+  links.push({
+   url,
+   lastmod: new Date().toISOString(),
+   changefreq: 'monthly',
+   priority: 0.9,
+  });
+ });
 
-	const stream = new SitemapStream({
-		hostname: `https://${req.headers.host}`,
-	});
+ const stream = new SitemapStream({
+  hostname: `https://${req.headers.host}`,
+ });
 
-	res.writeHead(200, {
-		'Content-Type': 'text/xml',
-	});
+ res.writeHead(200, {
+  'Content-Type': 'text/xml',
+ });
 
-	const xmlString = await streamToPromise(
-		Readable.from(links).pipe(stream)
-	).then((data) => data.toString());
+ const xmlString = await streamToPromise(
+  Readable.from(links).pipe(stream)
+ ).then((data) => data.toString());
 
-	res.write(xmlString);
-	res.end();
+ res.write(xmlString);
+ res.end();
 
-	return {
-		props: {},
-	};
+ return {
+  props: {},
+ };
 };
 
 export default Sitemap;
@@ -115,24 +115,24 @@ Congratulations now if you start your development server by typing `npm run dev`
 
 ```xml
 <urlset
-	xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'
-	xmlns:news='http://www.google.com/schemas/sitemap-news/0.9'
-	xmlns:xhtml='http://www.w3.org/1999/xhtml'
-	xmlns:image='http://www.google.com/schemas/sitemap-image/1.1'
-	xmlns:video='http://www.google.com/schemas/sitemap-video/1.1'
+ xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'
+ xmlns:news='http://www.google.com/schemas/sitemap-news/0.9'
+ xmlns:xhtml='http://www.w3.org/1999/xhtml'
+ xmlns:image='http://www.google.com/schemas/sitemap-image/1.1'
+ xmlns:video='http://www.google.com/schemas/sitemap-video/1.1'
 >
-	<url>
-		<loc>https://localhost:3000/auth</loc>
-		<lastmod>2021-09-09T20:19:53.534Z</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.9</priority>
-	</url>
-	<url>
-		<loc>https://localhost:3000/about</loc>
-		<lastmod>2021-09-09T20:19:53.534Z</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.9</priority>
-	</url>
+ <url>
+  <loc>https://localhost:3000/auth</loc>
+  <lastmod>2021-09-09T20:19:53.534Z</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.9</priority>
+ </url>
+ <url>
+  <loc>https://localhost:3000/about</loc>
+  <lastmod>2021-09-09T20:19:53.534Z</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.9</priority>
+ </url>
 </urlset>
 ```
 
@@ -165,7 +165,7 @@ In terms of what we're returning here we return the XML content expected by a we
 
 ## Adding paths dynamically to the sitemap
 
-Let's say we have a dynamic path like `Profile/[user_name_id]` or `article/[slug]` how can we add them to the sitemap without adding them manually every single time.
+Let's say we have a dynamic path like `profile/[user_name_id]` or `article/[slug]` how can we add them to the sitemap without adding them manually every single time.
 
 > **_Super easy barely an unconvinced_**
 
@@ -182,36 +182,36 @@ const { Pool } = require('pg');
 export const connectionString = process.env.PG_CONNECTION_STRING;
 
 export const pool = new Pool({
-	connectionString
+ connectionString
 });
 // I will return the data using the new Promise so I can easily access it through then
 
 export const getAllUsersNameId = () => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			await pool
-				.query('SELECT user_name_id FROM user_profile')
-				.then(async (response) => response.rows)
-				.then((data) => resolve(data));
-		} catch (error) {
-			console.error(`Error, ${error.message}`);
-			resolve([]);
-		}
-	});
+ return new Promise(async (resolve, reject) => {
+  try {
+   await pool
+    .query('SELECT user_name_id FROM user_profile')
+    .then(async (response) => response.rows)
+    .then((data) => resolve(data));
+  } catch (error) {
+   console.error(`Error, ${error.message}`);
+   resolve([]);
+  }
+ });
 };
 
 export const getAllArticlesSlugs = () => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			await pool
-				.query('SELECT slug FROM news_article')
-				.then(async (response) => response.rows)
-				.then((data) => resolve(data));
-		} catch (error) {
-			console.error(`Error, ${error.message}`);
-			resolve([]);
-		}
-	});
+ return new Promise(async (resolve, reject) => {
+  try {
+   await pool
+    .query('SELECT slug FROM news_article')
+    .then(async (response) => response.rows)
+    .then((data) => resolve(data));
+  } catch (error) {
+   console.error(`Error, ${error.message}`);
+   resolve([]);
+  }
+ });
 };
 ```
 
@@ -227,59 +227,59 @@ const Sitemap = () => {};
 
 // Don't forget to add async when using await
 export const getServerSideProps = async ({ res }) => {
-	const links = [];
+ const links = [];
 
-	await getAllArticlesSlugs().then((articles = []) => {
-		articles.map((article) => {
-			links.push({
-				url: `/article/${article.slug}`,
-				lastmod: new Date().toISOString(),
-				changefreq: 'weekly',
-				priority: 0.9
-			});
-		});
-	});
+ await getAllArticlesSlugs().then((articles = []) => {
+  articles.map((article) => {
+   links.push({
+    url: `/article/${article.slug}`,
+    lastmod: new Date().toISOString(),
+    changefreq: 'weekly',
+    priority: 0.9
+   });
+  });
+ });
 
-	await getAllUsersNameId().then((profiles = []) => {
-		profiles.map((Profile) => {
-			links.push({
-				url: `/Profile/${Profile.user_name_id}`,
-				lastmod: new Date().toISOString(),
-				changefreq: 'weekly',
-				priority: 0.9
-			});
-		});
-	});
+ await getAllUsersNameId().then((profiles = []) => {
+  profiles.map((profile) => {
+   links.push({
+    url: `/profile/${profile.user_name_id}`,
+    lastmod: new Date().toISOString(),
+    changefreq: 'weekly',
+    priority: 0.9
+   });
+  });
+ });
 
-	const pages = ['/auth', '/about'];
+ const pages = ['/auth', '/about'];
 
-	pages.map((url) => {
-		links.push({
-			url,
-			lastmod: new Date().toISOString(),
-			changefreq: 'monthly',
-			priority: 0.9
-		});
-	});
+ pages.map((url) => {
+  links.push({
+   url,
+   lastmod: new Date().toISOString(),
+   changefreq: 'monthly',
+   priority: 0.9
+  });
+ });
 
-	const stream = new SitemapStream({
-		hostname: `https://${req.headers.host}`
-	});
+ const stream = new SitemapStream({
+  hostname: `https://${req.headers.host}`
+ });
 
-	res.writeHead(200, {
-		'Content-Type': 'text/xml'
-	});
+ res.writeHead(200, {
+  'Content-Type': 'text/xml'
+ });
 
-	const xmlString = await streamToPromise(
-		Readable.from(links).pipe(stream)
-	).then((data) => data.toString());
+ const xmlString = await streamToPromise(
+  Readable.from(links).pipe(stream)
+ ).then((data) => data.toString());
 
-	res.write(xmlString);
-	res.end();
+ res.write(xmlString);
+ res.end();
 
-	return {
-		props: {}
-	};
+ return {
+  props: {}
+ };
 };
 
 export default Sitemap;
@@ -289,60 +289,60 @@ And now when we visit `localhost:3000/sitemap.xml` in the browser we get:
 
 ```xml
 <urlset
-	xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'
-	xmlns:news='http://www.google.com/schemas/sitemap-news/0.9'
-	xmlns:xhtml='http://www.w3.org/1999/xhtml'
-	xmlns:image='http://www.google.com/schemas/sitemap-image/1.1'
-	xmlns:video='http://www.google.com/schemas/sitemap-video/1.1'
+ xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'
+ xmlns:news='http://www.google.com/schemas/sitemap-news/0.9'
+ xmlns:xhtml='http://www.w3.org/1999/xhtml'
+ xmlns:image='http://www.google.com/schemas/sitemap-image/1.1'
+ xmlns:video='http://www.google.com/schemas/sitemap-video/1.1'
 >
-	<url>
-		<loc>
-			https://localhost:3000/article/full-guide-to-cookies-and-javascript-clint-side
-		</loc>
-		<lastmod>2021-09-09T20:21:47.464Z</lastmod>
-		<changefreq>weekly</changefreq>
-		<priority>0.9</priority>
-	</url>
-	<url>
-		<loc>
-			https://localhost:3000/article/basic-guide-to-json-in-postgresql-jsonb
-		</loc>
-		<lastmod>2021-09-09T20:21:47.464Z</lastmod>
-		<changefreq>weekly</changefreq>
-		<priority>0.9</priority>
-	</url>
-	<url>
-		<loc>
-			https://localhost:3000/article/vocabulary-workshop-level-f-grade-11-unit-1
-		</loc>
-		<lastmod>2021-09-09T20:21:47.464Z</lastmod>
-		<changefreq>weekly</changefreq>
-		<priority>0.9</priority>
-	</url>
-	<url>
-		<loc>https://localhost:3000/Profile/mazen-mohamed</loc>
-		<lastmod>2021-09-09T20:21:47.688Z</lastmod>
-		<changefreq>weekly</changefreq>
-		<priority>0.9</priority>
-	</url>
-	<url>
-		<loc>https://localhost:3000/Profile/mohamed-bek</loc>
-		<lastmod>2021-09-09T20:21:47.688Z</lastmod>
-		<changefreq>weekly</changefreq>
-		<priority>0.9</priority>
-	</url>
-	<url>
-		<loc>https://localhost:3000/about</loc>
-		<lastmod>2021-09-09T20:21:47.688Z</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.9</priority>
-	</url>
-	<url>
-		<loc>https://localhost:3000/auth</loc>
-		<lastmod>2021-09-09T20:21:47.689Z</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.9</priority>
-	</url>
+ <url>
+  <loc>
+   https://localhost:3000/article/full-guide-to-cookies-and-javascript-clint-side
+  </loc>
+  <lastmod>2021-09-09T20:21:47.464Z</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.9</priority>
+ </url>
+ <url>
+  <loc>
+   https://localhost:3000/article/basic-guide-to-json-in-postgresql-jsonb
+  </loc>
+  <lastmod>2021-09-09T20:21:47.464Z</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.9</priority>
+ </url>
+ <url>
+  <loc>
+   https://localhost:3000/article/vocabulary-workshop-level-f-grade-11-unit-1
+  </loc>
+  <lastmod>2021-09-09T20:21:47.464Z</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.9</priority>
+ </url>
+ <url>
+  <loc>https://localhost:3000/profile/mazen-mohamed</loc>
+  <lastmod>2021-09-09T20:21:47.688Z</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.9</priority>
+ </url>
+ <url>
+  <loc>https://localhost:3000/profile/mohamed-bek</loc>
+  <lastmod>2021-09-09T20:21:47.688Z</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.9</priority>
+ </url>
+ <url>
+  <loc>https://localhost:3000/about</loc>
+  <lastmod>2021-09-09T20:21:47.688Z</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.9</priority>
+ </url>
+ <url>
+  <loc>https://localhost:3000/auth</loc>
+  <lastmod>2021-09-09T20:21:47.689Z</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.9</priority>
+ </url>
 </urlset>
 ```
 

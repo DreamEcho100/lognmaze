@@ -38,12 +38,12 @@ export type TCreativeWorkNoTypeData = {
 };
 
 export type TCreativeWork = Omit<CreativeWork, 'type'> & {
-	Tags: {
+	tags: {
 		name: string;
 	}[];
-	Author: {
+	author: {
 		name: User['name'];
-		Profile: {
+		profile: {
 			firstName: UserProfile['firstName'];
 			lastName: UserProfile['lastName'];
 			education: UserProfile['education'];

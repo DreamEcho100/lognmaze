@@ -28,8 +28,8 @@ const CreatePostForm = ({
 					const input = {
 						authorId,
 						typeData: data.typeData,
-						Tags: data.Tags,
-						status: data.CreativeWork.status
+						tags: data.tags,
+						status: data.creativeWork.status
 					};
 
 					return await createPost

@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1685378401784,
+      "tag": "0000_lazy_agent_zero",
+      "breakpoints": false
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1685380187309,
+      "tag": "0001_nervous_norrin_radd",
+      "breakpoints": false
+    }
+  ]
+}

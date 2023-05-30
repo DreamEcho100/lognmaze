@@ -1,0 +1,1471 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "prevId": "",
+  "version": "5",
+  "dialect": "pg",
+  "tables": {
+    "Tag": {
+      "name": "Tag",
+      "schema": "",
+      "columns": {
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "Tag_name_key": {
+          "name": "Tag_name_key",
+          "columns": [
+            "name"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {}
+    },
+    "VerificationToken": {
+      "name": "VerificationToken",
+      "schema": "",
+      "columns": {
+        "identifier": {
+          "name": "identifier",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "token": {
+          "name": "token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires": {
+          "name": "expires",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "VerificationToken_identifier_token_key": {
+          "name": "VerificationToken_identifier_token_key",
+          "columns": [
+            "identifier",
+            "token"
+          ],
+          "isUnique": true
+        },
+        "VerificationToken_token_key": {
+          "name": "VerificationToken_token_key",
+          "columns": [
+            "token"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {}
+    },
+    "CreativeWork": {
+      "name": "CreativeWork",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "authorId": {
+          "name": "authorId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "CreativeWorkStatus",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'PUBLIC'"
+        },
+        "type": {
+          "name": "type",
+          "type": "CreativeWorkType",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "CreativeWork_createdAt_idx": {
+          "name": "CreativeWork_createdAt_idx",
+          "columns": [
+            "createdAt"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "CreativeWork_authorId_fkey": {
+          "name": "CreativeWork_authorId_fkey",
+          "tableFrom": "CreativeWork",
+          "tableTo": "User",
+          "columnsFrom": [
+            "authorId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "TagStats": {
+      "name": "TagStats",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "tagName": {
+          "name": "tagName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "postsCount": {
+          "name": "postsCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "blogPostsCount": {
+          "name": "blogPostsCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "discussionForumsCount": {
+          "name": "discussionForumsCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "discussionForumPostsCount": {
+          "name": "discussionForumPostsCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {
+        "TagStats_tagName_key": {
+          "name": "TagStats_tagName_key",
+          "columns": [
+            "tagName"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "TagStats_tagName_fkey": {
+          "name": "TagStats_tagName_fkey",
+          "tableFrom": "TagStats",
+          "tableTo": "Tag",
+          "columnsFrom": [
+            "tagName"
+          ],
+          "columnsTo": [
+            "name"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "Education": {
+      "name": "Education",
+      "schema": "",
+      "columns": {
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "count": {
+          "name": "count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {}
+    },
+    "BlogPost": {
+      "name": "BlogPost",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "creativeWorkId": {
+          "name": "creativeWorkId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "discussionForumId": {
+          "name": "discussionForumId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "thumbnailUrl": {
+          "name": "thumbnailUrl",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "languageTagId": {
+          "name": "languageTagId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "BlogPost_creativeWorkId_key": {
+          "name": "BlogPost_creativeWorkId_key",
+          "columns": [
+            "creativeWorkId"
+          ],
+          "isUnique": true
+        },
+        "BlogPost_discussionForumId_key": {
+          "name": "BlogPost_discussionForumId_key",
+          "columns": [
+            "discussionForumId"
+          ],
+          "isUnique": true
+        },
+        "BlogPost_slug_key": {
+          "name": "BlogPost_slug_key",
+          "columns": [
+            "slug"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "BlogPost_creativeWorkId_fkey": {
+          "name": "BlogPost_creativeWorkId_fkey",
+          "tableFrom": "BlogPost",
+          "tableTo": "CreativeWork",
+          "columnsFrom": [
+            "creativeWorkId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "BlogPost_discussionForumId_fkey": {
+          "name": "BlogPost_discussionForumId_fkey",
+          "tableFrom": "BlogPost",
+          "tableTo": "DiscussionForum",
+          "columnsFrom": [
+            "discussionForumId"
+          ],
+          "columnsTo": [
+            "creativeWorkId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "BlogPost_languageTagId_fkey": {
+          "name": "BlogPost_languageTagId_fkey",
+          "tableFrom": "BlogPost",
+          "tableTo": "LanguageTag",
+          "columnsFrom": [
+            "languageTagId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "User": {
+      "name": "User",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "emailVerified": {
+          "name": "emailVerified",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "Role",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "User_createdAt_idx": {
+          "name": "User_createdAt_idx",
+          "columns": [
+            "createdAt"
+          ],
+          "isUnique": false
+        },
+        "User_email_key": {
+          "name": "User_email_key",
+          "columns": [
+            "email"
+          ],
+          "isUnique": true
+        },
+        "User_name_key": {
+          "name": "User_name_key",
+          "columns": [
+            "name"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {}
+    },
+    "_prisma_migrations": {
+      "name": "_prisma_migrations",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(36)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "checksum": {
+          "name": "checksum",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "finished_at": {
+          "name": "finished_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "migration_name": {
+          "name": "migration_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "logs": {
+          "name": "logs",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rolled_back_at": {
+          "name": "rolled_back_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "started_at": {
+          "name": "started_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "applied_steps_count": {
+          "name": "applied_steps_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {}
+    },
+    "DiscussionForum": {
+      "name": "DiscussionForum",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "creativeWorkId": {
+          "name": "creativeWorkId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "size": {
+          "name": "size",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "DiscussionForum_creativeWorkId_key": {
+          "name": "DiscussionForum_creativeWorkId_key",
+          "columns": [
+            "creativeWorkId"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "DiscussionForum_creativeWorkId_fkey": {
+          "name": "DiscussionForum_creativeWorkId_fkey",
+          "tableFrom": "DiscussionForum",
+          "tableTo": "CreativeWork",
+          "columnsFrom": [
+            "creativeWorkId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "_CreativeWorkToTag": {
+      "name": "_CreativeWorkToTag",
+      "schema": "",
+      "columns": {
+        "A": {
+          "name": "A",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "B": {
+          "name": "B",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "_CreativeWorkToTag_AB_unique": {
+          "name": "_CreativeWorkToTag_AB_unique",
+          "columns": [
+            "A",
+            "B"
+          ],
+          "isUnique": true
+        },
+        "_CreativeWorkToTag_B_index": {
+          "name": "_CreativeWorkToTag_B_index",
+          "columns": [
+            "B"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "_CreativeWorkToTag_A_fkey": {
+          "name": "_CreativeWorkToTag_A_fkey",
+          "tableFrom": "_CreativeWorkToTag",
+          "tableTo": "CreativeWork",
+          "columnsFrom": [
+            "A"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "_CreativeWorkToTag_B_fkey": {
+          "name": "_CreativeWorkToTag_B_fkey",
+          "tableFrom": "_CreativeWorkToTag",
+          "tableTo": "Tag",
+          "columnsFrom": [
+            "B"
+          ],
+          "columnsTo": [
+            "name"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "Gender": {
+      "name": "Gender",
+      "schema": "",
+      "columns": {
+        "name": {
+          "name": "name",
+          "type": "UserGender",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "count": {
+          "name": "count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {}
+    },
+    "LanguageTag": {
+      "name": "LanguageTag",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "countryCode": {
+          "name": "countryCode",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "region": {
+          "name": "region",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "type": {
+          "name": "type",
+          "type": "LanguageTagType",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'IETF_BCP_47_STANDARD'"
+        }
+      },
+      "indexes": {
+        "LanguageTag_code_countryCode_key": {
+          "name": "LanguageTag_code_countryCode_key",
+          "columns": [
+            "code",
+            "countryCode"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {}
+    },
+    "UserProfile": {
+      "name": "UserProfile",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "firstName": {
+          "name": "firstName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lastName": {
+          "name": "lastName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "gender": {
+          "name": "gender",
+          "type": "UserGender",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'M'"
+        },
+        "bio": {
+          "name": "bio",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "work": {
+          "name": "work",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "education": {
+          "name": "education",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "profilePicture": {
+          "name": "profilePicture",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "coverPhoto": {
+          "name": "coverPhoto",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "UserProfile_createdAt_idx": {
+          "name": "UserProfile_createdAt_idx",
+          "columns": [
+            "createdAt"
+          ],
+          "isUnique": false
+        },
+        "UserProfile_userId_key": {
+          "name": "UserProfile_userId_key",
+          "columns": [
+            "userId"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "UserProfile_education_fkey": {
+          "name": "UserProfile_education_fkey",
+          "tableFrom": "UserProfile",
+          "tableTo": "Education",
+          "columnsFrom": [
+            "education"
+          ],
+          "columnsTo": [
+            "name"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "UserProfile_gender_fkey": {
+          "name": "UserProfile_gender_fkey",
+          "tableFrom": "UserProfile",
+          "tableTo": "Gender",
+          "columnsFrom": [
+            "gender"
+          ],
+          "columnsTo": [
+            "name"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "UserProfile_userId_fkey": {
+          "name": "UserProfile_userId_fkey",
+          "tableFrom": "UserProfile",
+          "tableTo": "User",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "UserProfile_work_fkey": {
+          "name": "UserProfile_work_fkey",
+          "tableFrom": "UserProfile",
+          "tableTo": "Work",
+          "columnsFrom": [
+            "work"
+          ],
+          "columnsTo": [
+            "name"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "Session": {
+      "name": "Session",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "sessionToken": {
+          "name": "sessionToken",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "expires": {
+          "name": "expires",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "Session_createdAt_idx": {
+          "name": "Session_createdAt_idx",
+          "columns": [
+            "createdAt"
+          ],
+          "isUnique": false
+        },
+        "Session_sessionToken_key": {
+          "name": "Session_sessionToken_key",
+          "columns": [
+            "sessionToken"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "Session_userId_fkey": {
+          "name": "Session_userId_fkey",
+          "tableFrom": "Session",
+          "tableTo": "User",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "Post": {
+      "name": "Post",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "creativeWorkId": {
+          "name": "creativeWorkId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "discussionForumId": {
+          "name": "discussionForumId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "Post_creativeWorkId_key": {
+          "name": "Post_creativeWorkId_key",
+          "columns": [
+            "creativeWorkId"
+          ],
+          "isUnique": true
+        },
+        "Post_discussionForumId_key": {
+          "name": "Post_discussionForumId_key",
+          "columns": [
+            "discussionForumId"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "Post_creativeWorkId_fkey": {
+          "name": "Post_creativeWorkId_fkey",
+          "tableFrom": "Post",
+          "tableTo": "CreativeWork",
+          "columnsFrom": [
+            "creativeWorkId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "Post_discussionForumId_fkey": {
+          "name": "Post_discussionForumId_fkey",
+          "tableFrom": "Post",
+          "tableTo": "DiscussionForum",
+          "columnsFrom": [
+            "discussionForumId"
+          ],
+          "columnsTo": [
+            "creativeWorkId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "RatingForCreativeWork": {
+      "name": "RatingForCreativeWork",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "totalRating": {
+          "name": "totalRating",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "ratingsCount": {
+          "name": "ratingsCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "creativeWorkId": {
+          "name": "creativeWorkId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "RatingForCreativeWork_creativeWorkId_fkey": {
+          "name": "RatingForCreativeWork_creativeWorkId_fkey",
+          "tableFrom": "RatingForCreativeWork",
+          "tableTo": "CreativeWork",
+          "columnsFrom": [
+            "creativeWorkId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "DiscussionForumPost": {
+      "name": "DiscussionForumPost",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "replies_count": {
+          "name": "replies_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "replyToId": {
+          "name": "replyToId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "creativeWorkId": {
+          "name": "creativeWorkId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "discussionForumId": {
+          "name": "discussionForumId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "DiscussionForumPost_creativeWorkId_key": {
+          "name": "DiscussionForumPost_creativeWorkId_key",
+          "columns": [
+            "creativeWorkId"
+          ],
+          "isUnique": true
+        },
+        "DiscussionForumPost_replyToId_key": {
+          "name": "DiscussionForumPost_replyToId_key",
+          "columns": [
+            "replyToId"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "DiscussionForumPost_creativeWorkId_fkey": {
+          "name": "DiscussionForumPost_creativeWorkId_fkey",
+          "tableFrom": "DiscussionForumPost",
+          "tableTo": "CreativeWork",
+          "columnsFrom": [
+            "creativeWorkId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "DiscussionForumPost_discussionForumId_fkey": {
+          "name": "DiscussionForumPost_discussionForumId_fkey",
+          "tableFrom": "DiscussionForumPost",
+          "tableTo": "DiscussionForum",
+          "columnsFrom": [
+            "discussionForumId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "DiscussionForumPost_replyToId_fkey": {
+          "name": "DiscussionForumPost_replyToId_fkey",
+          "tableFrom": "DiscussionForumPost",
+          "tableTo": "DiscussionForumPost",
+          "columnsFrom": [
+            "replyToId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "Work": {
+      "name": "Work",
+      "schema": "",
+      "columns": {
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "count": {
+          "name": "count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {}
+    },
+    "Account": {
+      "name": "Account",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "provider": {
+          "name": "provider",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "providerAccountId": {
+          "name": "providerAccountId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "refresh_token": {
+          "name": "refresh_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "access_token": {
+          "name": "access_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "token_type": {
+          "name": "token_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scope": {
+          "name": "scope",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_token": {
+          "name": "id_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "session_state": {
+          "name": "session_state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "Account_createdAt_idx": {
+          "name": "Account_createdAt_idx",
+          "columns": [
+            "createdAt"
+          ],
+          "isUnique": false
+        },
+        "Account_provider_providerAccountId_key": {
+          "name": "Account_provider_providerAccountId_key",
+          "columns": [
+            "provider",
+            "providerAccountId"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "Account_userId_fkey": {
+          "name": "Account_userId_fkey",
+          "tableFrom": "Account",
+          "tableTo": "User",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "UserStats": {
+      "name": "UserStats",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "postsCount": {
+          "name": "postsCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "blogPostsCount": {
+          "name": "blogPostsCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "discussionForumsCount": {
+          "name": "discussionForumsCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "discussionForumPostsCount": {
+          "name": "discussionForumPostsCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {
+        "UserStats_userId_key": {
+          "name": "UserStats_userId_key",
+          "columns": [
+            "userId"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "UserStats_userId_fkey": {
+          "name": "UserStats_userId_fkey",
+          "tableFrom": "UserStats",
+          "tableTo": "User",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "UserRatingForCreativeWork": {
+      "name": "UserRatingForCreativeWork",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "creativeWorkRatingId": {
+          "name": "creativeWorkRatingId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "UserRatingForCreativeWork_creativeWorkRatingId_fkey": {
+          "name": "UserRatingForCreativeWork_creativeWorkRatingId_fkey",
+          "tableFrom": "UserRatingForCreativeWork",
+          "tableTo": "RatingForCreativeWork",
+          "columnsFrom": [
+            "creativeWorkRatingId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "UserRatingForCreativeWork_userId_fkey": {
+          "name": "UserRatingForCreativeWork_userId_fkey",
+          "tableFrom": "UserRatingForCreativeWork",
+          "tableTo": "User",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {}
+    }
+  },
+  "enums": {
+    "UserGender": {
+      "name": "UserGender",
+      "values": {
+        "M": "M",
+        "F": "F"
+      }
+    },
+    "CreativeWorkType": {
+      "name": "CreativeWorkType",
+      "values": {
+        "POST": "POST",
+        "BLOG_POST": "BLOG_POST",
+        "DISCUSSION_FORUM": "DISCUSSION_FORUM",
+        "DISCUSSION_FORUM_POST": "DISCUSSION_FORUM_POST"
+      }
+    },
+    "CreativeWorkStatus": {
+      "name": "CreativeWorkStatus",
+      "values": {
+        "PUBLIC": "PUBLIC",
+        "PRIVATE": "PRIVATE",
+        "DELETED": "DELETED"
+      }
+    },
+    "LanguageTagType": {
+      "name": "LanguageTagType",
+      "values": {
+        "IETF_BCP_47_STANDARD": "IETF_BCP_47_STANDARD"
+      }
+    },
+    "Role": {
+      "name": "Role",
+      "values": {
+        "USER": "USER",
+        "AUTHOR": "AUTHOR",
+        "ADMIN": "ADMIN"
+      }
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}

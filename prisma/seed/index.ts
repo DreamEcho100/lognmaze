@@ -63,7 +63,7 @@ const seedingTheBlogPostsTable = async () => {
 	const authorId = await prisma.user
 		.findFirstOrThrow({ where: { email: 'maze6572198@gmail.com' } })
 		.then((result) => result.id);
-	if (typeof authorId !== 'string') throw new Error('Invalid Author id');
+	if (typeof authorId !== 'string') throw new Error('Invalid author id');
 
 	const languageTagId = await prisma.languageTag
 		.findFirstOrThrow({
@@ -123,7 +123,7 @@ const seedingTheBlogPostsTable = async () => {
 						authorId,
 						type: CreativeWorkType.BLOG_POST,
 						status: CreativeWorkStatus.PUBLIC,
-						Tags: {
+						tags: {
 							connectOrCreate: data.tags.map((tag) => ({
 								create: {
 									name: tag,
@@ -137,16 +137,16 @@ const seedingTheBlogPostsTable = async () => {
 								where: { name: tag }
 							}))
 						},
-						BlogPost: {
+						blogPost: {
 							create: {
 								content,
 								description: data.description,
 								slug: slugify(data.title),
 								thumbnailUrl: data.thumbnailUrl,
 								title: data.title,
-								DiscussionForum: {
+								discussionForum: {
 									create: {
-										CreativeWork: {
+										creativeWork: {
 											create: {
 												authorId: authorId,
 												status: CreativeWorkStatus.PUBLIC,
@@ -155,11 +155,11 @@ const seedingTheBlogPostsTable = async () => {
 										}
 									}
 								},
-								LanguageTag: { connect: { id: languageTagId } }
+								languageTag: { connect: { id: languageTagId } }
 							}
 						}
 					},
-					select: { id: true, BlogPost: { select: { slug: true } } }
+					select: { id: true, blogPost: { select: { slug: true } } }
 				});
 
 				// This is a regular .md file.
@@ -173,12 +173,12 @@ const seedingTheBlogPostsTable = async () => {
 			const element = creativeWorksTypeBlogPostData[i];
 			if (!element) break;
 
-			console.log('element', element.data.BlogPost?.create?.slug);
+			console.log('element', element.data.blogPost?.create?.slug);
 			await prisma.creativeWork
 				.create(element)
 				.then(console.log)
 				.catch((error) => {
-					console.log('element', element.data.BlogPost?.create?.slug);
+					console.log('element', element.data.blogPost?.create?.slug);
 					console.error(error);
 					throw new Error('creative');
 				});
@@ -220,14 +220,14 @@ const seedingTheBlogPostsTable = async () => {
 
 // const updatingTagsBlogStatsCounter = async () => {
 // 	const blogPostsCreativeWork = await prisma.creativeWork.findMany({
-// 		select: { Tags: true },
+// 		select: { tags: true },
 // 		where: { type: CreativeWorkType.BLOG_POST }
 // 	});
 
 // 	const tagNameToCountMap: Record<string, number> = {};
 
 // 	blogPostsCreativeWork.forEach((blogPost) => {
-// 		blogPost.Tags.forEach((tag) => {
+// 		blogPost.tags.forEach((tag) => {
 // 			tagNameToCountMap[tag.name] = (tagNameToCountMap[tag.name] || 0) + 1;
 // 		});
 // 	});

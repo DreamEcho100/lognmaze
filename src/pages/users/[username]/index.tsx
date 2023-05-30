@@ -29,10 +29,10 @@ const UserProfilePage: NextPage<UserProfilePageProps> = (props) => {
 			userData = {
 				...props.userData,
 				...session.user,
-				Profile: {
-					...(props.userData?.Profile || {}),
-					...(session.user.Profile || {}),
-					createdAt: props.userData?.Profile.createdAt || new Date()
+				profile: {
+					...(props.userData?.profile || {}),
+					...(session.user.profile || {}),
+					createdAt: props.userData?.profile.createdAt || new Date()
 				},
 				isVisitorTheOwner: true,
 				createdAt: props.userData.createdAt
@@ -42,7 +42,7 @@ const UserProfilePage: NextPage<UserProfilePageProps> = (props) => {
 		return userData;
 	}, [props.userData, session?.user, status]);
 
-	if (!userData?.Profile.id || !userData?.Stats.id) return <></>;
+	if (!userData?.profile.id || !userData?.Stats.id) return <></>;
 
 	return (
 		<>
@@ -54,40 +54,40 @@ const UserProfilePage: NextPage<UserProfilePageProps> = (props) => {
 						'@context': 'https://schema.org',
 						'@type': 'Person',
 						// knowsAbout: ['Compilers', 'Computer Science'],
-						name: `${userData.Profile.firstName} ${userData.Profile.lastName} - ${userData.name}`,
+						name: `${userData.profile.firstName} ${userData.profile.lastName} - ${userData.name}`,
 						url: fullURLPathName,
-						description: userData.Profile.bio || undefined,
-						jobTitle: userData.Profile.work || undefined,
-						image: userData.Profile.profilePicture || undefined
+						description: userData.profile.bio || undefined,
+						jobTitle: userData.profile.work || undefined,
+						image: userData.profile.profilePicture || undefined
 					})}
 				/>
 			</Head>
 			<CustomNextSeo
-				title={`${userData.Profile.firstName} ${userData.Profile.lastName} - ${userData.name} | ${defaultSiteName}`}
-				description={userData.Profile.bio || undefined}
+				title={`${userData.profile.firstName} ${userData.profile.lastName} - ${userData.name} | ${defaultSiteName}`}
+				description={userData.profile.bio || undefined}
 				openGraph={{
 					type: 'Profile',
 					profile: {
-						firstName: userData.Profile.firstName,
-						lastName: userData.Profile.lastName,
+						firstName: userData.profile.firstName,
+						lastName: userData.profile.lastName,
 						username: userData.name,
-						gender: userData.Profile.gender === UserGender.M ? 'male' : 'female'
+						gender: userData.profile.gender === UserGender.M ? 'male' : 'female'
 					},
-					images: !userData.Profile.profilePicture
+					images: !userData.profile.profilePicture
 						? undefined
 						: (() => {
 								const images: NonNullable<NextSeoProps['openGraph']>['images'] =
 									[
 										{
-											url: userData.Profile.profilePicture,
-											alt: `${userData.Profile.firstName} ${userData.Profile.lastName} - ${userData.name}`,
+											url: userData.profile.profilePicture,
+											alt: `${userData.profile.firstName} ${userData.profile.lastName} - ${userData.name}`,
 											width: 800,
 											height: 500
 										}
 									];
 
-								// if (CreativeWork.Author?.Profile?.profilePicture)
-								// 	images.push(CreativeWork.Author?.Profile?.profilePicture);
+								// if (creativeWork.author?.profile?.profilePicture)
+								// 	images.push(creativeWork.author?.profile?.profilePicture);
 
 								return images;
 						  })()
@@ -102,14 +102,14 @@ const UserProfilePage: NextPage<UserProfilePageProps> = (props) => {
 				>
 					<CustomNextImage
 						priority
-						src={userData.Profile.coverPhoto || '/svgs/bbblurry.svg'}
+						src={userData.profile.coverPhoto || '/svgs/bbblurry.svg'}
 						width={1800}
 						height={400}
-						className='absolute top-0 right-0 bottom-0 left-0 aspect-video h-full w-full object-cover'
+						className='absolute bottom-0 left-0 right-0 top-0 aspect-video h-full w-full object-cover'
 					/>
 					<CustomNextImage
 						priority
-						src={userData.Profile.profilePicture || '/svgs/bbblurry.svg'}
+						src={userData.profile.profilePicture || '/svgs/bbblurry.svg'}
 						width={400}
 						height={400}
 						className='relative aspect-square h-52 w-52 translate-y-1/2 rounded-full object-cover'
@@ -117,14 +117,14 @@ const UserProfilePage: NextPage<UserProfilePageProps> = (props) => {
 				</div>
 				<div className='px-8 py-8 md:px-0'>
 					<h1 className='text-h1'>
-						{userData.Profile.firstName} {userData.Profile.lastName}
+						{userData.profile.firstName} {userData.profile.lastName}
 					</h1>
-					<p>{userData.Profile.work}</p>
-					<p>{userData.Profile.education}</p>
+					<p>{userData.profile.work}</p>
+					<p>{userData.profile.education}</p>
 					<p>
 						Joined at{' '}
-						<time dateTime={userData.Profile.createdAt?.toISOString()}>
-							{userData.Profile.createdAt?.toLocaleDateString()}
+						<time dateTime={userData.profile.createdAt?.toISOString()}>
+							{userData.profile.createdAt?.toLocaleDateString()}
 						</time>
 					</p>
 				</div>
@@ -137,7 +137,7 @@ const UserProfilePage: NextPage<UserProfilePageProps> = (props) => {
 				)}
 			>
 				<MetaSection
-					bio={userData.Profile.bio}
+					bio={userData.profile.bio}
 					showOnScreens={{ 'lt-md-only': true }}
 				/>
 				<div className='md:w-3/5'>
@@ -149,7 +149,7 @@ const UserProfilePage: NextPage<UserProfilePageProps> = (props) => {
 					/>
 				</div>
 				<MetaSection
-					bio={userData.Profile.bio}
+					bio={userData.profile.bio}
 					showOnScreens={{ 'gt-md-only': true }}
 				/>
 			</div>
@@ -209,7 +209,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<{
 	userData: User & {
 		isVisitorTheOwner: boolean;
-		Profile: UserProfile;
+		profile: UserProfile;
 		Stats: UserStats;
 	};
 }> = async ({ params }) => {
@@ -223,7 +223,7 @@ export const getStaticProps: GetStaticProps<{
 
 	const userData = (await prisma.user.findFirstOrThrow({
 		include: {
-			Profile: true,
+			profile: true,
 			Stats: true
 			// creativeWorks: {
 			// 	take: 10,
@@ -234,12 +234,12 @@ export const getStaticProps: GetStaticProps<{
 	})) as
 		| (User & {
 				isVisitorTheOwner: boolean;
-				Profile: UserProfile;
+				profile: UserProfile;
 				Stats: UserStats;
 		  })
 		| null;
 
-	if (!userData || !userData.Profile || !userData.Stats)
+	if (!userData || !userData.profile || !userData.Stats)
 		return { notFound: true };
 
 	userData.isVisitorTheOwner = false;

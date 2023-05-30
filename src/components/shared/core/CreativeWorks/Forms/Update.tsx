@@ -19,7 +19,7 @@ const UpdateCreativeWork = ({ data }: Props) => {
 		creativeWorkDefaults: {
 			status: data.status !== 'DELETED' ? data.status : 'PRIVATE'
 		},
-		tagsDefaults: data.Tags.map((tag) => ({
+		tagsDefaults: data.tags.map((tag) => ({
 			key: tag.name.toLowerCase(),
 			value: tag.name
 		}))

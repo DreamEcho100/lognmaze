@@ -19,7 +19,7 @@ type PostFormInitProps = {
 	creativeWorkDefaults?: Required<
 		Omit<
 			inferRouterInputs<AppRouter>['creativeWorks']['authors']['posts']['createOne'],
-			'typeData' | 'authorId' | 'Tags'
+			'typeData' | 'authorId' | 'tags'
 		>
 	>;
 	tagsDefaults?: {
@@ -33,8 +33,8 @@ export type PostFormProps = PostFormInitProps & {
 		event: FormEvent,
 		data: {
 			typeData: NonNullable<PostFormInitProps['typeDataDefaults']>;
-			Tags: string[]; // NonNullable<PostFormInitProps['tagsDefaults']>;
-			CreativeWork: NonNullable<PostFormInitProps['creativeWorkDefaults']>;
+			tags: string[]; // NonNullable<PostFormInitProps['tagsDefaults']>;
+			creativeWork: NonNullable<PostFormInitProps['creativeWorkDefaults']>;
 		}
 	) => boolean | Promise<boolean>;
 	isDisabled?: boolean;
@@ -63,7 +63,7 @@ const PostForm = ({
 	// 	[typeDataValues.languageTagId]
 	// );
 
-	const [Tags, setTags] = useState(tagsDefaults);
+	const [tags, setTags] = useState(tagsDefaults);
 	const [creativeWorkValues, setCreativeWork] = useState(creativeWorkDefaults);
 
 	const creativeWorkStatusOptions = useMemo(
@@ -84,8 +84,8 @@ const PostForm = ({
 				if (
 					await handleOnSubmit(event, {
 						typeData: typeDataValues,
-						Tags: Tags.map((item) => item.value),
-						CreativeWork: creativeWorkValues
+						tags: tags.map((item) => item.value),
+						creativeWork: creativeWorkValues
 					})
 				) {
 					if (resetFormOnSuccessfulSubmission) {
@@ -127,7 +127,7 @@ const PostForm = ({
 				rows={6}
 			/>
 			<SelectTags
-				tags={Tags}
+				tags={tags}
 				setTags={setTags}
 				filterFunc={(item) => (prevIem) => prevIem.value !== item.value}
 				addFunc={(prev, _item) => {

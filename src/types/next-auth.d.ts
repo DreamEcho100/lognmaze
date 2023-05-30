@@ -9,7 +9,7 @@ declare module 'next-auth' {
 	interface Session {
 		user?: {
 			id: string;
-			Profile: UserProfile | null;
+			profile: UserProfile | null;
 			name: NonNullable<NonNullable<DefaultSession['user']>['name']>;
 			role: Role | null;
 			emailVerified: null;

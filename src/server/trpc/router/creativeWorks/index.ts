@@ -44,11 +44,11 @@ export const creativeWorksRouter = router({
 
 			const creativeWorks = (await ctx.prisma.creativeWork.findMany({
 				include: {
-					Tags: { select: { name: true } },
-					Author: {
+					tags: { select: { name: true } },
+					author: {
 						select: {
 							name: true,
-							Profile: {
+							profile: {
 								select: {
 									firstName: true,
 									lastName: true,

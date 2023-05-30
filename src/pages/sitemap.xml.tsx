@@ -15,9 +15,9 @@ function generateSiteMap({
 	users: { name: string }[];
 	blogPosts: {
 		slug: string;
-		CreativeWork: {
+		creativeWork: {
 			createdAt: Date;
-			Author: {
+			author: {
 				name: string;
 			};
 		};
@@ -50,11 +50,11 @@ function generateSiteMap({
 					})
 					.join('')}
 					${blogPosts
-						.map(({ slug, updatedAt, CreativeWork }) => {
+						.map(({ slug, updatedAt, creativeWork }) => {
 							return `
 						<url>
-								<loc>${`${websiteBasePath}/users/${CreativeWork.Author.name}/creative-works/blog-posts/${slug}`}</loc>
-								<lastmod>${(updatedAt || CreativeWork.createdAt).toISOString()}</lastmod>
+								<loc>${`${websiteBasePath}/users/${creativeWork.author.name}/creative-works/blog-posts/${slug}`}</loc>
+								<lastmod>${(updatedAt || creativeWork.createdAt).toISOString()}</lastmod>
 								<changefreq>monthly</changefreq>
 						</url>
 					`;
@@ -74,14 +74,14 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 		select: {
 			slug: true,
 			updatedAt: true,
-			CreativeWork: {
-				select: { createdAt: true, Author: { select: { name: true } } }
+			creativeWork: {
+				select: { createdAt: true, author: { select: { name: true } } }
 			}
 		},
 		where: {
-			CreativeWork: {
+			creativeWork: {
 				status: CreativeWorkStatus.PUBLIC
-				// AND: { Author: { name: { not: null } } }
+				// AND: { author: { name: { not: null } } }
 			}
 		}
 	});

@@ -18,9 +18,9 @@ model User {
   name                  String                      @unique
   role                  Role?
   Account               Account[]
-  CreativeWork          CreativeWork[]
+  creativeWorks         CreativeWork[]
   Session               Session[]
-  Profile               UserProfile?
+  profile               UserProfile?
   RatingForCreativeWork UserRatingForCreativeWork[]
   Stats                 UserStats?
 
@@ -134,21 +134,21 @@ model CreativeWork {
   status                CreativeWorkStatus      @default(PUBLIC)
   type                  CreativeWorkType
   createdAt             DateTime                @default(now())
-  BlogPost              BlogPost?
-  Author                User                    @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  DiscussionForum       DiscussionForum?
+  blogPost              BlogPost?
+  author                User                    @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  discussionForum       DiscussionForum?
   DiscussionForumPost   DiscussionForumPost?
   Post                  Post?
   RatingForCreativeWork RatingForCreativeWork[]
-  Tags                  Tag[]                   @relation("CreativeWorkToTag")
+  tags                  Tag[]                   @relation("CreativeWorkToTag")
 
   @@index([createdAt(sort: Desc)])
 }
 
 model Tag {
-  name         String         @id @unique
-  Stats        TagStats?
-  CreativeWork CreativeWork[] @relation("CreativeWorkToTag")
+  name          String         @id @unique
+  Stats         TagStats?
+  creativeWorks CreativeWork[] @relation("CreativeWorkToTag")
 }
 
 model TagStats {
@@ -172,9 +172,9 @@ model BlogPost {
   content           String
   languageTagId     String
   updatedAt         DateTime?
-  CreativeWork      CreativeWork    @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade)
-  DiscussionForum   DiscussionForum @relation(fields: [discussionForumId], references: [creativeWorkId], onDelete: Cascade)
-  LanguageTag       LanguageTag     @relation(fields: [languageTagId], references: [id], onDelete: Cascade)
+  creativeWork      CreativeWork    @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade)
+  discussionForum   DiscussionForum @relation(fields: [discussionForumId], references: [creativeWorkId], onDelete: Cascade)
+  languageTag       LanguageTag     @relation(fields: [languageTagId], references: [id], onDelete: Cascade)
 }
 
 model DiscussionForum {
@@ -183,7 +183,7 @@ model DiscussionForum {
   size                Int                   @default(0)
   updatedAt           DateTime?
   BlogPost            BlogPost?
-  CreativeWork        CreativeWork          @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade)
+  creativeWork        CreativeWork          @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade)
   DiscussionForumPost DiscussionForumPost[]
   Post                Post?
 }
@@ -196,8 +196,8 @@ model DiscussionForumPost {
   creativeWorkId                    String               @unique
   discussionForumId                 String
   updatedAt                         DateTime?
-  CreativeWork                      CreativeWork         @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade)
-  DiscussionForum                   DiscussionForum      @relation(fields: [discussionForumId], references: [id], onDelete: Cascade)
+  creativeWork                      CreativeWork         @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade)
+  discussionForum                   DiscussionForum      @relation(fields: [discussionForumId], references: [id], onDelete: Cascade)
   DiscussionForumPost               DiscussionForumPost? @relation("DiscussionForumPostToDiscussionForumPost", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   RepliesForThisDiscussionForumPost DiscussionForumPost? @relation("DiscussionForumPostToDiscussionForumPost")
 }
@@ -208,8 +208,8 @@ model Post {
   discussionForumId String          @unique
   content           String
   updatedAt         DateTime?
-  CreativeWork      CreativeWork    @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade)
-  DiscussionForum   DiscussionForum @relation(fields: [discussionForumId], references: [creativeWorkId], onDelete: Cascade)
+  creativeWork      CreativeWork    @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade)
+  discussionForum   DiscussionForum @relation(fields: [discussionForumId], references: [creativeWorkId], onDelete: Cascade)
 }
 
 model RatingForCreativeWork {
@@ -218,7 +218,7 @@ model RatingForCreativeWork {
   ratingsCount              Int                         @default(0)
   creativeWorkId            String
   updatedAt                 DateTime?
-  CreativeWork              CreativeWork                @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade)
+  creativeWork              CreativeWork                @relation(fields: [creativeWorkId], references: [id], onDelete: Cascade)
   UserRatingForCreativeWork UserRatingForCreativeWork[]
 }
 
