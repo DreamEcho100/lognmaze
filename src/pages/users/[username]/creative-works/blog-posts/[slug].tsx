@@ -13,7 +13,7 @@ import MdToHTMLFormatter from '@components/shared/common/Format/MdToHTML';
 
 import dynamic from 'next/dynamic';
 import { TCreativeWorkBlogPost } from '@ts/index';
-import { drizzleDB } from '@server/utils/drizzle';
+import { drizzleORM } from '@server/utils/drizzle';
 
 const GoogleAdSenseHResponsiveImageV1 = dynamic(
 	() => import('@components/shared/common/GoogleAdSense/HResponsiveImageV1')
@@ -155,7 +155,7 @@ const BlogPostPage = (props: BlogPostPageProps) => {
 };
 
 export const getStaticPaths = async () => {
-	const paths = await drizzleDB.query
+	const paths = await drizzleORM.query
 		.blogPost!.findMany({
 			columns: { slug: true },
 			with: {
@@ -224,7 +224,7 @@ export const getStaticProps: GetStaticProps<{
 	// 	}
 	// });
 
-	const _blogPost = await drizzleDB.query.blogPost!.findFirst({
+	const _blogPost = await drizzleORM.query.blogPost!.findFirst({
 		where: (blogPost, { eq }) => eq(blogPost.slug, slug),
 		with: {
 			creativeWork: {

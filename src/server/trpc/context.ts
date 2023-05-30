@@ -1,5 +1,6 @@
 import { getServerAuthSession } from '@server/common/get-server-auth-session';
 import { prisma } from '@server/db/client';
+import { drizzleORM } from '@server/utils/drizzle';
 
 import { type inferAsyncReturnType } from '@trpc/server';
 import { type CreateNextContextOptions } from '@trpc/server/adapters/next';
@@ -18,7 +19,8 @@ type CreateContextOptions = {
 export const createContextInner = async (opts: CreateContextOptions) => {
 	return {
 		session: opts.session,
-		prisma
+		prisma,
+		drizzle: drizzleORM
 	};
 };
 

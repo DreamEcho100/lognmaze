@@ -13,7 +13,7 @@ import * as schema from './schema';
 // //   }
 // // }
 const pool = new Pool({ connectionString: env.DATABASE_URL }); // `${env.DATABASE_URL}?sslmode=require`
-export const drizzleDB = drizzle(pool, { schema });
+export const drizzleORM = drizzle(pool, { schema });
 
 // import {
 //   pgTable,

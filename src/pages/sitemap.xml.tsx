@@ -1,9 +1,11 @@
 import type { GetServerSideProps } from 'next';
 
 import { websiteBasePath } from '@utils/core/app';
-import { prisma } from '@server/db/client';
-import { CreativeWorkStatus } from '@prisma/client';
 import toolsData from '@utils/core/appData/tools';
+import { drizzleORM } from '@server/utils/drizzle';
+import { isNotNull } from 'drizzle-orm';
+import { CreativeWorkStatus } from '@prisma/client';
+import { creativeWork } from 'drizzle/schema';
 
 //pages/sitemap.xml.js
 
@@ -70,24 +72,46 @@ function SiteMap() {
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 	// We make an API call to gather the URLs for our site
-	const blogPosts = await prisma.blogPost.findMany({
-		select: {
-			slug: true,
-			updatedAt: true,
+	// const blogPosts = await prisma.blogPost.findMany({
+	// 	select: {
+	// 		slug: true,
+	// 		updatedAt: true,
+	// 		creativeWork: {
+	// 			select: { createdAt: true, author: { select: { name: true } } }
+	// 		}
+	// 	},
+	// 	where: {
+	// 		creativeWork: {
+	// 			status: CreativeWorkStatus.PUBLIC
+	// 			// AND: { author: { name: { not: null } } }
+	// 		}
+	// 	}
+	// });
+	const blogPosts = await drizzleORM.query.blogPost.findMany({
+		// where: (blogPosts, { eq }) =>
+		// 	eq(blogPosts.creativeWork.status, CreativeWorkStatus.PUBLIC),
+		// where(fields, { sql }) {
+		// 	return sql`${fields.creativeWork}.status=${CreativeWorkStatus.PUBLIC}`;
+		// },
+		columns: { slug: true, updatedAt: true },
+		with: {
 			creativeWork: {
-				select: { createdAt: true, author: { select: { name: true } } }
-			}
-		},
-		where: {
-			creativeWork: {
-				status: CreativeWorkStatus.PUBLIC
-				// AND: { author: { name: { not: null } } }
+				columns: { createdAt: true, status: true },
+				with: { author: { columns: { name: true } } }
 			}
 		}
-	});
-	const users = await prisma.user.findMany({
-		select: { name: true },
-		where: { role: { not: null } }
+	}).then(blogPosts => blogPosts.filter(blogPost => blogPost.creativeWork.status === CreativeWorkStatus.PUBLIC));
+
+	// clg
+	
+
+	// const users = await prisma.user.findMany({
+	// 	select: { name: true },
+	// 	where: { role: { not: null } }
+	// });
+	const users = await drizzleORM.query.user.findMany({
+		columns: { name: true },
+		where: (user) => isNotNull(user.role)
 	});
 
 	const toolsRelativePaths = toolsData.pages
