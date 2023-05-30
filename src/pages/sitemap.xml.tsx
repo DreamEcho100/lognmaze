@@ -4,8 +4,7 @@ import { websiteBasePath } from '@utils/core/app';
 import toolsData from '@utils/core/appData/tools';
 import { drizzleORM } from '@server/utils/drizzle';
 import { isNotNull } from 'drizzle-orm';
-import { CreativeWorkStatus } from '@prisma/client';
-import { creativeWork } from 'drizzle/schema';
+import { creativeWorkStatus } from 'drizzle/schema';
 
 //pages/sitemap.xml.js
 
@@ -82,28 +81,34 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 	// 	},
 	// 	where: {
 	// 		creativeWork: {
-	// 			status: CreativeWorkStatus.PUBLIC
+	// 			status: creativeWorkStatus.PUBLIC
 	// 			// AND: { author: { name: { not: null } } }
 	// 		}
 	// 	}
 	// });
-	const blogPosts = await drizzleORM.query.blogPost.findMany({
-		// where: (blogPosts, { eq }) =>
-		// 	eq(blogPosts.creativeWork.status, CreativeWorkStatus.PUBLIC),
-		// where(fields, { sql }) {
-		// 	return sql`${fields.creativeWork}.status=${CreativeWorkStatus.PUBLIC}`;
-		// },
-		columns: { slug: true, updatedAt: true },
-		with: {
-			creativeWork: {
-				columns: { createdAt: true, status: true },
-				with: { author: { columns: { name: true } } }
+	const blogPosts = await drizzleORM.query.blogPost
+		.findMany({
+			// where: (blogPosts, { eq }) =>
+			// 	eq(blogPosts.creativeWork.status, creativeWorkStatus.PUBLIC),
+			// where(fields, { sql }) {
+			// 	return sql`${fields.creativeWork}.status=${creativeWorkStatus.PUBLIC}`;
+			// },
+			columns: { slug: true, updatedAt: true },
+			with: {
+				creativeWork: {
+					columns: { createdAt: true, status: true },
+					with: { author: { columns: { name: true } } }
+				}
 			}
-		}
-	}).then(blogPosts => blogPosts.filter(blogPost => blogPost.creativeWork.status === CreativeWorkStatus.PUBLIC));
+		})
+		.then((blogPosts) =>
+			blogPosts.filter(
+				(blogPost) =>
+					blogPost.creativeWork.status === creativeWorkStatus.enumValues[0]
+			)
+		);
 
 	// clg
-	
 
 	// const users = await prisma.user.findMany({
 	// 	select: { name: true },
