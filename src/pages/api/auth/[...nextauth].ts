@@ -1,12 +1,16 @@
 import { env } from '@env/server.mjs';
+import drizzleAdapter from '@server/utils/drizzle/next-auth-adapter';
+import { drizzle } from 'drizzle-orm/neon-serverless';
 
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
+// import { PrismaAdapter } from '@next-auth/prisma-adapter';
 
-import { prisma } from '@server/db/client';
+// import { prisma } from '@server/db/client';
 
 import type { Account, NextAuthOptions } from 'next-auth';
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
+import { drizzleORM } from '@server/utils/drizzle';
+import * as schema from '@server/utils/drizzle/schema';
 
 export interface GoogleProfile extends Record<string, unknown> {
 	aud: string;
@@ -34,16 +38,20 @@ export const authOptions: NextAuthOptions = {
 				user: NonNullable<(typeof _props.session)['user']>;
 			};
 
-			if (props.session.user && props?.user?.id) {
-				props.session.user.id = props.user.id;
-				props.session.user.emailVerified = props.user.emailVerified;
-				props.session.user.createdAt = props.user.createdAt;
-				props.session.user.role = props.user.role;
+			const _user = props.session.user;
 
-				if (props.session.user.role) {
-					props.session.user.profile = await prisma.userProfile.findFirst({
-						where: { userId: props.session.user.id }
-					});
+			if (_user && props?.user?.id) {
+				_user.id = props.user.id;
+				_user.emailVerified = props.user.emailVerified;
+				_user.createdAt = props.user.createdAt;
+				_user.role = props.user.role;
+
+				if (_user.role) {
+					_user.profile =
+						(await drizzleORM.query.userProfile.findFirst({
+							where: (fields, { eq }) => eq(fields.userId, _user.id)
+							// { userId: props.session.user.id }
+						})) ?? null;
 				}
 			}
 
@@ -71,7 +79,8 @@ export const authOptions: NextAuthOptions = {
 			return true;
 		}
 	},
-	adapter: PrismaAdapter(prisma),
+	adapter: drizzleAdapter(drizzleORM, schema),
+	// PrismaAdapter(prisma),
 	providers: [
 		GoogleProvider({
 			clientId: env.GOOGLE_ID as string,

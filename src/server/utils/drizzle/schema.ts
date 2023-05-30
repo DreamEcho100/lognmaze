@@ -409,7 +409,7 @@ export const work = pgTable('Work', {
 	count: integer('count').notNull()
 });
 
-export const account = pgTable(
+export const _account = pgTable(
 	'Account',
 	{
 		id: text('id').primaryKey().notNull(),
@@ -476,12 +476,26 @@ export const userRatingForCreativeWork = pgTable('UserRatingForCreativeWork', {
 
 export const userRelations = relations(user, ({ many, one }) => ({
 	creativeWorks: many(creativeWork),
+	account: many(_account),
+	session: many(session),
 	profile: one(userProfile, {
 		fields: [user.id],
 		references: [userProfile.userId]
 	})
 }));
 
+export const sessionRelations = relations(session, ({ one }) => ({
+	user: one(user, {
+		fields: [session.userId],
+		references: [user.id]
+	})
+}));
+export const accountRelations = relations(_account, ({ one }) => ({
+	user: one(user, {
+		fields: [_account.userId],
+		references: [user.id]
+	})
+}));
 export const userProfileRelations = relations(userProfile, ({ one }) => ({
 	user: one(user, {
 		fields: [userProfile.userId],
