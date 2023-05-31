@@ -409,7 +409,7 @@ export const work = pgTable('Work', {
 	count: integer('count').notNull()
 });
 
-export const _account = pgTable(
+export const account = pgTable(
 	'Account',
 	{
 		id: text('id').primaryKey().notNull(),
@@ -476,7 +476,7 @@ export const userRatingForCreativeWork = pgTable('UserRatingForCreativeWork', {
 
 export const userRelations = relations(user, ({ many, one }) => ({
 	creativeWorks: many(creativeWork),
-	account: many(_account),
+	account: many(account),
 	session: many(session),
 	profile: one(userProfile, {
 		fields: [user.id],
@@ -490,9 +490,9 @@ export const sessionRelations = relations(session, ({ one }) => ({
 		references: [user.id]
 	})
 }));
-export const accountRelations = relations(_account, ({ one }) => ({
+export const accountRelations = relations(account, ({ one }) => ({
 	user: one(user, {
-		fields: [_account.userId],
+		fields: [account.userId],
 		references: [user.id]
 	})
 }));
@@ -514,10 +514,28 @@ export const creativeWorkRelations = relations(
 		blogPost: one(blogPost, {
 			fields: [creativeWork.id],
 			references: [blogPost.creativeWorkId]
+		}),
+		post: one(post, {
+			fields: [creativeWork.id],
+			references: [post.creativeWorkId]
+		}),
+		discussionForum: one(discussionForum, {
+			fields: [creativeWork.id],
+			references: [discussionForum.creativeWorkId]
+		}),
+		discussionForumPost: one(discussionForumPost, {
+			fields: [creativeWork.id],
+			references: [discussionForumPost.creativeWorkId]
 		})
 	})
 );
 
+export const postRelations = relations(post, ({ one }) => ({
+	creativeWork: one(creativeWork, {
+		fields: [post.creativeWorkId],
+		references: [creativeWork.id]
+	})
+}));
 export const blogPostRelations = relations(blogPost, ({ one }) => ({
 	creativeWork: one(creativeWork, {
 		fields: [blogPost.creativeWorkId],
@@ -528,6 +546,24 @@ export const blogPostRelations = relations(blogPost, ({ one }) => ({
 		references: [languageTag.id]
 	})
 }));
+export const discussionForumRelations = relations(
+	discussionForum,
+	({ one }) => ({
+		creativeWork: one(creativeWork, {
+			fields: [discussionForum.creativeWorkId],
+			references: [creativeWork.id]
+		})
+	})
+);
+export const discussionForumPostRelations = relations(
+	discussionForumPost,
+	({ one }) => ({
+		creativeWork: one(creativeWork, {
+			fields: [discussionForumPost.creativeWorkId],
+			references: [creativeWork.id]
+		})
+	})
+);
 
 export const languageTagRelations = relations(languageTag, ({ many }) => ({
 	creativeWorks: many(creativeWork)

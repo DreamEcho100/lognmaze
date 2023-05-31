@@ -13,7 +13,7 @@ import MdToHTMLFormatter from '@components/shared/common/Format/MdToHTML';
 
 import dynamic from 'next/dynamic';
 import { TCreativeWorkBlogPost } from '@ts/index';
-import { drizzleORM } from '@server/utils/drizzle';
+import { drizzleClient } from '@server/utils/drizzle/orm';
 
 const GoogleAdSenseHResponsiveImageV1 = dynamic(
 	() => import('@components/shared/common/GoogleAdSense/HResponsiveImageV1')
@@ -155,7 +155,7 @@ const BlogPostPage = (props: BlogPostPageProps) => {
 };
 
 export const getStaticPaths = async () => {
-	const paths = await drizzleORM.query
+	const paths = await drizzleClient.query
 		.blogPost!.findMany({
 			columns: { slug: true },
 			with: {
@@ -224,8 +224,14 @@ export const getStaticProps: GetStaticProps<{
 	// 	}
 	// });
 
-	const _blogPost = await drizzleORM.query.blogPost!.findFirst({
-		where: (blogPost, { eq }) => eq(blogPost.slug, slug),
+	console.log('\n\n\n');
+	console.log(CreativeWorkStatus.PUBLIC);
+	const _blogPost = await drizzleClient.query.blogPost.findFirst({
+		where: (blogPost, { eq, sql, and }) => eq(blogPost.slug, slug),
+		// and(
+		// 	eq(blogPost.slug, slug),
+		// 	sql`("creativeWork"::json -> 0 -> 2) = ${CreativeWorkStatus.PUBLIC}`
+		// ),
 		with: {
 			creativeWork: {
 				with: {
@@ -244,14 +250,16 @@ export const getStaticProps: GetStaticProps<{
 						}
 					},
 					tagsToBlogPosts: true
-				}
-				// where: (creativeWork, { eq }) => eq(creativeWork.status, CreativeWorkStatus.PUBLIC),
+				},
+				where: (creativeWork, { eq }) =>
+					eq(creativeWork.status, CreativeWorkStatus.PUBLIC)
 			},
 			languageTag: true
 		}
 	});
+	console.log('\n\n\n');
 
-	if (!_blogPost) return { notFound: true };
+	if (!_blogPost?.creativeWork?.tagsToBlogPosts) return { notFound: true };
 
 	_blogPost.creativeWork.tagsToBlogPosts;
 
@@ -267,7 +275,10 @@ export const getStaticProps: GetStaticProps<{
 					name: item.tagName
 				})),
 				type: CreativeWorkType.BLOG_POST,
-				typeData: blogPost
+				typeData: {
+					...blogPost,
+					creativeWork: { id: creativeWork.id }
+				}
 			} satisfies TCreativeWorkBlogPost
 		},
 		revalidate: 5 * 60

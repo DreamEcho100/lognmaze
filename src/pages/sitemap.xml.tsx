@@ -2,7 +2,7 @@ import type { GetServerSideProps } from 'next';
 
 import { websiteBasePath } from '@utils/core/app';
 import toolsData from '@utils/core/appData/tools';
-import { drizzleORM } from '@server/utils/drizzle';
+import { drizzleClient } from '@server/utils/drizzle/orm';
 import { isNotNull } from 'drizzle-orm';
 import { creativeWorkStatus } from 'drizzle/schema';
 
@@ -86,7 +86,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 	// 		}
 	// 	}
 	// });
-	const blogPosts = await drizzleORM.query.blogPost
+	const blogPosts = await drizzleClient.query.blogPost
 		.findMany({
 			// where: (blogPosts, { eq }) =>
 			// 	eq(blogPosts.creativeWork.status, creativeWorkStatus.PUBLIC),
@@ -114,7 +114,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 	// 	select: { name: true },
 	// 	where: { role: { not: null } }
 	// });
-	const users = await drizzleORM.query.user.findMany({
+	const users = await drizzleClient.query.user.findMany({
 		columns: { name: true },
 		where: (user) => isNotNull(user.role)
 	});

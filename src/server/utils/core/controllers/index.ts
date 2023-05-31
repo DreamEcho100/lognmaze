@@ -3,6 +3,10 @@ import {
 	CreativeWorkType,
 	type PrismaClient
 } from '@prisma/client';
+import drizzleSchema from '@server/utils/drizzle/schema';
+import { type DrizzleClient } from '@server/utils/drizzle/next-auth-neon-adapter';
+import { eq, inArray } from 'drizzle-orm';
+import { TRPCError } from '@trpc/server';
 
 const creativeWorkType_TagBasicStatisticsName_Map = {
 	[CreativeWorkType.BLOG_POST]: 'blogPostsCount',
@@ -12,113 +16,218 @@ const creativeWorkType_TagBasicStatisticsName_Map = {
 } as const;
 
 export const getCreativeWorkTypeBlogPostsData = async (
-	prisma: PrismaClient,
+	ctx: { drizzleClient: DrizzleClient },
+	// prisma: PrismaClient;
 	input: {
 		blogPostsCreativeWorkIds: string[];
 		authorId?: string | false;
 		withContent?: boolean;
 	}
 ) => {
-	const data = await prisma.blogPost.findMany({
-		select: {
+	// const data = await ctx.prisma.blogPost.findMany({
+	// 	select: {
+	// 		id: true,
+	// 		title: true,
+	// 		content: !!input.withContent,
+	// 		updatedAt: true,
+	// 		creativeWorkId: true,
+	// 		description: true,
+	// 		discussionForumId: true,
+	// 		languageTagId: true,
+	// 		slug: true,
+	// 		thumbnailUrl: true,
+	// 		languageTag: true
+	// 	},
+	// 	orderBy: { creativeWork: { createdAt: 'desc' } },
+	// 	where: {
+	// 		creativeWorkId: { in: input.blogPostsCreativeWorkIds },
+	// 		AND: {
+	// 			creativeWork: {
+	// 				status: input.authorId
+	// 					? { in: [CreativeWorkStatus.PUBLIC, CreativeWorkStatus.PRIVATE] }
+	// 					: CreativeWorkStatus.PUBLIC
+	// 			}
+	// 		}
+	// 	},
+	// 	take: input.blogPostsCreativeWorkIds.length
+	// });
+
+	const data = await ctx.drizzleClient.query.blogPost.findMany({
+		where: (blogPost) =>
+			inArray(blogPost.creativeWorkId, input.blogPostsCreativeWorkIds),
+		columns: {
 			id: true,
 			title: true,
-			content: !!input.withContent,
+			// content: true, // !!input.withContent,
 			updatedAt: true,
 			creativeWorkId: true,
 			description: true,
 			discussionForumId: true,
 			languageTagId: true,
 			slug: true,
-			thumbnailUrl: true,
+			thumbnailUrl: true
+		},
+		with: {
+			creativeWork: {
+				columns: { id: true },
+				where: (creativeWork, { eq }) =>
+					eq(creativeWork.status, CreativeWorkStatus.PUBLIC)
+			},
 			languageTag: true
-		},
-		orderBy: { creativeWork: { createdAt: 'desc' } },
-		where: {
-			creativeWorkId: { in: input.blogPostsCreativeWorkIds },
-			AND: {
-				creativeWork: {
-					status: input.authorId
-						? { in: [CreativeWorkStatus.PUBLIC, CreativeWorkStatus.PRIVATE] }
-						: CreativeWorkStatus.PUBLIC
-				}
-			}
-		},
-		take: input.blogPostsCreativeWorkIds.length
+		}
 	});
 
-	return data as (Omit<(typeof data)[0], 'content'> & {
-		content?: (typeof data)[0]['content'];
-	})[];
+	if (data.some((item) => !item.creativeWork?.id))
+		throw new TRPCError({ code: 'NOT_FOUND' });
+
+	return data;
 };
 
 export const getCreativeWorkTypePostsData = async (
-	prisma: PrismaClient,
+	ctx: { drizzleClient: DrizzleClient },
+	// prisma: PrismaClient,
 	input: {
 		postsCreativeWorkIds: string[];
 		authorId?: string | false;
 	}
 ) => {
-	return await prisma.post.findMany({
-		orderBy: { creativeWork: { createdAt: 'desc' } },
-		where: {
-			creativeWorkId: { in: input.postsCreativeWorkIds },
-			AND: {
-				creativeWork: {
-					status: input.authorId
-						? { in: [CreativeWorkStatus.PUBLIC, CreativeWorkStatus.PRIVATE] }
-						: CreativeWorkStatus.PUBLIC
-				}
-			}
+	// return await prisma.post.findMany({
+	// 	orderBy: { creativeWork: { createdAt: 'desc' } },
+	// 	where: {
+	// 		creativeWorkId: { in: input.postsCreativeWorkIds },
+	// 		AND: {
+	// 			creativeWork: {
+	// 				status: input.authorId
+	// 					? { in: [CreativeWorkStatus.PUBLIC, CreativeWorkStatus.PRIVATE] }
+	// 					: CreativeWorkStatus.PUBLIC
+	// 			}
+	// 		}
+	// 	},
+	// 	take: input.postsCreativeWorkIds.length,
+	// });
+
+	const data = await ctx.drizzleClient.query.post.findMany({
+		where: (post, { and }) =>
+			inArray(post.creativeWorkId, input.postsCreativeWorkIds),
+		columns: {
+			id: true,
+			creativeWorkId: true,
+			discussionForumId: true,
+			content: true,
+			updatedAt: true
 		},
-		take: input.postsCreativeWorkIds.length
+		with: {
+			creativeWork: {
+				columns: { id: true },
+				where: (creativeWork, { eq }) =>
+					eq(creativeWork.status, CreativeWorkStatus.PUBLIC)
+			}
+		}
 	});
+
+	if (data.some((item) => !item.creativeWork?.id))
+		throw new TRPCError({ code: 'NOT_FOUND' });
+
+	return data;
 };
 
 export const getCreativeWorkTypeDiscussionForumsData = async (
-	prisma: PrismaClient,
+	ctx: { drizzleClient: DrizzleClient },
 	input: {
 		discussionForumsCreativeWorkIds: string[];
 		authorId?: string | false;
 	}
 ) => {
-	return await prisma.discussionForum.findMany({
-		orderBy: { creativeWork: { createdAt: 'desc' } },
-		where: {
-			creativeWorkId: { in: input.discussionForumsCreativeWorkIds },
-			AND: {
-				creativeWork: {
-					status: input.authorId
-						? { in: [CreativeWorkStatus.PUBLIC, CreativeWorkStatus.PRIVATE] }
-						: CreativeWorkStatus.PUBLIC
-				}
-			}
+	// return await prisma.discussionForum.findMany({
+	// 	orderBy: { creativeWork: { createdAt: 'desc' } },
+	// 	where: {
+	// 		creativeWorkId: { in: input.discussionForumsCreativeWorkIds },
+	// 		AND: {
+	// 			creativeWork: {
+	// 				status: input.authorId
+	// 					? { in: [CreativeWorkStatus.PUBLIC, CreativeWorkStatus.PRIVATE] }
+	// 					: CreativeWorkStatus.PUBLIC
+	// 			}
+	// 		}
+	// 	},
+	// 	take: input.discussionForumsCreativeWorkIds.length
+	// });
+
+	const data = await ctx.drizzleClient.query.discussionForum.findMany({
+		where: (discussionForum, { and }) =>
+			inArray(
+				discussionForum.creativeWorkId,
+				input.discussionForumsCreativeWorkIds
+			),
+		columns: {
+			id: true,
+			creativeWorkId: true,
+			size: true,
+			updatedAt: true
 		},
-		take: input.discussionForumsCreativeWorkIds.length
+		with: {
+			creativeWork: {
+				columns: { id: true },
+				where: (creativeWork, { eq }) =>
+					eq(creativeWork.status, CreativeWorkStatus.PUBLIC)
+			}
+		}
 	});
+
+	if (data.some((item) => !item.creativeWork?.id))
+		throw new TRPCError({ code: 'NOT_FOUND' });
+
+	return data;
 };
 
 export const getCreativeWorkTypeDiscussionForumsPostsData = async (
-	prisma: PrismaClient,
+	ctx: { drizzleClient: DrizzleClient },
 	input: {
 		discussionForumsPostsCreativeWorkIds: string[];
 		authorId?: string | false;
 	}
 ) => {
-	return await prisma.discussionForumPost.findMany({
-		orderBy: { creativeWork: { createdAt: 'desc' } },
-		where: {
-			creativeWorkId: { in: input.discussionForumsPostsCreativeWorkIds },
-			AND: {
-				creativeWork: {
-					status: input.authorId
-						? { in: [CreativeWorkStatus.PUBLIC, CreativeWorkStatus.PRIVATE] }
-						: CreativeWorkStatus.PUBLIC
-				}
-			}
+	// return await prisma.discussionForumPost.findMany({
+	// 	orderBy: { creativeWork: { createdAt: 'desc' } },
+	// 	where: {
+	// 		creativeWorkId: { in: input.discussionForumsPostsCreativeWorkIds },
+	// 		AND: {
+	// 			creativeWork: {
+	// 				status: input.authorId
+	// 					? { in: [CreativeWorkStatus.PUBLIC, CreativeWorkStatus.PRIVATE] }
+	// 					: CreativeWorkStatus.PUBLIC
+	// 			}
+	// 		}
+	// 	},
+	// 	take: input.discussionForumsPostsCreativeWorkIds.length
+	// });
+
+	const data = await ctx.drizzleClient.query.discussionForumPost.findMany({
+		where: (discussionForumPost, { and }) =>
+			inArray(
+				discussionForumPost.creativeWorkId,
+				input.discussionForumsPostsCreativeWorkIds
+			),
+		columns: {
+			id: true,
+			creativeWorkId: true,
+			discussionForumId: true,
+			content: true,
+			updatedAt: true
 		},
-		take: input.discussionForumsPostsCreativeWorkIds.length
+		with: {
+			creativeWork: {
+				columns: { id: true },
+				where: (creativeWork, { eq }) =>
+					eq(creativeWork.status, CreativeWorkStatus.PUBLIC)
+			}
+		}
 	});
+
+	if (data.some((item) => !item.creativeWork?.id))
+		throw new TRPCError({ code: 'NOT_FOUND' });
+
+	return data;
 };
 
 export const updateCreativeWorkTags = async (

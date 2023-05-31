@@ -14,6 +14,9 @@ import { z } from 'zod';
 
 import { authorsRouter } from './authors';
 import { blogPostsRouter } from './blogPosts';
+import { drizzleClient } from '../../../utils/drizzle/orm';
+import { inArray, lte } from 'drizzle-orm';
+import drizzleSchema from '@server/utils/drizzle/schema';
 
 export const creativeWorksRouter = router({
 	getAll: publicProcedure
@@ -41,6 +44,73 @@ export const creativeWorksRouter = router({
 					? input.authorId
 					: false;
 			})();
+
+			console.log('\n\n\ncreativeWorks2\n');
+			const creativeWorks2 =
+				await ctx.drizzleClient.query.creativeWork.findMany({
+					// columns: {},
+					orderBy: (fields, { desc }) => desc(fields.createdAt),
+					limit: input.limit + 1,
+					where: (fields, { and, eq }) =>
+						and(
+							inArray(fields.type, input.type),
+							!input.cursor ? undefined : lte(fields.createdAt, input.cursor),
+							havePrivileges
+								? inArray(fields.status, [
+										CreativeWorkStatus.PRIVATE,
+										CreativeWorkStatus.PUBLIC
+								  ])
+								: eq(fields.status, CreativeWorkStatus.PUBLIC),
+							!input.authorId ? undefined : eq(fields.authorId, input.authorId)
+						),
+					with: {
+						author: {
+							columns: {
+								name: true
+							},
+							with: {
+								profile: {
+									columns: {
+										firstName: true,
+										lastName: true,
+										education: true,
+										work: true,
+										profilePicture: true
+									}
+								}
+							}
+						},
+						blogPost: {
+							where: (fields, { eq }) =>
+								eq(drizzleSchema.creativeWork.type, CreativeWorkType.BLOG_POST),
+							columns: {
+								id: true,
+								title: true,
+								// content: true, // !!input.withContent,
+								updatedAt: true,
+								creativeWorkId: true,
+								description: true,
+								discussionForumId: true,
+								languageTagId: true,
+								slug: true,
+								thumbnailUrl: true
+							},
+							with: { languageTag: true }
+						},
+						post: {
+							where: (fields, { eq }) =>
+								eq(drizzleSchema.creativeWork.type, CreativeWorkType.POST),
+							columns: {
+								id: true,
+								creativeWorkId: true,
+								discussionForumId: true,
+								content: true,
+								updatedAt: true
+							}
+						}
+					}
+				});
+			console.log('\ncreativeWorks2\n\n\n');
 
 			const creativeWorks = (await ctx.prisma.creativeWork.findMany({
 				include: {
@@ -106,16 +176,20 @@ export const creativeWorksRouter = router({
 
 			await Promise.all([
 				blogPostsCreativeWorkIds &&
-					getCreativeWorkTypeBlogPostsData(ctx.prisma, {
-						authorId: havePrivileges,
-						blogPostsCreativeWorkIds,
-						withContent: input.blogPostsConfig?.withConfig
-					}).then((typeData) => ({
+					getCreativeWorkTypeBlogPostsData(
+						//ctx.prisma,
+						ctx,
+						{
+							authorId: havePrivileges,
+							blogPostsCreativeWorkIds,
+							withContent: input.blogPostsConfig?.withConfig
+						}
+					).then((typeData) => ({
 						type: CreativeWorkType.BLOG_POST,
 						typeData
 					})),
 				postsCreativeWorkIds &&
-					getCreativeWorkTypePostsData(ctx.prisma, {
+					getCreativeWorkTypePostsData(ctx, {
 						authorId: havePrivileges,
 						postsCreativeWorkIds
 					}).then((typeData) => ({
@@ -123,7 +197,7 @@ export const creativeWorksRouter = router({
 						typeData
 					})),
 				discussionForumsCreativeWorkIds &&
-					getCreativeWorkTypeDiscussionForumsData(ctx.prisma, {
+					getCreativeWorkTypeDiscussionForumsData(ctx, {
 						authorId: havePrivileges,
 						discussionForumsCreativeWorkIds
 					}).then((typeData) => ({
@@ -131,7 +205,7 @@ export const creativeWorksRouter = router({
 						typeData
 					})),
 				discussionForumsPostsCreativeWorkIds &&
-					getCreativeWorkTypeDiscussionForumsPostsData(ctx.prisma, {
+					getCreativeWorkTypeDiscussionForumsPostsData(ctx, {
 						authorId: havePrivileges,
 						discussionForumsPostsCreativeWorkIds
 					}).then((typeData) => ({

@@ -11,6 +11,8 @@ import type { TCreativeWorkBlogPost } from '@ts/index';
 import { TRPCError } from '@trpc/server';
 
 import { z } from 'zod';
+import { not } from 'drizzle-orm';
+import drizzleSchema from '@server/utils/drizzle/schema';
 
 export const blogPostsRouter = router({
 	getOne: publicProcedure
@@ -75,6 +77,70 @@ export const blogPostsRouter = router({
 				}
 			});
 
+			console.log('\n\n\ncreativeWorks2\n');
+			const creativeWorks2 =
+				await ctx.drizzleClient.query.creativeWork.findFirst({
+					where: (fields, { and, eq }) =>
+						and(
+							eq(fields.id, input.creativeWorkId),
+							!isAuthor
+								? undefined
+								: eq(fields.authorId, isAuthor.input.authorId),
+							isAuthor
+								? not(eq(fields.status, CreativeWorkStatus.DELETED))
+								: eq(fields.status, CreativeWorkStatus.PUBLIC),
+							eq(fields.type, CreativeWorkType.BLOG_POST)
+						),
+					with: {
+						author: {
+							columns: {
+								name: true
+							},
+							with: {
+								profile: {
+									columns: {
+										firstName: true,
+										lastName: true,
+										education: true,
+										work: true,
+										profilePicture: true
+									}
+								}
+							}
+						},
+						blogPost: {
+							where: (fields, { eq }) =>
+								eq(drizzleSchema.creativeWork.type, CreativeWorkType.BLOG_POST),
+							columns: {
+								id: true,
+								title: true,
+								// content: true, // !!input.withContent,
+								updatedAt: true,
+								creativeWorkId: true,
+								description: true,
+								discussionForumId: true,
+								languageTagId: true,
+								slug: true,
+								thumbnailUrl: true
+							},
+							with: { languageTag: true }
+						},
+						post: {
+							where: (fields, { eq }) =>
+								eq(drizzleSchema.creativeWork.type, CreativeWorkType.POST),
+							columns: {
+								id: true,
+								creativeWorkId: true,
+								discussionForumId: true,
+								content: true,
+								updatedAt: true
+							}
+						}
+					}
+				});
+			console.dir(creativeWorks2, { depth: Number.MAX_SAFE_INTEGER });
+			console.log('\ncreativeWorks2\n\n\n');
+
 			const { blogPost, author, ...data } = _data;
 
 			if (!blogPost) throw new TRPCError({ code: 'BAD_REQUEST' });
@@ -83,7 +149,10 @@ export const blogPostsRouter = router({
 				...data,
 				type: CreativeWorkType.BLOG_POST,
 				author,
-				typeData: blogPost
+				typeData: {
+					...blogPost,
+					creativeWork: { id: data.id }
+				}
 			} satisfies TCreativeWorkBlogPost;
 		}),
 	getContentOfOne: publicProcedure

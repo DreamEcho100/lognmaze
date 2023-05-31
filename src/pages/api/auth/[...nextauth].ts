@@ -1,16 +1,11 @@
 import { env } from '@env/server.mjs';
-import drizzleAdapter from '@server/utils/drizzle/next-auth-adapter';
-import { drizzle } from 'drizzle-orm/neon-serverless';
-
-// import { PrismaAdapter } from '@next-auth/prisma-adapter';
-
-// import { prisma } from '@server/db/client';
+import drizzleAdapter from '@server/utils/drizzle/next-auth-neon-adapter';
 
 import type { Account, NextAuthOptions } from 'next-auth';
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import { drizzleORM } from '@server/utils/drizzle';
-import * as schema from '@server/utils/drizzle/schema';
+import { drizzleClient } from '@server/utils/drizzle/orm';
+import drizzleSchema from '@server/utils/drizzle/schema';
 
 export interface GoogleProfile extends Record<string, unknown> {
 	aud: string;
@@ -32,6 +27,7 @@ export interface GoogleProfile extends Record<string, unknown> {
 
 export const authOptions: NextAuthOptions = {
 	secret: env.NEXTAUTH_SECRET,
+	adapter: drizzleAdapter(drizzleClient, drizzleSchema),
 	callbacks: {
 		async session(_props) {
 			const props = _props as unknown as typeof _props & {
@@ -48,7 +44,7 @@ export const authOptions: NextAuthOptions = {
 
 				if (_user.role) {
 					_user.profile =
-						(await drizzleORM.query.userProfile.findFirst({
+						(await drizzleClient.query.userProfile.findFirst({
 							where: (fields, { eq }) => eq(fields.userId, _user.id)
 							// { userId: props.session.user.id }
 						})) ?? null;
@@ -79,8 +75,6 @@ export const authOptions: NextAuthOptions = {
 			return true;
 		}
 	},
-	adapter: drizzleAdapter(drizzleORM, schema),
-	// PrismaAdapter(prisma),
 	providers: [
 		GoogleProvider({
 			clientId: env.GOOGLE_ID as string,
