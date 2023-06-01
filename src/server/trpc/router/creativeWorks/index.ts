@@ -45,7 +45,7 @@ export const creativeWorksRouter = router({
 					: false;
 			})();
 
-			console.log('\n\n\ncreativeWorks2\n');
+			// console.log('\n\n\ncreativeWorks2\n');
 			const creativeWorks2 =
 				await ctx.drizzleClient.query.creativeWork.findMany({
 					// columns: {},
@@ -110,7 +110,7 @@ export const creativeWorksRouter = router({
 						}
 					}
 				});
-			console.log('\ncreativeWorks2\n\n\n');
+			// console.log('\ncreativeWorks2\n\n\n');
 
 			const creativeWorks = (await ctx.prisma.creativeWork.findMany({
 				include: {

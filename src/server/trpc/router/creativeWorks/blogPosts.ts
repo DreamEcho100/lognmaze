@@ -77,7 +77,7 @@ export const blogPostsRouter = router({
 				}
 			});
 
-			console.log('\n\n\ncreativeWorks2\n');
+			// console.log('\n\n\ncreativeWorks2\n');
 			const creativeWorks2 =
 				await ctx.drizzleClient.query.creativeWork.findFirst({
 					where: (fields, { and, eq }) =>
@@ -139,7 +139,7 @@ export const blogPostsRouter = router({
 					}
 				});
 			console.dir(creativeWorks2, { depth: Number.MAX_SAFE_INTEGER });
-			console.log('\ncreativeWorks2\n\n\n');
+			// console.log('\ncreativeWorks2\n\n\n');
 
 			const { blogPost, author, ...data } = _data;
 

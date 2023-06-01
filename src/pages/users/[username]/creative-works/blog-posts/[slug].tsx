@@ -224,8 +224,8 @@ export const getStaticProps: GetStaticProps<{
 	// 	}
 	// });
 
-	console.log('\n\n\n');
-	console.log(CreativeWorkStatus.PUBLIC);
+	// console.log('\n\n\n');
+	// console.log(CreativeWorkStatus.PUBLIC);
 	const _blogPost = await drizzleClient.query.blogPost.findFirst({
 		where: (blogPost, { eq, sql, and }) => eq(blogPost.slug, slug),
 		// and(
@@ -257,7 +257,7 @@ export const getStaticProps: GetStaticProps<{
 			languageTag: true
 		}
 	});
-	console.log('\n\n\n');
+	// console.log('\n\n\n');
 
 	if (!_blogPost?.creativeWork?.tagsToBlogPosts) return { notFound: true };
 

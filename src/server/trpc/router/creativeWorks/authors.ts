@@ -43,8 +43,6 @@ export const blogPostsRouter = router({
 
 			const slug = slugify(input.typeData.title);
 
-			console.log('slug', slug);
-
 			const filteredTags = input.tags
 				.map((tag) => slugify(tag))
 				.filter(Boolean);

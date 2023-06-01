@@ -7,7 +7,7 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"postinstall": "prisma generate",
+		"postinstall": "prisma generate && npx drizzle-kit introspect:pg --config=drizzle.config.ts",
 		"lint": "next lint",
 		"format": "prettier --check --ignore-path .gitignore .",
 		"format:fix": "prettier --write --ignore-path .gitignore .",
