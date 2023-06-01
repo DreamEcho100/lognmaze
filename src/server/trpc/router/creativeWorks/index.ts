@@ -45,74 +45,76 @@ export const creativeWorksRouter = router({
 					: false;
 			})();
 
-			if (process.env.NODE_ENV === 'development'){
-			console.log('\n\n\ncreativeWorks2\n');
-			const creativeWorks2 =
-				await ctx.drizzleClient.query.creativeWork.findMany({
-					// columns: {},
-					orderBy: (fields, { desc }) => desc(fields.createdAt),
-					limit: input.limit + 1,
-					where: (fields, { and, eq }) =>
-						and(
-							inArray(fields.type, input.type),
-							!input.cursor ? undefined : lte(fields.createdAt, input.cursor),
-							havePrivileges
-								? inArray(fields.status, [
-										CreativeWorkStatus.PRIVATE,
-										CreativeWorkStatus.PUBLIC
-								  ])
-								: eq(fields.status, CreativeWorkStatus.PUBLIC),
-							!input.authorId ? undefined : eq(fields.authorId, input.authorId)
-						),
-					with: {
-						author: {
-							columns: {
-								name: true
-							},
-							with: {
-								profile: {
-									columns: {
-										firstName: true,
-										lastName: true,
-										education: true,
-										work: true,
-										profilePicture: true
+			if (process.env.NODE_ENV === 'development') {
+				console.log('\n\n\ncreativeWorks2\n');
+				const creativeWorks2 =
+					await ctx.drizzleClient.query.creativeWork.findMany({
+						// columns: {},
+						orderBy: (fields, { desc }) => desc(fields.createdAt),
+						limit: input.limit + 1,
+						where: (fields, { and, eq }) =>
+							and(
+								inArray(fields.type, input.type),
+								!input.cursor ? undefined : lte(fields.createdAt, input.cursor),
+								havePrivileges
+									? inArray(fields.status, [
+											CreativeWorkStatus.PRIVATE,
+											CreativeWorkStatus.PUBLIC
+									  ])
+									: eq(fields.status, CreativeWorkStatus.PUBLIC),
+								!input.authorId
+									? undefined
+									: eq(fields.authorId, input.authorId)
+							),
+						with: {
+							author: {
+								columns: {
+									name: true
+								},
+								with: {
+									profile: {
+										columns: {
+											firstName: true,
+											lastName: true,
+											education: true,
+											work: true,
+											profilePicture: true
+										}
 									}
 								}
-							}
-						},
-						blogPost: {
-							where: (fields, { eq, sql }) =>
-								sql`"type" = ${CreativeWorkType.BLOG_POST}`, // eq(drizzleSchema.creativeWork.type, CreativeWorkType.BLOG_POST),
-
-							columns: {
-								id: true,
-								title: true,
-								// content: true, // !!input.withContent,
-								updatedAt: true,
-								creativeWorkId: true,
-								description: true,
-								discussionForumId: true,
-								languageTagId: true,
-								slug: true,
-								thumbnailUrl: true
 							},
-							with: { languageTag: true }
-						},
-						post: {
-							where: (fields, { eq, sql }) =>
-								sql`"type" = ${CreativeWorkType.POST}`, // eq(drizzleSchema.creativeWork.type, CreativeWorkType.POST),
-							columns: {
-								id: true,
-								creativeWorkId: true,
-								discussionForumId: true,
-								content: true,
-								updatedAt: true
+							blogPost: {
+								where: (fields, { eq, sql }) =>
+									sql`"type" = ${CreativeWorkType.BLOG_POST}`, // eq(drizzleSchema.creativeWork.type, CreativeWorkType.BLOG_POST),
+
+								columns: {
+									id: true,
+									title: true,
+									// content: true, // !!input.withContent,
+									updatedAt: true,
+									creativeWorkId: true,
+									description: true,
+									discussionForumId: true,
+									languageTagId: true,
+									slug: true,
+									thumbnailUrl: true
+								},
+								with: { languageTag: true }
+							},
+							post: {
+								where: (fields, { eq, sql }) =>
+									sql`"type" = ${CreativeWorkType.POST}`, // eq(drizzleSchema.creativeWork.type, CreativeWorkType.POST),
+								columns: {
+									id: true,
+									creativeWorkId: true,
+									discussionForumId: true,
+									content: true,
+									updatedAt: true
+								}
 							}
 						}
-					}
-				});
-			console.log('\ncreativeWorks2\n\n\n');
+					});
+				console.log('\ncreativeWorks2\n\n\n');
 			}
 
 			const creativeWorks = (await ctx.prisma.creativeWork.findMany({

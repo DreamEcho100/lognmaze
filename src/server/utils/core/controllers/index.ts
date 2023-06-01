@@ -54,7 +54,10 @@ export const getCreativeWorkTypeBlogPostsData = async (
 
 	const data = await ctx.drizzleClient.query.blogPost.findMany({
 		where: (blogPost) =>
-			inArray(blogPost.creativeWorkId, input.blogPostsCreativeWorkIds),
+			!input.blogPostsCreativeWorkIds ||
+			input.blogPostsCreativeWorkIds.length === 0
+				? undefined
+				: inArray(blogPost.creativeWorkId, input.blogPostsCreativeWorkIds),
 		columns: {
 			id: true,
 			title: true,
@@ -108,7 +111,9 @@ export const getCreativeWorkTypePostsData = async (
 
 	const data = await ctx.drizzleClient.query.post.findMany({
 		where: (post, { and }) =>
-			inArray(post.creativeWorkId, input.postsCreativeWorkIds),
+			!input.postsCreativeWorkIds || input.postsCreativeWorkIds.length === 0
+				? undefined
+				: inArray(post.creativeWorkId, input.postsCreativeWorkIds),
 		columns: {
 			id: true,
 			creativeWorkId: true,
@@ -155,10 +160,13 @@ export const getCreativeWorkTypeDiscussionForumsData = async (
 
 	const data = await ctx.drizzleClient.query.discussionForum.findMany({
 		where: (discussionForum, { and }) =>
-			inArray(
-				discussionForum.creativeWorkId,
-				input.discussionForumsCreativeWorkIds
-			),
+			!input.discussionForumsCreativeWorkIds ||
+			input.discussionForumsCreativeWorkIds.length === 0
+				? undefined
+				: inArray(
+						discussionForum.creativeWorkId,
+						input.discussionForumsCreativeWorkIds
+				  ),
 		columns: {
 			id: true,
 			creativeWorkId: true,
@@ -204,10 +212,13 @@ export const getCreativeWorkTypeDiscussionForumsPostsData = async (
 
 	const data = await ctx.drizzleClient.query.discussionForumPost.findMany({
 		where: (discussionForumPost, { and }) =>
-			inArray(
-				discussionForumPost.creativeWorkId,
-				input.discussionForumsPostsCreativeWorkIds
-			),
+			!input.discussionForumsPostsCreativeWorkIds ||
+			input.discussionForumsPostsCreativeWorkIds.length === 0
+				? undefined
+				: inArray(
+						discussionForumPost.creativeWorkId,
+						input.discussionForumsPostsCreativeWorkIds
+				  ),
 		columns: {
 			id: true,
 			creativeWorkId: true,
