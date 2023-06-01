@@ -77,7 +77,8 @@ export const blogPostsRouter = router({
 				}
 			});
 
-			// console.log('\n\n\ncreativeWorks2\n');
+			if (process.env.NODE_ENV === 'development'){
+			console.log('\n\n\ncreativeWorks2\n');
 			const creativeWorks2 =
 				await ctx.drizzleClient.query.creativeWork.findFirst({
 					where: (fields, { and, eq }) =>
@@ -109,8 +110,9 @@ export const blogPostsRouter = router({
 							}
 						},
 						blogPost: {
-							where: (fields, { eq }) =>
-								eq(drizzleSchema.creativeWork.type, CreativeWorkType.BLOG_POST),
+							where: (fields, { eq, sql }) =>
+								sql`"creativeWork"."type" = ${CreativeWorkType.BLOG_POST}`// eq(fields.type, CreativeWorkType.BLOG_POST),
+								,
 							columns: {
 								id: true,
 								title: true,
@@ -126,8 +128,9 @@ export const blogPostsRouter = router({
 							with: { languageTag: true }
 						},
 						post: {
-							where: (fields, { eq }) =>
-								eq(drizzleSchema.creativeWork.type, CreativeWorkType.POST),
+							where: (fields, { eq, sql }) =>
+								sql`"creativeWork"."type" = ${CreativeWorkType.POST}`// eq(fields.type, CreativeWorkType.POST),
+								,
 							columns: {
 								id: true,
 								creativeWorkId: true,
@@ -139,7 +142,7 @@ export const blogPostsRouter = router({
 					}
 				});
 			console.dir(creativeWorks2, { depth: Number.MAX_SAFE_INTEGER });
-			// console.log('\ncreativeWorks2\n\n\n');
+			console.log('\ncreativeWorks2\n\n\n');}
 
 			const { blogPost, author, ...data } = _data;
 

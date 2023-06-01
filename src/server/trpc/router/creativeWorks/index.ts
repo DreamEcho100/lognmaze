@@ -45,7 +45,8 @@ export const creativeWorksRouter = router({
 					: false;
 			})();
 
-			// console.log('\n\n\ncreativeWorks2\n');
+			if (process.env.NODE_ENV === 'development'){
+			console.log('\n\n\ncreativeWorks2\n');
 			const creativeWorks2 =
 				await ctx.drizzleClient.query.creativeWork.findMany({
 					// columns: {},
@@ -81,8 +82,9 @@ export const creativeWorksRouter = router({
 							}
 						},
 						blogPost: {
-							where: (fields, { eq }) =>
-								eq(drizzleSchema.creativeWork.type, CreativeWorkType.BLOG_POST),
+							where: (fields, { eq, sql }) =>
+								sql`"type" = ${CreativeWorkType.BLOG_POST}`, // eq(drizzleSchema.creativeWork.type, CreativeWorkType.BLOG_POST),
+
 							columns: {
 								id: true,
 								title: true,
@@ -98,8 +100,8 @@ export const creativeWorksRouter = router({
 							with: { languageTag: true }
 						},
 						post: {
-							where: (fields, { eq }) =>
-								eq(drizzleSchema.creativeWork.type, CreativeWorkType.POST),
+							where: (fields, { eq, sql }) =>
+								sql`"type" = ${CreativeWorkType.POST}`, // eq(drizzleSchema.creativeWork.type, CreativeWorkType.POST),
 							columns: {
 								id: true,
 								creativeWorkId: true,
@@ -110,7 +112,8 @@ export const creativeWorksRouter = router({
 						}
 					}
 				});
-			// console.log('\ncreativeWorks2\n\n\n');
+			console.log('\ncreativeWorks2\n\n\n');
+			}
 
 			const creativeWorks = (await ctx.prisma.creativeWork.findMany({
 				include: {
