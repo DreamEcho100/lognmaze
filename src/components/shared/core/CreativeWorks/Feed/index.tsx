@@ -172,10 +172,10 @@ const CreativeWorksFeed = ({
 											}
 									  };
 
-							const newItem: TCreativeWorkBlogPost | TCreativeWorkPost = {
+							const newItem = {
 								...creativeWorkBasic,
 								...typeWithData
-							};
+							} as unknown as TCreativeWorkBlogPost | TCreativeWorkPost;
 
 							firstPage = {
 								...firstPage,

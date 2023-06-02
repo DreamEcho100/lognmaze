@@ -250,16 +250,17 @@ export const getStaticProps: GetStaticProps<{
 						}
 					},
 					tagsToBlogPosts: true
-				},
-				where: (creativeWork, { eq }) =>
-					eq(creativeWork.status, CreativeWorkStatus.PUBLIC)
+				}
+				// where: (creativeWork, { eq }) =>
+				// 	eq(creativeWork.status, CreativeWorkStatus.PUBLIC)
 			},
 			languageTag: true
 		}
 	});
 	// console.log('\n\n\n');
 
-	if (!_blogPost?.creativeWork?.tagsToBlogPosts) return { notFound: true };
+	if (_blogPost?.creativeWork?.status !== CreativeWorkStatus.PUBLIC)
+		return { notFound: true };
 
 	_blogPost.creativeWork.tagsToBlogPosts;
 

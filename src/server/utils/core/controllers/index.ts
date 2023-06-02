@@ -61,7 +61,7 @@ export const getCreativeWorkTypeBlogPostsData = async (
 		columns: {
 			id: true,
 			title: true,
-			// content: true, // !!input.withContent,
+			content: !!input.withContent, // !!input.withContent,
 			updatedAt: true,
 			creativeWorkId: true,
 			description: true,
@@ -83,7 +83,7 @@ export const getCreativeWorkTypeBlogPostsData = async (
 	if (data.some((item) => !item.creativeWork?.id))
 		throw new TRPCError({ code: 'NOT_FOUND' });
 
-	return data;
+	return data as (typeof data[number] & { content?: string; })[];
 };
 
 export const getCreativeWorkTypePostsData = async (

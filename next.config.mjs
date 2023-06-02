@@ -17,15 +17,15 @@ const config = {
 	//   locales: ['en'],
 	//   defaultLocale: 'en',
 	// },
-	experimental: {
-		appDir: true
-	},
-	typescript: {
-		ignoreBuildErrors: process.env.NODE_ENV === 'production'
-	},
-	eslint: {
-		ignoreDuringBuilds: process.env.NODE_ENV === 'production'
-	}
+	// experimental: {
+	// 	appDir: true,newNextLinkBehavior
+	// },
+	// typescript: {
+	// 	ignoreBuildErrors: process.env.NODE_ENV === 'production'
+	// },
+	// eslint: {
+	// 	ignoreDuringBuilds: process.env.NODE_ENV === 'production'
+	// }
 	// async redirects() {
 	//   return [
 	//     {
