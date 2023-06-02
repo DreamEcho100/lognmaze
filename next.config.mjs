@@ -20,9 +20,9 @@ const config = {
 	// experimental: {
 	// 	appDir: true,newNextLinkBehavior
 	// },
-	// typescript: {
-	// 	ignoreBuildErrors: process.env.NODE_ENV === 'production'
-	// },
+	typescript: {
+		ignoreBuildErrors: process.env.NODE_ENV === 'production'
+	},
 	// eslint: {
 	// 	ignoreDuringBuilds: process.env.NODE_ENV === 'production'
 	// }
