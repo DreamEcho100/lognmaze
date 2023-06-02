@@ -12,3 +12,22 @@ export const objChanges = <T extends Record<string, unknown>>(
 
 	return objWithChanges;
 };
+
+
+
+export const omitObjByKeys = <Obj, ObjKeys extends (keyof Obj)[]>(
+	obj: Obj,
+	keys: ObjKeys
+): Omit<Obj, ObjKeys[number]> => {
+	const objCopy = {
+		...obj,
+	} as Omit<Obj, ObjKeys[number]>;
+
+	let key: string;
+	for (key of keys as unknown as (ObjKeys[number] & string)[]) {
+		console.log('key', key);
+		delete objCopy[key as keyof typeof objCopy];
+	}
+
+	return objCopy;
+};

@@ -60,7 +60,7 @@ const DeleteCreativeWorkDialog = ({
 					yes
 				</Button>
 				<Button
-					type='submit'
+					onClick={() => setIsDialogOpen(false)}
 					variants={{ p: 'sm' }}
 					disabled={creativeWorksDelete.isLoading}
 				>

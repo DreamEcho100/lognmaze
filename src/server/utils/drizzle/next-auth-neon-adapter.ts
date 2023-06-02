@@ -3,7 +3,7 @@
 import { NeonDatabase } from 'drizzle-orm/neon-serverless';
 import type { Adapter, AdapterSession, AdapterUser } from 'next-auth/adapters';
 import { and, eq } from 'drizzle-orm';
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid4 } from 'uuid';
 import { type DrizzleSchema } from '@server/utils/drizzle/schema';
 
 export type DrizzleClient = NeonDatabase<DrizzleSchema>;
@@ -14,17 +14,21 @@ export default function drizzleAdapter(
 ): Adapter {
 	return {
 		createUser: async (data) => {
-			const id = uuid();
+			const id = uuid4();
 
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
-			await client.insert(_user).values({ ...data, id });
-
-			return client
-				.select()
-				.from(schema.user)
-				.where(eq(schema.user.id, id))
+			return await client
+				.insert(schema.user)
+				.values({ ...data, id })
+				.returning()
 				.then((res) => res[0] as AdapterUser);
+
+			// return client
+			// 	.select()
+			// 	.from(schema.user)
+			// 	.where(eq(schema.user.id, id))
+			// 	.then((res) => res[0] as AdapterUser);
 		},
 		getUser: async (data) => {
 			return (
@@ -32,7 +36,7 @@ export default function drizzleAdapter(
 					.select()
 					.from(schema.user)
 					.where(eq(schema.user.id, data))
-					.then((res) => res[0] as unknown as AdapterUser) ?? null
+					.then((res) => res[0] as AdapterUser) ?? null
 			);
 		},
 		getUserByEmail: async (data) => {
@@ -45,7 +49,7 @@ export default function drizzleAdapter(
 			);
 		},
 		createSession: async (data) => {
-			const id = uuid();
+			const id = uuid4();
 
 			await client.insert(schema.session).values({ ...data, id });
 
@@ -102,16 +106,14 @@ export default function drizzleAdapter(
 				.then((res) => res[0]);
 		},
 		linkAccount: async (rawAccount) => {
-			const id = uuid();
+			const id = uuid4();
 
 			await client
 				.insert({ ...schema.account, id })
-				// // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// // @ts-ignore
-				.values(rawAccount as typeof rawAccount & { id: string })
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore
-				.then((res) => res[0]);
+				.values({ id, ...rawAccount }); //  as typeof rawAccount & { id: string }
+			// // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// // @ts-ignore
+			// .then((res) => res[0]);
 		},
 		getUserByAccount: async (account) => {
 			const user = await client

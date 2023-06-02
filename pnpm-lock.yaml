@@ -48,8 +48,8 @@ dependencies:
     specifier: ^16.1.3
     version: 16.1.3
   drizzle-orm:
-    specifier: ^0.26.3
-    version: 0.26.3(@neondatabase/serverless@0.4.9)(@types/pg@8.10.1)(pg@8.11.0)(postgres@3.3.5)
+    specifier: ^0.26.4
+    version: 0.26.4(@neondatabase/serverless@0.4.9)(@types/pg@8.10.1)(pg@8.11.0)(postgres@3.3.5)
   he:
     specifier: ^1.2.0
     version: 1.2.0
@@ -2026,8 +2026,8 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.26.3(@neondatabase/serverless@0.4.9)(@types/pg@8.10.1)(pg@8.11.0)(postgres@3.3.5):
-    resolution: {integrity: sha512-KefTFAXxFtBmDRZWgM71ucxUuDvNEiPgv0lg7qAPEfrQVfyzSz0ukUfNz2Ck4Pro6PEmYFJmA6oNQwwgENkk7g==}
+  /drizzle-orm@0.26.4(@neondatabase/serverless@0.4.9)(@types/pg@8.10.1)(pg@8.11.0)(postgres@3.3.5):
+    resolution: {integrity: sha512-1MWMZfyBghI0GfGRhKGrIPT28PublpfE/PCj8206Cxpml/FeTKsZMGDRJ9RPIuj3deTgQrP5/Nopm7SLA4qS+A==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'

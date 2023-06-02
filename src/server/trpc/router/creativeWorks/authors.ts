@@ -8,7 +8,10 @@ import { updateCreativeWorkTags } from '@server/utils/core/controllers';
 import { z } from 'zod';
 
 import { default as slugify } from 'slug';
+import drizzleSchema from '@server/utils/drizzle/schema';
 
+import { v4 as uuid4 } from 'uuid';
+import { eq, sql } from 'drizzle-orm';
 // const CreativeWorkStatusExcludeDeleted = Object.values(CreativeWorkStatus).filter(item => item === CreativeWorkStatus.DELETED)
 
 export const blogPostsRouter = router({
@@ -43,6 +46,117 @@ export const blogPostsRouter = router({
 
 			const slug = slugify(input.typeData.title);
 
+			const filteredTags = input.tags
+				.map((tag) => ({ id: uuid4(), name: slugify(tag) }))
+				.filter(Boolean);
+
+			const blogPostCreativeWorkId = uuid4();
+			const discussionForumCreativeWorkId = uuid4();
+
+			const creativeWork = await ctx.drizzleClient.transaction(async (tx) => {
+				const { blogPostCreativeWork, discussionForumCreativeWork } = await tx
+					.insert(drizzleSchema.creativeWork)
+					.values([
+						{
+							id: blogPostCreativeWorkId,
+							authorId: input.authorId,
+							status: input.status,
+							type: CreativeWorkType.BLOG_POST
+						},
+						{
+							id: discussionForumCreativeWorkId,
+							authorId: input.authorId,
+							status: input.status,
+							type: CreativeWorkType.DISCUSSION_FORUM
+						}
+					])
+					.returning()
+					.then((result) => ({
+						blogPostCreativeWork: result[0]!,
+						discussionForumCreativeWork: result[1]!
+					}));
+				const tags = await tx
+					.insert(drizzleSchema.tag)
+					.values(filteredTags)
+					.onConflictDoNothing()
+					.returning();
+				const tagsStats = await tx
+					.insert(drizzleSchema.tagStats)
+					.values(
+						filteredTags.map((tag) => ({
+							tagName: tag.name,
+							id: uuid4(),
+							postsCount: 0,
+							blogPostsCount: 1,
+							discussionForumsCount: 0,
+							discussionForumPostsCount: 0
+						}))
+					)
+					.onConflictDoUpdate({
+						target: drizzleSchema.tagStats.tagName,
+						set: {
+							blogPostsCount: sql`${drizzleSchema.tagStats.blogPostsCount} + 1`
+						}
+					})
+					.returning();
+				const tagsToBlogPosts = await tx
+					.insert(drizzleSchema.creativeWorkToTag)
+					.values(
+						tags.map((tag) => ({
+							creativeWorkId: blogPostCreativeWorkId,
+							tagName: tag.name
+						}))
+					)
+					.returning();
+
+				const discussionForum = await tx
+					.insert(drizzleSchema.discussionForum)
+					.values({
+						id: uuid4(),
+						updatedAt: null,
+						creativeWorkId: discussionForumCreativeWorkId,
+						size: 0
+					})
+					.returning()
+					.then((result) => result[0]!);
+				const blogPost = await tx
+					.insert(drizzleSchema.blogPost)
+					.values({
+						id: uuid4(),
+						content: input.typeData.content,
+						description: input.typeData.description,
+						slug,
+						thumbnailUrl: input.typeData.thumbnailUrl,
+						title: input.typeData.title,
+						updatedAt: null,
+						creativeWorkId: blogPostCreativeWorkId,
+						languageTagId: input.typeData.languageTagId,
+						discussionForumId: discussionForumCreativeWorkId
+					})
+					.returning()
+					.then((result) => result[0]!);
+
+				const creativeWork = {
+					...blogPostCreativeWork,
+					type: CreativeWorkType.BLOG_POST,
+					tagsToBlogPosts,
+					tags: tagsToBlogPosts.map((tagToBlogPost) => ({
+						name: tagToBlogPost.tagName
+					})),
+					blogPost: {
+						...blogPost,
+						discussionForum: {
+							...discussionForumCreativeWork,
+							type: CreativeWorkType.DISCUSSION_FORUM,
+							discussionForum
+						}
+					}
+				};
+
+				return creativeWork;
+			});
+
+			/*
 			const filteredTags = input.tags
 				.map((tag) => slugify(tag))
 				.filter(Boolean);
@@ -103,11 +217,13 @@ export const blogPostsRouter = router({
 				},
 				where: { tagName: { in: creativeWork.tags.map((tag) => tag.name) } }
 			});
+			*/
 
-			return creativeWork as OmitPickAndSetToNonNullable<
-				typeof creativeWork,
-				'blogPost' | 'discussionForum'
-			>;
+			return creativeWork;
+			//  as OmitPickAndSetToNonNullable<
+			// 	typeof creativeWork,
+			// 	'blogPost' | 'discussionForum'
+			// >;
 		}),
 	updateOne: haveAuthorPrivilegesProcedure
 		.input(
@@ -436,10 +552,17 @@ export const authorsRouter = router({
 			})
 		)
 		.mutation(async ({ ctx, input }) => {
-			const deletedCreativeWork = await ctx.prisma.creativeWork.update({
-				data: { status: CreativeWorkStatus.DELETED },
-				where: { id: input.creativeWorkId }
-			});
+			// const deletedCreativeWork = await ctx.prisma.creativeWork.update({
+			// 	data: { status: CreativeWorkStatus.DELETED },
+			// 	where: { id: input.creativeWorkId }
+			// });
+			const deletedCreativeWork = await ctx.drizzleClient
+				.update(drizzleSchema.creativeWork)
+				.set({
+					status: CreativeWorkStatus.DELETED
+				})
+				.where(eq(drizzleSchema.creativeWork.id, input.creativeWorkId))
+				.returning();
 
 			return deletedCreativeWork;
 		})
