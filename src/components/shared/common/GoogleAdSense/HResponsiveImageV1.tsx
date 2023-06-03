@@ -73,8 +73,7 @@ const GoogleAdSenseHResponsiveImageV1 = () => {
 
 		Router.events.on('routeChangeComplete', bumpCounter);
 
-		return () => 
-			Router.events.on('routeChangeComplete', bumpCounter)
+		return () => Router.events.on('routeChangeComplete', bumpCounter);
 	}, []);
 
 	return <GoogleAdSenseHResponsiveImageV1Item />;
