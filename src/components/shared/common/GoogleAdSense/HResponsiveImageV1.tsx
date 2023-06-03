@@ -66,19 +66,19 @@ const GoogleAdSenseHResponsiveImageV1Item = () => {
 };
 
 const GoogleAdSenseHResponsiveImageV1 = () => {
-	const [counter, setCounter] = useState(0)
+	const [, setCounter] = useState(0);
 
 	useEffect(() => {
-		const bumpCounter = () => setCounter(prev => prev + 1)
+		const bumpCounter = () => setCounter((prev) => prev + 1);
 
 		Router.events.on('routeChangeComplete', bumpCounter);
 
 		return () => {
-      Router.events.on('routeChangeComplete', bumpCounter);
-    };
-	}, [])
+			Router.events.on('routeChangeComplete', bumpCounter);
+		};
+	}, []);
 
-	return <GoogleAdSenseHResponsiveImageV1Item />
-}
+	return <GoogleAdSenseHResponsiveImageV1Item />;
+};
 
 export default GoogleAdSenseHResponsiveImageV1;
