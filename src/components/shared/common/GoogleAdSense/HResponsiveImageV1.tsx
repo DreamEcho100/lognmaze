@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router';
-import { useEffect, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import Router from 'next/router';
 
 const initConfigRef = () => ({
 	retryCounter: 0,
 	interval: 1000
 });
 
-const GoogleAdSenseHResponsiveImageV1 = () => {
+const GoogleAdSenseHResponsiveImageV1Item = () => {
 	const router = useRouter();
 	const configRef = useRef(initConfigRef());
 	useEffect(() => {
@@ -63,5 +64,21 @@ const GoogleAdSenseHResponsiveImageV1 = () => {
 		></ins>
 	);
 };
+
+const GoogleAdSenseHResponsiveImageV1 = () => {
+	const [counter, setCounter] = useState(0)
+
+	useEffect(() => {
+		const bumpCounter = () => setCounter(prev => prev + 1)
+
+		Router.events.on('routeChangeComplete', bumpCounter);
+
+		return () => {
+      Router.events.on('routeChangeComplete', bumpCounter);
+    };
+	}, [])
+
+	return <GoogleAdSenseHResponsiveImageV1Item />
+}
 
 export default GoogleAdSenseHResponsiveImageV1;

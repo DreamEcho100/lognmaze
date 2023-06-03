@@ -136,6 +136,28 @@ const CompleteUserProfile = () => {
 	);
 };
 
+/*
+useEffect(() => {
+      var ads = document.getElementsByClassName("adsbygoogle").length;
+      for (var i = 0; i < ads; i++) {
+        try {
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) { }
+      }
+}, []);
+
+ <Script id="Adsense-id" async
+    onError={(e) => { console.error("Script failed to load", e);}}
+    strategy="afterInteractive"
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-987************676"
+    crossorigin="anonymous"
+  />
+
+	<script>
+          (adsbygoogle = window.adsbygoogle || []).push({});    
+     </script>
+*/
+
 const MainLayout = ({ children }: Props) => {
 	const userState = useTypedSession();
 

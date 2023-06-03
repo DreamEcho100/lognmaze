@@ -67,6 +67,7 @@ const MdToHTMLFormatter: FC<Props> = ({ content }) => {
 			h2: 0
 		}
 	});
+
 	const customComponents: TCustomComponents = {
 		pre({ children }) {
 			return (
