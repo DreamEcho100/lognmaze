@@ -399,6 +399,22 @@ export const morseCodeConverterTool = {
 	]
 };
 
+export const superjsonParserTools = {
+	relativePath: 'superjson-parser',
+	title: 'Superjson Parser',
+	shortTitle: 'Superjson Parser',
+	description: 'Superjson Parser',
+	shortDescription: 'Superjson Parser',
+	tags: ['json', 'superjson', 'parder', ...generateCommonTags()],
+	faqs: [
+		{
+			question: 'How do I use the superjson parser tool?',
+			answer:
+				'There are two inputs, the first when typing in it parse it to the second input, and in the second input when typing in it stringify it to the first input in real-time.'
+		}
+	]
+};
+
 const convertersAndTransformersTools = {
 	relativePath: 'converters-and-transformers',
 	title:
@@ -430,7 +446,8 @@ const convertersAndTransformersTools = {
 		textToQRCodeConverterTool,
 		htmlEntityEncoderDecoderTools,
 		convertFromMarkdownToHTMLTool,
-		morseCodeConverterTool
+		morseCodeConverterTool,
+		superjsonParserTools
 	]
 };
 

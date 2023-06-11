@@ -1,10 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@components/shared/common/Button';
 import FormField from '@components/shared/common/FormField';
 import { textToBarcodeTool } from '@utils/core/appData/tools/converters-and-transformers';
 import FTRSection from '@components/screens/Tools/components/FormToResultSection';
-import type { BaseOptions } from 'jsbarcode';
+import type { BaseOptions, api as JsBarcodeApi } from 'jsbarcode';
+import { useQuery } from '@tanstack/react-query';
+
+type JsBarcode = {
+	(element: any): JsBarcodeApi;
+	(element: any, data: string, options?: JsBarcode.Options | undefined): void;
+};
 
 // https://github.com/lindell/JsBarcode/wiki/Options#format
 // https://www.npmjs.com/package/jsbarcode
@@ -44,10 +50,21 @@ const TextToBarcodeToolScreen = () => {
 		format: formatValues[1],
 		textAlign: textAlignValues[1],
 		textPosition: textPositionValues[0],
-		text: undefined,
+		text: 'Loading...',
 		displayValue: true
 		// fontOptions: "bold italic"
 	});
+
+	const jsbarcodeQuery = useQuery<JsBarcode>(
+		['jsbarcode'],
+		async () =>
+			await import('jsbarcode').then(({ default: JsBarcode }) => JsBarcode)
+	);
+
+	useEffect(() => {
+		if (jsbarcodeQuery.isSuccess)
+			setFormValues((prev) => ({ ...prev, text: '' }));
+	}, [jsbarcodeQuery.isSuccess]);
 
 	return (
 		<FTRSection.Container
@@ -56,6 +73,8 @@ const TextToBarcodeToolScreen = () => {
 		>
 			<FTRSection.Form
 				onSubmit={async (event) => {
+					if (!jsbarcodeQuery.isSuccess) return;
+
 					event.preventDefault();
 					const filteredFormValues = Object.entries(formValues).filter(
 						(item) => typeof item[1] !== 'undefined'
@@ -65,17 +84,14 @@ const TextToBarcodeToolScreen = () => {
 							? Object.fromEntries(filteredFormValues)
 							: undefined;
 
-					await import('jsbarcode')
-						.then(({ default: JsBarcode }) =>
-							JsBarcode('#barcode', text, options)
-						)
-						.catch((err) => console.error(err));
+					jsbarcodeQuery.data('#barcode', text, options);
 					// Add Error notification
 				}}
 			>
 				<fieldset className='flex flex-wrap gap-2'>
 					<legend>Color</legend>
 					<FormField
+						readOnly={jsbarcodeQuery.isLoading}
 						labelVariants={{ w: 'fit' }}
 						values={formValues}
 						setValues={setFormValues}
@@ -84,6 +100,7 @@ const TextToBarcodeToolScreen = () => {
 						type='color'
 					/>
 					<FormField
+						readOnly={jsbarcodeQuery.isLoading}
 						labelVariants={{ w: 'fit' }}
 						values={formValues}
 						setValues={setFormValues}
@@ -104,11 +121,14 @@ const TextToBarcodeToolScreen = () => {
 					}))}
 				/>
 				<FormField
+					readOnly={jsbarcodeQuery.isLoading}
 					isA='textarea'
 					value={text}
 					onChange={(e) => setText(e.target.value)}
 				/>
-				<Button type='submit'>Generate Barcode</Button>
+				<Button type='submit' disabled={jsbarcodeQuery.isLoading}>
+					Generate Barcode
+				</Button>
 			</FTRSection.Form>
 			<FTRSection.Result className='overflow-auto'>
 				<img id='barcode' alt='' className='min-h-[5rem]' />
