@@ -29,11 +29,11 @@ const SuperjsonParserScreen = () => {
 		>
 			<FTRSection.Result>
 				<FormField
-					readOnly={superjsonQuery.isLoading}
 					labelText='Enter text to parse:'
 					isA='textarea'
 					value={toParse}
 					name='toParse'
+					readOnly={superjsonQuery.isLoading}
 					onChange={async (event) => {
 						if (!superjsonQuery.isSuccess) return;
 
@@ -53,11 +53,11 @@ const SuperjsonParserScreen = () => {
 			</FTRSection.Result>
 			<FTRSection.Result>
 				<FormField
-					readOnly={superjsonQuery.isLoading}
 					labelText='Enter text to stringify:'
 					isA='textarea'
 					value={toStringify}
 					name='toStringify'
+					readOnly={superjsonQuery.isLoading}
 					onChange={async (event) => {
 						if (!superjsonQuery.isSuccess) return;
 
