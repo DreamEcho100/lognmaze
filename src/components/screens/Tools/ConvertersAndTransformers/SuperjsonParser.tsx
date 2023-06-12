@@ -3,16 +3,17 @@ import FormField from '@components/shared/common/FormField';
 import { superjsonParserTools } from '@utils/core/appData/tools/converters-and-transformers';
 import FTRSection from '@components/screens/Tools/components/FormToResultSection';
 import { useQuery } from '@tanstack/react-query';
-import type SuperJSON from 'superjson';
+
+import type { SuperJSON } from '@utils/core/appData/tools/types';
 
 const SuperjsonParserScreen = () => {
 	const [toParse, setToParse] = useState('Loading...');
 	const [toStringify, setToStringify] = useState('{"json":"Loading..."}');
 
-	const superjsonQuery = useQuery<typeof SuperJSON>(
+	const superjsonQuery = useQuery<SuperJSON>(
 		['superjson'],
 		async () =>
-			await import('superjson').then(({ default: JsBarcode }) => JsBarcode)
+			await import('superjson').then(({ default: SuperJSON }) => SuperJSON)
 	);
 
 	useEffect(() => {

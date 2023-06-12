@@ -4,13 +4,10 @@ import Button from '@components/shared/common/Button';
 import FormField from '@components/shared/common/FormField';
 import { textToBarcodeTool } from '@utils/core/appData/tools/converters-and-transformers';
 import FTRSection from '@components/screens/Tools/components/FormToResultSection';
-import type { BaseOptions, api as JsBarcodeApi } from 'jsbarcode';
 import { useQuery } from '@tanstack/react-query';
 
-type JsBarcode = {
-	(element: any): JsBarcodeApi;
-	(element: any, data: string, options?: JsBarcode.Options | undefined): void;
-};
+import type { BaseOptions } from 'jsbarcode';
+import type { JsBarcode } from '@utils/core/appData/tools/types';
 
 // https://github.com/lindell/JsBarcode/wiki/Options#format
 // https://www.npmjs.com/package/jsbarcode

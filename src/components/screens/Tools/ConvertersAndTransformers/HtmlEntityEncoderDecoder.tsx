@@ -4,14 +4,15 @@ import { htmlEntityEncoderDecoderTools } from '@utils/core/appData/tools/convert
 import FTRSection from '@components/screens/Tools/components/FormToResultSection';
 import { useQuery } from '@tanstack/react-query';
 
+import type { HTMLEntity } from '@utils/core/appData/tools/types';
+
 // https://github.com/mathiasbynens/he
 
 const HtmlEntityEncoderDecoderScreen = () => {
 	const [toEncode, setToEncode] = useState('');
 	const [toDecode, setToDecode] = useState('');
 
-	// eslint-disable-next-line @typescript-eslint/consistent-type-imports
-	const heQuery = useQuery<typeof import('he')>(
+	const heQuery = useQuery<HTMLEntity>(
 		['he'],
 		async () => await import('he').then(({ default: He }) => He)
 	);

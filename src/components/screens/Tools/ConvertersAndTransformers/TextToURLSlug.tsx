@@ -4,9 +4,19 @@ import { useState } from 'react';
 import slug from 'slug';
 import ToolSEOTags from '@components/screens/Tools/components/ToolSEOTags';
 import FAQs from '@components/screens/Tools/components/FAQs';
+import { useQuery } from '@tanstack/react-query';
+
+import type { Slug } from '@utils/core/appData/tools/types';
 
 const TextToURLSlugConverterScreen = () => {
 	const [inputText, setInputText] = useState('Text to URL Slug Converter');
+
+
+	const slugQuery = useQuery<Slug>(
+		['slug'],
+		async () =>
+			await import('slug').then(({ default: Slug }) => Slug)
+	);
 
 	return (
 		<>
@@ -25,9 +35,12 @@ const TextToURLSlugConverterScreen = () => {
 						value={inputText}
 						onChange={(event) => setInputText(event.target.value)}
 						labelProps={{ className: 'max-w-screen-md w-full' }}
+						readOnly={slugQuery.isLoading}
 					/>
 					<p className='max-w-full'>
-						Generated URL slug: <strong>{slug(inputText)}</strong>
+						{slugQuery.isLoading ? 'Loading...'<>
+						Generated URL slug: <strong>{slugQuery.data(inputText)}</strong>
+						</>}
 					</p>
 				</div>
 				<FAQs faqs={textToURLSlugConverterTool.faqs} />
