@@ -11,11 +11,9 @@ import type { Slug } from '@utils/core/appData/tools/types';
 const TextToURLSlugConverterScreen = () => {
 	const [inputText, setInputText] = useState('Text to URL Slug Converter');
 
-
 	const slugQuery = useQuery<Slug>(
 		['slug'],
-		async () =>
-			await import('slug').then(({ default: Slug }) => Slug)
+		async () => await import('slug').then(({ default: Slug }) => Slug)
 	);
 
 	return (
@@ -38,9 +36,13 @@ const TextToURLSlugConverterScreen = () => {
 						readOnly={slugQuery.isLoading}
 					/>
 					<p className='max-w-full'>
-						{slugQuery.isLoading ? 'Loading...'<>
-						Generated URL slug: <strong>{slugQuery.data(inputText)}</strong>
-						</>}
+						{slugQuery.isLoading ? (
+							'Loading...'
+						) : (
+							<>
+								Generated URL slug: <strong>{slugQuery.data(inputText)}</strong>{' '}
+							</>
+						)}
 					</p>
 				</div>
 				<FAQs faqs={textToURLSlugConverterTool.faqs} />
