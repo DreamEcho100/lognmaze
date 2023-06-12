@@ -38,11 +38,11 @@ const TextToURLSlugConverterScreen = () => {
 					<p className='max-w-full'>
 						{slugQuery.isLoading ? (
 							'Loading...'
-						) : (
+						) : slugQuery.isSuccess ? (
 							<>
 								Generated URL slug: <strong>{slugQuery.data(inputText)}</strong>{' '}
 							</>
-						)}
+						) : null}
 					</p>
 				</div>
 				<FAQs faqs={textToURLSlugConverterTool.faqs} />
